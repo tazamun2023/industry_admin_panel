@@ -110,6 +110,11 @@
                 </button>
             </div>
             </div>
+            <div>
+                <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow">
+                   Apply
+                </button>
+            </div>
         </div>
     </div>
         <!-- --------end-------- -->
