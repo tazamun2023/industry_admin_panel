@@ -1,4 +1,10 @@
 {
+  "rfq": {
+    "RFQ_Market": "RFQ Market",
+    "RFQ": "RFQ List",
+    "notification": "RFQ Notification",
+    "manage_quotations": "Manage Quotations"
+  },
   "index": {
     "tProduct": "Total products",
     "tUsers": "Total users",
