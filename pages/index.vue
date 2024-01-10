@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard">
+    
     <div class="card-wrapper">
       <div class="dashboard-card">
         <div class="card-inner card">

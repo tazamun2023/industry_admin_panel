@@ -173,6 +173,21 @@
             gate: 'flash_sale'
           },
           {
+            path: 'rfq',
+            title: 'RFQ',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'rfq/manage-quotes',
+            title: 'Manage-Quotes',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'rfq/notification',
+            title: 'Notification',
+            icon: 'flash-notification',
+          },
+          {
             path: 'orders',
             title: this.$t('error.orders'),
             icon: 'orders',
