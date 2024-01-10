@@ -11,7 +11,7 @@ module.exports = {
 
   theme: {
     colors: {
-      primary: '#765cf1',
+      primary: '#01a781',
       seconadry: '#978AB5',
       dark: '#16171A',
       accent: '#4f4f4f',
@@ -22,7 +22,10 @@ module.exports = {
       green: '#177a1f',
       pink: '#ffc8e1',
       burgundy: '#ac0054',
-      disabled: '#707070'
+      disabled: '#707070',
+      blue:'blue',
+      smooth: '#ddd',
+      white: '#fff',
     },
 
     screens: {
@@ -36,6 +39,9 @@ module.exports = {
     extend: {
       borderRadius: {
         '4xl': '3rem',
+      },
+      backgroundColor: {
+        'gray-500': '#808080',
       },
 
     },
