@@ -173,7 +173,6 @@
             gate: 'flash_sale'
           },
           {
-
             path: 'rfq',
             title: this.$t('rfq.RFQ_Market'),
             icon: 'flash-sales',
@@ -204,7 +203,6 @@
 
 
           {
-
             path: 'orders',
             title: this.$t('error.orders'),
             icon: 'orders',
