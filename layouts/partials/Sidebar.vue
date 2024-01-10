@@ -173,6 +173,11 @@
             gate: 'flash_sale'
           },
           {
+            path: 'units',
+            title: 'Units',
+            icon: 'flash-sales',
+          },
+          {
             path: 'rfq',
             title: 'RFQ',
             icon: 'flash-sales',
