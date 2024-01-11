@@ -32,7 +32,7 @@
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{$t('port.type')}}</span>
-          <select multiple class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   name="" id="">
             <option selected>Choose a port type</option>
             <option value="air">Air</option>
@@ -45,7 +45,7 @@
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{$t('port.country')}}</span>
-          <select multiple class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   name="" id="">
             <option selected>Choose a country</option>
             <option value="18">Bangladesh</option>
@@ -57,7 +57,7 @@
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{$t('port.city')}}</span>
-          <select multiple class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   name="" id="">
             <option selected>Choose a city</option>
             <option value="18">Dhaka</option>
