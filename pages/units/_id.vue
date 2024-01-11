@@ -58,20 +58,9 @@
           <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   name="" id="">
             <option selected>Choose a unit type</option>
-            <option value="kg">kg</option>
-            <option value="gr">gr</option>
-            <option value="lb">lb</option>
-            <option value="it">it</option>
-            <option value="cl">cl</option>
-            <option value="ml">ml</option>
-            <option value="gal">gal</option>
-            <option value="fl-oz">Fl Oz</option>
-            <option value="piece">piece</option>
-            <option value="carton">carton</option>
-            <option value="packet">packet</option>
-            <option value="box">Box</option>
-            <option value="roll">Roll</option>
-            <option value="pack">Pack</option>
+            <option value="demenisions">Demenisions</option>
+            <option value="size">Size</option>
+            <option value="packages">Packages</option>
           </select>
 
         </div>

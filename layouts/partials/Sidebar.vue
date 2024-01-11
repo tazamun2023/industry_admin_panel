@@ -188,6 +188,21 @@
             icon: 'flash-sales',
           },
           {
+            path: 'colors',
+            title: 'Colors',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'ports',
+            title: 'Ports',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'transportation-modes',
+            title: 'Transportation modes',
+            icon: 'flash-sales',
+          },
+          {
             path: 'units',
             title: 'Units',
             icon: 'flash-sales',
