@@ -173,6 +173,21 @@
             gate: 'flash_sale'
           },
           {
+            path: 'countries',
+            title: 'Countries',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'cities',
+            title: 'Cities',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'barcodes',
+            title: 'Barcodes',
+            icon: 'flash-sales',
+          },
+          {
             path: 'units',
             title: 'Units',
             icon: 'flash-sales',

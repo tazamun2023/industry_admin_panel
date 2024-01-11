@@ -33,6 +33,24 @@
           {{ $t('category.req', { type: $t('index.title')}) }}
         </span>
       </div>
+      <div class="input-wrapper">
+        <label>{{ $t('unite.unit_code') }}</label>
+        <input
+          type="text"
+          :placeholder="$t('unit.unit_code')"
+          name="title"
+          v-model="result.title"
+          ref="unit_code"
+          @change="slugChange"
+          :class="{invalid: !!!result.unit_code && hasError}"
+        >
+        <span
+          class="error"
+          v-if="!!!result.unit_code && hasError"
+        >
+          {{ $t('category.req', { type: $t('unit.unit_code')}) }}
+        </span>
+      </div>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">

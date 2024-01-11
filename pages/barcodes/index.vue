@@ -4,9 +4,9 @@
     ref="listPage"
     list-api="getBrands"
     delete-api="deleteBrand"
-    route-name="unit"
+    route-name="brands"
     empty-store-variable="allBrands"
-    :name="$t('unit.unit')"
+    :name="$t('barcode.barcode')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,11 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.title') }}</th>
-        <th>{{ $t('unit.code') }}</th>
-        <th>{{ $t('unit.type') }}</th>
-        <th>{{ $t('unit.status') }}</th>
-        <th>{{ $t('unit.created') }}</th>
+        <th>{{ $t('barcode.barcode') }}</th>
+        <th>{{ $t('country.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -29,25 +26,8 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td class="">
-          <nuxt-link
-            :to="`/units/${value.id}`"
-            class="dply-felx j-left link"
-          >
+        <td>barcode</td>
 
-            <h5 class="mx-w-300x">Unit name</h5>
-          </nuxt-link>
-
-        </td>
-<td>001</td>
-
-        <td>KG</td>
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
         <td>{{ value.created }}</td>
         <td>
           <button
