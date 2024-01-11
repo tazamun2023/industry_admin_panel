@@ -1,9 +1,36 @@
 {
+  "app": {
+    "All": "All",
+    "My List": "My List",
+    "from": "From",
+    "Relevant to me": "Relevant to me",
+    "to": "To",
+    "Clear Filter": "Clear Filter",
+    "Apply Filters": "Apply Filters"
+  },
   "rfq": {
+    "RFQ ID": "RFQ ID ",
+    "Created on": "Created on",
+    "Expires on": "Expires on",
+    "Shipping country": "Shipping country",
+    "Shipping city": "Shipping city",
+    "Shipping terms": "Shipping terms",
+    "Total target price": "Total target price",
+    "Received quotes": "Received quotes",
+    "d": "dd",
+    "View all products": "View all products",
+    "Search by RFQ ID or Product": "Search by RFQ ID or Product",
+    "Search by Category": "Search by Category",
+    "Select Sub Category": "Select Sub Category",
+    "Select Child Category": "Select Child Category",
+    "RFQ Type": "RFQ Type",
     "RFQ_Market": "RFQ Market",
+    "Location": "Location",
     "RFQ": "RFQ List",
     "notification": "RFQ Notification",
-    "manage_quotations": "Manage Quotations"
+    "manage_quotations": "Manage Quotations",
+    "RFQ Marketplace": "RFQ Marketplace",
+    "RFQ Marketplace Description": "Explore and bid on Requests For Quotations of verified wholesale buyers from around the world."
   },
   "index": {
     "tProduct": "Total products",
@@ -510,7 +537,6 @@
     "apue": "Attach PDF in user email",
     "gc": "Guest checkout",
     "sEmail": "Sent email to the seller on new orders",
-
     "gaId": "Google Analytics ID",
     "eGa": "eg. G-**********",
     "ana": "Analytics",
@@ -557,6 +583,5 @@
     "fre": "Free",
     "ai": "Add Image",
     "trans": "Translate attached PDF in email"
-
   }
 }
