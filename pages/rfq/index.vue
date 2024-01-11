@@ -20,9 +20,8 @@
         <div class="card-body">
           <div class="row mt-2">
             <div class="col-md-12">
-              <h4 class="bold black">RFQ Marketplace</h4>
-              <p class="font-14">Explore and bid on Requests For Quotations of verified wholesale buyers from around the
-                world.</p>
+              <h4 class="bold black">{{$t('rfq.RFQ Marketplace')}}</h4>
+              <p class="font-14">{{$t('rfq.RFQ Marketplace Description')}}</p>
             </div>
           </div>
         </div>
@@ -35,17 +34,15 @@
         <div class="flex flex-wrap ">
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4">
-              <label for="">RFQ ID</label>
-              <input type="text" class="theme-input-style" placeholder="Search by RFQ ID or Product">
+              <label for="">{{ $t("rfq.RFQ ID") }}</label>
+              <input type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
             </div>
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang ">
-              <label for="">Search by Category</label>
-              <select
-                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="" id="">
-                <option value="">Search by Category</option>
+              <label for="">{{ $t("rfq.Search by Category") }}</label>
+              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                <option value="">Search by  Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
               </select>
@@ -53,10 +50,8 @@
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
-              <label for="">Select Sub Category</label>
-              <select
-                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="" id="">
+              <label for=""> {{ $t("rfq.Select Sub Category") }}</label>
+              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                 <option value="">Select Sub Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
@@ -65,10 +60,8 @@
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
-              <label for="">Select Child Category</label>
-              <select
-                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="" id="">
+              <label for="">{{ $t("rfq.Select Child Category") }} </label>
+              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                 <option value="">Select Child Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
@@ -77,10 +70,8 @@
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
-              <label for="">RFQ Type</label>
-              <select
-                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="" id="">
+              <label for=""> {{ $t("rfq.RFQ Type") }} </label>
+              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                 <option value="">Select on Option</option>
                 <option value="">Single product</option>
                 <option value="">Multi-product</option>
@@ -89,10 +80,8 @@
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
-              <label for="">Location</label>
-              <select
-                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                name="" id="">
+              <label for=""> {{ $t("rfq.Location") }} </label>
+              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                 <option value="">Select on Option</option>
                 <option value="">Bangladesh</option>
                 <option value="">Yemeen</option>
@@ -101,31 +90,26 @@
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4">
-              <label for="">From</label>
+              <label for=""> {{ $t("app.from") }} </label>
               <input type="date" class="theme-input-style" placeholder="From (creation)">
             </div>
           </div>
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4">
-              <label for="">To</label>
+              <label for=""> {{ $t("app.to") }} </label>
               <input type="date" class="theme-input-style" placeholder="To (creation)">
             </div>
           </div>
           <div class="md:w-1/3 pr-4 pl-4">
             <div class="mb-4">
-              <button type="button"
-                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
-                Apply Filters
-              </button>
-              <a
-                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"
-                href="">Clear Filter</a>
+              <button type="button" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20"> {{ $t("app.Apply Filters") }} </button>
+              <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4" href=""> {{ $t("app.Clear Filter") }} </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- ========= -->
+
     <!-- ==================tab============== -->
     <div class="flex  mt-20 flex-wrap">
       <div class="w-full">
@@ -134,21 +118,21 @@
             <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
                v-on:click="toggleTabs(1)"
                v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 1, 'border-t-4 border-primary': openTab === 1}">
-              Relevant to me
+              {{ $t("app.Relevant to me") }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
                v-on:click="toggleTabs(2)"
                v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 2, 'border-t-4 border-primary': openTab === 2}">
-              All
+              {{ $t("app.All") }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
                v-on:click="toggleTabs(3)"
                v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 3, 'border-t-4 border-primary': openTab === 3}">
-              My List
+              {{ $t("app.My List") }}
             </a>
           </li>
         </ul>
@@ -176,14 +160,14 @@
                       <table class="w-full">
                         <tr>
                           <td>
-                            <p class="m-0"><strong>Created on:</strong> 04 Jan 2024</p>
-                            <p class="m-0"><strong>Expires on :</strong> 31 Jan 2024</p>
-                            <p class="m-0"><strong>RFQ ID: </strong> RFQ2499137</p>
+                            <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> 04 Jan 2024</p>
+                            <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> 31 Jan 2024</p>
+                            <p class="m-0"><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ2499137</p>
                           </td>
                           <td>
-                            <p class="m-0"><strong>Shipping country:</strong> United Arab Emirates</p>
-                            <p class="m-0"><strong>Shipping city:</strong> Dubai</p>
-                            <p class="m-0"><strong>Shipping terms:</strong> doorToDoor, exWorks</p>
+                            <p class="m-0"><strong> {{ $t("rfq.Shipping country") }}:</strong> United Arab Emirates</p>
+                            <p class="m-0"><strong>{{ $t("rfq.Shipping city") }}:</strong> Dubai</p>
+                            <p  class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong> doorToDoor, exWorks</p>
                           </td>
                         </tr>
                       </table>
