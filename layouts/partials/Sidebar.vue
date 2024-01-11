@@ -173,6 +173,41 @@
             gate: 'flash_sale'
           },
           {
+            path: 'countries',
+            title: 'Countries',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'cities',
+            title: 'Cities',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'barcodes',
+            title: 'Barcodes',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'colors',
+            title: 'Colors',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'ports',
+            title: 'Ports',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'transportation-modes',
+            title: 'Transportation modes',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'units',
+            title: 'Units',
+            icon: 'flash-sales',
+          },
+          {
             path: 'rfq',
             title: this.$t('rfq.RFQ_Market'),
             icon: 'flash-sales',

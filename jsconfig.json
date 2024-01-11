@@ -60,6 +60,9 @@
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
 
+    "getAllRfqs": "rfq/all-brands",
+    "getRfqs": "rfq/all",
+
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
 
