@@ -209,19 +209,34 @@
           },
           {
             path: 'rfq',
-            title: 'RFQ',
+            title: this.$t('rfq.RFQ_Market'),
             icon: 'flash-sales',
+            open: false,
+            gate: 'user',
+            children: [
+              {
+                path: 'rfq',
+                title: this.$t('rfq.RFQ'),
+                icon: 'registered',
+                gate: 'user'
+              },
+              {
+                path: 'rfq/notification',
+                title: this.$t('rfq.notification'),
+                icon: 'flash-notification',
+                gate: 'user'
+              },
+              {
+                path: 'rfq/manage-quotes',
+                title: this.$t('rfq.manage_quotations'),
+                icon: 'flash-sales',
+                gate: 'user'
+              }
+            ]
           },
-          {
-            path: 'rfq/manage-quotes',
-            title: 'Manage-Quotes',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'rfq/notification',
-            title: 'Notification',
-            icon: 'flash-notification',
-          },
+
+
+
           {
             path: 'orders',
             title: this.$t('error.orders'),
