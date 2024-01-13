@@ -2,10 +2,10 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
-    empty-store-variable="allBrands"
+    list-api="getCitys"
+    delete-api="deleteCity"
+    route-name="cities"
+    empty-store-variable="allCities"
     :name="$t('country.country')"
     gate="brand"
     :order-options="orderOptions"
@@ -17,10 +17,10 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('country.country') }}</th>
-        <th>{{ $t('country.city') }}</th>
-        <th>{{ $t('country.status') }}</th>
-        <th>{{ $t('country.created') }}</th>
+        <th>{{ $t('brand.country') }}</th>
+        <th>{{ $t('setting.city') }}</th>
+        <th>{{ $t('category.status') }}</th>
+        <th>{{ $t('category.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -28,8 +28,9 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>Bangladesh</td>
-        <td>Dhaka</td>
+        <td>{{  value.country_name }}</td>
+        <td>{{  value.name }}</td>
+
 
         <td
           class="status"
@@ -37,7 +38,7 @@
         >
           <span>{{ getStatus(value.status) }}</span>
         </td>
-        <td>{{ value.created }}</td>
+        <td>{{ value.created_at }}</td>
         <td>
           <button
             v-if="$can('brand', 'edit')"

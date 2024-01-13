@@ -514,6 +514,7 @@
     "deactMsg": "After deactivating it, you have to contact the seller in order to activate it again."
   },
   "title": {
+    "sc": "select country",
     "prod": "product",
     "site": "Site setting",
     "headLogo": "header logo",

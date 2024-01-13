@@ -60,6 +60,14 @@
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
 
+    "getAllCity": "city/all-countries",
+    "getCitys": "city/all",
+    "deleteCity": "city/delete",
+    "getCity": "city/find",
+    "setCity": "city/action",
+    "setCityImage": "city/upload",
+
+
     "getAllRfqs": "rfq/all-brands",
     "getRfqs": "rfq/all",
 
