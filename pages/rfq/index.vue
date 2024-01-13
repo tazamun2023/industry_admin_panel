@@ -182,15 +182,15 @@
                                 </svg>
                               </div>
                             </div>
-                            <table class="w-full">
-                              <tr>
-                                <td>
+                            <table class="w-full ">
+                              <tr >
+                                <td class="rtl:text-end">
                                   <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
                                   <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
                                   </p>
                                   <p class="m-0"><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
                                 </td>
-                                <td>
+                                <td class="rtl:text-end">
                                   <p class="m-0"><strong> {{ $t("rfq.Shipping country") }}:</strong>
                                     {{ value.country.name }}
                                   </p>
