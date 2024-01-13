@@ -223,7 +223,7 @@
                         <div class="w-100">
                           <div>
                             <button
-                              @click="toggleCollapse"
+                              @click="toggleCollapse(value.id)"
                               class="flex items-center hover:text-primary bg-primary text-white font-bold py-2 px-4 rounded"
                             >
                               <svg class="w-6 h-4 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +234,7 @@
                               {{ $t('rfq.View all products') }}
                             </button>
                             <div
-                              v-if="isCollapsed"
+                              v-if="collapsedId==value.id"
                               class="mt-4 bg-gray-200 p-4 rounded"
                             >
                               <div class="table-responsive">
@@ -257,19 +257,25 @@
                                       <img style="width:20px;"
                                            src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
                                            alt="zoom" class="img-thumbnail"/></td>
-                                    <td> {{product.name }}</td>
-                                    <td>{{product.category?.title }}</td>
-                                    <td>{{product.quantity }} {{product.unit.name }} </td>
-                                    <td> {{  product.target_price.toLocaleString($t('app.currency_local'), {
-                                      style: 'currency',
-                                      maximumFractionDigits: 0,
-                                      currency: 'SAR'
-                                    })}}</td>
-                                    <td > {{  product.total_target_price.toLocaleString($t('app.currency_local'), {
-                                      style: 'currency',
-                                      maximumFractionDigits: 0,
-                                      currency: 'SAR'
-                                    })}}</td>
+                                    <td> {{ product.name }}</td>
+                                    <td>{{ product.category?.title }}</td>
+                                    <td>{{ product.quantity }} {{ product.unit.name }}</td>
+                                    <td> {{
+                                        product.target_price.toLocaleString($t('app.currency_local'), {
+                                          style: 'currency',
+                                          maximumFractionDigits: 0,
+                                          currency: 'SAR'
+                                        })
+                                      }}
+                                    </td>
+                                    <td> {{
+                                        product.total_target_price.toLocaleString($t('app.currency_local'), {
+                                          style: 'currency',
+                                          maximumFractionDigits: 0,
+                                          currency: 'SAR'
+                                        })
+                                      }}
+                                    </td>
                                   </tr>
 
                                   </tbody>
@@ -439,7 +445,7 @@
                   <div class="w-100">
                     <div>
                       <button
-                        @click="toggleCollapse"
+                        @click="toggleCollapse(value.id)"
                         class="flex items-center  hover:text-primary  bg-primary text-white font-bold py-2 px-4 rounded"
                       >
                         <svg class="w-6 h-4 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -524,6 +530,7 @@ export default {
   data() {
     return {
       openTab: 1,
+      collapsedId: 0,
       isCollapsed: false,
       activeIndex: null,
       itemList: [],
@@ -542,6 +549,10 @@ export default {
     toggleCollapse(index) {
       this.activeIndex = this.activeIndex === index ? null : index;
       this.isCollapsed = !this.isCollapsed;
+      if (index == this.collapsedId)
+        this.collapsedId = 0;
+      else
+        this.collapsedId = index;
     },
     dateFormat(dataTime) {
       return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
