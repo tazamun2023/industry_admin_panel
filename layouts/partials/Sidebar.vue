@@ -162,6 +162,12 @@
                 icon: 'products',
                 form: ['product', 'ratingReviews'],
                 gate: 'product'
+              },
+              {
+                path: 'products/create',
+                title: 'Create',
+                icon: 'products',
+                gate: 'product'
               }
             ]
           },
