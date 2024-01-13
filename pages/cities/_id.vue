@@ -15,6 +15,7 @@
       {{ result.title }}
 
       <lang-input :title="$t('city.name')" :valuesOfLang="result.title" @updateInput="updateInput"></lang-input>
+   
       {{ result.desc }}
       <lang-input type="textarea" :title="$t('city.desc')" :valuesOfLang="result.desc" @updateInput="updateInput"></lang-input>
       <!--      <div class="input-wrapper">-->

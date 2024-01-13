@@ -158,16 +158,16 @@
               <label>{{ $t('index.title') }}</label>
               <input
                 type="text"
-                :placeholder="$t('index.title')"
+                :placeholder="$t('index.name')"
                 @change="slugChange"
-                v-model="result.title"
-                :class="{invalid: !result.title && hasError}"
+                v-model="result.name"
+                :class="{invalid: !result.name && hasError}"
               >
               <span
                 class="error"
-                v-if="!result.title && hasError"
+                v-if="!result.name && hasError"
               >
-                {{ $t('category.req', { type: $t('index.title')}) }}
+                {{ $t('category.req', { type: $t('index.name')}) }}
               </span>
             </div>
 

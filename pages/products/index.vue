@@ -41,7 +41,7 @@
                 :data-src="getThumbImageURL(value.image)"
                 :alt="value.title.en"
               />
-              <h5 class="mx-w-400x">{{ value.title.en }}</h5>
+              <h5 class="mx-w-400x">{{ value.name }}</h5>
             </nuxt-link>
           </td>
           <td
