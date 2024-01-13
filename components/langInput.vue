@@ -12,13 +12,20 @@
     <div v-for="(language, index) in languages" :key="index" v-show="currentTab === index">
       <div class="input-wrapper">
         <label>{{ title }}</label>
-        <input
+        <input v-if="type=='text'"
           type="text"
-          :placeholder="$t('country.name', { lang: language })"
+          :placeholder="title"
           :value="valuesOfLang[language]"
           @input="updateInputValue(language, $event.target.value)"
           :class="{ invalid: !!!valuesOfLang[language] && hasError }"
         >
+        <WYSIWYGEditor v-else
+          :title="title"
+          :description="valuesOfLang[language]"
+          @change="valuesOfLang[language]= $event"
+          @input="updateInputValue(language, $event.target.value)"
+
+        />
         <span class="error" v-if="!!!valuesOfLang[language] && hasError">
           {{ $t('category.req', {type: $t('index.title')}) }}
         </span>
@@ -38,6 +45,11 @@ export default {
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+      default:"text"
+    },
   },
   data() {
     return {
@@ -48,7 +60,7 @@ export default {
   },
   methods: {
     updateInputValue(language, value) {
-      this.$emit('updateInput', language, value);
+      this.$emit('updateInput',this.valuesOfLang, language, value);
     },
   },
 };
