@@ -1,4 +1,14 @@
 {
+  "app": {
+    "All": "All",
+    "My List": "My List",
+    "from": "From",
+    "Relevant to me": "Relevant to me",
+    "to": "To",
+    "currency_local": "ar-US",
+    "Clear Filter": "Clear Filter",
+    "Apply Filters": "Apply Filters"
+  },
   "index": {
     "tProduct": "إجمالي المنتجات",
     "tUsers": "إجمالي المستخدمين",

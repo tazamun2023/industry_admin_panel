@@ -5,6 +5,7 @@
     "from": "From",
     "Relevant to me": "Relevant to me",
     "to": "To",
+    "currency_local": "en-US",
     "Clear Filter": "Clear Filter",
     "Apply Filters": "Apply Filters"
   },
@@ -17,6 +18,7 @@
     "Shipping terms": "Shipping terms",
     "Total target price": "Total target price",
     "Received quotes": "Received quotes",
+    "Submit Quotes": "Submit Quotes",
     "d": "dd",
     "View all products": "View all products",
     "Search by RFQ ID or Product": "Search by RFQ ID or Product",
@@ -31,6 +33,14 @@
     "manage_quotations": "Manage Quotations",
     "RFQ Marketplace": "RFQ Marketplace",
     "RFQ Marketplace Description": "Explore and bid on Requests For Quotations of verified wholesale buyers from around the world."
+  },
+  "products": {
+    "Id": "Id",
+    "Image": "Image",
+    "Products": "Products",
+    "Category": "Category",
+    "Quantity": "Quantity",
+    "Unit Target Price": "Unit Target Price"
   },
   "index": {
     "tProduct": "Total products",

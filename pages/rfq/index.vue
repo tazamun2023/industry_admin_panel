@@ -1,27 +1,15 @@
 <template>
-  <list-page
-    v-if="$can('brand', 'view')"
-    ref="listPage"
-    list-api="getRfqs"
-    delete-api="deleteBrand"
-    route-name="rfqs"
-    empty-store-variable="allRfqs"
-    :name="$t('rfq.rfq')"
-    gate="brand"
-    :order-options="orderOptions"
-    @delete-bulk="deleteBulk"
-    @list="itemList = $event"
-  >
-<template v-slot:table="{list}">
+
   <div>
+
     <!-- ---------------       -->
     <div class="row  mb-2">
       <div class="card p-20 col-md-12">
         <div class="card-body">
           <div class="row mt-2">
             <div class="col-md-12">
-              <h4 class="bold black">{{$t('rfq.RFQ Marketplace')}}</h4>
-              <p class="font-14">{{$t('rfq.RFQ Marketplace Description')}}</p>
+              <h4 class="bold black">{{ $t('rfq.RFQ Marketplace') }}</h4>
+              <p class="font-14">{{ $t('rfq.RFQ Marketplace Description') }}</p>
             </div>
           </div>
         </div>
@@ -41,8 +29,10 @@
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang ">
               <label for="">{{ $t("rfq.Search by Category") }}</label>
-              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
-                <option value="">Search by  Category</option>
+              <select
+                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                name="" id="">
+                <option value="">Search by Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
               </select>
@@ -51,7 +41,9 @@
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
               <label for=""> {{ $t("rfq.Select Sub Category") }}</label>
-              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+              <select
+                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                name="" id="">
                 <option value="">Select Sub Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
@@ -61,7 +53,9 @@
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
               <label for="">{{ $t("rfq.Select Child Category") }} </label>
-              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+              <select
+                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                name="" id="">
                 <option value="">Select Child Category</option>
                 <option value="">category 1</option>
                 <option value="">category 1</option>
@@ -71,7 +65,9 @@
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
               <label for=""> {{ $t("rfq.RFQ Type") }} </label>
-              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+              <select
+                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                name="" id="">
                 <option value="">Select on Option</option>
                 <option value="">Single product</option>
                 <option value="">Multi-product</option>
@@ -81,7 +77,9 @@
           <div class="md:w-1/5 pr-4 pl-4">
             <div class="mb-4 for-lang">
               <label for=""> {{ $t("rfq.Location") }} </label>
-              <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+              <select
+                class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                name="" id="">
                 <option value="">Select on Option</option>
                 <option value="">Bangladesh</option>
                 <option value="">Yemeen</option>
@@ -102,8 +100,13 @@
           </div>
           <div class="md:w-1/3 pr-4 pl-4">
             <div class="mb-4">
-              <button type="button" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20"> {{ $t("app.Apply Filters") }} </button>
-              <a class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4" href=""> {{ $t("app.Clear Filter") }} </a>
+              <button type="button"
+                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
+                {{ $t("app.Apply Filters") }}
+              </button>
+              <a
+                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"
+                href=""> {{ $t("app.Clear Filter") }} </a>
             </div>
           </div>
         </div>
@@ -139,114 +142,147 @@
         <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
           <div class="flex-auto">
             <div class="tab-content tab-space">
+
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-                <div class="card mt-20 p-4 bg-white">
-                  <div class="grid grid-cols-7 gap-4">
-                    <div>
-                      <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                           class="w-48 h-32 object-cover rounded" alt="...">
-                    </div>
-                    <div class="col-span-5">
-                      <div class="flex justify-end">
-                        <h5 class="mb-4 ml-4"><a href="">Dalda The Original Vegetable Ghee 16 kg</a></h5>
-                        <div class="p-2 ml-auto">
-                          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                               xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
-                          </svg>
+                <list-page
+                  v-if="$can('brand', 'view')"
+                  ref="listPage"
+                  list-api="getRfqs"
+                  delete-api="deleteBrand"
+                  route-name="rfqs"
+                  empty-store-variable="allRfqs"
+                  :name="$t('rfq.rfq')"
+                  gate="brand"
+                  :order-options="orderOptions"
+                  @delete-bulk="deleteBulk"
+                  @list="itemList = $event"
+                >
+                  <template v-slot:table="{list}">
+
+
+                    <div v-for="(value, index) in list" :key="index">
+
+                      <div class="card mt-20 p-4 bg-white">
+                        <div class="grid grid-cols-7 gap-4">
+                          <div>
+                            <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
+                                 class="w-48 h-32 object-cover rounded" alt="...">
+                          </div>
+                          <div class="col-span-5">
+                            <div class="flex justify-end">
+                              <h5 class="mb-4 ml-4">
+                                <a v-for="p in value.products">{{ p.name }}</a>
+                              </h5>
+                              <div class="p-2 ml-auto">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
+                                </svg>
+                              </div>
+                            </div>
+                            <table class="w-full">
+                              <tr>
+                                <td>
+                                  <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
+                                  <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
+                                  </p>
+                                  <p class="m-0"><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                </td>
+                                <td>
+                                  <p class="m-0"><strong> {{ $t("rfq.Shipping country") }}:</strong>
+                                    {{ value.country.name }}
+                                  </p>
+                                  <p class="m-0"><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
+                                  </p>
+                                  <p class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong> doorToDoor, exWorks
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div>
+                            <div class="qoute-card text-center">
+                              <p><span>{{ $t("rfq.Total target price") }}:</span>
+                                <span><strong>Negotiable</strong></span></p>
+                              <p>
+                                <span> {{ $t("rfq.Received quotes") }}: </span>
+                                <span
+                                  class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-green-500  hover:green-600 ml-2 mr-2">{{
+                                    value.received_quotes
+                                  }}</span>
+                              </p>
+                              <nuxt-link
+                                class="inline-block align-middle hover:bg-primary  hover:text-white   hover:border-primary shadow text-center select-none border border-smooth  font-normal whitespace-no-wrap rounded py-1 mt-3 px-3 leading-normal no-underline  mr-4 mb-3  sm:mb-0"
+                                :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
+                              </nuxt-link>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w-100">
+                          <div>
+                            <button
+                              @click="toggleCollapse"
+                              class="flex items-center hover:text-primary bg-primary text-white font-bold py-2 px-4 rounded"
+                            >
+                              <svg class="w-6 h-4 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                   fill="currentColor" viewcard="0 0 20 14">
+                                <path
+                                  d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
+                              </svg>
+                              {{ $t('rfq.View all products') }}
+                            </button>
+                            <div
+                              v-if="isCollapsed"
+                              class="mt-4 bg-gray-200 p-4 rounded"
+                            >
+                              <div class="table-responsive">
+                                <table class="table mb-0">
+                                  <thead class="thead-light">
+                                  <tr>
+                                    <th>{{ $t('products.Id') }}</th>
+                                    <th> {{ $t('products.Image') }}</th>
+                                    <th> {{ $t('products.Products') }} ({{ value.products.length }})</th>
+                                    <th> {{ $t('products.Category') }}</th>
+                                    <th> {{ $t('products.Quantity') }}</th>
+                                    <th> {{ $t('products.Unit Target Price') }}</th>
+                                    <th> {{ $t('products.Total Target Price') }}</th>
+                                  </tr>
+                                  </thead>
+                                  <tbody>
+                                  <tr v-for="product in value.products">
+                                    <td>{{ product.id }}</td>
+                                    <td>
+                                      <img style="width:20px;"
+                                           src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
+                                           alt="zoom" class="img-thumbnail"/></td>
+                                    <td> {{product.name }}</td>
+                                    <td>{{product.category?.title }}</td>
+                                    <td>{{product.quantity }} {{product.unit.name }} </td>
+                                    <td> {{  product.target_price.toLocaleString($t('app.currency_local'), {
+                                      style: 'currency',
+                                      maximumFractionDigits: 0,
+                                      currency: 'SAR'
+                                    })}}</td>
+                                    <td > {{  product.total_target_price.toLocaleString($t('app.currency_local'), {
+                                      style: 'currency',
+                                      maximumFractionDigits: 0,
+                                      currency: 'SAR'
+                                    })}}</td>
+                                  </tr>
+
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <table class="w-full">
-                        <tr>
-                          <td>
-                            <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> 04 Jan 2024</p>
-                            <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> 31 Jan 2024</p>
-                            <p class="m-0"><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ2499137</p>
-                          </td>
-                          <td>
-                            <p class="m-0"><strong> {{ $t("rfq.Shipping country") }}:</strong> United Arab Emirates</p>
-                            <p class="m-0"><strong>{{ $t("rfq.Shipping city") }}:</strong> Dubai</p>
-                            <p  class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong> doorToDoor, exWorks</p>
-                          </td>
-                        </tr>
-                      </table>
                     </div>
-                    <div>
-                      <div class="qoute-card text-center">
-                        <p><span>Total target price:</span> <span><strong>Negotiable</strong></span></p>
-                        <p>
-                          <span> Received quotes: </span>
-                          <span
-                            class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-green-500  hover:green-600 ml-2 mr-2">1</span>
-                        </p>
-                        <nuxt-link
-                          class="inline-block align-middle hover:bg-primary  hover:text-white   hover:border-primary shadow text-center select-none border border-smooth  font-normal whitespace-no-wrap rounded py-1 mt-3 px-3 leading-normal no-underline  mr-4 mb-3  sm:mb-0"
-                          :to="`/rfq/1`"><i class="icofont-ui-add"></i> SUBMIT QUOTE
-                        </nuxt-link>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="w-100">
-                    <div>
-                      <button
-                        @click="toggleCollapse"
-                        class="flex items-center hover:text-primary bg-primary text-white font-bold py-2 px-4 rounded"
-                      >
-                        <svg class="w-6 h-4 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                             fill="currentColor" viewcard="0 0 20 14">
-                          <path
-                            d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-                        </svg>
-                          View all products
-                      </button>
-                      <div
-                        v-if="isCollapsed"
-                        class="mt-4 bg-gray-200 p-4 rounded"
-                      >
-                        <div class="table-responsive">
-                          <table class="table mb-0">
-                            <thead class="thead-light">
-                            <tr>
-                              <th>Id</th>
-                              <th>Image</th>
-                              <th>Products (3)</th>
-                              <th>Category</th>
-                              <th>Quantity</th>
-                              <th>Unit Target Price</th>
-                              <th>Total Target Price</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td><img style="width:20px;"
-                                       src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                                       alt="zoom" class="img-thumbnail"/></td>
-                              <td><a href="">Red Bull Energy Drink Emarat 250 Ml 4 X 6 Pack Of 24</a></td>
-                              <td>Food & Beverage</td>
-                              <td>1000 Carton</td>
-                              <td>AED 192</td>
-                              <td>AED 192,000</td>
-                            </tr>
-                            <tr>
-                              <td>1</td>
-                              <td><img style="width:20px;"
-                                       src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                                       alt="zoom" class="img-thumbnail"/></td>
-                              <td><a href="">Red Bull Energy Drink Emarat 250 Ml 4 X 6 Pack Of 24</a></td>
-                              <td>Food & Beverage</td>
-                              <td>1000 Carton</td>
-                              <td>AED 192</td>
-                              <td>AED 192,000</td>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  </template>
+                </list-page>
+
               </div>
               <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <div class="card p-4 bg-white mt-20" v-for="(value, index) in list" :key="index">
@@ -274,7 +310,7 @@
                             <p class="m-0"><strong>RFQ ID: </strong> RFQ2499137</p>
                           </td>
                           <td>
-                            <p class="m-0"><strong>Shipping country:</strong> {{ value.country.name}}</p>
+                            <p class="m-0"><strong>Shipping country:</strong> {{ value.country.name }}</p>
                             <p class="m-0"><strong>Shipping city:</strong> Dubai</p>
                             <p class="m-0"><strong>Shipping terms:</strong> doorToDoor, exWorks</p>
                           </td>
@@ -325,7 +361,7 @@
                             <tr>
                               <th>Id</th>
                               <th>Image</th>
-                              <th>Products ({{value.rfq_products.length}})</th>
+                              <th>Products ({{ value.rfq_products.length }})</th>
                               <th>Category</th>
                               <th>Quantity</th>
                               <th>Unit Target Price</th>
@@ -334,13 +370,13 @@
                             </thead>
                             <tbody>
                             <tr v-for="(rfq_product, index) in value.rfq_products" :key="index">
-                              <td>{{ index+1 }}</td>
+                              <td>{{ index + 1 }}</td>
                               <td><img style="width:20px;"
                                        src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
                                        alt="zoom" class="img-thumbnail"/></td>
-                              <td><a href="">{{ rfq_product.name}}</a></td>
+                              <td><a href="">{{ rfq_product.name }}</a></td>
                               <td>Food & Beverage</td>
-                              <td>{{ rfq_product.quantity}} Carton</td>
+                              <td>{{ rfq_product.quantity }} Carton</td>
                               <td>SAR {{ rfq_product.target_price }}</td>
                               <td>SAR {{ rfq_product.total_target_price }}</td>
                             </tr>
@@ -467,10 +503,9 @@
       </div>
     </div>
     <!-- ==================tab============== -->
-    <!-- ---------------       -->
+
   </div>
-</template>
-  </list-page>
+
 
 </template>
 
@@ -488,7 +523,7 @@ export default {
 
   data() {
     return {
-      openTab: 2,
+      openTab: 1,
       isCollapsed: false,
       activeIndex: null,
       itemList: [],
@@ -508,7 +543,7 @@ export default {
       this.activeIndex = this.activeIndex === index ? null : index;
       this.isCollapsed = !this.isCollapsed;
     },
-    dateFormat(dataTime){
+    dateFormat(dataTime) {
       return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
     }
 
