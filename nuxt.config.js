@@ -10,9 +10,10 @@ export default {
 /*  target: 'static',*/
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Admin panel',
+    title: 'Index',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
+      dir: 'ltr',
     },
     meta: [
       { charset: 'utf-8' },
@@ -39,6 +40,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
 
+    { src: '@/plugins/i18n.js' },
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
     { src: '@/plugins/ability.js' },
     {src: '~/plugins/cryptojs.js', mode: 'client'},
@@ -101,10 +103,15 @@ export default {
   },
 
   i18n: {
+    seo: true,
+    localeDetection: false,
     locales: [
       {
         code: 'en',
-        file: 'en.json'
+        name: 'English',
+        file: 'en.json',
+        iso: 'en',
+        dir: 'ltr'
       },
       {
         code: 'fr',
@@ -112,7 +119,10 @@ export default {
       },
       {
         code: 'ar',
-        file: 'ar.json'
+        name: 'العربية',
+        file: 'ar.json',
+        iso: 'ar',
+        dir: 'rtl'
       },
       {
         code: 'tr',

@@ -118,6 +118,15 @@
     methods: {
       async selectedLanguage(data){
         document.cookie = 'currentLanguage=' + data.key + '; path=/; expires=' + 365 * 60 * 60 * 24
+
+        this.$i18n.locale = data.key; // If you are using Nuxt-i18n for language switching
+        this.$nuxt.context.app.head.title = 'New Page Title';
+        document.querySelector("html").setAttribute("dir",  data.key  == "ar" ? "rtl" : "ltr");
+        document.querySelector("html").setAttribute("lang",  data.key );
+      this.$nuxt.context.app.head.htmlAttrs = {
+          lang:  data.key ,
+          dir:  data.key  == "ar" ? "rtl" : "ltr"
+        }
         location.reload()
       },
       async loggingOut() {
