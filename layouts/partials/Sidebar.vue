@@ -168,6 +168,12 @@
                 title: 'Create',
                 icon: 'products',
                 gate: 'product'
+              },
+              {
+                path: 'products/list',
+                title: 'Product-list',
+                icon: 'products',
+                gate: 'product'
               }
             ]
           },
