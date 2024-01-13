@@ -204,7 +204,7 @@
                           </div>
                           <div>
                             <div class="qoute-card text-center">
-                              <p><span>{{ $t("rfq.Total target price") }}:</span>
+                              <p><span>{{ $t("products.Total target price") }}:</span>
                                 <span><strong>Negotiable</strong></span></p>
                               <p>
                                 <span> {{ $t("rfq.Received quotes") }}: </span>
@@ -247,7 +247,7 @@
                                     <th> {{ $t('products.Category') }}</th>
                                     <th> {{ $t('products.Quantity') }}</th>
                                     <th> {{ $t('products.Unit Target Price') }}</th>
-                                    <th> {{ $t('products.Total Target Price') }}</th>
+                                    <th> {{ $t("products.Total target price") }}</th>
                                   </tr>
                                   </thead>
                                   <tbody>

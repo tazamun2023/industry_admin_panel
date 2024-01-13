@@ -16,7 +16,7 @@
     "Shipping country": "Shipping country",
     "Shipping city": "Shipping city",
     "Shipping terms": "Shipping terms",
-    "Total target price": "Total target price",
+
     "Received quotes": "Received quotes",
     "Submit Quotes": "Submit Quotes",
     "d": "dd",
@@ -40,7 +40,8 @@
     "Products": "Products",
     "Category": "Category",
     "Quantity": "Quantity",
-    "Unit Target Price": "Unit Target Price"
+    "Unit Target Price": "Unit Target Price",
+    "Total target price": "Total target price"
   },
   "index": {
     "tProduct": "Total products",
