@@ -2,6 +2,7 @@ import Service from '@/services/service.js'
 
 const state = () => ({
   allCategories: null,
+  allCountries: null,
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -20,6 +21,7 @@ const getters = {
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
   allCategories: ({allCategories}) => allCategories,
+  allCountries: ({allCountries}) => allCountries,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
   allShippingRules: ({allShippingRules}) => allShippingRules,
@@ -53,6 +55,14 @@ const mutations = {
       state.allCategories = {...state.allCategories, ...{[item.id]: {title: item.title}}}
     })
   },
+
+  SET_ALL_COUNTRIES(state, allCountries) {
+    state.allCountries = {}
+    allCountries.forEach((item) => {
+      state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
+    })
+  },
+
   SET_ALL_SUBSCRIPTION_EMAIL_FORMATS(state, allSubscriptionEmailFormats) {
     state.allSubscriptionEmailFormats = allSubscriptionEmailFormats
   },
@@ -136,6 +146,7 @@ const actions = {
     if (data.status === 200) {
       const result = data.data
       commit('SET_ALL_CATEGORIES', result.categories)
+      commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_SHIPPING_RULES', result.shipping_rules)
       commit('SET_ALL_PRODUCT_COLLECTIONS', result.product_collections)
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)

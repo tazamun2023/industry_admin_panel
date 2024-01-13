@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    
+
     <div class="card-wrapper">
       <div class="dashboard-card">
         <div class="card-inner card">
@@ -156,5 +156,5 @@
 </script>
 
 <style lang="stylus">
-  @import "~/assets/styles/dashboard.styl"
+  @import "~/assets/styles/dashboard.styl";
 </style>
