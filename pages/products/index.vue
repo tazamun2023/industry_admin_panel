@@ -39,9 +39,9 @@
               <lazy-image
                 class="mr-20"
                 :data-src="getThumbImageURL(value.image)"
-                :alt="value.title"
+                :alt="value.title.en"
               />
-              <h5 class="mx-w-400x">{{ value.title }}</h5>
+              <h5 class="mx-w-400x">{{ value.title.en }}</h5>
             </nuxt-link>
           </td>
           <td
@@ -126,7 +126,7 @@
           selling: { title: this.$t('prod.selling') },
           offered: { title: this.$t('prod.offered') },
           created_at: { title: this.$t('category.date') },
-          status: { title: this.$t('category.status') }
+          status: { title: this.$t('category.status') },
         }
       }
     },
@@ -139,11 +139,14 @@
       currencyIcon() {
         return this.setting?.currency_icon || '$'
       },
-      ...mapGetters('setting', ['setting'])
+      ...mapGetters('setting', ['setting']),
+      ...mapGetters('language', ['currentLanguage']),
     },
     methods:{
+     
     },
     mounted() {
+      
     }
   }
 </script>
