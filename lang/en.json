@@ -264,6 +264,9 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
+  "city": {
+    "name": "Name"
+  },
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",
