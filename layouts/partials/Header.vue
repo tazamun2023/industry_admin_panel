@@ -67,6 +67,9 @@
             />
             {{ $t('error.pro') }}
           </button>
+
+
+
           <button
             @click.prevent="loggingOut"
           >

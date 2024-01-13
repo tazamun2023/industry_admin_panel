@@ -286,6 +286,10 @@ export default {
     },
     getBrand(index) {
       return this.$store.getters["brand/ALL_BRANDS"][index].title
+    },
+    getRfq(index) {
+      return this.$store.getters["rfq/ALL_RFQ"][index].name
     }
+
   }
 }

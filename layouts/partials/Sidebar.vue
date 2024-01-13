@@ -173,6 +173,71 @@
             gate: 'flash_sale'
           },
           {
+            path: 'countries',
+            title: 'Countries',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'cities',
+            title: 'Cities',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'barcodes',
+            title: 'Barcodes',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'colors',
+            title: 'Colors',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'ports',
+            title: 'Ports',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'transportation-modes',
+            title: 'Transportation modes',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'units',
+            title: 'Units',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'rfq',
+            title: this.$t('rfq.RFQ_Market'),
+            icon: 'flash-sales',
+            open: false,
+            gate: 'user',
+            children: [
+              {
+                path: 'rfq',
+                title: this.$t('rfq.RFQ'),
+                icon: 'registered',
+                gate: 'user'
+              },
+              {
+                path: 'rfq/notification',
+                title: this.$t('rfq.notification'),
+                icon: 'flash-notification',
+                gate: 'user'
+              },
+              {
+                path: 'rfq/manage-quotes',
+                title: this.$t('rfq.manage_quotations'),
+                icon: 'flash-sales',
+                gate: 'user'
+              }
+            ]
+          },
+
+
+
+          {
             path: 'orders',
             title: this.$t('error.orders'),
             icon: 'orders',
