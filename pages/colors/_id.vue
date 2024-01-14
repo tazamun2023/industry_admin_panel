@@ -1,13 +1,13 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setCategory"
-    get-api="getCategory"
+    set-api="setColor"
+    get-api="getColor"
     set-image-api="setCategoryImage"
-    route-name="color"
+    route-name="colors"
     :name="$t('color.color')"
-    gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    gate="brand"
+    :validation-keys="['name']"
     :result="result"
     @result="resultData"
   >
@@ -31,19 +31,19 @@
       </div>
       <div class="input-wrapper">
 
-        <label>{{ $t('color.color_code') }}</label>
+        <label>{{ $t('color.code') }}</label>
         <input
           type="text"
-          :placeholder="$t('color.color_code')"
-          v-model="result.color_code"
+          :placeholder="$t('color.code')"
+          v-model="result.code"
           ref="name"
-          :class="{invalid: !!!result.color_code && hasError}"
+          :class="{invalid: !!!result.code && hasError}"
         >
         <span
           class="error"
-          v-if="!!!result.name && hasError"
+          v-if="!!!result.code && hasError"
         >
-          {{ $t('color.color_code', { type: $t('index.name')}) }}
+          {{ $t('color.code', { type: $t('index.name')}) }}
         </span>
       </div>
     </template>
