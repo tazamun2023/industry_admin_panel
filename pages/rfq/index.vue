@@ -183,7 +183,7 @@
                               </div>
                             </div>
                             <table class="w-full ">
-                              <tr >
+                              <tr>
                                 <td class="rtl:text-end">
                                   <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
                                   <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
@@ -196,7 +196,13 @@
                                   </p>
                                   <p class="m-0"><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
                                   </p>
-                                  <p class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong> doorToDoor, exWorks
+                                  <p class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong>
+
+                                    <template v-for="(term,index) in value.shipmen_terms">
+                                      <span>{{ term.name }}</span>
+                                      <span class="mx-2" v-if="index+1<value.shipmen_terms.length">,</span>
+
+                                    </template>
                                   </p>
                                 </td>
                               </tr>
@@ -205,13 +211,18 @@
                           <div>
                             <div class="qoute-card text-center">
                               <p><span>{{ $t("products.Total target price") }}:</span>
-                                <span><strong>Negotiable</strong></span></p>
+                                <span><strong> {{
+                                    value.total_target_price.toLocaleString($t('app.currency_local'), {
+                                      style: 'currency',
+                                      maximumFractionDigits: 0,
+                                      currency: 'SAR'
+                                    })
+                                  }}</strong></span></p>
                               <p>
                                 <span> {{ $t("rfq.Received quotes") }}: </span>
                                 <span
-                                  class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-green-500  hover:green-600 ml-2 mr-2">{{
-                                    value.received_quotes
-                                  }}</span>
+                                  class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-green-500  hover:green-600 ml-2 mr-2">
+                                  {{ value.received_quotes }}</span>
                               </p>
                               <nuxt-link
                                 class="inline-block align-middle hover:bg-primary  hover:text-white   hover:border-primary shadow text-center select-none border border-smooth  font-normal whitespace-no-wrap rounded py-1 mt-3 px-3 leading-normal no-underline  mr-4 mb-3  sm:mb-0"
