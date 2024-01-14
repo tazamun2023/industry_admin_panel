@@ -12,32 +12,9 @@
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-<!--      {{ result.title }}
-
-      <lang-input :title="$t('city.name')" :valuesOfLang="result.title" @updateInput="updateInput"></lang-input>
-      {{ result.desc }}
-      <lang-input type="textarea" :title="$t('city.desc')" :valuesOfLang="result.desc" @updateInput="updateInput"></lang-input>-->
 
       <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
-
-<!--      <div class="input-wrapper">-->
-
-<!--              <label>{{ $t('country.name') }}</label>-->
-<!--              <input-->
-<!--                type="text"-->
-<!--                :placeholder="$t('country.name')"-->
-<!--                v-model="result.name"-->
-<!--                ref="name"-->
-<!--                :class="{invalid: !!!result.name && hasError}"-->
-<!--              >-->
-<!--              <span-->
-<!--                class="error"-->
-<!--                v-if="!!!result.name && hasError"-->
-<!--              >-->
-<!--                {{ $t('category.req', {type: $t('index.name')}) }}-->
-<!--              </span>-->
-<!--            </div>-->
-
+      
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{$t('title.sc')}}</span>
