@@ -3,7 +3,7 @@
   <div>
     <!-- Tab navigation -->
     <div class="flex space-x-10">
-      <button class="w-32" v-for="(language, index) in languages" :key="index" @click="currentTab = index">
+      <button type="button" class="w-32" v-for="(language, index) in languages" :key="index" @click="currentTab = index">
         {{ language }}
       </button>
     </div>
@@ -11,7 +11,7 @@
     <!-- Input fields for each language -->
     <div v-for="(language, index) in languages" :key="index" v-show="currentTab === index">
       <div class="input-wrapper">
-        <label>{{ title }}</label>
+        <label>{{ title }}   ({{ language }})</label>
         <input v-if="type=='text'"
           type="text"
           :placeholder="title"

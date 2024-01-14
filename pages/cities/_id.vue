@@ -18,23 +18,25 @@
       {{ result.desc }}
       <lang-input type="textarea" :title="$t('city.desc')" :valuesOfLang="result.desc" @updateInput="updateInput"></lang-input>-->
 
-            <div class="input-wrapper">
+      <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
 
-              <label>{{ $t('country.name') }}</label>
-              <input
-                type="text"
-                :placeholder="$t('country.name')"
-                v-model="result.name"
-                ref="name"
-                :class="{invalid: !!!result.name && hasError}"
-              >
-              <span
-                class="error"
-                v-if="!!!result.name && hasError"
-              >
-                {{ $t('category.req', {type: $t('index.name')}) }}
-              </span>
-            </div>
+<!--      <div class="input-wrapper">-->
+
+<!--              <label>{{ $t('country.name') }}</label>-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                :placeholder="$t('country.name')"-->
+<!--                v-model="result.name"-->
+<!--                ref="name"-->
+<!--                :class="{invalid: !!!result.name && hasError}"-->
+<!--              >-->
+<!--              <span-->
+<!--                class="error"-->
+<!--                v-if="!!!result.name && hasError"-->
+<!--              >-->
+<!--                {{ $t('category.req', {type: $t('index.name')}) }}-->
+<!--              </span>-->
+<!--            </div>-->
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
@@ -81,7 +83,8 @@ export default {
     return {
       result: {
         id: '',
-        name: '',
+        // name: '',
+        name:{'ar':'','en':''},
         country_id: '',
         status: 1,
         image: ''
