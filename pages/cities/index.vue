@@ -38,7 +38,7 @@
         >
           <span>{{ getStatus(value.status) }}</span>
         </td>
-        <td>{{ value.created_at }}</td>
+        <td>{{ value.created }}</td>
         <td>
           <button
             v-if="$can('brand', 'edit')"
@@ -64,8 +64,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.cityName') },
+        country_id: { title: this.$t('category.countryName') },
         created_at: { title: this.$t('category.date') },
         status: { title: this.$t('category.status') }
       }

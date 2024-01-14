@@ -2,9 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
+    list-api="getBarcodes"
+    delete-api="deleteBarcode"
+    route-name="barcodes"
     empty-store-variable="allBrands"
     :name="$t('barcode.barcode')"
     gate="brand"
@@ -26,9 +26,10 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>barcode</td>
 
+        <td>{{ value.name }}</td>
         <td>{{ value.created }}</td>
+
         <td>
           <button
             v-if="$can('brand', 'edit')"
@@ -54,10 +55,7 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
-        created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
+        name: { title: this.$t('index.barcode') },
       }
     }
   },

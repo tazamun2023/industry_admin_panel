@@ -31,6 +31,7 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
+
         <td class="">BD</td>
         <td>BGD</td>
         <td>Bangladesh</td>

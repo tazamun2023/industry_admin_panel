@@ -55,7 +55,9 @@
     "lw": "Last week",
     "lm": "Last month",
     "ly": "Last year",
-    "tSells": "Total sells"
+    "tSells": "Total sells",
+    "cityName": "City Name",
+    "barcode" : "Barcode"
   },
   "category": {
     "mDesc": "Meta description",
@@ -72,7 +74,8 @@
     "featured": "Featured",
     "catUp": "Category",
     "sor": "SORRY",
-    "cat": "category"
+    "cat": "category",
+    "countryName" : "Country Name"
   },
   "brand": {
     "buyCount": "Buy count",
