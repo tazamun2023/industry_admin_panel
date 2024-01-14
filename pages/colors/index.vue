@@ -2,10 +2,10 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
-    empty-store-variable="allBrands"
+    list-api="getColors"
+    delete-api="deleteColor"
+    route-name="colors"
+    empty-store-variable="getAllColor"
     :name="$t('color.color')"
     gate="brand"
     :order-options="orderOptions"
@@ -27,8 +27,9 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>color</td>
-        <td>#fff</td>
+
+        <td>{{ value.name }}</td>
+        <td>{{ value.code }}</td>
 
         <td>{{ value.created }}</td>
         <td>

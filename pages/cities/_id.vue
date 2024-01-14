@@ -1,13 +1,13 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="getCity"
-    get-api="setCity"
+    set-api="setCity"
+    get-api="getCity"
     set-image-api="setCityImage"
     route-name="cities"
     :name="$t('country.country')"
-    gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    gate="brand"
+    :validation-keys="['name']"
     :result="result"
     @result="resultData"
   >
@@ -42,7 +42,7 @@
           <dropdown
             v-if="allCountries"
             :default-null="true"
-            :selectedKey="`${result.countryId}`"
+            :selectedKey="`${result.country_id}`"
             :options="allCountries"
             @clicked="countrySelected"
           />
@@ -82,7 +82,7 @@ export default {
       result: {
         id: '',
         name: '',
-        countryId: '',
+        country_id: '',
         status: 1,
         image: ''
       }
@@ -117,7 +117,7 @@ export default {
       this.result.featured = data.key
     },
     countrySelected(data) {
-      this.result.countryId = data.key
+      this.result.country_id = data.key
     },
     titleChanged() {
       this.result.slug = this.convertToSlug(this.result.title)

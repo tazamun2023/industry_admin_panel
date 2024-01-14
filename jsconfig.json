@@ -67,6 +67,18 @@
     "setCity": "city/action",
     "setCityImage": "city/upload",
 
+    "getAllBarcode": "barcode/all-barcode",
+    "getBarcodes": "barcode/all",
+    "deleteBarcode": "barcode/delete",
+    "getBarcode": "barcode/find",
+    "setBarcode": "barcode/action",
+
+    "getAllColor": "color/all-color",
+    "getColors": "color/all",
+    "deleteColor": "color/delete",
+    "getColor": "color/find",
+    "setColor": "color/action",
+
 
     "getAllRfqs": "rfq/all-brands",
     "getRfqs": "rfq/all",
