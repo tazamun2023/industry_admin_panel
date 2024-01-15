@@ -18,6 +18,7 @@
           :value="valuesOfLang[language]"
           @input="updateInputValue(language, $event.target.value)"
           :class="{ invalid: !!!valuesOfLang[language] && hasError }"
+
         >
         <WYSIWYGEditor v-else
           :title="title"
@@ -27,10 +28,18 @@
 
         />
         <span class="error" v-if="!!!valuesOfLang[language] && hasError">
-          {{ $t('category.req', {type: $t('index.title')}) }}
+          {{ $t('category.req', {type: title}) }}
         </span>
       </div>
     </div>
+<!--    <span-->
+<!--      class="error"-->
+
+<!--    >-->
+<!--      {{hasError}}-->
+<!--      {{result.name.ar}}-->
+<!--          {{ $t('category.req', { type: $t('index.title')}) }}-->
+<!--        </span>-->
   </div>
 </template>
 
@@ -39,6 +48,10 @@ export default {
   props: {
     valuesOfLang: {
       type: Object,
+      required: true,
+    },
+    hasError: {
+      type:Boolean,
       required: true,
     },
     title: {
@@ -55,7 +68,6 @@ export default {
     return {
       languages: ['ar', 'en'], // Add your desired languages here
       currentTab: 0,
-      hasError: false,
     };
   },
   methods: {

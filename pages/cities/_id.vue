@@ -7,17 +7,19 @@
     route-name="cities"
     :name="$t('country.country')"
     gate="brand"
-    :validation-keys="['name']"
+    :validation-keys="['name.ar']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
 
-      <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
-      
+{{hasError}}
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
+
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('title.sc')}}</span>
+          <span class="mr-15">{{ $t('title.sc') }}</span>
           <dropdown
             v-if="allCountries"
             :default-null="true"
@@ -61,7 +63,7 @@ export default {
       result: {
         id: '',
         // name: '',
-        name:{'ar':'','en':''},
+        name: {'ar': '', 'en': ''},
         country_id: '',
         status: 1,
         image: ''
@@ -81,6 +83,7 @@ export default {
   methods: {
 
     updateInput(input, language, value) {
+
       this.$set(input, language, value);
     },
     resultData(evt) {
