@@ -32,14 +32,7 @@
         </span>
       </div>
     </div>
-<!--    <span-->
-<!--      class="error"-->
 
-<!--    >-->
-<!--      {{hasError}}-->
-<!--      {{result.name.ar}}-->
-<!--          {{ $t('category.req', { type: $t('index.title')}) }}-->
-<!--        </span>-->
   </div>
 </template>
 

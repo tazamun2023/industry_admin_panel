@@ -7,7 +7,7 @@
     route-name="cities"
     :name="$t('country.country')"
     gate="brand"
-    :validation-keys="['name.ar']"
+    :validation-keys="['name.ar','name.en','country_id']"
     :result="result"
     @result="resultData"
   >
@@ -27,7 +27,14 @@
             :options="allCountries"
             @clicked="countrySelected"
           />
+
         </div>
+        <span
+          class="error"
+          v-if="!!!result.country_id && hasError"
+        >
+          {{ $t('category.req', { type: $t('country.country_id')}) }}
+        </span>
       </div>
 
       <div class="input-wrapper">
