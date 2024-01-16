@@ -12,23 +12,8 @@
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <div class="input-wrapper">
+      <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
 
-        <label>{{ $t('color.color') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('color.name')"
-          v-model="result.name"
-          ref="name"
-          :class="{invalid: !!!result.name && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.name && hasError"
-        >
-          {{ $t('color.name', { type: $t('index.title')}) }}
-        </span>
-      </div>
       <div class="input-wrapper">
 
         <label>{{ $t('color.code') }}</label>
@@ -58,21 +43,16 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "colors",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
         result: {
           id: '',
-          title: '',
+          name:{'ar':'','en':''},
           status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
           meta_description: '',
-          in_footer: 2,
           meta_title: '',
-          image: ''
         }
       }
     },
@@ -86,27 +66,16 @@
       ...mapGetters('common', ['allCategories'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
           this.emptyAllList('allCategories')
         }
         this.result = evt
       },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
-      },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
+
       ...mapActions('common', ['getAllList', 'emptyAllList'])
     },
     async mounted() {

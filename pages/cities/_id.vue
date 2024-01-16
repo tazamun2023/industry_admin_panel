@@ -14,7 +14,7 @@
     <template v-slot:form="{hasError}">
 
       <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
-      
+
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{$t('title.sc')}}</span>
@@ -110,7 +110,7 @@ export default {
   async mounted() {
     if (!this.allCountries) {
       try {
-        await this.getAllList({api: 'getAllCity', mutation: 'SET_ALL_COUNTRIES'})
+        await this.getAllList({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
       } catch (e) {
         return this.$nuxt.error(e)
       }
