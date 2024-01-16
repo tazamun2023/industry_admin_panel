@@ -82,6 +82,9 @@
 
     "getAllRfqs": "rfq/all-brands",
     "getRfqs": "rfq/all",
+    "getRfqsAll": "rfq/all/all",
+    "getRfqsRelevent": "rfq/all/relevent",
+    "getRfqsMYList": "rfq/all/list",
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
