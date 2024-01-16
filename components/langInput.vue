@@ -18,6 +18,7 @@
           :value="valuesOfLang[language]"
           @input="updateInputValue(language, $event.target.value)"
           :class="{ invalid: !!!valuesOfLang[language] && hasError }"
+
         >
 
 
@@ -27,15 +28,13 @@
           @change="valuesOfLang[language]= $event"
           @input="updateInputValue(language, $event.target.value)"
         />
-
-        <span
-          class="error"
-          v-if="!!!valuesOfLang[language] && hasError">
-          {{ $t('category.req', {type: $t('index.title')}) }}
+        <span class="error" v-if="!!!valuesOfLang[language] && hasError">
+          {{ $t('category.req', {type: title}) }}
         </span>
 
       </div>
     </div>
+
   </div>
 </template>
 
@@ -44,6 +43,10 @@ export default {
   props: {
     valuesOfLang: {
       type: Object,
+      required: true,
+    },
+    hasError: {
+      type:Boolean,
       required: true,
     },
     title: {
@@ -60,7 +63,6 @@ export default {
     return {
       languages: ['ar', 'en'], // Add your desired languages here
       currentTab: 0,
-      hasError: false,
     };
   },
   methods: {
