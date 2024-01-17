@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategoriesTree'])
+    ...mapGetters('common', ['allCategoriesTree','allCountries'])
   },
   methods: {
     resultData(evt) {
@@ -72,7 +72,7 @@ export default {
     filterData() {
       this.$emit('filter',this.result);
     },
-    ...mapActions('common', ['getCategoriesTree', 'emptyAllList'])
+    ...mapActions('common', ['getCategoriesTree','getAllCountries', 'emptyAllList'])
   },
   async mounted() {
 
@@ -109,12 +109,22 @@ export default {
     {
       this.result.category_id=parseInt(this.$route?.query.category_id)
     }
+    if(this.$route?.query.country_id)
+    {
+      this.result.country_id=parseInt(this.$route?.query.country_id)
+    }
   if(this.$route?.query.multi_products)
   {
     this.result.multi_products=this.$route?.query.multi_products
   }
 
-
+    if (this.allCountries.length == 0) {
+      try {
+        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
     if (this.allCategoriesTree.length==0) {
       try {
         await this.getCategoriesTree()
@@ -201,16 +211,16 @@ export default {
           </div>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
-          <div class="mb-4 for-lang">
             <label for=""> {{ $t("rfq.Location") }} </label>
-            <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              v-model="result.country_id">
-              <option value="">{{ ("app.Select on Option") }}</option>
-              <option value="10">Bangladesh</option>
-              <option value="1">Yemen</option>
-            </select>
-          </div>
+            <v-select
+              :dir="$t('app.dir')"
+              v-model="result.country_id"
+              :options="allCountries"
+              label="name"
+              :reduce="c => c.id"
+              :placeholder="$t('title.select_country')"
+              class="custom-select"
+            ></v-select>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
