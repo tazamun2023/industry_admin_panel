@@ -17,10 +17,10 @@ export default {
         id: '',
         title: '',
         status: 2,
-        featured: 2,
+        country_id: "",
         parent: '',
-        slug: '',
-
+        from_date: '',
+        to_date: '',
         parentCaregory: '',
         subCaregory: '',
         category_id: '',
@@ -119,7 +119,7 @@ export default {
 
           <!-- Second Select - Select Sub Category -->
           <div class="md:w-1/5 pr-4 pl-4">
-            <div class="mb-4 for-lang">
+
               <label for="">{{ $t("rfq.Select Sub Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
@@ -131,12 +131,12 @@ export default {
                 :placeholder="$t('rfq.Select Sub Category')"
                 @input="updateLevel3"
               ></v-select>
-            </div>
+
           </div>
 
           <!-- Third Select - Select Child Category -->
           <div class="md:w-1/5 pr-4 pl-4">
-            <div class="mb-4 for-lang">
+
               <label for="">{{ $t("rfq.Select Child Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
@@ -147,17 +147,17 @@ export default {
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"
               ></v-select>
-            </div>
+
           </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4 for-lang">
             <label for=""> {{ $t("rfq.RFQ Type") }} </label>
             <select
               class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              name="" id="">
+             v-model="result.multi_products">
               <option value="">Select on Option</option>
-              <option value="">Single product</option>
-              <option value="">Multi-product</option>
+              <option value="single">Single product</option>
+              <option value="multi">Multi-product</option>
             </select>
           </div>
         </div>
