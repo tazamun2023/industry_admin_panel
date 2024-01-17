@@ -3,8 +3,8 @@ import Service from '@/services/service.js'
 const state = () => ({
   allCategories: null,
   allCategoriesTree: [],
-  allCountries: null,
-  allCitiesById: null,
+  allCountries: [],
+  allCitiesById: [],
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -114,19 +114,15 @@ const mutations = {
     })
   },
 
-  SET_ALL_CATEGORIES_Tree(state, allCountries) {
-    state.allCategoriesTree = {}
-     state.allCategoriesTree  = allCountries;
+  SET_ALL_CATEGORIES_Tree(state, allCategories) {
+     state.allCategoriesTree  = allCategories;
 
-    // allCountries.forEach((item) => {
-    //   state.allCategoriesTree = item
-    // })
   },
   SET_ALL_COUNTRIES(state, allCountries) {
-    state.allCountries = {}
-    allCountries.forEach((item) => {
-      state.allCountries = {...state.allCountries, ...{[item.id]: {name: item.name}}}
-    })
+    state.allCountries = allCountries
+    // allCountries.forEach((item) => {
+    //   state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
+    // })
   },
   SET_ALL_TRANSPORTATIONMODES(state, allTransportationModes) {
     state.allTransportationModes = {}
@@ -137,10 +133,10 @@ const mutations = {
   },
 
   SET_ALL_Cities(state, allCitiesById) {
-    state.allCitiesById = {}
-    allCitiesById.forEach((item) => {
+    state.allCitiesById = allCitiesById
+    /*allCitiesById.forEach((item) => {
       state.allCitiesById = {...state.allCitiesById, ...{[item.id]: {title: item.name}}}
-    })
+    })*/
   },
 
 
