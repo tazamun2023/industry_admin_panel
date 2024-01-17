@@ -30,8 +30,10 @@ export default {
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/assets/css/tailwind.css',
-    '~/assets/styles/styles.styl'
+    'vue-select/dist/vue-select.css',
+
+    '~/assets/styles/styles.styl',
+    '~/assets/css/tailwind.css'
   ],
   env: {
     apiBase: process.env.API_BASE,
@@ -39,7 +41,7 @@ export default {
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-
+    { src: '~/plugins/vue-select.js', ssr: false },
     { src: '@/plugins/i18n.js' },
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
     { src: '@/plugins/ability.js' },

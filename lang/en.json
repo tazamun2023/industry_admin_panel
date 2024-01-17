@@ -1,5 +1,6 @@
 {
   "app": {
+    "dir":"ltr",
     "All": "All",
     "My List": "My List",
     "from": "From",

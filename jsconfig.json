@@ -39,6 +39,7 @@
     "setProfile": "update",
     "setPassword": "update-password",
 
+    "getCategoriesTree": "category/select",
     "getAllCategories": "category/all-categories",
     "getCategories": "category/all",
     "deleteCategory": "category/delete",
@@ -154,6 +155,7 @@
 
 
     "setProductImageAttributes": "product-image-attributes/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",

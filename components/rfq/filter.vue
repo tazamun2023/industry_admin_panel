@@ -1,9 +1,90 @@
 <script>
-import {defineComponent} from 'vue'
 
-export default defineComponent({
-  name: "rfq-filter"
-})
+import DataPage from "~/components/partials/DataPage";
+import util from "~/mixin/util"
+import Dropdown from '~/components/Dropdown'
+import {mapGetters, mapActions} from 'vuex'
+
+export default {
+  name: "rfq-filter",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      selectedLevel1: null,
+      selectedLevel2: null,
+      selectedLevel3: null,
+      result: {
+        id: '',
+        title: '',
+        status: 2,
+        featured: 2,
+        parent: '',
+        slug: '',
+
+        parentCaregory: '',
+        subCaregory: '',
+        category_id: '',
+        meta_description: '',
+        in_footer: 2,
+        meta_title: '',
+        image: ''
+      }
+    }
+  },
+  mixins: [util],
+  components: {
+    DataPage,
+    Dropdown
+  },
+  computed: {
+    ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('common', ['allCategoriesTree'])
+  },
+  methods: {
+    resultData(evt) {
+      if (this.$route?.params?.id === 'add') {
+        this.emptyAllList('allCategories')
+      }
+      this.result = evt
+    },
+    inFooterSelected(data) {
+      this.result.in_footer = data.key
+    },
+    featuredSelected(data) {
+      this.result.featured = data.key
+    },
+    categorySelected(data) {
+      this.result.parent = data.key
+    },
+    titleChanged() {
+      this.result.slug = this.convertToSlug(this.result.title)
+    },
+    dropdownSelected(data) {
+      this.result.status = data.key
+    },
+    updateLevel2() {
+      this.result.subCaregory = "";  // Reset Level 2 selection
+      this.result.category_id = "";  // Reset Level 2 selection
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCaregory));
+      this.selectedLevel2 = null;  // Reset Level 2 selection
+    },
+    updateLevel3() {
+      this.result.category_id = "";
+     this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCaregory));
+
+    },
+    ...mapActions('common', ['getCategoriesTree', 'emptyAllList'])
+  },
+  async mounted() {
+    if (this.allCategoriesTree.length==0) {
+      try {
+        await this.getCategoriesTree()
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -16,47 +97,63 @@ export default defineComponent({
             <input type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
           </div>
         </div>
-        <div class="md:w-1/5 pr-4 pl-4">
-          <div class="mb-4 for-lang ">
-            <label for="">{{ $t("rfq.Search by Category") }}</label>
-            <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              name="" id="">
-              <option value="">Search by Category</option>
-              <option value="">category 1</option>
-              <option value="">category 1</option>
-            </select>
+        {{ result }}
+
+
+          <!-- First Select - Search by Category -->
+          <div class="md:w-1/5 pr-4 pl-4">
+
+              <label for="">{{ $t("rfq.Search by Category") }}</label>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.parentCaregory"
+                :options="allCategoriesTree"
+                label="title"
+                :reduce="cat => cat.id"
+                :placeholder="$t('rfq.Search by Category')"
+                @input="updateLevel2"
+                class="custom-select"
+              ></v-select>
+
           </div>
-        </div>
-        <div class="md:w-1/5 pr-4 pl-4">
-          <div class="mb-4 for-lang">
-            <label for=""> {{ $t("rfq.Select Sub Category") }}</label>
-            <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              name="" id="">
-              <option value="">Select Sub Category</option>
-              <option value="">category 1</option>
-              <option value="">category 1</option>
-            </select>
+
+          <!-- Second Select - Select Sub Category -->
+          <div class="md:w-1/5 pr-4 pl-4">
+            <div class="mb-4 for-lang">
+              <label for="">{{ $t("rfq.Select Sub Category") }}</label>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.subCaregory"
+                :options="selectedLevel1?.child"
+                label="title"
+                :reduce="cat => cat.id"
+                class="custom-select"
+                :placeholder="$t('rfq.Select Sub Category')"
+                @input="updateLevel3"
+              ></v-select>
+            </div>
           </div>
-        </div>
-        <div class="md:w-1/5 pr-4 pl-4">
-          <div class="mb-4 for-lang">
-            <label for="">{{ $t("rfq.Select Child Category") }} </label>
-            <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              name="" id="">
-              <option value="">Select Child Category</option>
-              <option value="">category 1</option>
-              <option value="">category 1</option>
-            </select>
+
+          <!-- Third Select - Select Child Category -->
+          <div class="md:w-1/5 pr-4 pl-4">
+            <div class="mb-4 for-lang">
+              <label for="">{{ $t("rfq.Select Child Category") }}</label>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.category_id"
+                :options="selectedLevel2?.child"
+                :reduce="cat => cat.id"
+                label="title"
+                class="custom-select"
+                :placeholder="$t('rfq.Select Child Category')"
+              ></v-select>
+            </div>
           </div>
-        </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4 for-lang">
             <label for=""> {{ $t("rfq.RFQ Type") }} </label>
             <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
               name="" id="">
               <option value="">Select on Option</option>
               <option value="">Single product</option>
@@ -68,7 +165,7 @@ export default defineComponent({
           <div class="mb-4 for-lang">
             <label for=""> {{ $t("rfq.Location") }} </label>
             <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
               name="" id="">
               <option value="">Select on Option</option>
               <option value="">Bangladesh</option>

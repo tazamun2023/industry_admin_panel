@@ -2,6 +2,7 @@ import Service from '@/services/service.js'
 
 const state = () => ({
   allCategories: null,
+  allCategoriesTree: [],
   allCountries: null,
   allTaxRules: null,
   allAttributes: null,
@@ -21,6 +22,7 @@ const getters = {
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
   allCategories: ({allCategories}) => allCategories,
+  allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
   allCountries: ({allCountries}) => allCountries,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
@@ -44,7 +46,7 @@ const mutations = {
     state.allPages = {}
     allPages.forEach((item) => {
       //if(item?.title?.trim()){
-        state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
+      state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
       // }
 
     })
@@ -56,6 +58,15 @@ const mutations = {
     })
   },
 
+
+  SET_ALL_CATEGORIES_Tree(state, allCountries) {
+    state.allCategoriesTree = {}
+     state.allCategoriesTree  = allCountries;
+
+    // allCountries.forEach((item) => {
+    //   state.allCategoriesTree = item
+    // })
+  },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = {}
     allCountries.forEach((item) => {
@@ -86,7 +97,7 @@ const mutations = {
 
     let val = []
 
-    allAttributes.forEach(i=>{
+    allAttributes.forEach(i => {
 
       val = [...val, ...i.values]
 
@@ -117,7 +128,7 @@ const actions = {
     commit('SET_ALL_SUBSCRIPTION_EMAIL_FORMATS', allSubscriptionEmailFormats)
   },
   emptyAllList({commit}, storeAllVariable) {
-    if(storeAllVariable){
+    if (storeAllVariable) {
       commit('EMPTY_ALL_LIST', storeAllVariable)
     }
   },
@@ -141,7 +152,7 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-  async getDropdownList({ rootState, commit}) {
+  async getDropdownList({rootState, commit}) {
     const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getDropdownList', rootState.language.langCode)
     if (data.status === 200) {
       const result = data.data
@@ -153,6 +164,17 @@ const actions = {
       commit('SET_ALL_ATTRIBUTES', result.attributes)
       commit('SET_ALL_BRANDS', result.brands)
       commit('SET_ALL_TAX_RULES', result.tax_rules)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+  async getCategoriesTree({rootState, commit}) {
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getCategoriesTree', rootState.language.langCode)
+    if (data.status === 200) {
+      const result = data.data
+      commit('SET_ALL_CATEGORIES_Tree', result)
+      // state.allCategoriesTree=re
+
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
@@ -177,7 +199,7 @@ const actions = {
       const responseJson = (typeof responseData === "string") ? JSON.parse(responseData) : responseData;
 
 
-      if(responseJson?.status === 201) {
+      if (responseJson?.status === 201) {
 
         return Promise.reject({statusCode: responseJson?.status, message: responseJson?.message})
 
@@ -204,7 +226,7 @@ const actions = {
   async deleteParam({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteParam(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
@@ -215,7 +237,7 @@ const actions = {
   async deleteData({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteData(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})

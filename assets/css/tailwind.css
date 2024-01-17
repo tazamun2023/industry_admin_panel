@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+:root {
+  /*--vs-dropdown-option--active-bg: "#01a781"*/
+}
