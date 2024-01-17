@@ -1,4 +1,49 @@
 {
+  "app": {
+    "dir":"rtl",
+    "All": "All",
+    "My List": "My List",
+    "from": "From",
+    "Relevant to me": "Relevant to me",
+    "to": "To",
+    "currency_local": "ar-US",
+    "Clear Filter": "Clear Filter",
+    "Apply Filters": "Apply Filters"
+  },
+  "rfq": {
+    "RFQ ID": "معرف طلب السعر",
+    "Created on": "تم الإنشاء في",
+    "Expires on": "تنتهي في",
+    "Shipping country": "بلد الشحن",
+    "Shipping city": "مدينة الشحن",
+    "Shipping terms": "شروط الشحن",
+
+    "Received quotes": "استلمت عروض",
+    "Submit Quotes": "تقديم العروض",
+    "d": "يوم",
+    "View all products": "عرض جميع المنتجات",
+    "Search by RFQ ID or Product": "البحث حسب معرف طلب السعر أو المنتج",
+    "Search by Category": "البحث حسب الفئة",
+    "Select Sub Category": "اختيار الفئة الفرعية",
+    "Select Child Category": "اختيار الفئة الفرعية الفرعية",
+    "RFQ Type": "نوع طلب السعر",
+    "RFQ_Market": "سوق طلب السعر",
+    "Location": "الموقع",
+    "RFQ": "قائمة طلبات السعر",
+    "notification": "إشعار طلب السعر",
+    "manage_quotations": "إدارة العروض",
+    "RFQ Marketplace": "سوق طلبات السعر",
+    "RFQ Marketplace Description": "استكشف وقدم عروض في طلبات السعر من مشترين جملة موثوقين من جميع أنحاء العالم."
+  },
+  "products": {
+    "Id": "المعرف",
+    "Image": "الصورة",
+    "Products": "المنتجات",
+    "Category": "الفئة",
+    "Quantity": "الكمية",
+    "Unit Target Price": "سعر الوحدة المستهدف",
+    "Total target price": "السعر الإجمالي المستهدف"
+  },
   "index": {
     "tProduct": "إجمالي المنتجات",
     "tUsers": "إجمالي المستخدمين",

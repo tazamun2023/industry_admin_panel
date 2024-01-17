@@ -39,6 +39,7 @@
     "setProfile": "update",
     "setPassword": "update-password",
 
+    "getCategoriesTree": "category/select",
     "getAllCategories": "category/all-categories",
     "getCategories": "category/all",
     "deleteCategory": "category/delete",
@@ -66,8 +67,31 @@
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
 
+    "getAllCity": "city/all-countries",
+    "getCitys": "city/all",
+    "deleteCity": "city/delete",
+    "getCity": "city/find",
+    "setCity": "city/action",
+    "setCityImage": "city/upload",
+
+    "getAllBarcode": "barcode/all-barcode",
+    "getBarcodes": "barcode/all",
+    "deleteBarcode": "barcode/delete",
+    "getBarcode": "barcode/find",
+    "setBarcode": "barcode/action",
+
+    "getAllColor": "color/all-color",
+    "getColors": "color/all",
+    "deleteColor": "color/delete",
+    "getColor": "color/find",
+    "setColor": "color/action",
+
+
     "getAllRfqs": "rfq/all-brands",
     "getRfqs": "rfq/all",
+    "getRfqsAll": "rfq/all/all",
+    "getRfqsRelevent": "rfq/all/relevent",
+    "getRfqsMYList": "rfq/all/list",
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
@@ -137,6 +161,7 @@
 
 
     "setProductImageAttributes": "product-image-attributes/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",

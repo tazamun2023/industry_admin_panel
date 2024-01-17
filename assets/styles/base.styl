@@ -109,7 +109,7 @@ b.max-bold {
 .button,
 button,
 textarea,
-input:not([type='checkbox'], [type='radio']){
+input:not([type='checkbox'], [type='radio']):not(.vs__search):not(.vs__selected-options) {
   width: 100%;
   outline: 0;
   padding: 0 15px;
@@ -118,6 +118,8 @@ input:not([type='checkbox'], [type='radio']){
   border: 1px solid #ddd;
   border-radius: 8px;
 }
+
+
 
 .button{
   width auto

@@ -1,10 +1,12 @@
 {
   "app": {
+    "dir":"ltr",
     "All": "All",
     "My List": "My List",
     "from": "From",
     "Relevant to me": "Relevant to me",
     "to": "To",
+    "currency_local": "en-US",
     "Clear Filter": "Clear Filter",
     "Apply Filters": "Apply Filters"
   },
@@ -15,8 +17,9 @@
     "Shipping country": "Shipping country",
     "Shipping city": "Shipping city",
     "Shipping terms": "Shipping terms",
-    "Total target price": "Total target price",
+
     "Received quotes": "Received quotes",
+    "Submit Quotes": "Submit Quotes",
     "d": "dd",
     "View all products": "View all products",
     "Search by RFQ ID or Product": "Search by RFQ ID or Product",
@@ -31,6 +34,15 @@
     "manage_quotations": "Manage Quotations",
     "RFQ Marketplace": "RFQ Marketplace",
     "RFQ Marketplace Description": "Explore and bid on Requests For Quotations of verified wholesale buyers from around the world."
+  },
+  "products": {
+    "Id": "Id",
+    "Image": "Image",
+    "Products": "Products",
+    "Category": "Category",
+    "Quantity": "Quantity",
+    "Unit Target Price": "Unit Target Price",
+    "Total target price": "Total target price"
   },
   "index": {
     "tProduct": "Total products",
@@ -55,7 +67,9 @@
     "lw": "Last week",
     "lm": "Last month",
     "ly": "Last year",
-    "tSells": "Total sells"
+    "tSells": "Total sells",
+    "cityName": "City Name",
+    "barcode" : "Barcode"
   },
   "category": {
     "mDesc": "Meta description",
@@ -72,7 +86,8 @@
     "featured": "Featured",
     "catUp": "Category",
     "sor": "SORRY",
-    "cat": "category"
+    "cat": "category",
+    "countryName" : "Country Name"
   },
   "brand": {
     "buyCount": "Buy count",
@@ -514,6 +529,7 @@
     "deactMsg": "After deactivating it, you have to contact the seller in order to activate it again."
   },
   "title": {
+    "sc": "select country",
     "prod": "product",
     "site": "Site setting",
     "headLogo": "header logo",

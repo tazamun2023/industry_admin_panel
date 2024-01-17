@@ -1,52 +1,40 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setCategory"
-    get-api="getCategory"
-    set-image-api="setCategoryImage"
-    route-name="categories"
+    set-api="setCity"
+    get-api="getCity"
+    set-image-api="setCityImage"
+    route-name="cities"
     :name="$t('country.country')"
-    gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    gate="brand"
+    :validation-keys="['name.ar','name.en','country_id']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      {{ result.title }}
 
-      <lang-input :title="$t('city.name')" :valuesOfLang="result.title" @updateInput="updateInput"></lang-input>
-   
-      {{ result.desc }}
-      <lang-input type="textarea" :title="$t('city.desc')" :valuesOfLang="result.desc" @updateInput="updateInput"></lang-input>
-      <!--      <div class="input-wrapper">-->
-
-      <!--        <label>{{ $t('country.name') }}</label>-->
-      <!--        <input-->
-      <!--          type="text"-->
-      <!--          :placeholder="$t('country.name')"-->
-      <!--          v-model="result.name"-->
-      <!--          ref="name"-->
-      <!--          :class="{invalid: !!!result.name && hasError}"-->
-      <!--        >-->
-      <!--        <span-->
-      <!--          class="error"-->
-      <!--          v-if="!!!result.title && hasError"-->
-      <!--        >-->
-      <!--          {{ $t('category.req', {type: $t('index.title')}) }}-->
-      <!--        </span>-->
-      <!--      </div>-->
+{{hasError}}
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{ $t('country.country') }}</span>
-          <select
-            class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            name="" id="">
-            <option selected>Choose a country</option>
-            <option value="18">Bangladesh</option>
-          </select>
+          <span class="mr-15">{{ $t('title.sc') }}</span>
+          <dropdown
+            v-if="allCountries"
+            :default-null="true"
+            :selectedKey="`${result.country_id}`"
+            :options="allCountries"
+            @clicked="countrySelected"
+          />
 
         </div>
+        <span
+          class="error"
+          v-if="!!!result.country_id && hasError"
+        >
+          {{ $t('category.req', { type: $t('country.country_id')}) }}
+        </span>
       </div>
 
       <div class="input-wrapper">
@@ -75,21 +63,16 @@ import {mapGetters, mapActions} from 'vuex'
 import LangInput from "../../components/langInput.vue";
 
 export default {
-  name: "categories",
+  name: "Cities",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       result: {
         id: '',
-        title: {ar: '', en: ''},
-        desc: {ar: '', en: ''},
-        status: 2,
-        featured: 2,
-        parent: '',
-        slug: '',
-        meta_description: '',
-        in_footer: 2,
-        meta_title: '',
+        // name: '',
+        name: {'ar': '', 'en': ''},
+        country_id: '',
+        status: 1,
         image: ''
       }
     }
@@ -102,11 +85,12 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategories'])
+    ...mapGetters('common', ['allCountries'])
   },
   methods: {
 
     updateInput(input, language, value) {
+
       this.$set(input, language, value);
     },
     resultData(evt) {
@@ -122,8 +106,8 @@ export default {
     featuredSelected(data) {
       this.result.featured = data.key
     },
-    categorySelected(data) {
-      this.result.parent = data.key
+    countrySelected(data) {
+      this.result.country_id = data.key
     },
     titleChanged() {
       this.result.slug = this.convertToSlug(this.result.title)
@@ -134,9 +118,9 @@ export default {
     ...mapActions('common', ['getAllList', 'emptyAllList'])
   },
   async mounted() {
-    if (!this.allCategories) {
+    if (!this.allCountries) {
       try {
-        await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+        await this.getAllList({api: 'getAllCity', mutation: 'SET_ALL_COUNTRIES'})
       } catch (e) {
         return this.$nuxt.error(e)
       }

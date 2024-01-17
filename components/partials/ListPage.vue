@@ -35,7 +35,7 @@
       name="fade" mode="out-in"
     >
       <div v-if="!loading">
-        <h5 class="mt-20 mt-sm-15">{{ resultText }}</h5>
+
 
         <div class="card">
         <div class="table-wrapper">
@@ -48,9 +48,13 @@
         </div>
         </div>
 
-        <pagination
-          :total-page="totalPage"
-        />
+        <div class="flex justify-between">
+          <h5 class="mt-20 mt-sm-15">{{ resultText }}</h5>
+          <pagination
+            :total-page="totalPage"
+          />
+      </div>
+
       </div>
       <shimmer
         v-else

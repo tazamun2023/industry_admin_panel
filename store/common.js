@@ -2,6 +2,8 @@ import Service from '@/services/service.js'
 
 const state = () => ({
   allCategories: null,
+  allCategoriesTree: [],
+  allCountries: null,
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -18,7 +20,7 @@ const state = () => ({
   allPackagingUnits: null,
   allDimensionUnits: null,
   allWeightUnits: null,
-  allCountries: null,
+  // allCountries: null,
   allStorageTemperatures: null,
   allTransportationModes: null,
 })
@@ -29,6 +31,8 @@ const getters = {
   allBrands: ({allBrands}) => allBrands,
   allCategories: ({allCategories}) => allCategories,
   allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
+  allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
+  allCountries: ({allCountries}) => allCountries,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
   allShippingRules: ({allShippingRules}) => allShippingRules,
@@ -41,7 +45,7 @@ const getters = {
   allPackagingUnits: ({allPackagingUnits}) => allPackagingUnits,
   allDimensionUnits: ({allDimensionUnits}) => allDimensionUnits,
   allWeightUnits: ({allWeightUnits}) => allWeightUnits,
-  allCountries: ({allCountries}) => allCountries,
+  // allCountries: ({allCountries}) => allCountries,
   allTransportationModes: ({allTransportationModes}) => allTransportationModes,
 }
 const mutations = {
@@ -58,7 +62,7 @@ const mutations = {
     state.allPages = {}
     allPages.forEach((item) => {
       //if(item?.title?.trim()){
-        state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
+      state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
       // }
 
     })
@@ -107,6 +111,15 @@ const mutations = {
       state.allWeightUnits = {...state.allWeightUnits, ...{[item.id]: {title: item.title}}}
     })
   },
+
+  SET_ALL_CATEGORIES_Tree(state, allCountries) {
+    state.allCategoriesTree = {}
+     state.allCategoriesTree  = allCountries;
+
+    // allCountries.forEach((item) => {
+    //   state.allCategoriesTree = item
+    // })
+  },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = {}
     allCountries.forEach((item) => {
@@ -117,6 +130,7 @@ const mutations = {
     state.allTransportationModes = {}
     allTransportationModes.forEach((item) => {
       state.allTransportationModes = {...state.allTransportationModes, ...{[item.id]: {name: item.title}}}
+      state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
     })
   },
 
@@ -143,7 +157,7 @@ const mutations = {
 
     let val = []
 
-    allAttributes.forEach(i=>{
+    allAttributes.forEach(i => {
 
       val = [...val, ...i.values]
 
@@ -174,7 +188,7 @@ const actions = {
     commit('SET_ALL_SUBSCRIPTION_EMAIL_FORMATS', allSubscriptionEmailFormats)
   },
   emptyAllList({commit}, storeAllVariable) {
-    if(storeAllVariable){
+    if (storeAllVariable) {
       commit('EMPTY_ALL_LIST', storeAllVariable)
     }
   },
@@ -198,7 +212,7 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-  async getDropdownList({ rootState, commit}) {
+  async getDropdownList({rootState, commit}) {
     const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getDropdownList', rootState.language.langCode)
     if (data.status === 200) {
       const result = data.data
@@ -212,12 +226,24 @@ const actions = {
       commit('SET_ALL_PACKAGING_WEIGHT_UNITS', result.carton_dimensions_weight_units)
       commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_TRANSPORTATIONMODES', result.transportation_modes)
+      // commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_SHIPPING_RULES', result.shipping_rules)
       commit('SET_ALL_PRODUCT_COLLECTIONS', result.product_collections)
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)
       commit('SET_ALL_ATTRIBUTES', result.attributes)
       commit('SET_ALL_BRANDS', result.brands)
       commit('SET_ALL_TAX_RULES', result.tax_rules)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+  async getCategoriesTree({rootState, commit}) {
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getCategoriesTree', rootState.language.langCode)
+    if (data.status === 200) {
+      const result = data.data
+      commit('SET_ALL_CATEGORIES_Tree', result)
+      // state.allCategoriesTree=re
+
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
@@ -242,7 +268,7 @@ const actions = {
       const responseJson = (typeof responseData === "string") ? JSON.parse(responseData) : responseData;
 
 
-      if(responseJson?.status === 201) {
+      if (responseJson?.status === 201) {
 
         return Promise.reject({statusCode: responseJson?.status, message: responseJson?.message})
 
@@ -269,7 +295,7 @@ const actions = {
   async deleteParam({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteParam(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
@@ -280,7 +306,7 @@ const actions = {
   async deleteData({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteData(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
