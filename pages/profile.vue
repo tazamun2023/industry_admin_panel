@@ -34,7 +34,7 @@
               type="text"
               :placeholder="$t('user.name')"
               name="name"
-              v-model="adminData.name"
+              v-model="adminData.title"
             >
           </div>
 

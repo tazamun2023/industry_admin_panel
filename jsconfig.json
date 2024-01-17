@@ -44,13 +44,19 @@
     "getCategories": "category/all",
     "deleteCategory": "category/delete",
     "getCategory": "category/find",
+    "getCategoryBySlug": "category/findSlug",
     "setCategory": "category/action",
     "setCategoryImage": "category/upload",
+
+    "getAllColors": "color/all-colors",
+    "getColors": "color/all",
+
 
     "getAllSubCategories": "subcategory/all-subcategories",
     "getSubCategories": "subcategory/all",
     "deleteSubCategory": "subcategory/delete",
     "getSubCategory": "subcategory/find",
+    "findAllSubCategories": "subcategory/findAllSubCategories",
     "setSubCategory": "subcategory/action",
     "setSubCategoryImage": "subcategory/upload",
 

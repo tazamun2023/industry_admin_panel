@@ -190,7 +190,7 @@ export default {
     },
     slugChange(evt, title = 'title'){
       if(this.currentLanguage.code === 'en') {
-        this.result.slug = this.convertToSlug(this.result[title])
+        this.result.slug = this.convertToSlug(this.result[title.en])
       }
     },
     priceFormatting(price) {

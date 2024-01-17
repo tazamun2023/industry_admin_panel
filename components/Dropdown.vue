@@ -45,6 +45,11 @@
           >
             {{ data[keyName] }}
           </li>
+
+          <!--          <select class="form-control w-full rounded border border-smooth p-3" name="" id="">-->
+          <!--            <option value="">Apple</option>-->
+          <!--            <option value="">Samsung</option>-->
+          <!--          </select>-->
         </ul>
       </div>
     </div>
