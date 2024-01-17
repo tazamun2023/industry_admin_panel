@@ -29,7 +29,7 @@
         </td>
 
         <td>{{ value.name }}</td>
-        <td>{{ value.code }}</td>
+        <td :style="{'background-color': value.name }"></td>
 
         <td>{{ value.created }}</td>
         <td>

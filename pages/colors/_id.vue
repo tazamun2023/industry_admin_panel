@@ -19,7 +19,7 @@
 
         <label>{{ $t('color.code') }}</label>
         <input
-          type="text"
+          type="color"
           :placeholder="$t('color.code')"
           v-model="result.code"
           ref="name"
