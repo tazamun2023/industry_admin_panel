@@ -3,11 +3,12 @@
     ref="dataPage"
     set-api="setPort"
     get-api="getPort"
+    empty-store-variable="allCitiesById"
     set-image-api="setCategoryImage"
     route-name="ports"
     :name="$t('port.port')"
     gate="brand"
-    :validation-keys="['name.ar','name.en', 'type', 'country_id', 'city_id', 'lat', 'lang']"
+    :validation-keys="['name.ar','name.en', 'type', 'country_id', 'city_id']"
     :result="result"
     @result="resultData"
   >
@@ -16,15 +17,24 @@
                   @updateInput="updateInput"></lang-input>
 
      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
+<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
           <span class="mr-15">{{ $t('title.select_type') }}</span>
-          <select class="rounded border mb-10 border-smooth p-3" v-model="result.type">
-            <option :value="'sea'">Sea</option>
-            <option :value="'air'">Air</option>
-            <option :value="'land'">By Road</option>
-          </select>
+<!--          <select class="rounded border mb-10 border-smooth p-3" v-model="result.type">-->
+<!--            <option :value="'sea'">Sea</option>-->
+<!--            <option :value="'air'">Air</option>-->
+<!--            <option :value="'land'">By Road</option>-->
+<!--          </select>-->
 
-        </div>
+
+
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.type"
+            :options="['sea','air','land']"
+            :placeholder="$t('title.select_type')"
+            class="custom-select"
+          ></v-select>
+<!--        </div>-->
         <span
           class="error"
           v-if="!!!result.type && hasError"
@@ -34,13 +44,24 @@
       </div>
 
       <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
+<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
           <span class="mr-15">{{ $t('title.select_country') }}</span>
-          <select class="rounded border mb-10 border-smooth p-3" v-model="result.country_id" @change="countrySelected">
-            <option v-for="(item, index) in allCountries" :value="index" >{{ item.title }}</option>
-          </select>
+<!--          <select class="rounded border mb-10 border-smooth p-3" v-model="result.country_id" @change="countrySelected">-->
+<!--            <option v-for="(item, index) in allCountries" :value="index" >{{ item.name }}</option>-->
+<!--          </select>-->
 
-        </div>
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.country_id"
+            :options="allCountries"
+            label="name"
+            :reduce="c => c.id"
+            @input="countrySelected"
+            :placeholder="$t('title.select_country')"
+            class="custom-select"
+          ></v-select>
+
+<!--        </div>-->
         <span
           class="error"
           v-if="!!!result.country_id && hasError"
@@ -50,14 +71,16 @@
       </div>
 
       <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">{{ $t('title.select_city') }}</span>
-          <select class="rounded border mb-10 border-smooth p-3" v-model="result.city_id, city">
-            <option :value="Select" >Select City</option>
-            <option v-for="(item, index) in allCitiesById" :value="index" >{{ item.title }}</option>
-          </select>
-
-        </div>
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.city_id"
+            :options="allCitiesById"
+            label="name"
+            :reduce="c => c.id"
+            :placeholder="$t('title.select_city')"
+            class="custom-select"
+          ></v-select>
         <span
           class="error"
           v-if="!!!result.city_id && hasError"
@@ -65,6 +88,8 @@
           {{ $t('category.req', { type: $t('country.city_id')}) }}
         </span>
       </div>
+
+
 
 
 
@@ -76,14 +101,7 @@
           :placeholder="$t('port.lat')"
           v-model="result.lat"
           ref="lat"
-          :class="{invalid: !!!result.lat && hasError}"
         >
-        <span
-          class="error"
-          v-if="!!!result.name && hasError"
-        >
-          {{ $t('port.lat', { type: $t('port.lat')}) }}
-        </span>
       </div>
 
       <div class="input-wrapper">
@@ -94,14 +112,7 @@
           :placeholder="$t('port.lang')"
           v-model="result.lang"
           ref="lang"
-          :class="{invalid: !!!result.lang && hasError}"
         >
-        <span
-          class="error"
-          v-if="!!!result.lang && hasError"
-        >
-          {{ $t('port.lang', { type: $t('port.lang')}) }}
-        </span>
       </div>
 
 
@@ -115,6 +126,7 @@
   import util from "~/mixin/util"
   import Dropdown from '~/components/Dropdown'
   import {mapGetters, mapActions } from 'vuex'
+  import ListPage from "@/components/partials/ListPage.vue";
 
   export default {
     name: "colors",
@@ -136,6 +148,7 @@
     },
     mixins: [util],
     components: {
+      ListPage,
       DataPage,
       Dropdown
     },
@@ -169,9 +182,13 @@
     },
 
     async mounted() {
-      if (!this.allCountries) {
+      if (this.allCountries.length == 0) {
         try {
-          await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+          await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(()=>{
+            this.result.country_id=187
+            this.countrySelected()
+
+          })
         } catch (e) {
           return this.$nuxt.error(e)
         }

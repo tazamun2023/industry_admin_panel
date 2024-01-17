@@ -29,9 +29,9 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>001</td>
-       <td>001</td>
-        <td>KG</td>
+        <td>{{ value.name }}</td>
+       <td>{{ value.code }}</td>
+        <td>{{ value.unit_type }}</td>
         <td
           class="status"
           :class="{active: value.status == 1 }"
