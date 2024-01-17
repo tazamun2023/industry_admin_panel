@@ -16,6 +16,7 @@ export default {
       result: {
         country_id: "",
         parent: '',
+        search: '',
         from_date: '',
         to_date: '',
         parentCategory: '',
@@ -76,7 +77,10 @@ export default {
   async mounted() {
 
 
-  console.log("qq")
+  if(this.$route?.query.search)
+  {
+    this.result.search=this.$route?.query.search
+  }
   if(this.$route?.query.country_id)
   {
     this.result.country_id=this.$route?.query.country_id
@@ -129,7 +133,7 @@ export default {
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
             <label for="">{{ $t("rfq.RFQ ID") }}</label>
-            <input type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
+            <input v-model="result.search" type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
           </div>
         </div>
 <!--        {{ result }}-->
