@@ -32,8 +32,8 @@ export default {
   css: [
     'vue-select/dist/vue-select.css',
 
-    '~/assets/styles/styles.styl',
-    '~/assets/css/tailwind.css'
+    '~/assets/css/tailwind.css',
+    '~/assets/styles/styles.styl'
   ],
   env: {
     apiBase: process.env.API_BASE,
