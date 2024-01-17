@@ -18,8 +18,8 @@ export default {
         parent: '',
         from_date: '',
         to_date: '',
-        parentCaregory: '',
-        subCaregory: '',
+        parentCategory: '',
+        subCategory: '',
         category_id: '',
         multi_products: '',
       }
@@ -58,14 +58,14 @@ export default {
       this.result.status = data.key
     },
     updateLevel2() {
-      this.result.subCaregory = "";  // Reset Level 2 selection
+      this.result.subCategory = "";  // Reset Level 2 selection
       this.result.category_id = "";  // Reset Level 2 selection
-      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCaregory));
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCategory));
       this.selectedLevel2 = null;  // Reset Level 2 selection
     },
     updateLevel3() {
       this.result.category_id = "";
-     this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCaregory));
+     this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
 
     },
     filterData() {
@@ -90,14 +90,14 @@ export default {
     this.result.to_date=this.$route?.query.to_date
   }
 
-  if(this.$route?.query.parentCaregory)
+  if(this.$route?.query.parentCategory)
   {
-    this.result.parentCaregory=parseInt(this.$route?.query.parentCaregory)
+    this.result.parentCategory=parseInt(this.$route?.query.parentCategory)
     this.updateLevel2()
   }
-  if(this.$route?.query.subCaregory)
+  if(this.$route?.query.subCategory)
   {
-    this.result.subCaregory=parseInt(this.$route?.query.subCaregory)
+    this.result.subCategory=parseInt(this.$route?.query.subCategory)
     this.updateLevel3()
   }
 
@@ -141,7 +141,7 @@ export default {
               <label for="">{{ $t("rfq.Search by Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.parentCaregory"
+                v-model="result.parentCategory"
                 :options="allCategoriesTree"
                 label="title"
                 :reduce="cat => cat.id"
@@ -158,7 +158,7 @@ export default {
               <label for="">{{ $t("rfq.Select Sub Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.subCaregory"
+                v-model="result.subCategory"
                 :options="selectedLevel1?.child"
                 label="title"
                 :reduce="cat => cat.id"
