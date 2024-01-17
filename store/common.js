@@ -3,6 +3,7 @@ import Service from '@/services/service.js'
 const state = () => ({
   allCategories: null,
   allCountries: null,
+  allCitiesById: null,
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -22,6 +23,7 @@ const getters = {
   allBrands: ({allBrands}) => allBrands,
   allCategories: ({allCategories}) => allCategories,
   allCountries: ({allCountries}) => allCountries,
+  allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
   allShippingRules: ({allShippingRules}) => allShippingRules,
@@ -62,6 +64,15 @@ const mutations = {
       state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
     })
   },
+
+  SET_ALL_Cities(state, allCitiesById) {
+    state.allCitiesById = {}
+    allCitiesById.forEach((item) => {
+      state.allCitiesById = {...state.allCitiesById, ...{[item.id]: {title: item.name}}}
+    })
+  },
+
+
 
   SET_ALL_SUBSCRIPTION_EMAIL_FORMATS(state, allSubscriptionEmailFormats) {
     state.allSubscriptionEmailFormats = allSubscriptionEmailFormats
@@ -121,7 +132,8 @@ const actions = {
       commit('EMPTY_ALL_LIST', storeAllVariable)
     }
   },
-  async getAllList({rootState, commit}, {api, mutation}) {
+
+  async getAllCountries({rootState, commit}, {api, mutation}) {
     const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit(mutation, data.data)
@@ -129,6 +141,18 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+
+  async getCitiesById({rootState, commit}, {id,api, mutation }) {
+    const {data} = await Service.getById( id,{},this.$auth.strategy.token.get(), api, rootState.language.langCode)
+
+    if (data.status === 200) {
+      commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+
   async setWysiwygImage({commit, dispatch}, params) {
     dispatch('ui/setErrors', null, {root: true})
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), 'setWysiwygImage')

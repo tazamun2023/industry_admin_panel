@@ -80,11 +80,15 @@
     "setColor": "color/action",
 
     "getAllCityById" : "port/all-city",
-    "getAllPort": "port/all-port",
     "getPorts": "port/all",
     "deletePort": "port/delete",
     "getPort": "port/find",
     "setPort": "port/action",
+
+    "getUnits": "unit/all",
+    "deleteUnit": "unit/delete",
+    "getUnit": "unit/find",
+    "setUnit": "unit/action",
 
 
     "getAllTransport": "transport/all-color",

@@ -1,71 +1,72 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setCategory"
-    get-api="getCategory"
+    set-api="setPort"
+    get-api="getPort"
     set-image-api="setCategoryImage"
-    route-name="port"
+    route-name="ports"
     :name="$t('port.port')"
-    gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    gate="brand"
+    :validation-keys="['name.ar','name.en', 'type', 'country_id', 'city_id', 'lat', 'lang']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <div class="input-wrapper">
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
 
-        <label>{{ $t('port.port') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('port.name')"
-          v-model="result.name"
-          ref="name"
-          :class="{invalid: !!!result.name && hasError}"
-        >
+     <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+          <span class="mr-15">{{ $t('title.select_type') }}</span>
+          <select class="rounded border mb-10 border-smooth p-3" v-model="result.type">
+            <option :value="'sea'">Sea</option>
+            <option :value="'air'">Air</option>
+            <option :value="'land'">By Road</option>
+          </select>
+
+        </div>
         <span
           class="error"
-          v-if="!!!result.name && hasError"
+          v-if="!!!result.type && hasError"
         >
-          {{ $t('port.name', { type: $t('index.title')}) }}
+          {{ $t('category.req', { type: $t('country.country_id')}) }}
         </span>
       </div>
+
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('port.type')}}</span>
-          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  name="" id="">
-            <option selected>Choose a port type</option>
-            <option value="air">Air</option>
-            <option value="sea">Sea</option>
-            <option value="land">Land</option>
+          <span class="mr-15">{{ $t('title.select_country') }}</span>
+          <select class="rounded border mb-10 border-smooth p-3" v-model="result.country_id" @change="countrySelected">
+            <option v-for="(item, index) in allCountries" :value="index" >{{ item.title }}</option>
           </select>
 
         </div>
+        <span
+          class="error"
+          v-if="!!!result.country_id && hasError"
+        >
+          {{ $t('category.req', { type: $t('country.country_id')}) }}
+        </span>
       </div>
+
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('port.country')}}</span>
-          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  name="" id="">
-            <option selected>Choose a country</option>
-            <option value="18">Bangladesh</option>
-            <option value="187">Saudi Arabia</option>
+          <span class="mr-15">{{ $t('title.select_city') }}</span>
+          <select class="rounded border mb-10 border-smooth p-3" v-model="result.city_id, city">
+            <option :value="Select" >Select City</option>
+            <option v-for="(item, index) in allCitiesById" :value="index" >{{ item.title }}</option>
           </select>
 
         </div>
+        <span
+          class="error"
+          v-if="!!!result.city_id && hasError"
+        >
+          {{ $t('category.req', { type: $t('country.city_id')}) }}
+        </span>
       </div>
-      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('port.city')}}</span>
-          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  name="" id="">
-            <option selected>Choose a city</option>
-            <option value="18">Dhaka</option>
-            <option value="187">Chittagon</option>
-          </select>
 
-        </div>
-      </div>
+
 
       <div class="input-wrapper">
 
@@ -73,8 +74,8 @@
         <input
           type="text"
           :placeholder="$t('port.lat')"
-          v-model="result.port_code"
-          ref="name"
+          v-model="result.lat"
+          ref="lat"
           :class="{invalid: !!!result.lat && hasError}"
         >
         <span
@@ -90,9 +91,9 @@
         <label>{{ $t('port.lang') }}</label>
         <input
           type="text"
-          :placeholder="$t('port.lat')"
+          :placeholder="$t('port.lang')"
           v-model="result.lang"
-          ref="name"
+          ref="lang"
           :class="{invalid: !!!result.lang && hasError}"
         >
         <span
@@ -116,22 +117,21 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "colors",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
         result: {
           id: '',
-          title: '',
-          status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
-          meta_description: '',
-          in_footer: 2,
-          meta_title: '',
-          image: ''
-        }
+          name: {'ar': '', 'en': ''},
+          type: '',
+          country_id: '',
+          city_id: '',
+          lat: '',
+          lang: '',
+        },
+        city :'Select',
+        selected: 'sea',
       }
     },
     mixins: [util],
@@ -141,40 +141,43 @@
     },
     computed: {
       ...mapGetters('language', ['currentLanguage']),
-      ...mapGetters('common', ['allCategories'])
+      ...mapGetters('common', ['allCountries', 'allCitiesById'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
-          this.emptyAllList('allCategories')
+          this.emptyAllList(['getAllCountries', 'getCitiesById'])
         }
         this.result = evt
       },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
-      },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
-      ...mapActions('common', ['getAllList', 'emptyAllList'])
-    },
-    async mounted() {
-      if (!this.allCategories) {
+
+      countrySelected() {
+        let countryId= this.result.country_id;
         try {
-          await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+           this.getCitiesById({id: countryId,api: 'getAllCityById', mutation: 'SET_ALL_Cities' })
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+
+      },
+
+      ...mapActions('common', ['getAllCountries', 'emptyAllList', 'getCitiesById'])
+    },
+
+    async mounted() {
+      if (!this.allCountries) {
+        try {
+          await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
         } catch (e) {
           return this.$nuxt.error(e)
         }
       }
+
+
     }
   }
 </script>

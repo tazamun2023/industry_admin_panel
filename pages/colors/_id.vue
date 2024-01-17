@@ -7,12 +7,13 @@
     route-name="colors"
     :name="$t('color.color')"
     gate="brand"
-    :validation-keys="['name']"
+    :validation-keys="['code','name.ar','name.en']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <lang-input :title="$t('city.name')" :valuesOfLang="result.name" @updateInput="updateInput"></lang-input>
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
 
@@ -28,7 +29,7 @@
           class="error"
           v-if="!!!result.code && hasError"
         >
-          {{ $t('color.code', { type: $t('index.name')}) }}
+          {{ $t('category.req', { type: $t('colors.code')}) }}
         </span>
       </div>
     </template>
@@ -50,9 +51,8 @@
         result: {
           id: '',
           name:{'ar':'','en':''},
-          status: 2,
-          meta_description: '',
-          meta_title: '',
+          code:''
+
         }
       }
     },

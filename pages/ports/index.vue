@@ -65,10 +65,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.title') },
         created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
       }
     }
   },

@@ -2,9 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="unit"
+    list-api="getUnits"
+    delete-api="deleteUnit"
+    route-name="units"
     empty-store-variable="allBrands"
     :name="$t('unit.unit')"
     gate="brand"
@@ -29,18 +29,8 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td class="">
-          <nuxt-link
-            :to="`/units/${value.id}`"
-            class="dply-felx j-left link"
-          >
-
-            <h5 class="mx-w-300x">Unit name</h5>
-          </nuxt-link>
-
-        </td>
-<td>001</td>
-
+        <td>001</td>
+       <td>001</td>
         <td>KG</td>
         <td
           class="status"
