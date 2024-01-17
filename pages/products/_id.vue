@@ -45,23 +45,7 @@
           <div class="d-flex justify-content-between  align-items-center">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic information</h4>
           </div>
-          <div class="input-wrapper">
-            <label>{{ $t('category.slug') }}</label>
-            <input
-              type="text"
-              :placeholder="$t('category.slug')"
-              name="slug"
-              v-model="result.slug"
-              ref="slug"
-              :class="{invalid: !!!result.slug && hasError}"
-            >
-            <span
-              class="error"
-              v-if="!!!result.slug && hasError"
-            >
-                {{ $t('category.req', { type: $t('category.slug')}) }}
-              </span>
-          </div>
+
           <div class="input-group mb-3">
             <label class="w-full" for="mainCategory">Select Unit</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
@@ -198,7 +182,7 @@
                   <select v-if="selectedAttribute1 === 'color'" class="w-full rounded border mb-10 border-smooth p-3"
                           @change="updateVariantColor('color', $event, index)">
                     <option selected>Select Color</option>
-                    <option v-for="(item, index) in allColors" :key="index">{{ item.title }}</option>
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                   <input v-else class="form-control w-100" type="text" placeholder="Enter Value"
                          @input="updateVariant('size', $event, index)"/>
@@ -211,7 +195,7 @@
                   <select v-else class="w-full rounded border mb-10 border-smooth p-3"
                           @change="updateVariantColor('color', $event, index)">
                     <option selected>Select Color</option>
-                    <option v-for="(item, index) in allColors" :key="index">{{ item.title }}</option>
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                 </div>
               </div>
@@ -1528,7 +1512,7 @@ export default {
     },
 
     updateBasicInfo(attribute, event, index) {
-      console.log(attribute, index);
+      // console.log(attribute, index);
 
       // Convert event.target.value to a string to ensure consistency
       const value = String(event.target.value);
@@ -1578,25 +1562,11 @@ export default {
     },
     isVariant() {
       this.is_variant = !this.is_variant;
-
-      // const data = await this.setById({id: this.id, params: this.result, api: 'getColors'})
-      // this.result = Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getColorApi}))
-      // console.log(0)
-      // if (data) {
-
-      // this.result = Object.assign({}, data)
-      // console.log(result)
-      // this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-      //   return o.product_collection_id
-      // }))]
-      // this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-      //   return o.category_id.toString()
-      // }))]
-      //
-      // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-      // } else {
-      //   this.scrollToTop()
-      // }
+      if (!this.is_variant) {
+        this.result.variantRows = [];
+        this.result.variantRows = [{size: 0, color: ""}];
+        this.result.productVariants.variantValues = [[], []];
+      }
     },
 
     closeDrop() {
