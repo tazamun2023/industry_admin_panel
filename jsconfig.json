@@ -39,17 +39,24 @@
     "setProfile": "update",
     "setPassword": "update-password",
 
+    "getCategoriesTree": "category/select",
     "getAllCategories": "category/all-categories",
     "getCategories": "category/all",
     "deleteCategory": "category/delete",
     "getCategory": "category/find",
+    "getCategoryBySlug": "category/findSlug",
     "setCategory": "category/action",
     "setCategoryImage": "category/upload",
+
+    "getAllColors": "color/all-colors",
+    "getColors": "color/all",
+
 
     "getAllSubCategories": "subcategory/all-subcategories",
     "getSubCategories": "subcategory/all",
     "deleteSubCategory": "subcategory/delete",
     "getSubCategory": "subcategory/find",
+    "findAllSubCategories": "subcategory/findAllSubCategories",
     "setSubCategory": "subcategory/action",
     "setSubCategoryImage": "subcategory/upload",
 
@@ -99,7 +106,10 @@
 
 
     "getAllRfqs": "rfq/all-brands",
-    "getRfqs": "rfq/all",
+    "getRfqs": "rfq/all/all",
+    "getRfqsAll": "rfq/all/all",
+    "getRfqsRelevent": "rfq/all/relevent",
+    "getRfqsMYList": "rfq/all/list",
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
@@ -169,6 +179,7 @@
 
 
     "setProductImageAttributes": "product-image-attributes/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",

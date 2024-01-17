@@ -1,13 +1,15 @@
 {
   "app": {
-    "All": "All",
-    "My List": "My List",
-    "from": "From",
-    "Relevant to me": "Relevant to me",
-    "to": "To",
-    "currency_local": "ar-US",
-    "Clear Filter": "Clear Filter",
-    "Apply Filters": "Apply Filters"
+    "dir":"rtl",
+    "All": "الكل",
+    "My List": "قائمتي",
+    "from": "من",
+    "Relevant to me": "ذات صلة بي",
+    "to": "إلى",
+    "currency_local": "ar-AR",
+    "Clear Filter": "مسح التصفية",
+    "Apply Filters": "تطبيق التصفية",
+    "Select on Option": "تحديد خيار"
   },
   "rfq": {
     "RFQ ID": "معرف طلب السعر",
@@ -32,8 +34,12 @@
     "notification": "إشعار طلب السعر",
     "manage_quotations": "إدارة العروض",
     "RFQ Marketplace": "سوق طلبات السعر",
-    "RFQ Marketplace Description": "استكشف وقدم عروض في طلبات السعر من مشترين جملة موثوقين من جميع أنحاء العالم."
+    "RFQ Marketplace Description": "استكشف وقدم عروض في طلبات السعر من مشترين جملة موثوقين من جميع أنحاء العالم.",
+    "Single product": "منتج واحد",
+    "Multi-product": "متعدد المنتجات"
+
   },
+
   "products": {
     "Id": "المعرف",
     "Image": "الصورة",

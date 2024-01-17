@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     updateInputValue(language, value) {
+      console.log(0)
       this.$emit('updateInput',this.valuesOfLang, language, value);
     },
   },

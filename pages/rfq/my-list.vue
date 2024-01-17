@@ -1,5 +1,5 @@
 <template>
-  <rfq-list :open-tab="1"></rfq-list>
+  <rfq-list :open-tab="3"></rfq-list>
 </template>
 
 <script>
