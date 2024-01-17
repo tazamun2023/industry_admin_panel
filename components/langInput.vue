@@ -54,12 +54,13 @@ export default {
   data() {
     return {
       languages: ['ar', 'en'], // Add your desired languages here
-      currentTab: 0,
+      currentTab: 1,
       hasError: false,
     };
   },
   methods: {
     updateInputValue(language, value) {
+      console.log(0)
       this.$emit('updateInput',this.valuesOfLang, language, value);
     },
   },
