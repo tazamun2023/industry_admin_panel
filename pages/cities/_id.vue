@@ -13,13 +13,12 @@
   >
     <template v-slot:form="{hasError}">
 
-{{hasError}}
       <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{ $t('title.sc') }}</span>
+          <span class="mr-15">{{ $t('title.select_country') }}</span>
           <dropdown
             v-if="allCountries"
             :default-null="true"
@@ -120,7 +119,7 @@ export default {
   async mounted() {
     if (!this.allCountries) {
       try {
-        await this.getAllList({api: 'getAllCity', mutation: 'SET_ALL_COUNTRIES'})
+        await this.getAllList({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
       } catch (e) {
         return this.$nuxt.error(e)
       }

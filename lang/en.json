@@ -8,10 +8,13 @@
     "to": "To",
     "currency_local": "en-US",
     "Clear Filter": "Clear Filter",
-    "Apply Filters": "Apply Filters"
+    "Apply Filters": "Apply Filters",
+    "Select on Option": "Select on Option"
   },
   "rfq": {
     "RFQ ID": "RFQ ID ",
+    "Single product": "Single product",
+    "Multi-product": "Multi-product",
     "Created on": "Created on",
     "Expires on": "Expires on",
     "Shipping country": "Shipping country",
@@ -529,7 +532,9 @@
     "deactMsg": "After deactivating it, you have to contact the seller in order to activate it again."
   },
   "title": {
-    "sc": "select country",
+    "select_type": "select type",
+    "select_country": "select country",
+    "select_city": "Select City",
     "prod": "product",
     "site": "Site setting",
     "headLogo": "header logo",

@@ -5,7 +5,7 @@
     set-api="setBrand"
     get-api="getBrand"
     empty-store-variable="allBrands"
-    route-name="brands"
+    route-name="units"
     :name="$t('prod.unit')"
     gate="brand"
     :validation-keys="['title']"

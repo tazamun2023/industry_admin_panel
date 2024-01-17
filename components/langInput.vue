@@ -20,16 +20,18 @@
           :class="{ invalid: !!!valuesOfLang[language] && hasError }"
 
         >
+
+
         <WYSIWYGEditor v-else
           :title="title"
           :description="valuesOfLang[language]"
           @change="valuesOfLang[language]= $event"
           @input="updateInputValue(language, $event.target.value)"
-
         />
         <span class="error" v-if="!!!valuesOfLang[language] && hasError">
           {{ $t('category.req', {type: title}) }}
         </span>
+
       </div>
     </div>
 

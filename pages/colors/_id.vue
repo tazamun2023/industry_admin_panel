@@ -1,49 +1,35 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setCategory"
-    get-api="getCategory"
+    set-api="setColor"
+    get-api="getColor"
     set-image-api="setCategoryImage"
-    route-name="color"
+    route-name="colors"
     :name="$t('color.color')"
-    gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    gate="brand"
+    :validation-keys="['code','name.ar','name.en']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
+
       <div class="input-wrapper">
 
-        <label>{{ $t('color.color') }}</label>
+        <label>{{ $t('color.code') }}</label>
         <input
-          type="text"
-          :placeholder="$t('color.name')"
-          v-model="result.name"
+          type="color"
+          :placeholder="$t('color.code')"
+          v-model="result.code"
           ref="name"
-          :class="{invalid: !!!result.name && hasError}"
+          :class="{invalid: !!!result.code && hasError}"
         >
         <span
           class="error"
-          v-if="!!!result.name && hasError"
+          v-if="!!!result.code && hasError"
         >
-          {{ $t('color.name', { type: $t('index.title')}) }}
-        </span>
-      </div>
-      <div class="input-wrapper">
-
-        <label>{{ $t('color.color_code') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('color.color_code')"
-          v-model="result.color_code"
-          ref="name"
-          :class="{invalid: !!!result.color_code && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.name && hasError"
-        >
-          {{ $t('color.color_code', { type: $t('index.name')}) }}
+          {{ $t('category.req', { type: $t('colors.code')}) }}
         </span>
       </div>
     </template>
@@ -58,21 +44,15 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "colors",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
         result: {
           id: '',
-          title: '',
-          status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
-          meta_description: '',
-          in_footer: 2,
-          meta_title: '',
-          image: ''
+          name:{'ar':'','en':''},
+          code:''
+
         }
       }
     },
@@ -86,27 +66,16 @@
       ...mapGetters('common', ['allCategories'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
           this.emptyAllList('allCategories')
         }
         this.result = evt
       },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
-      },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
+
       ...mapActions('common', ['getAllList', 'emptyAllList'])
     },
     async mounted() {

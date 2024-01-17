@@ -29,7 +29,7 @@
         </td>
 
         <td>{{ value.name }}</td>
-        <td>{{ value.code }}</td>
+        <td :style="{'background-color': value.name }"></td>
 
         <td>{{ value.created }}</td>
         <td>
@@ -57,8 +57,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.color') },
+        code: { title: this.$t('category.code') },
         created_at: { title: this.$t('category.date') },
         status: { title: this.$t('category.status') }
       }

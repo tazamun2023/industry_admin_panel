@@ -2,9 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
+    list-api="getPorts"
+    delete-api="deletePort"
+    route-name="ports"
     empty-store-variable="allBrands"
     :name="$t('port.port')"
     gate="brand"
@@ -32,13 +32,13 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>Port name</td>
-        <td>Sea, Air</td>
-        <td>Bangladesh</td>
-        <td>Dhaka</td>
-        <td>Lat</td>
-        <td>English</td>
-        <td>Tazamun</td>
+        <td>{{ value.name }}</td>
+        <td>{{ value.type }}</td>
+        <td>{{ value.country_name }}</td>
+        <td>{{ value.city_name }}</td>
+        <td>{{ value.lat }}</td>
+        <td>{{ value.lang }}</td>
+        <td>{{ value.created_by }}</td>
         <td>{{ value.created }}</td>
         <td>
           <button
@@ -65,10 +65,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.title') },
         created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
       }
     }
   },

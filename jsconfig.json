@@ -67,7 +67,7 @@
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
 
-    "getAllCity": "city/all-countries",
+    "getAllCountries": "city/all-countries",
     "getCitys": "city/all",
     "deleteCity": "city/delete",
     "getCity": "city/find",
@@ -86,9 +86,27 @@
     "getColor": "color/find",
     "setColor": "color/action",
 
+    "getAllCityById" : "port/all-city",
+    "getPorts": "port/all",
+    "deletePort": "port/delete",
+    "getPort": "port/find",
+    "setPort": "port/action",
+
+    "getUnits": "unit/all",
+    "deleteUnit": "unit/delete",
+    "getUnit": "unit/find",
+    "setUnit": "unit/action",
+
+
+    "getAllTransport": "transport/all-color",
+    "getTransports": "transport/all",
+    "deleteTransport": "transport/delete",
+    "getTransport": "transport/find",
+    "setTransport": "transport/action",
+
 
     "getAllRfqs": "rfq/all-brands",
-    "getRfqs": "rfq/all",
+    "getRfqs": "rfq/all/all",
     "getRfqsAll": "rfq/all/all",
     "getRfqsRelevent": "rfq/all/relevent",
     "getRfqsMYList": "rfq/all/list",

@@ -63,7 +63,7 @@
                 <template
                   v-slot:table-top="{orderOptions}"
                 >
-                  <rfq-filter></rfq-filter>
+                  <rfq-filter @filter="filterChanged"></rfq-filter>
                 </template>
                 <template v-slot:table="{list}">
 
@@ -255,6 +255,20 @@ export default {
   mixins: [util, bulkDelete],
   methods: {
 
+    filterChanged(result){
+
+      console.log(result)
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: 1,
+          orderBy: 'created_at',
+          orderByType: 'desc',
+          ...result
+          // filter: this.checkedFilter.join(','),
+        }
+      })
+    },
     toggleCollapse(index) {
       this.activeIndex = this.activeIndex === index ? null : index;
       this.isCollapsed = !this.isCollapsed;

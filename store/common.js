@@ -3,7 +3,8 @@ import Service from '@/services/service.js'
 const state = () => ({
   allCategories: null,
   allCategoriesTree: [],
-  allCountries: null,
+  allCountries: [],
+  allCitiesById: [],
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -33,6 +34,7 @@ const getters = {
   allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
   allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
   allCountries: ({allCountries}) => allCountries,
+  allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
   allShippingRules: ({allShippingRules}) => allShippingRules,
@@ -112,19 +114,15 @@ const mutations = {
     })
   },
 
-  SET_ALL_CATEGORIES_Tree(state, allCountries) {
-    state.allCategoriesTree = {}
-     state.allCategoriesTree  = allCountries;
+  SET_ALL_CATEGORIES_Tree(state, allCategories) {
+     state.allCategoriesTree  = allCategories;
 
-    // allCountries.forEach((item) => {
-    //   state.allCategoriesTree = item
-    // })
   },
   SET_ALL_COUNTRIES(state, allCountries) {
-    state.allCountries = {}
-    allCountries.forEach((item) => {
-      state.allCountries = {...state.allCountries, ...{[item.id]: {name: item.name}}}
-    })
+    state.allCountries = allCountries
+    // allCountries.forEach((item) => {
+    //   state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
+    // })
   },
   SET_ALL_TRANSPORTATIONMODES(state, allTransportationModes) {
     state.allTransportationModes = {}
@@ -133,6 +131,15 @@ const mutations = {
       state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
     })
   },
+
+  SET_ALL_Cities(state, allCitiesById) {
+    state.allCitiesById = allCitiesById
+    /*allCitiesById.forEach((item) => {
+      state.allCitiesById = {...state.allCitiesById, ...{[item.id]: {title: item.name}}}
+    })*/
+  },
+
+
 
   SET_ALL_SUBSCRIPTION_EMAIL_FORMATS(state, allSubscriptionEmailFormats) {
     state.allSubscriptionEmailFormats = allSubscriptionEmailFormats
@@ -192,7 +199,8 @@ const actions = {
       commit('EMPTY_ALL_LIST', storeAllVariable)
     }
   },
-  async getAllList({rootState, commit}, {api, mutation}) {
+
+  async getAllCountries({rootState, commit}, {api, mutation}) {
     const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit(mutation, data.data)
@@ -200,6 +208,18 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+
+  async getCitiesById({rootState, commit}, {id,api, mutation }) {
+    const {data} = await Service.getById( id,{},this.$auth.strategy.token.get(), api, rootState.language.langCode)
+
+    if (data.status === 200) {
+      commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+
   async setWysiwygImage({commit, dispatch}, params) {
     dispatch('ui/setErrors', null, {root: true})
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), 'setWysiwygImage')
