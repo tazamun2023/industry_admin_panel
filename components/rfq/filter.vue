@@ -211,14 +211,14 @@ export default {
           </div>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
-            <label for=""> {{ $t("rfq.Location") }} </label>
+            <label for=""> {{ $t("rfq.Shipping country") }} </label>
             <v-select
               :dir="$t('app.dir')"
               v-model="result.country_id"
               :options="allCountries"
               label="name"
               :reduce="c => c.id"
-              :placeholder="$t('title.select_country')"
+              :placeholder="$t('rfq.Shipping country') "
               class="custom-select"
             ></v-select>
         </div>

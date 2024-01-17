@@ -62,7 +62,7 @@
               <list-page
                 v-if="$can('brand', 'view')"
                 ref="listPage"
-                list-api="getRfqsAll"
+                :list-api="api"
                 delete-api="deleteBrand"
                 route-name="rfqs"
                 empty-store-variable="allRfqs"
@@ -262,6 +262,10 @@ export default {
     openTab: {
       type: String,
       default: 1
+    },
+    api: {
+      type: String,
+      default: "getRfqsAll"
     },
   },
   mixins: [util, bulkDelete],
