@@ -14,9 +14,6 @@ export default {
       selectedLevel2: null,
       selectedLevel3: null,
       result: {
-        id: '',
-        title: '',
-        status: 2,
         country_id: "",
         parent: '',
         from_date: '',
@@ -24,10 +21,7 @@ export default {
         parentCaregory: '',
         subCaregory: '',
         category_id: '',
-        meta_description: '',
-        in_footer: 2,
-        meta_title: '',
-        image: ''
+        multi_products: '',
       }
     }
   },
@@ -56,6 +50,7 @@ export default {
     categorySelected(data) {
       this.result.parent = data.key
     },
+
     titleChanged() {
       this.result.slug = this.convertToSlug(this.result.title)
     },
@@ -73,9 +68,49 @@ export default {
      this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCaregory));
 
     },
+    filterData() {
+      this.$emit('filter',this.result);
+    },
     ...mapActions('common', ['getCategoriesTree', 'emptyAllList'])
   },
   async mounted() {
+
+
+  console.log("qq")
+  if(this.$route?.query.country_id)
+  {
+    this.result.country_id=this.$route?.query.country_id
+  }
+  if(this.$route?.query.from_date)
+  {
+    this.result.from_date=this.$route?.query.from_date
+  }
+  if(this.$route?.query.to_date)
+  {
+    this.result.to_date=this.$route?.query.to_date
+  }
+
+  if(this.$route?.query.parentCaregory)
+  {
+    this.result.parentCaregory=parseInt(this.$route?.query.parentCaregory)
+    this.updateLevel2()
+  }
+  if(this.$route?.query.subCaregory)
+  {
+    this.result.subCaregory=parseInt(this.$route?.query.subCaregory)
+    this.updateLevel3()
+  }
+
+    if(this.$route?.query.category_id)
+    {
+      this.result.category_id=parseInt(this.$route?.query.category_id)
+    }
+  if(this.$route?.query.multi_products)
+  {
+    this.result.multi_products=this.$route?.query.multi_products
+  }
+
+
     if (this.allCategoriesTree.length==0) {
       try {
         await this.getCategoriesTree()
@@ -97,7 +132,7 @@ export default {
             <input type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
           </div>
         </div>
-        {{ result }}
+<!--        {{ result }}-->
 
 
           <!-- First Select - Search by Category -->
@@ -155,9 +190,9 @@ export default {
             <select
               class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
              v-model="result.multi_products">
-              <option value="">Select on Option</option>
-              <option value="single">Single product</option>
-              <option value="multi">Multi-product</option>
+              <option value="">{{ ("app.Select on Option") }}</option>
+              <option value="single">{{$t('rfq.Single product')}}</option>
+              <option value="multi">  {{$t('rfq.Multi-product')}}</option>
             </select>
           </div>
         </div>
@@ -166,28 +201,29 @@ export default {
             <label for=""> {{ $t("rfq.Location") }} </label>
             <select
               class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              name="" id="">
-              <option value="">Select on Option</option>
-              <option value="">Bangladesh</option>
-              <option value="">Yemeen</option>
+              v-model="result.country_id">
+              <option value="">{{ ("app.Select on Option") }}</option>
+              <option value="10">Bangladesh</option>
+              <option value="1">Yemen</option>
             </select>
           </div>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
             <label for=""> {{ $t("app.from") }} </label>
-            <input type="date" class="theme-input-style" placeholder="From (creation)">
+            <input type="date"  v-model="result.from_date" class="theme-input-style" placeholder="From (creation)">
           </div>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
             <label for=""> {{ $t("app.to") }} </label>
-            <input type="date" class="theme-input-style" placeholder="To (creation)">
+            <input type="date" v-model="result.to_date" class="theme-input-style" placeholder="To (creation)">
           </div>
         </div>
         <div class="md:w-1/3 pr-4 pl-4">
           <div class="mb-4">
             <button type="button"
+                    @click="filterData"
                     class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
               {{ $t("app.Apply Filters") }}
             </button>

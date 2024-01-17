@@ -8,10 +8,13 @@
     "to": "To",
     "currency_local": "en-US",
     "Clear Filter": "Clear Filter",
-    "Apply Filters": "Apply Filters"
+    "Apply Filters": "Apply Filters",
+    "Select on Option": "Select on Option"
   },
   "rfq": {
     "RFQ ID": "RFQ ID ",
+    "Single product": "Single product",
+    "Multi-product": "Multi-product",
     "Created on": "Created on",
     "Expires on": "Expires on",
     "Shipping country": "Shipping country",
