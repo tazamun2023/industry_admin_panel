@@ -15,7 +15,6 @@
                 class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
                 type="text"
                 v-model="searchedString"
-
                 :placeholder="$t('list.sh')"
               >
               <button
@@ -30,7 +29,7 @@
             </div>
           </div>
           <div class="md:w-full pr-4 pl-4">
-            <div class="block w-full overflow-auto scrolling-touch">
+            <div class="block w-full overflow-auto scrolling-touch overflow-y-auto h-96">
               <table id="conditionTable" class="hoverable whitespace-no-wrap">
                 <thead>
                 <tr>
@@ -43,7 +42,8 @@
                   <th style="width:10%">Availability</th>
                 </tr>
                 </thead>
-                <tbody>
+<!--                {{selectedProduct}}-->
+                <tbody class="">
                 <div class="suggestion-body">
                   <div
                     v-if="fetchingProductList"
@@ -56,7 +56,7 @@
                   </div>
                 </div>
                 <tr v-for="(product, index) in productList">
-                  <td><input name="selectProduct" type="radio" id="1" value="0"></td>
+                  <td><input name="selectProduct" v-model="selectedProduct" type="radio" id="1" :value="product"></td>
                   <td>
                     <lazy-image
                       class="w-48 h-32 object-cover rounded"
@@ -70,24 +70,11 @@
                   <td><span>{{ product.status }}</span></td>
                   <td><span>-</span></td>
                 </tr>
-
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!--          <div class="md:w-full pr-4 pl-4">-->
-          <!--            <div class="modal-footer sm:flex float-right sm:px-6">-->
-          <!--              <button type="button"-->
-          <!--                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded m-2 py-1 px-3 leading-normal no-underline  text-black"-->
-          <!--                      data-dismiss="modal">Close-->
-          <!--              </button>-->
-          <!--              <button type="button"-->
-          <!--                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  m-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary">-->
-          <!--                Add-->
-          <!--              </button>-->
-          <!--            </div>-->
-          <!--          </div>-->
           <div
             class="ptb-10 plr-15 dply-felx suggestion-footer"
             :class="{'ignore-click disabled': fetchingProductList || !productList.length}"
@@ -110,86 +97,17 @@
                   class="icon arrow-right"
                 />
               </button>
+              <button
+                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary"
+                @click.prevent="$emit('product-clicked', selectedProduct)"
+              >
+                {{$t('rfq.selectProduct')}}
+              </button>
             </div>
 
           </div>
         </div>
       </div>
-      <!--      <div-->
-      <!--        class="search-dropdown"-->
-      <!--        v-if="autoSuggestionOpen"-->
-      <!--      >-->
-      <!--        <div class="suggestion-body">-->
-      <!--          <div-->
-      <!--            v-if="fetchingProductList"-->
-      <!--            class="spinner-wrapper"-->
-      <!--          >-->
-      <!--            <spinner-->
-      <!--              :radius="60"-->
-      <!--              color="primary"-->
-      <!--            />-->
-      <!--          </div>-->
-      <!--          <ul-->
-      <!--            v-else-if="productList.length"-->
-      <!--            class="sb sb-2"-->
-      <!--          >-->
-      <!--            <li-->
-      <!--              v-for="(item, index) in productList"-->
-      <!--              :key="index"-->
-      <!--            >-->
-      <!--              <a-->
-      <!--                href="#"-->
-      <!--                class="dply-felx"-->
-      <!--                @click.prevent="$emit('product-clicked', item)"-->
-      <!--              >-->
-      <!--                <div class="dply-felx j-left ">-->
-      <!--                  <lazy-image-->
-      <!--                    class="mr-15 img-40x"-->
-      <!--                    :data-src="getThumbImageURL(item.image)"-->
-      <!--                    :alt="item.title"-->
-      <!--                  />-->
-      <!--                  <h5 v-if="item.name">{{item.name}}</h5>-->
-      <!--                  <h5 v-else>{{ $t('list.nt') }}</h5>-->
-      <!--                </div>-->
-      <!--                <i-->
-      <!--                  class="mn-w-24x icon plus"-->
-      <!--                />-->
-      <!--              </a>-->
-      <!--            </li>-->
-      <!--          </ul>-->
-      <!--          <p-->
-      <!--            v-else-->
-      <!--            class="p-15"-->
-      <!--          >-->
-      <!--            {{ $t('list.noData', { data: $t('product.product') }) }}-->
-      <!--          </p>-->
-      <!--        </div>-->
-      <!--        <div-->
-      <!--          class="ptb-10 plr-15 dply-felx suggestion-footer"-->
-      <!--          :class="{'ignore-click disabled': fetchingProductList || !productList.length}"-->
-      <!--        >-->
-      <!--          <p class="mx-w-50">{{ resultText }}</p>-->
-      <!--          <div class="text-right dply-felx mlr&#45;&#45;2-5">-->
-      <!--            <button-->
-      <!--              class="btn outline-btn mlr-2-5 dply-felx"-->
-      <!--              @click.prevent="goNext(-1)"-->
-      <!--            >-->
-      <!--              <i-->
-      <!--                class="icon arrow-left"-->
-      <!--              />-->
-      <!--            </button>-->
-      <!--            <button-->
-      <!--              class="btn outline-btn mlr-2-5 dply-felx"-->
-      <!--              @click.prevent="goNext(1)"-->
-      <!--            >-->
-      <!--              <i-->
-      <!--                class="icon arrow-right"-->
-      <!--              />-->
-      <!--            </button>-->
-      <!--          </div>-->
-
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 
@@ -208,6 +126,7 @@ export default {
   name: 'ProductSearch2',
   data() {
     return {
+      selectedProduct: null,
       productPage: 1,
       productData: null,
       autoSuggestionOpen: false,

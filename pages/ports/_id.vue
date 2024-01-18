@@ -31,6 +31,8 @@
             :dir="$t('app.dir')"
             v-model="result.type"
             :options="['sea','air','land']"
+            taggable
+            multiple
             :placeholder="$t('title.select_type')"
             class="custom-select"
           ></v-select>
@@ -56,6 +58,7 @@
             :options="allCountries"
             label="name"
             :reduce="c => c.id"
+
             @input="countrySelected"
             :placeholder="$t('title.select_country')"
             class="custom-select"

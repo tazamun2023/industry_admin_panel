@@ -192,6 +192,7 @@ export default {
                 v-model="result.category_id"
                 :options="selectedLevel2?.child"
                 :reduce="cat => cat.id"
+
                 label="title"
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"

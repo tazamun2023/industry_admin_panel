@@ -74,7 +74,6 @@
           </div>
         </div>
       </div>
-
       <!-- ========================== -->
       <div class="flex flex-wrap  mt-20">
         <div class="xl:w-full pr-4 pl-4 lg:w-full pr-4 pl-4">
@@ -101,101 +100,107 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(product,k) in rfq.products">
-                      <td>{{ k + 1 }}</td>
-                      <td>
-                        <lazy-image
-                          class="mr-15 img-40x"
-                          :data-src="getThumbImageURL(product.image)"
-                          :alt=" product.name"
-                        />
-                       </td>
-                      <td class="w-1/4"> {{ product.name }}</td>
-                      <td>{{ product.category?.title }}</td>
-                      <td>{{ product.quantity }} {{ product.unit.name }}</td>
-                      <td> {{
-                          product.target_price.toLocaleString($t('app.currency_local'), {
-                            style: 'currency',
-                            maximumFractionDigits: 0,
-                            currency: 'SAR'
-                          })
-                        }}
-                      </td>
-                      <td> {{
-                          product.total_target_price.toLocaleString($t('app.currency_local'), {
-                            style: 'currency',
-                            maximumFractionDigits: 0,
-                            currency: 'SAR'
-                          })
-                        }}
-                      </td>
+
+                    <template v-for="(product,k) in rfq.products">
+                      <tr>
+                        <td>{{ k + 1 }}</td>
+                        <td>
+                          <lazy-image
+                            class="mr-15 img-40x"
+                            :data-src="getThumbImageURL(product.image)"
+                            :alt=" product.name"
+                          />
+                        </td>
+                        <td class="w-1/4"> {{ product.name }}</td>
+                        <td>{{ product.category?.title }}</td>
+                        <td>{{ product.quantity }} {{ product.unit.name }}</td>
+                        <td> {{
+                            product.target_price.toLocaleString($t('app.currency_local'), {
+                              style: 'currency',
+                              maximumFractionDigits: 0,
+                              currency: 'SAR'
+                            })
+                          }}
+                        </td>
+                        <td> {{
+                            product.total_target_price.toLocaleString($t('app.currency_local'), {
+                              style: 'currency',
+                              maximumFractionDigits: 0,
+                              currency: 'SAR'
+                            })
+                          }}
+                        </td>
 
 
-                      <td>
-                        <button href="" target="_blank" @click="toggleCollapse" id="addToQuote" :disabled="isDisable"
-                                class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
-                          {{ $t('rfq.add to quote') }}
-                        </button>
-                      </td>
-                    </tr>
-                    <tr v-if="isCollapsed" id="add_form">
-                      <td colspan="8">
-                        <form action="">
-                          <div class="grid grid-cols-5 gap-4">
-                            <div class="col-span-2">
-                              <label for="">Product name*</label>
-                              <div class="flex border rounded p-1 border-smooth bg-white">
-                                <button type="button" @click="addProduct"
-                                        class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
-                                        data-toggle="modal" data-target="#staticBackdrop">
-                                  Add product
-                                </button>
-                                <input name="productName" disabled="" required="" aria-required="true"
-                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                        <td>
+                          <button href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
+                                  :disabled="isDisable"
+                                  class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
+                            {{ $t('rfq.add to quote') }}
+                          </button>
+                        </td>
+                      </tr>
+                      <tr v-if="isCollapsed && activeProductId==product.id" id="add_form">
+                        <td colspan="8">
+                          <form action="">
+                            <div class="grid grid-cols-5 gap-4">
+                              <div class="col-span-2">
+                                <label for="">Product name*</label>
+                                <div class="flex border rounded p-1 border-smooth bg-white">
+                                  <button type="button" @click="addProduct"
+                                          class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
+                                          data-toggle="modal" data-target="#staticBackdrop">
+                                    Add product
+                                  </button>
+                                  <span
+                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                              {{product.qoute.product.name}}
+                                  </span>
+                                </div>
+                              </div>
+                              <div>
+                                <label for="">Quantity*</label>
+                                <div class="flex border rounded p-1 border-smooth bg-white">
+                                  <input name="quantity" placeholder="qty" disabled="" required="" aria-required="true"
+                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                  <select class="border-none w-50" name="" id="">
+                                    <option value="">KG</option>
+                                    <option value="">LG</option>
+                                    <option value="">LTR</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div>
+                                <label for="">Unit offer price*</label>
+                                <div class="flex border rounded p-1 border-smooth bg-white">
+                                  <label class="p-3" for="">AED</label>
+                                  <input name="quantity" placeholder="0"
+                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                </div>
+                              </div>
+                              <div>
+                                <label for="">Total target price*</label>
+                                <div class="flex border rounded p-1 border-smooth bg-white">
+                                  <label class="p-3" for="">AED</label>
+                                  <input name="quantity" placeholder="0"
+                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                </div>
+                                <div class="mb-4 text-right">
+                                  <button id="add_form_cancel" @click="toggleCollapse"
+                                          class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-4 mr-4"
+                                          href="">Cancel
+                                  </button>
+                                  <button type="button"
+                                          class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary long mt-20">
+                                    Save
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                            <div>
-                              <label for="">Quantity*</label>
-                              <div class="flex border rounded p-1 border-smooth bg-white">
-                                <input name="quantity" placeholder="qty" disabled="" required="" aria-required="true"
-                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                <select class="border-none w-50" name="" id="">
-                                  <option value="">KG</option>
-                                  <option value="">LG</option>
-                                  <option value="">LTR</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div>
-                              <label for="">Unit offer price*</label>
-                              <div class="flex border rounded p-1 border-smooth bg-white">
-                                <label class="p-3" for="">AED</label>
-                                <input name="quantity" placeholder="0"
-                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                              </div>
-                            </div>
-                            <div>
-                              <label for="">Total target price*</label>
-                              <div class="flex border rounded p-1 border-smooth bg-white">
-                                <label class="p-3" for="">AED</label>
-                                <input name="quantity" placeholder="0"
-                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                              </div>
-                              <div class="mb-4 text-right">
-                                <button id="add_form_cancel" @click="toggleCollapse"
-                                        class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-4 mr-4"
-                                        href="">Cancel
-                                </button>
-                                <button type="button"
-                                        class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary long mt-20">
-                                  Save
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </td>
-                    </tr>
+                          </form>
+                        </td>
+                      </tr>
+                    </template>
                     </tbody>
                   </table>
                 </div>
@@ -315,83 +320,14 @@
                             product</label>
                         </div>
                       </div>
-                      <div v-if="tableShow" class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
+                      <div v-if="tableShow"
+                           class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
                         <product-search2
                           ref="productSearch"
-                          @product-clicked="addFlashProduct"
+                          @product-clicked="addRFQProduct"
                         />
-                        {{result}}
-<!--                        <div class="flex-auto">-->
-<!--                          <div class="flex flex-wrap  relative flex flex-col min-w-0 rounded break-words">-->
-<!--                            <div class="md:w-full pr-4 pl-4">-->
-<!--                              <div class="flex mb-2">-->
-<!--                                <input type="text" placeholder="Try a product name or SKU"-->
-<!--                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded">-->
-<!--                                <button-->
-<!--                                  class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary">-->
-<!--                                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
-<!--                                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">-->
-<!--                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                                          stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>-->
-<!--                                  </svg>-->
-<!--                                </button>-->
-<!--                              </div>-->
-<!--                            </div>-->
-<!--                            <div class="md:w-full pr-4 pl-4">-->
-<!--                              <div class="block w-full overflow-auto scrolling-touch">-->
-<!--                                <table id="conditionTable" class="hoverable whitespace-no-wrap">-->
-<!--                                  <thead>-->
-<!--                                  <tr>-->
-<!--                                    <th style="width:2%"></th>-->
-<!--                                    <th style="width:5%">Image</th>-->
-<!--                                    <th style="width:15%">Product name</th>-->
-<!--                                    <th style="width:5%">SKU</th>-->
-<!--                                    <th style="width:5%">Unit Price</th>-->
-<!--                                    <th style="width:5%">Status</th>-->
-<!--                                    <th style="width:10%">Availability</th>-->
-<!--                                  </tr>-->
-<!--                                  </thead>-->
-<!--                                  <tbody>-->
-<!--                                  <tr>-->
-<!--                                    <td><input name="selectProduct" type="radio" id="1" value="0"></td>-->
-<!--                                    <td><img style="width:30px;height:30px"-->
-<!--                                             src="https://cfn-catalog-prod.tradeling.com/up/5fba0c6142480f001bed85d4/83eda791eabaefc1e9d70923dcea5b9f.jpg"-->
-<!--                                             alt=""></td>-->
-<!--                                    <td><a href="">Red Bull Energy Drink Emarat 250 ml 4 X</a></td>-->
-<!--                                    <td><span>34333</span></td>-->
-<!--                                    <td><span>191 AED</span></td>-->
-<!--                                    <td><span>Online</span></td>-->
-<!--                                    <td><span>-</span></td>-->
-<!--                                  </tr>-->
-<!--                                  <tr>-->
-<!--                                    <td><input name="selectProduct" type="radio" id="2" value="0"></td>-->
-<!--                                    <td><img style="width:30px;height:30px"-->
-<!--                                             src="https://cfn-catalog-prod.tradeling.com/up/5fba0c6142480f001bed85d4/83eda791eabaefc1e9d70923dcea5b9f.jpg"-->
-<!--                                             alt=""></td>-->
-<!--                                    <td><a href="">Red Bull Energy Drink Emarat 250 ml 4 X</a></td>-->
-<!--                                    <td><span>34343re</span></td>-->
-<!--                                    <td><span>191 AED</span></td>-->
-<!--                                    <td><span>Online</span></td>-->
-<!--                                    <td><span>-</span></td>-->
-<!--                                  </tr>-->
-<!--                                  </tbody>-->
-<!--                                </table>-->
-<!--                              </div>-->
-<!--                            </div>-->
-<!--                            <div class="md:w-full pr-4 pl-4">-->
-<!--                              <div class="modal-footer sm:flex float-right sm:px-6">-->
-<!--                                <button type="button"-->
-<!--                                        class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded m-2 py-1 px-3 leading-normal no-underline  text-black"-->
-<!--                                        data-dismiss="modal">Close-->
-<!--                                </button>-->
-<!--                                <button type="button"-->
-<!--                                        class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded  m-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary">-->
-<!--                                  Add-->
-<!--                                </button>-->
-<!--                              </div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
+                        {{ result }}
+
                       </div>
                       <div v-if="uploadNewText"
                            class="relative flex flex-col min-w-0 rounded break-words for_upload_message">
@@ -439,6 +375,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      activeProductId: 0,
       isCollapsed: false,
       isDisable: false,
       open: false,
@@ -468,9 +405,10 @@ export default {
     },
   },
   methods: {
-    toggleCollapse() {
+    toggleCollapse(id) {
       this.isCollapsed = !this.isCollapsed;
       this.isDisable = !this.isDisable;
+      this.activeProductId = id
     },
     addProduct() {
       this.open = true;
@@ -486,21 +424,28 @@ export default {
       this.tableShow = true;
       this.uploadNewText = false;
     },
-    addFlashProduct(product) {
-      if (this.result.products.findIndex((o) => {
-        return o.product.id === product.id
-      }) === -1) {
-        this.result.products.push({
-          price: 0,
-          product: {
-            id: product.id,
-            title: product.title,
-            image: product.image,
-            offered: product.offered,
-            selling: product.selling
-          }
-        })
-      }
+    addRFQProduct(product) {
+      var rfqProduct=this.rfq.products.find(p=>p.qoute.rfq_product_id==this.activeProductId);
+
+      console.log(rfqProduct)
+
+      rfqProduct.qoute.product=product;
+      rfqProduct.qoute.product_id=product.id;
+
+      // if (this.result.products.findIndex((o) => {
+      //   return o.product.id === product.id
+      // }) === -1) {
+      //   this.result.products.push({
+      //     price: 0,
+      //     product: {
+      //       id: product.id,
+      //       title: product.title,
+      //       image: product.image,
+      //       offered: product.offered,
+      //       selling: product.selling
+      //     }
+      //   })
+      // }
       this.$refs.productSearch.autoSuggestionClose()
     },
     async fetchingData() {
@@ -511,6 +456,21 @@ export default {
           params: {time_zone: this.timeZone},
           api: 'getRFQ'
         }))
+        this.result.products = []
+        for (var i = 0; i < this.rfq.products.length; i++) {
+
+          this.rfq.products[i].qoute=({
+            rfq_product_id: this.rfq.products[i].id,
+            product: {},
+            unit: {},
+            product_id: "",
+            id: "",
+            quantity: "",
+            total_offer_price: "",
+
+          })
+
+        }
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
