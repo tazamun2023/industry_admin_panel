@@ -111,7 +111,7 @@
     "getRfqs": "rfq/all/all",
     "getRfqsAll": "rfq/all/all",
     "getRfqsRelevent": "rfq/all/relevent",
-    "getRfqsMYList": "rfq/all/list",
+    "getRfqsMYList": "rfq/all/my-list",
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
