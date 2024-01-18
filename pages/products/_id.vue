@@ -57,19 +57,23 @@
           <div class="grid grid-cols-3 gap-4">
             <!-- Main Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
-              <label class="w-full" for="mainCategory">Select Main Category</label>
-              <select :class="{invalid: !result.selectedMainCategory && hasError}"
+              <label class="w-full" for="mainCategory">Main Category</label>
+<!--              :class="{invalid: !result.selectedMainCategory && hasError}"-->
+              <select :class="{invalid: (result.selectedMainCategory == 0 || !result.selectedMainCategory) && hasError}"
                       class="w-full mb-10 rounded border border-smooth p-3" v-model="result.selectedMainCategory"
                       @change="updateSubCategories">
+                <option value="0">Select Main Category</option>
                 <option :value="index" v-for="(item, index) in allCategories" :key="index">{{ item.title }}</option>
               </select>
             </div>
 
             <!-- Sub Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
-              <label class="w-full" for="subCategory">Select Sub Category</label>
+              <label class="w-full" for="subCategory">Sub Category</label>
               <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.selectedSubCategory"
+                      :class="{invalid: (result.selectedSubCategory == 0 || !result.selectedSubCategory) && hasError}"
                       @change="updateChildCategories($event)">
+                <option value="0">Select Sub Category</option>
                 <option :value="subCategory.id" v-for="(subCategory, index) in subCategories" :key="index">
                   {{ subCategory.name }}
                 </option>
@@ -79,7 +83,10 @@
             <!-- Child Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
               <label class="w-full" for="childCategory">Select Child Category</label>
-              <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.selectedChildCategory" @change="updateChilCategoriesSlug">
+              <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.selectedChildCategory" @change="updateChilCategoriesSlug"
+                      :class="{invalid: (result.selectedChildCategory === 0 || result.selectedChildCategory===null) && hasError}"
+              >
+                <option value="0">Select Sub Category</option>
                 <option :value="childCategory.id" v-for="(childCategory, index) in childCategories" :key="index">
                   {{ childCategory.name }}
                 </option>
@@ -115,7 +122,9 @@
             <!--          />-->
 
             <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
+                    :class="{invalid: (result.brand_id == 0 || result.brand_id===null) && hasError}"
                     v-model="result.brand_id">
+              <option value="0">Select Brand</option>
               <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
             </select>
           </div>
@@ -299,6 +308,7 @@
                 multiple
                 :placeholder="$t('title.select_type')"
                 class="custom-select"
+                :class="{invalid: (result.basicKeyworden.length === 0) && hasError}"
               ></v-select>
             </div>
             <div class="input-wrapper mb-10">
@@ -541,6 +551,7 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                      :class="{invalid: (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
                       @change="productIdentifiersType($event)" v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.title }}</option>
@@ -549,12 +560,15 @@
             <div class="form-group input-wrapper mt-3 mt-sm-0">
               <label>Barcode</label>
               <input type="text" class="form-control" v-model="result.barcode"
-                     :class="!is_barcode? 'not-allowed-cursor bgdark':''" placeholder="Please enter barcode number"
+                     :class="{ 'not-allowed-cursor': (!result.barcode_type || !is_barcode) && hasError, 'bgdark': (!result.barcode_type || !is_barcode) && hasError, 'invalid': (!result.barcode_type || !is_barcode) && hasError }"
+                     placeholder="Please enter barcode number"
                      :disabled="!is_barcode">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
-              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :disabled="!is_barcode">
+              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :disabled="!is_barcode"
+                     :class="{invalid: (!result.sku) && hasError}"
+              >
             </div>
           </div>
         </div>
@@ -585,10 +599,13 @@
               <label for="">Size ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Size" aria-label="Recipient's username"
+                       :class="{invalid: (!result.pk_size) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pk_size">
                 <div class="absolute right-0 top-0">
                   <select class="p-2 m-1 float-right border-l border-smooth uppercase" @change="updateSizeUnit($event)"
-                          v-model="result.pk_size_unit">
+                          v-model="result.pk_size_unit"
+                          :class="{invalid: (result.pk_size_unit===null) && hasError}"
+                  >
                     <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
                         item.title
                       }}
@@ -603,6 +620,7 @@
               <label for="">Number of units per carton</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
+                       :class="{invalid: (!result.pk_number_of_carton) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pk_number_of_carton">
               </div>
             </div>
@@ -610,6 +628,7 @@
               <label for="">Average lead time (Days) ?</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
+                       :class="{invalid: (!result.pk_average_lead_time) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pk_average_lead_time">
               </div>
             </div>
@@ -617,7 +636,9 @@
               <label for="">Transportation Mode</label>
               <div class=" mb-3">
                 <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.pk_transportation_mode">
+                        v-model="result.pk_transportation_mode"
+                        :class="{invalid: (!result.pk_transportation_mode) && hasError}"
+                >
                   <option :value="index" v-for="(item, index) in allTransportationModes" :key="index">{{
                       item.name
                     }}
@@ -641,9 +662,11 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                        aria-label="Recipient's username"
+                       :class="{invalid: (result.pc_weight===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_weight">
                 <div class="absolute right-0 top-0">
                   <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                          :class="{invalid: (result.pc_weight_unit_id===null) && hasError}"
                           v-model="result.pc_weight_unit_id">
                     <!--                  <option value="0">Select</option>-->
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
@@ -659,9 +682,11 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Length"
                        aria-label="Recipient's username"
+                       :class="{invalid: (result.pc_length===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_length">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
+                          :class="{invalid: (result.pc_length_unit_id===null) && hasError}"
                           v-model="result.pc_length_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -677,9 +702,11 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Height"
                        aria-label="Recipient's username"
+                       :class="{invalid: (result.pc_height===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_height">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
+                          :class="{invalid: (result.pc_height_unit_id===null) && hasError}"
                           v-model="result.pc_height_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -695,9 +722,11 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Width"
                        aria-label="Recipient's username"
+                       :class="{invalid: (result.pc_width===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_width">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
+                          :class="{invalid: (result.pc_width_unit_id===null) && hasError}"
                           v-model="result.pc_width_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -721,9 +750,11 @@
             <div class="relative flex input-group gap-4 w-50 mb-3">
               <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                      aria-label="Recipient's username"
+                     :class="{invalid: (result.pdime_weight ===null) && hasError}"
                      aria-describedby="button-addon2" v-model="result.pdime_weight">
               <div class="absolute right-0 top-0">
                 <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
+                        :class="{invalid: (result.pdime_weight_unit_id === null) && hasError}"
                         v-model="result.pdime_weight_unit_id">
                   <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.title }}</option>
                 </select>
@@ -735,6 +766,7 @@
               <label for="">Length ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Length" aria-label="Recipient's username"
+                       :class="{invalid: (result.pdime_length === null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pdime_length">
               </div>
             </div>
@@ -742,6 +774,7 @@
               <label for="">Height ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"
+                       :class="{invalid: (result.pdime_height === null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pdime_height">
               </div>
             </div>
@@ -750,12 +783,14 @@
               <label for="">Width ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"
+                       :class="{invalid: (result.pdime_width===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pdime_width">
               </div>
             </div>
             <div class="input-wrapper">
               <label for="">Dimension Unit</label>
               <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
+                      :class="{invalid: (result.pdime_dimention_unit ===null) && hasError}"
                       v-model="result.pdime_dimention_unit">
                 <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.title }}</option>
               </select>
@@ -772,6 +807,7 @@
             <label for="">Unit of measure ?</label>
             <div class="input-group mb-3">
               <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
+                      :class="{invalid: (result.pp_unit_of_measure_id === null || result.pp_unit_of_measure_id ===0) && hasError}"
                       v-model="result.pp_unit_of_measure_id">
                 <option value="0">Unit</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
@@ -793,9 +829,23 @@
               </tr>
               </thead>
               <tbody>
+<!--              index > 0 && parseFloat(this.result.pp_quantity[index]) <= parseFloat(this.result.pp_quantity[0])-->
               <tr v-for="(row, index) in result.PriceingRows" :key="index">
-                <td class="p-2"><input type="text" class="form-control" placeholder="Enter Quantity"
-                                       @input="updatePriceQty('qty', $event, index)"></td>
+                <td class="p-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Quantity"
+                    :class="{'invalid': isInvalidQuantity(index)}"
+                    @input="handleQuantityInput($event, index)"
+                  >
+                  <div v-if="isInvalidQuantity(index)" class="text-error">
+                    Error: Current quantity should be greater than the quantity at the {{ index === 0 ? '1st' : `${index}th` }} Quantity
+                  </div>
+<!--                  <input type="text" class="form-control" placeholder="Enter Quantity"-->
+<!--                                       :class="{'invalid': isInvalidQuantity(index)}"-->
+<!--                                       @input="updatePriceQty('qty', $event, index)">-->
+                </td>
                 <td class="p-2">
                   <div class="relative flex">
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
@@ -835,7 +885,9 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Is Ready To Ship ?</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_ready_to_ship">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_ready_to_ship"
+                        :class="{invalid: (result.is_ready_to_ship === null) && hasError}"
+                >
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -844,7 +896,7 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Is Buy Now ?</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_buy_now">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase" :class="{invalid: (result.is_buy_now === null) && hasError}" v-model="result.is_buy_now">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -853,7 +905,7 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Availability</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_availability">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase" :class="{invalid: (result.is_availability===null) && hasError}" v-model="result.is_availability">
                   <option value="1">In Stock</option>
                   <option value="0">Out of Stock</option>
                 </select>
@@ -863,16 +915,12 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Storage temperature</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.storage_temperature">
+                <select class="border p-3 w-full border-smooth rounded-lg" :class="{invalid: (result.storage_temperature===0 || result.storage_temperature===null) && hasError}" v-model="result.storage_temperature">
                   <option value="0" disabled>Select Option</option>
                   <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{
                       item.title
                     }}
                   </option>
-                  <!--                <option value="2">Chilled (min 2C, max: 8C)</option>-->
-                  <!--                <option value="3">Frozen (min -5C, max -5C)</option>-->
-                  <!--                <option value="4">Chilled (min 2C, max: 8C)</option>-->
-                  <!--                <option value="5">Room temperature (min 15C, max 25C)</option>-->
                 </select>
               </div>
             </div>
@@ -880,7 +928,7 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Ware House</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location">
+                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location" :class="{invalid: (result.stock_location===0 || result.stock_location===null) && hasError}" >
                   <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{ item.name }}</option>
                 </select>
               </div>
@@ -889,7 +937,7 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Country of origin</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
+                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin" :class="{invalid: (result.country_of_origin===null) && hasError}">
                   <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{ item.name }}</option>
                 </select>
               </div>
@@ -899,7 +947,7 @@
               <div class="input-wrapper">
                 <label for="">Dangerous Goods</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_dangerous">
+                        v-model="result.is_dangerous" :class="{invalid: (result.is_dangerous===null) && hasError}">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -1079,9 +1127,10 @@ export default {
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en', 'slug', 'unit', 'meta_title', 'meta_description',
         'description', 'overview', 'selling', 'purchased'],
-      validationKeysIfNotVariant: ['selectedMainCategory', 'selectedSubCategory', 'selectedChildCategory', 'brand_id', 'basicInfoEng', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode'],
+      validationKeysIfNotVariant: ['selectedMainCategory', 'selectedSubCategory', 'selectedChildCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
+      errorMessage: '',
       result: {
         /*Product Inventory*/
         available_quantity: 0,
@@ -1089,9 +1138,9 @@ export default {
         mainCategorySlug: null,
         subCategorySlug: null,
         childCategorySlug: null,
-        selectedMainCategory: null,
-        selectedSubCategory: null,
-        selectedChildCategory: null,
+        selectedMainCategory: 0,
+        selectedSubCategory: 0,
+        selectedChildCategory: 0,
 
         /*Additional details*/
         additional_details_row: [[]],
@@ -1172,7 +1221,7 @@ export default {
         overview: '',
         description: {ar: '', en: ''},
         status: '2',
-        brand_id: '',
+        brand_id: 0,
         primary_category_id: '',
         category_id: '',
         bundle_deal_id: '',
@@ -1238,6 +1287,13 @@ export default {
   },
 
   computed: {
+    isInvalidQuantity() {
+      return (index) => {
+        const currentQuantity = parseFloat(this.result.pp_quantity[index]);
+        const firstQuantity = parseFloat(this.result.pp_quantity[index-1]);
+        return currentQuantity <= firstQuantity && this.hasError;
+      };
+    },
     productCategories() {
       return this.result.product_categories
     },
@@ -1277,6 +1333,10 @@ export default {
   },
 
   methods: {
+    handleQuantityInput(event, index) {
+      this.updatePriceQty('qty', event, index);
+      // Add any additional logic related to handling quantity input
+    },
 
     updateBrand(event) {
       this.result.brand_id = event.target.value;
@@ -1452,6 +1512,7 @@ export default {
       if (attribute == 'qty') {
         const value = String(event.target.value);
         this.result.pp_quantity[index] = value;
+
       }
       if (attribute == 'unit_price') {
         const value = String(event.target.value);
@@ -1638,9 +1699,18 @@ export default {
       this.redirect = buttonType === 'save'
     },
     async checkForm() {
-      if(this.validationKeys.findIndex((i) => { return (!this.result[i]) }) > -1){
-        this.hasError = true
-        return false
+      // if(this.validationKeys.findIndex((i) => { return (!this.result[i]) }) > -1){
+      //   this.hasError = true
+      //   return false
+      // }
+      if (this.is_variant){
+
+
+      }else {
+        if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
+          this.hasError = true
+          return false
+        }
       }
       this.redirectingEnable(event.submitter.name)
       this.formSubmitting = true
@@ -1649,7 +1719,7 @@ export default {
         delete this.result.created_at
         delete this.result.updated_at
         const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-
+        // console.log('data', data)
         if (data) {
 
           this.result = Object.assign({}, data)
@@ -1657,8 +1727,6 @@ export default {
           this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
 
           this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-        }else {
-          this.scrollToTop()
         }
       } catch (e) {
         return this.$nuxt.error(e)
@@ -1673,6 +1741,7 @@ export default {
       try {
         this.loading = true
         this.result = Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
+        console.log('result', this.result)
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
         }))]
