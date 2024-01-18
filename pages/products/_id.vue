@@ -1638,51 +1638,32 @@ export default {
       this.redirect = buttonType === 'save'
     },
     async checkForm() {
-      await this.setById({id: this.id, params: this.result, api: this.setApi})
-      // console.log(this.result)
-      // if (!this.is_variant) {
-      //   if (this.validationKeysIfNotVariant.findIndex((i) => {
-      //     return (!this.result[i])
-      //   }) > -1) {
-      //     console.log(1)
-      //     this.hasError = true
-      //     return false
-      //   }
-      // } else {
-      //   console.log(0)
-      // }
-      // if (this.validationKeys.findIndex((i) => {
-      //   return (!this.result[i])
-      // }) > -1) {
-      //   this.hasError = true
-      //   return false
-      // }
-      // this.redirectingEnable(event.submitter.name)
-      // this.formSubmitting = true
-      // try {
-      //
-      //   delete this.result.created_at
-      //   delete this.result.updated_at
-      //   const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-      //
-      //   if (data) {
-      //
-      //     this.result = Object.assign({}, data)
-      //     this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-      //       return o.product_collection_id
-      //     }))]
-      //     this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-      //       return o.category_id.toString()
-      //     }))]
-      //
-      //     this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-      //   } else {
-      //     this.scrollToTop()
-      //   }
-      // } catch (e) {
-      //   return this.$nuxt.error(e)
-      // }
-      // this.formSubmitting = false
+      if(this.validationKeys.findIndex((i) => { return (!this.result[i]) }) > -1){
+        this.hasError = true
+        return false
+      }
+      this.redirectingEnable(event.submitter.name)
+      this.formSubmitting = true
+      try {
+
+        delete this.result.created_at
+        delete this.result.updated_at
+        const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
+
+        if (data) {
+
+          this.result = Object.assign({}, data)
+          this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
+          this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
+
+          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+        }else {
+          this.scrollToTop()
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.formSubmitting = false
     },
 
     scrollToTop(ref = "productForm") {
