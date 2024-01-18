@@ -586,7 +586,7 @@
           </div>
           <div class="input-wrapper">
             <label for="">Available quantity ?</label>
-            <input type="text" class="form-control" v-model="result.available_quantity">
+            <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber">
             <label>Minimum order quantity: 1</label>
           </div>
         </div>
@@ -600,6 +600,7 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Size" aria-label="Recipient's username"
                        :class="{invalid: (!result.pk_size) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_size">
                 <div class="absolute right-0 top-0">
                   <select class="p-2 m-1 float-right border-l border-smooth uppercase" @change="updateSizeUnit($event)"
@@ -621,6 +622,7 @@
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
                        :class="{invalid: (!result.pk_number_of_carton) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_number_of_carton">
               </div>
             </div>
@@ -629,6 +631,7 @@
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
                        :class="{invalid: (!result.pk_average_lead_time) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_average_lead_time">
               </div>
             </div>
@@ -662,6 +665,7 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                        aria-label="Recipient's username"
+                       @keypress="onlyNumber"
                        :class="{invalid: (result.pc_weight===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_weight">
                 <div class="absolute right-0 top-0">
@@ -682,6 +686,7 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Length"
                        aria-label="Recipient's username"
+                       @keypress="onlyNumber"
                        :class="{invalid: (result.pc_length===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_length">
                 <div class="absolute right-0 top-0">
@@ -702,6 +707,7 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Height"
                        aria-label="Recipient's username"
+                       @keypress="onlyNumber"
                        :class="{invalid: (result.pc_height===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_height">
                 <div class="absolute right-0 top-0">
@@ -722,6 +728,7 @@
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Width"
                        aria-label="Recipient's username"
+                       @keypress="onlyNumber"
                        :class="{invalid: (result.pc_width===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_width">
                 <div class="absolute right-0 top-0">
@@ -750,6 +757,7 @@
             <div class="relative flex input-group gap-4 w-50 mb-3">
               <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                      aria-label="Recipient's username"
+                     @keypress="onlyNumber"
                      :class="{invalid: (result.pdime_weight ===null) && hasError}"
                      aria-describedby="button-addon2" v-model="result.pdime_weight">
               <div class="absolute right-0 top-0">
@@ -767,6 +775,7 @@
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Length" aria-label="Recipient's username"
                        :class="{invalid: (result.pdime_length === null) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_length">
               </div>
             </div>
@@ -775,6 +784,7 @@
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"
                        :class="{invalid: (result.pdime_height === null) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_height">
               </div>
             </div>
@@ -784,6 +794,7 @@
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"
                        :class="{invalid: (result.pdime_width===null) && hasError}"
+                       @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_width">
               </div>
             </div>
@@ -838,6 +849,7 @@
                     placeholder="Enter Quantity"
                     :class="{'invalid': isInvalidQuantity(index)}"
                     @input="handleQuantityInput($event, index)"
+                    @keypress="onlyNumber"
                   >
                   <div v-if="isInvalidQuantity(index)" class="text-error">
                     Error: Current quantity should be greater than the quantity at the {{ index === 0 ? '1st' : `${index}th` }} Quantity
@@ -850,6 +862,7 @@
                   <div class="relative flex">
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
+                           @keypress="onlyNumber"
                            @input="updatePriceQty('unit_price', $event, index)">
                   </div>
                 </td>
@@ -857,6 +870,7 @@
                   <div class="relative flex">
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
+                           @keypress="onlyNumber"
                            @input="updatePriceQty('sale_price', $event, index)">
                   </div>
                 </td>
@@ -1333,6 +1347,13 @@ export default {
   },
 
   methods: {
+    onlyNumber ($event) {
+      //console.log($event.keyCode); //keyCodes value
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+        $event.preventDefault();
+      }
+    },
     handleQuantityInput(event, index) {
       this.updatePriceQty('qty', event, index);
       // Add any additional logic related to handling quantity input
