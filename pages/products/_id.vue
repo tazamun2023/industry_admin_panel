@@ -88,10 +88,11 @@
           </div>
           {{ result.title }}
 
-          <lang-input :title="$t('city.name')" :valuesOfLang="result.title" @updateInput="updateInput"></lang-input>
+          <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.title"
+                      @updateInput="updateInput"></lang-input>
 
           {{ result.description }}
-          <lang-input type="textarea" :title="$t('city.desc')" :valuesOfLang="result.description"
+          <lang-input :hasError="hasError" type="textarea" :title="$t('city.desc')" :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
           <!--        -->
@@ -222,13 +223,13 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="submit" class="btn text-white bg-primary">
+              <button type="button" class="btn text-white bg-primary">
                 SAVE
               </button>
-              <button type="submit" class="btn  border-secondary">
+              <button type="button" class="btn  border-secondary">
                 <span>RESET</span>
               </button>
-              <button type="submit" class="btn bg-light">
+              <button type="button" class="btn bg-light">
                 <span>CANCEL</span>
               </button>
             </div>
@@ -245,7 +246,7 @@
               <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoen" :key="index">
                 <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"
                        @input="updateBasicInfo('en', $event, index)">
-                <button type="submit" class="btn ml-2 mr-2  btn-danger" @click="removeBasicInfoRows('en', index)"
+                <button type="button" class="btn ml-2 mr-2  btn-danger" @click="removeBasicInfoRows('en', index)"
                         v-if="index!=0">
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
@@ -290,26 +291,27 @@
             </div>
             <div class="input-wrapper mb-10">
               <label for="">Keywords - English ?</label>
-              <!--            <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"-->
-              <!--                   value="">-->
-              <tag-search
-                @add="addTag()"
-                @delete="deleteTag()"
-                :tags="result.basicKeyworden"
-              />
-              <!--            <lang-input :title="$t('city.name')" :valuesOfLang="result.basicKeyword" @updateInput="updateInput"></lang-input>-->
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.basicKeyworden"
+                :options="['sea','air','land']"
+                taggable
+                multiple
+                :placeholder="$t('title.select_type')"
+                class="custom-select"
+              ></v-select>
             </div>
             <div class="input-wrapper mb-10">
               <label for="">Keywords - Arabic ?</label>
-              <!--            <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."-->
-              <!--                   type="text"-->
-              <!--                   value="">-->
-              <tag-search
-                dir="rtl"
-                @add="addTag()"
-                @delete="deleteTag()"
-                :tags="result.basicKeywordar"
-              />
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.basicKeywordar"
+                :options="['sea','air','land']"
+                taggable
+                multiple
+                :placeholder="$t('title.select_type')"
+                class="custom-select"
+              ></v-select>
             </div>
           </div>
         </div>
@@ -540,7 +542,7 @@
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                       @change="productIdentifiersType($event)" v-model="result.barcode_type">
-                <option selected>Select Barcode</option>
+                <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.title }}</option>
               </select>
             </div>
@@ -771,6 +773,7 @@
             <div class="input-group mb-3">
               <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
                       v-model="result.pp_unit_of_measure_id">
+                <option value="0">Unit</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
               </select>
             </div>
@@ -856,22 +859,12 @@
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="input-wrapper">
-                <label for="">Offer Private Label Option ?</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_offer_private_label_option">
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
-                </select>
-              </div>
-            </div>
 
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Storage temperature</label>
                 <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.storage_temperature">
-                  <option selected>Select Option</option>
+                  <option value="0" disabled>Select Option</option>
                   <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{
                       item.title
                     }}
@@ -886,9 +879,9 @@
 
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Stock Location</label>
+                <label for="">Ware House</label>
                 <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="index">{{ item.name }}</option>
+                  <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{ item.name }}</option>
                 </select>
               </div>
             </div>
@@ -897,7 +890,18 @@
               <div class="input-wrapper">
                 <label for="">Country of origin</label>
                 <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="index">{{ item.name }}</option>
+                  <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{ item.name }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="input-wrapper">
+                <label for="">Dangerous Goods</label>
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                        v-model="result.is_dangerous">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
                 </select>
               </div>
             </div>
@@ -1042,7 +1046,8 @@ import Spinner from '~/components/Spinner'
 import util from '~/mixin/util'
 import ImageInput from "~/components/ImageInput";
 import VideoInput from "~/components/VideoInput";
-import outsideClick from '~/directives/outside-click.js'
+import outsideClick from '~/directives/outside-click.js';
+import LangInput from "../../components/langInput.vue";
 
 export default {
   name: "pink-tabs",
@@ -1097,19 +1102,20 @@ export default {
         is_ready_to_ship: 1,
         is_buy_now: 1,
         is_availability: 1,
+        is_dangerous: 0,
         is_offer_private_label_option: 1,
-        storage_temperature: null,
-        stock_location: 187,
-        country_of_origin: 187,
+        storage_temperature: 0,
+        stock_location: 1,
+        country_of_origin: 186,
         /*Shipping details*/
         /*Product Identifiers*/
-        barcode_type: null,
+        barcode_type: 0,
         barcode: null,
         sku: null,
         /*Product Identifiers*/
         minimum_order_quantity: 0,
         /*product price start*/
-        pp_unit_of_measure_id: null,
+        pp_unit_of_measure_id: 0,
         pp_quantity: [],
         pp_unit_price: [],
         pp_selling_price: [],
@@ -1137,32 +1143,32 @@ export default {
         pk_size_unit: 17,
         pk_number_of_carton: 0,
         pk_average_lead_time: 0, //days
-        pk_transportation_mode: '',
+        pk_transportation_mode: 1,
         /*packaging end*/
         /*product dimensions start*/
         pdime_weight: 0,
-        pdime_weight_unit_id: 0,
+        pdime_weight_unit_id: 17,
         pdime_height: 0,
         pdime_length: 0,
         pdime_width: 0,
         pdime_unit: 0,
-        pdime_dimention_unit: 0,
+        pdime_dimention_unit: 19,
         /*product dimensions end*/
         /*product cartons start*/
         pc_weight: 0,
-        pc_weight_unit_id: 0,
+        pc_weight_unit_id: 17,
         pc_height: 0,
-        pc_height_unit_id: 0,
+        pc_height_unit_id: 19,
         pc_length: 0,
-        pc_length_unit_id: 0,
+        pc_length_unit_id: 19,
         pc_width: 0,
-        pc_width_unit_id: 0,
+        pc_width_unit_id: 19,
         /*end product cartons*/
         id: '',
         title: {ar: '', en: ''},
         tags: ',',
-        basicKeyworden: ',',
-        basicKeywordar: ',',
+        basicKeyworden: '',
+        basicKeywordar: '',
         overview: '',
         description: {ar: '', en: ''},
         status: '2',
@@ -1227,7 +1233,8 @@ export default {
     AjaxButton,
     ProductInventory,
     ErrorFormatter,
-    Spinner
+    Spinner,
+    LangInput
   },
 
   computed: {
@@ -1266,7 +1273,7 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
-      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes'])
+      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses'])
   },
 
   methods: {
@@ -1841,7 +1848,7 @@ export default {
       await this.fetchingData()
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes) {
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes|| !this.allWarehouses) {
 
       this.loading = true
       try {

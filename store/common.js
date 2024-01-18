@@ -24,6 +24,7 @@ const state = () => ({
   // allCountries: null,
   allStorageTemperatures: null,
   allTransportationModes: null,
+  allWarehouses: null,
 })
 const getters = {
   allTaxRules: ({allTaxRules}) => allTaxRules,
@@ -47,7 +48,7 @@ const getters = {
   allPackagingUnits: ({allPackagingUnits}) => allPackagingUnits,
   allDimensionUnits: ({allDimensionUnits}) => allDimensionUnits,
   allWeightUnits: ({allWeightUnits}) => allWeightUnits,
-  // allCountries: ({allCountries}) => allCountries,
+  allWarehouses: ({allWarehouses}) => allWarehouses,
   allTransportationModes: ({allTransportationModes}) => allTransportationModes,
 }
 const mutations = {
@@ -79,6 +80,12 @@ const mutations = {
     state.allStorageTemperatures = {}
     allStorageTemperatures.forEach((item) => {
       state.allStorageTemperatures = {...state.allStorageTemperatures, ...{[item.id]: {title: item.title}}}
+    })
+  },
+  SET_ALL_WAREHOUSES(state, allWarehouses) {
+    state.allWarehouses = {}
+    allWarehouses.forEach((item) => {
+      state.allWarehouses = {...state.allWarehouses, ...{[item.id]: {name: item.name}}}
     })
   },
   SET_ALL_COLORS(state, allColors) {
@@ -239,6 +246,7 @@ const actions = {
 
       commit('SET_ALL_CATEGORIES', result.categories)
       commit('SET_ALL_STORAGE_TEMPERATURES', result.storage_temperatures)
+      commit('SET_ALL_WAREHOUSES', result.warehouses)
       commit('SET_ALL_COLORS', result.colors)
       commit('SET_ALL_BARCODES', result.barcodes)
       commit('SET_ALL_PACKAGING_UNITS', result.packagingUnits)
