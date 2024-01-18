@@ -92,6 +92,8 @@
     "getPort": "port/find",
     "setPort": "port/action",
 
+
+
     "getUnits": "unit/all",
     "deleteUnit": "unit/delete",
     "getUnit": "unit/find",
@@ -110,6 +112,12 @@
     "getRfqsAll": "rfq/all/all",
     "getRfqsRelevent": "rfq/all/relevent",
     "getRfqsMYList": "rfq/all/my-list",
+    "getRFQ": "rfq/find",
+
+
+    "getQuote": "quotes/find",
+    "setQuote": "quotes/action",
+
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
