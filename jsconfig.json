@@ -74,6 +74,8 @@
     "setCity": "city/action",
     "setCityImage": "city/upload",
 
+    "getAllWarehouses": "warehouse/all",
+
     "getAllBarcode": "barcode/all-barcode",
     "getBarcodes": "barcode/all",
     "deleteBarcode": "barcode/delete",
