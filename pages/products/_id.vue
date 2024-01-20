@@ -1745,7 +1745,7 @@ export default {
           this.result = Object.assign({}, data)
           this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
           this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
-         
+
 
           this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
         }
@@ -1761,8 +1761,13 @@ export default {
     async fetchingData() {
       try {
         this.loading = true
-        this.result = Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
-        console.log('result', this.result)
+var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
+        this.result ={
+          title: res.title,
+          description: res.description,
+          selectedMainCategory: 0
+        }
+          console.log('result', this.result)
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
         }))]
