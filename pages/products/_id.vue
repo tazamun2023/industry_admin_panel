@@ -46,6 +46,7 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic information</h4>
           </div>
 
+
           <div class="input-group mb-3">
             <label class="w-full" for="mainCategory">Select Unit</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
@@ -53,52 +54,60 @@
               <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
             </select>
           </div>
-          <span class="text-primary" v-if="result.mainCategorySlug &&result.subCategorySlug &&result.childCategorySlug">{{ result.mainCategorySlug }}/{{ result.subCategorySlug}}/{{result.childCategorySlug}}</span>
+<!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
           <div class="grid grid-cols-3 gap-4">
             <!-- Main Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
-              <label class="w-full" for="mainCategory">Main Category</label>
+              <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
 <!--              :class="{invalid: !result.selectedMainCategory && hasError}"-->
-              <select :class="{invalid: (result.selectedMainCategory == 0 || !result.selectedMainCategory) && hasError}"
-                      class="w-full mb-10 rounded border border-smooth p-3" v-model="result.selectedMainCategory"
-                      @change="updateSubCategories">
-                <option value="0">Select Main Category</option>
-                <option :value="index" v-for="(item, index) in allCategories" :key="index">{{ item.title }}</option>
-              </select>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.parentCategory"
+                :options="allCategoriesTree"
+                label="title"
+                :reduce="cat => cat.id"
+                :placeholder="$t('rfq.Search by Category')"
+                @input="updateLevel2"
+                class="custom-select"
+                :class="{invalid: result.parentCategory === null && hasError}"
+              ></v-select>
             </div>
 
             <!-- Sub Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
-              <label class="w-full" for="subCategory">Sub Category</label>
-              <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.selectedSubCategory"
-                      :class="{invalid: (result.selectedSubCategory == 0 || !result.selectedSubCategory) && hasError}"
-                      @change="updateChildCategories($event)">
-                <option value="0">Select Sub Category</option>
-                <option :value="subCategory.id" v-for="(subCategory, index) in subCategories" :key="index">
-                  {{ subCategory.name }}
-                </option>
-              </select>
+              <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.subCategory"
+                :options="selectedLevel1?.child"
+                label="title"
+                :reduce="cat => cat.id"
+                class="custom-select"
+                :placeholder="$t('rfq.Select Sub Category')"
+                @input="updateLevel3"
+                :class="{invalid: result.subCategory === null && hasError}"
+              ></v-select>
             </div>
 
             <!-- Child Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
-              <label class="w-full" for="childCategory">Select Child Category</label>
-              <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.selectedChildCategory" @change="updateChilCategoriesSlug"
-                      :class="{invalid: (result.selectedChildCategory === 0 || result.selectedChildCategory===null) && hasError}"
-              >
-                <option value="0">Select Sub Category</option>
-                <option :value="childCategory.id" v-for="(childCategory, index) in childCategories" :key="index">
-                  {{ childCategory.name }}
-                </option>
-              </select>
+              <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }}</label>
+              <v-select
+                :dir="$t('app.dir')"
+                v-model="result.childCategory"
+                :options="selectedLevel2?.child"
+                :reduce="cat => cat.id"
+                :class="{invalid: result.category_id === null && hasError}"
+                label="title"
+                class="custom-select"
+                :placeholder="$t('rfq.Select Child Category')"
+              ></v-select>
             </div>
           </div>
-          {{ result.title }}
 
           <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.title"
                       @updateInput="updateInput"></lang-input>
 
-          {{ result.description }}
           <lang-input :hasError="hasError" type="textarea" :title="$t('city.desc')" :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
@@ -112,7 +121,7 @@
           <!--          <input dir="rtl" class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
           <!--        </div>-->
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
-            <label class="w-full" for="name">Brand</label>
+            <label class="w-full" for="name">{{ $t("rfq.Brand") }}</label>
             <!--          <dropdown-->
             <!--            v-if="allBrands"-->
             <!--            :default-null="true"-->
@@ -149,9 +158,9 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
           <div class="form-check">
             <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                   v-model="is_variant" @click="isVariant"/>
+                   v-model="is_variant" @click.prevent="isVariant"/>
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
-                   @click="isVariant"/>
+                   @click.prevent="isVariant"/>
             <label class="form-check-label" for="flexCheckDefault">
               This product has options, like size or color
             </label>
@@ -163,7 +172,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute1"
-                          @change="variantValueType($event, 1)">
+                          @change="variantValueType($event, 1)" >
                     <option selected>Select attribute 1</option>
                     <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
                             :disabled="isAttribute1Disabled(index)">{{ item }}
@@ -190,12 +199,12 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select v-if="selectedAttribute1 === 'color'" class="w-full rounded border mb-10 border-smooth p-3"
-                          @change="updateVariantColor('color', $event, index)">
+                          @change="updateVariantColor('color', $event, index)" v-model="row.color">
                     <option selected>Select Color</option>
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                   <input v-else class="form-control w-100" type="text" placeholder="Enter Value"
-                         @input="updateVariant('size', $event, index)"/>
+                         @input="updateVariant('size', $event, index)" v-model="row.size"/>
                 </div>
               </div>
               <div class="col-md-4">
@@ -232,7 +241,7 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-white bg-primary">
+              <button type="submit" class="btn text-white bg-primary">
                 SAVE
               </button>
               <button type="button" class="btn  border-secondary">
@@ -255,7 +264,7 @@
               <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoen" :key="index">
                 <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"
                        @input="updateBasicInfo('en', $event, index)">
-                <button type="button" class="btn ml-2 mr-2  btn-danger" @click="removeBasicInfoRows('en', index)"
+                <button type="button" class="btn ml-2 mr-2  btn-danger" @click.prevent="removeBasicInfoRows('en', index)"
                         v-if="index!=0">
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
@@ -264,7 +273,7 @@
                           d="M1 1h16"/>
                   </svg>
                 </button>
-                <button type="button" class="btn ml-2 mr-2 btn-primary" @click="addBasicInfoRows(index)">
+                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">
                   <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
                        fill="none" viewBox="0 0 18 18">
@@ -279,7 +288,7 @@
               <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoar" :key="index">
                 <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
                        type="text" @input="updateBasicInfo('ar', $event, index)">
-                <button type="button" @click="removeBasicInfoRows('ar', index)" class="btn ml-2 mr-2   btn-danger"
+                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)" class="btn ml-2 mr-2   btn-danger"
                         v-if="index!=0">
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +297,7 @@
                           d="M1 1h16"/>
                   </svg>
                 </button>
-                <button type="button" @click="addBasicInfoRowsAr(index)" class="btn ml-2 mr-2 btn-primary">
+                <button type="button" @click.prevent="addBasicInfoRowsAr(index)" class="btn ml-2 mr-2 btn-primary">
                   <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
                        fill="none" viewBox="0 0 18 18">
@@ -334,7 +343,7 @@
         <div class="tab-sidebar p-3" v-if="!is_variant">
           <div class="flex pl-4">
             <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>
-            <span @click="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>
+            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>
           </div>
           <div class="input-wrapper">
             <label class="pl-4 pt-0 fw-bold">
@@ -364,7 +373,7 @@
             <div class="flex-auto ">
               <div class="tab-content input-wrapper tab-space">
                 <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-                  <div @click="uploadModalToggle()"
+                  <div @click.prevent="uploadModalToggle()"
                        class="text-center cursor-pointer p-4 border border-dotted border-smooth rounded">
                     <svg class="w-6 h-6 mx-auto text-gray-800 dark:text-white" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -875,7 +884,7 @@
                   </div>
                 </td>
                 <td class="p-2">
-                  <button type="button" class="btn  btn-outline-secondary" @click="removePriceingRows(index)">
+                  <button type="button" class="btn  btn-outline-secondary" @click.prevent="removePriceingRows(index)">
                                <span><svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                           fill="none" viewBox="0 0 18 20">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -887,7 +896,7 @@
 
               </tbody>
             </table>
-            <button class="btn btn-link fw-bold" @click="addPriceingRows()">+ ADD TIER</button>
+            <button class="btn btn-link fw-bold" @click.prevent="addPriceingRows()">+ ADD TIER</button>
           </div>
         </div>
         <!-- ----------------- -->
@@ -1000,14 +1009,14 @@
                      @input="updateAddtional('attr', $event, index)">
               <input class="form-control" placeholder="Text to display" type="text"
                      @input="updateAddtional('value', $event, index)">
-              <button type="button" @click="removeAdditionalDetailsRows(index)" class="btn ml-2 mr-2 btn-danger">
+              <button type="button" @click.prevent="removeAdditionalDetailsRows(index)" class="btn ml-2 mr-2 btn-danger">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M1 1h16"/>
                 </svg>
               </button>
-              <button type="button" class="btn ml-2 mr-2 btn-primary" @click="addAdditionalDetailsRows(index)">
+              <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addAdditionalDetailsRows(index)">
                 <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1043,7 +1052,7 @@
                     <div class="flex justify-between pb-20 title">
                       <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Please choose a new
                         product creation option</h3>
-                      <svg @click="uploadModalToggle()"
+                      <svg @click.prevent="uploadModalToggle()"
                            class="w-4 h-4  cursor-pointer text-gray-800 dark:text-white mt-2"
                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1072,7 +1081,7 @@
                         class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary  sm:ml-3 sm:w-auto">
                   Upload
                 </button>
-                <button @click="uploadModalToggle()" type="button"
+                <button @click.prevent="uploadModalToggle()" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
                   Cancel
                 </button>
@@ -1116,6 +1125,9 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      selectedLevel1: null,
+      selectedLevel2: null,
+      selectedLevel3: null,
       openTab: 1,
       uploadModal: false,
       is_clone: false,
@@ -1141,11 +1153,15 @@ export default {
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en', 'slug', 'unit', 'meta_title', 'meta_description',
         'description', 'overview', 'selling', 'purchased'],
-      validationKeysIfNotVariant: ['selectedMainCategory', 'selectedSubCategory', 'selectedChildCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
+      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
       errorMessage: '',
       result: {
+        is_variant: false,
+        parentCategory: '',
+        subCategory: '',
+        childCategory: '',
         /*Product Inventory*/
         available_quantity: 0,
         /*End Product Inventory*/
@@ -1343,10 +1359,23 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
-      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses'])
+      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
 
   methods: {
+
+    updateLevel2() {
+      this.result.subCategory = "";  // Reset Level 2 selection
+      this.result.category_id = "";  // Reset Level 2 selection
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCategory));
+      this.selectedLevel2 = null;  // Reset Level 2 selection
+      this.result.mainCategorySlug = this.selectedLevel1.slug
+    },
+    updateLevel3() {
+      this.result.category_id = "";
+      this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
+      this.result.subCategorySlug = this.selectedLevel2.slug
+    },
     onlyNumber ($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
@@ -1371,9 +1400,9 @@ export default {
       this.result.variant_unit_of_measure = event.target.value;
     },
     async categorySlug() {
-      let main_category = this.result.selectedMainCategory;
-      let sub_category = this.result.selectedSubCategory;
-      let child_category = this.result.selectedChildCategory;
+      let main_category = this.selectedLevel1.id;
+      let sub_category = this.selectedLevel2.id;
+      let child_category = this.selectedLevel3.id;
       if (main_category) {
         // const main_category_slug = this.getRequest({params: {q: main_category}, api: 'getCategoryBySlug'})
         const data = await this.getRequest({params: {q: this.result.selectedMainCategory}, api: 'getCategoryBySlug'})
@@ -1483,7 +1512,8 @@ export default {
     addVariantValueRows() {
       let index = 0;  // Adjust index based on zero-based indexing
       if (index < this.result.variantRows.length) {
-        this.result.variantRows.splice(this.result.variantRows.length + 1, 1, {size: 0, color: ""},);  // Add a new row
+        this.result.variantRows.push({ size: 0, color: "" });  // Add a new row at the end
+        // this.result.variantRows.splice(this.result.variantRows.length + 1, 1, {size: 0, color: ""},);  // Add a new row
       } else {
         console.error('Index out of bounds.');  // Log an error if index is out of bounds
       }
@@ -1520,12 +1550,17 @@ export default {
 
       // Convert event.target.value to a string to ensure consistency
       const value = String(event.target.value);
-
-      if (attribute === 'color') {
-        this.result.productVariants.variantValues[0][index] = value;
+      const attributeIndex = this.result.productVariants.variantTypes.indexOf(attribute);
+      if (attributeIndex !== -1) {
+        this.result.productVariants.variantValues[attributeIndex][index] = value;
       } else {
-        this.result.productVariants.variantValues[1][index] = value;
+        console.error('Invalid attribute.');  // Log an error if the attribute is not found
       }
+      // if (attribute === 'color') {
+      //   this.result.productVariants.variantValues[0][index] = value;
+      // } else {
+      //   this.result.productVariants.variantValues[1][index] = value;
+      // }
     },
 
     updatePriceQty(attribute, event, index) {
@@ -1650,6 +1685,7 @@ export default {
     },
     isVariant() {
       this.is_variant = !this.is_variant;
+      this.result.is_variant = !this.result.is_variant;
       if (!this.is_variant) {
         this.result.variantRows = [];
         this.result.variantRows = [{size: 0, color: ""}];
@@ -1724,14 +1760,37 @@ export default {
       //   return false
       // }
       if (this.is_variant){
+this.result.is_variant=true;
 
+        // this.redirectingEnable(event.submitter.name)
+        this.formSubmitting = true
+        try {
+
+          delete this.result.created_at
+          delete this.result.updated_at
+          const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
+          // console.log('data', data)
+          if (data) {
+
+            this.result = Object.assign({}, data)
+            this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
+            this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
+
+
+            this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+          }
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+        this.formSubmitting = false
 
       }else {
-        if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
-          this.hasError = true
-          return false
-        }
-      }
+
+        // if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
+        //   this.hasError = true
+        //   return false
+        // }
+
       this.redirectingEnable(event.submitter.name)
       this.formSubmitting = true
       try {
@@ -1753,6 +1812,7 @@ export default {
         return this.$nuxt.error(e)
       }
       this.formSubmitting = false
+      }
     },
 
     scrollToTop(ref = "productForm") {
@@ -1765,8 +1825,105 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
         this.result ={
           title: res.title,
           description: res.description,
-          selectedMainCategory: 0
+          parentCategory: res.category?.id,
+          subCategory: res.sub_category?.id,
+          childCategory: res.child_category?.id,
+          unit: res.unit,
+          meta_title: res.meta_title,
+          meta_description: res.meta_description,
+          selling: res.selling,
+          purchased: res.selling,
+          offered: res.offered,
+          image: res.image,
+          video: res.video,
+          status: res.status,
+          /*Basic Information*/
+          basicInfoAr: res.title,
+          basicInfoEng: res.title,
+          /*end Basic Information*/
+         /* Product Identifiers*/
+          barcode_type: res.barcode_id,
+          barcode: res.barcode_number,
+          sku: res.sku,
+         /* end Product Identifiers*/
+          variantRows: res.product_variant?.map(item => {
+            return {
+              size: item.value,  // Replace 'size' with the actual property name from your data
+              color: item.color.id  // Replace 'color' with the actual property name from your data
+            };
+          }),
+            productVariants: {
+              // Add or update properties as needed
+              variantTypes: ['color', 'size'],
+              pv_name: [],
+
+              // Initialize or modify variantValues with your desired structure
+              variantValues: [
+                // For color
+                res.product_variant?.map(variant => variant.color.id) || [],
+
+                // For size
+                res.product_variant?.map(variant => variant.value) || [],
+              ],
+            },
+
+
+          /*Product Inventory*/
+          available_quantity: res.available_quantity,
+          /*ende Product Inventory*/
+          /*Packaging*/
+
+          pk_size: res.packaging?.size,
+          pk_size_unit: res.packaging?.size_unit,
+          pk_number_of_carton: res.packaging?.number_of_carton,
+          pk_average_lead_time: res.packaging?.average_lead_time,
+          pk_transportation_mode: res.packaging?.transportation_mode,
+          /*emd Packaging*/
+
+          /*Carton Dimensions & Weight*/
+          pc_weight: res.product_carton?.weight,
+          pc_weight_unit_id: res.product_carton?.weight_unit_id,
+          pc_height: res.product_carton?.height,
+          pc_height_unit_id: res.product_carton?.height_unit_id,
+          pc_length: res.product_carton?.length,
+          pc_length_unit_id: res.product_carton?.length_unit_id,
+          pc_width:  res.product_carton?.width,
+          pc_width_unit_id:  res.product_carton?.width_unit_id,
+          /*end Carton Dimensions & Weight*/
+          /*Product dimensions & weight*/
+          pdime_weight: res.product_dimension?.weight,
+          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+          pdime_height: res.product_dimension?.height,
+          pdime_length: res.product_dimension?.length,
+          pdime_width: res.product_dimension?.width,
+          pdime_dimention_unit: res.product_dimension?.dimention_unit,
+          /*end Product dimensions & weight*/
+          /*Pricing*/
+          pp_unit_of_measure_id: res.product_prices?.unit_of_measure_id,
+          pp_quantity: res.product_prices?.map(price => price.quantity),
+          pp_unit_price: res.product_prices?.map(price => price.unit_price),
+          pp_selling_price: res.product_prices?.map(price => price.selling_price),
+          /*Shipping details*/
+          is_ready_to_ship: res.is_ready_to_ship,
+          is_buy_now: res.is_buyable,
+          is_availability: res.is_available,
+          storage_temperature: res.storage_temperature_id,
+          stock_location: res.warehouse_id,
+          country_of_origin: res.product_origin_id,
+          is_dangerous: res.is_dangerous,
+
         }
+        if (res.product_variant.length != 0){
+          this.is_variant = true
+        }
+
+
+        this.updateLevel2()
+        this.result.subCategory= res.sub_category?.id
+        this.updateLevel3()
+        this.result.category_id=res.child_category?.id
+        this.result.childCategory=res.child_category?.id
+
           console.log('result', this.result)
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
@@ -1908,9 +2065,18 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
         this.loading = false
       }
     },
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest'])
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
+    this.selectedAttribute1 = 'color';
+    this.selectedAttribute2 = 'size';
+    if (this.allCategoriesTree.length==0) {
+      try {
+        await this.getCategoriesTree()
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
     this.licence = this.phpDecryption(this.publicKey)
     const domain = window.location.hostname
 

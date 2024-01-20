@@ -1,12 +1,9 @@
 <template>
-  <Transition name="fade">
-    <product-list api="getAllProducts" :open-tab="'is_all_products'"></product-list>
-  </Transition>
+  <product-list api="getAllApprovedProducts"  :open-tab="`is_approved`"></product-list>
 </template>
 
 <script>
 import ProductList from "../../components/product/product-list.vue";
-
 export default {
   name: "product",
   middleware: ['common-middleware', 'auth'],
