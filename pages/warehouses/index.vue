@@ -2,11 +2,11 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getUnits"
-    delete-api="deleteUnit"
-    route-name="units"
+    list-api="getWareHouses"
+    delete-api="deleteWareHouses"
+    route-name="warehouses"
     empty-store-variable="allBrands"
-    :name="$t('unit.unit')"
+    :name="$t('warehouses.unit')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,11 +17,15 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.title') }}</th>
-        <th>{{ $t('unit.code') }}</th>
-        <th>{{ $t('unit.type') }}</th>
-        <th>{{ $t('unit.status') }}</th>
-        <th>{{ $t('unit.created') }}</th>
+        <th>{{ $t('index.name') }}</th>
+        <th>{{ $t('wirehouse.manager_number') }}</th>
+        <th>{{ $t('wirehouse.nearest_air_port') }}</th>
+        <th>{{ $t('wirehouse.nearest_sea_port') }}</th>
+        <th>{{ $t('wirehouse.is_open_friday') }}</th>
+        <th>{{ $t('wirehouse.is_open_saturday') }}</th>
+        <th>{{ $t('wirehouse.lat') }}</th>
+        <th>{{ $t('wirehouse.lang') }}</th>
+        <th>{{ $t('wirehouse.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -30,14 +34,13 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
         <td>{{ value.name }}</td>
-       <td>{{ value.unit_code }}</td>
-        <td>{{ value.unit_type }}</td>
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
+       <td>{{ value.manager_number }}</td>
+        <td>{{ value.nearest_air_port }}</td>
+        <td>{{ value.nearest_sea_port }}</td>
+        <td>{{$t('app.is_open_'+ value.is_open_friday )}}</td>
+        <td>{{$t('app.is_open_'+ value.is_open_saturday )}}</td>
+        <td>{{ value.lat }}</td>
+        <td>{{ value.lang }}</td>
         <td>{{ value.created }}</td>
         <td>
           <button
@@ -59,7 +62,7 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "units",
+  name: "warehouses",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {

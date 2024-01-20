@@ -6,7 +6,6 @@
     delete-api="deleteBrand"
     route-name="brands"
     empty-store-variable="allBrands"
-    :name="$t('country.country')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -45,14 +44,21 @@
           <span>{{ getStatus(value.status) }}</span>
         </td>
         <td>{{ value.created }}</td>
-        <td>
-          <button
-            v-if="$can('brand', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
-            v-if="$can('brand', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
-        </td>
+<!--        <td>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'edit')"-->
+<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'delete')"-->
+<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
+<!--        </td>    <td>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'edit')"-->
+<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'delete')"-->
+<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
+<!--        </td>-->
       </tr>
     </template>
   </list-page>

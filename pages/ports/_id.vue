@@ -17,15 +17,7 @@
                   @updateInput="updateInput"></lang-input>
 
      <div class="input-wrapper">
-<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
           <span class="mr-15">{{ $t('title.select_type') }}</span>
-<!--          <select class="rounded border mb-10 border-smooth p-3" v-model="result.type">-->
-<!--            <option :value="'sea'">Sea</option>-->
-<!--            <option :value="'air'">Air</option>-->
-<!--            <option :value="'land'">By Road</option>-->
-<!--          </select>-->
-
-
 
           <v-select
             :dir="$t('app.dir')"
@@ -34,7 +26,6 @@
             :placeholder="$t('title.select_type')"
             class="custom-select"
           ></v-select>
-<!--        </div>-->
         <span
           class="error"
           v-if="!!!result.type && hasError"
@@ -44,11 +35,8 @@
       </div>
 
       <div class="input-wrapper">
-<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
+
           <span class="mr-15">{{ $t('title.select_country') }}</span>
-<!--          <select class="rounded border mb-10 border-smooth p-3" v-model="result.country_id" @change="countrySelected">-->
-<!--            <option v-for="(item, index) in allCountries" :value="index" >{{ item.name }}</option>-->
-<!--          </select>-->
 
           <v-select
             :dir="$t('app.dir')"
@@ -61,7 +49,6 @@
             class="custom-select"
           ></v-select>
 
-<!--        </div>-->
         <span
           class="error"
           v-if="!!!result.country_id && hasError"
@@ -88,9 +75,6 @@
           {{ $t('category.req', { type: $t('country.city_id')}) }}
         </span>
       </div>
-
-
-
 
 
       <div class="input-wrapper">
@@ -182,7 +166,7 @@
     },
 
     async mounted() {
-      if (this.allCountries.length == 0) {
+
         try {
           await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(()=>{
             this.result.country_id=187
@@ -192,7 +176,7 @@
         } catch (e) {
           return this.$nuxt.error(e)
         }
-      }
+
 
 
     }

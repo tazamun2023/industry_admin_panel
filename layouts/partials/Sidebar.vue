@@ -10,8 +10,6 @@
     />
     <ul class="sb sb-2">
 
-
-
       <li
         v-for="(value, index) in sidebarsArr"
         :key="index"
@@ -217,6 +215,11 @@
           {
             path: 'units',
             title: 'Units',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'warehouses',
+            title: 'warehouses',
             icon: 'flash-sales',
           },
           {

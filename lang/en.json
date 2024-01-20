@@ -1,6 +1,8 @@
 {
   "app": {
     "dir":"ltr",
+    "is_open_1":"Yes",
+    "is_open_2":"No",
     "All": "All",
     "My List": "My List",
     "from": "From",
@@ -72,7 +74,8 @@
     "ly": "Last year",
     "tSells": "Total sells",
     "cityName": "City Name",
-    "barcode" : "Barcode"
+    "barcode" : "Barcode",
+    "name" : "Name"
   },
   "category": {
     "mDesc": "Meta description",
