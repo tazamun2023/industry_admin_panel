@@ -308,7 +308,7 @@
                 multiple
                 :placeholder="$t('title.select_type')"
                 class="custom-select"
-                :class="{invalid: (result.basicKeyworden.length === 0) && hasError}"
+                :class="{invalid: (result.basicKeyworden === null) && hasError}"
               ></v-select>
             </div>
             <div class="input-wrapper mb-10">
@@ -1348,7 +1348,6 @@ export default {
 
   methods: {
     onlyNumber ($event) {
-      //console.log($event.keyCode); //keyCodes value
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
         $event.preventDefault();
@@ -1746,6 +1745,7 @@ export default {
           this.result = Object.assign({}, data)
           this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
           this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
+         
 
           this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
         }
