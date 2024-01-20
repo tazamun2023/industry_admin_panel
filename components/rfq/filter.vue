@@ -127,7 +127,9 @@ export default {
     }
     if (this.allCategoriesTree.length==0) {
       try {
-        await this.getCategoriesTree()
+        await this.getCategoriesTree().then(()=>{
+          this.result.parentCategory=8
+        })
       } catch (e) {
         return this.$nuxt.error(e)
       }
