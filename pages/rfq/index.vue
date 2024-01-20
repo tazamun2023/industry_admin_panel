@@ -7,12 +7,7 @@ import RfqList from "../../components/rfq/rfq-list.vue";
 export default {
   name: "rfq",
   middleware: ['common-middleware', 'auth'],
-  data() {
-    return {
-      openTab: 1,
-      collapsedId: 0,
-    }
-  },
+
   components: {
     RfqList,
   },

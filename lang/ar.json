@@ -1,6 +1,7 @@
 {
   "app": {
     "dir":"rtl",
+    "Actions":"اجراءات",
     "All": "الكل",
     "My List": "قائمتي",
     "from": "من",
@@ -12,6 +13,12 @@
     "Select on Option": "تحديد خيار"
   },
   "rfq": {
+    "selectProduct": "اضف",
+    "add to quote": "أضف إلى عرض السعر",
+    "Submit Quote": "إرسال عرض السعر ",
+    "Select products to add to your quote": "قدّم أي معلومات إضافية ذات صلة بعرض السعر الخاص بك.",
+
+    "Additional information": "  معلومات إضافية ",
     "rfq": " عروض الاسعار ",
     "RFQ ID": "معرف طلب السعر",
     "Created on": "تم الإنشاء في",
@@ -20,7 +27,7 @@
     "Shipping city": "مدينة الشحن",
     "Shipping terms": "شروط الشحن",
 
-    "Received quotes": "استلمت عروض",
+    "Received quotes": " عروض الأسعار المستلمة",
     "Submit Quotes": "تقديم العروض",
     "d": "يوم",
     "View all products": "عرض جميع المنتجات",

@@ -2,6 +2,7 @@
   "app": {
     "dir":"ltr",
     "All": "All",
+    "Actions": "Actions",
     "My List": "My List",
     "from": "From",
     "Relevant to me": "Relevant to me",
@@ -12,6 +13,12 @@
     "Select on Option": "Select on Option"
   },
   "rfq": {
+    "selectProduct": "ِAdd",
+    "add to quote": "Add To Quote",
+    "RFQ details": "RFQ details",
+    "Additional information": "Additional Information",
+    "Submit Quote": "Submit Quote",
+    "Select products to add to your quote": "Select products to add to your quote",
     "RFQ ID": "RFQ ID ",
     "rfq": "RFQs",
     "Single product": "Single product",

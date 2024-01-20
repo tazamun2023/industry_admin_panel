@@ -85,8 +85,23 @@
                     <div class="card mt-20 p-4 bg-white">
                       <div class="grid grid-cols-7 gap-4">
                         <div>
-                          <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                               class="w-48 h-32 object-cover rounded" alt="...">
+                          <lazy-image
+                            class="w-48 h-32 object-cover rounded"
+                            :data-src="getThumbImageURL(value.products[0].image)"
+                            :alt=" value.products[0].name"
+                          />
+
+                          <div class="my-2 flex flex-row justify-start">
+                            <template v-for="(product,index) in value.products">
+                              <lazy-image
+                                class="mr-15 img-40x"
+                                :data-src="getThumbImageURL(product.image)"
+                                :alt=" product.name"
+                              />
+                            </template>
+
+
+                          </div>
                         </div>
                         <div class="col-span-5">
                           <div class="flex justify-end">
@@ -185,9 +200,11 @@
                                 <tr v-for="product in value.products">
                                   <td>{{ product.id }}</td>
                                   <td>
-                                    <img style="width:20px;"
-                                         src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                                         alt="zoom" class="img-thumbnail"/></td>
+                                    <lazy-image
+                                      class="mr-15 img-40x"
+                                      :data-src="getThumbImageURL(product.image)"
+                                      :alt=" product.name"
+                                    /></td>
                                   <td> {{ product.name }}</td>
                                   <td>{{ product.category?.title }}</td>
                                   <td>{{ product.quantity }} {{ product.unit.name }}</td>
