@@ -280,9 +280,22 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
+
+  "country": {
+    "country": "Country",
+    "iso": "Iso",
+    "iso3": "Iso3",
+    "phonecode": "Phone Code",
+    "currency_code": "Currency Code",
+    "status": "Status",
+    "created": "Created"
+  },
+
+
   "city": {
     "name": "Name"
   },
+
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",
