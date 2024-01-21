@@ -56,17 +56,19 @@
                   </div>
                 </div>
                 <tr v-for="(product, index) in productList">
-                  <td><input name="selectProduct" v-model="selectedProduct" type="radio" id="1" :value="product"></td>
+                  <td><input name="selectProduct"
+                             @click="$emit('product-clicked',product)"
+                             v-model="selectedProduct" type="radio" id="1" :value="product"></td>
                   <td>
                     <lazy-image
-                      class="w-48 h-32 object-cover rounded"
+                      class="w-32 h-24 object-cover rounded"
                       :data-src="getThumbImageURL(product.image)"
                       :alt=" product.name"
                     />
                   </td>
                   <td><button style="overflow: hidden;text-overflow: ellipsis;    width: 100%; border: unset;">{{ product.name }}</button></td>
                   <td><span>{{ product.sku }}</span></td>
-                  <td><span>191 AED</span></td>
+                  <td><span>191 SAR</span></td>
                   <td><span>{{ product.status }}</span></td>
                   <td><span>-</span></td>
                 </tr>
@@ -97,12 +99,12 @@
                   class="icon arrow-right"
                 />
               </button>
-              <button
-                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary"
-                @click.prevent="$emit('product-clicked', selectedProduct)"
-              >
-                {{$t('rfq.selectProduct')}}
-              </button>
+<!--              <button-->
+<!--                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary"-->
+<!--                @click.prevent="$emit('product-clicked', selectedProduct)"-->
+<!--              >-->
+<!--                {{$t('rfq.selectProduct')}}-->
+<!--              </button>-->
             </div>
 
           </div>

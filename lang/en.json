@@ -1,6 +1,11 @@
 {
   "app": {
     "dir":"ltr",
+    "Save":"Save",
+    "Done":"Done",
+    "SAR":"SAR",
+    "Discard Draft":"Discard Draft",
+    "Cancel":"Cancel",
     "All": "All",
     "Actions": "Actions",
     "My List": "My List",
@@ -13,6 +18,16 @@
     "Select on Option": "Select on Option"
   },
   "rfq": {
+    "Select from my catalogue": "Select from my catalogue",
+    "Copy from website catalogue": "Copy from website catalogue",
+    "Upload a new product": "Upload a new product",
+    "How would you like to add a product": "How would you like to add a product",
+    "selectProductMessage": "Please be aware this product will be added to your quote only. You may also publish this to the marketplace later on from your Catalog.",
+    "quote_expired_message": "All prices mentioned are only valid until*",
+    "Additional Details": "Additional Details",
+    "Additional Details Message": "Provide any additional information relevant to your quote.",
+    "Unit offer price": "Unit offer price",
+    "Total target price": "Total target price",
     "selectProduct": "ِAdd",
     "add to quote": "Add To Quote",
     "RFQ details": "RFQ details",
@@ -49,6 +64,8 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
+    "name": "Product name",
+    "add": "Add Product",
     "Products": "Products",
     "Category": "Category",
     "Quantity": "Quantity",

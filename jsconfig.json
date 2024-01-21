@@ -50,6 +50,7 @@
 
     "getAllColors": "color/all-colors",
     "getColors": "color/all",
+    "getAllUnits": "unit/select",
 
 
     "getAllSubCategories": "subcategory/all-subcategories",

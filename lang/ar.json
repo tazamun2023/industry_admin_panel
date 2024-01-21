@@ -1,6 +1,11 @@
 {
   "app": {
     "dir":"rtl",
+    "Save":"حفظ",
+    "Done":"تم",
+    "SAR":"س.ر",
+    "Discard Draft":"حذف المسودة",
+    "Cancel":"الغاء",
     "Actions":"اجراءات",
     "All": "الكل",
     "My List": "قائمتي",
@@ -13,12 +18,23 @@
     "Select on Option": "تحديد خيار"
   },
   "rfq": {
+    "Select from my catalogue": "اختر من الكتالوج الخاص بي",
+    "Copy from website catalogue": "انسخ المنتج من كتالوج المنصة",
+    "Upload a new product": "تحميل منتج جديد",
+    "How would you like to add a product": "كيف تريد إضافة منتج",
+    "selectProductMessage": "يرجى العلم أنه سيتم إضافة هذا المنتج إلى عرض السعر الخاص بك فقط. يمكنك أيضًا نشره في السوق لاحقًا من الكتالوج.",
+    "quote_expired_message": "جميع الأسعار المذكورة صالحة حتى*",
+    "Additional Details": "تفاصيل إضافية",
+    "Additional Details Message": "قدّم أي معلومات إضافية ذات صلة بعرض السعر الخاص بك.",
+    "Unit offer price": "سعر العرض للوحدة",
+    "Total target price": "السعر الإجمالي المستهدف",
     "selectProduct": "اضف",
-    "add to quote": "أضف إلى عرض السعر",
+    "add to quote": "أضافة  العرض",
     "Submit Quote": "إرسال عرض السعر ",
-    "Select products to add to your quote": "قدّم أي معلومات إضافية ذات صلة بعرض السعر الخاص بك.",
+    "Select products to add to your quote": "أضف المنتج إلى عرض الأسعار الخاص بك",
 
     "Additional information": "  معلومات إضافية ",
+    "RFQ details": "  تفاصيل طلب عرض السعر ",
     "rfq": " عروض الاسعار ",
     "RFQ ID": "معرف طلب السعر",
     "Created on": "تم الإنشاء في",
@@ -50,6 +66,8 @@
 
   "products": {
     "Id": "المعرف",
+    "name": "اسم المنتج",
+    "add": "اضافة منتج",
     "Image": "الصورة",
     "Products": "المنتجات",
     "Category": "الفئة",

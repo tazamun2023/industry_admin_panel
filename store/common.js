@@ -3,6 +3,7 @@ import Service from '@/services/service.js'
 const state = () => ({
   allCategories: null,
   allCategoriesTree: [],
+  allUnits: [],
   allCountries: [],
   allCitiesById: [],
   allTaxRules: null,
@@ -27,6 +28,7 @@ const state = () => ({
   allWarehouses: null,
 })
 const getters = {
+  allUnits: ({allUnits}) => allUnits,
   allTaxRules: ({allTaxRules}) => allTaxRules,
   allAttributeValues: ({allAttributeValues}) => allAttributeValues,
   allAttributes: ({allAttributes}) => allAttributes,
@@ -54,6 +56,9 @@ const getters = {
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
     state.allPermissions = allPermissions
+  },
+  SET_ALL_Units(state, allUnits) {
+    state.allUnits = allUnits
   },
   SET_ALL_ROLES(state, allRoles) {
     state.allRoles = {}
@@ -270,6 +275,17 @@ const actions = {
     if (data.status === 200) {
       const result = data.data
       commit('SET_ALL_CATEGORIES_Tree', result)
+      // state.allCategoriesTree=re
+
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+  async getAllUnits({rootState, commit}) {
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getAllUnits', rootState.language.langCode)
+    if (data.status === 200) {
+      const result = data.data
+      commit('SET_ALL_Units', result)
       // state.allCategoriesTree=re
 
     } else {

@@ -33,7 +33,8 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategoriesTree','allCountries'])
+    ...mapGetters('common', ['allCategoriesTree','allCountries','allWeightUnits', ])
+
   },
   methods: {
     resultData(evt) {
@@ -127,13 +128,12 @@ export default {
     }
     if (this.allCategoriesTree.length==0) {
       try {
-        await this.getCategoriesTree().then(()=>{
-          this.result.parentCategory=8
-        })
+        await this.getCategoriesTree()
       } catch (e) {
         return this.$nuxt.error(e)
       }
     }
+
   }
 }
 </script>
