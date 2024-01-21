@@ -5,7 +5,7 @@
     get-api="getCity"
     set-image-api="setCityImage"
     route-name="cities"
-    :name="$t('country.country')"
+    :name="$t('city.city')"
     gate="brand"
     :validation-keys="['name.ar','name.en','country_id']"
     :result="result"

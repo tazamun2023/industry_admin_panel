@@ -89,7 +89,6 @@
     "ly": "Last year",
     "tSells": "Total sells",
     "cityName": "City Name",
-    "barcode" : "Barcode",
     "name" : "Name"
   },
   "category": {
@@ -292,7 +291,7 @@
   },
 
   "country": {
-    "country": "Country",
+    "name": "Name",
     "iso": "Iso",
     "iso3": "Iso3",
     "phonecode": "Phone Code",
@@ -301,10 +300,16 @@
     "created": "Created"
   },
 
-
   "city": {
-    "name": "Name"
+    "name": "Name",
+    "city": "City"
   },
+
+  "barcode": {
+    "name": "Name",
+    "barcode": "Barcode"
+  },
+
 
   "setting": {
     "cLogo": "Change logo",

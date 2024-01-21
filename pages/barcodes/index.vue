@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.barcode') },
+        name: { title: this.$t('barcode.barcode') },
       }
     }
   },

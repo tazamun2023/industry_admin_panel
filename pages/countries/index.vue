@@ -12,26 +12,26 @@
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-        <th class="w-50x mx-w-50x">
+<!--        <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
-        </th>
+        </th>-->
         <th>{{ $t('country.iso') }}</th>
         <th>{{ $t('country.iso3') }}</th>
-        <th>{{ $t('country.country') }}</th>
+        <th>{{ $t('country.name') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
         <th>&nbsp;</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
-        <td class="w-50x mx-w-50x">
+<!--        <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>
+        </td>-->
 
         <td>{{ value.iso }}</td>
         <td>{{ value.iso3 }}</td>
         <td>{{ value.name }}</td>
-        <td>{{ value.phonecode }}</td>
+        <td>+{{ value.phonecode }}</td>
         <td>{{ value.currency_code }}</td>
 <!--        <td>-->
 <!--          <button-->
