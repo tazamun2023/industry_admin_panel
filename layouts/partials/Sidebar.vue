@@ -223,6 +223,11 @@
             icon: 'flash-sales',
           },
           {
+            path: 'storage-temperatures',
+            title: 'Storage Temperatures',
+            icon: 'flash-sales',
+          },
+          {
             path: 'rfq',
             title: this.$t('rfq.RFQ_Market'),
             icon: 'flash-sales',

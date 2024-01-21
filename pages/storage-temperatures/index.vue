@@ -2,11 +2,11 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getWareHouses"
-    delete-api="deleteWareHouses"
-    route-name="warehouses"
+    list-api="getBarcodes"
+    delete-api="deleteBarcode"
+    route-name="storage-temperatures"
     empty-store-variable="allBrands"
-    :name="$t('warehouses.unit')"
+    :name="$t('barcode.barcode')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,15 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.name') }}</th>
-        <th>{{ $t('wirehouse.manager_number') }}</th>
-        <th>{{ $t('wirehouse.nearest_air_port') }}</th>
-        <th>{{ $t('wirehouse.nearest_sea_port') }}</th>
-        <th>{{ $t('wirehouse.is_open_friday') }}</th>
-        <th>{{ $t('wirehouse.is_open_saturday') }}</th>
-        <th>{{ $t('wirehouse.lat') }}</th>
-        <th>{{ $t('wirehouse.lang') }}</th>
-        <th>{{ $t('wirehouse.created') }}</th>
+        <th>{{ $t('barcode.barcode') }}</th>
+        <th>{{ $t('country.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -33,15 +26,10 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
+
         <td>{{ value.name }}</td>
-       <td>{{ value.manager_number }}</td>
-        <td>{{ value.nearest_air_port }}</td>
-        <td>{{ value.nearest_sea_port }}</td>
-        <td>{{$t('app.is_open_'+ value.is_open_friday )}}</td>
-        <td>{{$t('app.is_open_'+ value.is_open_saturday )}}</td>
-        <td>{{ value.lat }}</td>
-        <td>{{ value.lang }}</td>
         <td>{{ value.created }}</td>
+
         <td>
           <button
             v-if="$can('brand', 'edit')"
@@ -62,13 +50,12 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "warehouses",
+  name: "storage-temperatures",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.name') },
-        created_at: { title: this.$t('category.date') },
+        name: { title: this.$t('index.barcode') },
       }
     }
   },

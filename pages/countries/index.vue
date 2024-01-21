@@ -2,9 +2,8 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
+    list-api="getCountriesData"
+    route-name="countries"
     empty-store-variable="allBrands"
     gate="brand"
     :order-options="orderOptions"
@@ -21,8 +20,6 @@
         <th>{{ $t('country.name') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
-        <th>{{ $t('country.status') }}</th>
-        <th>{{ $t('country.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -31,19 +28,11 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
 
-        <td class="">BD</td>
-        <td>BGD</td>
-        <td>Bangladesh</td>
-        <td>880</td>
-        <td>BDT</td>
-
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
-        <td>{{ value.created }}</td>
+        <td>{{ value.iso }}</td>
+        <td>{{ value.iso3 }}</td>
+        <td>{{ value.name }}</td>
+        <td>{{ value.phonecode }}</td>
+        <td>{{ value.currency_code }}</td>
 <!--        <td>-->
 <!--          <button-->
 <!--            v-if="$can('brand', 'edit')"-->
@@ -71,15 +60,12 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "brands",
+  name: "countries",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
-        created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
+        name: { title: this.$t('index.title') },
       }
     }
   },

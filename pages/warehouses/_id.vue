@@ -37,7 +37,7 @@
 
 
       <div class="input-wrapper">
-        <span class="mr-15">{{$t('unit.nearest_air_port')}}</span>
+        <span class="mr-15">{{$t('wirehouse.nearest_air_port')}}</span>
         <v-select
           :dir="$t('app.dir')"
           v-model="result.nearest_air_port_id"

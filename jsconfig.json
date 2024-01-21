@@ -106,7 +106,14 @@
     "getWareHouse": "warehouse/find",
     "setWareHouse": "warehouse/action",
 
+    "getCountriesData": "country/all",
+
     "getPortData": "warehouse/findPort",
+
+    "getStorageTems": "storageTem/all",
+    "deleteStorageTems": "storageTem/delete",
+    "getStorageTem": "storageTem/find",
+    "setStorageTems": "storageTem/action",
 
 
     "getAllRfqs": "rfq/all-brands",

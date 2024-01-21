@@ -13,6 +13,13 @@
     "Apply Filters": "Apply Filters",
     "Select on Option": "Select on Option"
   },
+
+  "wirehouse": {
+    "nearest_air_port":"Nearest Air Port"
+
+  },
+
+
   "rfq": {
     "RFQ ID": "RFQ ID ",
     "Single product": "Single product",
