@@ -449,7 +449,7 @@ export default {
           api: 'setQuote'
         }).then(()=>{
 
-          alert('saved')
+          // alert('saved')
         })
     },
     addProduct() {
