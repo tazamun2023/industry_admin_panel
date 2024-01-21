@@ -1,34 +1,19 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setBarcode"
-    get-api="getBarcode"
+    set-api="setStorageTems"
+    get-api="getStorageTem"
     set-image-api="setCategoryImage"
-    route-name="barcodes"
-    :name="$t('barcode.barcode')"
+    route-name="storage-temperatures"
+    :name="$t('storagetem.create')"
     gate="category"
-    :validation-keys="['name']"
+    :validation-keys="['name.ar','name.en']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <div class="input-wrapper">
-
-        <label>{{ $t('barcode.barcode') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('barcode.name')"
-          v-model="result.name"
-          ref="name"
-          :class="{invalid: !!!result.name && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.name && hasError"
-        >
-          {{ $t('barcode.name', { type: $t('index.title')}) }}
-        </span>
-      </div>
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
     </template>
   </data-page>
 </template>
@@ -41,21 +26,13 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "storage-temperatures",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
         result: {
           id: '',
-          title: '',
-          status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
-          meta_description: '',
-          in_footer: 2,
-          meta_title: '',
-          image: ''
+          name: {'ar': '', 'en': ''},
         }
       }
     },
@@ -69,27 +46,20 @@
       ...mapGetters('common', ['allCategories'])
     },
     methods: {
+
+      updateInput(input, language, value) {
+
+        this.$set(input, language, value);
+      },
+
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
           this.emptyAllList('allCategories')
         }
         this.result = evt
       },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
-      },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
+
+
       ...mapActions('common', ['getAllList', 'emptyAllList'])
     },
     async mounted() {

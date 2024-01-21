@@ -38,8 +38,6 @@
       </div>
 
 
-
-
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
             <span class="mr-15">
@@ -72,11 +70,9 @@ export default {
     return {
       result: {
         id: '',
-        // name: '',
         name: {'ar': '', 'en': ''},
         country_id: '',
         status: 1,
-        image: ''
       }
     }
   },

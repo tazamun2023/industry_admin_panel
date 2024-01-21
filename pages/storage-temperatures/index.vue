@@ -2,11 +2,11 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBarcodes"
-    delete-api="deleteBarcode"
+    list-api="getStorageTems"
+    delete-api="deleteStorageTems"
     route-name="storage-temperatures"
     empty-store-variable="allBrands"
-    :name="$t('barcode.barcode')"
+    :name="$t('storagetem.create')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,8 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('barcode.barcode') }}</th>
-        <th>{{ $t('country.created') }}</th>
+        <th>{{ $t('storagetem.name') }}</th>
+        <th>{{ $t('storagetem.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.barcode') },
+        name: { title: this.$t('storagetem.name') },
       }
     }
   },
