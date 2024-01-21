@@ -17,31 +17,43 @@
     </div>
 
 
-
     <!-- ==================tab============== -->
     <div class="flex  mt-20 flex-wrap">
       <div class="w-full">
         <ul class="flex mb-0 list-none flex-wrap pt-3 w-50 pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-               href="/rfq"
-               v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 1, 'border-t-4 border-primary': openTab === 1}">
+
+            <nuxt-link
+              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+              v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 1, 'border-t-4 border-primary': openTab === 1}"
+              :to="`/rfq`"
+              :title="$t('app.Relevant to me')"
+            >
               {{ $t("app.Relevant to me") }}
-            </a>
+            </nuxt-link>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-               href="/rfq/all"
-               v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 2, 'border-t-4 border-primary': openTab === 2}">
+            <nuxt-link
+              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+              v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 2, 'border-t-4 border-primary': openTab === 2}"
+              :to="`/rfq/all`"
+              :title="$t('app.All')"
+            >
               {{ $t("app.All") }}
-            </a>
+            </nuxt-link>
+
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-               href="/rfq/my-list"
-               v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 3, 'border-t-4 border-primary': openTab === 3}">
+
+
+            <nuxt-link
+              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+              v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 3, 'border-t-4 border-primary': openTab === 3}"
+              :to="`/rfq/my-list`"
+              :title="$t('app.My List')"
+            >
               {{ $t("app.My List") }}
-            </a>
+            </nuxt-link>
           </li>
         </ul>
         <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
@@ -50,7 +62,7 @@
               <list-page
                 v-if="$can('brand', 'view')"
                 ref="listPage"
-                list-api="getRfqsAll"
+                :list-api="api"
                 delete-api="deleteBrand"
                 route-name="rfqs"
                 empty-store-variable="allRfqs"
@@ -73,8 +85,23 @@
                     <div class="card mt-20 p-4 bg-white">
                       <div class="grid grid-cols-7 gap-4">
                         <div>
-                          <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                               class="w-48 h-32 object-cover rounded" alt="...">
+                          <lazy-image
+                            class="w-48 h-32 object-cover rounded"
+                            :data-src="getThumbImageURL(value.products[0].image)"
+                            :alt=" value.products[0].name"
+                          />
+
+                          <div class="my-2 flex flex-row justify-start">
+                            <template v-for="(product,index) in value.products">
+                              <lazy-image
+                                class="mr-15 img-40x"
+                                :data-src="getThumbImageURL(product.image)"
+                                :alt=" product.name"
+                              />
+                            </template>
+
+
+                          </div>
                         </div>
                         <div class="col-span-5">
                           <div class="flex justify-end">
@@ -173,9 +200,11 @@
                                 <tr v-for="product in value.products">
                                   <td>{{ product.id }}</td>
                                   <td>
-                                    <img style="width:20px;"
-                                         src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg"
-                                         alt="zoom" class="img-thumbnail"/></td>
+                                    <lazy-image
+                                      class="mr-15 img-40x"
+                                      :data-src="getThumbImageURL(product.image)"
+                                      :alt=" product.name"
+                                    /></td>
                                   <td> {{ product.name }}</td>
                                   <td>{{ product.category?.title }}</td>
                                   <td>{{ product.quantity }} {{ product.unit.name }}</td>
@@ -246,16 +275,20 @@ export default {
     LazyImage,
     ListPage
   },
-  props:{
-    openTab:{
-      type:String,
-      default:1
+  props: {
+    openTab: {
+      type: String,
+      default: 1
+    },
+    api: {
+      type: String,
+      default: "getRfqsAll"
     },
   },
   mixins: [util, bulkDelete],
   methods: {
 
-    filterChanged(result){
+    filterChanged(result) {
 
       console.log(result)
       this.$router.push({

@@ -17,7 +17,7 @@
         </th>
         <th>{{ $t('country.iso') }}</th>
         <th>{{ $t('country.iso3') }}</th>
-        <th>{{ $t('country.name') }}</th>
+        <th>{{ $t('country.country') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
         <th>&nbsp;</th>

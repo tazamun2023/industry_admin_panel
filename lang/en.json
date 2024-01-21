@@ -4,6 +4,7 @@
     "is_open_1":"Yes",
     "is_open_2":"No",
     "All": "All",
+    "Actions": "Actions",
     "My List": "My List",
     "from": "From",
     "Relevant to me": "Relevant to me",
@@ -21,7 +22,14 @@
 
 
   "rfq": {
+    "selectProduct": "ِAdd",
+    "add to quote": "Add To Quote",
+    "RFQ details": "RFQ details",
+    "Additional information": "Additional Information",
+    "Submit Quote": "Submit Quote",
+    "Select products to add to your quote": "Select products to add to your quote",
     "RFQ ID": "RFQ ID ",
+    "rfq": "RFQs",
     "Single product": "Single product",
     "Multi-product": "Multi-product",
     "Created on": "Created on",
@@ -282,9 +290,22 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
+
+  "country": {
+    "country": "Country",
+    "iso": "Iso",
+    "iso3": "Iso3",
+    "phonecode": "Phone Code",
+    "currency_code": "Currency Code",
+    "status": "Status",
+    "created": "Created"
+  },
+
+
   "city": {
     "name": "Name"
   },
+
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",

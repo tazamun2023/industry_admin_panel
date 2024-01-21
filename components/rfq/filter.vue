@@ -16,10 +16,11 @@ export default {
       result: {
         country_id: "",
         parent: '',
+        search: '',
         from_date: '',
         to_date: '',
-        parentCaregory: '',
-        subCaregory: '',
+        parentCategory: '',
+        subCategory: '',
         category_id: '',
         multi_products: '',
       }
@@ -32,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategoriesTree'])
+    ...mapGetters('common', ['allCategoriesTree','allCountries'])
   },
   methods: {
     resultData(evt) {
@@ -58,25 +59,28 @@ export default {
       this.result.status = data.key
     },
     updateLevel2() {
-      this.result.subCaregory = "";  // Reset Level 2 selection
+      this.result.subCategory = "";  // Reset Level 2 selection
       this.result.category_id = "";  // Reset Level 2 selection
-      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCaregory));
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCategory));
       this.selectedLevel2 = null;  // Reset Level 2 selection
     },
     updateLevel3() {
       this.result.category_id = "";
-     this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCaregory));
+     this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
 
     },
     filterData() {
       this.$emit('filter',this.result);
     },
-    ...mapActions('common', ['getCategoriesTree', 'emptyAllList'])
+    ...mapActions('common', ['getCategoriesTree','getAllCountries', 'emptyAllList'])
   },
   async mounted() {
 
 
-  console.log("qq")
+  if(this.$route?.query.search)
+  {
+    this.result.search=this.$route?.query.search
+  }
   if(this.$route?.query.country_id)
   {
     this.result.country_id=this.$route?.query.country_id
@@ -90,14 +94,14 @@ export default {
     this.result.to_date=this.$route?.query.to_date
   }
 
-  if(this.$route?.query.parentCaregory)
+  if(this.$route?.query.parentCategory)
   {
-    this.result.parentCaregory=parseInt(this.$route?.query.parentCaregory)
+    this.result.parentCategory=parseInt(this.$route?.query.parentCategory)
     this.updateLevel2()
   }
-  if(this.$route?.query.subCaregory)
+  if(this.$route?.query.subCategory)
   {
-    this.result.subCaregory=parseInt(this.$route?.query.subCaregory)
+    this.result.subCategory=parseInt(this.$route?.query.subCategory)
     this.updateLevel3()
   }
 
@@ -105,12 +109,22 @@ export default {
     {
       this.result.category_id=parseInt(this.$route?.query.category_id)
     }
+    if(this.$route?.query.country_id)
+    {
+      this.result.country_id=parseInt(this.$route?.query.country_id)
+    }
   if(this.$route?.query.multi_products)
   {
     this.result.multi_products=this.$route?.query.multi_products
   }
 
-
+    if (this.allCountries.length == 0) {
+      try {
+        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
     if (this.allCategoriesTree.length==0) {
       try {
         await this.getCategoriesTree()
@@ -129,7 +143,7 @@ export default {
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
             <label for="">{{ $t("rfq.RFQ ID") }}</label>
-            <input type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
+            <input v-model="result.search" type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
           </div>
         </div>
 <!--        {{ result }}-->
@@ -141,7 +155,7 @@ export default {
               <label for="">{{ $t("rfq.Search by Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.parentCaregory"
+                v-model="result.parentCategory"
                 :options="allCategoriesTree"
                 label="title"
                 :reduce="cat => cat.id"
@@ -158,7 +172,7 @@ export default {
               <label for="">{{ $t("rfq.Select Sub Category") }}</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.subCaregory"
+                v-model="result.subCategory"
                 :options="selectedLevel1?.child"
                 label="title"
                 :reduce="cat => cat.id"
@@ -178,6 +192,7 @@ export default {
                 v-model="result.category_id"
                 :options="selectedLevel2?.child"
                 :reduce="cat => cat.id"
+
                 label="title"
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"
@@ -197,16 +212,16 @@ export default {
           </div>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
-          <div class="mb-4 for-lang">
-            <label for=""> {{ $t("rfq.Location") }} </label>
-            <select
-              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              v-model="result.country_id">
-              <option value="">{{ ("app.Select on Option") }}</option>
-              <option value="10">Bangladesh</option>
-              <option value="1">Yemen</option>
-            </select>
-          </div>
+            <label for=""> {{ $t("rfq.Shipping country") }} </label>
+            <v-select
+              :dir="$t('app.dir')"
+              v-model="result.country_id"
+              :options="allCountries"
+              label="name"
+              :reduce="c => c.id"
+              :placeholder="$t('rfq.Shipping country') "
+              class="custom-select"
+            ></v-select>
         </div>
         <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
