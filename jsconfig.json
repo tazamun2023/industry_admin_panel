@@ -117,11 +117,11 @@
     "getRFQ": "rfq/find",
 
     "getAllProducts": "product/all",
-    "getAllApprovedProducts": "product/approved",
-    "getAllPendingApprovalProducts": "product/pending-approval",
-    "getAllRejectedProducts": "product/rejected",
-    "getAllArchivedProducts": "product/archived",
-    "getAllDraftProducts": "product/draft",
+    "getAllApprovedProducts": "product/all/approved",
+    "getAllPendingApprovalProducts": "product/all/pending",
+    "getAllRejectedProducts": "product/all/rejected",
+    "getAllArchivedProducts": "product/all/archived",
+    "getAllDraftProducts": "product/all/draft",
 
 
     "getQuote": "quotes/find",

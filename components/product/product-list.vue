@@ -20,13 +20,13 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
               </svg>
-              Download Rejection Reasons
+              {{ $t('prod.download_rejection_reasons') }}
             </button>
           </div>
           <div class="text-end">
             <Nuxt-link :to="`/products/add`"
                        class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
-              Add New Product
+              {{ $t('prod.add_new_product') }}
             </Nuxt-link>
           </div>
         </div>
@@ -37,14 +37,14 @@
                @click="toggleTabs('is_all_products')"
                       :to="`/products/all`"
                :class="{'bg-white border-white border-b-2': openTab !== 'is_all_products', 'border-b-2 border-primary': openTab === 'is_all_products'}">
-              All Products
+              {{ $t('prod.all_product') }}
             </NuxtLink>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
             <NuxtLink class="text-xs font-bold uppercase px-5 py-3   block leading-normal" @click="toggleTabs('is_approved')"
                       :to="`/products/approved`"
                :class="{'bg-white border-white border-b-t': openTab !== 'is_approved', 'border-b-2 border-primary': openTab === 'is_approved'}">
-              Approved
+              {{ $t('prod.approved') }}
             </NuxtLink>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
@@ -52,28 +52,28 @@
                @click="toggleTabs('is_pending_approval')"
                       :to="`/products/pending-approval`"
                :class="{'bg-white border-white border-b-t': openTab !== 'is_pending_approval', 'border-b-2 border-primary': openTab === 'is_pending_approval'}">
-              Pending Approval
+              {{ $t('prod.pending_approval') }}
             </NuxtLink>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
             <NuxtLink class="text-xs font-bold uppercase px-5 py-3   block leading-normal" @click="toggleTabs('is_rejected')"
                       :to="`/products/rejected`"
                :class="{'bg-white border-white border-b-t': openTab !== 'is_rejected', 'border-b-2 border-primary': openTab === 'is_rejected'}">
-              Rejected
+              {{ $t('prod.rejected') }}
             </NuxtLink>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
             <NuxtLink class="text-xs font-bold uppercase px-5 py-3   block leading-normal" @click="toggleTabs('is_archived')"
                       :to="`/products/archived`"
                :class="{'bg-white border-white border-b-t': openTab !== 'is_archived', 'border-b-2 border-primary': openTab === 'is_archived'}">
-              Archived
+              {{ $t('prod.archived') }}
             </NuxtLink>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
             <NuxtLink class="text-xs font-bold uppercase px-5 py-3   block leading-normal" @click="toggleTabs('is_draft')"
                       :to="`/products/draft`"
                :class="{'bg-white border-white border-b-t': openTab !== 'is_draft', 'border-b-2 border-primary': openTab === 'is_draft'}">
-              Draft
+              {{ $t('prod.draft') }}
             </NuxtLink>
           </li>
         </ul>
@@ -83,136 +83,80 @@
             <div class="tab-content input-wrapper tab-space">
 
               <div>
-                <div class="grid grid-cols-12 mt-20 gap-4">
-                  <div class="col-span-8">
-                    <div class="grid grid-cols-4 gap-4">
-                      <div>
-                        <div class="input-group flex">
-                          <input type="text" class="form-control" placeholder="Write Group Name"
-                                 aria-label="Recipient's username" aria-describedby="button-addon2">
-                          <div class="relative">
-                            <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
-                                   xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                              </svg>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group for-lang ar-lang">
-                        <select class="border border-smooth p-3 rounded" name="" id="">
-                          <option value="">Search by Category</option>
-                          <option value="">category 1</option>
-                          <option value="">category 1</option>
-                        </select>
-                      </div>
-
-                      <div class="form-group for-lang ar-lang">
-                        <select class="border border-smooth p-3 rounded" name="" id="">
-                          <option value="">Select Sub Category</option>
-                          <option value="">category 1</option>
-                          <option value="">category 1</option>
-                        </select>
-                      </div>
-
-                      <div class="col-md-3">
-                        <div class="form-group for-lang ar-lang">
-                          <select class="border border-smooth p-3 rounded" name="" id="">
-                            <option value="">Select Child Category</option>
-                            <option value="">category 1</option>
-                            <option value="">category 1</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-span-4">
-                    <div class="flex justify-end">
-                      <div class="form-group for-lang ar-lang mr-2 ml-2">
-                        <select class="border border-smooth p-3 rounded" name="" id="">
-                          <option value="">Status</option>
-                          <option value="">Pending</option>
-                          <option value="">Approved</option>
-                          <option value="">Rejected</option>
-                          <option value="">Online</option>
-                          <option value="">Ofline</option>
-                          <option value="">In Stock</option>
-                          <option value="">Out of Stock</option>
-                        </select>
-                      </div>
-                      <div class="form-group for-lang ar-lang mr-2 ml-2">
-                        <select class="border border-smooth p-3 rounded" name="" id="">
-                          <option value="">Sort By</option>
-                          <option value="">A to Z</option>
-                          <option value="">Z to A</option>
-                          <option value="">Created First</option>
-                          <option value="">Created Last</option>
-                          <option value="">Update New</option>
-                          <option value="">Update Old</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <list-page
                   ref="listPage"
                   :list-api="api"
                   delete-api="deleteProduct"
                   route-name="products"
+                  empty-store-variable="allProducts"
                   :name="$t('title.prod')"
                   :order-options="orderByProduct"
                   @delete-bulk="deleteBulk"
                   @list="itemList = $event"
                 >
+                  <template
+                    v-slot:table-top="{orderOptions}"
+                  >
+                  <product-filter @filter="filterChanged"></product-filter>
+                  </template>
                   <template  v-slot:table="{list}">
                 <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                   <thead>
                   <tr>
-                    <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck" type="checkbox">
+                    <th class="flex gap-4">
+                      <input @click="actionCheckToggle()" id="allcheck" type="checkbox" @change="checkAll">
                       <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
-                        <option value="">Action</option>
-                        <option value="">Set Online</option>
-                        <option value="">Set Ofline</option>
+                        <option value="">{{ $t('prod.action') }}</option>
                         <option value="">Set out of stock</option>
                         <option value="">Set in stock</option>
                         <option value="">Archive</option>
                       </select>
                     </th>
-                    <th>Image</th>
-                    <th>Product Name</th>
-                    <th>SKU</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th style="width:10%">Available Quantity</th>
-                    <th>Created / Updated</th>
-                    <th>Status</th>
-                    <th>Visibility</th>
-                    <th>Action</th>
+                    <th>{{ $t('prod.pImgs') }}</th>
+                    <th>{{ $t('index.title') }}</th>
+                    <th>{{ $t('prod.sku') }}</th>
+                    <th>{{ $t('prod.category') }}</th>
+                    <th>{{ $t('prod.price') }}</th>
+                    <th style="width:10%">{{ $t('prod.available_quantity') }}</th>
+                    <th>{{ $t('prod.create_update') }}</th>
+                    <th>{{ $t('prod.status') }}</th>
+                    <th>{{ $t('prod.visibility') }}</th>
+                    <th>{{ $t('prod.action') }}</th>
                   </tr>
                   </thead>
 
 
                   <tbody>
                   <tr v-for="(value, index) in list" :key="index">
-                    <td><input type="checkbox"></td>
-                    <td><img style="max-width:100px;height:70px;object-fit:cover"
-                             src="https://cfn-catalog-prod.tradeling.com/up/659450205593fb7a72ca2905/68dcb08693aa4cc1e265b3448bc5967e.png"
-                             alt=""></td>
+                    <td><input type="checkbox" :value="value.id" v-model="cbList"></td>
+                    <td>
+                      <nuxt-link
+                        class="dply-felx j-left link"
+                        style="max-width:100px;height:70px;object-fit:cover"
+                        :to="`/products/${value.id}`"
+                      >
+                        <lazy-image
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title.en"
+                        />
+                      </nuxt-link>
+                    </td>
                     <td>{{ value.name }}</td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td>
-                      <p>
-                        <del>AED 22 - AED 222</del>
-                      </p>
-                      <p>AED 22 - AED 222</p>
+                      <p v-if="value.max_unit_price"><del>SAR {{ value.max_unit_price?.max_unit_price }}</del></p>
+                      <p v-else>NAN</p>
+                      <p v-if="value.min_selling_price">SAR {{ value.min_selling_price?.min_selling_price }}</p>
                     </td>
-                    <td><input type="qty" value="7">
-                      <p class="text-xs">Min. Order Qty: 12</p></td>
-                    <td>Pending Approval</td>
+                    <td>
+                      <input type="qty" :value="value.available_quantity">
+                      <p class="text-xs" v-if="value.min_order_quantity">Min. Order Qty: {{  value.min_order_quantity[0]?.min_quantity }}</p>
+                      <p class="text-xs" v-else>NAN</p>
+                    </td>
+                    <td>{{ value.status }}</td>
                     <td>Jan 4, 2024 9:48 AM <br>
                       Jan 4, 2024 9:48 AM
                     </td>
@@ -233,43 +177,7 @@
                 </table>
                   </template>
                 </list-page>
-                <div class="mt-10 text-end">
-                  <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                    <a href="#"
-                       class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                      <span class="sr-only">Previous</span>
-                      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                      </svg>
-                    </a>
-                    <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-                    <a href="#" aria-current="page"
-                       class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                    <a href="#"
-                       class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
-                    <a href="#"
-                       class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a>
-                    <span
-                      class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
-                    <a href="#"
-                       class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</a>
-                    <a href="#"
-                       class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</a>
-                    <a href="#"
-                       class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</a>
-                    <a href="#"
-                       class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                      <span class="sr-only">Next</span>
-                      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                              clip-rule="evenodd"/>
-                      </svg>
-                    </a>
-                  </nav>
-                </div>
+
               </div>
             </div>
           </div>
@@ -284,6 +192,7 @@ import {mapGetters} from 'vuex'
 import util from '~/mixin/util'
 import LazyImage from "~/components/LazyImage"
 import bulkDelete from "~/mixin/bulkDelete";
+import ProductFilter from "../../components/product/filter.vue";
 
 export default {
   name: "product-list",
@@ -316,7 +225,8 @@ export default {
   mixins: [util, bulkDelete],
   components: {
     LazyImage,
-    ListPage
+    ListPage,
+    ProductFilter
   },
   computed: {
     currencyIcon() {
@@ -326,6 +236,24 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
+
+    filterChanged(result) {
+
+      console.log(result)
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: 1,
+          orderBy: 'created_at',
+          orderByType: 'desc',
+          ...result
+          // filter: this.checkedFilter.join(','),
+        }
+      })
+    },
+    dateFormat(dataTime) {
+      return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
+    },
     toggleTabs: function (tab) {
       this.openTab = tab
     },
