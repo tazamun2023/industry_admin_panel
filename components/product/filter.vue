@@ -18,12 +18,13 @@ export default {
         country_id: "",
         parent: '',
         search: '',
+        sort_by: '',
         from_date: '',
         to_date: '',
         parentCategory: '',
         subCategory: '',
         category_id: '',
-        multi_products: '',
+        status: '',
       }
     }
   },
@@ -80,8 +81,26 @@ export default {
       this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
 
     },
+    filterStatus(){
+      if (this.result.search!==''){
+        this.filterData()
+      }
+    },
+    filterBySort(){
+      if (this.result.sort_by!==''){
+        this.filterData()
+      }
+    },
+    doSearch(){
+      if (this.result.status!==''){
+        this.filterData()
+      }
+    },
+
     filterData() {
-      this.$emit('filter',this.result);
+      if (this.result.search!=='' || this.result.status!=='' || this.result.parentCategory!=='' || this.result.subCategory!==''|| this.result.category_id!==''|| this.result.sort_by!==''){
+        this.$emit('filter',this.result);
+      }
     },
     ...mapActions('common', ['getCategoriesTree','getAllCountries', 'emptyAllList'])
   },
@@ -128,6 +147,10 @@ export default {
     {
       this.result.multi_products=this.$route?.query.multi_products
     }
+    if(this.$route?.query.status)
+    {
+      this.result.status=this.$route?.query.status
+    }
 
     if (this.allCountries.length == 0) {
       try {
@@ -149,12 +172,13 @@ export default {
 
 <template>
   <div class="grid grid-cols-12 mt-20 gap-4">
-    <div class="col-span-8">
-      <div class="grid grid-cols-4 gap-4">
+    <div class="col-span-9">
+      <div class="grid grid-cols-6 gap-4">
         <div>
           <div class="input-group flex">
             <input type="text" class="form-control" :placeholder="$t('prod.write_group_name')"
                    v-model="result.search"
+                   @input="doSearch"
                    aria-label="Recipient's username" aria-describedby="button-addon2">
 <!--            <div class="relative">-->
 <!--              <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">-->
@@ -207,45 +231,43 @@ export default {
             ></v-select>
           </div>
         </div>
+        <div class="flex col-span-2">
+          <button type="button"
+                  @click="filterData"
+                  class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long">
+            {{ $t("app.Apply Filters") }}
+          </button>
+          <a
+            class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+            href=""> {{ $t("prod.clear_filter") }} </a>
+        </div>
       </div>
     </div>
-    <div class="col-span-4">
+    <div class="col-span-3">
       <div class="flex justify-end">
         <div class="form-group for-lang ar-lang mr-2 ml-2">
-          <select class="border border-smooth p-3 rounded" name="" id="">
+          <select class="border border-smooth p-3 rounded" v-model="result.status" @change="filterStatus">
             <option value="">{{ $t('prod.status') }}</option>
-            <option value="">Pending</option>
-            <option value="">Approved</option>
-            <option value="">Rejected</option>
-            <option value="">Online</option>
-            <option value="">Ofline</option>
-            <option value="">In Stock</option>
-            <option value="">Out of Stock</option>
+            <option value="pending">{{ $t('prod.pending_approval') }}</option>
+            <option value="approved">{{ $t('prod.approved') }}</option>
+            <option value="rejected">{{ $t('prod.rejected') }}</option>
+            <option value="draft">{{ $t('prod.draft') }}</option>
+            <option value="archived">{{ $t('prod.archived') }}</option>
+            <option value="in_stock">{{ $t('prod.in_stock') }}</option>
+            <option value="out_of_stock">{{ $t('prod.out_of_stock') }}</option>
           </select>
         </div>
         <div class="form-group for-lang ar-lang mr-2 ml-2">
-          <select class="border border-smooth p-3 rounded" name="" id="">
+          <select class="border border-smooth p-3 rounded" v-model="result.sort_by" @change="filterBySort">
             <option value="">{{ $t('prod.sortBy') }}</option>
-            <option value="">A to Z</option>
-            <option value="">Z to A</option>
-            <option value="">Created First</option>
-            <option value="">Created Last</option>
-            <option value="">Update New</option>
-            <option value="">Update Old</option>
+            <option value="a_to_z">A to Z</option>
+            <option value="z_to_a">Z to A</option>
+            <option value="created_first">Created First</option>
+            <option value="created_last">Created Last</option>
+            <option value="update_new">Update New</option>
+            <option value="update_old">Update Old</option>
           </select>
         </div>
-      </div>
-    </div>
-    <div class="col-span-4">
-      <div class="mb-4">
-        <button type="button"
-                @click="filterData"
-                class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
-          {{ $t("app.Apply Filters") }}
-        </button>
-        <a
-          class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"
-          href=""> {{ $t("app.Clear Filter") }} </a>
       </div>
     </div>
   </div>

@@ -137,6 +137,7 @@
     "getAllRejectedProducts": "product/all/rejected",
     "getAllArchivedProducts": "product/all/archived",
     "getAllDraftProducts": "product/all/draft",
+    "setAvailableQty": "product/update-qty",
 
 
     "getQuote": "quotes/find",
