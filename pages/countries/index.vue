@@ -2,11 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
+    list-api="getCountriesData"
+    route-name="countries"
     empty-store-variable="allBrands"
-    :name="$t('country.country')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -14,45 +12,42 @@
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-        <th class="w-50x mx-w-50x">
+<!--        <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
-        </th>
+        </th>-->
         <th>{{ $t('country.iso') }}</th>
         <th>{{ $t('country.iso3') }}</th>
         <th>{{ $t('country.name') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
-        <th>{{ $t('country.status') }}</th>
-        <th>{{ $t('country.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
-        <td class="w-50x mx-w-50x">
+<!--        <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>
+        </td>-->
 
-        <td class="">BD</td>
-        <td>BGD</td>
-        <td>Bangladesh</td>
-        <td>880</td>
-        <td>BDT</td>
-
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
-        <td>{{ value.created }}</td>
-        <td>
-          <button
-            v-if="$can('brand', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
-            v-if="$can('brand', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
-        </td>
+        <td>{{ value.iso }}</td>
+        <td>{{ value.iso3 }}</td>
+        <td>{{ value.name }}</td>
+        <td>+{{ value.phonecode }}</td>
+        <td>{{ value.currency_code }}</td>
+<!--        <td>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'edit')"-->
+<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'delete')"-->
+<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
+<!--        </td>    <td>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'edit')"-->
+<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
+<!--          <button-->
+<!--            v-if="$can('brand', 'delete')"-->
+<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
+<!--        </td>-->
       </tr>
     </template>
   </list-page>
@@ -65,15 +60,12 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "brands",
+  name: "countries",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
-        created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
+        name: { title: this.$t('index.title') },
       }
     }
   },

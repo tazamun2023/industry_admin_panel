@@ -132,9 +132,9 @@ const mutations = {
   },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = allCountries
-    // allCountries.forEach((item) => {
-    //   state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
-    // })
+  /*  allCountries.forEach((item) => {
+     state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
+     })*/
   },
   SET_ALL_TRANSPORTATIONMODES(state, allTransportationModes) {
     state.allTransportationModes = {}

@@ -48,9 +48,10 @@
     "setCategory": "category/action",
     "setCategoryImage": "category/upload",
 
+
     "getAllColors": "color/all-colors",
-    "getColors": "color/all",
     "getAllUnits": "unit/select",
+
 
 
     "getAllSubCategories": "subcategory/all-subcategories",
@@ -103,11 +104,24 @@
     "setUnit": "unit/action",
 
 
-    "getAllTransport": "transport/all-color",
-    "getTransports": "transport/all",
-    "deleteTransport": "transport/delete",
-    "getTransport": "transport/find",
-    "setTransport": "transport/action",
+    "getTransportModes": "transportationMode/all",
+    "deleteTransportModes": "transportationMode/delete",
+    "getTransportMode": "transportationMode/find",
+    "setTransportMode": "transportationMode/action",
+
+    "getWareHouses": "warehouse/all",
+    "deleteWareHouses": "warehouse/delete",
+    "getWareHouse": "warehouse/find",
+    "setWareHouse": "warehouse/action",
+
+    "getCountriesData": "country/all",
+
+    "getPortData": "warehouse/findPort",
+
+    "getStorageTems": "storageTem/all",
+    "deleteStorageTems": "storageTem/delete",
+    "getStorageTem": "storageTem/find",
+    "setStorageTems": "storageTem/action",
 
 
     "getAllRfqs": "rfq/all-brands",

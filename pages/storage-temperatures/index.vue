@@ -2,11 +2,11 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getUnits"
-    delete-api="deleteUnit"
-    route-name="units"
+    list-api="getStorageTems"
+    delete-api="deleteStorageTems"
+    route-name="storage-temperatures"
     empty-store-variable="allBrands"
-    :name="$t('unit.unit')"
+    :name="$t('storagetem.create')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,11 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.title') }}</th>
-        <th>{{ $t('unit.code') }}</th>
-        <th>{{ $t('unit.type') }}</th>
-        <th>{{ $t('unit.status') }}</th>
-        <th>{{ $t('unit.created') }}</th>
+        <th>{{ $t('storagetem.name') }}</th>
+        <th>{{ $t('storagetem.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -29,16 +26,10 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
+
         <td>{{ value.name }}</td>
-       <td>{{ value.unit_code }}</td>
-        <td>{{ value.unit_type }}</td>
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
         <td>{{ value.created }}</td>
+
         <td>
           <button
             v-if="$can('brand', 'edit')"
@@ -59,14 +50,12 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "units",
+  name: "storage-temperatures",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.name') },
-        created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
+        name: { title: this.$t('storagetem.name') },
       }
     }
   },

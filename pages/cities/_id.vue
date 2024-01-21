@@ -5,7 +5,7 @@
     get-api="getCity"
     set-image-api="setCityImage"
     route-name="cities"
-    :name="$t('country.country')"
+    :name="$t('city.city')"
     gate="brand"
     :validation-keys="['name.ar','name.en','country_id']"
     :result="result"
@@ -16,18 +16,19 @@
       <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
-      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{ $t('title.select_country') }}</span>
-          <dropdown
-            v-if="allCountries"
-            :default-null="true"
-            :selectedKey="`${result.country_id}`"
-            :options="allCountries"
-            @clicked="countrySelected"
-          />
 
-        </div>
+      <div class="input-wrapper">
+        <span class="mr-15">{{ $t('title.select_country') }}</span>
+        <v-select
+          :dir="$t('app.dir')"
+          v-model="result.country_id"
+          :options="allCountries"
+          label="name"
+          :reduce="c => c.id"
+          :placeholder="$t('title.select_country')"
+          class="custom-select"
+        ></v-select>
+
         <span
           class="error"
           v-if="!!!result.country_id && hasError"
@@ -35,6 +36,7 @@
           {{ $t('category.req', { type: $t('country.country_id')}) }}
         </span>
       </div>
+
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
@@ -68,11 +70,9 @@ export default {
     return {
       result: {
         id: '',
-        // name: '',
         name: {'ar': '', 'en': ''},
         country_id: '',
         status: 1,
-        image: ''
       }
     }
   },
@@ -99,31 +99,16 @@ export default {
       this.result = evt
     },
 
-    inFooterSelected(data) {
-      this.result.in_footer = data.key
-    },
-    featuredSelected(data) {
-      this.result.featured = data.key
-    },
-    countrySelected(data) {
-      this.result.country_id = data.key
-    },
-    titleChanged() {
-      this.result.slug = this.convertToSlug(this.result.title)
-    },
-    dropdownSelected(data) {
-      this.result.status = data.key
-    },
-    ...mapActions('common', ['getAllList', 'emptyAllList'])
+
+    ...mapActions('common', ['getAllCountries', 'emptyAllList'])
   },
   async mounted() {
-    if (!this.allCountries) {
       try {
-        await this.getAllList({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
       } catch (e) {
         return this.$nuxt.error(e)
       }
-    }
+
   }
 }
 </script>

@@ -2,9 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
+    list-api="getTransportModes"
+    delete-api="deleteTransportModes"
+    route-name="transportation-modes"
     empty-store-variable="allBrands"
     :name="$t('transportation_mode.transportation_mode')"
     gate="brand"
@@ -26,8 +26,8 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>barcode</td>
 
+        <td>{{ value.name }}</td>
         <td>{{ value.created }}</td>
         <td>
           <button
@@ -49,15 +49,13 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "brands",
+  name: "transportation-modes",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.title') },
         created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
       }
     }
   },

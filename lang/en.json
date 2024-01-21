@@ -6,6 +6,8 @@
     "SAR":"SAR",
     "Discard Draft":"Discard Draft",
     "Cancel":"Cancel",
+    "is_open_1":"Yes",
+    "is_open_2":"No",
     "All": "All",
     "Actions": "Actions",
     "My List": "My List",
@@ -17,6 +19,13 @@
     "Apply Filters": "Apply Filters",
     "Select on Option": "Select on Option"
   },
+
+  "wirehouse": {
+    "nearest_air_port":"Nearest Air Port"
+
+  },
+
+
   "rfq": {
     "Select from my catalogue": "Select from my catalogue",
     "Copy from website catalogue": "Copy from website catalogue",
@@ -97,7 +106,7 @@
     "ly": "Last year",
     "tSells": "Total sells",
     "cityName": "City Name",
-    "barcode" : "Barcode"
+    "name" : "Name"
   },
   "category": {
     "mDesc": "Meta description",
@@ -315,9 +324,28 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
-  "city": {
-    "name": "Name"
+
+  "country": {
+    "name": "Name",
+    "iso": "Iso",
+    "iso3": "Iso3",
+    "phonecode": "Phone Code",
+    "currency_code": "Currency Code",
+    "status": "Status",
+    "created": "Created"
   },
+
+  "city": {
+    "name": "Name",
+    "city": "City"
+  },
+
+  "barcode": {
+    "name": "Name",
+    "barcode": "Barcode"
+  },
+
+
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",
