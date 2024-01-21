@@ -117,6 +117,13 @@
     "getRfqsMYList": "rfq/all/my-list",
     "getRFQ": "rfq/find",
 
+    "getAllProducts": "product/all",
+    "getAllApprovedProducts": "product/all/approved",
+    "getAllPendingApprovalProducts": "product/all/pending",
+    "getAllRejectedProducts": "product/all/rejected",
+    "getAllArchivedProducts": "product/all/archived",
+    "getAllDraftProducts": "product/all/draft",
+
 
     "getQuote": "quotes/find",
     "setQuote": "quotes/action",
@@ -158,6 +165,7 @@
     "setShippingRule": "shipping-rule/action",
 
     "getAllProductCollections": "product-collection/all-product-collections",
+
     "getProductCollections": "product-collection/all",
     "deleteProductCollection": "product-collection/delete",
     "getProductCollection": "product-collection/find",

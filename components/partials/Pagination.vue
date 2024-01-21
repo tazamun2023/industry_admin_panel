@@ -1,19 +1,52 @@
 <template>
-  <div class="dply-felx j-right">
-    <ul class="pagination" v-if="totalPage > 1">
-      <li :class="{disabled: currentPage === 1}" @click.prevent="navigate(-1)">
-        <i class="icon arrow-left black"></i>
-      </li>
+<!--  <div class="dply-felx j-right">-->
+<!--    <ul class="pagination" v-if="totalPage > 1">-->
+<!--      <li :class="{disabled: currentPage === 1}" @click.prevent="navigate(-1)">-->
+<!--        <i class="icon arrow-left black"></i>-->
+<!--      </li>-->
 
-      <li class="page" :class="{disabled: currentPage === value}"
-          v-for="(value, index) in allPages.slice(getActivePages[0], getActivePages[1])"
-          :key="index"
-          @click.prevent="paginate(value)"><span>{{ value }}</span>
+<!--      <li class="page" :class="{disabled: currentPage === value}"-->
+<!--          v-for="(value, index) in allPages.slice(getActivePages[0], getActivePages[1])"-->
+<!--          :key="index"-->
+<!--          @click.prevent="paginate(value)"><span>{{ value }}</span>-->
+<!--      </li>-->
+<!--      <li :class="{disabled: currentPage === totalPage}" @click.prevent="navigate(1)">-->
+<!--        <i class="icon arrow-right black">&nbsp;</i>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+  <div class="mt-10 text-end">
+    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+      <li
+         v-if="totalPage > 1"
+         :class="{disabled: currentPage === 1}" @click.prevent="navigate(-1)"
+         class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-pointer">
+        <span class="sr-only">Previous</span>
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd"
+                d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                clip-rule="evenodd"/>
+        </svg>
       </li>
-      <li :class="{disabled: currentPage === totalPage}" @click.prevent="navigate(1)">
-        <i class="icon arrow-right black">&nbsp;</i>
+      <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
+      <li aria-current="page"
+         :class="{disabled: currentPage === value}"
+         v-for="(value, index) in allPages.slice(getActivePages[0], getActivePages[1])"
+         :key="index"
+         @click.prevent="paginate(value)"
+         class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold cursor-pointer text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{{ value }}</li>
+
+      <li
+         :class="{disabled: currentPage === totalPage}" @click.prevent="navigate(1)"
+         class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 cursor-pointer ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+        <span class="sr-only">Next</span>
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd"
+                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                clip-rule="evenodd"/>
+        </svg>
       </li>
-    </ul>
+    </nav>
   </div>
 
 </template>
