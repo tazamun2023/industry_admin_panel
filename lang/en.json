@@ -475,7 +475,11 @@
     "add": "Add <span class='hide-lg'>{title}</span>",
     "dleDeal": "Bundle deal",
     "fSale": "Flash sale",
-    "id": "ID"
+    "id": "ID",
+    "buisness-news":"Buisness News",
+    "video":"video",
+    "certificate":"certificate",
+    "faq":"FAQ"
   },
   "dataPage": {
     "fImgs": "Footer images",

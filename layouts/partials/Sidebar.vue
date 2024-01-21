@@ -418,7 +418,39 @@
             path: 'store',
             title: this.$t('error.store'),
             icon: 'store',
-            gate: 'store'
+            open: false,
+            children: [
+              {
+                path: 'store',
+                title: this.$t('error.store'),
+                icon: 'store',
+                gate: 'store'
+              },
+              {
+                path: 'buisness-news',
+                title: this.$t('profile.buisness-news'),
+                icon: 'profile',
+                gate: 'store'
+              },
+              {
+                path: 'video',
+                title: this.$t('profile.video'),
+                icon: 'video',
+                gate: 'store'
+              },
+              {
+                path: 'certificate',
+                title: this.$t('profile.certificate'),
+                icon: 'video',
+                gate: 'store'
+              },
+              {
+                path: 'faq',
+                title: this.$t('profile.faq'),
+                icon: 'faq',
+                gate: 'store'
+              }
+            ]
           },
           {
             path: 'setting/currency',
