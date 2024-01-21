@@ -2,9 +2,9 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="unit"
+    list-api="getUnits"
+    delete-api="deleteUnit"
+    route-name="units"
     empty-store-variable="allBrands"
     :name="$t('unit.unit')"
     gate="brand"
@@ -29,19 +29,9 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td class="">
-          <nuxt-link
-            :to="`/units/${value.id}`"
-            class="dply-felx j-left link"
-          >
-
-            <h5 class="mx-w-300x">Unit name</h5>
-          </nuxt-link>
-
-        </td>
-<td>001</td>
-
-        <td>KG</td>
+        <td>{{ value.name }}</td>
+       <td>{{ value.unit_code }}</td>
+        <td>{{ value.unit_type }}</td>
         <td
           class="status"
           :class="{active: value.status == 1 }"
@@ -69,13 +59,12 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "brands",
+  name: "units",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.name') },
         created_at: { title: this.$t('category.date') },
         status: { title: this.$t('category.status') }
       }

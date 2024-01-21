@@ -1,45 +1,40 @@
 <template>
   <data-page
-    v-if="$can('brand', 'create') || $can('brand', 'view')"
     ref="dataPage"
-    set-api="setBrand"
-    get-api="getBrand"
+    set-api="setUnit"
+    get-api="getUnit"
     empty-store-variable="allBrands"
-    route-name="brands"
+    route-name="units"
     :name="$t('prod.unit')"
     gate="brand"
-    :validation-keys="['title']"
+    :validation-keys="['name.ar','name.en', 'unit_type']"
     :result="result"
     @result="result = $event"
   >
 
     <template v-slot:form="{hasError}">
 
+      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
+
       <div class="input-wrapper">
-        <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          name="title"
-          v-model="result.title"
-          ref="title"
-          @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+         <span class="mr-15">{{$t('unit.type')}}</span>
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.unit_type"
+            :options="['demenisions','weight', 'packages']"
+            :placeholder="$t('unit.type')"
+            class="custom-select"
+          ></v-select>
       </div>
+
       <div class="input-wrapper">
         <label>{{ $t('unite.unit_code') }}</label>
         <input
           type="text"
           :placeholder="$t('unit.unit_code')"
           name="title"
-          v-model="result.title"
+          v-model="result.unit_code"
           ref="unit_code"
           @change="slugChange"
           :class="{invalid: !!!result.unit_code && hasError}"
@@ -52,19 +47,7 @@
         </span>
       </div>
 
-      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('unit.type')}}</span>
-          <select class="border border-smooth text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-dark dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  name="" id="">
-            <option selected>Choose a unit type</option>
-            <option value="demenisions">Demenisions</option>
-            <option value="size">Size</option>
-            <option value="packages">Packages</option>
-          </select>
 
-        </div>
-      </div>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
@@ -92,17 +75,16 @@ import util from "~/mixin/util"
 import {mapGetters} from 'vuex'
 
 export default {
-  name: "brands",
+  name: "units",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       result: {
         id: '',
-        title: '',
-        slug: '',
-        featured: 2,
-        status: 2,
-        image: ''
+        name: {'ar': '', 'en': ''},
+        unit_type: '',
+        unit_code: '',
+        status: 1
       }
     }
   },
@@ -115,12 +97,9 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
-    featuredSelected(data) {
-      this.result.featured = data.key
-    },
-    dropdownSelected(data) {
-      this.result.status = data.key
-    },
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
 
   },
   async mounted() {

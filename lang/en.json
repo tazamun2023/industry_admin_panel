@@ -1,22 +1,60 @@
 {
   "app": {
+    "dir":"ltr",
+    "Save":"Save",
+    "Done":"Done",
+    "SAR":"SAR",
+    "Discard Draft":"Discard Draft",
+    "Cancel":"Cancel",
+    "is_open_1":"Yes",
+    "is_open_2":"No",
     "All": "All",
+    "Actions": "Actions",
     "My List": "My List",
     "from": "From",
     "Relevant to me": "Relevant to me",
     "to": "To",
+    "currency_local": "en-US",
     "Clear Filter": "Clear Filter",
-    "Apply Filters": "Apply Filters"
+    "Apply Filters": "Apply Filters",
+    "Select on Option": "Select on Option"
   },
+
+  "wirehouse": {
+    "nearest_air_port":"Nearest Air Port"
+
+  },
+
+
   "rfq": {
+    "Select from my catalogue": "Select from my catalogue",
+    "Copy from website catalogue": "Copy from website catalogue",
+    "Upload a new product": "Upload a new product",
+    "How would you like to add a product": "How would you like to add a product",
+    "selectProductMessage": "Please be aware this product will be added to your quote only. You may also publish this to the marketplace later on from your Catalog.",
+    "quote_expired_message": "All prices mentioned are only valid until*",
+    "Additional Details": "Additional Details",
+    "Additional Details Message": "Provide any additional information relevant to your quote.",
+    "Unit offer price": "Unit offer price",
+    "Total target price": "Total target price",
+    "selectProduct": "ِAdd",
+    "add to quote": "Add To Quote",
+    "RFQ details": "RFQ details",
+    "Additional information": "Additional Information",
+    "Submit Quote": "Submit Quote",
+    "Select products to add to your quote": "Select products to add to your quote",
     "RFQ ID": "RFQ ID ",
+    "rfq": "RFQs",
+    "Single product": "Single product",
+    "Multi-product": "Multi-product",
     "Created on": "Created on",
     "Expires on": "Expires on",
     "Shipping country": "Shipping country",
     "Shipping city": "Shipping city",
     "Shipping terms": "Shipping terms",
-    "Total target price": "Total target price",
+
     "Received quotes": "Received quotes",
+    "Submit Quotes": "Submit Quotes",
     "d": "dd",
     "View all products": "View all products",
     "Search by RFQ ID or Product": "Search by RFQ ID or Product",
@@ -31,6 +69,17 @@
     "manage_quotations": "Manage Quotations",
     "RFQ Marketplace": "RFQ Marketplace",
     "RFQ Marketplace Description": "Explore and bid on Requests For Quotations of verified wholesale buyers from around the world."
+  },
+  "products": {
+    "Id": "Id",
+    "Image": "Image",
+    "name": "Product name",
+    "add": "Add Product",
+    "Products": "Products",
+    "Category": "Category",
+    "Quantity": "Quantity",
+    "Unit Target Price": "Unit Target Price",
+    "Total target price": "Total target price"
   },
   "index": {
     "tProduct": "Total products",
@@ -55,7 +104,9 @@
     "lw": "Last week",
     "lm": "Last month",
     "ly": "Last year",
-    "tSells": "Total sells"
+    "tSells": "Total sells",
+    "cityName": "City Name",
+    "name" : "Name"
   },
   "category": {
     "mDesc": "Meta description",
@@ -72,7 +123,8 @@
     "featured": "Featured",
     "catUp": "Category",
     "sor": "SORRY",
-    "cat": "category"
+    "cat": "category",
+    "countryName" : "Country Name"
   },
   "brand": {
     "buyCount": "Buy count",
@@ -140,7 +192,25 @@
     "na": "N/A",
     "reviews": "Reviews",
     "tRule": "Tax rule",
-    "voucher": "voucher"
+    "voucher": "voucher",
+    "category": "Category",
+    "price": "Price",
+    "status": "Status",
+    "visibility": "Visibility",
+    "action": "Action",
+    "download_rejection_reasons": "Download Rejection Reasons",
+    "add_new_product": "Add New Product",
+    "all_product": "All Product",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "archived": "Archived",
+    "draft": "Draft",
+    "sortBy": "Sort By",
+    "write_group_name": "Write Group Name",
+    "pending_approval": "Pending Approval",
+    "available_quantity": "Available Quantity",
+    "create_update": "Created / Updated",
+    "sku": "SKU"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -254,6 +324,28 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
+
+  "country": {
+    "name": "Name",
+    "iso": "Iso",
+    "iso3": "Iso3",
+    "phonecode": "Phone Code",
+    "currency_code": "Currency Code",
+    "status": "Status",
+    "created": "Created"
+  },
+
+  "city": {
+    "name": "Name",
+    "city": "City"
+  },
+
+  "barcode": {
+    "name": "Name",
+    "barcode": "Barcode"
+  },
+
+
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",
@@ -511,6 +603,9 @@
     "deactMsg": "After deactivating it, you have to contact the seller in order to activate it again."
   },
   "title": {
+    "select_type": "select type",
+    "select_country": "select country",
+    "select_city": "Select City",
     "prod": "product",
     "site": "Site setting",
     "headLogo": "header logo",

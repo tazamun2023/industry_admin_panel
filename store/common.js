@@ -2,6 +2,10 @@ import Service from '@/services/service.js'
 
 const state = () => ({
   allCategories: null,
+  allCategoriesTree: [],
+  allUnits: [],
+  allCountries: [],
+  allCitiesById: [],
   allTaxRules: null,
   allAttributes: null,
   allAttributeValues: null,
@@ -12,25 +16,49 @@ const state = () => ({
   allPages: null,
   allPermissions: null,
   allSubscriptionEmailFormats: null,
-  allRoles: null
+  allRoles: null,
+  allColors: null,
+  allBarcodes: null,
+  allPackagingUnits: null,
+  allDimensionUnits: null,
+  allWeightUnits: null,
+  // allCountries: null,
+  allStorageTemperatures: null,
+  allTransportationModes: null,
+  allWarehouses: null,
 })
 const getters = {
+  allUnits: ({allUnits}) => allUnits,
   allTaxRules: ({allTaxRules}) => allTaxRules,
   allAttributeValues: ({allAttributeValues}) => allAttributeValues,
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
   allCategories: ({allCategories}) => allCategories,
+  allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
+  allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
+  allCountries: ({allCountries}) => allCountries,
+  allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
   allShippingRules: ({allShippingRules}) => allShippingRules,
   allPermissions: ({allPermissions}) => allPermissions,
   allRoles: ({allRoles}) => allRoles,
   allSubscriptionEmailFormats: ({allSubscriptionEmailFormats}) => allSubscriptionEmailFormats,
-  allPages: ({allPages}) => allPages
+  allPages: ({allPages}) => allPages,
+  allColors: ({allColors}) => allColors,
+  allBarcodes: ({allBarcodes}) => allBarcodes,
+  allPackagingUnits: ({allPackagingUnits}) => allPackagingUnits,
+  allDimensionUnits: ({allDimensionUnits}) => allDimensionUnits,
+  allWeightUnits: ({allWeightUnits}) => allWeightUnits,
+  allWarehouses: ({allWarehouses}) => allWarehouses,
+  allTransportationModes: ({allTransportationModes}) => allTransportationModes,
 }
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
     state.allPermissions = allPermissions
+  },
+  SET_ALL_Units(state, allUnits) {
+    state.allUnits = allUnits
   },
   SET_ALL_ROLES(state, allRoles) {
     state.allRoles = {}
@@ -42,7 +70,7 @@ const mutations = {
     state.allPages = {}
     allPages.forEach((item) => {
       //if(item?.title?.trim()){
-        state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
+      state.allPages = {...state.allPages, ...{[item.id]: {title: item.title}}}
       // }
 
     })
@@ -50,9 +78,81 @@ const mutations = {
   SET_ALL_CATEGORIES(state, allCategories) {
     state.allCategories = {}
     allCategories.forEach((item) => {
-      state.allCategories = {...state.allCategories, ...{[item.id]: {title: item.title}}}
+      state.allCategories = {...state.allCategories, ...{[item.id]: {title: item.name}}}
     })
   },
+  SET_ALL_STORAGE_TEMPERATURES(state, allStorageTemperatures) {
+    state.allStorageTemperatures = {}
+    allStorageTemperatures.forEach((item) => {
+      state.allStorageTemperatures = {...state.allStorageTemperatures, ...{[item.id]: {title: item.title}}}
+    })
+  },
+  SET_ALL_WAREHOUSES(state, allWarehouses) {
+    state.allWarehouses = {}
+    allWarehouses.forEach((item) => {
+      state.allWarehouses = {...state.allWarehouses, ...{[item.id]: {name: item.name}}}
+    })
+  },
+  SET_ALL_COLORS(state, allColors) {
+    state.allColors = {}
+    allColors.forEach((item) => {
+      state.allColors = {...state.allColors, ...{[item.id]: {title: item.title}}}
+    })
+  },
+  SET_ALL_BARCODES(state, allBarcodes) {
+    state.allBarcodes = {}
+    allBarcodes.forEach((item) => {
+      state.allBarcodes = {...state.allBarcodes, ...{[item.id]: {title: item.title}}}
+    })
+  },
+  SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
+    state.allPackagingUnits = {}
+    allPackagingUnits.forEach((item) => {
+      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {title: item.title}}}
+    })
+  },
+
+  SET_ALL_PACKAGING_BOX_UNITS(state, allDimensionUnits) {
+    state.allDimensionUnits = {}
+    allDimensionUnits.forEach((item) => {
+      state.allDimensionUnits = {...state.allDimensionUnits, ...{[item.id]: {title: item.title}}}
+    })
+  },
+
+  SET_ALL_PACKAGING_WEIGHT_UNITS(state, allWeightUnits) {
+    state.allWeightUnits = {}
+    allWeightUnits.forEach((item) => {
+      state.allWeightUnits = {...state.allWeightUnits, ...{[item.id]: {title: item.title}}}
+    })
+  },
+
+  SET_ALL_CATEGORIES_Tree(state, allCategories) {
+     state.allCategoriesTree  = allCategories;
+
+  },
+  SET_ALL_COUNTRIES(state, allCountries) {
+    state.allCountries = allCountries
+  /*  allCountries.forEach((item) => {
+     state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
+     })*/
+  },
+  SET_ALL_TRANSPORTATIONMODES(state, allTransportationModes) {
+    state.allTransportationModes = {}
+    allTransportationModes.forEach((item) => {
+      state.allTransportationModes = {...state.allTransportationModes, ...{[item.id]: {name: item.title}}}
+      state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
+    })
+  },
+
+  SET_ALL_Cities(state, allCitiesById) {
+    state.allCitiesById = allCitiesById
+    /*allCitiesById.forEach((item) => {
+      state.allCitiesById = {...state.allCitiesById, ...{[item.id]: {title: item.name}}}
+    })*/
+  },
+
+
+
   SET_ALL_SUBSCRIPTION_EMAIL_FORMATS(state, allSubscriptionEmailFormats) {
     state.allSubscriptionEmailFormats = allSubscriptionEmailFormats
   },
@@ -76,7 +176,7 @@ const mutations = {
 
     let val = []
 
-    allAttributes.forEach(i=>{
+    allAttributes.forEach(i => {
 
       val = [...val, ...i.values]
 
@@ -107,11 +207,12 @@ const actions = {
     commit('SET_ALL_SUBSCRIPTION_EMAIL_FORMATS', allSubscriptionEmailFormats)
   },
   emptyAllList({commit}, storeAllVariable) {
-    if(storeAllVariable){
+    if (storeAllVariable) {
       commit('EMPTY_ALL_LIST', storeAllVariable)
     }
   },
-  async getAllList({rootState, commit}, {api, mutation}) {
+
+  async getAllCountries({rootState, commit}, {api, mutation}) {
     const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit(mutation, data.data)
@@ -119,6 +220,18 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+
+  async getCitiesById({rootState, commit}, {id,api, mutation }) {
+    const {data} = await Service.getById( id,{},this.$auth.strategy.token.get(), api, rootState.language.langCode)
+
+    if (data.status === 200) {
+      commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+
   async setWysiwygImage({commit, dispatch}, params) {
     dispatch('ui/setErrors', null, {root: true})
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), 'setWysiwygImage')
@@ -131,17 +244,50 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-  async getDropdownList({ rootState, commit}) {
+  async getDropdownList({rootState, commit}) {
     const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getDropdownList', rootState.language.langCode)
     if (data.status === 200) {
       const result = data.data
+
       commit('SET_ALL_CATEGORIES', result.categories)
+      commit('SET_ALL_STORAGE_TEMPERATURES', result.storage_temperatures)
+      commit('SET_ALL_WAREHOUSES', result.warehouses)
+      commit('SET_ALL_COLORS', result.colors)
+      commit('SET_ALL_BARCODES', result.barcodes)
+      commit('SET_ALL_PACKAGING_UNITS', result.packagingUnits)
+      commit('SET_ALL_PACKAGING_BOX_UNITS', result.carton_dimensions_box_units)
+      commit('SET_ALL_PACKAGING_WEIGHT_UNITS', result.carton_dimensions_weight_units)
+      commit('SET_ALL_COUNTRIES', result.countries)
+      commit('SET_ALL_TRANSPORTATIONMODES', result.transportation_modes)
+      // commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_SHIPPING_RULES', result.shipping_rules)
       commit('SET_ALL_PRODUCT_COLLECTIONS', result.product_collections)
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)
       commit('SET_ALL_ATTRIBUTES', result.attributes)
       commit('SET_ALL_BRANDS', result.brands)
       commit('SET_ALL_TAX_RULES', result.tax_rules)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+  async getCategoriesTree({rootState, commit}) {
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getCategoriesTree', rootState.language.langCode)
+    if (data.status === 200) {
+      const result = data.data
+      commit('SET_ALL_CATEGORIES_Tree', result)
+      // state.allCategoriesTree=re
+
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+  async getAllUnits({rootState, commit}) {
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getAllUnits', rootState.language.langCode)
+    if (data.status === 200) {
+      const result = data.data
+      commit('SET_ALL_Units', result)
+      // state.allCategoriesTree=re
+
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
@@ -166,9 +312,7 @@ const actions = {
       const responseJson = (typeof responseData === "string") ? JSON.parse(responseData) : responseData;
 
 
-
-
-      if(responseJson?.status === 201) {
+      if (responseJson?.status === 201) {
 
         return Promise.reject({statusCode: responseJson?.status, message: responseJson?.message})
 
@@ -195,7 +339,7 @@ const actions = {
   async deleteParam({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteParam(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
@@ -206,7 +350,7 @@ const actions = {
   async deleteData({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteData(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message , {root: true})
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})

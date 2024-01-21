@@ -46,7 +46,7 @@
                     :data-src="getThumbImageURL(item.image)"
                     :alt="item.title"
                   />
-                  <h5 v-if="item.title">{{item.title}}</h5>
+                  <h5 v-if="item.name">{{item.name}}</h5>
                   <h5 v-else>{{ $t('list.nt') }}</h5>
                 </div>
                 <i

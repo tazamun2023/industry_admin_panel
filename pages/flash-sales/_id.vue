@@ -92,7 +92,7 @@
         </div>
       </div><!--dply-felx inputs-->
 
-      <product-search
+      <product-search2
         ref="productSearch"
         @product-clicked="addFlashProduct"
       />
@@ -191,6 +191,7 @@
   import ProductSearch from "../../components/partials/ProductSearch";
   import LazyImage from "../../components/LazyImage";
   import PriceFormat from "../../components/partials/PriceFormat";
+  import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 
   export default {
     name: "flash-sale",
@@ -211,6 +212,7 @@
     },
     mixins: [util],
     components: {
+      ProductSearch2,
       PriceFormat,
       LazyImage,
       ProductSearch,

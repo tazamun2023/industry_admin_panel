@@ -2,11 +2,11 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
-    empty-store-variable="allBrands"
-    :name="$t('country.country')"
+    list-api="getCitys"
+    delete-api="deleteCity"
+    route-name="cities"
+    empty-store-variable="allCities"
+    :name="$t('city.city')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,10 +17,10 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('country.country') }}</th>
-        <th>{{ $t('country.city') }}</th>
-        <th>{{ $t('country.status') }}</th>
-        <th>{{ $t('country.created') }}</th>
+        <th>{{ $t('brand.country') }}</th>
+        <th>{{ $t('setting.city') }}</th>
+        <th>{{ $t('category.status') }}</th>
+        <th>{{ $t('category.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -28,8 +28,9 @@
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>Bangladesh</td>
-        <td>Dhaka</td>
+        <td>{{  value.country_name }}</td>
+        <td>{{  value.name }}</td>
+
 
         <td
           class="status"
@@ -63,8 +64,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
+        name: { title: this.$t('index.cityName') },
+        country_id: { title: this.$t('category.countryName') },
         created_at: { title: this.$t('category.date') },
         status: { title: this.$t('category.status') }
       }

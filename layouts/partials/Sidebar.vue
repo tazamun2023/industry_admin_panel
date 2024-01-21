@@ -10,8 +10,6 @@
     />
     <ul class="sb sb-2">
 
-
-
       <li
         v-for="(value, index) in sidebarsArr"
         :key="index"
@@ -163,12 +161,18 @@
                 form: ['product', 'ratingReviews'],
                 gate: 'product'
               },
-              {
-                path: 'products/create',
-                title: 'Create',
-                icon: 'products',
-                gate: 'product'
-              }
+              // {
+              //   path: 'products/create',
+              //   title: 'Create',
+              //   icon: 'products',
+              //   gate: 'product'
+              // },
+              // {
+              //   path: 'products/list',
+              //   title: 'Product-list',
+              //   icon: 'products',
+              //   gate: 'product'
+              // }
             ]
           },
           {
@@ -211,6 +215,16 @@
           {
             path: 'units',
             title: 'Units',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'warehouses',
+            title: 'warehouses',
+            icon: 'flash-sales',
+          },
+          {
+            path: 'storage-temperatures',
+            title: 'Storage Temperatures',
             icon: 'flash-sales',
           },
           {

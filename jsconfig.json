@@ -39,17 +39,26 @@
     "setProfile": "update",
     "setPassword": "update-password",
 
+    "getCategoriesTree": "category/select",
     "getAllCategories": "category/all-categories",
     "getCategories": "category/all",
     "deleteCategory": "category/delete",
     "getCategory": "category/find",
+    "getCategoryBySlug": "category/findSlug",
     "setCategory": "category/action",
     "setCategoryImage": "category/upload",
+
+
+    "getAllColors": "color/all-colors",
+    "getAllUnits": "unit/select",
+
+
 
     "getAllSubCategories": "subcategory/all-subcategories",
     "getSubCategories": "subcategory/all",
     "deleteSubCategory": "subcategory/delete",
     "getSubCategory": "subcategory/find",
+    "findAllSubCategories": "subcategory/findAllSubCategories",
     "setSubCategory": "subcategory/action",
     "setSubCategoryImage": "subcategory/upload",
 
@@ -60,8 +69,79 @@
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
 
+    "getAllCountries": "city/all-countries",
+    "getCitys": "city/all",
+    "deleteCity": "city/delete",
+    "getCity": "city/find",
+    "setCity": "city/action",
+    "setCityImage": "city/upload",
+
+    "getAllWarehouses": "warehouse/all",
+
+    "getAllBarcode": "barcode/all-barcode",
+    "getBarcodes": "barcode/all",
+    "deleteBarcode": "barcode/delete",
+    "getBarcode": "barcode/find",
+    "setBarcode": "barcode/action",
+
+    "getAllColor": "color/all-color",
+    "getColors": "color/all",
+    "deleteColor": "color/delete",
+    "getColor": "color/find",
+    "setColor": "color/action",
+
+    "getAllCityById" : "port/all-city",
+    "getPorts": "port/all",
+    "deletePort": "port/delete",
+    "getPort": "port/find",
+    "setPort": "port/action",
+
+
+
+    "getUnits": "unit/all",
+    "deleteUnit": "unit/delete",
+    "getUnit": "unit/find",
+    "setUnit": "unit/action",
+
+
+    "getTransportModes": "transportationMode/all",
+    "deleteTransportModes": "transportationMode/delete",
+    "getTransportMode": "transportationMode/find",
+    "setTransportMode": "transportationMode/action",
+
+    "getWareHouses": "warehouse/all",
+    "deleteWareHouses": "warehouse/delete",
+    "getWareHouse": "warehouse/find",
+    "setWareHouse": "warehouse/action",
+
+    "getCountriesData": "country/all",
+
+    "getPortData": "warehouse/findPort",
+
+    "getStorageTems": "storageTem/all",
+    "deleteStorageTems": "storageTem/delete",
+    "getStorageTem": "storageTem/find",
+    "setStorageTems": "storageTem/action",
+
+
     "getAllRfqs": "rfq/all-brands",
-    "getRfqs": "rfq/all",
+    "getRfqs": "rfq/all/all",
+    "getRfqsAll": "rfq/all/all",
+    "getRfqsRelevent": "rfq/all/relevent",
+    "getRfqsMYList": "rfq/all/my-list",
+    "getRFQ": "rfq/find",
+
+    "getAllProducts": "product/all",
+    "getAllApprovedProducts": "product/all/approved",
+    "getAllPendingApprovalProducts": "product/all/pending",
+    "getAllRejectedProducts": "product/all/rejected",
+    "getAllArchivedProducts": "product/all/archived",
+    "getAllDraftProducts": "product/all/draft",
+
+
+    "getQuote": "quotes/find",
+    "setQuote": "quotes/action",
+
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
@@ -99,6 +179,7 @@
     "setShippingRule": "shipping-rule/action",
 
     "getAllProductCollections": "product-collection/all-product-collections",
+
     "getProductCollections": "product-collection/all",
     "deleteProductCollection": "product-collection/delete",
     "getProductCollection": "product-collection/find",
@@ -131,6 +212,7 @@
 
 
     "setProductImageAttributes": "product-image-attributes/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",

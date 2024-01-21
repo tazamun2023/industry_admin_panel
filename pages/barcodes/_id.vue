@@ -1,13 +1,13 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setCategory"
-    get-api="getCategory"
+    set-api="setBarcode"
+    get-api="getBarcode"
     set-image-api="setCategoryImage"
-    route-name="barcode"
+    route-name="barcodes"
     :name="$t('barcode.barcode')"
     gate="category"
-    :validation-keys="['name', 'iso', 'phonecode']"
+    :validation-keys="['name']"
     :result="result"
     @result="resultData"
   >
