@@ -13,7 +13,7 @@
   >
     <template v-slot:form="{hasError}">
 
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
 
@@ -33,7 +33,7 @@
           class="error"
           v-if="!!!result.country_id && hasError"
         >
-          {{ $t('category.req', { type: $t('country.country_id')}) }}
+          {{ $t('category.req', { type: $t('city.country')}) }}
         </span>
       </div>
 

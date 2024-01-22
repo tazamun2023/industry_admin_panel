@@ -15,12 +15,6 @@
     "Select on Option": "Select on Option"
   },
 
-  "wirehouse": {
-    "nearest_air_port":"Nearest Air Port"
-
-  },
-
-
   "rfq": {
     "selectProduct": "ِAdd",
     "add to quote": "Add To Quote",
@@ -290,25 +284,74 @@
     "wAcc": "withdrawal account"
   },
 
-  "country": {
+  "global": {
     "name": "Name",
+    "status": "Status",
+    "created": "Created",
+    "date": "Date",
+    "lat": "Latitude ",
+    "lang": "Longitude",
+    "create_by": "Date",
+    "type": "Type",
+    "req": "{type} is required"
+  },
+
+  "country": {
     "iso": "Iso",
     "iso3": "Iso3",
     "phonecode": "Phone Code",
-    "currency_code": "Currency Code",
-    "status": "Status",
-    "created": "Created"
+    "currency_code": "Currency Code"
   },
 
   "city": {
-    "name": "Name",
+    "city": "City",
+    "country": "Country"
+  },
+  "barcode": {
+    "barcode": "Barcode"
+  },
+  "color": {
+    "color": "color",
+    "color_code": "Code",
+    "select_color": "Select Color"
+  },
+
+  "transportation_mode": {
+    "transportation_mode": "Transportation Mode",
+    "color_code": "Code",
+    "select_color": "Select Color"
+  },
+
+  "warehouse": {
+    "warehouses": "Warehouses",
+    "manager_number": "Manager Number",
+    "nearest_air_port": "Nearest Air Port",
+    "nearest_sea_port": "Nearest Sea Port",
+    "is_open_friday": "Is Open Friday",
+    "is_open_saturday": "Is Open Saturday"
+  },
+
+  "unit": {
+    "unit": "Unit",
+    "code": "Code",
+    "unit_code": "Unit Code",
+    "select_color": "Select Color"
+  },
+
+  "port": {
+    "port": "Port",
+    "type": "Type",
+    "country": "Country",
     "city": "City"
   },
 
-  "barcode": {
-    "name": "Name",
-    "barcode": "Barcode"
+  "storagetem": {
+    "storagetem": "Storage Temperature"
+
   },
+
+
+
 
 
   "setting": {

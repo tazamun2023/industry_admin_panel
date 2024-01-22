@@ -14,14 +14,14 @@
 
     <template v-slot:form="{hasError}">
 
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
-        <label>{{ $t('unite.manager_number') }}</label>
+        <label>{{ $t('warehouse.manager_number') }}</label>
         <input
           type="text"
-          :placeholder="$t('unit.manager_number')"
+          :placeholder="$t('warehouse.manager_number')"
           v-model="result.manager_number"
           ref="manager_number"
           :class="{invalid: !!!result.manager_number && hasError}"
@@ -30,21 +30,21 @@
           class="error"
           v-if="!!!result.manager_number && hasError"
         >
-          {{ $t('category.req', { type: $t('unit.manager_number')}) }}
+          {{ $t('global.req', { type: $t('warehouse.manager_number')}) }}
         </span>
       </div>
 
 
 
       <div class="input-wrapper">
-        <span class="mr-15">{{$t('wirehouse.nearest_air_port')}}</span>
+        <span class="mr-15">{{$t('warehouse.nearest_air_port')}}</span>
         <v-select
           :dir="$t('app.dir')"
           v-model="result.nearest_air_port_id"
           :options="airPort"
           label="name"
           :reduce="c => c.id"
-          :placeholder="$t('unit.nearest_air_port')"
+          :placeholder="$t('warehouse.nearest_air_port')"
           class="custom-select"
         ></v-select>
 
@@ -52,22 +52,20 @@
           class="error"
           v-if="!!!result.nearest_air_port_id && hasError"
         >
-          {{ $t('category.req', { type: $t('unit.nearest_air_port_id')}) }}
+          {{ $t('global.req', { type: $t('warehouse.nearest_air_port')}) }}
         </span>
-
       </div>
 
 
-
       <div class="input-wrapper">
-        <span class="mr-15">{{$t('unit.nearest_sea_port')}}</span>
+        <span class="mr-15">{{$t('warehouse.nearest_sea_port')}}</span>
         <v-select
           :dir="$t('app.dir')"
           v-model="result.nearest_sea_port_id"
           :options="seaPort"
           label="name"
           :reduce="c => c.id"
-          :placeholder="$t('unit.nearest_sea_port')"
+          :placeholder="$t('warehouse.nearest_sea_port')"
           class="custom-select"
         ></v-select>
 
@@ -75,44 +73,55 @@
           class="error"
           v-if="!!!result.nearest_sea_port_id && hasError"
         >
-          {{ $t('category.req', { type: $t('unit.nearest_sea_port_id')}) }}
+          {{ $t('global.req', { type: $t('warehouse.nearest_sea_port')}) }}
         </span>
-
       </div>
 
       <div class="input-wrapper">
-         <span class="mr-15">{{$t('unit.is_open_friday')}}</span>
+         <span class="mr-15">{{$t('warehouse.is_open_friday')}}</span>
           <v-select
             :dir="$t('app.dir')"
             v-model="result.is_open_friday"
             :options="is_open"
             label="name"
             :reduce="c => c.id"
-            :placeholder="$t('unit.is_open_friday')"
+            :placeholder="$t('warehouse.is_open_friday')"
             class="custom-select"
           ></v-select>
+
+        <span
+          class="error"
+          v-if="!!!result.nearest_sea_port_id && hasError"
+        >
+          {{ $t('global.req', { type: $t('warehouse.is_open_friday')}) }}
+        </span>
       </div>
 
       <div class="input-wrapper">
-        <span class="mr-15">{{$t('unit.is_open_saturday')}}</span>
+        <span class="mr-15">{{$t('warehouse.is_open_saturday')}}</span>
         <v-select
           :dir="$t('app.dir')"
           v-model="result.is_open_saturday"
           :options="is_open"
           label="name"
           :reduce="c => c.id"
-          :placeholder="$t('unit.is_open_saturday')"
+          :placeholder="$t('warehouse.is_open_saturday')"
           class="custom-select"
         ></v-select>
-
+        <span
+          class="error"
+          v-if="!!!result.nearest_sea_port_id && hasError"
+        >
+          {{ $t('global.req', { type: $t('warehouse.is_open_saturday')}) }}
+        </span>
 
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('unite.lang') }}</label>
+        <label>{{ $t('global.lang') }}</label>
         <input
           type="text"
-          :placeholder="$t('unit.lang')"
+          :placeholder="$t('global.lang')"
           v-model="result.lang"
           ref="lang"
         >
@@ -120,10 +129,10 @@
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('unite.lat') }}</label>
+        <label>{{ $t('global.lat') }}</label>
         <input
           type="text"
-          :placeholder="$t('unit.lat')"
+          :placeholder="$t('global.lat')"
           v-model="result.lat"
           ref="lat"
         >

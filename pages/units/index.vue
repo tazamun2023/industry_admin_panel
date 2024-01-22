@@ -17,11 +17,11 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.title') }}</th>
+        <th>{{ $t('global.name') }}</th>
         <th>{{ $t('unit.code') }}</th>
-        <th>{{ $t('unit.type') }}</th>
-        <th>{{ $t('unit.status') }}</th>
-        <th>{{ $t('unit.created') }}</th>
+        <th>{{ $t('global.type') }}</th>
+        <th>{{ $t('global.status') }}</th>
+        <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
