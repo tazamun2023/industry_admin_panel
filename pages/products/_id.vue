@@ -3,7 +3,8 @@
     <!-- ---------------- -->
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4>Add new product</h4>
+        <h4 v-if="!id">Add new product</h4>
+        <h4 v-else>Edit product</h4>
         <p>Fill out the form below to add a new product to your product list</p>
       </div>
 
@@ -68,7 +69,7 @@
                 :placeholder="$t('rfq.Search by Category')"
                 @input="updateLevel2"
                 class="custom-select"
-                :class="{invalid: !is_draft && result.parentCategory === null && hasError}"
+                :class="{invalid: result.parentCategory === '' && hasError}"
               ></v-select>
             </div>
 
@@ -84,7 +85,7 @@
                 class="custom-select"
                 :placeholder="$t('rfq.Select Sub Category')"
                 @input="updateLevel3"
-                :class="{invalid: !is_draft && result.subCategory === null && hasError}"
+                :class="{invalid:  result.subCategory === '' && hasError}"
               ></v-select>
             </div>
 
@@ -96,7 +97,7 @@
                 v-model="result.childCategory"
                 :options="selectedLevel2?.child"
                 :reduce="cat => cat.id"
-                :class="{invalid: !is_draft && result.category_id === null && hasError}"
+                :class="{invalid: result.childCategory === '' && hasError}"
                 label="title"
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"
@@ -120,7 +121,7 @@
           <!--          <input dir="rtl" class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
           <!--        </div>-->
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
-            <label class="w-full" for="name">{{ $t("rfq.Brand") }}</label>
+            <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
             <!--          <dropdown-->
             <!--            v-if="allBrands"-->
             <!--            :default-null="true"-->
@@ -1166,7 +1167,7 @@ export default {
       setVideoApi: 'setProductVideo',
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en'],
-      validationKeysIfIsDraft: ['title.en'],
+      validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory', 'title.en'],
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
@@ -1379,7 +1380,7 @@ export default {
 
   methods: {
 
-    async doDraft(){
+    doDraft(){
       this.is_draft = true;
       this.result.is_draft = true;
 
@@ -1387,28 +1388,22 @@ export default {
       //   this.hasError = true
       //   return false
       // }
-      // this.checkForm()
-      // const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-      const data = await this.setById({
-        id: this.id,
-        params: this.result,
-        api: this.setApi
-      }).then(()=>{
+      this.checkForm()
 
-        // alert('saved')
-      })
-      console.log(data)
-      // if (data) {
-      //
-      //   this.result = Object.assign({}, data)
-      //   this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
-      //   this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
-      //
-      //   this
     },
 
     doSubmit(){
-      alert(1)
+      this.is_draft = false;
+      this.result.is_draft = false;
+      if (this.is_variant){
+        this.result.is_variant = true;
+      }
+
+      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      //   this.hasError = true
+      //   return false
+      // }
+      this.checkForm()
     },
 
     updateLevel2() {
@@ -1795,101 +1790,27 @@ export default {
     redirectingEnable(buttonType) {
       this.redirect = buttonType === 'save'
     },
-    // async checkForm() {
-    //   if(this.validationKeys.findIndex((i) => { return (!this.result[i]) }) > -1){
-    //     this.hasError = true
-    //     return false
-    //   }
-    //   if (this.is_variant) {
-    //     this.result.is_variant = true;
-    //
-    //     // this.redirectingEnable(event.submitter.name)
-    //     this.formSubmitting = true
-    //     try {
-    //
-    //       delete this.result.created_at
-    //       delete this.result.updated_at
-    //       const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-    //       // console.log('data', data)
-    //       if (data) {
-    //
-    //         this.result = Object.assign({}, data)
-    //         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-    //           return o.product_collection_id
-    //         }))]
-    //         this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-    //           return o.category_id.toString()
-    //         }))]
-    //
-    //
-    //         this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-    //       }
-    //     } catch (e) {
-    //       return this.$nuxt.error(e)
-    //     }
-    //     this.formSubmitting = false
-    //
-    //   } else {
-    //
-    //     // if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
-    //     //   this.hasError = true
-    //     //   return false
-    //     // }
-    //
-    //     this.redirectingEnable(event.submitter.name)
-    //     this.formSubmitting = true
-    //     try {
-    //
-    //       delete this.result.created_at
-    //       delete this.result.updated_at
-    //       const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-    //       // console.log('data', data)
-    //       if (data) {
-    //
-    //         this.result = Object.assign({}, data)
-    //         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-    //           return o.product_collection_id
-    //         }))]
-    //         this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-    //           return o.category_id.toString()
-    //         }))]
-    //
-    //
-    //         this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-    //       }
-    //     } catch (e) {
-    //       return this.$nuxt.error(e)
-    //     }
-    //     this.formSubmitting = false
-    //   }
-    // },
-
     async checkForm() {
 
       // this.redirectingEnable(event.submitter.name)
-      // this.formSubmitting = true
-      // try {
-        console.log(0)
-        // delete this.result.created_at
-        // delete this.result.updated_at
-        // const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-        // console.log(data)
-        // if (data) {
-        //
-        //   this.result = Object.assign({}, data)
-        //   this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
-        //   this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
-        //
-        //   this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-        // }else {
-        //   this.scrollToTop()
-        // }
-      // } catch (e) {
-      //   return this.$nuxt.error(e)
-      // }
-      // this.formSubmitting = false
-    },
+      this.formSubmitting = true
+      try {
 
+        delete this.result.created_at
+        delete this.result.updated_at
+        const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
+
+        if (data) {
+
+          this.result = Object.assign({}, data)
+
+          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.formSubmitting = false
+    },
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
@@ -1904,6 +1825,7 @@ export default {
           subCategory: res.sub_category?.id,
           childCategory: res.child_category?.id,
           unit: res.unit,
+          brand_id: res.brand_id,
           meta_title: res.meta_title,
           meta_description: res.meta_description,
           selling: res.selling,
