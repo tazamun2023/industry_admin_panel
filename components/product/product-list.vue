@@ -165,8 +165,9 @@
                     <td>
                       <select class="border border-smooth p-3 rounded" name="" id="">
                         <option value="">{{ $t('prod.action') }}</option>
-                        <option value="">Edit</option>
-                        <option value="">View</option>
+                        <option value="">
+                          <nuxt-link :to="`/products/${value.id}`">Edit</nuxt-link>
+                        </option>
                         <option value="">Set out of stock</option>
                         <option value="">Set in stock</option>
                         <option value="">Archive</option>
