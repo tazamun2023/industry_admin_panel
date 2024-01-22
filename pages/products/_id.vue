@@ -261,32 +261,39 @@
           <div class="card-body">
             <div class="input-wrapper mb-10">
               <label for="">Key features - English ?</label>
-              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoen" :key="index">
-                <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"
-                       @input="updateBasicInfo('en', $event, index)">
-                <button type="button" class="btn ml-2 mr-2  btn-danger"
-                        @click.prevent="removeBasicInfoRows('en', index)"
-                        v-if="index!=0">
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 2">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M1 1h16"/>
-                  </svg>
-                </button>
-                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">
-                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 1v16M1 9h16"/>
-                  </svg>
-                </button>
-              </div>
+
+              <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.features"
+                          @updateInput="updateInput"></lang-input-multi>
+
+
+<!--              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoEng" :key="index">-->
+
+<!--                <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"-->
+<!--                       v-model="result.basicInfoEng[index]"-->
+<!--                       @input="updateBasicInfo('en', $event, index)">-->
+<!--                <button type="button" class="btn ml-2 mr-2  btn-danger"-->
+<!--                        @click.prevent="removeBasicInfoRows('en', index)"-->
+<!--                        v-if="index!=0">-->
+<!--                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
+<!--                       xmlns="http://www.w3.org/2000/svg"-->
+<!--                       fill="none" viewBox="0 0 18 2">-->
+<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                          d="M1 1h16"/>-->
+<!--                  </svg>-->
+<!--                </button>-->
+<!--                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">-->
+<!--                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"-->
+<!--                       xmlns="http://www.w3.org/2000/svg"-->
+<!--                       fill="none" viewBox="0 0 18 18">-->
+<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                          d="M9 1v16M1 9h16"/>-->
+<!--                  </svg>-->
+<!--                </button>-->
+<!--              </div>-->
             </div>
             <div class="input-wrapper mb-10">
               <label for="">Key features - Arabic(optional) ?</label>
-              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoar" :key="index">
+              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoAr" :key="index">
                 <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
                        type="text" @input="updateBasicInfo('ar', $event, index)">
                 <button type="button" @click.prevent="removeBasicInfoRows('ar', index)"
@@ -851,31 +858,23 @@
               </tr>
               </thead>
               <tbody>
-              <!--              index > 0 && parseFloat(this.result.pp_quantity[index]) <= parseFloat(this.result.pp_quantity[0])-->
-              <tr v-for="(row, index) in result.PriceingRows" :key="index">
+
+              <tr v-for="(product_price, index) in result.product_prices" :key="index">
                 <td class="p-2">
                   <input
                     type="text"
                     class="form-control"
                     placeholder="Enter Quantity"
-                    :class="{'invalid': isInvalidQuantity(index)}"
-                    @input="handleQuantityInput($event, index)"
                     @keypress="onlyNumber"
+                    v-model="product_price.quantity"
                   >
-                  <div v-if="isInvalidQuantity(index)" class="text-error">
-                    Error: Current quantity should be greater than the quantity at the
-                    {{ index === 0 ? '1st' : `${index}th` }} Quantity
-                  </div>
-                  <!--                  <input type="text" class="form-control" placeholder="Enter Quantity"-->
-                  <!--                                       :class="{'invalid': isInvalidQuantity(index)}"-->
-                  <!--                                       @input="updatePriceQty('qty', $event, index)">-->
                 </td>
                 <td class="p-2">
                   <div class="relative flex">
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
                            @keypress="onlyNumber"
-                           @input="updatePriceQty('unit_price', $event, index)">
+                           v-model="product_price.unit_price">
                   </div>
                 </td>
                 <td class="p-2">
@@ -883,7 +882,7 @@
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
                            @keypress="onlyNumber"
-                           @input="updatePriceQty('sale_price', $event, index)">
+                          v-model="product_price.selling_price">
                   </div>
                 </td>
                 <td class="p-2">
@@ -1171,8 +1170,24 @@ export default {
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
+      features: {"ar":"","en":""},
       errorMessage: '',
+      product_price:{
+        "quantity": "",
+        "unit_price": "",
+        "selling_price": "",
+      },
       result: {
+        features: [
+          {"ar":"","en":""},
+        ],
+        product_prices: [
+          {
+            "quantity": "",
+            "unit_price": "",
+            "selling_price": "",
+          }
+        ],
         is_draft: false,
         is_variant: false,
         parentCategory: '',
@@ -1211,6 +1226,7 @@ export default {
         minimum_order_quantity: 0,
         /*product price start*/
         pp_unit_of_measure_id: 0,
+
         pp_quantity: [],
         pp_unit_price: [],
         pp_selling_price: [],
@@ -1569,12 +1585,13 @@ export default {
 
     addPriceingRows() {
       try {
-        let index = 0;  // Adjust index based on zero-based indexing
-        if (index < this.result.PriceingRows.length) {
-          this.result.PriceingRows.splice(this.result.PriceingRows.length + 1, 1, {});  // Add a new row
-        } else {
-          console.error('Index out of bounds.');  // Log an error if index is out of bounds
-        }
+        this.result.product_prices.push(Object.assign({},this.product_price))
+        // let index = 0;  // Adjust index based on zero-based indexing
+        // if (index < this.result.PriceingRows.length) {
+        //   this.result.PriceingRows.splice(this.result.PriceingRows.length + 1, 1, {});  // Add a new row
+        // } else {
+        //   console.error('Index out of bounds.');  // Log an error if index is out of bounds
+        // }
       } catch (e) {
         console.log(e);
       }
@@ -1824,6 +1841,7 @@ export default {
           parentCategory: res.category?.id,
           subCategory: res.sub_category?.id,
           childCategory: res.child_category?.id,
+          product_prices: res.product_prices,
           unit: res.unit,
           brand_id: res.brand_id,
           meta_title: res.meta_title,
@@ -1910,6 +1928,12 @@ export default {
           is_dangerous: res.is_dangerous,
 
         }
+        this.result.PriceingRows  =res.product_prices
+          this.features= res.product_features.map(item => (item.name))
+
+        console.log("mappedData")
+
+
         if (res.product_variant.length != 0) {
           this.is_variant = true
         }
