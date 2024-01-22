@@ -6,7 +6,7 @@
     delete-api="deleteWareHouses"
     route-name="warehouses"
     empty-store-variable="allBrands"
-    :name="$t('warehouses.unit')"
+    :name="$t('warehouse.warehouses')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,15 +17,15 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('index.name') }}</th>
-        <th>{{ $t('wirehouse.manager_number') }}</th>
-        <th>{{ $t('wirehouse.nearest_air_port') }}</th>
-        <th>{{ $t('wirehouse.nearest_sea_port') }}</th>
-        <th>{{ $t('wirehouse.is_open_friday') }}</th>
-        <th>{{ $t('wirehouse.is_open_saturday') }}</th>
-        <th>{{ $t('wirehouse.lat') }}</th>
-        <th>{{ $t('wirehouse.lang') }}</th>
-        <th>{{ $t('wirehouse.created') }}</th>
+        <th>{{ $t('global.name') }}</th>
+        <th>{{ $t('warehouse.manager_number') }}</th>
+        <th>{{ $t('warehouse.nearest_air_port') }}</th>
+        <th>{{ $t('warehouse.nearest_sea_port') }}</th>
+        <th>{{ $t('warehouse.is_open_friday') }}</th>
+        <th>{{ $t('warehouse.is_open_saturday') }}</th>
+        <th>{{ $t('global.lat') }}</th>
+        <th>{{ $t('global.lang') }}</th>
+        <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 

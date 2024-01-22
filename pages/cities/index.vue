@@ -21,7 +21,7 @@
         <th>{{ $t('setting.city') }}</th>
         <th>{{ $t('category.status') }}</th>
         <th>{{ $t('category.created') }}</th>
-        <th>&nbsp;</th>
+        <th>Action</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">

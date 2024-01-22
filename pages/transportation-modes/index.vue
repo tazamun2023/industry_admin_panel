@@ -17,8 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('transportation_mode.transportation_mode') }}</th>
-        <th>{{ $t('transportation_mode.created') }}</th>
+        <th>{{ $t('global.name') }}</th>
+        <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 

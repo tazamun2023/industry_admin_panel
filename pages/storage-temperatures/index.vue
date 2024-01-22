@@ -6,7 +6,7 @@
     delete-api="deleteStorageTems"
     route-name="storage-temperatures"
     empty-store-variable="allBrands"
-    :name="$t('storagetem.create')"
+    :name="$t('storagetem.storagetem')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,8 +17,8 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('storagetem.name') }}</th>
-        <th>{{ $t('storagetem.created') }}</th>
+        <th>{{ $t('global.name') }}</th>
+        <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('storagetem.name') },
+        name: { title: this.$t('global.name') },
       }
     }
   },

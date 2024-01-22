@@ -12,7 +12,7 @@
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
     </template>
   </data-page>

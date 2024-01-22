@@ -17,10 +17,10 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('color.color') }}</th>
+        <th>{{ $t('global.name') }}</th>
         <th>{{ $t('color.color_code') }}</th>
-        <th>{{ $t('country.created') }}</th>
-        <th>&nbsp;</th>
+        <th>{{ $t('global.created') }}</th>
+        <th>Action</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
@@ -29,8 +29,7 @@
         </td>
 
         <td>{{ value.name }}</td>
-        <td :style="{'background-color': value.name }"></td>
-
+        <td :style="{'background-color': value.code }"></td>
         <td>{{ value.created }}</td>
         <td>
           <button
@@ -57,8 +56,8 @@ export default {
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.color') },
-        code: { title: this.$t('category.code') },
+        name: { title: this.$t('global.name') },
+        code: { title: this.$t('color.color_code') },
         created_at: { title: this.$t('category.date') },
         status: { title: this.$t('category.status') }
       }

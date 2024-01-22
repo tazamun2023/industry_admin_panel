@@ -18,13 +18,13 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('port.port') }}</th>
-        <th>{{ $t('port.type  ') }}</th>
+        <th>{{ $t('global.type') }}</th>
         <th>{{ $t('port.country') }}</th>
         <th>{{ $t('port.city') }}</th>
-        <th>{{ $t('port.lat') }}</th>
-        <th>{{ $t('port.lang') }}</th>
-        <th>{{ $t('country.create_by') }}</th>
-        <th>{{ $t('country.created') }}</th>
+        <th>{{ $t('global.lat') }}</th>
+        <th>{{ $t('global.lang') }}</th>
+        <th>{{ $t('global.create_by') }}</th>
+        <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
 

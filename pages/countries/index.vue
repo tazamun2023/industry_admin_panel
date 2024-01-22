@@ -17,7 +17,7 @@
         </th>-->
         <th>{{ $t('country.iso') }}</th>
         <th>{{ $t('country.iso3') }}</th>
-        <th>{{ $t('country.name') }}</th>
+        <th>{{ $t('global.name') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
         <th>&nbsp;</th>
@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       orderOptions: {
-        name: { title: this.$t('index.title') },
+        name: { title: this.$t('global.name') },
       }
     }
   },

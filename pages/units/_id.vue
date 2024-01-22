@@ -14,11 +14,11 @@
 
     <template v-slot:form="{hasError}">
 
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
-         <span class="mr-15">{{$t('unit.type')}}</span>
+         <span class="mr-15">{{$t('global.type')}}</span>
           <v-select
             :dir="$t('app.dir')"
             v-model="result.unit_type"
@@ -26,6 +26,13 @@
             :placeholder="$t('unit.type')"
             class="custom-select"
           ></v-select>
+
+        <span
+          class="error"
+          v-if="!!!result.unit_type && hasError"
+        >
+          {{ $t('global.req', { type: $t('global.type')}) }}
+        </span>
       </div>
 
       <div class="input-wrapper">

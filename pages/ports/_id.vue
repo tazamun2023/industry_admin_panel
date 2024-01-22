@@ -13,7 +13,7 @@
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
      <div class="input-wrapper">
@@ -23,8 +23,6 @@
             :dir="$t('app.dir')"
             v-model="result.type"
             :options="['sea','air','land']"
-            taggable
-            multiple
             :placeholder="$t('title.select_type')"
             class="custom-select"
           ></v-select>
@@ -32,7 +30,7 @@
           class="error"
           v-if="!!!result.type && hasError"
         >
-          {{ $t('category.req', { type: $t('country.country_id')}) }}
+          {{ $t('global.req', { type: $t('global.type')}) }}
         </span>
       </div>
 
@@ -56,7 +54,7 @@
           class="error"
           v-if="!!!result.country_id && hasError"
         >
-          {{ $t('category.req', { type: $t('country.country_id')}) }}
+          {{ $t('category.req', { type: $t('country.country')}) }}
         </span>
       </div>
 
@@ -75,17 +73,17 @@
           class="error"
           v-if="!!!result.city_id && hasError"
         >
-          {{ $t('category.req', { type: $t('country.city_id')}) }}
+          {{ $t('global.req', { type: $t('city.city')}) }}
         </span>
       </div>
 
 
       <div class="input-wrapper">
 
-        <label>{{ $t('port.lat') }}</label>
+        <label>{{ $t('global.lat') }}</label>
         <input
           type="text"
-          :placeholder="$t('port.lat')"
+          :placeholder="$t('global.lat')"
           v-model="result.lat"
           ref="lat"
         >
@@ -93,10 +91,10 @@
 
       <div class="input-wrapper">
 
-        <label>{{ $t('port.lang') }}</label>
+        <label>{{ $t('global.lang') }}</label>
         <input
           type="text"
-          :placeholder="$t('port.lang')"
+          :placeholder="$t('global.lang')"
           v-model="result.lang"
           ref="lang"
         >

@@ -14,10 +14,10 @@
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
 
-        <label>{{ $t('barcode.barcode') }}</label>
+        <label>{{ $t('global.name') }}</label>
         <input
           type="text"
-          :placeholder="$t('barcode.name')"
+          :placeholder="$t('global.name')"
           v-model="result.name"
           ref="name"
           :class="{invalid: !!!result.name && hasError}"
@@ -26,7 +26,7 @@
           class="error"
           v-if="!!!result.name && hasError"
         >
-          {{ $t('barcode.name', { type: $t('index.title')}) }}
+          {{ $t('global.req', { type: $t('global.name')}) }}
         </span>
       </div>
     </template>

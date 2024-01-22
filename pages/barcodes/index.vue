@@ -18,8 +18,8 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('barcode.barcode') }}</th>
-        <th>{{ $t('country.created') }}</th>
-        <th>&nbsp;</th>
+        <th>{{ $t('global.created') }}</th>
+        <th>Action</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">

@@ -12,15 +12,14 @@
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
 
-        <label>{{ $t('color.code') }}</label>
+        <label>{{ $t('color.select_color') }}</label>
         <input
           type="color"
-          :placeholder="$t('color.code')"
           v-model="result.code"
           ref="name"
           :class="{invalid: !!!result.code && hasError}"
@@ -29,7 +28,7 @@
           class="error"
           v-if="!!!result.code && hasError"
         >
-          {{ $t('category.req', { type: $t('colors.code')}) }}
+          {{ $t('global.req', { type: $t('color.select_color')}) }}
         </span>
       </div>
     </template>
