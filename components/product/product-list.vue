@@ -142,35 +142,45 @@
                         />
                       </nuxt-link>
                     </td>
-                    <td>{{ value.name }}</td>
+                    <td>{{ value.title?.length > 30 ? value.title.substring(0, 30)+'...' : value.title }}</td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td>
-                      <p v-if="value.max_unit_price"><del>SAR {{ value.max_unit_price?.max_unit_price }}</del></p>
+                      <p v-if="value.maxUnitPrice"><del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del></p>
                       <p v-else>NAN</p>
-                      <p v-if="value.min_selling_price">SAR {{ value.min_selling_price?.min_selling_price }}</p>
+                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>
                     </td>
                     <td>
-                      <input type="qty" :value="value.available_quantity">
-                      <p class="text-xs" v-if="value.min_order_quantity">Min. Order Qty: {{  value.min_order_quantity[0]?.min_quantity }}</p>
+                      <p  v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
+                      <input type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber" @focusout="updateQty(value.id, $event)" >
+                      <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty: {{  value.minOrderQuantity[0]?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>
                     </td>
-                    <td>{{ value.status }}</td>
-                    <td>Jan 4, 2024 9:48 AM <br>
-                      Jan 4, 2024 9:48 AM
+                    <td>{{ value.created }}<br>
+                      {{  value.updated }}
                     </td>
                     <td>{{ value.status }}</td>
+                    <td>{{ value.status }}</td>
                     <td>
-                      <nuxt-link :to="`/products/${value.id}`">
-                        <svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                          <path
-                            d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                          <path
-                            d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                        </svg>
-                      </nuxt-link>
+                      <select class="border border-smooth p-3 rounded" name="" id="">
+                        <option value="">{{ $t('prod.action') }}</option>
+                        <option value="">Edit</option>
+                        <option value="">View</option>
+                        <option value="">Set out of stock</option>
+                        <option value="">Set in stock</option>
+                        <option value="">Archive</option>
+                        <option value="">Delete</option>
+                      </select>
+<!--                      <nuxt-link :to="`/products/${value.id}`">-->
+<!--                        <svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true"-->
+<!--                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">-->
+<!--                          <path-->
+<!--                            d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>-->
+<!--                          <path-->
+<!--                            d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>-->
+<!--                        </svg>-->
+<!--                      </nuxt-link>-->
                     </td>
                   </tr>
                   </tbody>
@@ -188,11 +198,12 @@
 
 <script>
 import ListPage from "~/components/partials/ListPage"
-import {mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import util from '~/mixin/util'
 import LazyImage from "~/components/LazyImage"
 import bulkDelete from "~/mixin/bulkDelete";
 import ProductFilter from "../../components/product/filter.vue";
+import moment from 'moment-timezone'
 
 export default {
   name: "product-list",
@@ -209,6 +220,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      showTitleQtyMessage: null,
       // openTab: 'is_all_products',
       actionCheck: false,
       orderByProduct: {
@@ -237,6 +249,34 @@ export default {
   },
   methods: {
 
+   async updateQty(id, event){
+     let available_quantity = event.target.value;
+     await this.setById({
+       id: id,
+       params: {available_quantity: available_quantity},
+       api: 'setAvailableQty'
+     }).then(()=>{
+
+       // alert('saved')
+     })
+     // const data = await this.setById({id: id, params: this.result, api: 'setAvailableQty'})
+     // console.log(data)
+    },
+    // checkInput(index) {
+    //   this.showTitleQtyMessage = index;
+    // },
+
+    DateTimeFormat(dateTime){
+      return moment(dateTime, 'MMM D, YYYY h:mm A').format('MMM D, YYYY h:mm A');
+    },
+
+    onlyNumber ($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+        $event.preventDefault();
+      }
+    },
+
     filterChanged(result) {
 
       console.log(result)
@@ -259,7 +299,9 @@ export default {
     },
     actionCheckToggle() {
       this.actionCheck = !this.actionCheck
-    }
+    },
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
+
   },
   mounted() {
 
