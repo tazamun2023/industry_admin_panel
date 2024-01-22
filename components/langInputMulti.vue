@@ -21,7 +21,7 @@
 <!--                 :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"-->
 <!--          >-->
           <input class="form-control" :placeholder="title"
-                 :value="valuesOfLang[index][language]"
+                 v-model="valuesOfLang[index][language]"
                  @input="updateInputValue(language, $event.target.value)"
                  :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"
           >
@@ -33,7 +33,7 @@
             </svg>
           </button>
 
-          <button type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addRow()">
+          <button v-if="index+1==valuesOfLang.length" type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addRow()">
             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                  viewBox="0 0 18 18">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
