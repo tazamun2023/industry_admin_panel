@@ -1,7 +1,8 @@
 <template>
   <h5 class="toast-message" :class="{'error-toast': isError}">
     <span v-if="isError">{{ $t('error.err') }}!!!</span>
-    {{message}}</h5>
+    {{message}}
+  </h5>
 </template>
 
 <script>

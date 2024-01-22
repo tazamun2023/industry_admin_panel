@@ -352,7 +352,9 @@ const actions = {
     if (data.status === 200) {
       dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
-    } else {
+    } else if(data.status > 200) {
+      dispatch('ui/setToastError', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
+    }else{
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },

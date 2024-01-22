@@ -72,7 +72,7 @@ export default {
         id: '',
         name: {'ar': '', 'en': ''},
         country_id: '',
-        status: 1,
+        status: '',
       }
     }
   },
@@ -91,6 +91,9 @@ export default {
     updateInput(input, language, value) {
 
       this.$set(input, language, value);
+    },
+    dropdownSelected(data) {
+      this.result.status = data.key
     },
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {

@@ -18,6 +18,7 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('barcode.barcode') }}</th>
+        <th>{{ $t('global.status') }}</th>
         <th>{{ $t('global.created') }}</th>
         <th>Action</th>
       </tr>
@@ -28,6 +29,12 @@
         </td>
 
         <td>{{ value.name }}</td>
+        <td
+          class="status"
+          :class="{active: value.status == 1 }"
+        >
+          <span>{{ getStatus(value.status) }}</span>
+        </td>
         <td>{{ value.created }}</td>
 
         <td>

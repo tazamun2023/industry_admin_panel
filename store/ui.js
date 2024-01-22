@@ -50,8 +50,9 @@ const mutations = {
     state.toastError = false
     state.toastMessage = ''
   },
+
   SET_ERRORS(state, data) {
-    state.toastError = true
+    state.toastError = false
     state.errors = data
   },
 }
