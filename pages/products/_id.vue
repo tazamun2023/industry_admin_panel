@@ -3,7 +3,8 @@
     <!-- ---------------- -->
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4>Add new product</h4>
+        <h4 v-if="!id">Add new product</h4>
+        <h4 v-else>Edit product</h4>
         <p>Fill out the form below to add a new product to your product list</p>
       </div>
 
@@ -30,13 +31,12 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-primary">Submit</button>
       </form>
     </div>
 
     <div v-if="!is_clone">
-      <form @submit.prevent="checkForm"
-            :class="{'has-error': hasError}">
+      <form :class="{'has-error': hasError}">
         <!-- --------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
@@ -54,12 +54,12 @@
               <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
             </select>
           </div>
-<!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
+          <!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
           <div class="grid grid-cols-3 gap-4">
             <!-- Main Category Dropdown -->
             <div class="form-group input-wrapper for-lang ar-lang">
               <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
-<!--              :class="{invalid: !result.selectedMainCategory && hasError}"-->
+              <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
               <v-select
                 :dir="$t('app.dir')"
                 v-model="result.parentCategory"
@@ -69,7 +69,7 @@
                 :placeholder="$t('rfq.Search by Category')"
                 @input="updateLevel2"
                 class="custom-select"
-                :class="{invalid: result.parentCategory === null && hasError}"
+                :class="{invalid: result.parentCategory === '' && hasError}"
               ></v-select>
             </div>
 
@@ -85,7 +85,7 @@
                 class="custom-select"
                 :placeholder="$t('rfq.Select Sub Category')"
                 @input="updateLevel3"
-                :class="{invalid: result.subCategory === null && hasError}"
+                :class="{invalid:  result.subCategory === '' && hasError}"
               ></v-select>
             </div>
 
@@ -97,7 +97,7 @@
                 v-model="result.childCategory"
                 :options="selectedLevel2?.child"
                 :reduce="cat => cat.id"
-                :class="{invalid: result.category_id === null && hasError}"
+                :class="{invalid: result.childCategory === '' && hasError}"
                 label="title"
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"
@@ -121,7 +121,7 @@
           <!--          <input dir="rtl" class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
           <!--        </div>-->
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
-            <label class="w-full" for="name">{{ $t("rfq.Brand") }}</label>
+            <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
             <!--          <dropdown-->
             <!--            v-if="allBrands"-->
             <!--            :default-null="true"-->
@@ -131,7 +131,7 @@
             <!--          />-->
 
             <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
-                    :class="{invalid: (result.brand_id == 0 || result.brand_id===null) && hasError}"
+                    :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
                     v-model="result.brand_id">
               <option value="0">Select Brand</option>
               <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
@@ -172,7 +172,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute1"
-                          @change="variantValueType($event, 1)" >
+                          @change="variantValueType($event, 1)">
                     <option selected>Select attribute 1</option>
                     <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
                             :disabled="isAttribute1Disabled(index)">{{ item }}
@@ -241,7 +241,7 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="submit" class="btn text-white bg-primary">
+              <button type="button" class="btn text-white bg-primary">
                 SAVE
               </button>
               <button type="button" class="btn  border-secondary">
@@ -264,7 +264,8 @@
               <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoen" :key="index">
                 <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"
                        @input="updateBasicInfo('en', $event, index)">
-                <button type="button" class="btn ml-2 mr-2  btn-danger" @click.prevent="removeBasicInfoRows('en', index)"
+                <button type="button" class="btn ml-2 mr-2  btn-danger"
+                        @click.prevent="removeBasicInfoRows('en', index)"
                         v-if="index!=0">
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +289,8 @@
               <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoar" :key="index">
                 <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
                        type="text" @input="updateBasicInfo('ar', $event, index)">
-                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)" class="btn ml-2 mr-2   btn-danger"
+                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)"
+                        class="btn ml-2 mr-2   btn-danger"
                         v-if="index!=0">
                   <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg"
@@ -317,7 +319,7 @@
                 multiple
                 :placeholder="$t('title.select_type')"
                 class="custom-select"
-                :class="{invalid: (result.basicKeyworden === null) && hasError}"
+                :class="{invalid: !is_draft && (result.basicKeyworden === null) && hasError}"
               ></v-select>
             </div>
             <div class="input-wrapper mb-10">
@@ -560,7 +562,7 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
-                      :class="{invalid: (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
+                      :class="{invalid: !is_draft && (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
                       @change="productIdentifiersType($event)" v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.title }}</option>
@@ -569,14 +571,14 @@
             <div class="form-group input-wrapper mt-3 mt-sm-0">
               <label>Barcode</label>
               <input type="text" class="form-control" v-model="result.barcode"
-                     :class="{ 'not-allowed-cursor': (!result.barcode_type || !is_barcode) && hasError, 'bgdark': (!result.barcode_type || !is_barcode) && hasError, 'invalid': (!result.barcode_type || !is_barcode) && hasError }"
+                     :class="{invalid: !is_draft && is_barcode && hasError, 'no-cursor': !is_barcode}"
                      placeholder="Please enter barcode number"
                      :disabled="!is_barcode">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
               <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :disabled="!is_barcode"
-                     :class="{invalid: (!result.sku) && hasError}"
+                     :class="{invalid: !is_draft && (!result.sku) && hasError}"
               >
             </div>
           </div>
@@ -608,13 +610,13 @@
               <label for="">Size ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Size" aria-label="Recipient's username"
-                       :class="{invalid: (!result.pk_size) && hasError}"
+                       :class="{invalid: !is_draft && (!result.pk_size) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_size">
                 <div class="absolute right-0 top-0">
                   <select class="p-2 m-1 float-right border-l border-smooth uppercase" @change="updateSizeUnit($event)"
                           v-model="result.pk_size_unit"
-                          :class="{invalid: (result.pk_size_unit===null) && hasError}"
+                          :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
                   >
                     <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
                         item.title
@@ -630,7 +632,7 @@
               <label for="">Number of units per carton</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
-                       :class="{invalid: (!result.pk_number_of_carton) && hasError}"
+                       :class="{invalid: !is_draft && (!result.pk_number_of_carton) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_number_of_carton">
               </div>
@@ -639,7 +641,7 @@
               <label for="">Average lead time (Days) ?</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
-                       :class="{invalid: (!result.pk_average_lead_time) && hasError}"
+                       :class="{invalid: !is_draft && (!result.pk_average_lead_time) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pk_average_lead_time">
               </div>
@@ -649,7 +651,7 @@
               <div class=" mb-3">
                 <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
                         v-model="result.pk_transportation_mode"
-                        :class="{invalid: (!result.pk_transportation_mode) && hasError}"
+                        :class="{invalid: !is_draft && (!result.pk_transportation_mode) && hasError}"
                 >
                   <option :value="index" v-for="(item, index) in allTransportationModes" :key="index">{{
                       item.name
@@ -675,11 +677,11 @@
                 <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                        aria-label="Recipient's username"
                        @keypress="onlyNumber"
-                       :class="{invalid: (result.pc_weight===null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pc_weight===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_weight">
                 <div class="absolute right-0 top-0">
                   <select class="p-2 m-1 float-right border-l border-smooth uppercase"
-                          :class="{invalid: (result.pc_weight_unit_id===null) && hasError}"
+                          :class="{invalid: !is_draft && (result.pc_weight_unit_id===null) && hasError}"
                           v-model="result.pc_weight_unit_id">
                     <!--                  <option value="0">Select</option>-->
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
@@ -696,11 +698,11 @@
                 <input type="text" class="form-control pr-12" placeholder="Carton Length"
                        aria-label="Recipient's username"
                        @keypress="onlyNumber"
-                       :class="{invalid: (result.pc_length===null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pc_length===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_length">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                          :class="{invalid: (result.pc_length_unit_id===null) && hasError}"
+                          :class="{invalid: !is_draft && (result.pc_length_unit_id===null) && hasError}"
                           v-model="result.pc_length_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -717,11 +719,11 @@
                 <input type="text" class="form-control pr-12" placeholder="Carton Height"
                        aria-label="Recipient's username"
                        @keypress="onlyNumber"
-                       :class="{invalid: (result.pc_height===null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pc_height===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_height">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                          :class="{invalid: (result.pc_height_unit_id===null) && hasError}"
+                          :class="{invalid: !is_draft && (result.pc_height_unit_id===null) && hasError}"
                           v-model="result.pc_height_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -738,11 +740,11 @@
                 <input type="text" class="form-control pr-12" placeholder="Carton Width"
                        aria-label="Recipient's username"
                        @keypress="onlyNumber"
-                       :class="{invalid: (result.pc_width===null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pc_width===null) && hasError}"
                        aria-describedby="button-addon2" v-model="result.pc_width">
                 <div class="absolute right-0 top-0">
                   <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                          :class="{invalid: (result.pc_width_unit_id===null) && hasError}"
+                          :class="{invalid: !is_draft && (result.pc_width_unit_id===null) && hasError}"
                           v-model="result.pc_width_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.title
@@ -767,11 +769,11 @@
               <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                      aria-label="Recipient's username"
                      @keypress="onlyNumber"
-                     :class="{invalid: (result.pdime_weight ===null) && hasError}"
+                     :class="{invalid: !is_draft && (result.pdime_weight ===null) && hasError}"
                      aria-describedby="button-addon2" v-model="result.pdime_weight">
               <div class="absolute right-0 top-0">
                 <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                        :class="{invalid: (result.pdime_weight_unit_id === null) && hasError}"
+                        :class="{invalid: !is_draft && (result.pdime_weight_unit_id === null) && hasError}"
                         v-model="result.pdime_weight_unit_id">
                   <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.title }}</option>
                 </select>
@@ -783,7 +785,7 @@
               <label for="">Length ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Length" aria-label="Recipient's username"
-                       :class="{invalid: (result.pdime_length === null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pdime_length === null) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_length">
               </div>
@@ -792,7 +794,7 @@
               <label for="">Height ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"
-                       :class="{invalid: (result.pdime_height === null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pdime_height === null) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_height">
               </div>
@@ -802,7 +804,7 @@
               <label for="">Width ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"
-                       :class="{invalid: (result.pdime_width===null) && hasError}"
+                       :class="{invalid: !is_draft && (result.pdime_width===null) && hasError}"
                        @keypress="onlyNumber"
                        aria-describedby="button-addon2" v-model="result.pdime_width">
               </div>
@@ -810,7 +812,7 @@
             <div class="input-wrapper">
               <label for="">Dimension Unit</label>
               <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
-                      :class="{invalid: (result.pdime_dimention_unit ===null) && hasError}"
+                      :class="{invalid: !is_draft && (result.pdime_dimention_unit ===null) && hasError}"
                       v-model="result.pdime_dimention_unit">
                 <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.title }}</option>
               </select>
@@ -827,7 +829,7 @@
             <label for="">Unit of measure ?</label>
             <div class="input-group mb-3">
               <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                      :class="{invalid: (result.pp_unit_of_measure_id === null || result.pp_unit_of_measure_id ===0) && hasError}"
+                      :class="{invalid: !is_draft && (result.pp_unit_of_measure_id === null || result.pp_unit_of_measure_id ===0) && hasError}"
                       v-model="result.pp_unit_of_measure_id">
                 <option value="0">Unit</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
@@ -849,7 +851,7 @@
               </tr>
               </thead>
               <tbody>
-<!--              index > 0 && parseFloat(this.result.pp_quantity[index]) <= parseFloat(this.result.pp_quantity[0])-->
+              <!--              index > 0 && parseFloat(this.result.pp_quantity[index]) <= parseFloat(this.result.pp_quantity[0])-->
               <tr v-for="(row, index) in result.PriceingRows" :key="index">
                 <td class="p-2">
                   <input
@@ -861,11 +863,12 @@
                     @keypress="onlyNumber"
                   >
                   <div v-if="isInvalidQuantity(index)" class="text-error">
-                    Error: Current quantity should be greater than the quantity at the {{ index === 0 ? '1st' : `${index}th` }} Quantity
+                    Error: Current quantity should be greater than the quantity at the
+                    {{ index === 0 ? '1st' : `${index}th` }} Quantity
                   </div>
-<!--                  <input type="text" class="form-control" placeholder="Enter Quantity"-->
-<!--                                       :class="{'invalid': isInvalidQuantity(index)}"-->
-<!--                                       @input="updatePriceQty('qty', $event, index)">-->
+                  <!--                  <input type="text" class="form-control" placeholder="Enter Quantity"-->
+                  <!--                                       :class="{'invalid': isInvalidQuantity(index)}"-->
+                  <!--                                       @input="updatePriceQty('qty', $event, index)">-->
                 </td>
                 <td class="p-2">
                   <div class="relative flex">
@@ -909,7 +912,7 @@
               <div class="input-wrapper">
                 <label for="">Is Ready To Ship ?</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_ready_to_ship"
-                        :class="{invalid: (result.is_ready_to_ship === null) && hasError}"
+                        :class="{invalid: !is_draft && (result.is_ready_to_ship === null) && hasError}"
                 >
                   <option value="1">Yes</option>
                   <option value="0">No</option>
@@ -919,7 +922,8 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Is Buy Now ?</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase" :class="{invalid: (result.is_buy_now === null) && hasError}" v-model="result.is_buy_now">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                        :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}" v-model="result.is_buy_now">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -928,7 +932,9 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Availability</label>
-                <select class="border p-3 w-full border-smooth rounded-lg uppercase" :class="{invalid: (result.is_availability===null) && hasError}" v-model="result.is_availability">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                        :class="{invalid: !is_draft && (result.is_availability===null) && hasError}"
+                        v-model="result.is_availability">
                   <option value="1">In Stock</option>
                   <option value="0">Out of Stock</option>
                 </select>
@@ -938,7 +944,9 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Storage temperature</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" :class="{invalid: (result.storage_temperature===0 || result.storage_temperature===null) && hasError}" v-model="result.storage_temperature">
+                <select class="border p-3 w-full border-smooth rounded-lg"
+                        :class="{invalid: !is_draft && (result.storage_temperature===0 || result.storage_temperature===null) && hasError}"
+                        v-model="result.storage_temperature">
                   <option value="0" disabled>Select Option</option>
                   <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{
                       item.title
@@ -951,7 +959,8 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Ware House</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location" :class="{invalid: (result.stock_location===0 || result.stock_location===null) && hasError}" >
+                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location"
+                        :class="{invalid: !is_draft && (result.stock_location===0 || result.stock_location===null) && hasError}">
                   <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{ item.name }}</option>
                 </select>
               </div>
@@ -960,8 +969,12 @@
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">Country of origin</label>
-                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin" :class="{invalid: (result.country_of_origin===null) && hasError}">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{ item.name }}</option>
+                <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin"
+                        :class="{invalid: !is_draft && (result.country_of_origin===null) && hasError}">
+                  <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
+                      item.name
+                    }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -970,7 +983,7 @@
               <div class="input-wrapper">
                 <label for="">Dangerous Goods</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_dangerous" :class="{invalid: (result.is_dangerous===null) && hasError}">
+                        v-model="result.is_dangerous" :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -1009,7 +1022,8 @@
                      @input="updateAddtional('attr', $event, index)">
               <input class="form-control" placeholder="Text to display" type="text"
                      @input="updateAddtional('value', $event, index)">
-              <button type="button" @click.prevent="removeAdditionalDetailsRows(index)" class="btn ml-2 mr-2 btn-danger">
+              <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
+                      class="btn ml-2 mr-2 btn-danger">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1027,11 +1041,11 @@
           </div>
           <div class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="submit" class="btn text-primary">
+              <button type="button" class="btn text-primary" @click.prevent="doDraft">
                 Save Draft
               </button>
-              <button type="submit" class="btn bg-primary text-white border-secondary">
-                <span>Send for review</span>
+              <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="doSubmit">
+                Send for review
               </button>
             </div>
           </div>
@@ -1132,6 +1146,7 @@ export default {
       uploadModal: false,
       is_clone: false,
       is_variant: false,
+      is_draft: false,
       isColor: false,
       isSize: false,
       licence: null,
@@ -1151,13 +1166,14 @@ export default {
       setImageApi: 'setProductImage',
       setVideoApi: 'setProductVideo',
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
-      validationKeys: ['title.en', 'slug', 'unit', 'meta_title', 'meta_description',
-        'description', 'overview', 'selling', 'purchased'],
+      validationKeys: ['title.en'],
+      validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory', 'title.en'],
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
       errorMessage: '',
       result: {
+        is_draft: false,
         is_variant: false,
         parentCategory: '',
         subCategory: '',
@@ -1320,7 +1336,7 @@ export default {
     isInvalidQuantity() {
       return (index) => {
         const currentQuantity = parseFloat(this.result.pp_quantity[index]);
-        const firstQuantity = parseFloat(this.result.pp_quantity[index-1]);
+        const firstQuantity = parseFloat(this.result.pp_quantity[index - 1]);
         return currentQuantity <= firstQuantity && this.hasError;
       };
     },
@@ -1364,6 +1380,32 @@ export default {
 
   methods: {
 
+    doDraft(){
+      this.is_draft = true;
+      this.result.is_draft = true;
+
+      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      //   this.hasError = true
+      //   return false
+      // }
+      this.checkForm()
+
+    },
+
+    doSubmit(){
+      this.is_draft = false;
+      this.result.is_draft = false;
+      if (this.is_variant){
+        this.result.is_variant = true;
+      }
+
+      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      //   this.hasError = true
+      //   return false
+      // }
+      this.checkForm()
+    },
+
     updateLevel2() {
       this.result.subCategory = "";  // Reset Level 2 selection
       this.result.category_id = "";  // Reset Level 2 selection
@@ -1376,7 +1418,7 @@ export default {
       this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
       this.result.subCategorySlug = this.selectedLevel2.slug
     },
-    onlyNumber ($event) {
+    onlyNumber($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
         $event.preventDefault();
@@ -1440,17 +1482,11 @@ export default {
 
     productIdentifiersType(event, attributeNumber) {
       this.result.barcode_type = event.target.value;
-      this.is_barcode = true;
-      console.log(event.target.value)
-      // console.log(event, event.target.value)
-      // if (attributeNumber === 1) {
-      //   this.result.pp = event.target.value;
-      //   this.disableAttribute2 = false; // Enable attribute 2 when changing attribute 1
-      // } else if (attributeNumber === 2) {
-      //   // Handle attribute 2 change logic if needed
-      //   this.selectedAttribute2 = event.target.value;
-      //   this.disableAttribute1 = false;
-      // }
+      if (this.result.barcode_type !== 0){
+        this.is_barcode = true;
+      }else {
+        this.is_barcode = false;
+      }
     },
 
 
@@ -1512,7 +1548,7 @@ export default {
     addVariantValueRows() {
       let index = 0;  // Adjust index based on zero-based indexing
       if (index < this.result.variantRows.length) {
-        this.result.variantRows.push({ size: 0, color: "" });  // Add a new row at the end
+        this.result.variantRows.push({size: 0, color: ""});  // Add a new row at the end
         // this.result.variantRows.splice(this.result.variantRows.length + 1, 1, {size: 0, color: ""},);  // Add a new row
       } else {
         console.error('Index out of bounds.');  // Log an error if index is out of bounds
@@ -1755,56 +1791,18 @@ export default {
       this.redirect = buttonType === 'save'
     },
     async checkForm() {
-      // if(this.validationKeys.findIndex((i) => { return (!this.result[i]) }) > -1){
-      //   this.hasError = true
-      //   return false
-      // }
-      if (this.is_variant){
-this.result.is_variant=true;
 
-        // this.redirectingEnable(event.submitter.name)
-        this.formSubmitting = true
-        try {
-
-          delete this.result.created_at
-          delete this.result.updated_at
-          const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-          // console.log('data', data)
-          if (data) {
-
-            this.result = Object.assign({}, data)
-            this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
-            this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
-
-
-            this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-          }
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
-        this.formSubmitting = false
-
-      }else {
-
-        // if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
-        //   this.hasError = true
-        //   return false
-        // }
-
-      this.redirectingEnable(event.submitter.name)
+      // this.redirectingEnable(event.submitter.name)
       this.formSubmitting = true
       try {
 
         delete this.result.created_at
         delete this.result.updated_at
         const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-        // console.log('data', data)
+
         if (data) {
 
           this.result = Object.assign({}, data)
-          this.result.product_collections = [...new Set(this.result?.product_collections?.map((o)=>{return o.product_collection_id}))]
-          this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => { return o.category_id.toString() }))]
-
 
           this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
         }
@@ -1812,23 +1810,22 @@ this.result.is_variant=true;
         return this.$nuxt.error(e)
       }
       this.formSubmitting = false
-      }
     },
-
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
     async fetchingData() {
       try {
         this.loading = true
-var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
-        this.result ={
+        var res = Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
+        this.result = {
           title: res.title,
           description: res.description,
           parentCategory: res.category?.id,
           subCategory: res.sub_category?.id,
           childCategory: res.child_category?.id,
           unit: res.unit,
+          brand_id: res.brand_id,
           meta_title: res.meta_title,
           meta_description: res.meta_description,
           selling: res.selling,
@@ -1841,31 +1838,31 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
           basicInfoAr: res.title,
           basicInfoEng: res.title,
           /*end Basic Information*/
-         /* Product Identifiers*/
+          /* Product Identifiers*/
           barcode_type: res.barcode_id,
           barcode: res.barcode_number,
           sku: res.sku,
-         /* end Product Identifiers*/
+          /* end Product Identifiers*/
           variantRows: res.product_variant?.map(item => {
             return {
               size: item.value,  // Replace 'size' with the actual property name from your data
               color: item.color.id  // Replace 'color' with the actual property name from your data
             };
           }),
-            productVariants: {
-              // Add or update properties as needed
-              variantTypes: ['color', 'size'],
-              pv_name: [],
+          productVariants: {
+            // Add or update properties as needed
+            variantTypes: ['color', 'size'],
+            pv_name: [],
 
-              // Initialize or modify variantValues with your desired structure
-              variantValues: [
-                // For color
-                res.product_variant?.map(variant => variant.color.id) || [],
+            // Initialize or modify variantValues with your desired structure
+            variantValues: [
+              // For color
+              res.product_variant?.map(variant => variant.color.id) || [],
 
-                // For size
-                res.product_variant?.map(variant => variant.value) || [],
-              ],
-            },
+              // For size
+              res.product_variant?.map(variant => variant.value) || [],
+            ],
+          },
 
 
           /*Product Inventory*/
@@ -1887,8 +1884,8 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
           pc_height_unit_id: res.product_carton?.height_unit_id,
           pc_length: res.product_carton?.length,
           pc_length_unit_id: res.product_carton?.length_unit_id,
-          pc_width:  res.product_carton?.width,
-          pc_width_unit_id:  res.product_carton?.width_unit_id,
+          pc_width: res.product_carton?.width,
+          pc_width_unit_id: res.product_carton?.width_unit_id,
           /*end Carton Dimensions & Weight*/
           /*Product dimensions & weight*/
           pdime_weight: res.product_dimension?.weight,
@@ -1913,18 +1910,18 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
           is_dangerous: res.is_dangerous,
 
         }
-        if (res.product_variant.length != 0){
+        if (res.product_variant.length != 0) {
           this.is_variant = true
         }
 
 
         this.updateLevel2()
-        this.result.subCategory= res.sub_category?.id
+        this.result.subCategory = res.sub_category?.id
         this.updateLevel3()
-        this.result.category_id=res.child_category?.id
-        this.result.childCategory=res.child_category?.id
+        this.result.category_id = res.child_category?.id
+        this.result.childCategory = res.child_category?.id
 
-          console.log('result', this.result)
+        console.log('result', this.result)
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
         }))]
@@ -2070,7 +2067,7 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
   async mounted() {
     this.selectedAttribute1 = 'color';
     this.selectedAttribute2 = 'size';
-    if (this.allCategoriesTree.length==0) {
+    if (this.allCategoriesTree.length == 0) {
       try {
         await this.getCategoriesTree()
       } catch (e) {
@@ -2090,7 +2087,7 @@ var res= Object.assign({}, await this.getById({id: this.id, params: {}, api: thi
       await this.fetchingData()
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes|| !this.allWarehouses) {
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 
       this.loading = true
       try {

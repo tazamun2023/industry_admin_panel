@@ -18,7 +18,6 @@
           :value="valuesOfLang[language]"
           @input="updateInputValue(language, $event.target.value)"
           :class="{ invalid: !!!valuesOfLang[language] && hasError }"
-
         >
 
 
