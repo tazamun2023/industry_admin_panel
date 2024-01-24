@@ -15,6 +15,20 @@
       <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+            <span class="mr-15">
+              {{ $t('global.status') }}
+            </span>
+
+          <dropdown
+            :selectedKey="`${result.status}`"
+            :options="statusObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
+
     </template>
   </data-page>
 </template>
@@ -33,7 +47,8 @@
       return {
         result: {
           id: '',
-          name: {'ar': '', 'en': ''}
+          name: {'ar': '', 'en': ''},
+          status: ''
         }
       }
     },
@@ -56,6 +71,9 @@
           this.emptyAllList('allCategories')
         }
         this.result = evt
+      },
+      dropdownSelected(data){
+        this.result.status = data.key
       },
 
       ...mapActions('common', ['getAllList', 'emptyAllList'])

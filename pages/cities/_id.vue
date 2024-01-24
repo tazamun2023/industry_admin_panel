@@ -41,7 +41,7 @@
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
             <span class="mr-15">
-              {{ $t('category.status') }}
+              {{ $t('global.status') }}
             </span>
 
           <dropdown
@@ -101,7 +101,6 @@ export default {
       }
       this.result = evt
     },
-
 
     ...mapActions('common', ['getAllCountries', 'emptyAllList'])
   },

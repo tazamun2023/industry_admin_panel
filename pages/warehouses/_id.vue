@@ -138,6 +138,20 @@
         >
       </div>
 
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+          <span class="mr-15">
+            {{ $t('category.status') }}
+          </span>
+
+          <dropdown
+            :selectedKey="`${result.status}`"
+            :options="statusObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
+
     </template>
   </data-page>
 </template>
@@ -164,6 +178,7 @@ export default {
         lang: '',
         nearest_air_port_id: '',
         nearest_sea_port_id: '',
+        status:''
       },
       is_open:[
         {id:1 , name: 'yes'},
@@ -185,6 +200,9 @@ export default {
       updateInput(input, language, value) {
         this.$set(input, language, value);
       },
+    dropdownSelected(data){
+        this.result.status = data.key
+    },
 
     ...mapActions('warehouse', ['nearAirPort', 'nearSeaPort']),
   },

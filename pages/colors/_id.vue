@@ -16,7 +16,6 @@
                   @updateInput="updateInput"></lang-input>
 
       <div class="input-wrapper">
-
         <label>{{ $t('color.select_color') }}</label>
         <input
           type="color"
@@ -31,6 +30,22 @@
           {{ $t('global.req', { type: $t('color.select_color')}) }}
         </span>
       </div>
+
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+            <span class="mr-15">
+              {{ $t('global.status') }}
+            </span>
+
+          <dropdown
+            :selectedKey="`${result.status}`"
+            :options="statusObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
+
+
     </template>
   </data-page>
 </template>
@@ -73,6 +88,10 @@
           this.emptyAllList('allCategories')
         }
         this.result = evt
+      },
+
+      dropdownSelected(data) {
+        this.result.status = data.key
       },
 
       ...mapActions('common', ['getAllList', 'emptyAllList'])
