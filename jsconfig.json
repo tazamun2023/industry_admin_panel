@@ -138,6 +138,7 @@
     "getAllArchivedProducts": "product/all/archived",
     "getAllDraftProducts": "product/all/draft",
     "setAvailableQty": "product/update-qty",
+    "updateStock": "product/update-stock",
 
 
     "getQuote": "quotes/find",
@@ -205,6 +206,7 @@
     "getProducts": "product/all",
     "deleteProduct": "product/delete",
     "getProduct": "product/find",
+    "getProductBySku": "product/sku",
     "setProduct": "product/action",
     "setProductImage": "product/upload",
     "setProductImages": "product/upload-images",
