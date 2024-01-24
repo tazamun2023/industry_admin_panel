@@ -2,7 +2,7 @@
       <div class="card p-3">
         <div class="grid border-b-smooth grid-cols-4">
           <div>
-            <h4>Products List</h4>
+            <h4>{{ $t('prod.product_list') }}</h4>
             <p class="text-xs">Find and manage your uploaded products here</p>
           </div>
           <div class="flex gap-4 col-span-2 justify-center">
@@ -12,7 +12,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
               </svg>
-              Download Rejection Reasons
+              {{ $t('prod.download_rejection_reasons') }}
             </button>
             <button class="flex gap-1 hover:text-primary">
               <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -165,8 +165,9 @@
                     <td>
                       <select class="border border-smooth p-3 rounded" name="" id="">
                         <option value="">{{ $t('prod.action') }}</option>
-                        <option value="">Edit</option>
-                        <option value="">View</option>
+                        <option value="">
+                          <nuxt-link :to="`/products/${value.id}`">Edit</nuxt-link>
+                        </option>
                         <option value="">Set out of stock</option>
                         <option value="">Set in stock</option>
                         <option value="">Archive</option>
@@ -251,16 +252,16 @@ export default {
 
    async updateQty(id, event){
      let available_quantity = event.target.value;
-     await this.setById({
-       id: id,
-       params: {available_quantity: available_quantity},
-       api: 'setAvailableQty'
-     }).then(()=>{
+     if (available_quantity !== ''){
+       await this.setById({
+         id: id,
+         params: {available_quantity: available_quantity},
+         api: 'setAvailableQty'
+       }).then(()=>{
 
-       // alert('saved')
-     })
-     // const data = await this.setById({id: id, params: this.result, api: 'setAvailableQty'})
-     // console.log(data)
+         // alert('saved')
+       })
+     }
     },
     // checkInput(index) {
     //   this.showTitleQtyMessage = index;

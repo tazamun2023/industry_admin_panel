@@ -92,7 +92,7 @@
         </div>
       </div><!--dply-felx inputs-->
 
-      <product-search2
+      <product-search
         ref="productSearch"
         @product-clicked="addFlashProduct"
       />

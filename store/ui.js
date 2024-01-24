@@ -52,7 +52,7 @@ const mutations = {
   },
 
   SET_ERRORS(state, data) {
-    state.toastError = false
+    state.toastError = true
     state.errors = data
   },
 }
