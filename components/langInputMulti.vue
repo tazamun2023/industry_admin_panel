@@ -12,7 +12,7 @@
     <!-- Input fields for each language -->
 
     <div v-for="(language, key) in languages" :key="key" v-show="currentTab === key">
-      <label>{{ title }} ({{ language }})</label>
+      <label>{{ $t('prod.key_features') }} ({{ language }})</label>
       <template v-for="(row,index) in  valuesOfLang">
         <div class="flex append-input pt-1">
 <!--          <input class="form-control" :placeholder="title"-->
@@ -20,7 +20,7 @@
 <!--                 @input="updateInputValue(language, $event.target.value)"-->
 <!--                 :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"-->
 <!--          >-->
-          <input class="form-control" :placeholder="title"
+          <input class="form-control" :placeholder="$t('prod.features_placeholder')"
                  v-model="valuesOfLang[index][language]"
                  @input="updateInputValue(language, $event.target.value)"
                  :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"

@@ -201,6 +201,8 @@
     "in_stock": "In Stock",
     "out_of_stock": "Out of Stock",
     "draft": "Draft",
+    "key_features": "Key features",
+    "features_placeholder": "Type keyword and press enter (eg. Laptop)...",
     "product_list": "Products List",
     "sortBy": "Sort By",
     "clear_filter": "Clear Filter",

@@ -171,51 +171,37 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute1"
-                          @change="variantValueType($event, 1)">
+                  <select class="w-full rounded border mb-10 border-smooth p-3">
                     <option selected>Select attribute 1</option>
-                    <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
-                            :disabled="isAttribute1Disabled(index)">{{ item }}
-                    </option>
+                    <option v-for="(item, index) in product_variant_type" :key="index">{{ item }}</option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute2"
-                          @change="variantValueType($event, 2)">
+                  <select class="w-full rounded border mb-10 border-smooth p-3">
                     <option selected>Select attribute 2</option>
-                    <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
-                            :disabled="isAttribute2Disabled(index)">{{ item }}
-                    </option>
+                    <option v-for="(item, index) in product_variant_type" :key="index">{{ item }}</option>
                   </select>
                 </div>
               </div>
             </div>
 
             <div class="col-md-4"></div>
-            <div class="grid grid-cols-3 gap-4" v-for="(row, index) in result.variantRows" :key="index">
+            <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
-                  <select v-if="selectedAttribute1 === 'color'" class="w-full rounded border mb-10 border-smooth p-3"
-                          @change="updateVariantColor('color', $event, index)" v-model="row.color">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name">
                     <option selected>Select Color</option>
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
-                  <input v-else class="form-control w-100" type="text" placeholder="Enter Value"
-                         @input="updateVariant('size', $event, index)" v-model="row.size"/>
+                  <!--                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"/>-->
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <input v-if="selectedAttribute2 === 'size'" class="form-control w-100" type="text"
-                         placeholder="Enter Value" @input="updateVariant('size', $event, index)"/>
-                  <select v-else class="w-full rounded border mb-10 border-smooth p-3"
-                          @change="updateVariantColor('color', $event, index)">
-                    <option selected>Select Color</option>
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
-                  </select>
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"/>
                 </div>
               </div>
 
@@ -241,7 +227,7 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-white bg-primary">
+              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">
                 SAVE
               </button>
               <button type="button" class="btn  border-secondary">
@@ -262,60 +248,61 @@
             <div class="input-wrapper mb-10">
               <label for="">Key features - English ?</label>
 
-              <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.features"
-                          @updateInput="updateInput"></lang-input-multi>
+              <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+                                :valuesOfLang="result.features"
+                                @updateInput="updateInput"></lang-input-multi>
 
 
-<!--              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoEng" :key="index">-->
+              <!--              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoEng" :key="index">-->
 
-<!--                <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"-->
-<!--                       v-model="result.basicInfoEng[index]"-->
-<!--                       @input="updateBasicInfo('en', $event, index)">-->
-<!--                <button type="button" class="btn ml-2 mr-2  btn-danger"-->
-<!--                        @click.prevent="removeBasicInfoRows('en', index)"-->
-<!--                        v-if="index!=0">-->
-<!--                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
-<!--                       xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 2">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M1 1h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">-->
-<!--                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"-->
-<!--                       xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 18">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M9 1v16M1 9h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--              </div>-->
+              <!--                <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"-->
+              <!--                       v-model="result.basicInfoEng[index]"-->
+              <!--                       @input="updateBasicInfo('en', $event, index)">-->
+              <!--                <button type="button" class="btn ml-2 mr-2  btn-danger"-->
+              <!--                        @click.prevent="removeBasicInfoRows('en', index)"-->
+              <!--                        v-if="index!=0">-->
+              <!--                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
+              <!--                       xmlns="http://www.w3.org/2000/svg"-->
+              <!--                       fill="none" viewBox="0 0 18 2">-->
+              <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+              <!--                          d="M1 1h16"/>-->
+              <!--                  </svg>-->
+              <!--                </button>-->
+              <!--                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">-->
+              <!--                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"-->
+              <!--                       xmlns="http://www.w3.org/2000/svg"-->
+              <!--                       fill="none" viewBox="0 0 18 18">-->
+              <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+              <!--                          d="M9 1v16M1 9h16"/>-->
+              <!--                  </svg>-->
+              <!--                </button>-->
+              <!--              </div>-->
             </div>
-            <div class="input-wrapper mb-10">
-              <label for="">Key features - Arabic(optional) ?</label>
-              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoAr" :key="index">
-                <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
-                       type="text" @input="updateBasicInfo('ar', $event, index)">
-                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)"
-                        class="btn ml-2 mr-2   btn-danger"
-                        v-if="index!=0">
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 2">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M1 1h16"/>
-                  </svg>
-                </button>
-                <button type="button" @click.prevent="addBasicInfoRowsAr(index)" class="btn ml-2 mr-2 btn-primary">
-                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 1v16M1 9h16"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <!--            <div class="input-wrapper mb-10">-->
+            <!--              <label for="">Key features - Arabic(optional) ?</label>-->
+            <!--              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoAr" :key="index">-->
+            <!--                <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."-->
+            <!--                       type="text" @input="updateBasicInfo('ar', $event, index)">-->
+            <!--                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)"-->
+            <!--                        class="btn ml-2 mr-2   btn-danger"-->
+            <!--                        v-if="index!=0">-->
+            <!--                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
+            <!--                       xmlns="http://www.w3.org/2000/svg"-->
+            <!--                       fill="none" viewBox="0 0 18 2">-->
+            <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+            <!--                          d="M1 1h16"/>-->
+            <!--                  </svg>-->
+            <!--                </button>-->
+            <!--                <button type="button" @click.prevent="addBasicInfoRowsAr(index)" class="btn ml-2 mr-2 btn-primary">-->
+            <!--                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"-->
+            <!--                       xmlns="http://www.w3.org/2000/svg"-->
+            <!--                       fill="none" viewBox="0 0 18 18">-->
+            <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+            <!--                          d="M9 1v16M1 9h16"/>-->
+            <!--                  </svg>-->
+            <!--                </button>-->
+            <!--              </div>-->
+            <!--            </div>-->
             <div class="input-wrapper mb-10">
               <label for="">Keywords - English ?</label>
               <v-select
@@ -882,7 +869,7 @@
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
                            @keypress="onlyNumber"
-                          v-model="product_price.selling_price">
+                           v-model="product_price.selling_price">
                   </div>
                 </td>
                 <td class="p-2">
@@ -922,7 +909,8 @@
               <div class="input-wrapper">
                 <label for="">Is Buy Now ?</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}" v-model="result.is_buy_now">
+                        :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}"
+                        v-model="result.is_buy_now">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -982,7 +970,8 @@
               <div class="input-wrapper">
                 <label for="">Dangerous Goods</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_dangerous" :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
+                        v-model="result.is_dangerous"
+                        :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -1170,16 +1159,31 @@ export default {
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
-      features: {"ar":"","en":""},
+      features: {"ar": "", "en": ""},
       errorMessage: '',
-      product_price:{
+      product_price: {
         "quantity": "",
         "unit_price": "",
         "selling_price": "",
       },
+
+      product_variant: {
+        "name": "",
+        "value": "",
+      },
+      product_variant_type: {
+        "color": "color",
+        "size": "size",
+      },
       result: {
+        product_variants: [
+          {
+            "name": "",
+            "value": "",
+          }
+        ],
         features: [
-          {"ar":"","en":""},
+          {"ar": "", "en": ""},
         ],
         product_prices: [
           {
@@ -1233,6 +1237,7 @@ export default {
         /*product price end*/
 
         /*product variant start*/
+        variantTypes: ['color', 'size'],
         variant_unit_of_measure: 1,
         variantRows: [
           {size: 0, color: ""},
@@ -1282,7 +1287,7 @@ export default {
         basicKeywordar: '',
         overview: '',
         description: {ar: '', en: ''},
-        status: '2',
+        status: '',
         brand_id: 0,
         primary_category_id: '',
         category_id: '',
@@ -1396,7 +1401,17 @@ export default {
 
   methods: {
 
-    doDraft(){
+    doSubmitVariant() {
+      this.result.is_variant = true;
+
+      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      //   this.hasError = true
+      //   return false
+      // }
+      this.checkForm()
+
+    },
+    doDraft() {
       this.is_draft = true;
       this.result.is_draft = true;
 
@@ -1408,10 +1423,10 @@ export default {
 
     },
 
-    doSubmit(){
+    doSubmit() {
       this.is_draft = false;
       this.result.is_draft = false;
-      if (this.is_variant){
+      if (this.is_variant) {
         this.result.is_variant = true;
       }
 
@@ -1498,15 +1513,16 @@ export default {
 
     productIdentifiersType(event, attributeNumber) {
       this.result.barcode_type = event.target.value;
-      if (this.result.barcode_type !== 0){
+      if (this.result.barcode_type !== 0) {
         this.is_barcode = true;
-      }else {
+      } else {
         this.is_barcode = false;
       }
     },
 
 
     variantValueType(event, attributeNumber) {
+      console.log(attributeNumber)
       if (attributeNumber === 1) {
         this.selectedAttribute1 = event.target.value;
         this.disableAttribute2 = false; // Enable attribute 2 when changing attribute 1
@@ -1518,11 +1534,11 @@ export default {
     },
     isAttribute2Disabled(index) {
       // Disable attribute 2 options based on the selected value in attribute 1
-      return this.selectedAttribute1 === this.result.productVariants.variantTypes[index];
+      return this.selectedAttribute1 === this.product_variant_type[index];
     },
     isAttribute1Disabled(index) {
       // Disable attribute 1 options based on the selected value in attribute 2
-      return this.selectedAttribute2 === this.result.productVariants.variantTypes[index];
+      return this.selectedAttribute2 === this.product_variant_type[index];
     },
 
     addBasicInfoRows(index) {
@@ -1562,13 +1578,7 @@ export default {
 
 
     addVariantValueRows() {
-      let index = 0;  // Adjust index based on zero-based indexing
-      if (index < this.result.variantRows.length) {
-        this.result.variantRows.push({size: 0, color: ""});  // Add a new row at the end
-        // this.result.variantRows.splice(this.result.variantRows.length + 1, 1, {size: 0, color: ""},);  // Add a new row
-      } else {
-        console.error('Index out of bounds.');  // Log an error if index is out of bounds
-      }
+      this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
     addAdditionalDetailsRows(index) {
@@ -1585,7 +1595,7 @@ export default {
 
     addPriceingRows() {
       try {
-        this.result.product_prices.push(Object.assign({},this.product_price))
+        this.result.product_prices.push(Object.assign({}, this.product_price))
         // let index = 0;  // Adjust index based on zero-based indexing
         // if (index < this.result.PriceingRows.length) {
         //   this.result.PriceingRows.splice(this.result.PriceingRows.length + 1, 1, {});  // Add a new row
@@ -1655,10 +1665,12 @@ export default {
     removePriceingRows(index) {
       console.log(index)
       if (index != 0) {
-        this.result.PriceingRows.splice(index, 1);
-        this.result.pp_quantity.splice(index, 1);
-        this.result.pp_unit_price.splice(index, 1);
-        this.result.pp_selling_price.splice(index, 1);
+        // this.result.product_prices.push(Object.assign({}, this.product_price))
+        this.result.product_prices.splice(index, 1);
+        // this.result.PriceingRows.splice(index, 1);
+        // this.result.pp_quantity.splice(index, 1);
+        // this.result.pp_unit_price.splice(index, 1);
+        // this.result.pp_selling_price.splice(index, 1);
       }
     },
 
@@ -1680,9 +1692,7 @@ export default {
     removeVariantRows(index) {
       console.log(index)
       if (index != 0) {
-        this.result.variantRows.splice(index, 1);
-        this.result.productVariants.variantValues[0].splice(index, 1);
-        this.result.productVariants.variantValues[1].splice(index, 1);
+        this.result.product_variants.splice(index, 1);
 
       }
     },
@@ -1738,6 +1748,7 @@ export default {
     },
     isVariant() {
       this.is_variant = !this.is_variant;
+      this.result.status = 'draft';
       this.result.is_variant = !this.result.is_variant;
       if (!this.is_variant) {
         this.result.variantRows = [];
@@ -1842,6 +1853,7 @@ export default {
           subCategory: res.sub_category?.id,
           childCategory: res.child_category?.id,
           product_prices: res.product_prices,
+          features: res.product_features?.map(item => (item.name)),
           unit: res.unit,
           brand_id: res.brand_id,
           meta_title: res.meta_title,
@@ -1861,26 +1873,7 @@ export default {
           barcode: res.barcode_number,
           sku: res.sku,
           /* end Product Identifiers*/
-          variantRows: res.product_variant?.map(item => {
-            return {
-              size: item.value,  // Replace 'size' with the actual property name from your data
-              color: item.color.id  // Replace 'color' with the actual property name from your data
-            };
-          }),
-          productVariants: {
-            // Add or update properties as needed
-            variantTypes: ['color', 'size'],
-            pv_name: [],
 
-            // Initialize or modify variantValues with your desired structure
-            variantValues: [
-              // For color
-              res.product_variant?.map(variant => variant.color.id) || [],
-
-              // For size
-              res.product_variant?.map(variant => variant.value) || [],
-            ],
-          },
 
 
           /*Product Inventory*/
@@ -1927,14 +1920,17 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
+          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value})),
+          PriceingRows: res.product_prices
+
+
         }
-        this.result.PriceingRows  =res.product_prices
-          this.features= res.product_features.map(item => (item.name))
-
-        console.log("mappedData")
+        // this.result.PriceingRows = res.product_prices
+        // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
 
 
-        if (res.product_variant.length != 0) {
+
+        if (res.product_variant?.length != 0) {
           this.is_variant = true
         }
 
@@ -1945,7 +1941,7 @@ export default {
         this.result.category_id = res.child_category?.id
         this.result.childCategory = res.child_category?.id
 
-        console.log('result', this.result)
+
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
         }))]
