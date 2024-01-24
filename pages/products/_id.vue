@@ -1170,6 +1170,7 @@ export default {
       product_variant: {
         "name": "",
         "value": "",
+        "product_id": ""
       },
       product_variant_type: {
         "color": "color",
@@ -1180,6 +1181,7 @@ export default {
           {
             "name": "",
             "value": "",
+            "product_id": ""
           }
         ],
         features: [
@@ -1404,10 +1406,10 @@ export default {
     doSubmitVariant() {
       this.result.is_variant = true;
 
-      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
-      //   this.hasError = true
-      //   return false
-      // }
+      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+        this.hasError = true
+        return false
+      }
       this.checkForm()
 
     },
@@ -1827,11 +1829,9 @@ export default {
         delete this.result.created_at
         delete this.result.updated_at
         const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-
         if (data) {
 
           this.result = Object.assign({}, data)
-
           this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
         }
       } catch (e) {
@@ -1920,7 +1920,7 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
-          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value})),
+          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
           PriceingRows: res.product_prices
 
 
