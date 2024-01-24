@@ -23,6 +23,7 @@
         <th>{{ $t('port.city') }}</th>
         <th>{{ $t('global.lat') }}</th>
         <th>{{ $t('global.lang') }}</th>
+        <th>{{ $t('global.status') }}</th>
         <th>{{ $t('global.create_by') }}</th>
         <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
@@ -38,6 +39,12 @@
         <td>{{ value.city_name }}</td>
         <td>{{ value.lat }}</td>
         <td>{{ value.lang }}</td>
+        <td
+          class="status"
+          :class="{active: value.status == 1 }"
+        >
+          <span>{{ getStatus(value.status) }}</span>
+        </td>
         <td>{{ value.created_by }}</td>
         <td>{{ value.created }}</td>
         <td>

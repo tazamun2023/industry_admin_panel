@@ -19,6 +19,7 @@
         </th>
         <th>{{ $t('global.name') }}</th>
         <th>{{ $t('color.color_code') }}</th>
+        <th>{{ $t('global.status') }}</th>
         <th>{{ $t('global.created') }}</th>
         <th>Action</th>
       </tr>
@@ -30,6 +31,12 @@
 
         <td>{{ value.name }}</td>
         <td :style="{'background-color': value.code }"></td>
+        <td
+          class="status"
+          :class="{active: value.status == 1 }"
+        >
+          <span>{{ getStatus(value.status) }}</span>
+        </td>
         <td>{{ value.created }}</td>
         <td>
           <button

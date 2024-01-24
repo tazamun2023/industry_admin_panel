@@ -100,6 +100,20 @@
         >
       </div>
 
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+            <span class="mr-15">
+              {{ $t('global.status') }}
+            </span>
+
+          <dropdown
+            :selectedKey="`${result.status}`"
+            :options="statusObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
+
 
     </template>
   </data-page>
@@ -126,6 +140,7 @@
           city_id: '',
           lat: '',
           lang: '',
+          status:''
         },
         city :'Select',
         selected: 'sea',
@@ -151,6 +166,10 @@
           this.emptyAllList(['getAllCountries', 'getCitiesById'])
         }
         this.result = evt
+      },
+
+      dropdownSelected(data){
+        this.result.status = data.key
       },
 
       countrySelected() {

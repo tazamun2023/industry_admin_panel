@@ -91,7 +91,7 @@ export default {
         name: {'ar': '', 'en': ''},
         unit_type: '',
         unit_code: '',
-        status: 1
+        status: ''
       }
     }
   },
@@ -107,6 +107,10 @@ export default {
       updateInput(input, language, value) {
         this.$set(input, language, value);
       },
+
+    dropdownSelected(data){
+        this.result.status = data.key
+    }
 
   },
   async mounted() {

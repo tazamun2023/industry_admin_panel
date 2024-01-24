@@ -25,6 +25,7 @@
         <th>{{ $t('warehouse.is_open_saturday') }}</th>
         <th>{{ $t('global.lat') }}</th>
         <th>{{ $t('global.lang') }}</th>
+        <th>{{ $t('global.status') }}</th>
         <th>{{ $t('global.created') }}</th>
         <th>&nbsp;</th>
       </tr>
@@ -41,6 +42,12 @@
         <td>{{$t('app.is_open_'+ value.is_open_saturday )}}</td>
         <td>{{ value.lat }}</td>
         <td>{{ value.lang }}</td>
+        <td
+          class="status"
+          :class="{active: value.status == 1 }"
+        >
+          <span>{{ getStatus(value.status) }}</span>
+        </td>
         <td>{{ value.created }}</td>
         <td>
           <button

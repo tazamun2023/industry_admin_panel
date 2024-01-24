@@ -29,6 +29,21 @@
           {{ $t('global.req', { type: $t('global.name')}) }}
         </span>
       </div>
+
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+            <span class="mr-15">
+              {{ $t('category.status') }}
+            </span>
+
+          <dropdown
+            :selectedKey="`${result.status}`"
+            :options="statusObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
+
     </template>
   </data-page>
 </template>
@@ -47,15 +62,8 @@
       return {
         result: {
           id: '',
-          title: '',
-          status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
-          meta_description: '',
-          in_footer: 2,
-          meta_title: '',
-          image: ''
+          name: '',
+          status: ''
         }
       }
     },
@@ -74,18 +82,6 @@
           this.emptyAllList('allCategories')
         }
         this.result = evt
-      },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
       },
       dropdownSelected(data) {
         this.result.status = data.key

@@ -41,7 +41,7 @@
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
             <span class="mr-15">
-              {{ $t('category.status') }}
+              {{ $t('global.status') }}
             </span>
 
           <dropdown
@@ -72,7 +72,7 @@ export default {
         id: '',
         name: {'ar': '', 'en': ''},
         country_id: '',
-        status: 1,
+        status: '',
       }
     }
   },
@@ -92,13 +92,15 @@ export default {
 
       this.$set(input, language, value);
     },
+    dropdownSelected(data) {
+      this.result.status = data.key
+    },
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {
         this.emptyAllList('allCategories')
       }
       this.result = evt
     },
-
 
     ...mapActions('common', ['getAllCountries', 'emptyAllList'])
   },
