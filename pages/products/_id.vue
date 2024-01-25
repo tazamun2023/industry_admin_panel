@@ -9,16 +9,28 @@
       </div>
 
       <div class="input-wrapper p-3">
-        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-model="is_clone"/>
+        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-model="is_clone" @click.prevent="isClone"/>
         <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
-        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;">Clone from
+        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;" >Clone from
           existing product</strong></label>
       </div>
 
       <form action="" class="p-3" id="product_sku" v-if="is_clone">
         <div class="input-wrapper">
           <label for="name">Clone All Data From Existing Product Using Product SKU Code.</label>
-          <input class="form-control required" placeholder="Product SKU" type="text" value="">
+
+<!--          <input class="form-control required" placeholder="Product SKU" type="text" v-model="search_sku" @keypress="onlyNumber" @keyup.prevent.enter="findSku">-->
+<!--          <product-search2-->
+<!--            ref="productSearch"-->
+<!--            @product-clicked="cloneProduct"-->
+<!--          />-->
+          <div
+               class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
+            <product-search
+              ref="productSearch"
+              @product-clicked="cloneProduct"
+            />
+          </div>
           <label style="font-size:12px;" for="">You can find it on the Product details page in the ‘Overview’
             section</label>
         </div>
@@ -145,8 +157,7 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Unit of measure</h4>
           <div class="form-group input-wrapper for-lang ar-lang">
             <label class="w-full" for="name">Unit of measure</label>
-            <select class="w-full rounded border mb-10 border-smooth p-3 uppercase"
-                    @change="updateVariantUnitOfMeasure($event)" v-model="result.variant_unit_of_measure">
+            <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
               <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.title }}</option>
             </select>
           </div>
@@ -171,49 +182,39 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute1"
-                          @change="variantValueType($event, 1)">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1" @change="isAttr($event, 'color')">
                     <option selected>Select attribute 1</option>
-                    <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
-                            :disabled="isAttribute1Disabled(index)">{{ item }}
-                    </option>
+                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr2">{{ item }}</option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="disableAttribute2"
-                          @change="variantValueType($event, 2)">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2" @change="isAttr($event, 'size')">
                     <option selected>Select attribute 2</option>
-                    <option v-for="(item, index) in result.productVariants.variantTypes" :key="index"
-                            :disabled="isAttribute2Disabled(index)">{{ item }}
-                    </option>
+                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr1">{{ item }}</option>
                   </select>
                 </div>
               </div>
+
+
             </div>
 
             <div class="col-md-4"></div>
-            <div class="grid grid-cols-3 gap-4" v-for="(row, index) in result.variantRows" :key="index">
+            <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
-                  <select v-if="selectedAttribute1 === 'color'" class="w-full rounded border mb-10 border-smooth p-3"
-                          @change="updateVariantColor('color', $event, index)" v-model="row.color">
-                    <option selected>Select Color</option>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
-                  <input v-else class="form-control w-100" type="text" placeholder="Enter Value"
-                         @input="updateVariant('size', $event, index)" v-model="row.size"/>
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <input v-if="selectedAttribute2 === 'size'" class="form-control w-100" type="text"
-                         placeholder="Enter Value" @input="updateVariant('size', $event, index)"/>
-                  <select v-else class="w-full rounded border mb-10 border-smooth p-3"
-                          @change="updateVariantColor('color', $event, index)">
-                    <option selected>Select Color</option>
+              <div class="col-md-4" >
+                <div class="form-group"  :class="{ invalid: variant.value }">
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr2 === 'color' && select_attr1 === 'size'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                 </div>
@@ -241,7 +242,7 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-white bg-primary">
+              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">
                 SAVE
               </button>
               <button type="button" class="btn  border-secondary">
@@ -262,78 +263,29 @@
             <div class="input-wrapper mb-10">
               <label for="">Key features - English ?</label>
 
-              <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.features"
-                          @updateInput="updateInput"></lang-input-multi>
-
-
-<!--              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoEng" :key="index">-->
-
-<!--                <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"-->
-<!--                       v-model="result.basicInfoEng[index]"-->
-<!--                       @input="updateBasicInfo('en', $event, index)">-->
-<!--                <button type="button" class="btn ml-2 mr-2  btn-danger"-->
-<!--                        @click.prevent="removeBasicInfoRows('en', index)"-->
-<!--                        v-if="index!=0">-->
-<!--                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"-->
-<!--                       xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 2">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M1 1h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--                <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addBasicInfoRows(index)">-->
-<!--                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"-->
-<!--                       xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 18">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M9 1v16M1 9h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--              </div>-->
+              <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+                                :valuesOfLang="result.features"
+                                @updateInput="updateInput"></lang-input-multi>
             </div>
-            <div class="input-wrapper mb-10">
-              <label for="">Key features - Arabic(optional) ?</label>
-              <div class="flex append-input pt-1" v-for="(row, index) in result.basicInfoAr" :key="index">
-                <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
-                       type="text" @input="updateBasicInfo('ar', $event, index)">
-                <button type="button" @click.prevent="removeBasicInfoRows('ar', index)"
-                        class="btn ml-2 mr-2   btn-danger"
-                        v-if="index!=0">
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 2">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M1 1h16"/>
-                  </svg>
-                </button>
-                <button type="button" @click.prevent="addBasicInfoRowsAr(index)" class="btn ml-2 mr-2 btn-primary">
-                  <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 1v16M1 9h16"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
+
             <div class="input-wrapper mb-10">
               <label for="">Keywords - English ?</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.basicKeyworden"
+                v-model="result.basic_keyword_en"
                 :options="['sea','air','land']"
                 taggable
                 multiple
                 :placeholder="$t('title.select_type')"
                 class="custom-select"
-                :class="{invalid: !is_draft && (result.basicKeyworden === null) && hasError}"
+                :class="{invalid: !result.is_variant && result.basic_keyword_en === '' && hasError}"
               ></v-select>
             </div>
             <div class="input-wrapper mb-10">
               <label for="">Keywords - Arabic ?</label>
               <v-select
                 :dir="$t('app.dir')"
-                v-model="result.basicKeywordar"
+                v-model="result.basic_keyword_ar"
                 :options="['sea','air','land']"
                 taggable
                 multiple
@@ -572,15 +524,15 @@
                       :class="{invalid: !is_draft && (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
                       @change="productIdentifiersType($event)" v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
-                <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.title }}</option>
+                <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
               </select>
             </div>
             <div class="form-group input-wrapper mt-3 mt-sm-0">
               <label>Barcode</label>
               <input type="text" class="form-control" v-model="result.barcode"
-                     :class="{invalid: !is_draft && is_barcode && hasError, 'no-cursor': !is_barcode}"
+                     :class="{invalid: !is_variant && !result.barcode_type && hasError}"
                      placeholder="Please enter barcode number"
-                     :disabled="!is_barcode">
+                     :disabled="!result.barcode_type">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
@@ -835,9 +787,9 @@
           <div class="input-wrapper">
             <label for="">Unit of measure ?</label>
             <div class="input-group mb-3">
-              <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                      :class="{invalid: !is_draft && (result.pp_unit_of_measure_id === null || result.pp_unit_of_measure_id ===0) && hasError}"
-                      v-model="result.pp_unit_of_measure_id">
+              <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
+                      :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"
+                      v-model="result.unit_id">
                 <option value="0">Unit</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
               </select>
@@ -882,7 +834,7 @@
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
                            @keypress="onlyNumber"
-                          v-model="product_price.selling_price">
+                           v-model="product_price.selling_price">
                   </div>
                 </td>
                 <td class="p-2">
@@ -922,7 +874,8 @@
               <div class="input-wrapper">
                 <label for="">Is Buy Now ?</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}" v-model="result.is_buy_now">
+                        :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}"
+                        v-model="result.is_buy_now">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -947,9 +900,7 @@
                         :class="{invalid: !is_draft && (result.storage_temperature===0 || result.storage_temperature===null) && hasError}"
                         v-model="result.storage_temperature">
                   <option value="0" disabled>Select Option</option>
-                  <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{
-                      item.title
-                    }}
+                  <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{ item.name }}
                   </option>
                 </select>
               </div>
@@ -982,7 +933,8 @@
               <div class="input-wrapper">
                 <label for="">Dangerous Goods</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_dangerous" :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
+                        v-model="result.is_dangerous"
+                        :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
                   <option value="1">Yes</option>
                   <option value="0">No</option>
                 </select>
@@ -1132,6 +1084,9 @@ import ImageInput from "~/components/ImageInput";
 import VideoInput from "~/components/VideoInput";
 import outsideClick from '~/directives/outside-click.js';
 import LangInput from "../../components/langInput.vue";
+import Service from "~/services/service";
+import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
+import ProductSearch from "~/components/partials/ProductSearch.vue";
 
 export default {
   name: "pink-tabs",
@@ -1154,6 +1109,12 @@ export default {
       disableAttribute2: false,
       disableAttribute1: false,
       is_barcode: false,
+      search_sku: '',
+      tableShow: false,
+      clone_product: null,
+      uploadNewText: false,
+      select_attr1: '',
+      select_attr2: '',
 
       productFormOpen: true,
       showCategories: false,
@@ -1166,20 +1127,34 @@ export default {
       setVideoApi: 'setProductVideo',
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en'],
-      validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory', 'title.en'],
-      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basicKeyworden', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'pp_unit_of_measure_id', 'storage_temperature'],
+      validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory'],
+      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature'],
       subCategories: [],
       childCategories: [],
-      features: {"ar":"","en":""},
+      features: {"ar": "", "en": ""},
       errorMessage: '',
-      product_price:{
+      product_price: {
         "quantity": "",
         "unit_price": "",
         "selling_price": "",
       },
+
+      product_variant: {
+        "name": "",
+        "value": "",
+        "product_id": ""
+      },
+      product_variant_type: {
+        "color": "color",
+        "size": "size",
+      },
       result: {
+        clone_products: [],
+        unit_id: 9,
+        product_variants: [
+        ],
         features: [
-          {"ar":"","en":""},
+          {"ar": "", "en": ""},
         ],
         product_prices: [
           {
@@ -1233,6 +1208,7 @@ export default {
         /*product price end*/
 
         /*product variant start*/
+        variantTypes: ['color', 'size'],
         variant_unit_of_measure: 1,
         variantRows: [
           {size: 0, color: ""},
@@ -1278,11 +1254,11 @@ export default {
         id: '',
         title: {ar: '', en: ''},
         tags: ',',
-        basicKeyworden: '',
-        basicKeywordar: '',
+        basic_keyword_en: '',
+        basic_keyword_ar: '',
         overview: '',
         description: {ar: '', en: ''},
-        status: '2',
+        status: '',
         brand_id: 0,
         primary_category_id: '',
         category_id: '',
@@ -1332,6 +1308,8 @@ export default {
   },
   mixins: [util],
   components: {
+    ProductSearch2,
+    ProductSearch,
     VideoInput,
     ImageInput,
     DataPage,
@@ -1383,6 +1361,12 @@ export default {
     isAdding() {
       return isNaN(this.$route?.params?.id)
     },
+    async isCloning() {
+      // console.log(this.search_sku)
+      if (this.$route?.params?.id==='clone'){
+        let sku =  this.$route.query.sku
+      }
+    },
     currencyIcon() {
       return this.setting?.currency_icon || '$'
     },
@@ -1395,30 +1379,166 @@ export default {
   },
 
   methods: {
+    tableNotShow() {
+      this.tableShow = false;
+      this.uploadNewText = true;
+    },
+    productTableShow() {
+      this.tableShow = true;
+      this.uploadNewText = false;
+    },
 
-    doDraft(){
+    cloneProduct(product) {
+    console.log(product)
+      this.id=product.id
+      this.fetchingData()
+    },
+    async findSku(){
+      try {
+        this.loading = true
+        var res = Object.assign({}, await this.getById({id: this.id, params: {sku: this.search_sku}, api: 'getProductBySku'}))
+        console.log(res)
+        // this.result = {
+        //   title: res.title,
+        //   description: res.description,
+        //   parentCategory: res.category?.id,
+        //   subCategory: res.sub_category?.id,
+        //   childCategory: res.child_category?.id,
+        //   product_prices: res.product_prices,
+        //   unit_id: res.unit_id,
+        //   features: res.product_features?.map(item => (item.name)),
+        //   unit: res.unit,
+        //   brand_id: res.brand_id,
+        //   meta_title: res.meta_title,
+        //   meta_description: res.meta_description,
+        //   selling: res.selling,
+        //   purchased: res.selling,
+        //   offered: res.offered,
+        //   image: res.image,
+        //   video: res.video,
+        //   status: res.status,
+        //   /*Basic Information*/
+        //   basic_keyword_en: res.basic_keyword_en,
+        //   basic_keyword_ar: res.basic_keyword_ar,
+        //   basicInfoAr: res.title,
+        //   basicInfoEng: res.title,
+        //   /*end Basic Information*/
+        //   /* Product Identifiers*/
+        //   barcode_type: res.barcode_id,
+        //   barcode: res.barcode_number,
+        //   sku: res.sku,
+        //   /* end Product Identifiers*/
+        //
+        //
+        //
+        //   /*Product Inventory*/
+        //   available_quantity: res.available_quantity,
+        //   /*ende Product Inventory*/
+        //   /*Packaging*/
+        //
+        //   pk_size: res.packaging?.size,
+        //   pk_size_unit: res.packaging?.size_unit,
+        //   pk_number_of_carton: res.packaging?.number_of_carton,
+        //   pk_average_lead_time: res.packaging?.average_lead_time,
+        //   pk_transportation_mode: res.packaging?.transportation_mode,
+        //   /*emd Packaging*/
+        //
+        //   /*Carton Dimensions & Weight*/
+        //   pc_weight: res.product_carton?.weight,
+        //   pc_weight_unit_id: res.product_carton?.weight_unit_id,
+        //   pc_height: res.product_carton?.height,
+        //   pc_height_unit_id: res.product_carton?.height_unit_id,
+        //   pc_length: res.product_carton?.length,
+        //   pc_length_unit_id: res.product_carton?.length_unit_id,
+        //   pc_width: res.product_carton?.width,
+        //   pc_width_unit_id: res.product_carton?.width_unit_id,
+        //   /*end Carton Dimensions & Weight*/
+        //   /*Product dimensions & weight*/
+        //   pdime_weight: res.product_dimension?.map(weight => weight.weight),
+        //   pdime_weight_unit_id: res.product_dimension?.map(weight_unit => weight_unit)?[0].weight_unit_id:0,
+        //   pdime_height: res.product_dimension?.map(height => height.height),
+        //   pdime_length: res.product_dimension?.map(length => length.length),
+        //   pdime_width: res.product_dimension?.map(width => width.width),
+        //   pdime_dimention_unit: res.product_dimension?.map(dimention_unit => dimention_unit)?[0].dimention_unit:0,
+        //   /*end Product dimensions & weight*/
+        //   /*Pricing*/
+        //   // pp_unit_of_measure_id: res.product_prices.length != 0?res.product_prices?.[0].unit_of_measure_id:0,
+        //   pp_quantity: res.product_prices?.map(price => price.quantity),
+        //   pp_unit_price: res.product_prices?.map(price => price.unit_price),
+        //   pp_selling_price: res.product_prices?.map(price => price.selling_price),
+        //   /*Shipping details*/
+        //   is_ready_to_ship: res.is_ready_to_ship,
+        //   is_buy_now: res.is_buyable,
+        //   is_availability: res.is_available,
+        //   storage_temperature: res.storage_temperature_id,
+        //   stock_location: res.warehouse_id,
+        //   country_of_origin: res.product_origin_id,
+        //   is_dangerous: res.is_dangerous,
+        //
+        //   product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
+        //   PriceingRows: res.product_prices,
+        //   is_variant: res.product_variant.length!=0?true:false
+        //
+        //
+        // }
+        // this.result.PriceingRows = res.product_prices
+        // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
+        // if (res.product_variant?.length != 0) {
+        //   this.is_variant = true
+        //   this.result.is_variant = true
+        // }
+
+
+        // this.updateLevel2()
+        // this.result.subCategory = res.sub_category?.id
+        // this.updateLevel3()
+        // this.result.category_id = res.child_category?.id
+        // this.result.childCategory = res.child_category?.id
+        //
+        //
+        // this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
+        //   return o.product_collection_id
+        // }))]
+        // this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
+        //   return o.category_id.toString()
+        // }))]
+        // console.log(this.result.product_categories)
+        // this.loading = false
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+
+    doSubmitVariant() {
+      this.result.is_variant = true;
+
+      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+        this.hasError = true
+        return false
+      }
+      this.checkForm()
+
+    },
+    doDraft() {
       this.is_draft = true;
       this.result.is_draft = true;
 
-      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
-      //   this.hasError = true
-      //   return false
-      // }
+      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+        this.hasError = true
+        return false
+      }
       this.checkForm()
 
     },
 
-    doSubmit(){
+    doSubmit() {
       this.is_draft = false;
       this.result.is_draft = false;
-      if (this.is_variant){
-        this.result.is_variant = true;
-      }
 
-      // if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
-      //   this.hasError = true
-      //   return false
-      // }
+      if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
+        this.hasError = true
+        return false
+      }
       this.checkForm()
     },
 
@@ -1498,15 +1618,16 @@ export default {
 
     productIdentifiersType(event, attributeNumber) {
       this.result.barcode_type = event.target.value;
-      if (this.result.barcode_type !== 0){
+      if (this.result.barcode_type !== 0) {
         this.is_barcode = true;
-      }else {
+      } else {
         this.is_barcode = false;
       }
     },
 
 
     variantValueType(event, attributeNumber) {
+      console.log(attributeNumber)
       if (attributeNumber === 1) {
         this.selectedAttribute1 = event.target.value;
         this.disableAttribute2 = false; // Enable attribute 2 when changing attribute 1
@@ -1518,11 +1639,11 @@ export default {
     },
     isAttribute2Disabled(index) {
       // Disable attribute 2 options based on the selected value in attribute 1
-      return this.selectedAttribute1 === this.result.productVariants.variantTypes[index];
+      return this.selectedAttribute1 === this.product_variant_type[index];
     },
     isAttribute1Disabled(index) {
       // Disable attribute 1 options based on the selected value in attribute 2
-      return this.selectedAttribute2 === this.result.productVariants.variantTypes[index];
+      return this.selectedAttribute2 === this.product_variant_type[index];
     },
 
     addBasicInfoRows(index) {
@@ -1562,13 +1683,7 @@ export default {
 
 
     addVariantValueRows() {
-      let index = 0;  // Adjust index based on zero-based indexing
-      if (index < this.result.variantRows.length) {
-        this.result.variantRows.push({size: 0, color: ""});  // Add a new row at the end
-        // this.result.variantRows.splice(this.result.variantRows.length + 1, 1, {size: 0, color: ""},);  // Add a new row
-      } else {
-        console.error('Index out of bounds.');  // Log an error if index is out of bounds
-      }
+      this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
     addAdditionalDetailsRows(index) {
@@ -1585,7 +1700,7 @@ export default {
 
     addPriceingRows() {
       try {
-        this.result.product_prices.push(Object.assign({},this.product_price))
+        this.result.product_prices.push(Object.assign({}, this.product_price))
         // let index = 0;  // Adjust index based on zero-based indexing
         // if (index < this.result.PriceingRows.length) {
         //   this.result.PriceingRows.splice(this.result.PriceingRows.length + 1, 1, {});  // Add a new row
@@ -1655,10 +1770,24 @@ export default {
     removePriceingRows(index) {
       console.log(index)
       if (index != 0) {
-        this.result.PriceingRows.splice(index, 1);
-        this.result.pp_quantity.splice(index, 1);
-        this.result.pp_unit_price.splice(index, 1);
-        this.result.pp_selling_price.splice(index, 1);
+        // this.result.product_prices.push(Object.assign({}, this.product_price))
+        this.result.product_prices.splice(index, 1);
+        // this.result.PriceingRows.splice(index, 1);
+        // this.result.pp_quantity.splice(index, 1);
+        // this.result.pp_unit_price.splice(index, 1);
+        // this.result.pp_selling_price.splice(index, 1);
+      }
+    },
+
+    isAttr(event, attributeType) {
+      const value = String(event.target.value);
+      console.log(value);
+      console.log(this.product_variant_type[value]);
+
+      if (attributeType === 'color') {
+        this.disableAttribute2 = value === 'color';
+      } else if (attributeType === 'size') {
+        this.disableAttribute1 = value === 'size';
       }
     },
 
@@ -1680,9 +1809,7 @@ export default {
     removeVariantRows(index) {
       console.log(index)
       if (index != 0) {
-        this.result.variantRows.splice(index, 1);
-        this.result.productVariants.variantValues[0].splice(index, 1);
-        this.result.productVariants.variantValues[1].splice(index, 1);
+        this.result.product_variants.splice(index, 1);
 
       }
     },
@@ -1735,9 +1862,11 @@ export default {
 
     isClone() {
       this.is_clone = !this.is_clone;
+      this.tableShow = !this.tableShow;
     },
     isVariant() {
       this.is_variant = !this.is_variant;
+      this.result.status = 'draft';
       this.result.is_variant = !this.result.is_variant;
       if (!this.is_variant) {
         this.result.variantRows = [];
@@ -1761,16 +1890,16 @@ export default {
     },
     addTag(tag) {
       console.log(tag)
-      if (!this.result.basicKeyworden) {
-        this.result.basicKeyworden = ','
+      if (!this.result.basic_keyword_en) {
+        this.result.basic_keyword_en = ','
       }
-      this.result.basicKeyworden = `${this.result.basicKeyworden}${tag},`
+      this.result.basic_keyword_en = `${this.result.basic_keyword_en}${tag},`
     },
     deleteTag(tag) {
       if (tag = 'en') {
-        this.result.basicKeyworden = this.result.basicKeyworden.replace(`${tag},`, '')
+        this.result.basic_keyword_en = this.result.basic_keyword_en.replace(`${tag},`, '')
       } else {
-        this.result.basicKeywordar = this.result.basicKeywordar.replace(`${tag},`, '')
+        this.result.basic_keyword_ar = this.result.basic_keyword_ar.replace(`${tag},`, '')
       }
 
     },
@@ -1816,12 +1945,11 @@ export default {
         delete this.result.created_at
         delete this.result.updated_at
         const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-
         if (data) {
 
           this.result = Object.assign({}, data)
-
-          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+          // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
         }
       } catch (e) {
         return this.$nuxt.error(e)
@@ -1842,6 +1970,8 @@ export default {
           subCategory: res.sub_category?.id,
           childCategory: res.child_category?.id,
           product_prices: res.product_prices,
+          unit_id: res.unit_id,
+          features: res.product_features?.map(item => (item.name)),
           unit: res.unit,
           brand_id: res.brand_id,
           meta_title: res.meta_title,
@@ -1853,6 +1983,8 @@ export default {
           video: res.video,
           status: res.status,
           /*Basic Information*/
+          basic_keyword_en: res.basic_keyword_en,
+          basic_keyword_ar: res.basic_keyword_ar,
           basicInfoAr: res.title,
           basicInfoEng: res.title,
           /*end Basic Information*/
@@ -1861,26 +1993,7 @@ export default {
           barcode: res.barcode_number,
           sku: res.sku,
           /* end Product Identifiers*/
-          variantRows: res.product_variant?.map(item => {
-            return {
-              size: item.value,  // Replace 'size' with the actual property name from your data
-              color: item.color.id  // Replace 'color' with the actual property name from your data
-            };
-          }),
-          productVariants: {
-            // Add or update properties as needed
-            variantTypes: ['color', 'size'],
-            pv_name: [],
 
-            // Initialize or modify variantValues with your desired structure
-            variantValues: [
-              // For color
-              res.product_variant?.map(variant => variant.color.id) || [],
-
-              // For size
-              res.product_variant?.map(variant => variant.value) || [],
-            ],
-          },
 
 
           /*Product Inventory*/
@@ -1906,15 +2019,15 @@ export default {
           pc_width_unit_id: res.product_carton?.width_unit_id,
           /*end Carton Dimensions & Weight*/
           /*Product dimensions & weight*/
-          pdime_weight: res.product_dimension?.weight,
-          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
-          pdime_height: res.product_dimension?.height,
-          pdime_length: res.product_dimension?.length,
-          pdime_width: res.product_dimension?.width,
-          pdime_dimention_unit: res.product_dimension?.dimention_unit,
+          pdime_weight: res.product_dimension?.map(weight => weight.weight),
+          pdime_weight_unit_id: res.product_dimension?.map(weight_unit => weight_unit)?[0].weight_unit_id:0,
+          pdime_height: res.product_dimension?.map(height => height.height),
+          pdime_length: res.product_dimension?.map(length => length.length),
+          pdime_width: res.product_dimension?.map(width => width.width),
+          pdime_dimention_unit: res.product_dimension?.map(dimention_unit => dimention_unit)?[0].dimention_unit:0,
           /*end Product dimensions & weight*/
           /*Pricing*/
-          pp_unit_of_measure_id: res.product_prices?.unit_of_measure_id,
+          // pp_unit_of_measure_id: res.product_prices.length != 0?res.product_prices?.[0].unit_of_measure_id:0,
           pp_quantity: res.product_prices?.map(price => price.quantity),
           pp_unit_price: res.product_prices?.map(price => price.unit_price),
           pp_selling_price: res.product_prices?.map(price => price.selling_price),
@@ -1927,15 +2040,17 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
+          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
+          PriceingRows: res.product_prices,
+          is_variant: res.product_variant.length!=0?true:false
+
+
         }
-        this.result.PriceingRows  =res.product_prices
-          this.features= res.product_features.map(item => (item.name))
-
-        console.log("mappedData")
-
-
-        if (res.product_variant.length != 0) {
+        // this.result.PriceingRows = res.product_prices
+        // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
+        if (res.product_variant?.length != 0) {
           this.is_variant = true
+          this.result.is_variant = true
         }
 
 
@@ -1945,7 +2060,7 @@ export default {
         this.result.category_id = res.child_category?.id
         this.result.childCategory = res.child_category?.id
 
-        console.log('result', this.result)
+
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
           return o.product_collection_id
         }))]
@@ -2110,6 +2225,7 @@ export default {
     if (!this.isAdding) {
       await this.fetchingData()
     }
+    console.log(this.isCloning)
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 

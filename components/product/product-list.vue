@@ -138,7 +138,7 @@
                         <lazy-image
                           class="mr-20"
                           :data-src="getThumbImageURL(value.image)"
-                          :alt="value.title.en"
+                          :alt="value.title?.en"
                         />
                       </nuxt-link>
                     </td>
@@ -168,8 +168,8 @@
                         <option value="">
                           <nuxt-link :to="`/products/${value.id}`">Edit</nuxt-link>
                         </option>
-                        <option value="">Set out of stock</option>
-                        <option value="">Set in stock</option>
+                        <option @click="stockUpdate(value.id, 0)">Set out of stock</option>
+                        <option  @click="stockUpdate(value.id, 1)">Set in stock</option>
                         <option value="">Archive</option>
                         <option value="">Delete</option>
                       </select>
@@ -249,6 +249,17 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
+
+   async stockUpdate(id, is_available=null){
+     await this.setById({
+       id: id,
+       params: {is_available: is_available},
+       api: 'updateStock'
+     }).then(()=>{
+
+       // window.location.reload()
+     })
+    },
 
    async updateQty(id, event){
      let available_quantity = event.target.value;

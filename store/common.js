@@ -84,7 +84,7 @@ const mutations = {
   SET_ALL_STORAGE_TEMPERATURES(state, allStorageTemperatures) {
     state.allStorageTemperatures = {}
     allStorageTemperatures.forEach((item) => {
-      state.allStorageTemperatures = {...state.allStorageTemperatures, ...{[item.id]: {title: item.title}}}
+      state.allStorageTemperatures = {...state.allStorageTemperatures, ...{[item.id]: {name: item.name}}}
     })
   },
   SET_ALL_WAREHOUSES(state, allWarehouses) {
@@ -102,7 +102,7 @@ const mutations = {
   SET_ALL_BARCODES(state, allBarcodes) {
     state.allBarcodes = {}
     allBarcodes.forEach((item) => {
-      state.allBarcodes = {...state.allBarcodes, ...{[item.id]: {title: item.title}}}
+      state.allBarcodes = {...state.allBarcodes, ...{[item.id]: {name: item.name}}}
     })
   },
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
