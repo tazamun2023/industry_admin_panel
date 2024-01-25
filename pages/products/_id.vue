@@ -3,13 +3,14 @@
     <!-- ---------------- -->
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4 v-if="!id">Add new product</h4>
-        <h4 v-else>Edit product</h4>
+        <h4 v-if="is_clone">Clone Product</h4>
+        <h4 v-if="!id & !is_clone">Add new product</h4>
+        <h4 v-if="id">Edit product</h4>
         <p>Fill out the form below to add a new product to your product list</p>
       </div>
 
-      <div class="input-wrapper p-3">
-        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-model="is_clone" @click.prevent="isClone"/>
+      <div class="input-wrapper p-3" v-if="!id">
+        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone" v-model="is_clone" @click.prevent="isClone"/>
         <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
         <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;" >Clone from
           existing product</strong></label>
@@ -117,10 +118,10 @@
             </div>
           </div>
 
-          <lang-input :hasError="hasError" type="text" :title="$t('city.name')" :valuesOfLang="result.title"
+          <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                       @updateInput="updateInput"></lang-input>
 
-          <lang-input :hasError="hasError" type="textarea" :title="$t('city.desc')" :valuesOfLang="result.description"
+          <lang-input :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
           <!--        -->
@@ -206,7 +207,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title??item.name }}</option>
                   </select>
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
                 </div>
@@ -215,7 +216,7 @@
                 <div class="form-group"  :class="{ invalid: variant.value }">
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr2 === 'color' && select_attr1 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title ??item.name }}</option>
                   </select>
                 </div>
               </div>
@@ -249,7 +250,7 @@
                 <span>RESET</span>
               </button>
               <button type="button" class="btn bg-light">
-                <span>CANCEL</span>
+                <nuxt-link :to="`/products`">CANCEL</nuxt-link>
               </button>
             </div>
           </div>
@@ -956,24 +957,12 @@
             class="text-xs">(optional)</span>
           </h4>
           <div class="input-wrapper">
-            <!--          <div class="flex">-->
-            <!--            <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"-->
-            <!--                   value="">-->
-            <!--            <input class="form-control" placeholder="Text to display" type="text" value="">-->
-            <!--            <button type="submit" class="btn ml-2 mr-2  btn-primary">-->
-            <!--              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->
-            <!--                   fill="none" viewBox="0 0 18 18">-->
-            <!--                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-            <!--                      d="M9 1v16M1 9h16"/>-->
-            <!--              </svg>-->
-            <!--            </button>-->
-            <!--          </div>-->
-            <div class="flex append-input pt-1" v-for="(row, index) in result.additional_details_row" :key="index">
-              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
-                     @input="updateAddtional('attr', $event, index)">
-              <input class="form-control" placeholder="Text to display" type="text"
-                     @input="updateAddtional('value', $event, index)">
+
+            <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
+              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text" v-model="item.name">
+              <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
               <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
+                      v-if="index!=0"
                       class="btn ml-2 mr-2 btn-danger">
                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
@@ -981,7 +970,9 @@
                         d="M1 1h16"/>
                 </svg>
               </button>
-              <button type="button" class="btn ml-2 mr-2 btn-primary" @click.prevent="addAdditionalDetailsRows(index)">
+              <button type="button" class="btn ml-2 mr-2 btn-primary"
+                      v-if="index+1==result.additional_details_row.length"
+                      @click.prevent="addAdditionalDetailsRows(index)">
                 <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1148,6 +1139,10 @@ export default {
         "color": "color",
         "size": "size",
       },
+      additional_details:{
+        "name": "",
+        "value": "",
+      },
       result: {
         clone_products: [],
         unit_id: 9,
@@ -1179,7 +1174,12 @@ export default {
         selectedChildCategory: 0,
 
         /*Additional details*/
-        additional_details_row: [[]],
+        additional_details_row: [
+          {
+            "name": "",
+            "value": ""
+          }
+        ],
         additional_attributes: [],
         additional_attributes_value: [],
         /*Additional details*/
@@ -1390,120 +1390,17 @@ export default {
 
     cloneProduct(product) {
     console.log(product)
-      this.id=product.id
-      this.fetchingData()
+      console.log('product', product)
+      // this.id=product.id
+      this.fetchingData(product.id).then(()=>{
+        this.is_clone=false
+        this.result.id=""
+      })
     },
     async findSku(){
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: this.id, params: {sku: this.search_sku}, api: 'getProductBySku'}))
-        console.log(res)
-        // this.result = {
-        //   title: res.title,
-        //   description: res.description,
-        //   parentCategory: res.category?.id,
-        //   subCategory: res.sub_category?.id,
-        //   childCategory: res.child_category?.id,
-        //   product_prices: res.product_prices,
-        //   unit_id: res.unit_id,
-        //   features: res.product_features?.map(item => (item.name)),
-        //   unit: res.unit,
-        //   brand_id: res.brand_id,
-        //   meta_title: res.meta_title,
-        //   meta_description: res.meta_description,
-        //   selling: res.selling,
-        //   purchased: res.selling,
-        //   offered: res.offered,
-        //   image: res.image,
-        //   video: res.video,
-        //   status: res.status,
-        //   /*Basic Information*/
-        //   basic_keyword_en: res.basic_keyword_en,
-        //   basic_keyword_ar: res.basic_keyword_ar,
-        //   basicInfoAr: res.title,
-        //   basicInfoEng: res.title,
-        //   /*end Basic Information*/
-        //   /* Product Identifiers*/
-        //   barcode_type: res.barcode_id,
-        //   barcode: res.barcode_number,
-        //   sku: res.sku,
-        //   /* end Product Identifiers*/
-        //
-        //
-        //
-        //   /*Product Inventory*/
-        //   available_quantity: res.available_quantity,
-        //   /*ende Product Inventory*/
-        //   /*Packaging*/
-        //
-        //   pk_size: res.packaging?.size,
-        //   pk_size_unit: res.packaging?.size_unit,
-        //   pk_number_of_carton: res.packaging?.number_of_carton,
-        //   pk_average_lead_time: res.packaging?.average_lead_time,
-        //   pk_transportation_mode: res.packaging?.transportation_mode,
-        //   /*emd Packaging*/
-        //
-        //   /*Carton Dimensions & Weight*/
-        //   pc_weight: res.product_carton?.weight,
-        //   pc_weight_unit_id: res.product_carton?.weight_unit_id,
-        //   pc_height: res.product_carton?.height,
-        //   pc_height_unit_id: res.product_carton?.height_unit_id,
-        //   pc_length: res.product_carton?.length,
-        //   pc_length_unit_id: res.product_carton?.length_unit_id,
-        //   pc_width: res.product_carton?.width,
-        //   pc_width_unit_id: res.product_carton?.width_unit_id,
-        //   /*end Carton Dimensions & Weight*/
-        //   /*Product dimensions & weight*/
-        //   pdime_weight: res.product_dimension?.map(weight => weight.weight),
-        //   pdime_weight_unit_id: res.product_dimension?.map(weight_unit => weight_unit)?[0].weight_unit_id:0,
-        //   pdime_height: res.product_dimension?.map(height => height.height),
-        //   pdime_length: res.product_dimension?.map(length => length.length),
-        //   pdime_width: res.product_dimension?.map(width => width.width),
-        //   pdime_dimention_unit: res.product_dimension?.map(dimention_unit => dimention_unit)?[0].dimention_unit:0,
-        //   /*end Product dimensions & weight*/
-        //   /*Pricing*/
-        //   // pp_unit_of_measure_id: res.product_prices.length != 0?res.product_prices?.[0].unit_of_measure_id:0,
-        //   pp_quantity: res.product_prices?.map(price => price.quantity),
-        //   pp_unit_price: res.product_prices?.map(price => price.unit_price),
-        //   pp_selling_price: res.product_prices?.map(price => price.selling_price),
-        //   /*Shipping details*/
-        //   is_ready_to_ship: res.is_ready_to_ship,
-        //   is_buy_now: res.is_buyable,
-        //   is_availability: res.is_available,
-        //   storage_temperature: res.storage_temperature_id,
-        //   stock_location: res.warehouse_id,
-        //   country_of_origin: res.product_origin_id,
-        //   is_dangerous: res.is_dangerous,
-        //
-        //   product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
-        //   PriceingRows: res.product_prices,
-        //   is_variant: res.product_variant.length!=0?true:false
-        //
-        //
-        // }
-        // this.result.PriceingRows = res.product_prices
-        // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
-        // if (res.product_variant?.length != 0) {
-        //   this.is_variant = true
-        //   this.result.is_variant = true
-        // }
-
-
-        // this.updateLevel2()
-        // this.result.subCategory = res.sub_category?.id
-        // this.updateLevel3()
-        // this.result.category_id = res.child_category?.id
-        // this.result.childCategory = res.child_category?.id
-        //
-        //
-        // this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-        //   return o.product_collection_id
-        // }))]
-        // this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-        //   return o.category_id.toString()
-        // }))]
-        // console.log(this.result.product_categories)
-        // this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -1687,15 +1584,17 @@ export default {
     },
 
     addAdditionalDetailsRows(index) {
+      this.result.additional_details_row.push(Object.assign({}, this.additional_details))
 
-      if (index < this.result.additional_details_row.length) {
-        this.result.additional_details_row.splice(this.result.additional_details_row.length + 1, 1, {
-          lebel: '',
-          attr: ""
-        },);  // Add a new row
-      } else {
-        console.error('Index out of bounds.');  // Log an error if index is out of bounds
-      }
+
+      // if (index < this.result.additional_details_row.length) {
+      //   this.result.additional_details_row.splice(this.result.additional_details_row.length + 1, 1, {
+      //     lebel: '',
+      //     attr: ""
+      //   },);  // Add a new row
+      // } else {
+      //   console.error('Index out of bounds.');  // Log an error if index is out of bounds
+      // }
     },
 
     addPriceingRows() {
@@ -1747,23 +1646,10 @@ export default {
       }
     },
 
-    updateAddtional(attribute, event, index) {
-      if (attribute == 'attr') {
-        const value = String(event.target.value);
-        this.result.additional_attributes[index] = value;
-      }
-
-      if (attribute == 'value') {
-        const value = String(event.target.value);
-        this.result.additional_attributes_value[index] = value;
-      }
-    },
     removeAdditionalDetailsRows(index) {
-      console.log(index)
+      // console.log(index)
       if (index != 0) {
         this.result.additional_details_row.splice(index, 1);
-        this.result.additional_attributes.splice(index, 1)
-        this.result.additional_attributes_value.splice(index, 1)
       }
     },
 
@@ -1959,10 +1845,10 @@ export default {
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
-    async fetchingData() {
+    async fetchingData(id) {
       try {
         this.loading = true
-        var res = Object.assign({}, await this.getById({id: this.id, params: {}, api: this.getApi}))
+        var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
         this.result = {
           title: res.title,
           description: res.description,
@@ -2019,12 +1905,12 @@ export default {
           pc_width_unit_id: res.product_carton?.width_unit_id,
           /*end Carton Dimensions & Weight*/
           /*Product dimensions & weight*/
-          pdime_weight: res.product_dimension?.map(weight => weight.weight),
-          pdime_weight_unit_id: res.product_dimension?.map(weight_unit => weight_unit)?[0].weight_unit_id:0,
-          pdime_height: res.product_dimension?.map(height => height.height),
-          pdime_length: res.product_dimension?.map(length => length.length),
-          pdime_width: res.product_dimension?.map(width => width.width),
-          pdime_dimention_unit: res.product_dimension?.map(dimention_unit => dimention_unit)?[0].dimention_unit:0,
+          pdime_weight: res.product_dimension?.weight,
+          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+          pdime_height: res.product_dimension?.height,
+          pdime_length: res.product_dimension?.length,
+          pdime_width: res.product_dimension?.width,
+          pdime_dimention_unit: res.product_dimension?.dimention_unit,
           /*end Product dimensions & weight*/
           /*Pricing*/
           // pp_unit_of_measure_id: res.product_prices.length != 0?res.product_prices?.[0].unit_of_measure_id:0,
@@ -2042,10 +1928,14 @@ export default {
 
           product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
           PriceingRows: res.product_prices,
-          is_variant: res.product_variant.length!=0?true:false
+          is_variant: res.product_variant.length!=0?true:false,
+          additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
 
 
         }
+
+        this.select_attr1= 'color';
+        this.select_attr2= 'size';
         // this.result.PriceingRows = res.product_prices
         // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
         if (res.product_variant?.length != 0) {
@@ -2223,9 +2113,10 @@ export default {
     }
 
     if (!this.isAdding) {
-      await this.fetchingData()
+      await this.fetchingData(this.id)
     }
     console.log(this.isCloning)
+    console.log(this.id)
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 

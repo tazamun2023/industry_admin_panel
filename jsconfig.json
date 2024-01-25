@@ -139,6 +139,7 @@
     "getAllDraftProducts": "product/all/draft",
     "setAvailableQty": "product/update-qty",
     "updateStock": "product/update-stock",
+    "updateStatus": "product/update-status",
 
 
     "getQuote": "quotes/find",
