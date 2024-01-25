@@ -182,37 +182,41 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1" @change="isAttr($event, 'color')">
                     <option selected>Select attribute 1</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr2">{{ item }}</option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2" @change="isAttr($event, 'size')">
                     <option selected>Select attribute 2</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr1">{{ item }}</option>
                   </select>
                 </div>
               </div>
+
+
             </div>
 
             <div class="col-md-4"></div>
             <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name">
-                    <option selected>Select Color</option>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
                   </select>
-                  <!--                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"/>-->
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"/>
+              <div class="col-md-4" >
+                <div class="form-group"  :class="{ invalid: variant.value }">
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr2 === 'color' && select_attr1 === 'size'">
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title }}</option>
+                  </select>
                 </div>
               </div>
 
@@ -1108,6 +1112,8 @@ export default {
       tableShow: false,
       clone_product: null,
       uploadNewText: false,
+      select_attr1: '',
+      select_attr2: '',
 
       productFormOpen: true,
       showCategories: false,
@@ -1143,13 +1149,8 @@ export default {
       },
       result: {
         clone_products: [],
-        unit_id: 0,
+        unit_id: 9,
         product_variants: [
-          {
-            "name": "",
-            "value": "",
-            "product_id": ""
-          }
         ],
         features: [
           {"ar": "", "en": ""},
@@ -1359,7 +1360,10 @@ export default {
       return isNaN(this.$route?.params?.id)
     },
     async isCloning() {
-      console.log(this.search_sku)
+      // console.log(this.search_sku)
+      if (this.$route?.params?.id==='clone'){
+        let sku =  this.$route.query.sku
+      }
     },
     currencyIcon() {
       return this.setting?.currency_icon || '$'
@@ -1773,6 +1777,18 @@ export default {
         // this.result.pp_quantity.splice(index, 1);
         // this.result.pp_unit_price.splice(index, 1);
         // this.result.pp_selling_price.splice(index, 1);
+      }
+    },
+
+    isAttr(event, attributeType) {
+      const value = String(event.target.value);
+      console.log(value);
+      console.log(this.product_variant_type[value]);
+
+      if (attributeType === 'color') {
+        this.disableAttribute2 = value === 'color';
+      } else if (attributeType === 'size') {
+        this.disableAttribute1 = value === 'size';
       }
     },
 
