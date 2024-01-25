@@ -423,6 +423,20 @@
             ]
           },
           {
+            path: 'account',
+            title: this.$t('account.account'),
+            icon: 'user',
+            open: false,
+            children: [
+              {
+                path: 'account/company-profile',
+                title: this.$t('account.company-profile'),
+                icon: 'user',
+                gate: 'user'
+              }
+            ]
+          },
+          {
             path: 'store',
             title: this.$t('error.store'),
             icon: 'store',

@@ -731,5 +731,9 @@
     "fre": "Free",
     "ai": "Add Image",
     "trans": "Translate attached PDF in email"
+  },
+  "account":{
+    "account":"Account",
+    "company-profile":"Company Profile"
   }
 }

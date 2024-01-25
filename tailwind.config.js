@@ -26,6 +26,7 @@ module.exports = {
       blue:'blue',
       smooth: '#ddd',
       white: '#fff',
+      trnsp:'#f1f1f1'
     },
 
     screens: {
