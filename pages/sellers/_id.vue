@@ -6,27 +6,27 @@
         <div class="grid grid-cols-12 p-4 gap-4">
             <div class="col-span-2">
                 <ul class="mb-0 list-none">
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 1, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 1}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 1, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 1}">
                     Profile     
                     </a>
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 2, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 2}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 2, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 2}">
                         Users
                     </a>
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 3, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 3}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 3, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 3}">
                         Products
                     </a>
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(4)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 4, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 4}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(4)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 4, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 4}">
                         Wirehouse
                     </a>
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(5)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 5, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 5}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(5)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 5, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 5}">
                         Bank
                     </a>
-                    <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(6)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 6, 'ltr:border-l-2 rtl:border-r-2 border-primary': openTab === 6}">
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs(6)" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 6, 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 6}">
                         Content
                     </a>
                 </ul>
             </div>
-            <div class="col-span-10 right-area">
+            <div class="col-span-10 ltr:border-l rtl:border-r border-smooth p-2 right-area">
 
                 <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
                     <template>
