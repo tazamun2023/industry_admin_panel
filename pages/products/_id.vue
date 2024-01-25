@@ -26,7 +26,7 @@
 <!--          />-->
           <div
                class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
-            <product-search2
+            <product-search
               ref="productSearch"
               @product-clicked="cloneProduct"
             />
@@ -1086,6 +1086,7 @@ import outsideClick from '~/directives/outside-click.js';
 import LangInput from "../../components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
+import ProductSearch from "~/components/partials/ProductSearch.vue";
 
 export default {
   name: "pink-tabs",
@@ -1308,6 +1309,7 @@ export default {
   mixins: [util],
   components: {
     ProductSearch2,
+    ProductSearch,
     VideoInput,
     ImageInput,
     DataPage,
@@ -1387,12 +1389,9 @@ export default {
     },
 
     cloneProduct(product) {
-      var cloneProduct = this.clone_product.clone_products.find(p => p.qoute.rfq_product_id == this.activeProductId);
-      cloneProduct.qoute.product = product;
-      cloneProduct.qoute.product_id = product.id;
-      this.$refs.productSearch.autoSuggestionClose()
-
-      this.save()
+    console.log(product)
+      this.id=product.id
+      this.fetchingData()
     },
     async findSku(){
       try {
