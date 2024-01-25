@@ -66,7 +66,7 @@
                       :alt=" product.name"
                     />
                   </td>
-                  <td><button style="overflow: hidden;text-overflow: ellipsis;    width: 100%; border: unset;">{{ product.name }}</button></td>
+                  <td><button style="overflow: hidden;text-overflow: ellipsis;    width: 100%; border: unset;">{{ product.title }}</button></td>
                   <td><span>{{ product.sku }}</span></td>
                   <td><span>191 SAR</span></td>
                   <td><span>{{ product.status }}</span></td>
