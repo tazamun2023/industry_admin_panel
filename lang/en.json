@@ -732,6 +732,7 @@
   },
   "account":{
     "account":"Account",
-    "company-profile":"Company Profile"
+    "company-profile":"Company Profile",
+    "sellers":"Sellers"
   }
 }
