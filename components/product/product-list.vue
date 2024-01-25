@@ -72,7 +72,7 @@
           {{ $t('prod.archived') }}
         </NuxtLink>
       </li>
-      <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+      <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center" v-if="$store.state.admin.isVendor">
         <NuxtLink class="text-xs font-bold uppercase px-5 py-3   block leading-normal" @click="toggleTabs('is_draft')"
                   :to="`/products/draft`"
                   :class="{'bg-white border-white border-b-t': openTab !== 'is_draft', 'border-b-2 border-primary': openTab === 'is_draft'}">
@@ -108,7 +108,7 @@
                   <tr>
                     <th class="flex gap-4">
                       <input @click="actionCheckToggle()" id="allcheck" type="checkbox" @change="checkAll">
-                      <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
+                      <select v-if="actionCheck && openTab !== 'is_draft' &&  $store.state.admin.isVendor" class="border border-smooth p-3 rounded">
                         <option value="">{{ $t('prod.action') }}</option>
                         <option value="">Set out of stock</option>
                         <option value="">Set in stock</option>
@@ -184,22 +184,60 @@
                       </button>
                       <div id="dropdown"
                            class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
-                           v-if="visibleDropdown === index">
+                           v-if="visibleDropdown === index"
+                      >
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                             aria-labelledby="dropdownDefaultButton">
                           <nuxt-link
+                            v-if="$store.state.admin.isSuperAdmin"
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            :to="`/products/${value.id}`">Show
+                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                          </nuxt-link>
+<!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
+                          <nuxt-link
+                            v-if="$store.state.admin.isVendor"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">Edit
+<!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
+
+<!--                          <li-->
+<!--                            v-if="openTab !== 'is_archived'"-->
+<!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
+<!--                            @click.prevent="stockUpdate(value.id, 0)">Set out of stock</li>-->
+<!--                          <li-->
+<!--                            v-if="openTab !== 'is_archived' || openTab !== 'is_approved'"-->
+<!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
+<!--                            @click="stockUpdate(value.id, 1)"-->
+<!--                          >Set in stock</li>-->
+<!--                          <li
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                             @click="statusUpdate(value.id, 'archived')"
+                            v-if="openTab === 'archived'"
+                          >Archive</li>-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                            @click.prevent="stockUpdate(value.id, 0)">Set out of stock</li>
+                            @click="statusUpdate(value.id, 'archived')"
+                            v-if="openTab === 'is_approved' && $store.state.admin.isVendor"
+                          >
+                            Archive
+                          </li>
+
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                            @click="stockUpdate(value.id, 1)">Set in stock</li>
-                          <li class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                             @click="statusUpdate(value.id, 'archived')">Archive</li>
-                          <li class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" @click.prevent="isDelete(value.id)">Delete</li>
+                            v-if="value.status === 'archived' && $store.state.admin.isVendor"
+                            @click="statusUpdate(value.id, 'approved')"
+                          >
+                            Back to Approved
+                          </li>
+
+<!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
+                          <li
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                            @click.prevent="isDelete(value.id)"
+                            v-if="$store.state.admin.isVendor"
+                          >Delete</li>
                         </ul>
                       </div>
                     </td>
