@@ -996,43 +996,43 @@
                               <!-- -------------- -->
                               <div class="flex flex-wrap">
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">Africa</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">Antarctica</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">Asia</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">Australia (also known as Oceania)</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">Europe</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">North America</span>
                                     </div>
                                 </div>
                                 <div class="p-2 w-100 w-full">
-                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
                                         <input type="checkbox" name="" id="">
                                         <span class="font-medium">South America</span>
                                     </div>
