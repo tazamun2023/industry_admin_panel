@@ -419,6 +419,15 @@ export default {
         this.save()
     },
     save() {
+      // this.$swal({
+      //   title: "Are you sure?",
+      //   icon: "question",
+      //   iconHtml: "؟",
+      //   confirmButtonText: "Yes",
+      //   cancelButtonText: "Noا",
+      //   showCancelButton: true,
+      //   showCloseButton: true
+      // });
       this.result.rfq_id = this.id
       let products = this.rfq.products
       let qoutes = [];
@@ -447,7 +456,7 @@ export default {
           id: this.id,
           params: this.result,
           api: 'setQuote'
-        }).then(()=>{
+        }).then(() => {
 
           // alert('saved')
         })
