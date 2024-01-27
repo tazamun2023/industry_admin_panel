@@ -170,15 +170,16 @@
                       {{ value.updated }}
                     </td>
                     <td>
-                      {{ value.status }} <span @click="openModal('index')">show</span>
-                      <Modal :showModal="modalVisible" :modalId="currentModalId" :providedId="'index'" @closeModal="closeModal">
+                      {{ value.status }} <br>
+                      <span class="text-error cursor-pointer underline" @click="openModal(index)">show</span>
+                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal">
                         <div class="flex justify-between relative">
                             <h4>Rejection reasons {{ index }}</h4>
-                            
+
                           </div>
                           <div class="mb-4">
                             <slot>
-                            
+
                               <p><strong>General</strong></p>
                               <ul>
                                 <li class="block py-2">lorem lorem lorem </li>
@@ -211,7 +212,7 @@
                           <nuxt-link
                             v-if="$store.state.admin.isSuperAdmin"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/${value.id}`">Show
+                            :to="`/products/show/${value.id}`">Show
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
 <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
@@ -284,7 +285,7 @@
       </div>
       <div class="mb-4">
         <slot>
-         
+
           <p><strong>General</strong></p>
           <ul>
             <li class="block py-2">lorem lorem lorem </li>
@@ -334,7 +335,7 @@ export default {
   data() {
     return {
       modalVisible: false,
-      currentModalId: '',
+      is_reject_modal: '',
       visibleDropdown: null,
       showTitleQtyMessage: null,
       // openTab: 'is_all_products',
@@ -365,9 +366,9 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
-    openModal(modalId) {
+    openModal(index) {
       this.modalVisible = true;
-      this.currentModalId = modalId;
+      this.is_reject_modal = index;
     },
     closeModal() {
       this.modalVisible = false;
