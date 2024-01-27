@@ -1014,47 +1014,41 @@
         <div class="mb-4">
           <slot>
             <!-- -------------- -->
-            <div class="flex flex-wrap">
+            <div class="flex h-[400px] overflow-y-scroll flex-wrap">
               <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                <div class="p-2 rounded  h-full items-center">
                   <input type="checkbox" name="" id="">
-                  <span class="font-medium">Africa</span>
+                  <span class="font-medium">Africa textttt</span>
+                  <textarea
+                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
+                  rows="4"
+                  placeholder="Enter your text here..."
+                ></textarea>
+
                 </div>
               </div>
               <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                <div class="p-2 rounded  h-full items-center">
                   <input type="checkbox" name="" id="">
-                  <span class="font-medium">Antarctica</span>
+                  <span class="font-medium">Africa textttt</span>
+                  <textarea
+                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
+                  rows="4"
+                  placeholder="Enter your text here..."
+                ></textarea>
+
                 </div>
               </div>
               <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                <div class="p-2 rounded  h-full items-center">
                   <input type="checkbox" name="" id="">
-                  <span class="font-medium">Asia</span>
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">Australia (also known as Oceania)</span>
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">Europe</span>
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">North America</span>
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="bg-smooth p-2 rounded flex h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">South America</span>
+                  <span class="font-medium">Africa textttt</span>
+                  <textarea
+                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
+                  rows="4"
+                  placeholder="Enter your text here..."
+                ></textarea>
+
                 </div>
               </div>
             </div>
@@ -1133,6 +1127,15 @@
 select option {
   padding: 0.5rem;
 }
+  /* Define custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px; /* Set the width of the scrollbar */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #a0aec0; /* Set the color of the scrollbar thumb */
+    border-radius: 3px; /* Set the border radius of the scrollbar thumb */
+  }
 </style>
 <script>
 import {mapGetters, mapActions} from 'vuex'

@@ -179,15 +179,16 @@
                             <h4>Rejection reasons {{ index }}</h4>
 
                           </div>
-                          <div class="mb-4">
+                          <div class="mb-4 mt-10">
                             <slot>
 
                               <p><strong>General</strong></p>
                               <ul>
-                                <li class="block py-2">lorem lorem lorem </li>
-                                <li  class="block py-2">lorem lorem lorem </li>
-                                <li  class="block py-2">lorem lorem lorem </li>
-                                <li  class="block py-2">lorem lorem lorem </li>
+                                <li class="block py-2 mx-3">lorem lorem lorem </li>
+                              </ul>
+                              <p><strong>General</strong></p>
+                              <ul>
+                                <li class="block py-2 mx-3">lorem lorem lorem </li>
                               </ul>
                             </slot>
                           </div>
