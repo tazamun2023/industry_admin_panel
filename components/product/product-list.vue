@@ -118,6 +118,7 @@
                       </select>
                     </th>
                     <th>{{ $t('prod.pImgs') }}</th>
+                    <th v-if="$store.state.admin.isSuperAdmin">{{ $t('prod.vendor_name') }}</th>
                     <th>{{ $t('index.title') }}</th>
                     <th>{{ $t('prod.sku') }}</th>
                     <th>{{ $t('prod.category') }}</th>
@@ -147,6 +148,7 @@
                         />
                       </nuxt-link>
                     </td>
+                    <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor_name}}</td>
                     <td>{{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}</td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>

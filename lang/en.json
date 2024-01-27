@@ -212,6 +212,7 @@
     "product_list": "Products List",
     "sortBy": "Sort By",
     "name": "Name",
+    "vendor_name": "Vendor Name",
     "clear_filter": "Clear Filter",
     "write_group_name": "Write Group Name",
     "pending_approval": "Pending Approval",
