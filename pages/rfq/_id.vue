@@ -18,7 +18,7 @@
               <h4 class="font-20"> {{ $t("rfq.RFQ details") }}</h4>
               <h4 class="font-20 ">
                 <nuxt-link class="flex" :to="`/rfq`">
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white mr-2 ml-2" aria-hidden="true"
+                  <svg class="w-6 h-6 text-gray-800  mr-2 ml-2" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M13 5H1m0 0 4 4M1 5l4-4"/>
@@ -155,7 +155,7 @@
                                   </button>
                                   <span
                                     class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                              {{ product.qoute.product.name }}
+                              {{ product.qoute.product.title }}
                                   </span>
                                 </div>
                               </div>
@@ -278,7 +278,7 @@
                 <div class="grid grid-cols-1 gap-4">
                   <div class="flex justify-between items-center">
                     <h4 class="font-14 bold black pb-2  pt-2">{{ $t('rfq.How would you like to add a product') }}</h4>
-                    <svg @click="cancel" class="cursor-pointer w-4 h-4 text-gray-800 dark:text-white font-14"
+                    <svg @click="cancel" class="cursor-pointer w-4 h-4 text-gray-800  font-14"
                          aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -419,6 +419,15 @@ export default {
         this.save()
     },
     save() {
+      // this.$swal({
+      //   title: "Are you sure?",
+      //   icon: "question",
+      //   iconHtml: "؟",
+      //   confirmButtonText: "Yes",
+      //   cancelButtonText: "Noا",
+      //   showCancelButton: true,
+      //   showCloseButton: true
+      // });
       this.result.rfq_id = this.id
       let products = this.rfq.products
       let qoutes = [];
@@ -447,7 +456,7 @@ export default {
           id: this.id,
           params: this.result,
           api: 'setQuote'
-        }).then(()=>{
+        }).then(() => {
 
           // alert('saved')
         })

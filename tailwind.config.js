@@ -27,7 +27,7 @@ module.exports = {
       smooth: '#ddd',
       white: '#fff',
       trnsp:'#f1f1f1',
-      modal:'#00000005'
+      modal:'#0000007d'
     },
 
     screens: {
