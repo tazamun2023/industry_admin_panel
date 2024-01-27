@@ -109,7 +109,7 @@
                               <a v-for="p in value.products">{{ p.name }}</a>
                             </h5>
                             <div class="p-2 ml-auto">
-                              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                              <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                       stroke-width="2"

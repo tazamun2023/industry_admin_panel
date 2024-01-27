@@ -194,14 +194,14 @@
               <input class="form-control required" name="Type keyword and press enter (eg. Laptop)..." type="text"
                      value="">
               <button type="submit" class="btn ml-2 mr-2   btn-danger">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M1 1h16"/>
                 </svg>
               </button>
               <button type="submit" class="btn ml-2 mr-2 btn-primary">
-                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 1v16M1 9h16"/>
@@ -215,7 +215,7 @@
               <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
                      type="text" value="">
               <button type="submit" class="btn ml-2 mr-2  btn-primary">
-                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 1v16M1 9h16"/>
@@ -226,14 +226,14 @@
               <input dir="rtl" class="form-control required" name="Type keyword and press enter (eg. Laptop)..."
                      type="text" value="">
               <button type="submit" class="btn ml-2 mr-2   btn-danger">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M1 1h16"/>
                 </svg>
               </button>
               <button type="submit" class="btn ml-2 mr-2 btn-primary">
-                <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 1v16M1 9h16"/>
@@ -304,7 +304,7 @@
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
                 <div @click="uploadModalToggle()"
                      class="text-center cursor-pointer p-4 border border-dotted border-smooth rounded">
-                  <svg class="w-6 h-6 mx-auto text-gray-800 dark:text-white" aria-hidden="true"
+                  <svg class="w-6 h-6 mx-auto text-gray-800 " aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                     <path
                       d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
@@ -324,7 +324,7 @@
                   <div class="col-md-6">
                     <div class="flex flex-row-reverse">
                       <button class="btn btn-soft-dark m-1">
-                        <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                        <svg class="w-4 h-4 text-gray-800 " aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -404,7 +404,7 @@
                                    aria-label="Recipient's username" aria-describedby="button-addon2">
                             <div class="relative">
                               <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                <svg class="w-2 h-2 text-gray-800 dark:text-white" aria-hidden="true"
+                                <svg class="w-2 h-2 text-gray-800 " aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                   <path
                                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
@@ -417,7 +417,7 @@
                         <td><span class="text-xs">1/3/2024, 2:38:20 PM</span></td>
                         <td>
                           <button class="btn btn-light btn-sm">
-                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true"
+                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true"
                                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
                               <path
                                 d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
@@ -876,7 +876,7 @@
             <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text" value="">
             <input class="form-control" placeholder="Text to display" type="text" value="">
             <button type="submit" class="btn ml-2 mr-2  btn-primary">
-              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                    fill="none" viewBox="0 0 18 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 1v16M1 9h16"/>
@@ -887,13 +887,13 @@
             <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text" value="">
             <input class="form-control" placeholder="Text to display" type="text" value="">
             <button type="submit" class="btn ml-2 mr-2   btn-danger">
-              <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                    fill="none" viewBox="0 0 18 2">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
               </svg>
             </button>
             <button type="submit" class="btn ml-2 mr-2 btn-primary">
-              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                    fill="none" viewBox="0 0 18 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 1v16M1 9h16"/>
@@ -927,7 +927,7 @@
                     <div class="flex justify-between pb-20 title">
                       <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Please choose a new
                         product creation option</h3>
-                      <svg @click="uploadModalToggle()" class="w-4 h-4  cursor-pointer text-gray-800 dark:text-white mt-2"
+                      <svg @click="uploadModalToggle()" class="w-4 h-4  cursor-pointer text-gray-800  mt-2"
                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>

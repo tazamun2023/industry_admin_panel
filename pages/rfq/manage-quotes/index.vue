@@ -45,7 +45,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang ">
                                     <label for="">Filter by</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select an option</option>
                                         <option value="">RFQ ID</option>
                                         <option value="">Quote ID</option>
@@ -69,7 +69,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">Status</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">All</option>
                                         <option value="">Drafts</option>
                                         <option value="">Quote Submitted</option>
@@ -90,7 +90,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">Location</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select on Option</option>
                                         <option value="">Bangladesh</option>
                                         <option value="">Yemeen</option>
@@ -100,7 +100,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">RFQ Type</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">RFQ Type</option>
                                         <option value="">Single product</option>
                                         <option value="">Multi-product</option>
@@ -119,14 +119,14 @@
                 <!-- ================= -->
                 <div class="card mt-20 p-4 bg-white">
                         <div class="grid grid-cols-7 gap-4">
-                            <div> 
+                            <div>
                                 <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg" class="w-48 h-32 object-cover rounded" alt="...">
                         </div>
                         <div class="col-span-5">
                             <div class="flex justify-end">
                                 <h5 class="mb-4 ml-4"><a href="">Dalda The Original Vegetable Ghee 16 kg</a></h5>
                                 <div class="p-2 ml-auto">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
+                                    <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
                                     </svg>
                                 </div>
@@ -211,18 +211,18 @@
                         </div>
                     </div>
                 </div>
-               
+
                 <!-- ======card2========= -->
                 <div class="card mt-20 p-4 bg-white">
                         <div class="grid grid-cols-7 gap-4">
-                            <div> 
+                            <div>
                                 <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg" class="w-48 h-32 object-cover rounded" alt="...">
                         </div>
                         <div class="col-span-5">
                             <div class="flex justify-end">
                                 <h5 class="mb-4 ml-4"><a href="">Dalda The Original Vegetable Ghee 16 kg</a></h5>
                                 <div class="p-2 ml-auto">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
+                                    <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
                                     </svg>
                                 </div>
@@ -316,7 +316,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang ">
                                     <label for="">Filter by</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select an option</option>
                                         <option value="">RFQ ID</option>
                                         <option value="">Quote ID</option>
@@ -337,7 +337,7 @@
                                     <input type="text" class="theme-input-style">
                                 </div>
                             </div>
-                            
+
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4">
                                     <label for="">From</label>
@@ -347,7 +347,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">Location</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select on Option</option>
                                         <option value="">Bangladesh</option>
                                         <option value="">Yemeen</option>
@@ -357,7 +357,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">RFQ Type</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">RFQ Type</option>
                                         <option value="">Single product</option>
                                         <option value="">Multi-product</option>
@@ -376,14 +376,14 @@
                 <!-- ================= -->
                 <div class="card p-4 bg-white mt-20">
                         <div class="grid grid-cols-7 gap-4">
-                            <div> 
+                            <div>
                                 <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg" class="w-48 h-32 object-cover rounded" alt="...">
                         </div>
                         <div class="col-span-5">
                             <div class="flex justify-end">
                                 <h5 class="mb-4 ml-4"><a href="">Dalda The Original Vegetable Ghee 16 kg</a></h5>
                                 <div class="p-2 ml-auto">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
+                                    <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
                                     </svg>
                                 </div>
@@ -477,7 +477,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang ">
                                     <label for="">Filter by</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select an option</option>
                                         <option value="">RFQ ID</option>
                                         <option value="">Quote ID</option>
@@ -501,7 +501,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">Status</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">All</option>
                                         <option value="">Drafts</option>
                                         <option value="">Quote Submitted</option>
@@ -522,7 +522,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">Location</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">Select on Option</option>
                                         <option value="">Bangladesh</option>
                                         <option value="">Yemeen</option>
@@ -532,7 +532,7 @@
                             <div class="md:w-1/5 pr-4 pl-4">
                                 <div class="mb-4 for-lang">
                                     <label for="">RFQ Type</label>
-                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
+                                    <select class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500" name="" id="">
                                         <option value="">RFQ Type</option>
                                         <option value="">Single product</option>
                                         <option value="">Multi-product</option>
@@ -551,14 +551,14 @@
                 <!-- ================= -->
                 <div class="card p-4 bg-white mt-20">
                         <div class="grid grid-cols-7 gap-4">
-                            <div> 
+                            <div>
                                 <img src="https://cdn.pixabay.com/photo/2016/10/26/09/19/arbutus-1771003__340.jpg" class="w-48 h-32 object-cover rounded" alt="...">
                         </div>
                         <div class="col-span-5">
                             <div class="flex justify-end">
                                 <h5 class="mb-4 ml-4"><a href="">Dalda The Original Vegetable Ghee 16 kg</a></h5>
                                 <div class="p-2 ml-auto">
-                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
+                                    <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
                                     </svg>
                                 </div>

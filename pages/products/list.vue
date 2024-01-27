@@ -51,7 +51,7 @@
             Draft
           </a>
         </li>
-      </ul> 
+      </ul>
 
       <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
         <div class="flex-auto ">
@@ -65,7 +65,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -143,7 +143,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -184,7 +184,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td> <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td> <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -202,7 +202,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td> <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td> <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -243,7 +243,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -308,7 +308,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -350,7 +350,7 @@
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
                             <td>
-                                <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                <nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link>
@@ -369,7 +369,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg>
@@ -412,7 +412,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -465,7 +465,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -506,7 +506,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg>
@@ -526,7 +526,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -567,7 +567,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -645,7 +645,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -686,7 +686,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -704,7 +704,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -745,7 +745,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -810,7 +810,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -851,7 +851,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -869,7 +869,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -910,7 +910,7 @@
                                         <input type="text" class="form-control" placeholder="Write Group Name" aria-label="Recipient's username" aria-describedby="button-addon2">
                                         <div class="relative">
                                             <button class="grp-check absolute border-0 right-0 top-0" type="button" id="button-addon2">
-                                            <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                             </svg>
                                             </button>
@@ -963,7 +963,7 @@
                  <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
                     <thead>
                         <tr>
-                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox"> 
+                            <th class="flex gap-4"><input @click="actionCheckToggle()" id="allcheck"  type="checkbox">
                             <select v-if="actionCheck" class="border border-smooth p-3 rounded" name="" id="">
                                 <option value="">Action</option>
                                 <option value="">Set Online</option>
@@ -1004,7 +1004,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
@@ -1022,7 +1022,7 @@
                             <td>Jan 4, 2024 9:48 AM <br>
                                 Jan 4, 2024 9:48 AM</td>
                             <td>Offline</td>
-                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800 dark:text-white cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                            <td><nuxt-link :to="`/products/1`"><svg class="w-4 h-4 text-gray-800  cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
     <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
   </svg></nuxt-link></td>
