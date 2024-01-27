@@ -169,7 +169,27 @@
                     <td>{{ value.created }}<br>
                       {{ value.updated }}
                     </td>
-                    <td>{{ value.status }}</td>
+                    <td>
+                      {{ value.status }} <span @click="openModal('index')">show</span>
+                      <Modal :showModal="modalVisible" :modalId="currentModalId" :providedId="'index'" @closeModal="closeModal">
+                        <div class="flex justify-between relative">
+                            <h4>Rejection reasons {{ index }}</h4>
+                            
+                          </div>
+                          <div class="mb-4">
+                            <slot>
+                            
+                              <p><strong>General</strong></p>
+                              <ul>
+                                <li class="block py-2">lorem lorem lorem </li>
+                                <li  class="block py-2">lorem lorem lorem </li>
+                                <li  class="block py-2">lorem lorem lorem </li>
+                                <li  class="block py-2">lorem lorem lorem </li>
+                              </ul>
+                            </slot>
+                          </div>
+                      </Modal>
+                    </td>
                     <td>{{ value.status }}</td>
                     <td>
 
@@ -247,11 +267,45 @@
               </template>
             </list-page>
 
+              </div>
+            </div>
           </div>
         </div>
+        <!-- ------------------modal----------- -->
+        <div v-if="rejectModal" class="fixed bg-modal inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="z-50 bg-white p-6 rounded-md shadow-md w-full md:w-1/2 lg:w-2/3 xl:w-1/4">
+      <!-- Modal Content -->
+      <div class="flex justify-between relative">
+        <h4>Rejection reasons</h4>
+        <svg @click="rejectModlHandle()" class="w-4 h-4 text-gray-800 absolute ltr:right-0  rtl:left-0 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+  </svg>
       </div>
+      <div class="mb-4">
+        <slot>
+         
+          <p><strong>General</strong></p>
+          <ul>
+            <li class="block py-2">lorem lorem lorem </li>
+            <li  class="block py-2">lorem lorem lorem </li>
+            <li  class="block py-2">lorem lorem lorem </li>
+            <li  class="block py-2">lorem lorem lorem </li>
+          </ul>
+        </slot>
+      </div>
+      <!-- Close Button -->
+     <div class="text-end">
+      <button @click="rejectModlHandle()"  class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md">Close Modal</button>
+     </div>
     </div>
   </div>
+<!-- ==================modal------------2 -->
+
+      </div>
+<!-- ----------------modal--------------- -->
+
+
 
 </template>
 
@@ -263,7 +317,7 @@ import LazyImage from "~/components/LazyImage"
 import bulkDelete from "~/mixin/bulkDelete";
 import ProductFilter from "../../components/product/filter.vue";
 import moment from 'moment-timezone'
-
+import Modal from "~/components/product/Modal.vue"
 export default {
   name: "product-list",
   props: {
@@ -279,6 +333,8 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      modalVisible: false,
+      currentModalId: '',
       visibleDropdown: null,
       showTitleQtyMessage: null,
       // openTab: 'is_all_products',
@@ -298,7 +354,8 @@ export default {
   components: {
     LazyImage,
     ListPage,
-    ProductFilter
+    ProductFilter,
+    Modal
   },
   computed: {
     currencyIcon() {
@@ -308,7 +365,13 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
-
+    openModal(modalId) {
+      this.modalVisible = true;
+      this.currentModalId = modalId;
+    },
+    closeModal() {
+      this.modalVisible = false;
+    },
     async stockUpdate(id, is_available = null) {
       await this.setById({
         id: id,

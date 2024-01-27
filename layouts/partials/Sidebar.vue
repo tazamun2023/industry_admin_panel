@@ -290,7 +290,13 @@
                 title: this.$t('profile.guest'),
                 icon: 'guest',
                 gate: 'user'
-              }
+              },
+              {
+                path: 'sellers',
+                title: this.$t('account.sellers'),
+                icon: 'guest',
+                gate: 'user'
+              },
             ]
           },
 
@@ -420,6 +426,20 @@
                 icon: 'custom-scripts',
                 gate: 'site_setting'
               },
+            ]
+          },
+          {
+            path: 'account',
+            title: this.$t('account.account'),
+            icon: 'user',
+            open: false,
+            children: [
+              {
+                path: 'account/company-profile',
+                title: this.$t('account.company-profile'),
+                icon: 'user',
+                gate: 'user'
+              }
             ]
           },
           {
