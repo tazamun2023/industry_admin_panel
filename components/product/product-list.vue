@@ -191,7 +191,7 @@
                           <nuxt-link
                             v-if="$store.state.admin.isSuperAdmin"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/${value.id}`">Show
+                            :to="`/products/show/${value.id}`">Show
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
 <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
