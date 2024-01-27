@@ -978,13 +978,77 @@
               <button type="button" class="btn text-primary" @click.prevent="doDraft">
                 Approved
               </button>
-              <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="doSubmit">
+              <button type="button" class="btn bg-primary text-white border-secondary"  @click="openModal(index); doSubmit()">
                 Rejected
               </button>
             </div>
           </div>
         </div>
       </form>
+      <!-- -----------------------reject modal----------- -->
+      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal">
+                        <div class="flex justify-between relative">
+                            <h4>Rejection reasons in show page {{ index }}</h4>
+
+                          </div>
+                          <div class="mb-4">
+                            <slot>
+                              <!-- -------------- -->
+                              <div class="flex flex-wrap">
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">Africa</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">Antarctica</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">Asia</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">Australia (also known as Oceania)</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">Europe</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">North America</span>
+                                    </div>
+                                </div>
+                                <div class="p-2 w-100 w-full">
+                                    <div class="bg-gray-100 rounded flex h-full items-center">
+                                        <input type="checkbox" name="" id="">
+                                        <span class="font-medium">South America</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- --------------- -->
+                            </slot>
+
+                          </div>
+                          <template v-slot:buttons>
+                            <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal</button>
+                            <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Submit</button>
+                            <!-- Your Submit button or other buttons go here -->
+                          </template>
+                      </Modal>
+      <!-- -----------------------reject modal end----------- -->
       <!-- -----------------------modal----------------------- -->
       <div v-if="uploadModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -1070,12 +1134,15 @@ import LangInput from "~/components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
+import Modal from "~/components/Modal.vue"
 
 export default {
   name: "pink-tabs",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      modalVisible: false,
+      is_reject_modal: '',
       is_show: true,
       selectedLevel1: null,
       selectedLevel2: null,
@@ -1372,6 +1439,13 @@ export default {
   },
 
   methods: {
+    openModal(index) {
+      this.modalVisible = true;
+      this.is_reject_modal = index;
+    },
+    closeModal() {
+      this.modalVisible = false;
+    },
     tableNotShow() {
       this.tableShow = false;
       this.uploadNewText = true;
