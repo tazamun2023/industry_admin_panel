@@ -290,7 +290,13 @@
                 title: this.$t('profile.guest'),
                 icon: 'guest',
                 gate: 'user'
-              }
+              },
+              {
+                path: 'sellers',
+                title: this.$t('account.sellers'),
+                icon: 'guest',
+                gate: 'user'
+              },
             ]
           },
 
