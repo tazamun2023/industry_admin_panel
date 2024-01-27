@@ -1015,39 +1015,16 @@
           <slot>
             <!-- -------------- -->
             <div class="flex h-[400px] overflow-y-scroll flex-wrap">
-              <div class="p-2 w-100 w-full">
+              <div class="p-2 w-100 w-full" v-for="(item, index) in allRejectReasons" :key="index">
                 <div class="p-2 rounded  h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">Africa textttt</span>
+                  <input type="checkbox" v-model="rejected.reject_reasons" :value="item.id">
+                  <span class="font-medium">{{ item.name }}</span>
                   <textarea
-                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
-                  rows="4"
-                  placeholder="Enter your text here..."
-                ></textarea>
-
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="p-2 rounded  h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">Africa textttt</span>
-                  <textarea
-                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
-                  rows="4"
-                  placeholder="Enter your text here..."
-                ></textarea>
-
-                </div>
-              </div>
-              <div class="p-2 w-100 w-full">
-                <div class="p-2 rounded  h-full items-center">
-                  <input type="checkbox" name="" id="">
-                  <span class="font-medium">Africa textttt</span>
-                  <textarea
-                  class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
-                  rows="4"
-                  placeholder="Enter your text here..."
-                ></textarea>
+                    class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
+                    rows="4"
+                    v-model="item.description"
+                    :placeholder="item.description"
+                  ></textarea>
 
                 </div>
               </div>
@@ -1059,7 +1036,9 @@
         <template v-slot:buttons>
           <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal
           </button>
-          <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Submit</button>
+          <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2"
+                  @click.prevent="doRejected()">Submit
+          </button>
           <!-- Your Submit button or other buttons go here -->
         </template>
       </Modal>
@@ -1127,15 +1106,16 @@
 select option {
   padding: 0.5rem;
 }
-  /* Define custom scrollbar styles */
-  ::-webkit-scrollbar {
-    width: 6px; /* Set the width of the scrollbar */
-  }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #a0aec0; /* Set the color of the scrollbar thumb */
-    border-radius: 3px; /* Set the border radius of the scrollbar thumb */
-  }
+/* Define custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a0aec0; /* Set the color of the scrollbar thumb */
+  border-radius: 3px; /* Set the border radius of the scrollbar thumb */
+}
 </style>
 <script>
 import {mapGetters, mapActions} from 'vuex'
@@ -1197,7 +1177,7 @@ export default {
       routeName: 'products',
       getApi: 'getProduct',
       getColorApi: 'getColors',
-      setApi: 'setProduct',
+      setRejectApi: 'setRejectProduct',
       setImageApi: 'setProductImage',
       setVideoApi: 'setProductVideo',
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
@@ -1227,7 +1207,12 @@ export default {
         "name": "",
         "value": "",
       },
+      rejected: {
+        product_id: !this.isAdding ? this.$route?.params?.id : '',
+        reject_reasons: []
+      },
       result: {
+
         clone_products: [],
         unit_id: 9,
         product_variants: [],
@@ -1458,7 +1443,7 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
-      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
+      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree', 'allRejectReasons'])
   },
 
   methods: {
@@ -1683,8 +1668,36 @@ export default {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
-    doRejected() {
+    async doRejected() {
+      try {
+        const confirmation = await this.$swal({
+          title: "Are you sure?",
+          icon: "question",
+          iconHtml: "؟",
+          confirmButtonText: "Yes",
+          cancelButtonText: "Noا",
+          showCancelButton: true,
+          showCloseButton: true,
+        });
 
+        if (confirmation) {
+          const data = await this.setRequest({
+            params: this.rejected,
+            api: this.setRejectApi,
+          });
+
+          if (data) {
+            this.is_reject_modal = false;
+            this.modalVisible = false;
+
+            const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
+            this.$router.push({ path: `/${this.routeName}${pathSuffix}` });
+          }
+        }
+      } catch (error) {
+        console.error("Error in doRejected:", error);
+        // Handle error (e.g., show an error message)
+      }
     },
 
     addAdditionalDetailsRows(index) {
@@ -2199,7 +2212,7 @@ export default {
         this.loading = false
       }
     },
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setRequest'])
   },
   async mounted() {
     this.selectedAttribute1 = 'color';

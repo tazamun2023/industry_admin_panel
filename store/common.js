@@ -18,6 +18,7 @@ const state = () => ({
   allSubscriptionEmailFormats: null,
   allRoles: null,
   allColors: null,
+  allRejectReasons: null,
   allBarcodes: null,
   allPackagingUnits: null,
   allDimensionUnits: null,
@@ -36,6 +37,7 @@ const getters = {
   allCategories: ({allCategories}) => allCategories,
   allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
   allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
+  allRejectReasons: ({allRejectReasons}) => allRejectReasons,
   allCountries: ({allCountries}) => allCountries,
   allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
@@ -191,6 +193,12 @@ const mutations = {
       state.allBrands = {...state.allBrands, ...{[item.id]: {title: item.title}}}
     })
   },
+  SET_ALL_REJECT_REASONS(state, allRejectReasons) {
+    state.allRejectReasons = {}
+    allRejectReasons.forEach((item) => {
+      state.allRejectReasons = {...state.allRejectReasons, ...{[item.id]: {id: item.id, name: item.name, description: item.description}}}
+    })
+  },
   SET_ALL_TAX_RULES(state, allTaxRules) {
     state.allTaxRules = {}
     allTaxRules.forEach((item) => {
@@ -265,6 +273,7 @@ const actions = {
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)
       commit('SET_ALL_ATTRIBUTES', result.attributes)
       commit('SET_ALL_BRANDS', result.brands)
+      commit('SET_ALL_REJECT_REASONS', result.all_reject_reasons)
       commit('SET_ALL_TAX_RULES', result.tax_rules)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
