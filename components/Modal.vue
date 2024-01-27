@@ -13,7 +13,7 @@
         <!-- Close Button -->
         <div class="flex justify-end">
         <slot name="buttons">
-         
+
         </slot>
       </div>
 
@@ -23,11 +23,12 @@
 
   <script>
   export default {
-    props: {
-      showModal: Boolean,
-      is_reject_modal: String,
-      providedId: String,
-    },
+    // props: {
+    //   showModal: Boolean,
+    //   is_reject_modal: String,
+    //   providedId: String,
+    // },
+    props: ['showModal', 'is_reject_modal', 'providedId'],
     methods: {
       closeModal() {
         this.$emit('closeModal');

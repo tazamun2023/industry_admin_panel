@@ -8,9 +8,10 @@
       </div>
 
       <div class="input-wrapper p-3" v-if="!is_show">
-        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone" v-model="is_clone" @click.prevent="isClone"/>
+        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
+               v-model="is_clone" @click.prevent="isClone"/>
         <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
-        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;" >Clone from
+        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;">Clone from
           existing product</strong></label>
       </div>
 
@@ -136,7 +137,8 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Unit of measure</h4>
           <div class="form-group input-wrapper for-lang ar-lang">
             <label class="w-full" for="name">Unit of measure</label>
-            <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" :disabled="is_show" v-model="result.unit_id">
+            <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" :disabled="is_show"
+                    v-model="result.unit_id">
               <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.title }}</option>
             </select>
           </div>
@@ -161,18 +163,24 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show" v-model="select_attr1" @change="isAttr($event, 'color')">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show"
+                          v-model="select_attr1" @change="isAttr($event, 'color')">
                     <option selected>Select attribute 1</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr2">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index"
+                            :disabled="item === select_attr2">{{ item }}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show" v-model="select_attr2" @change="isAttr($event, 'size')">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show"
+                          v-model="select_attr2" @change="isAttr($event, 'size')">
                     <option selected>Select attribute 2</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr1">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index"
+                            :disabled="item === select_attr1">{{ item }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -184,17 +192,27 @@
             <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show" v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title??item.name }}</option>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" :disabled="is_show"
+                          v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                        item.title ?? item.name
+                      }}
+                    </option>
                   </select>
-                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                         v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
                 </div>
               </div>
-              <div class="col-md-4" >
-                <div class="form-group"  :class="{ invalid: variant.value }">
-                  <input class="form-control w-100" type="text" placeholder="Enter Value" :disabled="is_show" v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr2 === 'color' && select_attr1 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title ??item.name }}</option>
+              <div class="col-md-4">
+                <div class="form-group" :class="{ invalid: variant.value }">
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" :disabled="is_show"
+                         v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                          v-if="select_attr2 === 'color' && select_attr1 === 'size'">
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                        item.title ?? item.name
+                      }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -216,7 +234,7 @@
                         class="btn mb-10 w-25 bg-primary">
                   Approved
                 </button>
-                <button type="button" @click.prevent="doRejected()"
+                <button type="button" @click.prevent="isRejected()"
                         class="btn mb-10 w-25 bg-error">
                   Rejected
                 </button>
@@ -951,7 +969,8 @@
           <div class="input-wrapper">
 
             <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
-              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text" v-model="item.name">
+              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
+                     v-model="item.name">
               <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
               <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
                       v-if="index!=0"
@@ -975,10 +994,10 @@
           </div>
           <div class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-primary" @click.prevent="doDraft">
+              <button type="button" class="btn text-white bg-primary" @click.prevent="doDraft">
                 Approved
               </button>
-              <button type="button" class="btn bg-primary text-white border-secondary"  @click="openModal(index); doSubmit()">
+              <button type="button" class="btn text-white bg-error" @click.prevent="isRejected()">
                 Rejected
               </button>
             </div>
@@ -986,68 +1005,70 @@
         </div>
       </form>
       <!-- -----------------------reject modal----------- -->
-      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal">
-                        <div class="flex justify-between relative">
-                            <h4>Rejection reasons in show page {{ index }}</h4>
 
-                          </div>
-                          <div class="mb-4">
-                            <slot>
-                              <!-- -------------- -->
-                              <div class="flex flex-wrap">
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">Africa</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">Antarctica</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">Asia</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">Australia (also known as Oceania)</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">Europe</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">North America</span>
-                                    </div>
-                                </div>
-                                <div class="p-2 w-100 w-full">
-                                    <div class="bg-smooth p-2 rounded flex h-full items-center">
-                                        <input type="checkbox" name="" id="">
-                                        <span class="font-medium">South America</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- --------------- -->
-                            </slot>
+      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="is_reject_modal"
+             @closeModal="closeModal">
+        <div class="flex justify-between relative">
+          <h4>Rejection reasons in show page </h4>
+        </div>
+        <div class="mb-4">
+          <slot>
+            <!-- -------------- -->
+            <div class="flex flex-wrap">
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">Africa</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">Antarctica</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">Asia</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">Australia (also known as Oceania)</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">Europe</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">North America</span>
+                </div>
+              </div>
+              <div class="p-2 w-100 w-full">
+                <div class="bg-smooth p-2 rounded flex h-full items-center">
+                  <input type="checkbox" name="" id="">
+                  <span class="font-medium">South America</span>
+                </div>
+              </div>
+            </div>
+            <!-- --------------- -->
+          </slot>
 
-                          </div>
-                          <template v-slot:buttons>
-                            <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal</button>
-                            <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Submit</button>
-                            <!-- Your Submit button or other buttons go here -->
-                          </template>
-                      </Modal>
+        </div>
+        <template v-slot:buttons>
+          <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal
+          </button>
+          <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Submit</button>
+          <!-- Your Submit button or other buttons go here -->
+        </template>
+      </Modal>
       <!-- -----------------------reject modal end----------- -->
       <!-- -----------------------modal----------------------- -->
       <div v-if="uploadModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -1142,7 +1163,7 @@ export default {
   data() {
     return {
       modalVisible: false,
-      is_reject_modal: '',
+      is_reject_modal: false,
       is_show: true,
       selectedLevel1: null,
       selectedLevel2: null,
@@ -1199,15 +1220,14 @@ export default {
         "color": "color",
         "size": "size",
       },
-      additional_details:{
+      additional_details: {
         "name": "",
         "value": "",
       },
       result: {
         clone_products: [],
         unit_id: 9,
-        product_variants: [
-        ],
+        product_variants: [],
         features: [
           {"ar": "", "en": ""},
         ],
@@ -1423,8 +1443,8 @@ export default {
     },
     async isCloning() {
       // console.log(this.search_sku)
-      if (this.$route?.params?.id==='clone'){
-        let sku =  this.$route.query.sku
+      if (this.$route?.params?.id === 'clone') {
+        let sku = this.$route.query.sku
       }
     },
     currencyIcon() {
@@ -1439,9 +1459,9 @@ export default {
   },
 
   methods: {
-    openModal(index) {
+    isRejected() {
       this.modalVisible = true;
-      this.is_reject_modal = index;
+      this.is_reject_modal = !this.is_reject_modal;
     },
     closeModal() {
       this.modalVisible = false;
@@ -1459,15 +1479,19 @@ export default {
       console.log(product)
       console.log('product', product)
       // this.id=product.id
-      this.fetchingData(product.id).then(()=>{
-        this.is_clone=false
-        this.result.id=""
+      this.fetchingData(product.id).then(() => {
+        this.is_clone = false
+        this.result.id = ""
       })
     },
-    async findSku(){
+    async findSku() {
       try {
         this.loading = true
-        var res = Object.assign({}, await this.getById({id: this.id, params: {sku: this.search_sku}, api: 'getProductBySku'}))
+        var res = Object.assign({}, await this.getById({
+          id: this.id,
+          params: {sku: this.search_sku},
+          api: 'getProductBySku'
+        }))
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -1476,7 +1500,9 @@ export default {
     doSubmitVariant() {
       this.result.is_variant = true;
 
-      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfIsDraft.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
@@ -1487,7 +1513,9 @@ export default {
       this.is_draft = true;
       this.result.is_draft = true;
 
-      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfIsDraft.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
@@ -1499,7 +1527,9 @@ export default {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfNotVariant.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
@@ -1650,11 +1680,7 @@ export default {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
-    doRejected(){
-
-    },
-
-    doApproved(){
+    doRejected() {
 
     },
 
@@ -2001,16 +2027,20 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
-          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
+          product_variants: res.product_variant?.map(item => ({
+            name: item.name,
+            value: item.value,
+            product_id: item.product_id
+          })),
           PriceingRows: res.product_prices,
-          is_variant: res.product_variant.length!=0?true:false,
+          is_variant: res.product_variant.length != 0 ? true : false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
 
 
         }
 
-        this.select_attr1= 'color';
-        this.select_attr2= 'size';
+        this.select_attr1 = 'color';
+        this.select_attr2 = 'size';
         // this.result.PriceingRows = res.product_prices
         // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
         if (res.product_variant?.length != 0) {

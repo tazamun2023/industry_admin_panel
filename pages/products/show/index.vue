@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<h1>Erro</h1>
+<h1>Error</h1>
 </template>
 
 <style scoped>
