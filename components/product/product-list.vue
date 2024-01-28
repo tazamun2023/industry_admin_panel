@@ -174,22 +174,19 @@
                     <td>
                       {{ value.status }} <br>
                       <span class="text-error cursor-pointer underline" @click="openModal(index)">show</span>
-                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal">
+                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal" v-if="value.reject_reasons">
                         <div class="flex justify-between relative">
                             <h4>Rejection reasons {{ index }}</h4>
 
                           </div>
                           <div class="mb-4 mt-10">
                             <slot>
-
-                              <p><strong>General</strong></p>
-                              <ul>
-                                <li class="block py-2 mx-3">lorem lorem lorem </li>
-                              </ul>
-                              <p><strong>General</strong></p>
-                              <ul>
-                                <li class="block py-2 mx-3">lorem lorem lorem </li>
-                              </ul>
+                              <div v-for="(reject_reason_item, index) in value.reject_reasons">
+                                <p><strong>{{ translateRejectReason(reject_reason_item.name)}}</strong></p>
+                                <ul>
+                                  <li class="block py-2 mx-3">{{ translateRejectReason(reject_reason_item.description) }} </li>
+                                </ul>
+                              </div>
                             </slot>
                           </div>
                           <template v-slot:buttons>
@@ -343,6 +340,11 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
+    translateRejectReason(text) {
+      var lang = this.currentLanguage ? this.currentLanguage.code : 'en';
+      return text[lang] || text['en'] || text;
+    },
+
     openModal(index) {
       this.modalVisible = true;
       this.is_reject_modal = index;

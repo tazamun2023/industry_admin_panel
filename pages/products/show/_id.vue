@@ -1017,11 +1017,12 @@
             <div class="flex h-[400px] overflow-y-scroll flex-wrap">
               <div class="p-2 w-100 w-full" v-for="(item, index) in allRejectReasons" :key="index">
                 <div class="p-2 rounded  h-full items-center">
-                  <input type="checkbox" v-model="rejected.reject_reasons" :value="item.id">
+                  <input type="checkbox" v-model="rejected.reject_reasons" :value="item.id" :class="{ hasError }">
                   <span class="font-medium">{{ item.name }}</span>
                   <textarea
                     class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
                     rows="4"
+                    readonly
                     v-model="item.description"
                     :placeholder="item.description"
                   ></textarea>
@@ -1208,6 +1209,7 @@ export default {
         "value": "",
       },
       rejected: {
+        status: 'rejected',
         product_id: !this.isAdding ? this.$route?.params?.id : '',
         reject_reasons: []
       },
@@ -1670,29 +1672,41 @@ export default {
 
     async doRejected() {
       try {
-        const confirmation = await this.$swal({
-          title: "Are you sure?",
-          icon: "question",
-          iconHtml: "؟",
-          confirmButtonText: "Yes",
-          cancelButtonText: "Noا",
-          showCancelButton: true,
-          showCloseButton: true,
-        });
+        const atLeastOneSelected = this.rejected.reject_reasons.length > 0;
 
-        if (confirmation) {
-          const data = await this.setRequest({
-            params: this.rejected,
-            api: this.setRejectApi,
+        if (atLeastOneSelected) {
+          const confirmation = await this.$swal({
+            title: "Are you sure?",
+            icon: "question",
+            iconHtml: "؟",
+            confirmButtonText: "Yes",
+            cancelButtonText: "Noا",
+            showCancelButton: true,
+            showCloseButton: true,
           });
 
-          if (data) {
-            this.is_reject_modal = false;
-            this.modalVisible = false;
+          if (confirmation) {
+            const data = await this.setRequest({
+              params: this.rejected,
+              api: this.setRejectApi,
+            });
 
-            const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
-            this.$router.push({ path: `/${this.routeName}${pathSuffix}` });
+            if (data) {
+              this.is_reject_modal = false;
+              this.modalVisible = false;
+
+              const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
+              this.$router.push({ path: `/${this.routeName}${pathSuffix}` });
+            }
           }
+        } else {
+          // Show an error message or handle the validation failure appropriately
+          // For example:
+          this.$swal({
+            title: "Error",
+            text: "Please select at least one reason.",
+            icon: "error",
+          });
         }
       } catch (error) {
         console.error("Error in doRejected:", error);
