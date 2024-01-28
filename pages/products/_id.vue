@@ -953,6 +953,10 @@
             <h4>Additional details</h4>
             <p>Enter the details listed below for better discoverability of the product</p>
           </div>
+          <div class="form-group input-wrapper mb-10 for-lang ar-lang">
+            <label for="name">{{ $t("prod.hts_code") }}</label>
+            <input class="form-control" name="e.g. Macbook Pro 2019" type="text" v-model="result.hts_code">
+          </div>
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Additional attributes <span
             class="text-xs">(optional)</span>
           </h4>
@@ -1144,6 +1148,7 @@ export default {
         "value": "",
       },
       result: {
+        hts_code: '',
         clone_products: [],
         unit_id: 9,
         product_variants: [
@@ -1419,7 +1424,10 @@ export default {
     doDraft() {
       this.is_draft = true;
       this.result.is_draft = true;
-
+      this.result.status = 'draft'
+      if(this.result.storage_temperature===0){
+        this.result.storage_temperature = null
+      }
       if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
         this.hasError = true
         return false
@@ -1436,6 +1444,19 @@ export default {
         this.hasError = true
         return false
       }
+      if(this.result.storage_temperature===0){
+        this.result.storage_temperature = null
+      }
+      if(this.result.brand_id===0){
+        this.result.brand_id = null
+      }
+      if(this.result.barcode_type===0){
+        this.result.barcode_type = null
+      }
+      if(this.result.unit_id===0){
+        this.result.unit_id = null
+      }
+      this.result.status = 'pending'
       this.checkForm()
     },
 
@@ -1930,7 +1951,7 @@ export default {
           PriceingRows: res.product_prices,
           is_variant: res.product_variant.length!=0?true:false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-
+          hts_code: res.hts_code,
 
         }
 

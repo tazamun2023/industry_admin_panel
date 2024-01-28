@@ -23,7 +23,7 @@
           {{ $t('prod.download_rejection_reasons') }}
         </button>
       </div>
-      <div class="text-end">
+      <div class="text-end" v-if="$store.state.admin.isVendor">
         <Nuxt-link :to="`/products/add`"
                    class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
           {{ $t('prod.add_new_product') }}
@@ -173,10 +173,10 @@
                     </td>
                     <td>
                       {{ value.status }} <br>
-                      <span class="text-error cursor-pointer underline" @click="openModal(index)">show</span>
+                      <span class="text-error cursor-pointer underline" @click="openModal(index)" v-if="value.status==='rejected'">show</span>
                       <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal" v-if="value.reject_reasons">
                         <div class="flex justify-between relative">
-                            <h4>Rejection reasons {{ index }}</h4>
+                            <h4>Rejection reasons</h4>
 
                           </div>
                           <div class="mb-4 mt-10">
