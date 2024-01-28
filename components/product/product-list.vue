@@ -162,7 +162,7 @@
                       >
                         <lazy-image
                           class="mr-20"
-                          :data-src="getThumbImageURL(value.image)"
+                          :data-src="value.image[0]"
                           :alt="value.title?.en"
                         />
                       </nuxt-link>
