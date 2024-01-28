@@ -199,6 +199,7 @@
     "approved": "Approved",
     "rejected": "Rejected",
     "archived": "Archived",
+    "back_to_approved": "Back to Approved",
     "in_stock": "In Stock",
     "out_of_stock": "Out of Stock",
     "draft": "Draft",

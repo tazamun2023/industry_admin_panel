@@ -129,16 +129,12 @@
                              @click.prevent="setStatus(1, null)">{{ $t('prod.set_online') }}</a>
                           <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                              @click.prevent="setStatus(0, null)">{{ $t('prod.set_offline') }}</a>
-                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                          <a v-if="openTab !== 'is_archived'" class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                              @click.prevent="setStatus(null, true)">{{ $t('prod.archived') }}</a>
+                          <a v-if="openTab === 'is_archived'" class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                             @click.prevent="statusUpdate(value.id, 'approved')">{{ $t('prod.back_to_approved') }}</a>
                         </ul>
                       </div>
-<!--                      <select v-if="actionCheck && openTab !== 'is_draft' &&  $store.state.admin.isVendor" class="border border-smooth p-3 rounded">-->
-<!--                        <option value="">{{ $t('prod.action') }}</option>-->
-<!--                        <option value="">Set Online</option>-->
-<!--                        <option value="">Set Offline</option>-->
-<!--                        <option value="">Archive</option>-->
-<!--                      </select>-->
                     </th>
                     <th>{{ $t('prod.pImgs') }}</th>
                     <th v-if="$store.state.admin.isSuperAdmin">{{ $t('prod.vendor_name') }}</th>
@@ -195,8 +191,17 @@
                       {{ value.updated }}
                     </td>
                     <td>
-                      {{ value.status }} <br>
-                      <span class="text-error cursor-pointer underline" @click="openModal(index)" v-if="value.status==='rejected'">show</span>
+                      <div class="flex">
+                        {{ value.status }}
+                        <div class="tooltip">
+                          <svg v-if="value.status==='rejected'" style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24" focusable="false" id="popover-trigger-64" aria-haspopup="dialog" aria-expanded="false" aria-controls="popover-content-64"><path fill="currentColor" d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"></path></svg>
+                          <span class="tooltiptext" style="width: 260px; margin-left: -100px">Click on this product to view why your product has been rejected and make edits accordingly.</span>
+                        </div>
+                      </div>
+                      <br>
+                      <span class="text-error cursor-pointer underline" @click="openModal(index)" v-if="value.status==='rejected'">
+                        show
+                      </span>
                       <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal" v-if="value.reject_reasons">
                         <div class="flex justify-between relative">
                             <h4>Rejection reasons</h4>
@@ -278,7 +283,7 @@
                             v-if="value.status === 'archived' && $store.state.admin.isVendor"
                             @click="statusUpdate(value.id, 'approved')"
                           >
-                            Back to Approved
+                            {{ $t('prod.back_to_approved') }}
                           </li>
 
 <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
@@ -497,5 +502,30 @@ export default {
 </script>
 
 <style scoped>
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
 
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
