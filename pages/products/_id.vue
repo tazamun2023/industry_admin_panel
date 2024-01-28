@@ -1418,6 +1418,18 @@ export default {
         this.hasError = true
         return false
       }
+      if(this.result.storage_temperature===0){
+        this.result.storage_temperature = null
+      }
+      if(this.result.brand_id===0){
+        this.result.brand_id = null
+      }
+      if(this.result.barcode_type===0){
+        this.result.barcode_type = null
+      }
+      if(this.result.unit_id===0){
+        this.result.unit_id = null
+      }
       this.checkForm()
 
     },
@@ -1427,6 +1439,15 @@ export default {
       this.result.status = 'draft'
       if(this.result.storage_temperature===0){
         this.result.storage_temperature = null
+      }
+      if(this.result.brand_id===0){
+        this.result.brand_id = null
+      }
+      if(this.result.barcode_type===0){
+        this.result.barcode_type = null
+      }
+      if(this.result.unit_id===0){
+        this.result.unit_id = null
       }
       if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
         this.hasError = true

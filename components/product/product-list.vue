@@ -108,14 +108,37 @@
                   <tr>
                     <th class="flex gap-4">
                       <input @click="actionCheckToggle()" id="allcheck" type="checkbox" @change="checkAll">
-                      <select v-if="actionCheck && openTab !== 'is_draft' &&  $store.state.admin.isVendor" class="border border-smooth p-3 rounded">
-                        <option value="">{{ $t('prod.action') }}</option>
-                        <option value="">Set out of stock</option>
-                        <option value="">Set in stock</option>
-                        <option value="">Set Online</option>
-                        <option value="">Set Offline</option>
-                        <option value="">Archive</option>
-                      </select>
+                      <button v-if="actionCheck && openTab !== 'is_draft' &&  $store.state.admin.isVendor"
+                              @click="toggleMultiDropdown"
+                              class="bg-blue-700 hover:bg-blue-800 relative font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
+                              type="button">
+                        {{ $t('prod.status') }}
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                             viewBox="0 0 10 6">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 4 4 4-4"/>
+                        </svg>
+                      </button>
+
+                      <!-- filter by status menu -->
+                      <div
+                        v-if="isMultiDropdownVisible"
+                           class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-[50px]">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                             @click.prevent="setStatus(1, null)">{{ $t('prod.set_online') }}</a>
+                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                             @click.prevent="setStatus(0, null)">{{ $t('prod.set_offline') }}</a>
+                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                             @click.prevent="setStatus(null, true)">{{ $t('prod.archived') }}</a>
+                        </ul>
+                      </div>
+<!--                      <select v-if="actionCheck && openTab !== 'is_draft' &&  $store.state.admin.isVendor" class="border border-smooth p-3 rounded">-->
+<!--                        <option value="">{{ $t('prod.action') }}</option>-->
+<!--                        <option value="">Set Online</option>-->
+<!--                        <option value="">Set Offline</option>-->
+<!--                        <option value="">Archive</option>-->
+<!--                      </select>-->
                     </th>
                     <th>{{ $t('prod.pImgs') }}</th>
                     <th v-if="$store.state.admin.isSuperAdmin">{{ $t('prod.vendor_name') }}</th>
@@ -195,7 +218,8 @@
                           </template>
                       </Modal>
                     </td>
-                    <td>{{ value.status }}</td>
+                    <td v-if="value.is_buyable">Online</td>
+                    <td v-else>Offline</td>
                     <td>
 
                       <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
@@ -309,6 +333,7 @@ export default {
   data() {
     return {
       modalVisible: false,
+      isMultiDropdownVisible: false,
       is_reject_modal: '',
       visibleDropdown: null,
       showTitleQtyMessage: null,
@@ -437,10 +462,31 @@ export default {
     toggleTabs: function (tab) {
       this.openTab = tab
     },
+    toggleMultiDropdown(){
+      this.isMultiDropdownVisible = !this.isMultiDropdownVisible;
+    },
     actionCheckToggle() {
       this.actionCheck = !this.actionCheck
     },
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
+    async setStatus(status = null, archived = null) {
+      // console.log(this.cbList)
+      let params = {};
+
+      if (status !== null) {
+        params = { set_status: status, product_ids: this.cbList };
+      } else if (archived !== null) {
+        params = { set_archived: archived, product_ids: this.cbList };
+      }
+
+      if (status !== null || archived !== null) {
+        const data = await this.setRequest({
+          params,
+          api: 'updateVisibility',
+        });
+        this.isMultiDropdownVisible = false;
+      }
+    },
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setRequest'])
 
   },
   mounted() {

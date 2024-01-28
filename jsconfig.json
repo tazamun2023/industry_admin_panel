@@ -210,6 +210,7 @@
     "getProductBySku": "product/sku",
     "setProduct": "product/action",
     "setRejectProduct": "product/reject",
+    "updateVisibility": "product/visibility",
     "setProductImage": "product/upload",
     "setProductImages": "product/upload-images",
     "deleteProductImage": "product/delete-image",

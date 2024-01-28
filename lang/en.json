@@ -214,6 +214,8 @@
     "name": "Name",
     "vendor_name": "Vendor Name",
     "hts_code": "HTS Code",
+    "set_online": "Set Online",
+    "set_offline": "Set Offline",
     "clear_filter": "Clear Filter",
     "write_group_name": "Write Group Name",
     "pending_approval": "Pending Approval",
