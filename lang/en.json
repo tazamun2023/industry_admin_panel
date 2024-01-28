@@ -193,6 +193,7 @@
     "visibility": "Visibility",
     "action": "Action",
     "download_rejection_reasons": "Download Rejection Reasons",
+    "download_rejection_products": "Download Rejection Products",
     "add_new_product": "Add New Product",
     "all_product": "All Product",
     "approved": "Approved",

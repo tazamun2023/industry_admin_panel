@@ -20,7 +20,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
           </svg>
-          {{ $t('prod.download_rejection_reasons') }}
+          {{ $t('prod.download_rejection_products') }}
         </button>
       </div>
       <div class="text-end" v-if="$store.state.admin.isVendor">
@@ -484,6 +484,7 @@ export default {
           api: 'updateVisibility',
         });
         this.isMultiDropdownVisible = false;
+        this.$router.go()
       }
     },
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setRequest'])
