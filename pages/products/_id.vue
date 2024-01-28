@@ -512,6 +512,7 @@
           </div>
         </div>
         <!-- ------------------------------------- -->
+        <upload-files @updateInput="saveAttachment"></upload-files>
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
         <div class="tab-sidebar p-3" v-if="!is_variant">
@@ -1032,6 +1033,8 @@
                   </div>
                 </div>
               </div>
+            </div>
+
               <div class="pt-20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button type="button"
                         class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary  sm:ml-3 sm:w-auto">
@@ -1652,7 +1655,10 @@ export default {
         this.result.additional_details_row.splice(index, 1);
       }
     },
-
+    saveAttachment(images) {
+      // this.result.rfq_attachments = rfq_attachments
+      this.result.product_images = images
+    },
     removePriceingRows(index) {
       console.log(index)
       if (index != 0) {
