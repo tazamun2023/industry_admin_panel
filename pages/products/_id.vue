@@ -10,9 +10,10 @@
       </div>
 
       <div class="input-wrapper p-3" v-if="!id">
-        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone" v-model="is_clone" @click.prevent="isClone"/>
+        <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
+               v-model="is_clone" @click.prevent="isClone"/>
         <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
-        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;" >Clone from
+        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;">Clone from
           existing product</strong></label>
       </div>
 
@@ -20,13 +21,13 @@
         <div class="input-wrapper">
           <label for="name">Clone All Data From Existing Product Using Product SKU Code.</label>
 
-<!--          <input class="form-control required" placeholder="Product SKU" type="text" v-model="search_sku" @keypress="onlyNumber" @keyup.prevent.enter="findSku">-->
-<!--          <product-search2-->
-<!--            ref="productSearch"-->
-<!--            @product-clicked="cloneProduct"-->
-<!--          />-->
+          <!--          <input class="form-control required" placeholder="Product SKU" type="text" v-model="search_sku" @keypress="onlyNumber" @keyup.prevent.enter="findSku">-->
+          <!--          <product-search2-->
+          <!--            ref="productSearch"-->
+          <!--            @product-clicked="cloneProduct"-->
+          <!--          />-->
           <div
-               class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
+            class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
             <product-search
               ref="productSearch"
               @product-clicked="cloneProduct"
@@ -183,18 +184,24 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1" @change="isAttr($event, 'color')">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
+                          @change="isAttr($event, 'color')">
                     <option selected>Select attribute 1</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr2">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index"
+                            :disabled="item === select_attr2">{{ item }}
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2" @change="isAttr($event, 'size')">
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
+                          @change="isAttr($event, 'size')">
                     <option selected>Select attribute 2</option>
-                    <option v-for="(item, index) in product_variant_type" :key="index" :disabled="item === select_attr1">{{ item }}</option>
+                    <option v-for="(item, index) in product_variant_type" :key="index"
+                            :disabled="item === select_attr1">{{ item }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -206,17 +213,27 @@
             <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr1 === 'color' && select_attr2 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title??item.name }}</option>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                          v-if="select_attr1 === 'color' && select_attr2 === 'size'">
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                        item.title ?? item.name
+                      }}
+                    </option>
                   </select>
-                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                         v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
                 </div>
               </div>
-              <div class="col-md-4" >
-                <div class="form-group"  :class="{ invalid: variant.value }">
-                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value" v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
-                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name" v-if="select_attr2 === 'color' && select_attr1 === 'size'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{ item.title ??item.name }}</option>
+              <div class="col-md-4">
+                <div class="form-group" :class="{ invalid: variant.value }">
+                  <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                         v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                  <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                          v-if="select_attr2 === 'color' && select_attr1 === 'size'">
+                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                        item.title ?? item.name
+                      }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -303,10 +320,10 @@
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
         <div class="tab-sidebar p-3" v-if="!is_variant">
-<!--          <div class="flex pl-4">-->
-<!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
-<!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
-<!--          </div>-->
+          <!--          <div class="flex pl-4">-->
+          <!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
+          <!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
+          <!--          </div>-->
           <div class="input-wrapper">
             <label class="pl-4 pt-0 fw-bold">
               Add images and videos of your product to engage customers. <br>
@@ -363,7 +380,8 @@
           </div>
           <div class="input-wrapper">
             <label for="">Available quantity ?</label>
-            <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber">
+            <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber"
+                   @input="availableQuantity">
             <label>Minimum order quantity: 1</label>
           </div>
         </div>
@@ -626,6 +644,8 @@
                     placeholder="Enter Quantity"
                     @keypress="onlyNumber"
                     v-model="product_price.quantity"
+                    @input="stockCheck(index)"
+                    :class="{invalid: hasError}"
                   >
                 </td>
                 <td class="p-2">
@@ -657,7 +677,9 @@
 
               </tbody>
             </table>
-            <button class="btn btn-link fw-bold" @click.prevent="addPriceingRows()">+ ADD TIER</button>
+            <button v-if="result.product_prices.length <= 2" class="btn btn-link fw-bold"
+                    @click.prevent="addPriceingRows()">+ ADD TIER
+            </button>
           </div>
         </div>
         <!-- ----------------- -->
@@ -692,6 +714,7 @@
               <div class="input-wrapper">
                 <label for="">Availability</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                        disabled
                         :class="{invalid: !is_draft && (result.is_availability===null) && hasError}"
                         v-model="result.is_availability">
                   <option value="1">In Stock</option>
@@ -769,7 +792,8 @@
           <div class="input-wrapper">
 
             <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
-              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text" v-model="item.name">
+              <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
+                     v-model="item.name">
               <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
               <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
                       v-if="index!=0"
@@ -803,63 +827,6 @@
           </div>
         </div>
       </form>
-      <!-- -----------------------modal----------------------- -->
-      <div v-if="uploadModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-
-            <div
-              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-              <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                <div class="sm:items-start">
-                  <div class="mt-3 ">
-                    <div class="flex justify-between pb-20 title">
-                      <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Please choose a new
-                        product creation option</h3>
-                      <svg @click.prevent="uploadModalToggle()"
-                           class="w-4 h-4  cursor-pointer text-gray-800  mt-2"
-                           aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                      </svg>
-                    </div>
-                    <div class="mt-2">
-                      <div class="flex w-full py-4 items-center justify-center bg-grey-lighter">
-                        <label
-                          class="w-64 flex flex-col items-center px-4 py-2 bg-white text-primary rounded-lg shadow tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
-                          <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                               viewBox="0 0 20 20">
-                            <path
-                              d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z"/>
-                          </svg>
-                          <span class="mt-2 text-base leading-normal">Select a file</span>
-                          <input type='file' class="hidden"/>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-              <div class="pt-20 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button"
-                        class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary  sm:ml-3 sm:w-auto">
-                  Upload
-                </button>
-                <button @click.prevent="uploadModalToggle()" type="button"
-                        class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ------------------------------------- -->
     </div>
 
   </div>
@@ -951,16 +918,16 @@ export default {
         "color": "color",
         "size": "size",
       },
-      additional_details:{
+      additional_details: {
         "name": "",
         "value": "",
       },
+      min_qty: null,
       result: {
         hts_code: '',
         clone_products: [],
         unit_id: 9,
-        product_variants: [
-        ],
+        product_variants: [],
         features: [
           {"ar": "", "en": ""},
         ],
@@ -1140,10 +1107,21 @@ export default {
   },
 
   computed: {
+    isAvailability() {
+      if (this.min_qty === this.result.available_quantity) {
+        this.result.is_availability = 1;
+      } else if (this.min_qty > this.result.available_quantity) {
+        this.result.is_availability = 0;
+      } else {
+        this.result.is_availability = 1;
+      }
+    },
     isInvalidQuantity() {
       return (index) => {
         const currentQuantity = parseFloat(this.result.pp_quantity[index]);
         const firstQuantity = parseFloat(this.result.pp_quantity[index - 1]);
+        console.log('currentQuantity', currentQuantity)
+        console.log('firstQuantity', firstQuantity)
         return currentQuantity <= firstQuantity && this.hasError;
       };
     },
@@ -1176,8 +1154,8 @@ export default {
     },
     async isCloning() {
       // console.log(this.search_sku)
-      if (this.$route?.params?.id==='clone'){
-        let sku =  this.$route.query.sku
+      if (this.$route?.params?.id === 'clone') {
+        let sku = this.$route.query.sku
       }
     },
     currencyIcon() {
@@ -1190,8 +1168,40 @@ export default {
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
+  watch: {
+
+    // 'result.product_prices': {
+    //   handler: 'compareMethods',
+    //   deep: true,
+    // },
+    // 'result.available_quantity': 'compareMethods',
+  },
 
   methods: {
+    compareMethods() {
+      if (this.min_qty === this.result.available_quantity) {
+        this.result.is_availability = 1;
+      } else if (this.min_qty > this.result.available_quantity) {
+        this.result.is_availability = 0;
+      } else {
+        this.result.is_availability = 1;
+      }
+
+    },
+    stockCheck(index=null) {
+      // let last = this.result.product_prices[index] -1
+      // let curr = this.result.product_prices[index]
+      // if (last.quantity==curr.quantity){
+      //   console.log(last.quantity===curr.quantity)
+      //   this.hasError = true
+      // }
+      this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
+      this.compareMethods()
+    },
+    availableQuantity() {
+      // const ava_qty = this.result.available_quantity;
+      this.compareMethods()
+    },
     tableNotShow() {
       this.tableShow = false;
       this.uploadNewText = true;
@@ -1202,18 +1212,22 @@ export default {
     },
 
     cloneProduct(product) {
-    console.log(product)
+      console.log(product)
       console.log('product', product)
       // this.id=product.id
-      this.fetchingData(product.id).then(()=>{
-        this.is_clone=false
-        this.result.id=""
+      this.fetchingData(product.id).then(() => {
+        this.is_clone = false
+        this.result.id = ""
       })
     },
-    async findSku(){
+    async findSku() {
       try {
         this.loading = true
-        var res = Object.assign({}, await this.getById({id: this.id, params: {sku: this.search_sku}, api: 'getProductBySku'}))
+        var res = Object.assign({}, await this.getById({
+          id: this.id,
+          params: {sku: this.search_sku},
+          api: 'getProductBySku'
+        }))
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -1222,20 +1236,22 @@ export default {
     doSubmitVariant() {
       this.result.is_variant = true;
 
-      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfIsDraft.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
-      if(this.result.storage_temperature===0){
+      if (this.result.storage_temperature === 0) {
         this.result.storage_temperature = null
       }
-      if(this.result.brand_id===0){
+      if (this.result.brand_id === 0) {
         this.result.brand_id = null
       }
-      if(this.result.barcode_type===0){
+      if (this.result.barcode_type === 0) {
         this.result.barcode_type = null
       }
-      if(this.result.unit_id===0){
+      if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
       this.checkForm()
@@ -1245,19 +1261,21 @@ export default {
       this.is_draft = true;
       this.result.is_draft = true;
       this.result.status = 'draft'
-      if(this.result.storage_temperature===0){
+      if (this.result.storage_temperature === 0) {
         this.result.storage_temperature = null
       }
-      if(this.result.brand_id===0){
+      if (this.result.brand_id === 0) {
         this.result.brand_id = null
       }
-      if(this.result.barcode_type===0){
+      if (this.result.barcode_type === 0) {
         this.result.barcode_type = null
       }
-      if(this.result.unit_id===0){
+      if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
-      if(this.validationKeysIfIsDraft.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfIsDraft.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
@@ -1269,20 +1287,22 @@ export default {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      if(this.validationKeysIfNotVariant.findIndex((i) => { return (!this.result[i]) }) > -1){
+      if (this.validationKeysIfNotVariant.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
         this.hasError = true
         return false
       }
-      if(this.result.storage_temperature===0){
+      if (this.result.storage_temperature === 0) {
         this.result.storage_temperature = null
       }
-      if(this.result.brand_id===0){
+      if (this.result.brand_id === 0) {
         this.result.brand_id = null
       }
-      if(this.result.barcode_type===0){
+      if (this.result.barcode_type === 0) {
         this.result.barcode_type = null
       }
-      if(this.result.unit_id===0){
+      if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
       this.result.status = 'pending'
@@ -1450,12 +1470,6 @@ export default {
     addPriceingRows() {
       try {
         this.result.product_prices.push(Object.assign({}, this.product_price))
-        // let index = 0;  // Adjust index based on zero-based indexing
-        // if (index < this.result.PriceingRows.length) {
-        //   this.result.PriceingRows.splice(this.result.PriceingRows.length + 1, 1, {});  // Add a new row
-        // } else {
-        //   console.error('Index out of bounds.');  // Log an error if index is out of bounds
-        // }
       } catch (e) {
         console.log(e);
       }
@@ -1779,16 +1793,20 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
-          product_variants: res.product_variant?.map(item => ({name: item.name, value: item.value, product_id: item.product_id})),
+          product_variants: res.product_variant?.map(item => ({
+            name: item.name,
+            value: item.value,
+            product_id: item.product_id
+          })),
           PriceingRows: res.product_prices,
-          is_variant: res.product_variant.length!=0?true:false,
+          is_variant: res.product_variant.length != 0 ? true : false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res.hts_code,
 
         }
 
-        this.select_attr1= 'color';
-        this.select_attr2= 'size';
+        this.select_attr1 = 'color';
+        this.select_attr2 = 'size';
         // this.result.PriceingRows = res.product_prices
         // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
         if (res.product_variant?.length != 0) {
@@ -1947,6 +1965,7 @@ export default {
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
+    this.compareMethods();
     this.selectedAttribute1 = 'color';
     this.selectedAttribute2 = 'size';
     if (this.allCategoriesTree.length == 0) {
