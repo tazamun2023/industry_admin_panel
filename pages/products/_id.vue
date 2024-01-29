@@ -332,6 +332,37 @@
               and allowed video extensions are (mp4, mpeg and webp)
             </label>
           </div>
+          <table class="table mb-0">
+            <tbody>
+            <tr v-for="(image, index) in result.images" :key="index">
+              <td style="width:20px">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck2">
+                  <label class="custom-control-label" for="customCheck2"></label>
+                </div>
+              </td>
+              <td style="width:60%">
+                <div class="media">
+                  <lazy-image
+                    class="mr-20"
+                    :data-src="image.url"
+                    :alt="image.file_name"
+                  />
+                  <div class="media-body">
+                    <h6 class="mt-0 mb-0  text-xs">{{  image.file_name }}</h6>
+                    <span class="text-muted  text-xs">Image</span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-xs">Group Name</td>
+              <td><span class="text-xs">1/3/2024, 2:38:20 PM</span></td>
+              <td>
+                  <svg viewBox="0 0 20 21" focusable="false" class="chakra-icon css-yr5k1h" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+<!--          <img :src="result.images" alt="">-->
           <upload-files @updateInput="saveAttachment"></upload-files>
         </div>
         <!-- ------------------------------------- -->
@@ -645,7 +676,7 @@
                     @keypress="onlyNumber"
                     v-model="product_price.quantity"
                     @input="stockCheck(index)"
-                    :class="{invalid: hasError}"
+                    :class="{invalid: hasErrorQty}"
                   >
                 </td>
                 <td class="p-2">
@@ -1056,7 +1087,7 @@ export default {
         meta_description: '',
         flash_sale_product: '',
         meta_title: '',
-        image: '',
+        images: '',
         slug: '',
         video: '',
         product_images: [],
@@ -1076,6 +1107,7 @@ export default {
         variantSize: [],
       },
       hasError: false,
+      hasErrorQty: false,
       loading: false,
       formSubmitting: false,
       redirect: false,
@@ -1107,24 +1139,35 @@ export default {
   },
 
   computed: {
-    isAvailability() {
-      if (this.min_qty === this.result.available_quantity) {
-        this.result.is_availability = 1;
-      } else if (this.min_qty > this.result.available_quantity) {
-        this.result.is_availability = 0;
-      } else {
-        this.result.is_availability = 1;
-      }
-    },
-    isInvalidQuantity() {
-      return (index) => {
-        const currentQuantity = parseFloat(this.result.pp_quantity[index]);
-        const firstQuantity = parseFloat(this.result.pp_quantity[index - 1]);
-        console.log('currentQuantity', currentQuantity)
-        console.log('firstQuantity', firstQuantity)
-        return currentQuantity <= firstQuantity && this.hasError;
-      };
-    },
+
+//     isInvalidQuantity() {
+// //       if (parseInt(this.product_prices[0].quantity) < parseInt(this.product_prices[1].quantity)) {
+// //         console.log("1st object's quantity is less than 2nd object");
+// //       } else {
+// //         console.log("1st object's quantity is NOT less than 2nd object");
+// //       }
+// //
+// // // Check if the 3rd object's quantity is greater than the 2nd object
+// //       if (parseInt(this.product_prices[2].quantity) > parseInt(this.product_prices[1].quantity)) {
+// //         console.log("3rd object's quantity is greater than 2nd object");
+// //       } else {
+// //         console.log("3rd object's quantity is NOT greater than 2nd object");
+// //       }
+//
+//       // return (index) => {
+//       //   const currentQuantity = parseFloat(this.result.pp_quantity[index]);
+//       //   const firstQuantity = parseFloat(this.result.pp_quantity[index - 1]);
+//       //   console.log('currentQuantity', currentQuantity)
+//       //   console.log('firstQuantity', firstQuantity)
+//       //   return currentQuantity <= firstQuantity && this.hasError;
+//       // };
+//
+//       // return (index) => {
+//       //   const firstQty = parseInt(this.product_prices[0].quantity;
+//       //   const secondQty = parseInt(this.product_prices[1].quantity;
+//       //   const thirdQty = parseInt(this.product_prices[1].quantity;
+//       // }
+//     },
     productCategories() {
       return this.result.product_categories
     },
@@ -1189,14 +1232,25 @@ export default {
 
     },
     stockCheck(index=null) {
-      // let last = this.result.product_prices[index] -1
-      // let curr = this.result.product_prices[index]
-      // if (last.quantity==curr.quantity){
-      //   console.log(last.quantity===curr.quantity)
-      //   this.hasError = true
-      // }
       this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
-      this.compareMethods()
+      this.compareMethods();
+
+      const firstQty = parseInt(this.result.product_prices[0]?.quantity);
+      const secondQty = parseInt(this.result.product_prices[1]?.quantity);
+      const thirdQty = parseInt(this.result.product_prices[2]?.quantity);
+
+      if (firstQty && secondQty) {
+        if (firstQty > secondQty) {
+          this.hasErrorQty = index
+        }
+      }
+
+      if (secondQty && thirdQty) {
+        if (secondQty > firstQty && thirdQty > secondQty) {
+          this.hasError = true
+        }
+      }
+
     },
     availableQuantity() {
       // const ava_qty = this.result.available_quantity;
@@ -1327,10 +1381,6 @@ export default {
         $event.preventDefault();
       }
     },
-    handleQuantityInput(event, index) {
-      this.updatePriceQty('qty', event, index);
-      // Add any additional logic related to handling quantity input
-    },
 
     updateBrand(event) {
       this.result.brand_id = event.target.value;
@@ -1338,49 +1388,6 @@ export default {
     updateSizeUnit(event) {
       console.log(event.target.value)
       this.result.pk_size_unit = event.target.value;
-    },
-
-    updateVariantUnitOfMeasure(event) {
-      console.log(event.target.value)
-      this.result.variant_unit_of_measure = event.target.value;
-    },
-    async categorySlug() {
-      let main_category = this.selectedLevel1.id;
-      let sub_category = this.selectedLevel2.id;
-      let child_category = this.selectedLevel3.id;
-      if (main_category) {
-        // const main_category_slug = this.getRequest({params: {q: main_category}, api: 'getCategoryBySlug'})
-        const data = await this.getRequest({params: {q: this.result.selectedMainCategory}, api: 'getCategoryBySlug'})
-        this.result.mainCategorySlug = data.slug
-        // console.log(data)
-      }
-      if (sub_category) {
-        const data = await this.getRequest({params: {q: this.result.selectedSubCategory}, api: 'getCategoryBySlug'})
-        this.result.subCategorySlug = data.slug
-      }
-      if (child_category) {
-        const data = await this.getRequest({params: {q: this.result.selectedChildCategory}, api: 'getCategoryBySlug'})
-        this.result.childCategorySlug = data.slug
-      }
-
-      return this.result.mainCategorySlug + '/' + this.result.subCategorySlug + '/' + this.result.childCategorySlug;
-    },
-    async updateSubCategories() {
-      this.categorySlug();
-      // getRequest({rootState, commit, dispatch}, {params, api})
-      const data = await this.getRequest({params: {q: this.result.selectedMainCategory}, api: 'findAllSubCategories'})
-      this.subCategories = data
-
-    },
-    async updateChildCategories(event) {
-      this.categorySlug();
-      this.result.selectedSubCategory = event.target.value;
-      const data = await this.getRequest({params: {q: this.result.selectedSubCategory}, api: 'findAllSubCategories'})
-      this.childCategories = data
-    },
-    async updateChilCategoriesSlug(event) {
-      const data = await this.getRequest({params: {q: this.result.selectedChildCategory}, api: 'getCategoryBySlug'})
-      this.result.childCategorySlug = data.slug
     },
 
     productIdentifiersType(event, attributeNumber) {
@@ -1732,7 +1739,7 @@ export default {
           selling: res.selling,
           purchased: res.selling,
           offered: res.offered,
-          image: res.image,
+          images: res.images,
           video: res.video,
           status: res.status,
           /*Basic Information*/
@@ -1803,8 +1810,9 @@ export default {
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res.hts_code,
 
-        }
 
+        }
+        this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.select_attr1 = 'color';
         this.select_attr2 = 'size';
         // this.result.PriceingRows = res.product_prices
@@ -1965,7 +1973,13 @@ export default {
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
-    this.compareMethods();
+    if (this.min_qty === this.result.available_quantity) {
+      this.result.is_availability = 1;
+    } else if (this.min_qty > this.result.available_quantity) {
+      this.result.is_availability = 0;
+    } else {
+      this.result.is_availability = 1;
+    }
     this.selectedAttribute1 = 'color';
     this.selectedAttribute2 = 'size';
     if (this.allCategoriesTree.length == 0) {

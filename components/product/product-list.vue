@@ -204,23 +204,23 @@
                       </span>
                       <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal" v-if="value.reject_reasons">
                         <div class="flex justify-between relative">
-                            <h4>Rejection reasons</h4>
+                          <h4><strong>Rejection reasons</strong></h4>
 
                           </div>
                           <div class="mb-4 mt-10">
                             <slot>
                               <div v-for="(reject_reason_item, index) in value.reject_reasons">
-                                <p><strong>{{ translateRejectReason(reject_reason_item.name)}}</strong></p>
+                                <p class="capitalize"><strong>{{ translateRejectReason(reject_reason_item.name)}}</strong></p>
                                 <ul>
                                   <li class="block py-2 mx-3">{{ translateRejectReason(reject_reason_item.description) }} </li>
                                 </ul>
                               </div>
                             </slot>
                           </div>
-                          <template v-slot:buttons>
-                            <button @click="closeModal" class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Close Modal</button>
-                            <!-- Your Submit button or other buttons go here -->
-                          </template>
+<!--                          <template v-slot:buttons>-->
+<!--                            <button @click="closeModal" class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Close Modal</button>-->
+<!--                            &lt;!&ndash; Your Submit button or other buttons go here &ndash;&gt;-->
+<!--                          </template>-->
                       </Modal>
                     </td>
                     <td v-if="value.is_buyable">Online</td>
