@@ -65,7 +65,7 @@
             <label class="w-full" for="mainCategory">Select Unit</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
                     v-model="result.unit">
-              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
+              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
             </select>
           </div>
           <!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
@@ -160,7 +160,7 @@
           <div class="form-group input-wrapper for-lang ar-lang">
             <label class="w-full" for="name">Unit of measure</label>
             <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
-              <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.title }}</option>
+              <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.name }}</option>
             </select>
           </div>
         </div>
@@ -261,10 +261,10 @@
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
               <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">
-                SAVE
+                Send for review
               </button>
-              <button type="button" class="btn  border-secondary">
-                <span>RESET</span>
+              <button type="button" class="btn  border-secondary" @click.prevent="doDraft">
+                <span>Save Draft</span>
               </button>
               <button type="button" class="btn bg-light">
                 <nuxt-link :to="`/products`">CANCEL</nuxt-link>
@@ -334,10 +334,10 @@
           </div>
           <table class="table mb-0">
             <tbody>
-            <tr v-for="(image, index) in result.images" :key="index">
+            <tr v-if="isThumb">
               <td style="width:20px">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="customCheck2">
+                  <input type="radio" checked class="custom-control-input" id="customCheck2">
                   <label class="custom-control-label" for="customCheck2"></label>
                 </div>
               </td>
@@ -345,7 +345,34 @@
                 <div class="media">
                   <lazy-image
                     class="mr-20"
-                    :data-src="image.url"
+                    :data-src="getThumb(isThumb)"
+                    :alt="isThumb"
+                  />
+                  <div class="media-body">
+                    <h6 class="mt-0 mb-0  text-xs">Thumbnail</h6>
+                    <span class="text-muted  text-xs">Image</span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-xs">
+                <button disabled type="button" class="btn bg-primary text-white">Thumbnail</button>
+              </td>
+              <td><span class="text-xs"></span></td>
+              <td>
+                <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </td>
+            </tr>
+            <tr v-for="(image, index) in result.images" :key="index">
+              <td style="width:20px">
+                <div class="custom-control custom-checkbox">
+                  <label class="custom-control-label" for="customCheck2"></label>
+                </div>
+              </td>
+              <td style="width:60%">
+                <div class="media">
+                  <lazy-image
+                    class="mr-20"
+                    :data-src="image.image"
                     :alt="image.file_name"
                   />
                   <div class="media-body">
@@ -354,10 +381,13 @@
                   </div>
                 </div>
               </td>
-              <td class="text-xs">Group Name</td>
-              <td><span class="text-xs">1/3/2024, 2:38:20 PM</span></td>
+              <td class="text-xs">
+                <input type="radio" class="custom-control-input" id="customCheck2" @click.prevent="setThumb(image.url)">
+<!--                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>-->
+              </td>
+              <td><span class="text-xs">{{ image.upload_time }}</span></td>
               <td>
-                  <svg viewBox="0 0 20 21" focusable="false" class="chakra-icon css-yr5k1h" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21" focusable="false" class="cursor-pointer" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
               </td>
             </tr>
             </tbody>
@@ -376,8 +406,7 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
-                      :class="{invalid: !is_draft && (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
-                      @change="productIdentifiersType($event)" v-model="result.barcode_type">
+                      :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}" v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
               </select>
@@ -385,14 +414,14 @@
             <div class="form-group input-wrapper mt-3 mt-sm-0">
               <label>Barcode</label>
               <input type="text" class="form-control" v-model="result.barcode"
-                     :class="{invalid: !is_variant && !result.barcode_type && hasError}"
+                     :class="{invalid: !is_variant && result.barcode===null && hasError}"
                      placeholder="Please enter barcode number"
-                     :disabled="!result.barcode_type">
+                     :readonly="result.barcode_type==0">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
-              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :disabled="!is_barcode"
-                     :class="{invalid: !is_draft && (!result.sku) && hasError}"
+              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :readonly="result.barcode_type==0"
+                     :class="{invalid: !is_draft && result.sku===null && hasError}"
               >
             </div>
           </div>
@@ -434,7 +463,7 @@
                           :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
                   >
                     <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -500,7 +529,7 @@
                           v-model="result.pc_weight_unit_id">
                     <!--                  <option value="0">Select</option>-->
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -520,7 +549,7 @@
                           :class="{invalid: !is_draft && (result.pc_length_unit_id===null) && hasError}"
                           v-model="result.pc_length_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -541,7 +570,7 @@
                           :class="{invalid: !is_draft && (result.pc_height_unit_id===null) && hasError}"
                           v-model="result.pc_height_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -562,7 +591,7 @@
                           :class="{invalid: !is_draft && (result.pc_width_unit_id===null) && hasError}"
                           v-model="result.pc_width_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -590,7 +619,7 @@
                 <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
                         :class="{invalid: !is_draft && (result.pdime_weight_unit_id === null) && hasError}"
                         v-model="result.pdime_weight_unit_id">
-                  <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.title }}</option>
+                  <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.name }}</option>
                 </select>
               </div>
             </div>
@@ -629,7 +658,7 @@
               <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       :class="{invalid: !is_draft && (result.pdime_dimention_unit ===null) && hasError}"
                       v-model="result.pdime_dimention_unit">
-                <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.title }}</option>
+                <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.name }}</option>
               </select>
             </div>
           </div>
@@ -647,7 +676,7 @@
                       :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"
                       v-model="result.unit_id">
                 <option value="0">Unit</option>
-                <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
+                <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
               </select>
             </div>
           </div>
@@ -897,6 +926,8 @@ export default {
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
+      isThumb: null,
+      isFirstThumb: null,
       openTab: 1,
       uploadModal: false,
       is_clone: false,
@@ -1002,7 +1033,7 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: 0,
         stock_location: 1,
-        country_of_origin: 186,
+        country_of_origin: 193,
         /*Shipping details*/
         /*Product Identifiers*/
         barcode_type: 0,
@@ -1138,6 +1169,7 @@ export default {
     LangInput
   },
 
+
   computed: {
 
 //     isInvalidQuantity() {
@@ -1212,12 +1244,7 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
-
-    // 'result.product_prices': {
-    //   handler: 'compareMethods',
-    //   deep: true,
-    // },
-    // 'result.available_quantity': 'compareMethods',
+    // getThumb(isThumb)
   },
 
   methods: {
@@ -1696,6 +1723,40 @@ export default {
     redirectingEnable(buttonType) {
       this.redirect = buttonType === 'save'
     },
+
+    async deleteImage(url){
+      this.loading = true
+      try {
+        // await this.deleteData({params: this.id, url: url, api: 'deleteProductImage'})
+        const data = await this.setById({id: this.id, params: {url: url}, api: 'deleteProductMediaImage'})
+        if (data){
+          await this.fetchingData(this.id)
+        }
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.loading = false
+      console.log(url)
+    },
+    getThumb(url){
+      return url
+    },
+    async setThumb(url){
+      this.loading = true
+      try {
+        const data = await this.setById({id: this.id, params: {url: url}, api: 'setProductThumbImage'})
+        if (data){
+          await this.fetchingData(this.id)
+          console.log(this.result)
+          // this.isThumb = result.thumb_image
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.loading = false
+      console.log(url)
+    },
     async checkForm() {
 
       // this.redirectingEnable(event.submitter.name)
@@ -1812,6 +1873,9 @@ export default {
 
 
         }
+        this.isThumb = res.thumb_image;
+        this.isFirstThumb = res.first_thumb_image;
+        this.result.images = res.images
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.select_attr1 = 'color';
         this.select_attr2 = 'size';
@@ -1973,6 +2037,7 @@ export default {
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
+    this.getThumb(this.isThumb)
     if (this.min_qty === this.result.available_quantity) {
       this.result.is_availability = 1;
     } else if (this.min_qty > this.result.available_quantity) {

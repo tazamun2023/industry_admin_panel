@@ -162,7 +162,7 @@
                       >
                         <lazy-image
                           class="mr-20"
-                          :data-src="value.image[0]"
+                          :data-src="setThumbImage(value.thumb_image, value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
                       </nuxt-link>
@@ -414,6 +414,15 @@ export default {
         this.visibleDropdown = null
         // window.location.reload()
       })
+    },
+
+    setThumbImage(thumb_url, url){
+      if (thumb_url !== null){
+        return thumb_url;
+      }else {
+        //if no thumb set then 1st image thumb
+        return url;
+      }
     },
 
     async updateQty(id, event) {
