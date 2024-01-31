@@ -184,7 +184,7 @@
                       <input type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber"
                              @focusout="updateQty(value.id, $event)">
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:
-                        {{ value.minOrderQuantity[0]?.min_quantity }}</p>
+                        {{ value.minOrderQuantity?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>
                     </td>
                     <td>{{ value.created }}<br>

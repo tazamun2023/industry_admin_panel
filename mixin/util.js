@@ -240,7 +240,10 @@ export default {
       if (!image) {
         image = this.defaultImage
       }
+
       return this.$store.state.imgSrcUrl + image
+
+      // return image.url
     },
     getThumbImageURL(image) {
 
