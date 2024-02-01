@@ -175,30 +175,29 @@
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
                    @click.prevent="isVariant"/>
             <label class="form-check-label" for="flexCheckDefault">
-              This product has options, like size or color
+              This product has options, like size or color {{ result.variants_type }}
             </label>
           </div>
           <div class="card-body mt-10" v-if="is_variant">
 
             <div class="grid grid-cols-3 gap-4 pt-4">
-
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
                           @change="isAttr($event, 'color')">
-                    <option selected>Select attribute 1</option>
+                    <option value="0">Select attribute 1</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr2">{{ item }}
                     </option>
                   </select>
                 </div>
-              </div>
+                </div>
 
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
                           @change="isAttr($event, 'size')">
-                    <option selected>Select attribute 2</option>
+                    <option value="0">Select attribute 2</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr1">{{ item }}
                     </option>
@@ -214,22 +213,22 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
-                          v-if="select_attr1 === 'color' && select_attr2 === 'size'">
+                          v-if="select_attr1 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{
                         item.title ?? item.name
                       }}
                     </option>
                   </select>
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                         v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
+                         v-if="select_attr1 === 'size'"/>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group" :class="{ invalid: variant.value }">
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                         v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                         v-if="select_attr2 === 'size'"/>
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
-                          v-if="select_attr2 === 'color' && select_attr1 === 'size'">
+                          v-if="select_attr2 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{
                         item.title ?? item.name
                       }}
@@ -251,7 +250,7 @@
 
             <div>
               <div class="col-md-4 pt-4">
-                <button type="button" @click.prevent="addVariantValueRows()"
+                <button :disabled="select_attr1===0 && select_attr2===0" type="button" @click.prevent="addVariantValueRows()"
                         class="btn mb-10 w-25 btn-outline-secondary">
                   Add Row
                 </button>
@@ -260,8 +259,11 @@
 
             <hr class="border-smooth">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">
-                Send for review
+<!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
+<!--                Send for review-->
+<!--              </button>-->
+              <button type="button" class="btn text-white bg-primary" @click.prevent="doVariantSave">
+                Save
               </button>
               <button type="button" class="btn  border-secondary" @click.prevent="doDraft">
                 <span>Save Draft</span>
@@ -933,6 +935,7 @@ export default {
       is_clone: false,
       is_variant: false,
       is_draft: false,
+      pv_type: false,
       isColor: false,
       isSize: false,
       licence: null,
@@ -945,8 +948,8 @@ export default {
       tableShow: false,
       clone_product: null,
       uploadNewText: false,
-      select_attr1: '',
-      select_attr2: '',
+      select_attr1: 0,
+      select_attr2: 0,
 
       productFormOpen: true,
       showCategories: false,
@@ -989,6 +992,7 @@ export default {
         hts_code: '',
         clone_products: [],
         unit_id: 9,
+        variants_type: [],
         product_variants: [],
         features: [
           {"ar": "", "en": ""},
@@ -1313,6 +1317,17 @@ export default {
         return this.$nuxt.error(e)
       }
     },
+    doNext(){
+
+    },
+
+    pvTypeToggle(){
+      this.pv_type = !this.pv_type;
+    },
+
+    doVariantSave(){
+
+    },
 
     doSubmitVariant() {
       this.result.is_variant = true;
@@ -1568,13 +1583,19 @@ export default {
 
     isAttr(event, attributeType) {
       const value = String(event.target.value);
-      console.log(value);
-      console.log(this.product_variant_type[value]);
+      //backend need check
+      this.result.variants_type = [
+        (this.select_attr1 === 'color' || this.select_attr1 === 'size') ? this.select_attr1 : null,
+        (this.select_attr2 === 'color' || this.select_attr2 === 'size') ? this.select_attr2 : null
+      ].filter(value => value !== null);
+
 
       if (attributeType === 'color') {
         this.disableAttribute2 = value === 'color';
       } else if (attributeType === 'size') {
         this.disableAttribute1 = value === 'size';
+      }else {
+        this.result.variants_type=[]
       }
     },
 
