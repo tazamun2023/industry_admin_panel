@@ -119,30 +119,19 @@
             </div>
           </div>
 
+          <div class="input-wrapper mb-10" v-if="is_variant">
+            <label for="">{{ $t('prod.parent_sku') }}</label>
+            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')" type="text" v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
+          </div>
+
           <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                       @updateInput="updateInput"></lang-input>
 
-          <lang-input :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
+          <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
-          <!--        -->
-          <!--        <div class="form-group input-wrapper mb-10 for-lang ar-lang">-->
-          <!--          <label for="name">Product name - English ?</label>-->
-          <!--          <input class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
-          <!--        </div>-->
-          <!--        <div class="form-group  input-wrapper mb-10  for-lang ar-lang">-->
-          <!--          <label for="name">Product name - Arabic(optional)?</label>-->
-          <!--          <input dir="rtl" class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
-          <!--        </div>-->
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
             <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
-            <!--          <dropdown-->
-            <!--            v-if="allBrands"-->
-            <!--            :default-null="true"-->
-            <!--            :selectedKey="result.brand_id"-->
-            <!--            :options="allBrands"-->
-            <!--            @clicked="brandSelected"-->
-            <!--          />-->
 
             <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
                     :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
@@ -171,16 +160,16 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
           <div class="form-check">
             <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                   v-model="is_variant" @click.prevent="isVariant"/>
+                   v-model="is_variant" @click.prevent="isVariant" :disabled="is_variant_save" :style="is_variant_save?'cursor: not-allowed':''"/>
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
-                   @click.prevent="isVariant"/>
+                   @click.prevent="isVariant"  :class="is_variant_save?'cursor-not-allowed':''"/>
             <label class="form-check-label" for="flexCheckDefault">
               This product has options, like size or color
             </label>
           </div>
           <div class="card-body mt-10" v-if="is_variant">
 
-            <div class="grid grid-cols-3 gap-4 pt-4">
+            <div class="grid grid-cols-3 gap-4 pt-4" v-if="!is_variant_save">
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
@@ -204,12 +193,28 @@
                   </select>
                 </div>
               </div>
-
-
             </div>
 
             <div class="col-md-4"></div>
-            <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
+            <div class="tab-sidebar p-3" v-if="is_variant_save">
+              <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
+              <hr>
+              <table>
+                <TransitionGroup name="table-row" tag="tbody">
+                <tr>
+                  <td>Color</td>
+                  <td>Size</td>
+                  <td>Name</td>
+                </tr>
+                <tr v-for="(variant, index) in result.product_variants" :key="index">
+                  <td>{{ variant.color_name }}</td>
+                  <td>{{ variant.value }}</td>
+                  <td>{{ variant.color_name }},{{ variant.value }}</td>
+                </tr>
+                </TransitionGroup>
+              </table>
+            </div>
+            <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
@@ -249,7 +254,7 @@
               </div>
             </div>
 
-            <div>
+            <div v-if="!is_variant_save">
               <div class="col-md-4 pt-4">
                 <button :disabled="select_attr1===0 && select_attr2===0" type="button"
                         @click.prevent="addVariantValueRows()"
@@ -264,13 +269,18 @@
               <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
               <!--                Send for review-->
               <!--              </button>-->
-              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-if="!is_variant_save">
                 Save
               </button>
-              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset">
+
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-else>
+                Edit
+              </button>
+
+              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" v-if="!is_variant_save">
                 <span>Reset</span>
               </button>
-              <button type="button" class="btn bg-light">
+              <button type="button" class="btn bg-light" v-if="!is_variant_save">
                 <nuxt-link :to="`/products/add`">CANCEL</nuxt-link>
               </button>
             </div>
@@ -296,10 +306,6 @@
               <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
                                 :valuesOfLang="result.features"
                                 @updateInput="updateInput"></lang-input-multi>
-            </div>
-            <div class="input-wrapper mb-10" v-if="is_variant">
-              <label for="">Parent SKU</label>
-              <input class="form-control" name="e.g. Macbook Pro 2019" type="text" v-model="result.parent_sku">
             </div>
 
             <div class="input-wrapper mb-10">
@@ -937,6 +943,8 @@
           :selectedLevel1="selectedLevel1"
           :selectedLevel2="selectedLevel2"
           :selectedLevel3="selectedLevel3"
+          :select_attr1="select_attr1"
+          :select_attr2="select_attr2"
         ></Variant>
       </Transition>
     </div>
@@ -946,6 +954,16 @@
 select option {
   padding: 0.5rem;
 }
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>
 <script>
 import {mapGetters, mapActions} from 'vuex'
@@ -978,6 +996,7 @@ export default {
   data() {
     return {
       is_next: false,
+      is_variant_save: false,
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
@@ -1017,6 +1036,7 @@ export default {
       validationKeys: ['title.en'],
       validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory'],
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature'],
+      validationKeysIfVariantNext: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'parent_sku'],
       subCategories: [],
       childCategories: [],
       features: {"ar": "", "en": ""},
@@ -1370,19 +1390,13 @@ export default {
         this.result.id = ""
       })
     },
-    async findSku() {
-      try {
-        this.loading = true
-        var res = Object.assign({}, await this.getById({
-          id: this.id,
-          params: {sku: this.search_sku},
-          api: 'getProductBySku'
-        }))
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
-    },
     doNext() {
+      if (this.validationKeysIfVariantNext.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
+        this.hasError = true
+        return false
+      }
       this.is_next = true
 
     },
@@ -1395,7 +1409,7 @@ export default {
     },
 
     doVariantSave() {
-
+      this.is_variant_save = !this.is_variant_save
     },
 
     doSubmitVariant() {
@@ -1500,73 +1514,6 @@ export default {
       console.log(event.target.value)
       this.result.pk_size_unit = event.target.value;
     },
-
-    productIdentifiersType(event, attributeNumber) {
-      this.result.barcode_type = event.target.value;
-      if (this.result.barcode_type !== 0) {
-        this.is_barcode = true;
-      } else {
-        this.is_barcode = false;
-      }
-    },
-
-
-    variantValueType(event, attributeNumber) {
-      console.log(attributeNumber)
-      if (attributeNumber === 1) {
-        this.selectedAttribute1 = event.target.value;
-        this.disableAttribute2 = false; // Enable attribute 2 when changing attribute 1
-      } else if (attributeNumber === 2) {
-        // Handle attribute 2 change logic if needed
-        this.selectedAttribute2 = event.target.value;
-        this.disableAttribute1 = false;
-      }
-    },
-    isAttribute2Disabled(index) {
-      // Disable attribute 2 options based on the selected value in attribute 1
-      return this.selectedAttribute1 === this.product_variant_type[index];
-    },
-    isAttribute1Disabled(index) {
-      // Disable attribute 1 options based on the selected value in attribute 2
-      return this.selectedAttribute2 === this.product_variant_type[index];
-    },
-
-    addBasicInfoRows(index) {
-      try {
-        this.result.basicInfoen.splice(this.result.basicInfoen.length + 1, 1, {ar: '', en: ''});  // Add a new row
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    removeBasicInfoRows(attribute, index) {
-      if (index != 0) {
-        if (attribute === 'en') {
-          this.result.basicInfoen.splice(index, 1);
-          this.result.basicInfoEng.splice(index, 1);
-        } else {
-          this.result.basicInfoar.splice(index, 1);
-          this.result.basicInfoAr.splice(index, 1);
-        }
-      }
-
-    },
-
-    addBasicInfoRowsAr(index) {
-      try {
-        this.result.basicInfoar.splice(this.result.basicInfoar.length + 1, 1, {ar: '', en: ''});  // Add a new row
-      } catch (e) {
-        console.log(e);
-      }
-    },
-
-    removeBasicInfoRowsAr(index) {
-      if (index != 0) {
-        this.result.basicInfoar.splice(index, 1);
-      }
-
-    },
-
-
     addVariantValueRows() {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
@@ -1578,16 +1525,6 @@ export default {
 
     addAdditionalDetailsRows(index) {
       this.result.additional_details_row.push(Object.assign({}, this.additional_details))
-
-
-      // if (index < this.result.additional_details_row.length) {
-      //   this.result.additional_details_row.splice(this.result.additional_details_row.length + 1, 1, {
-      //     lebel: '',
-      //     attr: ""
-      //   },);  // Add a new row
-      // } else {
-      //   console.error('Index out of bounds.');  // Log an error if index is out of bounds
-      // }
     },
 
     addPriceingRows() {
@@ -1595,41 +1532,6 @@ export default {
         this.result.product_prices.push(Object.assign({}, this.product_price))
       } catch (e) {
         console.log(e);
-      }
-    },
-
-
-    updateVariant(attribute, event, index) {
-      console.log(attribute);
-
-      // Convert event.target.value to a string to ensure consistency
-      const value = String(event.target.value);
-      const attributeIndex = this.result.productVariants.variantTypes.indexOf(attribute);
-      if (attributeIndex !== -1) {
-        this.result.productVariants.variantValues[attributeIndex][index] = value;
-      } else {
-        console.error('Invalid attribute.');  // Log an error if the attribute is not found
-      }
-      // if (attribute === 'color') {
-      //   this.result.productVariants.variantValues[0][index] = value;
-      // } else {
-      //   this.result.productVariants.variantValues[1][index] = value;
-      // }
-    },
-
-    updatePriceQty(attribute, event, index) {
-      if (attribute == 'qty') {
-        const value = String(event.target.value);
-        this.result.pp_quantity[index] = value;
-
-      }
-      if (attribute == 'unit_price') {
-        const value = String(event.target.value);
-        this.result.pp_unit_price[index] = value;
-      }
-      if (attribute == 'sale_price') {
-        const value = String(event.target.value);
-        this.result.pp_selling_price[index] = value;
       }
     },
 
@@ -1648,10 +1550,6 @@ export default {
       if (index != 0) {
         // this.result.product_prices.push(Object.assign({}, this.product_price))
         this.result.product_prices.splice(index, 1);
-        // this.result.PriceingRows.splice(index, 1);
-        // this.result.pp_quantity.splice(index, 1);
-        // this.result.pp_unit_price.splice(index, 1);
-        // this.result.pp_selling_price.splice(index, 1);
       }
     },
 

@@ -224,7 +224,8 @@
     "pending_approval": "Pending Approval",
     "available_quantity": "Available Quantity",
     "create_update": "Created / Updated",
-    "sku": "SKU"
+    "sku": "SKU",
+    "parent_sku": "Parent SKU"
   },
   "fSale": {
     "sProd": "Selected products",
