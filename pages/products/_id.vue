@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- ---------------- -->
-    <div class="tab-sidebar">
+    <div v-if="!is_next" class="tab-sidebar">
       <div class="col-md-12 p-4 title">
         <h4 v-if="is_clone">Clone Product</h4>
         <h4 v-if="!id & !is_clone">Add new product</h4>
@@ -49,7 +49,7 @@
       </form>
     </div>
 
-    <div v-if="!is_clone">
+    <div v-if="!is_next && !is_clone">
       <form :class="{'has-error': hasError}">
         <!-- --------------------------- -->
         <div class="my-10"></div>
@@ -175,7 +175,7 @@
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
                    @click.prevent="isVariant"/>
             <label class="form-check-label" for="flexCheckDefault">
-              This product has options, like size or color {{ result.variants_type }}
+              This product has options, like size or color
             </label>
           </div>
           <div class="card-body mt-10" v-if="is_variant">
@@ -191,7 +191,7 @@
                     </option>
                   </select>
                 </div>
-                </div>
+              </div>
 
               <div class="col-md-4">
                 <div class="form-group">
@@ -213,6 +213,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                          @change="setColorName(index, $event)"
                           v-if="select_attr1 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{
                         item.title ?? item.name
@@ -250,7 +251,8 @@
 
             <div>
               <div class="col-md-4 pt-4">
-                <button :disabled="select_attr1===0 && select_attr2===0" type="button" @click.prevent="addVariantValueRows()"
+                <button :disabled="select_attr1===0 && select_attr2===0" type="button"
+                        @click.prevent="addVariantValueRows()"
                         class="btn mb-10 w-25 btn-outline-secondary">
                   Add Row
                 </button>
@@ -258,19 +260,27 @@
             </div>
 
             <hr class="border-smooth">
-            <div class="flex justify-end gap-4 pt-3">
-<!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
-<!--                Send for review-->
-<!--              </button>-->
-              <button type="button" class="btn text-white bg-primary" @click.prevent="doVariantSave">
+            <div class="flex justify-items-start gap-4 pt-3">
+              <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
+              <!--                Send for review-->
+              <!--              </button>-->
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
                 Save
               </button>
-              <button type="button" class="btn  border-secondary" @click.prevent="doDraft">
-                <span>Save Draft</span>
+              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset">
+                <span>Reset</span>
               </button>
               <button type="button" class="btn bg-light">
-                <nuxt-link :to="`/products`">CANCEL</nuxt-link>
+                <nuxt-link :to="`/products/add`">CANCEL</nuxt-link>
               </button>
+            </div>
+            <div class="my-10"></div>
+            <div class="tab-sidebar p-3" v-if="is_variant">
+              <div class="flex justify-end gap-4 pt-3">
+                <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doNext">
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -286,6 +296,10 @@
               <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
                                 :valuesOfLang="result.features"
                                 @updateInput="updateInput"></lang-input-multi>
+            </div>
+            <div class="input-wrapper mb-10" v-if="is_variant">
+              <label for="">Parent SKU</label>
+              <input class="form-control" name="e.g. Macbook Pro 2019" type="text" v-model="result.parent_sku">
             </div>
 
             <div class="input-wrapper mb-10">
@@ -361,7 +375,19 @@
               </td>
               <td><span class="text-xs"></span></td>
               <td>
-                <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer"
+                     data-testid="price-tier-remove-cta-0">
+                  <path
+                    d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                  <path
+                    d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
               </td>
             </tr>
             <tr v-for="(image, index) in result.images" :key="index">
@@ -378,23 +404,35 @@
                     :alt="image.file_name"
                   />
                   <div class="media-body">
-                    <h6 class="mt-0 mb-0  text-xs">{{  image.file_name }}</h6>
+                    <h6 class="mt-0 mb-0  text-xs">{{ image.file_name }}</h6>
                     <span class="text-muted  text-xs">Image</span>
                   </div>
                 </div>
               </td>
               <td class="text-xs">
                 <input type="radio" class="custom-control-input" id="customCheck2" @click.prevent="setThumb(image.url)">
-<!--                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>-->
+                <!--                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>-->
               </td>
               <td><span class="text-xs">{{ image.upload_time }}</span></td>
               <td>
-                  <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21" focusable="false" class="cursor-pointer" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21" focusable="false"
+                     class="cursor-pointer" data-testid="price-tier-remove-cta-0">
+                  <path
+                    d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                  <path
+                    d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
               </td>
             </tr>
             </tbody>
           </table>
-<!--          <img :src="result.images" alt="">-->
+          <!--          <img :src="result.images" alt="">-->
           <upload-files @updateInput="saveAttachment"></upload-files>
         </div>
         <!-- ------------------------------------- -->
@@ -408,7 +446,8 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
-                      :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}" v-model="result.barcode_type">
+                      :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}"
+                      v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
               </select>
@@ -422,7 +461,8 @@
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
-              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :readonly="result.barcode_type==0"
+              <input type="text" class="form-control" v-model="result.sku" placeholder="sku"
+                     :readonly="result.barcode_type==0"
                      :class="{invalid: !is_draft && result.sku===null && hasError}"
               >
             </div>
@@ -890,7 +930,16 @@
         </div>
       </form>
     </div>
-
+    <div v-if="is_next">
+      <Transition>
+        <Variant
+          :result="result"
+          :selectedLevel1="selectedLevel1"
+          :selectedLevel2="selectedLevel2"
+          :selectedLevel3="selectedLevel3"
+        ></Variant>
+      </Transition>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -919,12 +968,16 @@ import LangInput from "../../components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
+import Variant from "~/components/variant/variant.vue";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+
 
 export default {
   name: "pink-tabs",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      is_next: false,
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
@@ -976,6 +1029,7 @@ export default {
 
       product_variant: {
         "name": "",
+        "color_name": "",
         "value": "",
         "product_id": ""
       },
@@ -990,6 +1044,7 @@ export default {
       min_qty: null,
       result: {
         hts_code: '',
+        parent_sku: '',
         clone_products: [],
         unit_id: 9,
         variants_type: [],
@@ -1170,9 +1225,16 @@ export default {
     ProductInventory,
     ErrorFormatter,
     Spinner,
-    LangInput
+    LangInput,
+    Variant,
+    ValidationObserver: ValidationObserver,
+    ValidationProvider: ValidationProvider
   },
-
+  provide: {
+    // fetchingData: () => {
+    //   this.fetchingData()
+    // },
+  },
 
   computed: {
 
@@ -1249,6 +1311,9 @@ export default {
   },
   watch: {
     // getThumb(isThumb)
+    selectedColor(newIndex) {
+
+    }
   },
 
   methods: {
@@ -1262,7 +1327,7 @@ export default {
       }
 
     },
-    stockCheck(index=null) {
+    stockCheck(index = null) {
       this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
       this.compareMethods();
 
@@ -1317,15 +1382,19 @@ export default {
         return this.$nuxt.error(e)
       }
     },
-    doNext(){
+    doNext() {
+      this.is_next = true
+
+    },
+    doVariantReset() {
 
     },
 
-    pvTypeToggle(){
+    pvTypeToggle() {
       this.pv_type = !this.pv_type;
     },
 
-    doVariantSave(){
+    doVariantSave() {
 
     },
 
@@ -1502,6 +1571,11 @@ export default {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
+    setColorName(index, event){
+      // console.log(this.result.product_variants);
+      this.result.product_variants[index].color_name=this.allColors[event.target.value].title
+    },
+
     addAdditionalDetailsRows(index) {
       this.result.additional_details_row.push(Object.assign({}, this.additional_details))
 
@@ -1594,8 +1668,8 @@ export default {
         this.disableAttribute2 = value === 'color';
       } else if (attributeType === 'size') {
         this.disableAttribute1 = value === 'size';
-      }else {
-        this.result.variants_type=[]
+      } else {
+        this.result.variants_type = []
       }
     },
 
@@ -1745,12 +1819,12 @@ export default {
       this.redirect = buttonType === 'save'
     },
 
-    async deleteImage(url){
+    async deleteImage(url) {
       this.loading = true
       try {
         // await this.deleteData({params: this.id, url: url, api: 'deleteProductImage'})
         const data = await this.setById({id: this.id, params: {url: url}, api: 'deleteProductMediaImage'})
-        if (data){
+        if (data) {
           await this.fetchingData(this.id)
         }
 
@@ -1760,14 +1834,14 @@ export default {
       this.loading = false
       console.log(url)
     },
-    getThumb(url){
+    getThumb(url) {
       return url
     },
-    async setThumb(url){
+    async setThumb(url) {
       this.loading = true
       try {
         const data = await this.setById({id: this.id, params: {url: url}, api: 'setProductThumbImage'})
-        if (data){
+        if (data) {
           await this.fetchingData(this.id)
           console.log(this.result)
           // this.isThumb = result.thumb_image

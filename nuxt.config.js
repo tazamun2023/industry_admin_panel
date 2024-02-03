@@ -49,6 +49,7 @@ export default {
     { src: '@/plugins/casl.js' },
     {src: '~/plugins/dompurify.js'},
     {src: '~/plugins/nuxt-client-init.js', ssr: false},
+    {src: '~/plugins/vee-validate.js', ssr: false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -143,8 +144,11 @@ export default {
     lazy: false,
     langDir: 'lang/',
     defaultLocale: 'en'
-  }
+  },
 
+  build: {
+    transpile: ["vee-validate/dist/rules"],
+  }
   // Build Configuration: https://go.nuxtjs.dev/config-build
 /*  build: {
     extractCSS: false,

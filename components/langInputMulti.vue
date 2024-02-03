@@ -3,8 +3,8 @@
   <div>
     <!-- Tab navigation -->
     <ul class="flex mb-0 list-none flex-wrap  w-50 shadow mt-10 flex-row">
-      <li  v-for="(language, index) in languages" key="index" @click="currentTab = index" class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
-        <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal"  v-bind:class="{'bg-white border-white border-b-2': currentTab != index, 'border-b-2 border-primary':currentTab == index}">
+      <li  v-for="(language, lindex) in languages" key="index" @click="currentTab = lindex" class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
+        <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal"  v-bind:class="{'bg-white border-white border-b-2': currentTab !== lindex, 'border-b-2 border-primary':currentTab === lindex}">
           {{ language }}
         </a>
       </li>
@@ -26,7 +26,7 @@
                  @input="updateInputValue(language, $event.target.value)"
                  :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"
           >
-          <button type="button" class="btn ml-2 mr-2 btn-danger" v-if="index != 0" @click.prevent="removeRow(index)">
+          <button type="button" class="btn ml-2 mr-2 btn-danger" v-if="index !== 0" @click.prevent="removeRow(index)">
             <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                  fill="none" viewBox="0 0 18 2">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -34,7 +34,7 @@
             </svg>
           </button>
 
-          <button v-if="index+1==valuesOfLang.length" type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addRow()">
+          <button v-if="index+1===valuesOfLang.length" type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addRow()">
             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                  viewBox="0 0 18 18">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
