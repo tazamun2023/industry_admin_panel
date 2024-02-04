@@ -343,6 +343,10 @@
     "setWithdrawalRequest": "withdrawal-request/withdraw",
     "cancelWithdrawalRequest": "withdrawal-request/cancel",
     "approveWithdrawalRequest": "withdrawal-request/approve",
-    "deleteWithdrawalRequest": "withdrawal-request/delete"
+    "deleteWithdrawalRequest": "withdrawal-request/delete",
+
+
+    "setVideo" : "video-gallery",
+    "getVideo" : "video-gallery"
   }
 }

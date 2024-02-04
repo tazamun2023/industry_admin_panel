@@ -76,6 +76,7 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.get(json.api[api], {params: params})
   },
+
   setRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
@@ -84,6 +85,7 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.post(json.api[api], params)
   },
+  
   async downloadRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
