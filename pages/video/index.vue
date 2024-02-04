@@ -5,6 +5,7 @@
                 <nuxt-link :to="`/video/create`" class="button primary-btn">Create</nuxt-link>
             </div>
         <div class="table-wrapper">
+            <button @click="allVideo()">button</button>
             <table class="w-full">
                 <thead>
                     <tr>
@@ -43,5 +44,24 @@
     </div>
 </template>
 <script>
+import util from '~/mixin/util'
+import {mapGetters, mapActions} from 'vuex'
+export default{
+    data(){
+        return{
+            videoList:[]
+        }
+    },   
+    computed: {
+    ...mapGetters('video', ['videoList']),
+  },
+    methods:{
+    ...mapActions('video', ['allVideo']),
 
+     featchData() {
+        this.allVideo() 
+        console.log('Video List:', this.videoList);
+     }     
+    }
+}
 </script>
