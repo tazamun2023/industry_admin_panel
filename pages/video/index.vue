@@ -6,6 +6,7 @@
             </div>
         <div class="table-wrapper">
             <button @click="allVideo()">button</button>
+            {{ MyvideoList }}
             <table class="w-full">
                 <thead>
                     <tr>
@@ -53,15 +54,16 @@ export default{
         }
     },   
     computed: {
-    ...mapGetters('video', ['videoList']),
+    ...mapGetters('video', ['MyvideoList']),
   },
     methods:{
     ...mapActions('video', ['allVideo']),
+    
+    },
 
-     featchData() {
+    mounted(){
         this.allVideo() 
-        console.log('Video List:', this.videoList);
-     }     
+        console.log(88)
     }
 }
 </script>

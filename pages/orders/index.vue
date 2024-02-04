@@ -1252,7 +1252,7 @@
           </div>
       </div>
     </div>
-
+    <OrderApprovedModal/>
     </div>
 </template>
 
