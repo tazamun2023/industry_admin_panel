@@ -23,7 +23,7 @@
           :placeholder="title"
           :value="valuesOfLang[language]"
           @input="updateInputValue(language, $event.target.value)"
-          :class="{ invalid: !!!valuesOfLang[language] && hasError }"
+               :class="{ invalid: !!!valuesOfLang[language] && hasError, 'cursor-not-allowed': isVariant }"
         >
 
 
@@ -63,6 +63,10 @@ export default {
       required: true,
       default:"text"
     },
+    isVariant:{
+      type:Boolean,
+      default: false
+    }
   },
   data() {
     return {

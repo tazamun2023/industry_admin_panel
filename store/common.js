@@ -110,21 +110,21 @@ const mutations = {
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
     state.allPackagingUnits = {}
     allPackagingUnits.forEach((item) => {
-      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {title: item.title}}}
+      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {name: item.name}}}
     })
   },
 
   SET_ALL_PACKAGING_BOX_UNITS(state, allDimensionUnits) {
     state.allDimensionUnits = {}
     allDimensionUnits.forEach((item) => {
-      state.allDimensionUnits = {...state.allDimensionUnits, ...{[item.id]: {title: item.title}}}
+      state.allDimensionUnits = {...state.allDimensionUnits, ...{[item.id]: {name: item.name}}}
     })
   },
 
   SET_ALL_PACKAGING_WEIGHT_UNITS(state, allWeightUnits) {
     state.allWeightUnits = {}
     allWeightUnits.forEach((item) => {
-      state.allWeightUnits = {...state.allWeightUnits, ...{[item.id]: {title: item.title}}}
+      state.allWeightUnits = {...state.allWeightUnits, ...{[item.id]: {name: item.name}}}
     })
   },
 
@@ -142,7 +142,7 @@ const mutations = {
     state.allTransportationModes = {}
     allTransportationModes.forEach((item) => {
       state.allTransportationModes = {...state.allTransportationModes, ...{[item.id]: {name: item.title}}}
-      state.allCountries = {...state.allCountries, ...{[item.id]: {title: item.name}}}
+      state.allCountries = {...state.allCountries, ...{[item.id]: {name: item.name}}}
     })
   },
 
@@ -253,7 +253,8 @@ const actions = {
     }
   },
   async getDropdownList({rootState, commit}) {
-    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getDropdownList', rootState.language.langCode)
+    // console.log('rootState.language', rootState.language.currentLanguage.code)
+    const {data} = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getDropdownList', rootState.language.currentLanguage.code)
     if (data.status === 200) {
       const result = data.data
 
