@@ -91,10 +91,7 @@
     "setColor": "color/action",
 
     "FAQ": "faqs",
-    "getColors": "color/all",
-    "deleteColor": "color/delete",
-    "getColor": "color/find",
-    "setColor": "color/action",
+
 
     "getAllCityById" : "port/all-city",
     "getPorts": "port/all",
