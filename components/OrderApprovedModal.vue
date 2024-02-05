@@ -21,7 +21,7 @@
           <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
         </div>
         <div class="mt-2 mr-4">
-          <h6 class="text-base font-bold text-blue-500">Personal Info</h6>
+          <h6 class="text-base font-bold text-blue-500">Orders Items</h6>
         </div>
       </div>
       <div class="w-full">
@@ -32,7 +32,7 @@
           <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
         </div>
         <div class="mt-2 mr-4">
-          <h6 class="text-base font-bold text-blue-500">Education</h6>
+          <h6 class="text-base font-bold text-blue-500">Pickup Address</h6>
         </div>
       </div>
       <div>
@@ -42,11 +42,11 @@
           </div>
         </div>
         <div class="mt-2">
-          <h6 class="text-base font-bold">Review</h6>
+          <h6 class="text-base font-bold">Confirmation</h6>
         </div>
       </div>
     </div>
-        <div class="firstStep">
+        <div v-if="firstBox" class="firstStep">
           <div class="my-2 p-4">
                     <div class="flex gap-4 justify-between">
                       <div class="flex gap-4">
@@ -208,10 +208,46 @@
                     </div>
                     <div class="w-full border-t p-2 border-smooth">
                       <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
-                          <button class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+                          <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Cancel</button>
+                          <button @click="firstStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
                       </div>
                     </div>
                   </div>
+        </div>
+
+        <!-- -------------1st step end--------- -->
+        <div v-if="secondBox" class="secondStep p-4">
+          <div class="card p-4">
+            <div class="flex justify-between">
+              <h4>Pickup Address</h4>
+              <a class="border border-smooth p-2 leading-3 rounded" href="">Add Address</a>
+            </div>
+            <div class="card flex">
+                <div>
+                  <input type="radio">
+                </div>
+                <div>
+                  <h4>Mahmud1 <span class="text-xs text-primary bg-smooth rounded-lg"> Stock Location</span></h4>
+                  <p><span>test,</span> <span>test,</span> <span>black river jamaika,</span> <span>P.O box-test,</span> <span>post code 1000</span></p>
+                  <p>+566666666 55666</p>
+                </div>
+            </div>
+          </div>
+          <div class="w-full border-t p-2 border-smooth">
+                      <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
+                          <button @click="backSecondStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back</button>
+                          <button @click="secondStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+                      </div>
+                    </div>
+        </div>
+        <div v-if="thirdBox" class="thirdStep">
+          <p>third</p>
+          <div class="w-full border-t p-2 border-smooth">
+                      <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
+                          <button @click="backThirdStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back</button>
+                          <button @click="thirdStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+                      </div>
+                    </div>
         </div>
         <!-- Close Button -->
         <div class="flex justify-end">
@@ -239,16 +275,38 @@
 </style>
   <script>
   export default {
-    // props: {
-    //   showModal: Boolean,
-    //   is_reject_modal: String,
-    //   providedId: String,
-    // },
+    data(){
+      return{
+        firstBox:true,
+        secondBox:false,
+        thirdBox:false,
+      }
+    },
     props: ['showModal', 'is_reject_modal', 'providedId'],
     methods: {
       closeModal() {
         this.$emit('closeModal');
       },
+      firstStep(){
+        this.firstBox = false;
+        this.secondBox = true;
+        this.thirdBox=false
+      },
+      secondStep(){
+        this.firstBox = false;
+        this.secondBox = false;
+        this.thirdBox=true
+      },
+      backThirdStep(){
+        this.firstBox = false;
+        this.secondBox = true;
+        this.thirdBox=false
+      },
+      backSecondStep(){
+        this.firstBox = true;
+        this.secondBox = false;
+        this.thirdBox=false
+      }
     },
   };
   </script>
