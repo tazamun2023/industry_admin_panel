@@ -124,6 +124,10 @@ export default {
       type: String,
       default: ''
     },
+    method: {
+      type: String,
+      default: 'post'
+    },
     gate: {
       type: String,
       default: null
@@ -243,7 +247,7 @@ export default {
         delete this.result.created_at
         delete this.result.updated_at
 
-        const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
+        const data = await this.setById({id: this.id, params: this.result, api: this.setApi,method:this.method})
         if (data) {
 
           this.emptyAllList(this.emptyStoreVariable)

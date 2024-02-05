@@ -129,14 +129,14 @@ const mutations = {
   },
 
   SET_ALL_CATEGORIES_Tree(state, allCategories) {
-     state.allCategoriesTree  = allCategories;
+    state.allCategoriesTree = allCategories;
 
   },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = allCountries
-  /*  allCountries.forEach((item) => {
-     state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
-     })*/
+    /*  allCountries.forEach((item) => {
+       state.allCountries = {...state.allCountries, ...{[item.id]: {id: item.id,name: item.name}}}
+       })*/
   },
   SET_ALL_TRANSPORTATIONMODES(state, allTransportationModes) {
     state.allTransportationModes = {}
@@ -152,7 +152,6 @@ const mutations = {
       state.allCitiesById = {...state.allCitiesById, ...{[item.id]: {title: item.name}}}
     })*/
   },
-
 
 
   SET_ALL_SUBSCRIPTION_EMAIL_FORMATS(state, allSubscriptionEmailFormats) {
@@ -196,7 +195,15 @@ const mutations = {
   SET_ALL_REJECT_REASONS(state, allRejectReasons) {
     state.allRejectReasons = {}
     allRejectReasons.forEach((item) => {
-      state.allRejectReasons = {...state.allRejectReasons, ...{[item.id]: {id: item.id, name: item.name, description: item.description}}}
+      state.allRejectReasons = {
+        ...state.allRejectReasons, ...{
+          [item.id]: {
+            id: item.id,
+            name: item.name,
+            description: item.description
+          }
+        }
+      }
     })
   },
   SET_ALL_TAX_RULES(state, allTaxRules) {
@@ -229,8 +236,8 @@ const actions = {
     }
   },
 
-  async getCitiesById({rootState, commit}, {id,api, mutation }) {
-    const {data} = await Service.getById( id,{},this.$auth.strategy.token.get(), api, rootState.language.langCode)
+  async getCitiesById({rootState, commit}, {id, api, mutation}) {
+    const {data} = await Service.getById(id, {}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
 
     if (data.status === 200) {
       commit(mutation, data.data)
@@ -362,9 +369,9 @@ const actions = {
     if (data.status === 200) {
       dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
       return data.data
-    } else if(data.status > 200) {
+    } else if (data.status > 200) {
       dispatch('ui/setToastError', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
-    }else{
+    } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
@@ -376,9 +383,15 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-  async setById({rootState, commit, dispatch}, {id, params, api}) {
+  async setById({rootState, commit, dispatch}, {id, params, api, method = "post"}) {
     dispatch('ui/setErrors', null, {root: true})
-    const {data} = await Service.setById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    let data; // Declare data variable outside the if-else block
+
+    if (id > 0 && method === 'put') {
+      ({ data } = await Service.putById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode));
+    } else {
+      ({ data } = await Service.setById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode));
+    }
 
     if (data.status === 200) {
       dispatch('ui/setToastMessage', data.message, {root: true})
