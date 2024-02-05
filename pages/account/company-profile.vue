@@ -53,7 +53,7 @@
                     <input type="number" placeholder="Mobile">
                 </div>
                 <div class="input-wrapper  mb-2">
-                    <label for="">Facality Type</label>
+                    <label for="">Facility Type</label>
                     <select class="border border-smooth w-100 p-2 rounded" name="" id="">
                         <option value="">Type 1 </option>
                         <option value="">Type 2</option>
@@ -76,7 +76,7 @@
                     </select>
                 </div>
                 <div class="input-wrapper  mb-2">
-                    <label for="">State</label>
+                    <label for="">City</label>
                     <select class="border border-smooth w-100 p-2 rounded" name="" id="">
                         <option value="">Type 1 </option>
                         <option value="">Type 2</option>
@@ -99,7 +99,7 @@
                     <label for="">Nearby</label>
                     <input type="text" placeholder="Nearby">
                 </div>
-                
+
             </div>
         </div>
         <!-- --------------- -->
@@ -131,6 +131,28 @@
         </div>
    </div>
 </template>
+<script>
+export default {
+  name:"company-profile",
+  data(){
+    return {
+       fromData:{
+
+       }
+    }
+  },
+  computed:{
+
+  },
+  methods:{
+
+  },
+  mounted() {
+
+  }
+
+}
+</script>
 
 <style>
 .container-c{
