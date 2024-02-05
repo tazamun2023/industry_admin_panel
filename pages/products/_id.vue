@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- ---------------- -->
-    <div class="tab-sidebar">
+    <div v-if="!is_next" class="tab-sidebar">
       <div class="col-md-12 p-4 title">
         <h4 v-if="is_clone">Clone Product</h4>
         <h4 v-if="!id & !is_clone">Add new product</h4>
@@ -49,7 +49,7 @@
       </form>
     </div>
 
-    <div v-if="!is_clone">
+    <div v-if="!is_next && !is_clone">
       <form :class="{'has-error': hasError}">
         <!-- --------------------------- -->
         <div class="my-10"></div>
@@ -65,7 +65,7 @@
             <label class="w-full" for="mainCategory">Select Unit</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
                     v-model="result.unit">
-              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
+              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
             </select>
           </div>
           <!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
@@ -119,30 +119,19 @@
             </div>
           </div>
 
+          <div class="input-wrapper mb-10" v-if="is_variant">
+            <label for="">{{ $t('prod.parent_sku') }}</label>
+            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')" type="text" v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
+          </div>
+
           <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                       @updateInput="updateInput"></lang-input>
 
-          <lang-input :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
+          <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
-          <!--        -->
-          <!--        <div class="form-group input-wrapper mb-10 for-lang ar-lang">-->
-          <!--          <label for="name">Product name - English ?</label>-->
-          <!--          <input class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
-          <!--        </div>-->
-          <!--        <div class="form-group  input-wrapper mb-10  for-lang ar-lang">-->
-          <!--          <label for="name">Product name - Arabic(optional)?</label>-->
-          <!--          <input dir="rtl" class="form-control required" name="e.g. Macbook Pro 2019" type="text" value="">-->
-          <!--        </div>-->
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
             <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
-            <!--          <dropdown-->
-            <!--            v-if="allBrands"-->
-            <!--            :default-null="true"-->
-            <!--            :selectedKey="result.brand_id"-->
-            <!--            :options="allBrands"-->
-            <!--            @clicked="brandSelected"-->
-            <!--          />-->
 
             <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
                     :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
@@ -160,7 +149,7 @@
           <div class="form-group input-wrapper for-lang ar-lang">
             <label class="w-full" for="name">Unit of measure</label>
             <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
-              <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.title }}</option>
+              <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.name }}</option>
             </select>
           </div>
         </div>
@@ -171,22 +160,21 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
           <div class="form-check">
             <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                   v-model="is_variant" @click.prevent="isVariant"/>
+                   v-model="is_variant" @click.prevent="isVariant" :disabled="is_variant_save" :style="is_variant_save?'cursor: not-allowed':''"/>
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
-                   @click.prevent="isVariant"/>
+                   @click.prevent="isVariant"  :class="is_variant_save?'cursor-not-allowed':''"/>
             <label class="form-check-label" for="flexCheckDefault">
               This product has options, like size or color
             </label>
           </div>
           <div class="card-body mt-10" v-if="is_variant">
 
-            <div class="grid grid-cols-3 gap-4 pt-4">
-
+            <div class="grid grid-cols-3 gap-4 pt-4" v-if="!is_variant_save">
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
                           @change="isAttr($event, 'color')">
-                    <option selected>Select attribute 1</option>
+                    <option value="0">Select attribute 1</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr2">{{ item }}
                     </option>
@@ -198,38 +186,55 @@
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
                           @change="isAttr($event, 'size')">
-                    <option selected>Select attribute 2</option>
+                    <option value="0">Select attribute 2</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr1">{{ item }}
                     </option>
                   </select>
                 </div>
               </div>
-
-
             </div>
 
             <div class="col-md-4"></div>
-            <div class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
+            <div class="tab-sidebar p-3" v-if="is_variant_save">
+              <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
+              <hr>
+              <table>
+                <TransitionGroup name="table-row" tag="tbody">
+                <tr>
+                  <td>Color</td>
+                  <td>Size</td>
+                  <td>Name</td>
+                </tr>
+                <tr v-for="(variant, index) in result.product_variants" :key="index">
+                  <td>{{ variant.color_name }}</td>
+                  <td>{{ variant.value }}</td>
+                  <td>{{ variant.color_name }},{{ variant.value }}</td>
+                </tr>
+                </TransitionGroup>
+              </table>
+            </div>
+            <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
-                          v-if="select_attr1 === 'color' && select_attr2 === 'size'">
+                          @change="setColorName(index, $event)"
+                          v-if="select_attr1 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{
                         item.title ?? item.name
                       }}
                     </option>
                   </select>
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                         v-if="select_attr1 === 'size' && select_attr2 === 'color'"/>
+                         v-if="select_attr1 === 'size'"/>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group" :class="{ invalid: variant.value }">
                   <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                         v-if="select_attr1 === 'color' && select_attr2 === 'size'"/>
+                         v-if="select_attr2 === 'size'"/>
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
-                          v-if="select_attr2 === 'color' && select_attr1 === 'size'">
+                          v-if="select_attr2 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="index">{{
                         item.title ?? item.name
                       }}
@@ -249,9 +254,10 @@
               </div>
             </div>
 
-            <div>
+            <div v-if="!is_variant_save">
               <div class="col-md-4 pt-4">
-                <button type="button" @click.prevent="addVariantValueRows()"
+                <button :disabled="select_attr1===0 && select_attr2===0" type="button"
+                        @click.prevent="addVariantValueRows()"
                         class="btn mb-10 w-25 btn-outline-secondary">
                   Add Row
                 </button>
@@ -259,16 +265,32 @@
             </div>
 
             <hr class="border-smooth">
-            <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">
-                SAVE
+            <div class="flex justify-items-start gap-4 pt-3">
+              <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
+              <!--                Send for review-->
+              <!--              </button>-->
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-if="!is_variant_save">
+                Save
               </button>
-              <button type="button" class="btn  border-secondary">
-                <span>RESET</span>
+
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-else>
+                Edit
               </button>
-              <button type="button" class="btn bg-light">
-                <nuxt-link :to="`/products`">CANCEL</nuxt-link>
+
+              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" v-if="!is_variant_save">
+                <span>Reset</span>
               </button>
+              <button type="button" class="btn bg-light" v-if="!is_variant_save">
+                <nuxt-link :to="`/products/add`">CANCEL</nuxt-link>
+              </button>
+            </div>
+            <div class="my-10"></div>
+            <div class="tab-sidebar p-3" v-if="is_variant">
+              <div class="flex justify-end gap-4 pt-3">
+                <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doNext">
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -334,10 +356,10 @@
           </div>
           <table class="table mb-0">
             <tbody>
-            <tr v-for="(image, index) in result.images" :key="index">
+            <tr v-if="isThumb">
               <td style="width:20px">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="customCheck2">
+                  <input type="radio" checked class="custom-control-input" id="customCheck2">
                   <label class="custom-control-label" for="customCheck2"></label>
                 </div>
               </td>
@@ -345,24 +367,78 @@
                 <div class="media">
                   <lazy-image
                     class="mr-20"
-                    :data-src="image.url"
-                    :alt="image.file_name"
+                    :data-src="getThumb(isThumb)"
+                    :alt="isThumb"
                   />
                   <div class="media-body">
-                    <h6 class="mt-0 mb-0  text-xs">{{  image.file_name }}</h6>
+                    <h6 class="mt-0 mb-0  text-xs">Thumbnail</h6>
                     <span class="text-muted  text-xs">Image</span>
                   </div>
                 </div>
               </td>
-              <td class="text-xs">Group Name</td>
-              <td><span class="text-xs">1/3/2024, 2:38:20 PM</span></td>
+              <td class="text-xs">
+                <button disabled type="button" class="btn bg-primary text-white">Thumbnail</button>
+              </td>
+              <td><span class="text-xs"></span></td>
               <td>
-                  <svg viewBox="0 0 20 21" focusable="false" class="chakra-icon css-yr5k1h" data-testid="price-tier-remove-cta-0"><path d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer"
+                     data-testid="price-tier-remove-cta-0">
+                  <path
+                    d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                  <path
+                    d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </td>
+            </tr>
+            <tr v-for="(image, index) in result.images" :key="index">
+              <td style="width:20px">
+                <div class="custom-control custom-checkbox">
+                  <label class="custom-control-label" for="customCheck2"></label>
+                </div>
+              </td>
+              <td style="width:60%">
+                <div class="media">
+                  <lazy-image
+                    class="mr-20"
+                    :data-src="image.image"
+                    :alt="image.file_name"
+                  />
+                  <div class="media-body">
+                    <h6 class="mt-0 mb-0  text-xs">{{ image.file_name }}</h6>
+                    <span class="text-muted  text-xs">Image</span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-xs">
+                <input type="radio" class="custom-control-input" id="customCheck2" @click.prevent="setThumb(image.url)">
+                <!--                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>-->
+              </td>
+              <td><span class="text-xs">{{ image.upload_time }}</span></td>
+              <td>
+                <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21" focusable="false"
+                     class="cursor-pointer" data-testid="price-tier-remove-cta-0">
+                  <path
+                    d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                  <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                  <path
+                    d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
+                    stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
               </td>
             </tr>
             </tbody>
           </table>
-<!--          <img :src="result.images" alt="">-->
+          <!--          <img :src="result.images" alt="">-->
           <upload-files @updateInput="saveAttachment"></upload-files>
         </div>
         <!-- ------------------------------------- -->
@@ -376,8 +452,8 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">Barcode type</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
-                      :class="{invalid: !is_draft && (result.barcode_type === 0 || result.barcode_type===null) && hasError}"
-                      @change="productIdentifiersType($event)" v-model="result.barcode_type">
+                      :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}"
+                      v-model="result.barcode_type">
                 <option value="0">Select Barcode</option>
                 <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
               </select>
@@ -385,14 +461,15 @@
             <div class="form-group input-wrapper mt-3 mt-sm-0">
               <label>Barcode</label>
               <input type="text" class="form-control" v-model="result.barcode"
-                     :class="{invalid: !is_variant && !result.barcode_type && hasError}"
+                     :class="{invalid: !is_variant && result.barcode===null && hasError}"
                      placeholder="Please enter barcode number"
-                     :disabled="!result.barcode_type">
+                     :readonly="result.barcode_type==0">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>SKU</label>
-              <input type="text" class="form-control" v-model="result.sku" placeholder="sku" :disabled="!is_barcode"
-                     :class="{invalid: !is_draft && (!result.sku) && hasError}"
+              <input type="text" class="form-control" v-model="result.sku" placeholder="sku"
+                     :readonly="result.barcode_type==0"
+                     :class="{invalid: !is_draft && result.sku===null && hasError}"
               >
             </div>
           </div>
@@ -434,7 +511,7 @@
                           :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
                   >
                     <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -500,7 +577,7 @@
                           v-model="result.pc_weight_unit_id">
                     <!--                  <option value="0">Select</option>-->
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -520,7 +597,7 @@
                           :class="{invalid: !is_draft && (result.pc_length_unit_id===null) && hasError}"
                           v-model="result.pc_length_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -541,7 +618,7 @@
                           :class="{invalid: !is_draft && (result.pc_height_unit_id===null) && hasError}"
                           v-model="result.pc_height_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -562,7 +639,7 @@
                           :class="{invalid: !is_draft && (result.pc_width_unit_id===null) && hasError}"
                           v-model="result.pc_width_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                        item.title
+                        item.name
                       }}
                     </option>
                   </select>
@@ -590,7 +667,7 @@
                 <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
                         :class="{invalid: !is_draft && (result.pdime_weight_unit_id === null) && hasError}"
                         v-model="result.pdime_weight_unit_id">
-                  <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.title }}</option>
+                  <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.name }}</option>
                 </select>
               </div>
             </div>
@@ -629,7 +706,7 @@
               <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       :class="{invalid: !is_draft && (result.pdime_dimention_unit ===null) && hasError}"
                       v-model="result.pdime_dimention_unit">
-                <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.title }}</option>
+                <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{ item.name }}</option>
               </select>
             </div>
           </div>
@@ -647,7 +724,7 @@
                       :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"
                       v-model="result.unit_id">
                 <option value="0">Unit</option>
-                <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.title }}</option>
+                <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
               </select>
             </div>
           </div>
@@ -859,13 +936,34 @@
         </div>
       </form>
     </div>
-
+    <div v-if="is_next">
+      <Transition>
+        <Variant
+          :result="result"
+          :selectedLevel1="selectedLevel1"
+          :selectedLevel2="selectedLevel2"
+          :selectedLevel3="selectedLevel3"
+          :select_attr1="select_attr1"
+          :select_attr2="select_attr2"
+        ></Variant>
+      </Transition>
+    </div>
   </div>
 </template>
 <style scoped>
 select option {
   padding: 0.5rem;
 }
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>
 <script>
 import {mapGetters, mapActions} from 'vuex'
@@ -888,20 +986,28 @@ import LangInput from "../../components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
+import Variant from "~/components/variant/variant.vue";
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+
 
 export default {
   name: "pink-tabs",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      is_next: false,
+      is_variant_save: false,
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
+      isThumb: null,
+      isFirstThumb: null,
       openTab: 1,
       uploadModal: false,
       is_clone: false,
       is_variant: false,
       is_draft: false,
+      pv_type: false,
       isColor: false,
       isSize: false,
       licence: null,
@@ -914,8 +1020,8 @@ export default {
       tableShow: false,
       clone_product: null,
       uploadNewText: false,
-      select_attr1: '',
-      select_attr2: '',
+      select_attr1: 0,
+      select_attr2: 0,
 
       productFormOpen: true,
       showCategories: false,
@@ -930,6 +1036,7 @@ export default {
       validationKeys: ['title.en'],
       validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory'],
       validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature'],
+      validationKeysIfVariantNext: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'parent_sku'],
       subCategories: [],
       childCategories: [],
       features: {"ar": "", "en": ""},
@@ -942,6 +1049,7 @@ export default {
 
       product_variant: {
         "name": "",
+        "color_name": "",
         "value": "",
         "product_id": ""
       },
@@ -956,8 +1064,10 @@ export default {
       min_qty: null,
       result: {
         hts_code: '',
+        parent_sku: '',
         clone_products: [],
         unit_id: 9,
+        variants_type: [],
         product_variants: [],
         features: [
           {"ar": "", "en": ""},
@@ -1002,7 +1112,7 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: 0,
         stock_location: 1,
-        country_of_origin: 186,
+        country_of_origin: 193,
         /*Shipping details*/
         /*Product Identifiers*/
         barcode_type: 0,
@@ -1135,7 +1245,15 @@ export default {
     ProductInventory,
     ErrorFormatter,
     Spinner,
-    LangInput
+    LangInput,
+    Variant,
+    ValidationObserver: ValidationObserver,
+    ValidationProvider: ValidationProvider
+  },
+  provide: {
+    // fetchingData: () => {
+    //   this.fetchingData()
+    // },
   },
 
   computed: {
@@ -1212,12 +1330,10 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
+    // getThumb(isThumb)
+    selectedColor(newIndex) {
 
-    // 'result.product_prices': {
-    //   handler: 'compareMethods',
-    //   deep: true,
-    // },
-    // 'result.available_quantity': 'compareMethods',
+    }
   },
 
   methods: {
@@ -1231,7 +1347,7 @@ export default {
       }
 
     },
-    stockCheck(index=null) {
+    stockCheck(index = null) {
       this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
       this.compareMethods();
 
@@ -1274,17 +1390,26 @@ export default {
         this.result.id = ""
       })
     },
-    async findSku() {
-      try {
-        this.loading = true
-        var res = Object.assign({}, await this.getById({
-          id: this.id,
-          params: {sku: this.search_sku},
-          api: 'getProductBySku'
-        }))
-      } catch (e) {
-        return this.$nuxt.error(e)
+    doNext() {
+      if (this.validationKeysIfVariantNext.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
+        this.hasError = true
+        return false
       }
+      this.is_next = true
+
+    },
+    doVariantReset() {
+
+    },
+
+    pvTypeToggle() {
+      this.pv_type = !this.pv_type;
+    },
+
+    doVariantSave() {
+      this.is_variant_save = !this.is_variant_save
     },
 
     doSubmitVariant() {
@@ -1389,89 +1514,17 @@ export default {
       console.log(event.target.value)
       this.result.pk_size_unit = event.target.value;
     },
-
-    productIdentifiersType(event, attributeNumber) {
-      this.result.barcode_type = event.target.value;
-      if (this.result.barcode_type !== 0) {
-        this.is_barcode = true;
-      } else {
-        this.is_barcode = false;
-      }
-    },
-
-
-    variantValueType(event, attributeNumber) {
-      console.log(attributeNumber)
-      if (attributeNumber === 1) {
-        this.selectedAttribute1 = event.target.value;
-        this.disableAttribute2 = false; // Enable attribute 2 when changing attribute 1
-      } else if (attributeNumber === 2) {
-        // Handle attribute 2 change logic if needed
-        this.selectedAttribute2 = event.target.value;
-        this.disableAttribute1 = false;
-      }
-    },
-    isAttribute2Disabled(index) {
-      // Disable attribute 2 options based on the selected value in attribute 1
-      return this.selectedAttribute1 === this.product_variant_type[index];
-    },
-    isAttribute1Disabled(index) {
-      // Disable attribute 1 options based on the selected value in attribute 2
-      return this.selectedAttribute2 === this.product_variant_type[index];
-    },
-
-    addBasicInfoRows(index) {
-      try {
-        this.result.basicInfoen.splice(this.result.basicInfoen.length + 1, 1, {ar: '', en: ''});  // Add a new row
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    removeBasicInfoRows(attribute, index) {
-      if (index != 0) {
-        if (attribute === 'en') {
-          this.result.basicInfoen.splice(index, 1);
-          this.result.basicInfoEng.splice(index, 1);
-        } else {
-          this.result.basicInfoar.splice(index, 1);
-          this.result.basicInfoAr.splice(index, 1);
-        }
-      }
-
-    },
-
-    addBasicInfoRowsAr(index) {
-      try {
-        this.result.basicInfoar.splice(this.result.basicInfoar.length + 1, 1, {ar: '', en: ''});  // Add a new row
-      } catch (e) {
-        console.log(e);
-      }
-    },
-
-    removeBasicInfoRowsAr(index) {
-      if (index != 0) {
-        this.result.basicInfoar.splice(index, 1);
-      }
-
-    },
-
-
     addVariantValueRows() {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
+    setColorName(index, event){
+      // console.log(this.result.product_variants);
+      this.result.product_variants[index].color_name=this.allColors[event.target.value].title
+    },
+
     addAdditionalDetailsRows(index) {
       this.result.additional_details_row.push(Object.assign({}, this.additional_details))
-
-
-      // if (index < this.result.additional_details_row.length) {
-      //   this.result.additional_details_row.splice(this.result.additional_details_row.length + 1, 1, {
-      //     lebel: '',
-      //     attr: ""
-      //   },);  // Add a new row
-      // } else {
-      //   console.error('Index out of bounds.');  // Log an error if index is out of bounds
-      // }
     },
 
     addPriceingRows() {
@@ -1479,41 +1532,6 @@ export default {
         this.result.product_prices.push(Object.assign({}, this.product_price))
       } catch (e) {
         console.log(e);
-      }
-    },
-
-
-    updateVariant(attribute, event, index) {
-      console.log(attribute);
-
-      // Convert event.target.value to a string to ensure consistency
-      const value = String(event.target.value);
-      const attributeIndex = this.result.productVariants.variantTypes.indexOf(attribute);
-      if (attributeIndex !== -1) {
-        this.result.productVariants.variantValues[attributeIndex][index] = value;
-      } else {
-        console.error('Invalid attribute.');  // Log an error if the attribute is not found
-      }
-      // if (attribute === 'color') {
-      //   this.result.productVariants.variantValues[0][index] = value;
-      // } else {
-      //   this.result.productVariants.variantValues[1][index] = value;
-      // }
-    },
-
-    updatePriceQty(attribute, event, index) {
-      if (attribute == 'qty') {
-        const value = String(event.target.value);
-        this.result.pp_quantity[index] = value;
-
-      }
-      if (attribute == 'unit_price') {
-        const value = String(event.target.value);
-        this.result.pp_unit_price[index] = value;
-      }
-      if (attribute == 'sale_price') {
-        const value = String(event.target.value);
-        this.result.pp_selling_price[index] = value;
       }
     },
 
@@ -1532,22 +1550,24 @@ export default {
       if (index != 0) {
         // this.result.product_prices.push(Object.assign({}, this.product_price))
         this.result.product_prices.splice(index, 1);
-        // this.result.PriceingRows.splice(index, 1);
-        // this.result.pp_quantity.splice(index, 1);
-        // this.result.pp_unit_price.splice(index, 1);
-        // this.result.pp_selling_price.splice(index, 1);
       }
     },
 
     isAttr(event, attributeType) {
       const value = String(event.target.value);
-      console.log(value);
-      console.log(this.product_variant_type[value]);
+      //backend need check
+      this.result.variants_type = [
+        (this.select_attr1 === 'color' || this.select_attr1 === 'size') ? this.select_attr1 : null,
+        (this.select_attr2 === 'color' || this.select_attr2 === 'size') ? this.select_attr2 : null
+      ].filter(value => value !== null);
+
 
       if (attributeType === 'color') {
         this.disableAttribute2 = value === 'color';
       } else if (attributeType === 'size') {
         this.disableAttribute1 = value === 'size';
+      } else {
+        this.result.variants_type = []
       }
     },
 
@@ -1696,6 +1716,40 @@ export default {
     redirectingEnable(buttonType) {
       this.redirect = buttonType === 'save'
     },
+
+    async deleteImage(url) {
+      this.loading = true
+      try {
+        // await this.deleteData({params: this.id, url: url, api: 'deleteProductImage'})
+        const data = await this.setById({id: this.id, params: {url: url}, api: 'deleteProductMediaImage'})
+        if (data) {
+          await this.fetchingData(this.id)
+        }
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.loading = false
+      console.log(url)
+    },
+    getThumb(url) {
+      return url
+    },
+    async setThumb(url) {
+      this.loading = true
+      try {
+        const data = await this.setById({id: this.id, params: {url: url}, api: 'setProductThumbImage'})
+        if (data) {
+          await this.fetchingData(this.id)
+          console.log(this.result)
+          // this.isThumb = result.thumb_image
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.loading = false
+      console.log(url)
+    },
     async checkForm() {
 
       // this.redirectingEnable(event.submitter.name)
@@ -1812,6 +1866,9 @@ export default {
 
 
         }
+        this.isThumb = res.thumb_image;
+        this.isFirstThumb = res.first_thumb_image;
+        this.result.images = res.images
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.select_attr1 = 'color';
         this.select_attr2 = 'size';
@@ -1973,6 +2030,7 @@ export default {
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
+    this.getThumb(this.isThumb)
     if (this.min_qty === this.result.available_quantity) {
       this.result.is_availability = 1;
     } else if (this.min_qty > this.result.available_quantity) {

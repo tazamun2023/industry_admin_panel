@@ -6,7 +6,6 @@
     <dropzone id="foo" ref="el" :options="options"
               @removeUpload="removeFile"
               v-on:vdropzone-files-added="addImage"
-              :acceptedFileTypes="accept"
               v-on:vdropzone-success="showSuccess"
               v-on:vdropzone-removed-file="removeFile"></dropzone>
 
@@ -43,7 +42,7 @@ export default {
     // },
     accept: {
       type: String,
-      default: ".jpg,.png"
+      default: "image/*"
     },
   },
   data() {
@@ -51,6 +50,8 @@ export default {
       attachments: [],
 
       options: {
+        acceptedFiles:this.accept,
+        accept:this.accept,
         url: !process.env.apiBase.trim() ? window.location.origin + '/' : process.env.apiBase + "api/images/dz_upload",
         dictDefaultMessage: "" + this.$t('prod.Drag & Drop images here to upload') + " <br> <span class=\"text-xs\">" + "<svg class=\"w-6 h-6 mx-auto text-gray-800 \" aria-hidden=\"true\"\n" +
           "                       xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 18\">\n" +
@@ -60,6 +61,7 @@ export default {
         // dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
         addRemoveLinks: true,
         autoProcessQueue: false,
+
         // url: 'https://httpbin.org/post',
         // thumbnailWidth: 150,
         // maxFilesize: 0.5,

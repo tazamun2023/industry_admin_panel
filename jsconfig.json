@@ -214,6 +214,8 @@
     "setProductImage": "product/upload",
     "setProductImages": "product/upload-images",
     "deleteProductImage": "product/delete-image",
+    "deleteProductMediaImage": "product/media/delete-image",
+    "setProductThumbImage": "product/thumb/image",
     "setProductVideo": "product/upload-video",
 
 
