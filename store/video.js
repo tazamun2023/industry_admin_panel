@@ -5,7 +5,7 @@ const state = () => ({
   })
   const getters = {
 
-    videoList: ({ videoList }) => videoList,
+    MyvideoList: ({ videoList }) => videoList,
   }
   const mutations = {
     SET_VIDEO_LIST(state, data){
@@ -24,16 +24,17 @@ const state = () => ({
           } else {
             return Promise.reject({statusCode: data.status, message: data.message})
           }
-      
     },
-    async allVideo({rootState, commit}, {id, api, mutation}) {   
-        const {data} = await Service.getRequest(id,{}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
-    if (data.status === 200) {
-      commit(mutation, data.data)
-    } else {
-      return Promise.reject({statusCode: data.status, message: data.message})
-    }
-    }
+
+    async allVideo({rootState, commit }) {
+      try {
+        const response = await Service.getMyVideo(this.$auth.strategy.token.get(), rootState.language.langCode);
+        commit('SET_VIDEO_LIST', response.data);
+      } catch (error) {
+        console.error('Error fetching video list:', error);
+      }
+    },
+       
   }
   
   export {

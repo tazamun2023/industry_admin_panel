@@ -76,6 +76,14 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.get(json.api[api], {params: params})
   },
+  getMyVideo(bearer, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.get(json.api.getVideo)
+  },
+  
 
   setRequest(params, bearer, api, lang = null) {
     if (lang) {
