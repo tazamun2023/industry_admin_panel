@@ -29,7 +29,7 @@ const mutations ={
 }
 
 const actions ={
-  async nearAirPort({rootState, commit}, {id, api, mutation}) {
+  async nearAirPort({rootState, commit}, {id, api, mutation}) {    
     const {data} = await Service.getById(id,{}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit(mutation, data.data)

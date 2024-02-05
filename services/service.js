@@ -62,6 +62,13 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.post(`${json.api[api]}${id ? '/' + id : ''}`, params)
   },
+  putById(id, params, bearer, api, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.put(`${json.api[api]}${id ? '/' + id : ''}`, params)
+  },
   getById(id, params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
@@ -76,6 +83,15 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.get(json.api[api], {params: params})
   },
+  getMyVideo(bearer, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.get(json.api.getVideo)
+  },
+
+
   setRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
@@ -84,6 +100,7 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.post(json.api[api], params)
   },
+
   async downloadRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang

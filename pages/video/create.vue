@@ -3,21 +3,21 @@
         <div class="card">
             <div class="title p-2 border-b border-smooth flex justify-between">
                 <h3>Add Video </h3>
-                <nuxt-link :to="`/buisness-news`" class="button primary-btn">List</nuxt-link>
+                <nuxt-link :to="`/video`" class="button primary-btn">List</nuxt-link>
             </div>
-            <form class="p-4" action="">
-                <div class="my-2 input-wrapper">
+            <form class="p-4" @submit.prevent="fromSubmit">
+                <!-- <div class="my-2 input-wrapper">
                     <label for="">Video Title</label>
-                <input type="text" placeholder="Title here">
-                </div>
+                <input type="text" placeholder="Title here" v-model="fromdata.title">
+                </div> -->
                 <div  class="my-2 input-wrapper">
                  <label for="">Video Link</label>
-                <input type="url" name="" id="" placeholder="Video Link">
+                <input type="url"  placeholder="Video Link" v-model="fromdata.url">
                 </div>
-                <div  class="my-2 input-wrapper">
+                <!-- <div  class="my-2 input-wrapper">
                  <label for="">Video Ordering</label>
-                <input type="number" name="" id="" placeholder="example 1">
-                </div>
+                <input type="number"  placeholder="example 1" v-model="fromdata.ordering">
+                </div> -->
                 <div class="text-end">
                     <button class="button primary-btn">Save</button>
                 </div>
@@ -26,6 +26,39 @@
     </div>
 </template>
 
+
 <script>
+import {mapGetters, mapActions} from 'vuex'
+export default { 
+  name: "Video",
+  data() {
+    return {
+       fromdata:{
+        url:'',
+        vendor_id:1,
+       }
+    }
+  },
+ 
+  methods: {
+   
+    ...mapActions('video', ['submitData']),
+
+   async fromSubmit(){
+        try {
+            this.submitData({
+        params:{
+          url: this.fromdata.url,
+          vendor_id:this.fromdata.vendor_id
+       },
+       api: "setVideo"
+       })
+       this.$router.push('/video');
+        } catch (error) {
+            console.error('Error submitting data:', error); 
+        }        
+    }, 
+  }
+}
 
 </script>
