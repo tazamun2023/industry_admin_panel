@@ -1,12 +1,6 @@
 <!-- MultilingualInput.vue -->
 <template>
   <div>
-    <!-- Tab navigation -->
-<!--    <div class="flex space-x-10">-->
-<!--      <button type="button" class="w-32" v-for="(language, index) in languages" :key="index" @click="currentTab = index">-->
-<!--    -->
-<!--      </button>-->
-<!--    </div>-->
     <ul class="flex mb-0 list-none flex-wrap  w-50 shadow mt-10 flex-row">
       <li  v-for="(language, index) in languages" key="index" @click="currentTab = index" class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
         <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal"  v-bind:class="{'bg-white border-white border-b-2': currentTab != index, 'border-b-2 border-primary':currentTab == index}">
@@ -15,7 +9,7 @@
       </li>
     </ul>
     <!-- Input fields for each language -->
-    <div v-for="(language, index) in languages" :key="index" v-show="currentTab === index">
+    <div v-for="(language, index) in languages" :key="language" v-show="currentTab === index">
       <div class="input-wrapper">
         <label>{{ title }}   ({{ language }})</label>
         <input v-if="type=='text'"

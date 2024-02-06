@@ -3,23 +3,23 @@
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4 v-if="is_clone">Clone Product</h4>
-        <h4 v-if="!id & !is_clone">Add new product</h4>
-        <h4 v-if="id">Edit product</h4>
-        <p>Fill out the form below to add a new product to your product list</p>
+        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>
+        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>
+        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
+        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
 
       <div class="input-wrapper p-3" v-if="!id">
         <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
                v-model="is_clone" @click.prevent="isClone"/>
         <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
-        <label class="custom-control-label fw-bold" for="clonecheck"><strong style="line-height: 26px;">Clone from
-          existing product</strong></label>
+        <label class="custom-control-label fw-bold" for="clonecheck"><strong
+          style="line-height: 26px;">{{ $t('prod.Clone from existing product') }}</strong></label>
       </div>
 
       <form action="" class="p-3" id="product_sku" v-if="is_clone">
         <div class="input-wrapper">
-          <label for="name">Clone All Data From Existing Product Using Product SKU Code.</label>
+          <label for="name">{{ $t('prod.Clone All Data From Existing Product Using Product SKU Code') }}</label>
 
           <!--          <input class="form-control required" placeholder="Product SKU" type="text" v-model="search_sku" @keypress="onlyNumber" @keyup.prevent.enter="findSku">-->
           <!--          <product-search2-->
@@ -33,19 +33,19 @@
               @product-clicked="cloneProduct"
             />
           </div>
-          <label style="font-size:12px;" for="">You can find it on the Product details page in the ‘Overview’
-            section</label>
+          <label style="font-size:12px;"
+                 for="">{{ $t('prod.You can find it on the Product details page in the ‘Overview’ section') }}</label>
         </div>
         <div class="input-wrapper mb-3">
           <div class="mt-4" role="alert">
             <div class="media-body bg-soft-dark p-1 rounded  pl-2 pr-2 font-size-14">
-              <h6>Learn how to create a new single product</h6>
-              <h6>Create a new single product from scratch or clone from existing product.</h6>
-              <a href="">Learn More</a>
+              <h6>{{ $t('prod.Learn how to create a new single product') }}</h6>
+              <h6>{{ $t('Create a new single product from scratch or clone from existing product') }}</h6>
+              <a href="">{{ $t('prod.Learn More') }}</a>
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-primary">{{ $t('prod.submit') }}</button>
       </form>
     </div>
 
@@ -57,12 +57,12 @@
         <div id="product_form" class="tab-sidebar p-3">
 
           <div class="d-flex justify-content-between  align-items-center">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic information</h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic information') }}</h4>
           </div>
 
 
           <div class="input-group mb-3">
-            <label class="w-full" for="mainCategory">Select Unit</label>
+            <label class="w-full" for="mainCategory">{{ $t('prod.Select Unit') }}</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
                     v-model="result.unit">
               <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
@@ -121,13 +121,15 @@
 
           <div class="input-wrapper mb-10" v-if="is_variant">
             <label for="">{{ $t('prod.parent_sku') }}</label>
-            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')" type="text" v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
+            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')" type="text"
+                   v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
           </div>
 
           <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                       @updateInput="updateInput"></lang-input>
 
-          <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')" :valuesOfLang="result.description"
+          <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
+                      :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
           <div class="form-group input-wrapper mb-10  for-lang ar-lang">
@@ -145,9 +147,9 @@
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
         <div class="tab-sidebar p-3" v-if="is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Unit of measure</h4>
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unit of measure') }}</h4>
           <div class="form-group input-wrapper for-lang ar-lang">
-            <label class="w-full" for="name">Unit of measure</label>
+            <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
             <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
               <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.name }}</option>
             </select>
@@ -155,16 +157,61 @@
         </div>
         <!-- --------------------------- -->
         <div class="my-10"></div>
+        <div class="col-md-4"></div>
+        <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+          <hr>
+          <table>
+            <tr>
+              <td>{{ $t('prod.Color') }}</td>
+              <td>{{ $t('prod.Size') }}</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.product_variant.name"
+                            v-if="select_attr1 === 'color'">
+                      <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                          item.title ?? item.name
+                        }}
+                      </option>
+                    </select>
+                    <input class="form-control w-100" type="text" placeholder="Enter Value"
+                           v-model="result.product_variant.value"
+                           v-if="select_attr1 === 'size'"/>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <input class="form-control w-100" type="text" placeholder="Enter Value"
+                           v-model="result.product_variant.value"
+                           v-if="select_attr2 === 'size'"/>
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.product_variant.name"
+                            v-if="select_attr2 === 'color'">
+                      <option v-for="(item, index) in allColors" :key="index" :value="index">{{
+                          item.title ?? item.name
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
+        <div class="tab-sidebar p-3" v-else>
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
           <div class="form-check">
             <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                   v-model="is_variant" @click.prevent="isVariant" :disabled="is_variant_save" :style="is_variant_save?'cursor: not-allowed':''"/>
+                   v-model="is_variant" :disabled="is_variant_save" :style="is_variant_save?'cursor: not-allowed':''"/>
             <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
-                   @click.prevent="isVariant"  :class="is_variant_save?'cursor-not-allowed':''"/>
+                   @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>
             <label class="form-check-label" for="flexCheckDefault">
-              This product has options, like size or color
+              {{ $t('prod.This product has options, like size or color') }}
             </label>
           </div>
           <div class="card-body mt-10" v-if="is_variant">
@@ -174,7 +221,7 @@
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
                           @change="isAttr($event, 'color')">
-                    <option value="0">Select attribute 1</option>
+                    <option value="0">{{ $t('prod.Select attribute 1') }}</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr2">{{ item }}
                     </option>
@@ -186,7 +233,7 @@
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
                           @change="isAttr($event, 'size')">
-                    <option value="0">Select attribute 2</option>
+                    <option value="0">{{ $t('prod.Select attribute 2') }}</option>
                     <option v-for="(item, index) in product_variant_type" :key="index"
                             :disabled="item === select_attr1">{{ item }}
                     </option>
@@ -197,24 +244,23 @@
 
             <div class="col-md-4"></div>
             <div class="tab-sidebar p-3" v-if="is_variant_save">
-              <h4 class="header-title mt-0 text-capitalize mb-1 ">Variant information</h4>
+              <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
               <hr>
               <table>
-                <TransitionGroup name="table-row" tag="tbody">
                 <tr>
-                  <td>Color</td>
-                  <td>Size</td>
-                  <td>Name</td>
+                  <td>{{ $t('prod.Color') }}</td>
+                  <td>{{ $t('prod.Size') }}</td>
+                  <td>{{ $t('prod.Name') }}</td>
                 </tr>
                 <tr v-for="(variant, index) in result.product_variants" :key="index">
                   <td>{{ variant.color_name }}</td>
                   <td>{{ variant.value }}</td>
                   <td>{{ variant.color_name }},{{ variant.value }}</td>
                 </tr>
-                </TransitionGroup>
               </table>
             </div>
-            <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4" v-for="(variant, index) in result.product_variants" :key="index">
+            <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4"
+                 v-for="(variant, index) in result.product_variants" :key="index">
               <div class="col-md-4">
                 <div class="form-group">
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
@@ -259,7 +305,7 @@
                 <button :disabled="select_attr1===0 && select_attr2===0" type="button"
                         @click.prevent="addVariantValueRows()"
                         class="btn mb-10 w-25 btn-outline-secondary">
-                  Add Row
+                  {{ $t('prod.Add Row') }}
                 </button>
               </div>
             </div>
@@ -269,26 +315,33 @@
               <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
               <!--                Send for review-->
               <!--              </button>-->
-              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-if="!is_variant_save">
-                Save
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave"
+                      v-if="!is_variant_save">
+                {{ $t('prod.Save') }}
               </button>
 
-              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave" v-else>
-                Edit
+              <button type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave"
+                      v-else>
+                {{ $t('prod.Edit') }}
               </button>
 
-              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" v-if="!is_variant_save">
-                <span>Reset</span>
+              <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
+                      v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                <span>{{ $t('prod.Reset') }}</span>
               </button>
-              <button type="button" class="btn bg-light" v-if="!is_variant_save">
-                <nuxt-link :to="`/products/add`">CANCEL</nuxt-link>
+              <button type="button" class="btn bg-light" v-if="!is_variant_save"
+                      :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                <nuxt-link :to="`/products/add`" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  {{ $t('prod.CANCEL') }}
+                </nuxt-link>
               </button>
             </div>
             <div class="my-10"></div>
             <div class="tab-sidebar p-3" v-if="is_variant">
               <div class="flex justify-end gap-4 pt-3">
-                <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doNext">
-                  Next
+                <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary"
+                        @click.prevent="doNext">
+                  {{ $t('prod.Next') }}
                 </button>
               </div>
             </div>
@@ -297,11 +350,11 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic Information </h4>
           <div class="card-body">
             <div class="input-wrapper mb-10">
-              <label for="">Key features - English ?</label>
+              <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
               <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
                                 :valuesOfLang="result.features"
@@ -309,7 +362,7 @@
             </div>
 
             <div class="input-wrapper mb-10">
-              <label for="">Keywords - English ?</label>
+              <label for="">{{ $t('prod.Keywords - English') }} ?</label>
               <v-select
                 :dir="$t('app.dir')"
                 v-model="result.basic_keyword_en"
@@ -322,7 +375,7 @@
               ></v-select>
             </div>
             <div class="input-wrapper mb-10">
-              <label for="">Keywords - Arabic ?</label>
+              <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
               <v-select
                 :dir="$t('app.dir')"
                 v-model="result.basic_keyword_ar"
@@ -341,17 +394,17 @@
 
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
           <!--          <div class="flex pl-4">-->
           <!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
           <!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
           <!--          </div>-->
           <div class="input-wrapper">
             <label class="pl-4 pt-0 fw-bold">
-              Add images and videos of your product to engage customers. <br>
-              Images should be square with minimum allowed dimensions to be 500x500 pixels. <br>
-              Allowed file extensions are (png, bmp, jpeg, and jpg) <br>
-              and allowed video extensions are (mp4, mpeg and webp)
+              {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>
+              {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>
+              {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>
+              {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}
             </label>
           </div>
           <table class="table mb-0">
@@ -371,13 +424,13 @@
                     :alt="isThumb"
                   />
                   <div class="media-body">
-                    <h6 class="mt-0 mb-0  text-xs">Thumbnail</h6>
+                    <h6 class="mt-0 mb-0  text-xs">{{ $t('prod.Thumbnail') }}</h6>
                     <span class="text-muted  text-xs">Image</span>
                   </div>
                 </div>
               </td>
               <td class="text-xs">
-                <button disabled type="button" class="btn bg-primary text-white">Thumbnail</button>
+                <button disabled type="button" class="btn bg-primary text-white">{{ $t('prod.Thumbnail') }}</button>
               </td>
               <td><span class="text-xs"></span></td>
               <td>
@@ -444,13 +497,14 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1">Product Identifiers</h4>
-          <p class="text-sm">Enter barcode type and number for improved search/visibility of your product.</p>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
+          <p class="text-sm">
+            {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
           <div class="grid grid-cols-2 gap-4">
 
             <div class="input-wrapper mt-3 mt-sm-0">
-              <label class="w-full">Barcode type</label>
+              <label class="w-full">{{ $t('prod.Barcode type') }}</label>
               <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                       :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}"
                       v-model="result.barcode_type">
@@ -459,14 +513,14 @@
               </select>
             </div>
             <div class="form-group input-wrapper mt-3 mt-sm-0">
-              <label>Barcode</label>
+              <label>{{ $t('prod.Barcode') }}</label>
               <input type="text" class="form-control" v-model="result.barcode"
                      :class="{invalid: !is_variant && result.barcode===null && hasError}"
                      placeholder="Please enter barcode number"
                      :readonly="result.barcode_type==0">
             </div>
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
-              <label>SKU</label>
+              <label>{{ $t('prod.SKU') }}</label>
               <input type="text" class="form-control" v-model="result.sku" placeholder="sku"
                      :readonly="result.barcode_type==0"
                      :class="{invalid: !is_draft && result.sku===null && hasError}"
@@ -477,29 +531,29 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
           <div class="border-b border-smooth">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">Fulfillment</h4>
-            <p>Setup shipping and inventory details for this product</p>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
+            <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
           </div>
           <div class="mt-10">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">Product Inventory</h4>
-            <p>Enter the available quantity of your product</p>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
+            <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
           </div>
           <div class="input-wrapper">
-            <label for="">Available quantity ?</label>
+            <label for="">{{ $t('prod.Available quantity') }} ?</label>
             <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber"
                    @input="availableQuantity">
-            <label>Minimum order quantity: 1</label>
+            <label>{{ $t('prod.Minimum order quantity') }}: 1</label>
           </div>
         </div>
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Packaging</h4>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="input-wrapper">
-              <label for="">Size ?</label>
+              <label for="">{{ $t('prod.Size') }} ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Size" aria-label="Recipient's username"
                        :class="{invalid: !is_draft && (!result.pk_size) && hasError}"
@@ -521,7 +575,7 @@
 
             </div>
             <div class="input-wrapper">
-              <label for="">Number of units per carton</label>
+              <label for="">{{ $t('prod.Number of units per carton') }}</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
                        :class="{invalid: !is_draft && (!result.pk_number_of_carton) && hasError}"
@@ -530,7 +584,7 @@
               </div>
             </div>
             <div class="input-wrapper">
-              <label for="">Average lead time (Days) ?</label>
+              <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label>
               <div class=" mb-3">
                 <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
                        :class="{invalid: !is_draft && (!result.pk_average_lead_time) && hasError}"
@@ -539,7 +593,7 @@
               </div>
             </div>
             <div class="input-wrapper">
-              <label for="">Transportation Mode</label>
+              <label for="">{{ $t('prod.Transportation Mode') }}</label>
               <div class=" mb-3">
                 <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
                         v-model="result.pk_transportation_mode"
@@ -557,14 +611,13 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Carton Dimensions & Weight</h4>
-          <p>Enter the dimensions and weight of the carton to help calculate shipping rate. These measurements are for
-            the
-            product's shipping container.</p>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
+          <p>
+            {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate.These measurements are for the product's shipping container") }}.</p>
           <div class="grid grid-cols-2 gap-4">
             <div class="input-wrapper">
-              <label for="">Weight ?</label>
+              <label for="">{{ $t('prod.Weight') }} ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                        aria-label="Recipient's username"
@@ -585,7 +638,7 @@
               </div>
             </div>
             <div class="input-wrapper">
-              <label for="">Length ?</label>
+              <label for="">{{ $t('prod.Length') }} ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Length"
                        aria-label="Recipient's username"
@@ -606,7 +659,7 @@
             </div>
 
             <div class="input-wrapper">
-              <label for="">Height ?</label>
+              <label for="">{{ $t('prod.Height') }} ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Height"
                        aria-label="Recipient's username"
@@ -627,7 +680,7 @@
             </div>
 
             <div class="input-wrapper">
-              <label for="">Width ?</label>
+              <label for="">{{ $t('prod.Width') }} ?</label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input type="text" class="form-control pr-12" placeholder="Carton Width"
                        aria-label="Recipient's username"
@@ -652,11 +705,11 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Product dimensions & weight</h4>
-          <p>These attributes provide information about the product's dimensions and weight.</p>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
+          <p>{{ $t("prod.These attributes provide information about the product's dimensions and weight") }}.</p>
           <div class="input-wrapper">
-            <label for="">Weight ?</label>
+            <label for="">{{ $t('prod.Weight') }} ?</label>
             <div class="relative flex input-group gap-4 w-50 mb-3">
               <input type="text" class="form-control pr-12" placeholder="Carton Weight"
                      aria-label="Recipient's username"
@@ -674,7 +727,7 @@
           </div>
           <div class="grid grid-cols-4 gap-4">
             <div class="input-wrapper">
-              <label for="">Length ?</label>
+              <label for="">{{ $t('prod.Length') }} ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Length" aria-label="Recipient's username"
                        :class="{invalid: !is_draft && (result.pdime_length === null) && hasError}"
@@ -683,7 +736,7 @@
               </div>
             </div>
             <div class="input-wrapper">
-              <label for="">Height ?</label>
+              <label for="">{{ $t('prod.Height') }} ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"
                        :class="{invalid: !is_draft && (result.pdime_height === null) && hasError}"
@@ -693,7 +746,7 @@
             </div>
 
             <div class="input-wrapper">
-              <label for="">Width ?</label>
+              <label for="">{{ $t('prod.Width') }} ?</label>
               <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"
                        :class="{invalid: !is_draft && (result.pdime_width===null) && hasError}"
@@ -702,7 +755,7 @@
               </div>
             </div>
             <div class="input-wrapper">
-              <label for="">Dimension Unit</label>
+              <label for="">{{ $t('prod.Dimension Unit') }}</label>
               <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       :class="{invalid: !is_draft && (result.pdime_dimention_unit ===null) && hasError}"
                       v-model="result.pdime_dimention_unit">
@@ -715,30 +768,29 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Pricing</h4>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
           <div class="input-wrapper">
-            <label for="">Unit of measure ?</label>
+            <label for="">{{ $t('prod.Unit of measure') }} ?</label>
             <div class="input-group mb-3">
               <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
                       :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"
                       v-model="result.unit_id">
-                <option value="0">Unit</option>
+                <option value="0">{{ $t('prod.Unit') }}</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
               </select>
             </div>
           </div>
-          <p><span class="fw-bold">Price list</span> UAE Market (GULF) - AED</p>
-          <p>Add pricing to your product. You can also create bulk pricing rules to offer price discounts based on
-            quantity
-            breaks</p>
+          <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.UAE Market(GULF) - AED') }}</p>
+          <p>
+            {{ $t('prod.Add pricing to your product. You can also create bulk pricing rules to offer price discounts based on quantity breaks') }}</p>
           <div class="table-responsive">
             <table class="table table-bordered mb-0">
               <thead>
               <tr>
-                <th scope="col">Minimum order quantity</th>
-                <th scope="col">Unit price</th>
-                <th scope="col">Sale price ? (optional)</th>
+                <th scope="col">{{ $t('prod.Minimum order quantity') }}</th>
+                <th scope="col">{{ $t('prod.Unit price') }}</th>
+                <th scope="col">{{ $t('prod.Sale price') }} ? ({{ $t('prod.optional') }})</th>
                 <th></th>
               </tr>
               </thead>
@@ -786,54 +838,54 @@
               </tbody>
             </table>
             <button v-if="result.product_prices.length <= 2" class="btn btn-link fw-bold"
-                    @click.prevent="addPriceingRows()">+ ADD TIER
+                    @click.prevent="addPriceingRows()">+ {{ $t('prod.ADD TIER') }}
             </button>
           </div>
         </div>
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Shipping details</h4>
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Is Ready To Ship ?</label>
+                <label for="">{{ $t('prod.Is Ready To Ship') }} ?</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase" v-model="result.is_ready_to_ship"
                         :class="{invalid: !is_draft && (result.is_ready_to_ship === null) && hasError}"
                 >
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
+                  <option value="1">{{ $t('prod.Yes') }}</option>
+                  <option value="0">{{ $t('prod.No') }}</option>
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Is Buy Now ?</label>
+                <label for="">{{ $t('prod.Is Buy Now') }} ?</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
                         :class="{invalid: !is_draft && (result.is_buy_now === null) && hasError}"
                         v-model="result.is_buy_now">
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
+                  <option value="1">{{ $t('prod.Yes') }}</option>
+                  <option value="0">{{ $t('prod.No') }}</option>
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Availability</label>
+                <label for="">{{ $t('prod.Availability') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
                         disabled
                         :class="{invalid: !is_draft && (result.is_availability===null) && hasError}"
                         v-model="result.is_availability">
-                  <option value="1">In Stock</option>
-                  <option value="0">Out of Stock</option>
+                  <option value="1">{{ $t('prod.In Stock') }}</option>
+                  <option value="0">{{ $t('prod.Out of Stock') }}</option>
                 </select>
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Storage temperature</label>
+                <label for="">{{ $t('prod.Storage temperature') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg"
                         :class="{invalid: !is_draft && (result.storage_temperature===0 || result.storage_temperature===null) && hasError}"
                         v-model="result.storage_temperature">
@@ -846,7 +898,7 @@
 
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Ware House</label>
+                <label for="">{{ $t('prod.Ware House') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location"
                         :class="{invalid: !is_draft && (result.stock_location===0 || result.stock_location===null) && hasError}">
                   <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{ item.name }}</option>
@@ -856,7 +908,7 @@
 
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Country of origin</label>
+                <label for="">{{ $t('prod.Country of origin') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin"
                         :class="{invalid: !is_draft && (result.country_of_origin===null) && hasError}">
                   <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
@@ -869,12 +921,12 @@
 
             <div class="col-md-6">
               <div class="input-wrapper">
-                <label for="">Dangerous Goods</label>
+                <label for="">{{ $t('prod.Dangerous Goods') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg uppercase"
                         v-model="result.is_dangerous"
                         :class="{invalid: !is_draft && (result.is_dangerous===null) && hasError}">
-                  <option value="1">Yes</option>
-                  <option value="0">No</option>
+                  <option value="1">{{ $t('prod.Yes') }}</option>
+                  <option value="0">{{ $t('prod.No') }}</option>
                 </select>
               </div>
             </div>
@@ -885,16 +937,16 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
           <div class="border-b border-smooth mb-10">
-            <h4>Additional details</h4>
-            <p>Enter the details listed below for better discoverability of the product</p>
+            <h4>{{ $t('prod.Additional details') }}</h4>
+            <p>{{ $t('prod.Enter the details listed below for better discoverability of the product') }}</p>
           </div>
           <div class="form-group input-wrapper mb-10 for-lang ar-lang">
             <label for="name">{{ $t("prod.hts_code") }}</label>
             <input class="form-control" name="e.g. Macbook Pro 2019" type="text" v-model="result.hts_code">
           </div>
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">Additional attributes <span
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Additional attributes') }} <span
             class="text-xs">(optional)</span>
           </h4>
           <div class="input-wrapper">
@@ -926,10 +978,10 @@
           <div class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
               <button type="button" class="btn text-primary" @click.prevent="doDraft">
-                Save Draft
+                {{ $t('prod.Save Draft') }}
               </button>
               <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="doSubmit">
-                Send for review
+                {{ $t('prod.Send for review') }}
               </button>
             </div>
           </div>
@@ -954,10 +1006,12 @@
 select option {
   padding: 0.5rem;
 }
+
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
   opacity: 0;
@@ -987,7 +1041,7 @@ import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
 import Variant from "~/components/variant/variant.vue";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import {ValidationObserver, ValidationProvider} from "vee-validate";
 
 
 export default {
@@ -1068,6 +1122,7 @@ export default {
         clone_products: [],
         unit_id: 9,
         variants_type: [],
+        product_variant: [],
         product_variants: [],
         features: [
           {"ar": "", "en": ""},
@@ -1409,6 +1464,15 @@ export default {
     },
 
     doVariantSave() {
+      if (this.result.product_variants.length === 0) {
+        this.$swal({
+          icon: "error",
+          title: "No variants added!",
+          showConfirmButton: false,
+          timer: 1000
+        });
+        return false;
+      }
       this.is_variant_save = !this.is_variant_save
     },
 
@@ -1518,9 +1582,9 @@ export default {
       this.result.product_variants.push(Object.assign({}, this.product_variant))
     },
 
-    setColorName(index, event){
+    setColorName(index, event) {
       // console.log(this.result.product_variants);
-      this.result.product_variants[index].color_name=this.allColors[event.target.value].title
+      this.result.product_variants[index].color_name = this.allColors[event.target.value].title
     },
 
     addAdditionalDetailsRows(index) {
@@ -1758,13 +1822,14 @@ export default {
 
         delete this.result.created_at
         delete this.result.updated_at
-        const data = await this.setById({id: this.id, params: this.result, api: this.setApi})
-        if (data) {
-
-          this.result = Object.assign({}, data)
-          // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
-        }
+        const data = await this.setById({id: this.id, params: {result: this.result}, api: this.setApi})
+        // if (data) {
+        //
+        //   this.result = Object.assign({}, data)
+        //   // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+        //   this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
+        // }
+        this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`})
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -1794,8 +1859,10 @@ export default {
           purchased: res.selling,
           offered: res.offered,
           images: res.images,
+          product_images: res.product_images,
           video: res.video,
           status: res.status,
+          parent_sku: res.parent_sku,
           /*Basic Information*/
           basic_keyword_en: res.basic_keyword_en,
           basic_keyword_ar: res.basic_keyword_ar,
@@ -1859,6 +1926,7 @@ export default {
             value: item.value,
             product_id: item.product_id
           })),
+          product_variant: res.product_single_variant ?? [],
           PriceingRows: res.product_prices,
           is_variant: res.product_variant.length != 0 ? true : false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
