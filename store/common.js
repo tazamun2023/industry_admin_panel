@@ -23,7 +23,6 @@ const state = () => ({
   allPackagingUnits: null,
   allDimensionUnits: null,
   allWeightUnits: null,
-  // allCountries: null,
   allStorageTemperatures: null,
   allTransportationModes: null,
   allWarehouses: null,

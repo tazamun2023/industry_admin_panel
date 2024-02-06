@@ -373,6 +373,37 @@
     "req": "{type} is required"
   },
 
+  "vendor": {
+    "name": "Name",
+    "status": "Status",
+    "created": "Created",
+    "date": "Date",
+    "lat": "Latitude ",
+    "lang": "Longitude",
+    "create_by": "Date",
+    "type": "Type",
+    "req": "{type} is required",
+    "details": "Details",
+    "subdomain": "Subdomain",
+    "email": "Email",
+    "mobile": "Mobile",
+    "cr_number": "CR Number",
+    "foundation_date": "Foundation Date",
+    "production_start": "Production Start Date",
+    "primary_email": "Primary Email",
+    "primary_mobile": "Primary Mobile",
+    "country": "Country",
+    "city": "City",
+    "area": "Area",
+    "street": "Street",
+    "building": "Building Number",
+    "whatsapp" : "Whatsapp",
+    "linkedin": "Linkedin",
+    "facebook": "Facebook",
+    "youtube": "Youtube"
+
+  },
+
   "country": {
     "iso": "Iso",
     "iso3": "Iso3",
