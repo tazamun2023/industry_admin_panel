@@ -9,7 +9,7 @@ const state = () => ({
   }
   const mutations = {
     SET_VIDEO_LIST(state, data){
-      state.videoList = data
+      state.videoList = data.data
     }, 
   }
   

@@ -4,23 +4,21 @@
                 <h3>Video List</h3>
                 <nuxt-link :to="`/video/create`" class="button primary-btn">Create</nuxt-link>
             </div>
-        <div class="table-wrapper">
-            <button @click="allVideo()">button</button>
-            {{ MyvideoList }}
+        <div class="table-wrapper p-2">
             <table class="w-full">
                 <thead>
                     <tr>
                         <th>Sl</th>
-                        <th>Title</th>
+                        <!-- <th>Title</th> -->
                         <th>Link</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Title here</td>
-                        <td><a href="">https//www.ggogle.com</a></td>
+                    <tr v-for="(item, index) in MyvideoList" :key="index">
+                        <td>{{index+1}}</td>
+                        <!-- <td>Title here</td> -->
+                        <td><a href="">{{ item.url }}</a></td>
                         <td>
                             <div class="flex gap-4">
                                 <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
