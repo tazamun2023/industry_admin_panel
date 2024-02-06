@@ -105,6 +105,8 @@
     "deleteUnit": "unit/delete",
     "getUnit": "unit/find",
     "setUnit": "unit/action",
+    "updateVendor": "vendor",
+    "getVendor" : "vendor",
 
 
     "getTransportModes": "transportationMode/all",

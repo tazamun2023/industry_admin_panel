@@ -6,8 +6,17 @@ export default {
   },
   methods: {
 
-    fromSubmit(){
-      alert("this is my function")
+   async fromSubmit(){
+
+     let {data, status} = await this.submitData({id: 1, params: this.fromData, api:'updateVendor'})
+
+      if(status === 200){
+        this.errors = null
+      }else if(status === 201){
+        this.errors = data.form
+      }
+
+
     }
 
 
