@@ -309,7 +309,10 @@ export default {
     if(!this.fromData.id){
       this.fromData.id = this.profile?.id
     }
-      await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendor'})
+      await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendor'}).then(()=>{
+        console.log(this.vendorList.data)
+        this.fromData = this.vendorList.data
+      })
 
   /*  if(this.vendorList){
       this.fromData = this.vendorList
