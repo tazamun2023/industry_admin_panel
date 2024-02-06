@@ -267,14 +267,14 @@
                           <p><strong>12345,88</strong></p>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded leading-3">Reject Order</button>
+                          <button @click="rejectModalShow()" class="border border-primary p-2 rounded leading-3">Reject Order</button>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
+                          <button @click="approvedModalShow()" class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -397,14 +397,14 @@
                           <p><strong>12345,88</strong></p>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded leading-3">Reject Order</button>
+                          <button @click="rejectModalShow()" class="border border-primary p-2 rounded leading-3">Reject Order</button>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
+                          <button @click="approvedModalShow()" class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -529,14 +529,14 @@
                           <p><strong>12345,88</strong></p>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded leading-3">Reject Order</button>
+                          <button @click="rejectModalShow()" class="border border-primary p-2 rounded leading-3">Reject Order</button>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
+                          <button @click="approvedModalShow()" class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -659,14 +659,14 @@
                           <p><strong>12345,88</strong></p>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded leading-3">Reject Order</button>
+                          <button @click="rejectModalShow()" class="border border-primary p-2 rounded leading-3">Reject Order</button>
                         </div>
                         <div>
-                          <button class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
+                          <button @click="approvedModalShow()" class="border border-primary p-2 rounded bg-primary text-white hover:text-primary leading-3">Approved Order</button>
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -809,7 +809,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div v-if="productTable[1]" class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -931,7 +931,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div v-if="productTable[2]" class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -1055,7 +1055,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div v-if="productTable[1]" class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -1177,7 +1177,7 @@
                         </div>
                       </div>
                     </div>
-                    <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+                   
                     <div v-if="productTable[2]" class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -1252,7 +1252,8 @@
           </div>
       </div>
     </div>
-    <OrderApprovedModal/>
+    <OrderApprovedModal v-if="approvedModal" @close="handleModalClose"/>
+    <OrderReject v-if="rejectModal" @close="rejectModalClose"/>
     </div>
 </template>
 
@@ -1261,6 +1262,8 @@
   data(){
    return{
     openTab:  1,
+    approvedModal:false,
+    rejectModal:false,
     productTable:{
       1:false,
       2:false
@@ -1274,6 +1277,18 @@
     },
     productTableShow(index){
       this.productTable[index] = !this.productTable[index]
+    },
+    approvedModalShow(){
+      this.approvedModal = !this.approvedModal
+    },
+    rejectModalShow(){
+      this.rejectModal = !this.rejectModal 
+    },
+    handleModalClose() {
+      this.approvedModal = false;
+    },
+    rejectModalClose(){
+      this.rejectModal = false;
     }
   }
   
