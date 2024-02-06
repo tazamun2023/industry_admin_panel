@@ -5,6 +5,7 @@
     get-api="getCity"
     set-image-api="setCityImage"
     route-name="cities"
+    method="put"
     :name="$t('city.city')"
     gate="brand"
     :validation-keys="['name.ar','name.en','country_id']"
@@ -33,7 +34,7 @@
           class="error"
           v-if="!!!result.country_id && hasError"
         >
-          {{ $t('category.req', { type: $t('city.country')}) }}
+          {{ $t('category.req', {type: $t('city.country')}) }}
         </span>
       </div>
 
@@ -105,11 +106,11 @@ export default {
     ...mapActions('common', ['getAllCountries', 'emptyAllList'])
   },
   async mounted() {
-      try {
-        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
+    try {
+      await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
 
   }
 }

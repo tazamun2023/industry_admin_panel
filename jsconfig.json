@@ -90,6 +90,9 @@
     "getColor": "color/find",
     "setColor": "color/action",
 
+    "FAQ": "faqs",
+
+
     "getAllCityById" : "port/all-city",
     "getPorts": "port/all",
     "deletePort": "port/delete",
