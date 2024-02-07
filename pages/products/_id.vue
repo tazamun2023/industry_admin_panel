@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ValidationObserver v-slot="{ invalid }">
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
       <div class="col-md-12 p-4 title">
@@ -50,7 +51,8 @@
     </div>
 
     <div v-if="!is_next && !is_clone">
-      <form :class="{'has-error': hasError}">
+
+      <form>
         <!-- --------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
@@ -60,17 +62,20 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic information') }}</h4>
           </div>
 
-
+          <ValidationProvider name="email" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.required_unit')}) }">
           <div class="input-group mb-3">
             <label class="w-full" for="mainCategory">{{ $t('prod.Select Unit') }}</label>
             <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
                     v-model="result.unit">
               <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>
             </select>
+            <span class="error">{{ errors[0] }}</span>
           </div>
+          </ValidationProvider>
           <!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
           <div class="grid grid-cols-3 gap-4">
             <!-- Main Category Dropdown -->
+            <ValidationProvider name="email" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.required_main_category')}) }">
             <div class="form-group input-wrapper for-lang ar-lang">
               <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
               <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
@@ -85,9 +90,12 @@
                 class="custom-select"
                 :class="{invalid: result.parentCategory === '' && hasError}"
               ></v-select>
+              <span class="error">{{ errors[0] }}</span>
             </div>
+            </ValidationProvider>
 
             <!-- Sub Category Dropdown -->
+            <ValidationProvider name="email" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.required_sub_category')}) }">
             <div class="form-group input-wrapper for-lang ar-lang">
               <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
               <v-select
@@ -101,9 +109,12 @@
                 @input="updateLevel3"
                 :class="{invalid:  result.subCategory === '' && hasError}"
               ></v-select>
+              <span class="error">{{ errors[0] }}</span>
             </div>
+            </ValidationProvider>
 
             <!-- Child Category Dropdown -->
+            <ValidationProvider name="email" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.required_child_category')}) }">
             <div class="form-group input-wrapper for-lang ar-lang">
               <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }}</label>
               <v-select
@@ -116,7 +127,9 @@
                 class="custom-select"
                 :placeholder="$t('rfq.Select Child Category')"
               ></v-select>
+              <span class="error">{{ errors[0] }}</span>
             </div>
+            </ValidationProvider>
           </div>
 
           <div class="input-wrapper mb-10" v-if="is_variant">
@@ -977,16 +990,17 @@
           </div>
           <div class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
-              <button type="button" class="btn text-primary" @click.prevent="doDraft">
+              <button type="button" class="btn text-primary" :disabled="invalid" @click.prevent="doDraft">
                 {{ $t('prod.Save Draft') }}
               </button>
-              <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="doSubmit">
+              <button type="button" class="btn bg-primary text-white border-secondary" :disabled="invalid" @click.prevent="doSubmit">
                 {{ $t('prod.Send for review') }}
               </button>
             </div>
           </div>
         </div>
       </form>
+
     </div>
     <div v-if="is_next">
       <Transition>
@@ -1000,6 +1014,7 @@
         ></Variant>
       </Transition>
     </div>
+    </ValidationObserver>
   </div>
 </template>
 <style scoped>
@@ -1041,7 +1056,16 @@ import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
 import Variant from "~/components/variant/variant.vue";
-import {ValidationObserver, ValidationProvider} from "vee-validate";
+import {ValidationObserver, ValidationProvider} from 'vee-validate';
+import { extend } from 'vee-validate';
+
+extend('min', {
+  validate(value, { length }) {
+    return value.length >= length;
+  },
+  params: ['length'],
+  message: 'The {_field_} field must have at least {length} characters'
+});
 
 
 export default {
@@ -1302,8 +1326,8 @@ export default {
     Spinner,
     LangInput,
     Variant,
-    ValidationObserver: ValidationObserver,
-    ValidationProvider: ValidationProvider
+    ValidationProvider,
+    ValidationObserver
   },
   provide: {
     // fetchingData: () => {
