@@ -97,6 +97,18 @@
   import Dropdown from "~/components/Dropdown";
   import ClearCacheBtn from "~/components/partials/ClearCacheBtn";
 
+  import * as rules from 'vee-validate/dist/rules';
+  import { messages } from 'vee-validate/dist/locale/en.json';
+  import { extend } from 'vee-validate';
+
+  Object.keys(rules).forEach(rule => {
+    extend(rule, {
+      ...rules[rule], // copies rule configuration
+      message: messages[rule] // assign message
+    });
+  });
+
+
   export default {
     name: 'Header',
     data() {

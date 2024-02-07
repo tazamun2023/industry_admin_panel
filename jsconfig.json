@@ -352,6 +352,7 @@
 
 
     "setVideo" : "video-gallery",
-    "getVideo" : "video-gallery"
+    "getVideo" : "video-gallery",
+    "deleteVideo" : "video-gallery"
   }
 }

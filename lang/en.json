@@ -370,7 +370,9 @@
     "lang": "Longitude",
     "create_by": "Date",
     "type": "Type",
-    "req": "{type} is required"
+    "req": "{type} is required",
+    "url": "Url",
+    "video_type": "Video Type"
   },
 
   "vendor": {
