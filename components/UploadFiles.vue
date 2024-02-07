@@ -51,7 +51,7 @@ export default {
 
       options: {
         acceptedFiles:this.accept,
-        accept:this.accept,
+        // accept:this.accept,
         url: !process.env.apiBase.trim() ? window.location.origin + '/' : process.env.apiBase + "api/images/dz_upload",
         dictDefaultMessage: "" + this.$t('prod.Drag & Drop images here to upload') + " <br> <span class=\"text-xs\">" + "<svg class=\"w-6 h-6 mx-auto text-gray-800 \" aria-hidden=\"true\"\n" +
           "                       xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 18\">\n" +
