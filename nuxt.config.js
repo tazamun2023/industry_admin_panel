@@ -147,7 +147,16 @@ export default {
   },
 
   build: {
-    transpile: ["vee-validate/dist/rules"],
+    // Add exception
+    transpile: [
+      "vee-validate/dist/rules"
+    ],
+    /*
+      ** You can extend webpack config here
+      */
+    extend(config, ctx) {
+      // ...
+    }
   }
   // Build Configuration: https://go.nuxtjs.dev/config-build
 /*  build: {
