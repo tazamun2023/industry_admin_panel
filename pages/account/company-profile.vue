@@ -30,37 +30,47 @@
           </div>
 
           <div class="form-group">
+            <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('global.name') }}</label>
-              <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
                 <input type="text" v-model="fromData.name.ar" >
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-
-              <ValidationProvider name="Name English" rules="max:30|required" v-slot="{ errors }">
-                <input type="text" v-model="fromData.name.en" >
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-
+                <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.name')}) }}
+              </span>
             </div>
+              </ValidationProvider>
 
+            <ValidationProvider name="Name English" rules="max:30|required" v-slot="{ errors }">
+            <div class="input-wrapper mb-2">
+              <label for="">{{ $t('global.name') }}</label>
+                <input type="text" v-model="fromData.name.en" >
+                <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.name')}) }}
+              </span>
+            </div>
+            </ValidationProvider>
+
+            <ValidationProvider name="Details English" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{ $t("vendor.details") }}</label>
-              <input type="text" placeholder="Details Arabic" v-model="fromData.details.ar">
               <input type="text" placeholder="Details English" v-model="fromData.details.en">
-              <span
-                class="error"
-                v-if="!fromData.details.ar || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.details')}) }}
-                </span>
-              <span
-                class="error"
-                v-else-if="!fromData.details.en || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.details')}) }}
-                </span>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.details')}) }}
+              </span>
             </div>
+            </ValidationProvider>
+
+
+            <ValidationProvider name="Details Arabic" rules="max:30|required" v-slot="{ errors }">
+              <div class="input-wrapper mb-2">
+                <label for="">{{ $t("vendor.details") }}</label>
+                <input type="text" placeholder="Details Arabic" v-model="fromData.details.ar">
+                <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.details')}) }}
+              </span>
+              </div>
+            </ValidationProvider>
+
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
@@ -71,7 +81,9 @@
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.email') }}</label>
                 <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
-                <span class="error">{{ errors[0] }}</span>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.email')}) }}
+              </span>
             </div>
             </ValidationProvider>
 
@@ -79,6 +91,9 @@
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.mobile') }}</label>
               <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.mobile')}) }}
+              </span>
             </div>
             </ValidationProvider>
 
@@ -86,16 +101,24 @@
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.cr_number') }}</label>
               <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.cr_number')}) }}
+              </span>
             </div>
             </ValidationProvider>
 
+            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
-              <label for="">Status</label>
+              <label for="">{{ $t('vendor.status') }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
                 <option value="1">Enable</option>
                 <option value="2">Disable</option>
               </select>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.status')}) }}
+              </span>
             </div>
+            </ValidationProvider>
           </div>
         </div>
         <!-- --------------- -->
@@ -114,35 +137,40 @@
               <input type="date"  v-model="fromData.production_start_date"  readonly>
             </div>
 
+            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.primary_email") }}</label>
-              <ValidationProvider name="email" rules="email|required" v-slot="{ errors }">
               <input type="text" placeholder="Email" v-model="fromData.primary_email">
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.primary_email')}) }}
+              </span>
             </div>
+            </ValidationProvider>
 
+            <ValidationProvider name="Mobile" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.primary_mobile") }}</label>
-              <input type="number" placeholder="Mobile" v-model="fromData.primary_mobile">
-                <span class="error">{{ errors[0] }}</span>
-              <span
-                class="error"
-                v-if="!fromData.primary_mobile || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.primary_email')}) }}
-                </span>
+              <input type="text" placeholder="Mobile" v-model="fromData.primary_mobile">
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.primary_mobile')}) }}
+              </span>
             </div>
+            </ValidationProvider>
 
 
+            <ValidationProvider name="Facility" rules="required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
-              <label for="">Facility Type</label>
+              <label for="">{{ $t("vendor.facility") }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.facility_type_id" >
                 <option value="1">Individual</option>
                 <option value="2">Establishment</option>
               </select>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.facility')}) }}
+              </span>
             </div>
+            </ValidationProvider>
+
           </div>
         </div>
         <!-- --------------- -->
@@ -152,66 +180,63 @@
           </div>
           <div class="form-group">
             <div class="grid grid-cols-2 gap-4">
+              <ValidationProvider name="Country" rules="required" v-slot="{ errors }">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.country") }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.country_id" @change="countrySelected">
                   <option value="">Choose Country </option>
                   <option :value="countryList.id" v-for="countryList in allCountries" :selected="countryList.id === fromData.country_id">{{ countryList.name }}</option>
                 </select>
-                <span
-                  class="error"
-                  v-if="!fromData.country_id"
-                >
-                  {{ $t('global.req', { type: $t('vendor.country')}) }}
-                </span>
+                <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.country')}) }}
+              </span>
               </div>
+              </ValidationProvider>
 
 
-
+              <ValidationProvider name="City" rules="required" v-slot="{ errors }">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.city") }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.city_id">
                   <option value="">Choose City </option>
                   <option :value="cityList.id" v-for="cityList in allCitiesById" :selected="cityList.id === fromData.city_id">{{ cityList.name }}</option>
                 </select>
-                <span
-                  class="error"
-                  v-if="!fromData.city_id || hasError"
-                >
-                  {{ $t('global.req', { type: $t('vendor.city')}) }}
-                </span>
+                <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.city')}) }}
+              </span>
               </div>
+              </ValidationProvider>
             </div>
+
+            <ValidationProvider name="Area" rules="required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{  $t("vendor.area") }}</label>
               <input type="text" placeholder="Area name" v-model="fromData.contact_json.area">
-              <span
-                class="error"
-                v-if="!fromData.contact_json.area || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.area')}) }}
-                </span>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.area')}) }}
+              </span>
             </div>
+            </ValidationProvider>
+
+            <ValidationProvider name="Street" rules="required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.street') }}</label>
               <input type="text"  placeholder="Street name" v-model="fromData.contact_json.street">
-              <span
-                class="error"
-                v-if="!fromData.contact_json.street || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.street')}) }}
-                </span>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.street')}) }}
+              </span>
             </div>
+            </ValidationProvider>
+
+            <ValidationProvider name="Building" rules="required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.building') }}</label>
               <input type="text" placeholder="Building name" v-model="fromData.contact_json.building">
-              <span
-                class="error"
-                v-if="!fromData.contact_json.building || hasError"
-              >
-                  {{ $t('global.req', { type: $t('vendor.building')}) }}
-                </span>
+              <span v-if="errors.length" class="error">
+                {{ $t('global.req', { type: $t('vendor.building')}) }}
+              </span>
             </div>
+            </ValidationProvider>
 
 
           </div>
