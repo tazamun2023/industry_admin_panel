@@ -97,7 +97,7 @@ const mutations = {
   SET_ALL_COLORS(state, allColors) {
     state.allColors = {}
     allColors.forEach((item) => {
-      state.allColors = {...state.allColors, ...{[item.id]: {title: item.title}}}
+      state.allColors = {...state.allColors, ...{[item.id]: {name: item.name, id: item.id}}}
     })
   },
   SET_ALL_BARCODES(state, allBarcodes) {

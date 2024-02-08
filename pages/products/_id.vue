@@ -172,7 +172,7 @@
         <div class="my-10"></div>
         <div class="col-md-4"></div>
         <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
-          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
           <hr>
           <table>
             <tr>
@@ -185,8 +185,8 @@
                   <div class="form-group">
                     <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.product_variant.name"
                             v-if="select_attr1 === 'color'">
-                      <option v-for="(item, index) in allColors" :key="index" :value="index">{{
-                          item.title ?? item.name
+                      <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                          item.name
                         }}
                       </option>
                     </select>
@@ -204,8 +204,8 @@
                            v-if="select_attr2 === 'size'"/>
                     <select class="w-full rounded border mb-10 border-smooth p-3" v-model="result.product_variant.name"
                             v-if="select_attr2 === 'color'">
-                      <option v-for="(item, index) in allColors" :key="index" :value="index">{{
-                          item.title ?? item.name
+                      <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                          item.name
                         }}
                       </option>
                     </select>
@@ -267,8 +267,8 @@
                 </tr>
                 <tr v-for="(variant, index) in result.product_variants" :key="index">
                   <td>{{ variant.color_name }}</td>
-                  <td>{{ variant.value }}</td>
-                  <td>{{ variant.color_name }},{{ variant.value }}</td>
+                  <td>{{ variant.value || 'NULL' }}</td>
+                  <td>{{ variant.color_name }} {{ (variant.color_name && variant.value?',':'') }} {{ variant.value }}</td>
                 </tr>
               </table>
             </div>
@@ -279,8 +279,8 @@
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
                           @change="setColorName(index, $event)"
                           v-if="select_attr1 === 'color'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
-                        item.title ?? item.name
+                    <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                        item.name
                       }}
                     </option>
                   </select>
@@ -294,8 +294,8 @@
                          v-if="select_attr2 === 'size'"/>
                   <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
                           v-if="select_attr2 === 'color'">
-                    <option v-for="(item, index) in allColors" :key="index" :value="index">{{
-                        item.title ?? item.name
+                    <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                        item.name
                       }}
                     </option>
                   </select>
@@ -363,7 +363,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic Information </h4>
           <div class="card-body">
             <div class="input-wrapper mb-10">
@@ -407,7 +407,7 @@
 
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <!--          <div class="flex pl-4">-->
           <!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
           <!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
@@ -510,7 +510,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
           <p class="text-sm">
             {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
@@ -544,7 +544,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <div class="border-b border-smooth">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
             <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
@@ -562,7 +562,7 @@
         </div>
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="input-wrapper">
@@ -624,7 +624,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
           <p>
             {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate.These measurements are for the product's shipping container") }}.</p>
@@ -718,7 +718,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
           <p>{{ $t("prod.These attributes provide information about the product's dimensions and weight") }}.</p>
           <div class="input-wrapper">
@@ -781,7 +781,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Unit of measure') }} ?</label>
@@ -858,7 +858,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="col-md-6">
@@ -950,7 +950,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant.length!==0">
+        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
           <div class="border-b border-smooth mb-10">
             <h4>{{ $t('prod.Additional details') }}</h4>
             <p>{{ $t('prod.Enter the details listed below for better discoverability of the product') }}</p>
@@ -1607,8 +1607,7 @@ export default {
     },
 
     setColorName(index, event) {
-      // console.log(this.result.product_variants);
-      this.result.product_variants[index].color_name = this.allColors[event.target.value].title
+      this.result.product_variants[index].color_name = this.allColors[event.target.value].name
     },
 
     addAdditionalDetailsRows(index) {
@@ -1945,14 +1944,14 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
-          product_variants: res.product_variant?.map(item => ({
-            name: item.name,
-            value: item.value,
-            product_id: item.product_id
-          })),
+          // product_variants: res.product_variant?.map(item => ({
+          //   name: item.name,
+          //   value: item.value,
+          //   product_id: item.product_id
+          // })),
           product_variant: res.product_single_variant ?? [],
           PriceingRows: res.product_prices,
-          is_variant: res.product_variant.length != 0 ? true : false,
+          is_variant: res.product_variant ? true : false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res.hts_code,
 
