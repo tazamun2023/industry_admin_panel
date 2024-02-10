@@ -30,8 +30,13 @@
           </div>
 
           <div class="form-group">
-            <div class="w-full">
-              <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
+
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
+                  @updateInput="updateInput">
+                </lang-input>
+            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="result.name"
+                  @updateInput="updateInput"></lang-input>
+              <!-- <ValidationProvider class="w-full" name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper w-full mb-2">
               <label for="">{{ $t('global.name') }}</label>
                 <input class="w-full" type="text" v-model="fromData.name.ar" >
@@ -39,23 +44,23 @@
                 {{ $t('global.req', { type: $t('vendor.name')}) }}
               </span>
             </div>
-              </ValidationProvider>
-            </div>
+              </ValidationProvider> -->
 
-            <ValidationProvider name="Name English" rules="max:30|required" v-slot="{ errors }">
-            <div class="input-wrapper mb-2">
+
+            <!-- <ValidationProvider name="Name English" class="w-full" rules="max:30|required" v-slot="{ errors }">
+            <div class="input-wrapper w-full mb-2">
               <label for="">{{ $t('global.name') }}</label>
                 <input type="text" v-model="fromData.name.en" >
                 <span v-if="errors.length" class="error">
                 {{ $t('global.req', { type: $t('vendor.name')}) }}
               </span>
             </div>
-            </ValidationProvider>
+            </ValidationProvider> -->
 
-            <ValidationProvider name="Details English" rules="max:30|required" v-slot="{ errors }">
+            <!-- <ValidationProvider class="w-full"  name="Details English" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{ $t("vendor.details") }}</label>
-              <input type="text" placeholder="Details English" v-model="fromData.details.en">
+              <textarea  placeholder="Details English" v-model="fromData.details.en" name="" id="" cols="3" rows="3"></textarea>
               <span v-if="errors.length" class="error">
                 {{ $t('global.req', { type: $t('vendor.details')}) }}
               </span>
@@ -63,23 +68,23 @@
             </ValidationProvider>
 
 
-            <ValidationProvider name="Details Arabic" rules="max:30|required" v-slot="{ errors }">
+            <ValidationProvider name="Details Arabic" class="w-full" rules="max:30|required" v-slot="{ errors }">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t("vendor.details") }}</label>
-                <input type="text" placeholder="Details Arabic" v-model="fromData.details.ar">
+                <textarea placeholder="Details Arabic" v-model="fromData.details.ar" name="" id="" cols="3" rows="3"></textarea>
                 <span v-if="errors.length" class="error">
                 {{ $t('global.req', { type: $t('vendor.details')}) }}
               </span>
               </div>
-            </ValidationProvider>
+            </ValidationProvider> -->
 
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
               <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
             </div>
-
-            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }">
+<!-- 
+            <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.email') }}</label>
                 <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
@@ -89,7 +94,7 @@
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.mobile') }}</label>
               <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
@@ -97,9 +102,50 @@
                 {{ $t('global.req', { type: $t('vendor.mobile')}) }}
               </span>
             </div>
-            </ValidationProvider>
+            </ValidationProvider> -->
+            <div class="input-wrapper  mb-2">
+              <label for="">{{ $t("vendor.email") }}</label>
+              <div class="flex">
+                <div class="w-full">
+                  <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
+                  <input type="text" placeholder="Email" v-model="fromData.contact_json.email">
+                <span v-if="errors.length" class="error">
+                  {{ $t('global.req', { type: $t('vendor.email')}) }}
+                </span>
+                </ValidationProvider>
+                </div>
+                <div class="p-2">
+                  <svg @click="emailModal=true" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+              </svg>
+                </div>
+              </div>
+              
+            </div>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }">
+
+            
+            <div class="input-wrapper  mb-2">
+              <label for="">{{ $t("vendor.mobile") }}</label>
+              <div class="flex">
+                <div class="w-full">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                   <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
+                    <span v-if="errors.length" class="error">
+                      {{ $t('global.req', { type: $t('vendor.mobile')}) }}
+                    </span>
+                   </ValidationProvider>
+                </div>
+                <div class="p-2">
+                  <svg @click="phoneModal=true" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+              </svg>
+                </div>
+              </div>
+              
+            </div>
+
+            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.cr_number') }}</label>
               <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
@@ -109,7 +155,7 @@
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.status') }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
@@ -138,29 +184,36 @@
               <label for="">{{ $t('vendor.production_start') }}</label>
               <input type="date"  v-model="fromData.production_start_date"  readonly>
             </div>
-
-            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }">
+          
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.primary_email") }}</label>
-              <input type="text" placeholder="Email" v-model="fromData.primary_email">
-              <span v-if="errors.length" class="error">
-                {{ $t('global.req', { type: $t('vendor.primary_email')}) }}
-              </span>
+                <div class="w-full">
+                  <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
+                  <input type="text" placeholder="Email" v-model="fromData.primary_email">
+                <span v-if="errors.length" class="error">
+                  {{ $t('global.req', { type: $t('vendor.primary_email')}) }}
+                </span>
+                </ValidationProvider>
+                </div>            
             </div>
-            </ValidationProvider>
 
-            <ValidationProvider name="Mobile" rules="numeric|required" v-slot="{ errors }">
+
+            
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.primary_mobile") }}</label>
-              <input type="text" placeholder="Mobile" v-model="fromData.primary_mobile">
-              <span v-if="errors.length" class="error">
-                {{ $t('global.req', { type: $t('vendor.primary_mobile')}) }}
-              </span>
+                <div class="w-full">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                   <input type="text" placeholder="Mobile" v-model="fromData.primary_mobile">
+                    <span v-if="errors.length" class="error">
+                      {{ $t('global.req', { type: $t('vendor.primary_mobile')}) }}
+                    </span>
+                   </ValidationProvider>
+                </div>             
             </div>
-            </ValidationProvider>
+          
 
 
-            <ValidationProvider name="Facility" rules="required" v-slot="{ errors }">
+            <ValidationProvider class="w-full" name="Facility" rules="required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.facility") }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.facility_type_id" >
@@ -182,7 +235,7 @@
           </div>
           <div class="form-group">
             <div class="grid grid-cols-2 gap-4">
-              <ValidationProvider name="Country" rules="required" v-slot="{ errors }">
+              <ValidationProvider class="w-full" name="Country" rules="required" v-slot="{ errors }">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.country") }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.country_id" @change="countrySelected">
@@ -196,7 +249,7 @@
               </ValidationProvider>
 
 
-              <ValidationProvider name="City" rules="required" v-slot="{ errors }">
+              <ValidationProvider class="w-full" name="City" rules="required" v-slot="{ errors }">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.city") }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.city_id">
@@ -210,7 +263,7 @@
               </ValidationProvider>
             </div>
 
-            <ValidationProvider name="Area" rules="required" v-slot="{ errors }">
+            <ValidationProvider class="w-full" name="Area" rules="required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{  $t("vendor.area") }}</label>
               <input type="text" placeholder="Area name" v-model="fromData.contact_json.area">
@@ -220,7 +273,7 @@
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Street" rules="required" v-slot="{ errors }">
+            <ValidationProvider class="w-full" name="Street" rules="required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.street') }}</label>
               <input type="text"  placeholder="Street name" v-model="fromData.contact_json.street">
@@ -230,7 +283,7 @@
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Building" rules="required" v-slot="{ errors }">
+            <ValidationProvider class="w-full" name="Building" rules="required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.building') }}</label>
               <input type="text" placeholder="Building name" v-model="fromData.contact_json.building">
@@ -274,7 +327,95 @@
       </div>
     </form>
     </ValidationObserver>
-
+    <Modal :showModal="emailModal" @closeModal="closeModal">
+      <template v-slot:default>
+      <section>
+        <div class="flex gap-4">
+          <h4>Add Primary Email</h4>
+          <svg
+            @click="addEmail"
+              class="w-6 h-6 cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+            </svg>
+        </div>
+       
+        <div v-for="(email, index) in emails" :key="index" class="flex my-2">
+          <input type="email" v-model="emails[index]">
+          <div class="p-2 flex">
+            <svg  @click="removeEmail(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+          </svg>
+            <svg
+            @click="addEmail"
+              class="w-6 h-6 cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+            </svg>
+           
+          </div>
+        </div>
+      </section>
+    </template>
+    <template v-slot:buttons>
+     <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
+      <button  @click="emailModal = false" class="p-2 border border-primary leading-3">Cancell</button>
+      <button class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
+     </div>
+    </template>
+   </Modal>
+   <!-- -----------------primary mobile---------------- -->
+   <Modal :showModal="phoneModal" @closeModal="closeModal">
+      <section>
+        <div class="flex gap-4">
+          <h4>Add Primary Phone</h4>
+          <svg
+            @click="addPhone"
+              class="w-6 h-6 cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+            </svg>
+        </div>
+       
+        <div v-for="(phone, index) in phones" :key="index" class="flex my-2">
+          <input type="number" v-model="phones[index]">
+          <div class="p-2 flex">
+            <svg  @click="removePhone(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
+  </svg>
+            <svg
+            @click="addPhone"
+              class="w-6 h-6 cursor-pointer"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+            </svg>
+           
+          </div>
+        </div>
+      </section>
+      <template v-slot:buttons>
+     <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
+      <button @click="phoneModal = false" class="p-2 border border-primary leading-3">Cancell</button>
+      <button class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
+     </div>
+    </template>
+   </Modal>
   </div>
 
 </template>
@@ -283,6 +424,8 @@ import vendor from "@/mixin/vendor";
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import { extend } from 'vee-validate';
+import Modal from '~/components/Modal.vue';
+import LangInput from "../../components/langInput.vue";
 
   extend('min', {
     validate(value, { length }) {
@@ -301,10 +444,20 @@ export default {
   name:"company-profile",
   components:{
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    Modal,
+    LangInput
   },
   data(){
     return {
+      emails:[''],
+      phones:[''],
+      phoneModal: false,
+      emailModal: false,
+      result:{
+        name: {'ar': '', 'en': ''},
+        detail:''
+      },
        fromData:{
              id:'',
              name: {'ar':'', 'en':''},
@@ -387,9 +540,29 @@ export default {
       }
 
     },
+    closeModal() {
+      this.emailModal = false;
+      this.phoneModal = false;
+    },
+    addEmail() {
+      // Add a new email input field
+      this.emails.push('');
+      // this.newEmail = ''; // Clear the value of the new email field
+    },
+    removeEmail(index) {
+      // Remove the email input field at the specified index
+      this.emails.splice(index, 1);
+    },
 
-
-
+    addPhone() {
+      // Add a new email input field
+      this.phones.push('');
+      // this.newEmail = ''; // Clear the value of the new email field
+    },
+    removePhone(index) {
+      // Remove the email input field at the specified index
+      this.phones.splice(index, 1);
+    },
 
   },
 
@@ -420,5 +593,8 @@ export default {
 .container-c{
     min-width: 650px;
     max-width: 1200px;
+}
+.g_info > span{
+  width: 100%;
 }
 </style>

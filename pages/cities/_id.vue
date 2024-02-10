@@ -17,7 +17,6 @@
       <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
                   @updateInput="updateInput"></lang-input>
 
-
       <div class="input-wrapper">
         <span class="mr-15">{{ $t('title.select_country') }}</span>
         <v-select
