@@ -30,15 +30,17 @@
           </div>
 
           <div class="form-group">
-            <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
-            <div class="input-wrapper mb-2">
+            <div class="w-full">
+              <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
+            <div class="input-wrapper w-full mb-2">
               <label for="">{{ $t('global.name') }}</label>
-                <input type="text" v-model="fromData.name.ar" >
+                <input class="w-full" type="text" v-model="fromData.name.ar" >
                 <span v-if="errors.length" class="error">
                 {{ $t('global.req', { type: $t('vendor.name')}) }}
               </span>
             </div>
               </ValidationProvider>
+            </div>
 
             <ValidationProvider name="Name English" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper mb-2">
