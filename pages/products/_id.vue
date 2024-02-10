@@ -239,6 +239,7 @@
                             :disabled="item === select_attr2">{{ item }}
                     </option>
                   </select>
+
                 </div>
               </div>
 
@@ -363,7 +364,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">Basic Information </h4>
           <div class="card-body">
             <div class="input-wrapper mb-10">
@@ -407,7 +408,7 @@
 
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <!--          <div class="flex pl-4">-->
           <!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
           <!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
@@ -510,7 +511,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
           <p class="text-sm">
             {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
@@ -544,7 +545,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <div class="border-b border-smooth">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
             <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
@@ -562,7 +563,7 @@
         </div>
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="input-wrapper">
@@ -577,7 +578,8 @@
                           v-model="result.pk_size_unit"
                           :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
                   >
-                    <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
+                    <option value="0">{{ $t('prod.Size Unit')}}</option>
+                    <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                         item.name
                       }}
                     </option>
@@ -624,7 +626,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
           <p>
             {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate.These measurements are for the product's shipping container") }}.</p>
@@ -718,7 +720,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
           <p>{{ $t("prod.These attributes provide information about the product's dimensions and weight") }}.</p>
           <div class="input-wrapper">
@@ -781,7 +783,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Unit of measure') }} ?</label>
@@ -858,7 +860,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <div class="col-md-6">
@@ -950,7 +952,7 @@
         <!-- ----------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <div class="tab-sidebar p-3" v-if="!is_variant || result.product_variant">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <div class="border-b border-smooth mb-10">
             <h4>{{ $t('prod.Additional details') }}</h4>
             <p>{{ $t('prod.Enter the details listed below for better discoverability of the product') }}</p>
@@ -1227,7 +1229,7 @@ export default {
         /*additional attribute end*/
         /*packaging start*/
         pk_size: 0,
-        pk_size_unit: 17,
+        pk_size_unit: 0,
         pk_number_of_carton: 0,
         pk_average_lead_time: 0, //days
         pk_transportation_mode: 1,
@@ -1944,11 +1946,7 @@ export default {
           country_of_origin: res.product_origin_id,
           is_dangerous: res.is_dangerous,
 
-          // product_variants: res.product_variant?.map(item => ({
-          //   name: item.name,
-          //   value: item.value,
-          //   product_id: item.product_id
-          // })),
+          product_variants: res.product_variant,
           product_variant: res.product_single_variant ?? [],
           PriceingRows: res.product_prices,
           is_variant: res.product_variant ? true : false,
@@ -1963,10 +1961,12 @@ export default {
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.select_attr1 = 'color';
         this.select_attr2 = 'size';
+        this.is_variant = false;
         // this.result.PriceingRows = res.product_prices
-        // this.result.product_variants = res.product_variant?.map(item => ({name: item.name, value: item.value}));
+        this.result.product_variants = res.product_variant?? [];
+
         if (res.product_variant?.length != 0) {
-          this.is_variant = true
+          // this.is_variant = true
           this.result.is_variant = true
         }
 
