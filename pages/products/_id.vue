@@ -152,7 +152,7 @@
                     :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
                     v-model="result.brand_id">
               <option value="0">Select Brand</option>
-              <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
+              <option v-for="(item, index) in allBrands" :key="index" :value="item.id">{{ item.title }}</option>
             </select>
           </div>
         </div>
@@ -1631,6 +1631,7 @@ export default {
       }
     },
     saveAttachment(images) {
+      console.log(images)
       // this.result.rfq_attachments = rfq_attachments
       this.result.product_images = images
     },
@@ -1867,6 +1868,7 @@ export default {
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
+        console.log('res', res)
         this.result = {
           title: res.title,
           description: res.description,
