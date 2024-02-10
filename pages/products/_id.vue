@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ValidationObserver v-slot="{ invalid }">
+    <ValidationObserver class="w-full" v-slot="{ invalid }">
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
       <div class="col-md-12 p-4 title">
