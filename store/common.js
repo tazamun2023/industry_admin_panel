@@ -97,7 +97,7 @@ const mutations = {
   SET_ALL_COLORS(state, allColors) {
     state.allColors = {}
     allColors.forEach((item) => {
-      state.allColors = {...state.allColors, ...{[item.id]: {title: item.title}}}
+      state.allColors = {...state.allColors, ...{[item.id]: {name: item.name, id: item.id}}}
     })
   },
   SET_ALL_BARCODES(state, allBarcodes) {
@@ -188,7 +188,7 @@ const mutations = {
   SET_ALL_BRANDS(state, allBrands) {
     state.allBrands = {}
     allBrands.forEach((item) => {
-      state.allBrands = {...state.allBrands, ...{[item.id]: {title: item.title}}}
+      state.allBrands = {...state.allBrands, ...{[item.id]: {title: item.title, id: item.id}}}
     })
   },
   SET_ALL_REJECT_REASONS(state, allRejectReasons) {

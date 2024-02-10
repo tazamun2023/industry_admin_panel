@@ -289,7 +289,7 @@
 <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                            @click.prevent="$refs.listPage.deleteItem(value.id)"
+                            @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
                             v-if="$store.state.admin.isVendor"
                           >Delete</li>
                         </ul>
