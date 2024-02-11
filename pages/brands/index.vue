@@ -36,7 +36,7 @@
           >
             <lazy-image
               class="mr-20"
-              :data-src="getThumbImageURL(value.image)"
+              :data-src="(value.image)"
               :alt="value.title"
             />
             <h5 class="mx-w-300x">{{ value.title }}</h5>

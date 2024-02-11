@@ -419,11 +419,11 @@
                      @keypress="onlyNumber"
                      aria-describedby="button-addon2" v-model="result.pk_size">
               <div class="absolute right-0 top-0">
-                <select class="p-2 m-1 float-right border-l border-smooth uppercase" @change="updateSizeUnit($event)"
+                <select class="p-2 m-1 float-right border-l border-smooth uppercase"
                         v-model="result.pk_size_unit"
-                        :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
                 >
-                  <option :value="index" v-for="(item, index) in allWeightUnits" :key="index">{{
+                  <option value="0">{{ $t('prod.Size Unit')}}</option>
+                  <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                       item.name
                     }}
                   </option>

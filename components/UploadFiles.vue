@@ -2,7 +2,7 @@
 <template>
 
   <div class="mt-20">
-<!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
+    <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
     <dropzone id="foo" ref="el" :options="options"
               @removeUpload="removeFile"
               v-on:vdropzone-files-added="addImage"
@@ -25,6 +25,7 @@ import Dropzone from "nuxt-dropzone";
 import Service from "@/services/service";
 
 import 'nuxt-dropzone/dropzone.css'
+
 export default {
   components: {Dropzone},
   props: {
@@ -44,14 +45,19 @@ export default {
       type: String,
       default: "image/*"
     },
+    maxFiles: {
+      type: Number,
+      default: 10
+    },
   },
   data() {
     return {
       attachments: [],
 
       options: {
-        acceptedFiles:this.accept,
-        accept:this.accept,
+        acceptedFiles: this.accept,
+        maxFiles: this.maxFiles,
+        // accept:this.accept,
         url: !process.env.apiBase.trim() ? window.location.origin + '/' : process.env.apiBase + "api/images/dz_upload",
         dictDefaultMessage: "" + this.$t('prod.Drag & Drop images here to upload') + " <br> <span class=\"text-xs\">" + "<svg class=\"w-6 h-6 mx-auto text-gray-800 \" aria-hidden=\"true\"\n" +
           "                       xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 18\">\n" +
@@ -78,7 +84,10 @@ export default {
       // let url = JSON.parse(file.xhr.response);
       let index = this.attachments.findIndex(e => e.id == file.upload.uuid);
       this.attachments.splice(index, 1);
-      this.$emit('updateInput', this.attachments.map(obj => obj.file));
+      if (this.maxFiles == 1)
+        this.$emit('updateInput', "");
+      else
+        this.$emit('updateInput', this.attachments.map(obj => obj.file));
 
       // //todo : change according to api of delete media
       // const {data} = Service.image_delete("id", this.$auth.strategy.token.get())
@@ -114,10 +123,16 @@ export default {
           // console.log('Base64 data:', base64Data);
           console.log("file")
           console.log(file.upload.uuid)
-          this.attachments.push({id: file.upload.uuid, file: base64Data})
           // this.$emit('updateInput',this.attachments);
-          this.$emit('updateInput', this.attachments.map(obj => obj.file));
-          // Now you can use the base64Data as needed
+          if (this.maxFiles == 1) {
+            this.attachments = [{id: file.upload.uuid, file: base64Data}]
+
+            this.$emit('updateInput', base64Data);
+          } else {
+            this.attachments.push({id: file.upload.uuid, file: base64Data})
+
+            this.$emit('updateInput', this.attachments.map(obj => obj.file));
+          }          // Now you can use the base64Data as needed
           // For example, you might want to store it in your component's data or perform other actions.
         } else {
           console.error('Failed to read file as base64.');
