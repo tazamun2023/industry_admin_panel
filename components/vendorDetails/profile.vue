@@ -372,6 +372,9 @@ export default {
         }
       }
     },
+    updateInput(input, language, value) {
+      this.$set(input, language, value);
+      },
   },
 
   async mounted() {
