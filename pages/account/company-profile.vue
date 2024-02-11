@@ -21,7 +21,7 @@
     </div>-->
 
   <div>
-    <ValidationObserver v-slot="{ invalid }">
+    <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
       <div class="grid grid-cols-2 container-c mx-auto gap-4">
         <div class="card p-4">
@@ -31,10 +31,10 @@
 
           <div class="form-group">
 
-            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="result.name"
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
                   @updateInput="updateInput">
                 </lang-input>
-            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="result.detail"
+            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
                   @updateInput="updateInput"></lang-input>
               <!-- <ValidationProvider class="w-full" name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
             <div class="input-wrapper w-full mb-2">
@@ -178,6 +178,23 @@
             <div  class="input-wrapper mb-2">
              <!-- component -->
              <label for="">Logo Upload</label>
+          <div class="flex w-full items-center justify-center bg-grey-lighter">
+              <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
+                  <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span class="mt-2 text-base leading-normal">Select a file</span>
+                  <input type='file' class="hidden" />
+              </label>
+          </div>
+            </div>
+            <div  class="input-wrapper mb-2">
+             <!-- component -->
+             <label for="">Licence Upload</label> 
+             <!-- <div class="flex justify-between">
+              <label for="">Licence Upload</label>  -->
+              <!-- <button class="p-2 border border-smooth leading-3 text-primary">Download Licence</button> -->
+             <!-- </div> -->
           <div class="flex w-full items-center justify-center bg-grey-lighter">
               <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
                   <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -467,10 +484,7 @@ export default {
       phones:[''],
       phoneModal: false,
       emailModal: false,
-      result:{
-        name: {'ar': '', 'en': ''},
-        detail: {'ar': '', 'en': ''},
-      },
+   
        fromData:{
              id:'',
              name: {'ar':'', 'en':''},
