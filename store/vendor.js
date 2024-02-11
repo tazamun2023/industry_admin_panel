@@ -47,6 +47,21 @@ const actions = {
 
   },
 
+  async changeVendorStatus ({rootState, commit , dispatch}, {params,api}) {
+    const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      dispatch('ui/setToastMessage', data.message, {root: true})
+      return data
+    } else if (data.status === 201) {
+      dispatch('ui/setToastError', data.message, {root: true})
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+    return data;
+  },
+
+
+
 
 
 

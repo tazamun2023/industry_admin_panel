@@ -92,7 +92,7 @@
       },
       param: {
         type: Object,
-        default: ''
+        default: null
       },
       gate: {
         type: String,

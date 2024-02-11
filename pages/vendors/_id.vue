@@ -35,17 +35,17 @@
                 </div>
                 <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                   <template>
-                    <Users />
+                    <Users  :vendorId="$route.params.id"/>
                   </template>
                 </div>
                 <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
                   <template>
-                     <Products />
+                     <Products :vendorId="$route.params.id"/>
                   </template>
                 </div>
                 <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
                     <template>
-                     <Address />
+                     <Address :vendorId="$route.params.id"/>
                    </template>
                 </div>
                 <div v-bind:class="{'hidden': openTab !== 5, 'block': openTab === 5}">
