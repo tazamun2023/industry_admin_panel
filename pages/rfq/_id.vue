@@ -307,7 +307,7 @@
                         </div>
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"
-                                 @click="tableNotShow"
+                                 @click="tableNotShow('is_upload')"
                                  id="upload_new" value="option3">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="upload_new">
                             {{ $t("rfq.Upload a new product") }}</label>
@@ -329,15 +329,24 @@
                 </div>
               </div>
               <div class="bg-smooth px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button type="button"
-                        @click="saveSelectedProduct"
-                        class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
-                  {{ $t('app.Save') }}
-                </button>
-                <button type="button" @click="cancel"
-                        class="leading-6 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                  {{ $t('app.Cancel') }}
-                </button>
+                <div v-if="is_upload==='is_upload'">
+                  <NuxtLink to="/products/quote/add"
+                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
+                    {{ $t('app.Continue') }}
+                  </NuxtLink>
+                </div>
+                <div v-else>
+                  <button type="button"
+                          @click="saveSelectedProduct"
+                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
+                    {{ $t('app.Save') }}
+                  </button>
+                  <button type="button" @click="cancel"
+                          class="leading-6 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                    {{ $t('app.Cancel') }}
+                  </button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -371,6 +380,7 @@ export default {
       isDisable: false,
       open: false,
       tableShow: false,
+      is_upload: '',
       uploadNewText: false,
       result: {
         id: "",
@@ -478,9 +488,10 @@ export default {
     changeValues() {
       this.tableShow = false
     },
-    tableNotShow() {
+    tableNotShow(tab = null) {
       this.tableShow = false;
       this.uploadNewText = true;
+      this.is_upload = tab
     },
     productTableShow() {
       this.tableShow = true;
