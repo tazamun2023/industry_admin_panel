@@ -54,6 +54,7 @@
           </svg>
         </div></td>
       </tr>
+
       </tbody>
     </table>
       </template>
@@ -78,6 +79,9 @@ export default {
         'vendor_id': this.vendorId
       }
     }
+  },
+  methods:{
+
   }
 }
 </script>
