@@ -4,7 +4,7 @@
     list-api="getUserMessages"
     delete-api="deleteUserMessage"
     route-name="user-messages"
-    :name="$t('profile.umLower')"
+    :name="$t('profile.vue.umLower')"
     gate="message"
     :add-button="false"
     :order-options="orderOptions"

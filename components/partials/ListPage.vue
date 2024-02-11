@@ -12,6 +12,7 @@
       />
     </div>
 
+    <div v-if="filter">
     <slot
       name="table-top"
       v-bind:orderOptions="orderOptions"
@@ -29,6 +30,7 @@
         </slot>
       </table-top>
     </slot>
+    </div>
 
     <transition
       v-if="!gate || $can(gate, 'view')"
@@ -80,8 +82,16 @@
         type: Boolean,
         default: true
       },
+      filter: {
+        type: Boolean,
+        default: true
+      },
       name: {
         type: String,
+        default: ''
+      },
+      param: {
+        type: Object,
         default: ''
       },
       gate: {
@@ -157,6 +167,7 @@
           this.loading = true
           this.result = await this.getRequest({
             params: {
+               ...this.param,
               ...this.$route.query,
               ...this.listParams,
               ...{time_zone: this.timeZone}

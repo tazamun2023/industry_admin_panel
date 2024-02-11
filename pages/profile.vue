@@ -4,7 +4,7 @@
     class="tab-sidebar"
   >
     <h5 class="title bold">
-      {{ $t('profile.ap') }}
+      {{ $t('profile.vue.ap') }}
     </h5>
 
     <div class="dply-felx">
@@ -145,7 +145,7 @@
 
           <div class="input-wrapper">
             <label>
-              {{ $t('profile.np') }}
+              {{ $t('profile.vue.np') }}
             </label>
             <password-field
               :value="password.new_password"
@@ -156,7 +156,7 @@
               class="error"
               v-if="!!!password.new_password && hasError"
             >
-               {{ $t('category.req', { type: $t('profile.np')}) }}
+               {{ $t('category.req', { type: $t('profile.vue.np')}) }}
             </span>
             <span
               class="error"
@@ -235,15 +235,15 @@
           confirm_password: null,
           new_password: null,
         },
-        tabId: ['profile-update', 'password-update'],
-        activeTab: 'profile-update',
+        tabId: ['profile.vue-update', 'password-update'],
+        activeTab: 'profile.vue-update',
         tabs: [
           {
-            title: this.$t('profile.up'),
-            tabId: 'profile-update',
+            title: this.$t('profile.vue.up'),
+            tabId: 'profile.vue-update',
           },
           {
-            title: this.$t('profile.cp'),
+            title: this.$t('profile.vue.cp'),
             tabId: 'password-update',
           },
         ]

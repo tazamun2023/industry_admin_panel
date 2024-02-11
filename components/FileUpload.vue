@@ -86,7 +86,7 @@
       btnText: {
         type: String,
         default: function () {
-          return this.$t('profile.upload')
+          return this.$t('profile.vue.upload')
         },
       }
     },

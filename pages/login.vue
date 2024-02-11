@@ -6,7 +6,7 @@
     class="login-form"
   >
     <h4 class="mb-30 mb-sm-15">
-      {{ $t('profile.wb') }}
+      {{ $t('profile.vue.wb') }}
     </h4>
 
     <error-formatter/>
@@ -63,14 +63,14 @@
           type="checkbox"
           v-model="rememberToken"
         >
-        {{ $t('profile.rm') }}
+        {{ $t('profile.vue.rm') }}
       </label>
 
       <nuxt-link
         to="/forgot-password"
         class="link"
       >
-        {{ $t('profile.fp') }}
+        {{ $t('profile.vue.fp') }}
       </nuxt-link>
     </div>
 
@@ -89,14 +89,14 @@
           @click.prevent="setCredentials(-1)"
           class="outline-btn block mtb-15 w-100"
         >
-          {{ $t('profile.laa') }}
+          {{ $t('profile.vue.laa') }}
         </button>
 
         <button
           @click.prevent="setCredentials(1)"
           class="outline-btn block w-100"
         >
-          {{ $t('profile.lav') }}
+          {{ $t('profile.vue.lav') }}
         </button>
 
       </div>

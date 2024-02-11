@@ -151,6 +151,16 @@ export default {
         1: {title: this.$t('util.public')},
         2: {title: this.$t('util.private')}
       },
+      VendorStatusObj: {
+        1: {title: this.$t('util.active')},
+        2: {title: this.$t('util.deactive')}
+      },
+
+      VendorApprovalObj: {
+        1: {title: this.$t('util.appr')},
+        2: {title: this.$t('util.notApproval')}
+      },
+
       currencyPositions: {
         1: {title: this.$t('util.left')},
         2: {title: this.$t('util.right')}
@@ -256,9 +266,19 @@ export default {
       const splitted = imageLink.split('/')
       return splitted[splitted.length - 1]
     },
+
     getStatus(index) {
       return index && this.statusObj[index].title
     },
+
+    VendorStatus(index) {
+      return index && this.VendorStatusObj[index].title
+    },
+
+    VendorApproval(index) {
+      return index && this.VendorApprovalObj[index].title
+    },
+
     isNewRecord(value) {
       return parseInt(value) !== this.status.PUBLIC
     },

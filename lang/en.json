@@ -611,7 +611,13 @@
     "pend": "Pending",
     "saved": "Updated successfully!!!",
     "del": "Deleted successfully!!!",
-    "appr": "Approved"
+    "appr": "Approved",
+    "active" : "Active",
+    "deactive" : "Deactive",
+    "notApproval" : "Not Approval"
+
+
+
   },
   "profile": {
     "sendCode": "We are going to send you an email containing a code",
@@ -805,6 +811,7 @@
   "account":{
     "account":"Account",
     "company-profile":"Company Profile",
-    "sellers":"Sellers"
+    "sellers":"Sellers",
+    "vendors":"Vendors"
   }
 }

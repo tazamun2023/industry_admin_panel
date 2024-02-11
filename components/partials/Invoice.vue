@@ -65,14 +65,14 @@
               <tr>
                 <td class="w-50">
                   <div class="mx-w-300x">
-                    <b>{{ getDataFromObject(order, 'address.name',  $t('prod.na')) }}</b>
+                    <b>{{ getDataFromObject(order, 'address.vue.name',  $t('prod.na')) }}</b>
                     <span
                       v-if="getDataFromObject(order, 'address')"
                       class="block"
                     >
                       {{ generateAddress(getDataFromObject(order, 'address')) }}</span>
                     <span class="block">Email: {{ userEmail }}</span>
-                    <span class="block">Phone: {{ getDataFromObject(order, 'address.phone',  $t('prod.na')) }}</span>
+                    <span class="block">Phone: {{ getDataFromObject(order, 'address.vue.phone',  $t('prod.na')) }}</span>
                   </div>
                 </td>
                 <td class="w-50">{{ paymentTypes[order.order_method] }}</td>

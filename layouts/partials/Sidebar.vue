@@ -281,19 +281,19 @@
             children: [
               {
                 path: 'registered-users',
-                title: this.$t('profile.registered'),
+                title: this.$t('profile.vue.registered'),
                 icon: 'registered',
                 gate: 'user'
               },
               {
                 path: 'guest-users',
-                title: this.$t('profile.guest'),
+                title: this.$t('profile.vue.guest'),
                 icon: 'guest',
                 gate: 'user'
               },
               {
-                path: 'sellers',
-                title: this.$t('account.sellers'),
+                path: 'vendors',
+                title: this.$t('account.vendors'),
                 icon: 'guest',
                 gate: 'user'
               },
@@ -386,7 +386,7 @@
               },
               {
                 path: 'home-slider',
-                title: this.$t('profile.hSlid'),
+                title: this.$t('profile.vue.hSlid'),
                 icon: 'home-slider',
                 gate: 'home_slider'
               },
@@ -456,25 +456,25 @@
               },
               {
                 path: 'buisness-news',
-                title: this.$t('profile.buisness-news'),
+                title: this.$t('profile.vue.buisness-news'),
                 icon: 'profile',
                 gate: 'store'
               },
               {
                 path: 'video',
-                title: this.$t('profile.video'),
+                title: this.$t('profile.vue.video'),
                 icon: 'video',
                 gate: 'store'
               },
               {
                 path: 'certificate',
-                title: this.$t('profile.certificate'),
+                title: this.$t('profile.vue.certificate'),
                 icon: 'video',
                 gate: 'store'
               },
               {
                 path: 'faq',
-                title: this.$t('profile.faq'),
+                title: this.$t('profile.vue.faq'),
                 icon: 'faq',
                 gate: 'store'
               }

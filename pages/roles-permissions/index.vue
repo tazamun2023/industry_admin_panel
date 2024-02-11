@@ -4,7 +4,7 @@
     list-api="getRoles"
     delete-api="deleteRole"
     route-name="roles-permissions"
-    :name="$t('profile.rp')"
+    :name="$t('profile.vue.rp')"
     empty-store-variable="allRoles"
     :order-options="orderOptions"
     gate="role"
