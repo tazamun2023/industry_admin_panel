@@ -49,9 +49,9 @@
 
                 <td
                   class="status"
-                  :class="{active: value.active == 1 }"
+                  :class="{active: value.approved_by > 0 }"
                 >
-                  <span>{{ VendorApproval(value.active) }}</span>
+                  <span>{{ VendorApproval(value.approved_by) }}</span>
                 </td>
                 <td
                   class="status"
@@ -74,6 +74,28 @@
 
                   </div>
                 </td>
+                <!-- ------------------approved modal---------------------- -->
+                <template v-if="approvedModal">
+                  <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                    <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-1/5">
+                      <svg @click="approvedModal=false" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <!-- Modal Content -->
+                      <div class="mb-4">
+                        <h4>Are you want to Aprroved?</h4>
+                      </div>
+                      <!-- Close Button -->
+                      <div class="flex justify-end gap-4">
+                        <button @click="approvedModal = false" class="p-2 border text-center rounded border-primary w-[50px] leading-3">No</button>
+                        <button @click="approval(value.id)" class="p-2 border border-primary bg-primary text-center rounded text-white w-[50px] leading-3">Yes</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </template>
+                <!-- ------------------approved modal end---------------------- -->
               </tr>
 
               </tbody>
@@ -83,35 +105,16 @@
 
       </list-page>
     </div>
-    <!-- ------------------approved modal---------------------- -->
-    <template v-if="approvedModal">
-      <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-1/5">
-          <svg @click="approvedModal=false" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-          </svg>
-          <!-- Modal Content -->
-          <div class="mb-4">
-            <h4>Are you want to Aprroved?</h4>
-          </div>
-          <!-- Close Button -->
-          <div class="flex justify-end gap-4">
-            <button @click="approvedModal = false" class="p-2 border text-center rounded border-primary w-[50px] leading-3">No</button>
-            <button class="p-2 border border-primary bg-primary text-center rounded text-white w-[50px] leading-3">Yes</button>
-          </div>
 
-        </div>
-      </div>
-    </template>
-    <!-- ------------------approved modal end---------------------- -->
   </div>
 </template>
 <script >
 import ListPage from "@/components/partials/ListPage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import Service from "@/services/service";
+
 
 export default {
   name : "vendorNotVerified",
@@ -124,9 +127,15 @@ export default {
     }
   },
   computed:{
-       ...mapGetters('language', ['langCode'])
+       ...mapGetters('language', ['langCode']),
+
   },
   methods:{
+    ...mapActions('vendor', ['changeVendorStatus']),
+  async  approval(val){
+      this.approvedModal = false
+   const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'status': 1}, api:"ChangeVendorApproved"})
+    },
     searchFilterData(search){
       this.$router.push({
         query: {

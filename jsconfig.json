@@ -117,7 +117,12 @@
     "DeleteVendorFaqs": "faqs",
     "getVendorCertificates": "certificate",
     "DeleteVendorCertificates": "certificate",
-
+    "ChangeVendorApproved": "vendor/approved",
+    "getVendorUser": "vendor/users/get",
+    "DeleteVendorUser": "user/delete",
+    "getVendorProduct": "vendor/product/get",
+    "getVendorAddress": "vendor/address/get",
+    "DeleteVendorAddress": "vendor/address/delete",
 
 
 
