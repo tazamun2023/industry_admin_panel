@@ -10,7 +10,12 @@
           </div>
 
           <div class="form-group">
-            <ValidationProvider name="Name Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
+                  @updateInput="updateInput">
+                </lang-input>
+            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
+                  @updateInput="updateInput"></lang-input>
+            <!-- <ValidationProvider class="w-full" name="Name Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t('global.name') }}</label>
                 <input type="text" v-model="fromData.name.ar" >
@@ -18,15 +23,15 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Name English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
+            <ValidationProvider class="w-full"  name="Name English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t('global.name') }}</label>
                 <input type="text" v-model="fromData.name.en" >
                 <span  class="error">{{ errors[0] }}</span>
               </div>
-            </ValidationProvider>
-
-            <ValidationProvider name="Details English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
+            </ValidationProvider> -->
+<!-- 
+            <ValidationProvider class="w-full"  name="Details English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t("vendor.details") }}</label>
                 <input type="text" placeholder="Details English" v-model="fromData.details.en">
@@ -35,13 +40,13 @@
             </ValidationProvider>
 
 
-            <ValidationProvider name="Details Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
+            <ValidationProvider class="w-full"  name="Details Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t("vendor.details") }}</label>
                 <input type="text" placeholder="Details Arabic" v-model="fromData.details.ar">
                 <span  class="error">{{ errors[0] }}</span>
               </div>
-            </ValidationProvider>
+            </ValidationProvider> -->
 
 
             <div class="input-wrapper mb-2">
@@ -49,23 +54,37 @@
               <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
             </div>
 
-            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
+            <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
               <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.email') }}</label>
+                <label for="">{{ $t('vendor.email') }} 1</label>
+                <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
+                <span  class="error">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
+              <div class="input-wrapper  mb-2">
+                <label for="">{{ $t('vendor.email') }} 2</label>
                 <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.mobile')})}">
+            <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.mobile')})}">
               <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.mobile') }}</label>
+                <label for="">{{ $t('vendor.mobile') }} 1</label>
+                <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
+                <span  class="error">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+            <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.mobile')})}">
+              <div class="input-wrapper  mb-2">
+                <label for="">{{ $t('vendor.mobile') }} 2</label>
                 <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.cr_number')})}">
+            <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.cr_number')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t('vendor.cr_number') }}</label>
                 <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
@@ -73,7 +92,7 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.status')})}">
+            <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.status')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t('vendor.status') }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
@@ -90,7 +109,39 @@
           <div class="title">
             <h4>Primary Information</h4>
           </div>
-          <div class="form-group">
+          <div class="form-group p-2">
+            <div  class="input-wrapper mb-2">
+             <!-- component -->
+             <div class="flex gap-4 mb-4">
+              <label for="">Logo Upload</label>
+             <img class="w-[50px] rounded" src="https://companieslogo.com/img/orig/2222.SR-99009d53.png?t=1633073160" alt="">
+             </div>
+          <div class="flex w-full items-center justify-center bg-grey-lighter">
+              <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
+                  <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span class="mt-2 text-base leading-normal">Select a file</span>
+                  <input type='file' class="hidden" />
+              </label>
+          </div>
+            </div>
+            <div  class="input-wrapper mb-2">
+             <!-- component -->
+             <div class="flex gap-4 mb-4 justify-between">
+              <label for="">Licence Upload</label>
+             <button class="border border-smooth p-2 leading-3">Download Licences</button>
+             </div>
+          <div class="flex w-full items-center justify-center bg-grey-lighter">
+              <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
+                  <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+                  </svg>
+                  <span class="mt-2 text-base leading-normal">Select a file</span>
+                  <input type='file' class="hidden" />
+              </label>
+          </div>
+            </div>
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.foundation_date') }}</label>
               <input type="date"  v-model="fromData.founded_date" readonly>
@@ -101,7 +152,7 @@
               <input type="date"  v-model="fromData.production_start_date"  readonly>
             </div>
 
-            <ValidationProvider name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
+            <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.primary_email") }}</label>
                 <input type="text" placeholder="Email" v-model="fromData.primary_email">
@@ -109,7 +160,7 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Mobile" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.primary_mobile')})}">
+            <ValidationProvider class="w-full"  name="Mobile" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.primary_mobile')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.primary_mobile") }}</label>
                 <input type="text" placeholder="Mobile" v-model="fromData.primary_mobile">
@@ -118,7 +169,7 @@
             </ValidationProvider>
 
 
-            <ValidationProvider name="Facility" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.facility')})}">
+            <ValidationProvider class="w-full"  name="Facility" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.facility')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t("vendor.facility") }}</label>
                 <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.facility_type_id" >
@@ -138,7 +189,7 @@
           </div>
           <div class="form-group">
             <div class="grid grid-cols-2 gap-4">
-              <ValidationProvider name="Country" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.country')})}">
+              <ValidationProvider class="w-full" name="Country" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.country')})}">
                 <div class="input-wrapper  mb-2">
                   <label for="">{{ $t("vendor.country") }}</label>
                   <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.country_id" :disabled="true">
@@ -150,7 +201,7 @@
               </ValidationProvider>
 
 
-              <ValidationProvider name="City" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.city')})}">
+              <ValidationProvider class="w-full" name="City" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.city')})}">
                 <div class="input-wrapper  mb-2">
                   <label for="">{{ $t("vendor.city") }}</label>
                   <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.city_id">
@@ -162,7 +213,7 @@
               </ValidationProvider>
             </div>
 
-            <ValidationProvider name="Area" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.area')})}">
+            <ValidationProvider class="w-full" name="Area" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.area')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{  $t("vendor.area") }}</label>
                 <input type="text" placeholder="Area name" v-model="fromData.contact_json.area">
@@ -170,7 +221,7 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Street" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.street')})}">
+            <ValidationProvider class="w-full" name="Street" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.street')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t('vendor.street') }}</label>
                 <input type="text"  placeholder="Street name" v-model="fromData.contact_json.street">
@@ -178,7 +229,7 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider name="Building" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.building')})}">
+            <ValidationProvider class="w-full" name="Building" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.building')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t('vendor.building') }}</label>
                 <input type="text" placeholder="Building name" v-model="fromData.contact_json.building">
@@ -225,12 +276,13 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from "vee-validate";
+import LangInput from "../../components/langInput.vue";
 import vendor from "@/mixin/vendor";
 
 export default {
   name:'profile',
   mixins:[vendor],
-  components:{ValidationObserver, ValidationProvider},
+  components:{ValidationObserver, ValidationProvider,LangInput},
    data(){
      return {
        fromData:{
