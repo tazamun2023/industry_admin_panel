@@ -297,6 +297,12 @@
                 icon: 'guest',
                 gate: 'user'
               },
+              {
+                path: 'customer',
+                title: this.$t('account.customers'),
+                icon: 'guest',
+                gate: 'user'
+              },
             ]
           },
 

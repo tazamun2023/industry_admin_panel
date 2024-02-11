@@ -812,6 +812,7 @@
     "account":"Account",
     "company-profile":"Company Profile",
     "sellers":"Sellers",
-    "vendors":"Vendors"
+    "vendors":"Vendors",
+    "customers":"Customers"
   }
 }
