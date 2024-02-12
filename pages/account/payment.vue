@@ -11,7 +11,7 @@
                 </div>
            </div>
         </div>
-        <div class="lg:grid lg:grid-cols-3  p-4  my-2 gap-4">
+        <div class="lg:grid lg:grid-cols-3    my-2 gap-4">
           <div class="card p-4">
             <div class="flex gap-4 justify-between">
                 <div class="flex gap-4">
@@ -134,13 +134,14 @@
                     <label for="">Set bank details as default</label>
                    </div>
                 </div>
+                <div class="flex justify-end gap-4">
+                    <button  @click="Cardmodal=false" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
+                    <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20">Save Change</button>
+                </div>
             </form>
         </div>
         <!-- Close Button -->
-        <div class="flex justify-end gap-4">
-            <button  @click="Cardmodal=false" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
-            <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20">Save Change</button>
-         </div>
+        
 
       </div>
     </div>
@@ -158,7 +159,6 @@ export default{
     data(){
         return{
             Cardmodal:false,
-            intermediaryBank:false
         }
     },
 
