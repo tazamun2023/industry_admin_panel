@@ -12,6 +12,7 @@
     "Actions": "Actions",
     "My List": "My List",
     "from": "From",
+    "Continue": "Continue",
     "Relevant to me": "Relevant to me",
     "to": "To",
     "currency_local": "en-US",
@@ -811,6 +812,7 @@
     "account":"Account",
     "company-profile":"Company Profile",
     "sellers":"Sellers",
-    "vendors":"Vendors"
+    "vendors":"Vendors",
+    "customers":"Customers"
   }
 }
