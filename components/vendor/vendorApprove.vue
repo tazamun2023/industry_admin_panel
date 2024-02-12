@@ -46,9 +46,9 @@
 
                 <td
                   class="status"
-                  :class="{active: value.active == 1 }"
+                  :class="{active: value.verified == 1 }"
                 >
-                  <span>{{ VendorApproval(value.active) }}</span>
+                  <span>{{ VendorApproval(value.verified) }}</span>
                 </td>
                 <td
                   class="status"

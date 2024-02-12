@@ -51,13 +51,13 @@
 
                 <td
                   class="status"
-                  :class="{active: value.approved_by > 0 }"
+                  :class="{active: value.verified == 1 }"
                 >
-                  <span>{{ VendorApproval(value.approved_by) }}</span>
+                  <span>{{ VendorApproval(value.verified) }}</span>
                 </td>
                 <td
                   class="status"
-                  :class="{active: value.status == 1 }"
+                  :class="{ active: value.status == 1 }"
                 >
                   <span>{{ VendorStatus(value.status) }}</span>
                 </td>
