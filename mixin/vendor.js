@@ -8,7 +8,7 @@ export default {
 
    async fromSubmit(){
 
-     let {data, status} = await this.submitData({id: 1, params: this.fromData, api:'updateVendor'})
+     let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api:'updateVendor'})
 
       if(status === 200){
         this.errors = null

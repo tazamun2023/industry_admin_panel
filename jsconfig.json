@@ -99,14 +99,33 @@
     "getPort": "port/find",
     "setPort": "port/action",
 
-
-
     "getUnits": "unit/all",
     "deleteUnit": "unit/delete",
     "getUnit": "unit/find",
     "setUnit": "unit/action",
     "updateVendor": "vendor",
     "getVendor" : "vendor",
+    "getApprovalVendor" : "vendor/verified/get",
+    "getNotApprovalVendor" : "vendor/un-verified/get",
+    "getVendorBank": "banks",
+    "DeleteVendorBank": "banks",
+    "getVendorNews": "news",
+    "DeleteVendorNews": "news",
+    "getVendorVideos": "video-gallery",
+    "DeleteVendorVideos": "video-gallery",
+    "getVendorFaqs": "faqs",
+    "DeleteVendorFaqs": "faqs",
+    "getVendorCertificates": "certificate",
+    "DeleteVendorCertificates": "certificate",
+    "ChangeVendorApproved": "vendor/approved",
+    "getVendorUser": "vendor/users/get",
+    "DeleteVendorUser": "user/delete",
+    "getVendorProduct": "vendor/product/get",
+    "getVendorAddress": "vendor/address/get",
+    "DeleteVendorAddress": "vendor/address/delete",
+
+
+
 
 
     "getTransportModes": "transportationMode/all",

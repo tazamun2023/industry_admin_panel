@@ -7,7 +7,7 @@
     <h4
       class="mb-30 mb-sm-15"
     >
-      {{ $t('profile.putCode') }}
+      {{ $t('profile.vue.putCode') }}
     </h4>
 
     <error-formatter/>
@@ -43,7 +43,7 @@
         <i class="icon code-icon">&nbsp;</i>
         <input
           type="text"
-          :placeholder="$t('profile.cfe')"
+          :placeholder="$t('profile.vue.cfe')"
           v-model.trim="code"
           :class="{invalid: !!!code }"
         >
@@ -105,7 +105,7 @@
         to="/login"
         class="link"
       >
-        {{ $t('profile.ltya') }}
+        {{ $t('profile.vue.ltya') }}
       </nuxt-link>
     </div>
 

@@ -5,7 +5,7 @@
     get-api="getSliderImage"
     set-image-api="uploadSliderImage"
     route-name="home-slider"
-    :name="$t('profile.hSlid')"
+    :name="$t('profile.vue.hSlid')"
     :validation-keys="['title']"
     :file-keys="['id', 'type', 'source_type']"
     :result="result"

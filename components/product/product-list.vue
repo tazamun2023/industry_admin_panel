@@ -457,7 +457,6 @@ export default {
     },
 
     filterChanged(result) {
-
       console.log(result)
       this.$router.push({
         query: {

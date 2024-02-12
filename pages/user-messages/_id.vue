@@ -26,7 +26,7 @@
          <h4
           class="mb-sm-10"
          >
-           {{ $t('profile.um') }}
+           {{ $t('profile.vue.um') }}
          </h4>
          <div
            class="dply-felx j-left f-wrap mlr--5 mtb-sm--5"
@@ -40,8 +40,8 @@
            <ajax-button
              name="save-edit"
              class="primary-btn mlr-5 mtb-sm-5"
-             :text="$t('profile.us')"
-             :loading-text="$t('profile.updatn')"
+             :text="$t('profile.vue.us')"
+             :loading-text="$t('profile.vue.updatn')"
              :fetching-data="formSubmitting"
              type="button"
              @clicked="updateSReplied"

@@ -59,14 +59,14 @@
 
       <div class="input-wrapper ">
         <label>
-          <span class="mr-10">{{ $t('profile.body') }}</span>
+          <span class="mr-10">{{ $t('profile.vue.body') }}</span>
           <button
             type="button"
             class="btn-clear"
             @click.prevent="viewHtml"
           >
-            <b v-if="viewAsHtml">{{ $t('profile.vrh') }}</b>
-            <b v-else>{{ $t('profile.vah') }}</b>
+            <b v-if="viewAsHtml">{{ $t('profile.vue.vrh') }}</b>
+            <b v-else>{{ $t('profile.vue.vah') }}</b>
           </button>
         </label>
 
@@ -77,7 +77,7 @@
         />
         <textarea
           v-else
-          :placeholder="$t('profile.ebah')"
+          :placeholder="$t('profile.vue.ebah')"
           v-model="result.body"
           :class="{invalid: !!!result.body && hasError}"
         />
@@ -85,7 +85,7 @@
           class="error"
           v-if="!!!result.body && hasError"
         >
-          {{ $t('category.req', { type: $t('profile.body')}) }}
+          {{ $t('category.req', { type: $t('profile.vue.body')}) }}
         </span>
       </div>
 

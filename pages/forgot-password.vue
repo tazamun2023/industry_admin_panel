@@ -5,7 +5,7 @@
     class="login-form"
   >
     <h4 class="mb-30 mb-sm-15">
-      {{ $t('profile.sendCode') }}
+      {{ $t('profile.vue.sendCode') }}
     </h4>
 
     <error-formatter/>
@@ -40,15 +40,15 @@
         to="/login"
         class="link"
       >
-        {{ $t('profile.ltya') }}
+        {{ $t('profile.vue.ltya') }}
       </nuxt-link>
     </div>
 
     <ajax-button
       class="mt-20 primary-btn"
       :fetching-data="formSubmitting"
-      :loading-text="$t('profile.se')"
-      :text="$t('profile.svc')"
+      :loading-text="$t('profile.vue.se')"
+      :text="$t('profile.vue.svc')"
       :activate-btn="true"
     />
 
