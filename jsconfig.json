@@ -53,7 +53,6 @@
     "getAllUnits": "unit/select",
 
 
-
     "getAllSubCategories": "subcategory/all-subcategories",
     "getSubCategories": "subcategory/all",
     "deleteSubCategory": "subcategory/delete",
@@ -121,8 +120,11 @@
     "getVendorUser": "vendor/users/get",
     "DeleteVendorUser": "user/delete",
     "getVendorProduct": "vendor/product/get",
+    "deleteVendorProduct": "product/delete",
     "getVendorAddress": "vendor/address/get",
-    "DeleteVendorAddress": "vendor/address/delete",
+    "DeleteVendorAddress": "user/address/delete",
+
+
 
 
 

@@ -403,7 +403,8 @@
     "whatsapp" : "Whatsapp",
     "linkedin": "Linkedin",
     "facebook": "Facebook",
-    "youtube": "Youtube"
+    "youtube": "Youtube",
+    "deletemessage": "Are you sure want delete this data ?"
 
   },
 
@@ -615,8 +616,6 @@
     "active" : "Active",
     "deactive" : "Deactive",
     "notApproval" : "Not Approval"
-
-
 
   },
   "profile": {

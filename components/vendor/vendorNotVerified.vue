@@ -49,9 +49,9 @@
 
                 <td
                   class="status"
-                  :class="{active: value.approved_by > 0 }"
+                  :class="{active: value.verified == 1 }"
                 >
-                  <span>{{ VendorApproval(value.approved_by) }}</span>
+                  <span>{{ VendorApproval(value.verified) }}</span>
                 </td>
                 <td
                   class="status"
@@ -135,6 +135,7 @@ export default {
   async  approval(val){
       this.approvedModal = false
    const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'status': 1}, api:"ChangeVendorApproved"})
+    this.$router.go(0)
     },
     searchFilterData(search){
       this.$router.push({
