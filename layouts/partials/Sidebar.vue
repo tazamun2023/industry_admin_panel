@@ -193,6 +193,11 @@
             icon: 'flash-sales',
           },
           {
+            path: 'bank',
+            title: 'Bank',
+            icon: 'bank',
+          },
+          {
             path: 'barcodes',
             title: 'Barcodes',
             icon: 'flash-sales',
