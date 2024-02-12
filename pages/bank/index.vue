@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="card">
+        <div class="card p-4">
+            <div>
+                <h4>All Bank Info</h4>
+            </div>
             <table>
                     <thead>
                     <tr>

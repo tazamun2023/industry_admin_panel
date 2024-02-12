@@ -450,6 +450,12 @@
                 title: this.$t('account.company-profile'),
                 icon: 'user',
                 gate: 'user'
+              },
+              {
+                path: 'account/address',
+                title: this.$t('account.address'),
+                icon: 'map',
+                gate: 'user'
               }
             ]
           },
