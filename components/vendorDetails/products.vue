@@ -16,15 +16,15 @@
       <thead>
       <tr>
         <th><input type="checkbox"></th>
-        <th>Product Images</th>
-        <th>Title</th>
-        <th>SKU</th>
-        <th>Category</th>
-        <th>Price</th>
-        <th>Available Quantity</th>
-        <th>Created</th>
-        <th>Status</th>
-        <th>Action</th>
+        <th>{{ $t("vendor.product_image") }}</th>
+        <th>{{ $t('vendor.title') }}</th>
+        <th>{{ $t("vendor.sku") }}</th>
+        <th>{{ $t("vendor.category") }}</th>
+        <th>{{ $t("vendor.price") }}</th>
+        <th>{{ $t('vendor.available_quantity') }}</th>
+        <th>{{ $t("vendor.created") }}</th>
+        <th>{{ $t('vendor.status') }}</th>
+        <th>{{ $t('vendor.action') }}</th>
       </tr>
       </thead>
       <tbody>
