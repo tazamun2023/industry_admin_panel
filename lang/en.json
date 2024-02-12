@@ -814,6 +814,7 @@
     "sellers":"Sellers",
     "vendors":"Vendors",
     "customers":"Customers",
-    "address":"Address"
+    "address":"Address",
+    "payment":"Payment"
   }
 }

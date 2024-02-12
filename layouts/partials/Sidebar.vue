@@ -456,6 +456,12 @@
                 title: this.$t('account.address'),
                 icon: 'map',
                 gate: 'user'
+              },
+              {
+                path: 'account/payment',
+                title: this.$t('account.payment'),
+                icon: 'dollar',
+                gate: 'user'
               }
             ]
           },
