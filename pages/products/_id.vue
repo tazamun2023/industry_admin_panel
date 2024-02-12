@@ -1193,7 +1193,7 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: 0,
         stock_location: 1,
-        country_of_origin: 193,
+        country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
         barcode_type: 0,
