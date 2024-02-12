@@ -426,7 +426,11 @@
     "available_quantity": "Available Quantity",
     "bank_name": "Bank Name",
     "ac_number": "A/C Number",
-    "address_name": "Address Name"
+    "description": "Description",
+    "question": "Question",
+    "answer": "Address Name",
+    "organization": "Organization",
+    "image": "Image"
   },
 
   "country": {

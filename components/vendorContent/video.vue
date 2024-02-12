@@ -15,8 +15,8 @@
     <table>
       <thead>
       <tr>
-        <th>Title</th>
-        <th>Action</th>
+        <th>{{ $t('vendor.title') }}</th>
+        <th>{{ $t('vendor.action') }}</th>
       </tr>
       </thead>
       <tbody>
