@@ -17,9 +17,9 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('admin.img') }}</th>
-        <th>{{ $t('admin.img') }}</th>
-        <th>{{ $t('admin.img') }}</th>
+        <th>{{ $t('prod.desc') }}</th>
         <th>{{ $t('category.status') }}</th>
+        <th></th>
         <th/>
       </tr>
 

@@ -8,28 +8,18 @@
     :name="$t('category.catUp')"
     gate="category"
     :validation-keys="['title', 'slug', 'meta_title', 'meta_description']"
-    :file-keys="['id', 'status']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
+        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
+        <upload-files @updateInput="saveAttachment"></upload-files>
+      </div>
 
-        <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          v-model="result.title"
-          ref="title"
-          @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+      <div class="input-wrapper">
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
       <div class="input-wrapper">
@@ -67,33 +57,15 @@
 
       <div class="input-wrapper">
         <label>{{ $t('category.mTitle') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('category.mTitle')"
-          v-model="result.meta_title"
-          :class="{invalid: !!!result.meta_title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.meta_title && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mTitle')}) }}
-        </span>
+
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.meta_title"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
       <div class="input-wrapper">
         <label>{{ $t('category.mDesc') }}</label>
-        <textarea
-          :placeholder="$t('category.mDesc')"
-          v-model="result.meta_description"
-          :class="{invalid: !!!result.meta_description && hasError}"
-        />
-        <span
-          class="error"
-          v-if="!!!result.meta_description && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mDesc')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')"  :valuesOfLang="result.meta_description"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
 
@@ -149,7 +121,9 @@
   import DataPage from "~/components/partials/DataPage";
   import util from "~/mixin/util"
   import Dropdown from '~/components/Dropdown'
-  import {mapGetters, mapActions } from 'vuex'
+  import LangInput from "~/components/langInput.vue";
+  import {mapGetters, mapActions } from 'vuex';
+  import FileUpload from '~/components/FileUpload'
 
   export default {
     name: "categories",
@@ -158,7 +132,7 @@
       return {
         result: {
           id: '',
-          title: '',
+          title: {ar: '', en: ''},
           status: 2,
           featured: 2,
           parent: '',
@@ -166,20 +140,28 @@
           meta_description: '',
           in_footer: 2,
           meta_title: '',
-          image: ''
+          image: []
         }
       }
     },
     mixins: [util],
     components: {
       DataPage,
-      Dropdown
+      Dropdown,
+      LangInput,
+      FileUpload
     },
     computed: {
       ...mapGetters('language', ['currentLanguage']),
       ...mapGetters('common', ['allCategories'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      saveAttachment(images) {
+        this.result.image = images
+      },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
           this.emptyAllList('allCategories')

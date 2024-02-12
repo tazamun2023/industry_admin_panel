@@ -7,7 +7,6 @@
     route-name="site-features"
     :name="$t('title.sf')"
     :validation-keys="['detail']"
-    :file-keys="['id', 'detail']"
     :result="result"
     gate="home_slider"
     @result="result = $event"
@@ -22,15 +21,22 @@
           color="primary"
         />
       </div>
+      <div class="input-wrapper">
+        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
+        <upload-files @updateInput="saveAttachment"></upload-files>
+      </div>
 
+      <lang-input :hasError="hasError" type="textarea" :title="$t('prod.desc')"
+                  :valuesOfLang="result.detail"
+                  @updateInput="updateInput"></lang-input>
 
-      <WYSIWYGEditor
-        class="mb-20"
-        :title="$t('prod.desc')"
-        :description="result.detail"
-        @change="result.detail = $event"
-        @file="editorDescriptionFile"
-      />
+<!--      <WYSIWYGEditor-->
+<!--        class="mb-20"-->
+<!--        :title="$t('prod.desc')"-->
+<!--        :description="result.detail"-->
+<!--        @change="result.detail = $event"-->
+<!--        @file="editorDescriptionFile"-->
+<!--      />-->
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
@@ -68,9 +74,9 @@
         loading: false,
         result: {
           id: '',
-          image: this.defaultImage,
+          image: [],
           status: '',
-          detail: '',
+          detail: {ar: '', en: ''},
         }
       }
     },
@@ -85,6 +91,12 @@
       ...mapGetters('language', ['currentLanguage']),
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      saveAttachment(images) {
+        this.result.image = images
+      },
       editorDescriptionFile({deleted, file, Editor, cursorLocation, resetUploader}){
         this.editorFile({deleted, file, Editor, cursorLocation, resetUploader})
       },

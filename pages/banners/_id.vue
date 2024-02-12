@@ -6,8 +6,6 @@
     set-image-api="uploadBanner"
     route-name="banners"
     :name="$t('profile.vue.banner')"
-    :validation-keys="['title', 'slug']"
-    :file-keys="['id', 'type', 'source_type']"
     :result="result"
     gate="banner"
     @result="onSuccess"
@@ -19,21 +17,14 @@
       </div>
 
       <div class="input-wrapper">
+        <label>{{ $t('index.banner') }}</label>
+        <upload-files @updateInput="saveAttachment"></upload-files>
+      </div>
+
+      <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          name="title"
-          @change="slugChange"
-          v-model="result.title"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
 
@@ -191,7 +182,7 @@
           tags: '',
           url: '',
           slug: '',
-          title: '',
+          title: {ar: '', en: ''},
           status: '',
           closable: '',
           type: parseInt(this.$route?.query?.type) || 1
@@ -223,6 +214,12 @@
       ...mapGetters('common', ['allCategories', 'allSubCategories', 'allBrands'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      saveAttachment(images) {
+        this.result.image = images
+      },
       undoDelete(index){
         const v =  {
           ...this.result.source_products[index],

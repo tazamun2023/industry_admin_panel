@@ -247,11 +247,11 @@ export default {
 
 
     getImageURL(image) {
-      if (!image) {
+      if (image===null) {
         image = this.defaultImage
       }
 
-      return this.$store.state.imgSrcUrl + image
+      return image;
 
       // return image.url
     },
@@ -260,7 +260,7 @@ export default {
       if (!image) {
         image = this.defaultImage
       }
-      return this.$store.state.imgSrcUrl + this.$store.state.thumbPrefix + image
+      return image;
     },
     getImageName(imageLink) {
       const splitted = imageLink.split('/')
