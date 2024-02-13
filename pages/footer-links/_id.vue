@@ -8,7 +8,6 @@
     hash="payment-social"
     :name="$t('dataPage.fImgs')"
     :validation-keys="['title', 'link']"
-    :file-keys="['id', 'type']"
     :result="result"
     gate="footer_link"
     @result="result = $event"
@@ -16,20 +15,26 @@
     <template v-slot:form="{hasError}">
 
       <div class="input-wrapper">
+        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
+        <upload-files @updateInput="saveAttachment"></upload-files>
+      </div>
+      <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          name="title"
-          v-model="result.title"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('index.title')"-->
+<!--          name="title"-->
+<!--          v-model="result.title"-->
+<!--          :class="{invalid: !!!result.title && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.title && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('index.title')}) }}-->
+<!--        </span>-->
       </div>
 
       <div class="input-wrapper">
@@ -76,11 +81,12 @@
       return {
         result: {
           id: '',
-          title: '',
+          title: {ar: '', en: ''},
           link: '',
           type: this.$route?.query?.type,
           status: 2,
-          image: ''
+          image: '',
+          file: '',
         }
       }
     },
@@ -91,6 +97,12 @@
     },
     computed: {},
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      saveAttachment(image) {
+        this.result.file = image
+      },
       dropdownSelected(data) {
         this.result.status = data.key
       }
