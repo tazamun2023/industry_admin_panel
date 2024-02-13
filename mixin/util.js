@@ -272,12 +272,10 @@ export default {
     },
 
     VendorStatus(index) {
-      index == 0 ? index =2 : index;
       return index && this.VendorStatusObj[index].title
     },
 
     VendorApproval(index) {
-      !index ? index = 2 : index = 1;
       return index && this.VendorApprovalObj[index].title
     },
 

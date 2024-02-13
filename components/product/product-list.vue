@@ -31,7 +31,7 @@
       </div>
     </div>
     <!-- -------------------------- -->
-    <ul class="flex mb-0 list-none flex-wrap  w-50 shadow mt-10 flex-row">
+    <ul class="flex mb-0 list-none flex-wrap  w-full shadow mt-10 flex-row">
       <li class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
         <NuxtLink class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
                   @click="toggleTabs('is_all_products')"

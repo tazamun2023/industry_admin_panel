@@ -404,7 +404,8 @@
     "whatsapp" : "Whatsapp",
     "linkedin": "Linkedin",
     "facebook": "Facebook",
-    "youtube": "Youtube"
+    "youtube": "Youtube",
+    "deletemessage": "Are you sure want delete this data ?"
 
   },
 
@@ -617,8 +618,6 @@
     "deactive" : "Deactive",
     "notApproval" : "Not Approval"
 
-
-
   },
   "profile": {
     "sendCode": "We are going to send you an email containing a code",
@@ -814,6 +813,8 @@
     "company-profile":"Company Profile",
     "sellers":"Sellers",
     "vendors":"Vendors",
-    "customers":"Customers"
+    "customers":"Customers",
+    "address":"Address",
+    "payment":"Payment"
   }
 }

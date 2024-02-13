@@ -193,6 +193,11 @@
             icon: 'flash-sales',
           },
           {
+            path: 'bank',
+            title: 'Bank',
+            icon: 'bank',
+          },
+          {
             path: 'barcodes',
             title: 'Barcodes',
             icon: 'flash-sales',
@@ -444,6 +449,18 @@
                 path: 'account/company-profile',
                 title: this.$t('account.company-profile'),
                 icon: 'user',
+                gate: 'user'
+              },
+              {
+                path: 'account/address',
+                title: this.$t('account.address'),
+                icon: 'map',
+                gate: 'user'
+              },
+              {
+                path: 'account/payment',
+                title: this.$t('account.payment'),
+                icon: 'dollar',
                 gate: 'user'
               }
             ]

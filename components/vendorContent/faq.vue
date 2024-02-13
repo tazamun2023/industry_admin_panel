@@ -41,6 +41,19 @@
           </svg>
           </button>
         </div></td>
+        <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+          <template v-slot:title>
+            <h4>{{ $t('vendor.deletemessage') }}</h4>
+          </template>
+          <!-- -----------default slot------- -->
+          <!-- -----------default slot------- -->
+          <template v-slot:buttons>
+            <div class="flex gap-4 justify-end">
+              <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
+              <button @click="$refs.listPage.deleteContentItem(value.id)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
+            </div>
+          </template>
+        </DeleteModal>
       </tr>
       </tbody>
     </table>
@@ -67,7 +80,13 @@ export default {
     return {
       param:{
         "vendor_id" : this.vendorId
-      }
+      },
+      deleteModal:false
+    }
+  },
+  methods:{
+    closeModal(){
+      this.deleteModal = false
     }
   }
 }
