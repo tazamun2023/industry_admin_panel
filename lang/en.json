@@ -433,6 +433,38 @@
     "image": "Image"
   },
 
+  "address": {
+    "country": "Country",
+    "order": "Order",
+    "state": "State",
+    "email": "Email",
+    "name": "Name",
+    "address": "Address",
+    "city": "City",
+    "zipCode": "Zip code",
+    "isRequired": "{type} is required",
+    "phone": "Address phone number",
+    "cancel": "Cancel",
+    "update": "Update",
+    "thisAddress": "{type} this address",
+    "saving": "Saving",
+    "save": "Save",
+    "message": "Message",
+    "addressPlaceholder": "Street address or P.O. Box",
+    "address2Placeholder": "Apt, suite, unit, building, floor, etc.",
+    "subject": "Subject",
+    "district": "District",
+    "street": "Street",
+    "building_no": "Building Number",
+    "address_name": "Address Name",
+    "type" : "Address Type",
+    "phone_code": "Phone Code",
+    "invalidLength": "Mobile Number Not Valid",
+    "near" : "Nearest landmark",
+    "set_default" : "Set as Default address"
+  },
+
+
   "country": {
     "iso": "Iso",
     "iso3": "Iso3",

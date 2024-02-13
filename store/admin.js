@@ -31,6 +31,7 @@ const mutations = {
     state.publicKey = key
   },
   SET_PROFILE(state, profile) {
+    localStorage.setItem('getProfile', "sdfdsf")
     state.profile = profile
   },
   SET_PERMISSIONS(state, permissions) {

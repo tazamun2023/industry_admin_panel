@@ -101,6 +101,32 @@ export default {
     return apiClient.post(json.api[api], params)
   },
 
+  userAddressAction(params, bearer) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.post(json.api.userAddressAction, params)
+  },
+
+  userAddressDelete(id, bearer, params = null) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.delete(`${json.api.userAddressDelete}/${id}`, {params: params})
+  },
+
+  userAddressUpdate(id, bearer, params = null) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.get(`${json.api.userAddressFind}/${id}`, {params: params})
+  },
+
+
+
+
+  phoneCode(lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+
+    return apiClient.get(`${json.api.phoneCode}`)
+  },
+
   async downloadRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
