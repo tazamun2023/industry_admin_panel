@@ -15,13 +15,13 @@
       <table>
         <thead>
         <tr>
-          <th>Address Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Street</th>
-          <th>Country</th>
-          <th>City</th>
-          <th>Action</th>
+          <th>{{ $t("vendor.address_name") }}</th>
+          <th>{{ $t("vendor.email") }}</th>
+          <th>{{ $t("vendor.mobile") }}</th>
+          <th>{{ $t("vendor.street") }}</th>
+          <th>{{ $t("vendor.country") }}</th>
+          <th>{{ $t("vendor.city") }}</th>
+          <th>{{ $t("vendor.action") }}</th>
         </tr>
         </thead>
         <tbody>

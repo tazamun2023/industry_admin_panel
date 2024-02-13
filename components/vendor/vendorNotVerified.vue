@@ -16,18 +16,18 @@
               <thead>
               <tr>
                 <th><input type="checkbox" name="" id=""></th>
-                <th>Sl</th>
-                <th>Logo</th>
-                <th>Company Name</th>
-                <th>Email</th>
-                <th>Primary Phone</th>
-                <th>Foundation Date</th>
-                <th>Production Date</th>
-                <th>Location</th>
-                <th>Number of Products</th>
-                <th>Approved</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>{{ $t('vendor.sl') }}</th>
+                <th>{{ $t('vendor.logo') }}</th>
+                <th>{{ $t('vendor.company_name') }}</th>
+                <th>{{ $t('vendor.email') }}</th>
+                <th>{{ $t('vendor.primary_mobile') }}</th>
+                <th>{{ $t('vendor.foundation_date') }}</th>
+                <th>{{ $t('vendor.production_start') }}</th>
+                <th>{{ $t('vendor.location') }}</th>
+                <th>{{ $t('vendor.number_product') }}</th>
+                <th>{{ $t('vendor.approve') }}</th>
+                <th>{{ $t('vendor.status') }}</th>
+                <th>{{ $t('vendor.action') }}</th>
               </tr>
               </thead>
               <tbody>
@@ -134,7 +134,7 @@ export default {
     ...mapActions('vendor', ['changeVendorStatus']),
   async  approval(val){
       this.approvedModal = false
-   const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'status': 1}, api:"ChangeVendorApproved"})
+   const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'verified': 1}, api:"ChangeVendorApproved"})
     this.$router.go(0)
     },
     searchFilterData(search){

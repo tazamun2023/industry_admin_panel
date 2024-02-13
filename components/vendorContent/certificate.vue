@@ -16,10 +16,10 @@
     <table>
       <thead>
       <tr>
-        <th>Title</th>
-        <th>organization</th>
-        <th>Image</th>
-        <th>Action</th>
+        <th>{{ $t("vendor.title") }}</th>
+        <th>{{ $t("vendor.organization") }}</th>
+        <th>{{ $t('vendor.image') }}</th>
+        <th>{{ $t("vendor.action") }}</th>
       </tr>
       </thead>
       <tbody>

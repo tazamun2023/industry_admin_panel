@@ -15,9 +15,9 @@
     <table>
       <thead>
       <tr>
-        <th>Question</th>
-        <th>Answer</th>
-        <th>Action</th>
+        <th>{{ $t('vendor.question') }}</th>
+        <th>{{ $t("vendor.answer") }}</th>
+        <th>{{  $t('vendor.action') }}</th>
       </tr>
       </thead>
       <tbody>

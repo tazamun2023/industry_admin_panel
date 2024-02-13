@@ -15,9 +15,9 @@
     <table>
       <thead>
       <tr>
-        <th>Bank Name</th>
-        <th>A/C Number</th>
-        <th>Action</th>
+        <th>{{ $t('vendor.bank_name') }}</th>
+        <th>{{ $t("vendor.ac_number") }}</th>
+        <th>{{ $t("vendor.action") }}</th>
       </tr>
       </thead>
       <tbody>
