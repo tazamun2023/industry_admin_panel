@@ -25,19 +25,21 @@
 
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          v-model="result.title"
-          @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('index.title')"-->
+<!--          v-model="result.title"-->
+<!--          @change="slugChange"-->
+<!--          :class="{invalid: !!!result.title && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.title && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('index.title')}) }}-->
+<!--        </span>-->
       </div>
 
       <div class="input-wrapper">
@@ -79,45 +81,50 @@
           />
         </div>
       </div>
-
-      <WYSIWYGEditor
-        v-else
-        :title="$t('prod.desc')"
-        :description="result.description"
-        @change="result.description = $event"
-        @file="editorDescriptionFile"
-      />
+      <lang-input v-else :hasError="hasError" type="textarea" :title="$t('prod.name')" :valuesOfLang="result.description"
+                  @updateInput="updateInput"></lang-input>
+<!--      <WYSIWYGEditor-->
+<!--        v-else-->
+<!--        :title="$t('prod.desc')"-->
+<!--        :description="result.description"-->
+<!--        @change="result.description = $event"-->
+<!--        @file="editorDescriptionFile"-->
+<!--      />-->
 
 
       <div class="input-wrapper mt-15">
         <label>{{ $t('category.mTitle') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('category.mTitle')"
-          v-model="result.meta_title"
-          :class="{invalid: !!!result.meta_title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.meta_title && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mTitle')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.meta_title"
+                    @updateInput="updateInput"></lang-input>
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('category.mTitle')"-->
+<!--          v-model="result.meta_title"-->
+<!--          :class="{invalid: !!!result.meta_title && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.meta_title && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('category.mTitle')}) }}-->
+<!--        </span>-->
       </div>
 
       <div class="input-wrapper">
         <label>{{ $t('category.mDesc') }}</label>
-        <textarea
-          :placeholder="$t('category.mDesc')"
-          v-model="result.meta_description"
-          :class="{invalid: !!!result.meta_description && hasError}"
-        />
-        <span
-          class="error"
-          v-if="!!!result.meta_description && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mDesc')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.meta_description"
+                    @updateInput="updateInput"></lang-input>
+<!--        <textarea-->
+<!--          :placeholder="$t('category.mDesc')"-->
+<!--          v-model="result.meta_description"-->
+<!--          :class="{invalid: !!!result.meta_description && hasError}"-->
+<!--        />-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.meta_description && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('category.mDesc')}) }}-->
+<!--        </span>-->
       </div>
 
     </template>
@@ -143,11 +150,11 @@
         oldPageDescription: '',
         result: {
           id: '',
-          title: '',
+          title: {ar: '', en: ''},
           slug: '',
-          meta_title: '',
-          description: '',
-          meta_description: '',
+          meta_title: {ar: '', en: ''},
+          description: {ar: '', en: ''},
+          meta_description: {ar: '', en: ''},
           page_from_component: ''
         }
       }
@@ -166,6 +173,9 @@
       ...mapGetters('language', ['currentLanguage']),
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
       pageFromComponentSelected(data) {
         this.result.page_from_component = data.key
 
