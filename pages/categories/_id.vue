@@ -45,7 +45,7 @@
           <v-select
             :dir="$t('app.dir')"
             v-model="result.subcategory_id"
-            :options="selectedLevel1?.child"
+            :options="allCategoriesTree.find(c=>c.id==result.category_id)?.child"
             label="title"
             :reduce="cat => cat.id"
             class="custom-select"
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-
+<!--{{allCategoriesTree}}-->
       <div class="input-wrapper">
 
         <label>{{ $t('category.slug') }}</label>
@@ -181,10 +181,8 @@
     },
     methods: {
       updateLevel2() {
-        this.result.subCategory = "";  // Reset Level 2 selection
-        this.result.category_id = "";  // Reset Level 2 selection
-        this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.category_id));
-        this.selectedLevel2 = null;  // Reset Level 2 selection
+        this.result.subcategory_id = "";  // Reset Level 2 selection
+        // this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.category_id));
       },
       updateInput(input, language, value) {
         this.$set(input, language, value);
@@ -219,7 +217,8 @@
       if (this.allCategoriesTree.length === 0) {
         try {
           await this.getCategoriesTree().then(() => {
-            this.updateLevel2()
+            // this.updateLevel2()
+
           })
         } catch (e) {
           return this.$nuxt.error(e)
