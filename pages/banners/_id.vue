@@ -17,6 +17,7 @@
       </div>
 
       <div class="input-wrapper">
+        <img :src="result.image" alt="" class="w-1/2">
         <label>{{ $t('index.banner') }}</label>
         <upload-files @updateInput="saveAttachment"></upload-files>
       </div>
@@ -177,7 +178,7 @@
           source_brands: [],
           source_categories: [],
           source_sub_categories: [],
-          image: this.defaultImage,
+          image: '',
           source_type: 1,
           tags: '',
           url: '',

@@ -27,6 +27,7 @@
             :to="`/banners/${value.id}`"
           >
             <lazy-image
+              class="w-1/4"
               :data-src="getThumbImageURL(value.image)"
               alt=""
             />
