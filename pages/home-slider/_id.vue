@@ -159,6 +159,7 @@
           source_sub_categories: [],
           source_products: [],
           image: '',
+          file: '',
           source_type: 1,
           tags: '',
           url: '',
@@ -194,7 +195,7 @@
         this.$set(input, language, value);
       },
       sliderImage(images) {
-        this.result.image = images
+        this.result.file = images
       },
       dropdownStatusSelected(data) {
         this.result.status = data.key

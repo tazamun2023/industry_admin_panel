@@ -74,7 +74,8 @@
         loading: false,
         result: {
           id: '',
-          image: [],
+          image: '',
+          file: '',
           status: '',
           detail: {ar: '', en: ''},
         }
@@ -94,8 +95,8 @@
       updateInput(input, language, value) {
         this.$set(input, language, value);
       },
-      saveAttachment(images) {
-        this.result.image = images
+      saveAttachment(image) {
+        this.result.file = image
       },
       editorDescriptionFile({deleted, file, Editor, cursorLocation, resetUploader}){
         this.editorFile({deleted, file, Editor, cursorLocation, resetUploader})

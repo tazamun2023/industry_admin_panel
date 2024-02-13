@@ -23,15 +23,28 @@
       </div>
 
       <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('title.pc')}}</span>
-          <dropdown
-            v-if="allCategories"
-            :default-null="true"
-            :selectedKey="`${result.parent}`"
-            :options="allCategories"
-            @clicked="categorySelected"
-          />
+<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
+<!--          <span class="mr-15">{{$t('title.pc')}}</span>-->
+<!--          <dropdown-->
+<!--            v-if="allCategories"-->
+<!--            :default-null="true"-->
+<!--            :selectedKey="`${result.parent}`"-->
+<!--            :options="allCategories"-->
+<!--            @clicked="categorySelected"-->
+<!--          />-->
+<!--        </div>-->
+        <div class="form-group input-wrapper for-lang ar-lang">
+          <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
+          <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.parentCategory"
+            :options="allCategoriesTree"
+            label="title"
+            :reduce="cat => cat.id"
+            :placeholder="$t('rfq.Search by Category')"
+            class="custom-select"
+          ></v-select>
         </div>
       </div>
 
@@ -140,7 +153,8 @@
           meta_description: '',
           in_footer: 2,
           meta_title: '',
-          image: []
+          image: '',
+          file: ''
         }
       }
     },
@@ -153,14 +167,14 @@
     },
     computed: {
       ...mapGetters('language', ['currentLanguage']),
-      ...mapGetters('common', ['allCategories'])
+      ...mapGetters('common', ['allCategories', 'allCategoriesTree']),
     },
     methods: {
       updateInput(input, language, value) {
         this.$set(input, language, value);
       },
-      saveAttachment(images) {
-        this.result.image = images
+      saveAttachment(image) {
+        this.result.file = image
       },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
@@ -186,13 +200,20 @@
       ...mapActions('common', ['getAllList', 'emptyAllList'])
     },
     async mounted() {
-      if (!this.allCategories) {
+      if (this.allCategoriesTree.length === 0) {
         try {
-          await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+          await this.getCategoriesTree()
         } catch (e) {
           return this.$nuxt.error(e)
         }
       }
+      // if (!this.allCategories) {
+      //   try {
+      //     await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+      //   } catch (e) {
+      //     return this.$nuxt.error(e)
+      //   }
+      // }
     }
   }
 </script>

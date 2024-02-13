@@ -179,6 +179,7 @@
           source_categories: [],
           source_sub_categories: [],
           image: '',
+          file: '',
           source_type: 1,
           tags: '',
           url: '',
@@ -219,7 +220,7 @@
         this.$set(input, language, value);
       },
       saveAttachment(images) {
-        this.result.image = images
+        this.result.file = images
       },
       undoDelete(index){
         const v =  {
