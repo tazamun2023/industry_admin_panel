@@ -23,27 +23,33 @@
       </div>
 
       <div class="input-wrapper">
-<!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
-<!--          <span class="mr-15">{{$t('title.pc')}}</span>-->
-<!--          <dropdown-->
-<!--            v-if="allCategories"-->
-<!--            :default-null="true"-->
-<!--            :selectedKey="`${result.parent}`"-->
-<!--            :options="allCategories"-->
-<!--            @clicked="categorySelected"-->
-<!--          />-->
-<!--        </div>-->
         <div class="form-group input-wrapper for-lang ar-lang">
           <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
           <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
           <v-select
             :dir="$t('app.dir')"
-            v-model="result.parentCategory"
+            v-model="result.category_id"
             :options="allCategoriesTree"
             label="title"
             :reduce="cat => cat.id"
             :placeholder="$t('rfq.Search by Category')"
+            @input="updateLevel2"
             class="custom-select"
+          ></v-select>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="form-group input-wrapper for-lang ar-lang">
+          <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.subcategory_id"
+            :options="selectedLevel1?.child"
+            label="title"
+            :reduce="cat => cat.id"
+            class="custom-select"
+            :placeholder="$t('rfq.Select Sub Category')"
           ></v-select>
         </div>
       </div>
@@ -143,6 +149,8 @@
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
+        selectedLevel1: null,
+        selectedLevel2: null,
         result: {
           id: '',
           title: {ar: '', en: ''},
@@ -150,10 +158,12 @@
           featured: 2,
           parent: '',
           slug: '',
-          meta_description: '',
+          meta_description: {ar: '', en: ''},
           in_footer: 2,
-          meta_title: '',
+          meta_title: {ar: '', en: ''},
           image: '',
+          category_id: '',
+          subcategory_id: '',
           file: ''
         }
       }
@@ -170,6 +180,12 @@
       ...mapGetters('common', ['allCategories', 'allCategoriesTree']),
     },
     methods: {
+      updateLevel2() {
+        this.result.subCategory = "";  // Reset Level 2 selection
+        this.result.category_id = "";  // Reset Level 2 selection
+        this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.category_id));
+        this.selectedLevel2 = null;  // Reset Level 2 selection
+      },
       updateInput(input, language, value) {
         this.$set(input, language, value);
       },
@@ -197,16 +213,19 @@
       dropdownSelected(data) {
         this.result.status = data.key
       },
-      ...mapActions('common', ['getAllList', 'emptyAllList'])
+      ...mapActions('common', ['getAllList', 'emptyAllList', 'getCategoriesTree'])
     },
     async mounted() {
       if (this.allCategoriesTree.length === 0) {
         try {
-          await this.getCategoriesTree()
+          await this.getCategoriesTree().then(() => {
+            this.updateLevel2()
+          })
         } catch (e) {
           return this.$nuxt.error(e)
         }
       }
+
       // if (!this.allCategories) {
       //   try {
       //     await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
