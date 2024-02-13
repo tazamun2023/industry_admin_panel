@@ -30,7 +30,7 @@
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider> -->
-<!-- 
+<!--
             <ValidationProvider class="w-full"  name="Details English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
               <div class="input-wrapper mb-2">
                 <label for="">{{ $t("vendor.details") }}</label>
@@ -116,7 +116,8 @@
               <label for="">Logo Upload</label>
               <div class="file-wrapper logo-upload upload-block">
               <div class="file-input mt-20">
-              <img class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-if="fromData.logo?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-else class="w-full h-[181px] !important" :src="fromData.logo" />
             </div>
              </div>
              </div>
@@ -134,9 +135,25 @@
              <!-- component -->
              <div class="flex gap-4 mb-4 justify-between">
               <label for="">Licence Upload</label>
-             <button class="border border-smooth p-2 leading-3">Download Licences</button>
+             <button class="border border-smooth p-2 leading-3">
+               <a
+                 href="#"
+                 @click.prevent="
+                  downloadItem({
+                    url: fromData.licence,
+                    label: 'licence.pdf',
+                  })
+                "
+               >
+                 Download Licences
+               </a>
+             </button>
              </div>
-             
+
+
+
+
+
           <!-- <div class="flex w-full items-center justify-center bg-grey-lighter">
               <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
                   <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -283,6 +300,7 @@ import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 import LangInput from "../../components/langInput.vue";
 import vendor from "@/mixin/vendor";
+import axios from "axios";
 
 export default {
   name:'profile',
@@ -317,7 +335,9 @@ export default {
            facebook:'',
            linkedin:'',
            youtube:'',
-         }
+         },
+         logo:[],
+         licence:[]
        },
        errors:[],
        hasError:false
@@ -346,6 +366,8 @@ export default {
         this.fromData.facility_type_id = this.vendorList.data.facility_type_id
         this.fromData.country_id = this.vendorList.data.country_id
         this.fromData.city_id = this.vendorList.data.city_id
+        this.fromData.logo = this.vendorList.data.logo
+        this.fromData.licence = this.vendorList.data.licence
         this.fromData.contact_json.area = this.vendorList.data.contact_json.area
         this.fromData.contact_json.street = this.vendorList.data.contact_json.street
         this.fromData.contact_json.building = this.vendorList.data.contact_json.building
@@ -355,6 +377,7 @@ export default {
         this.fromData.links_json.facebook = this.vendorList.data.links_json.facebook
         this.fromData.links_json.linkedin = this.vendorList.data.links_json.linkedin
         this.fromData.links_json.youtube = this.vendorList.data.links_json.youtube
+
       }
     },
   computed:{
@@ -366,6 +389,16 @@ export default {
   methods:{
     ...mapActions('vendor', ['submitData', 'getVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
+
+    async downloadItem({ url, label }) {
+      const response = await axios.get(url, { responseType: "blob" });
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = label;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    },
 
     async countrySelected() {
       let countryId = this.fromData.country_id;

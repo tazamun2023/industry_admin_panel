@@ -8,17 +8,17 @@
                 <ul class="lg:flex mb-0 list-none rounded shadow flex-wrap mb-4 flex-row">
                 <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
                 <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 1, 'border-b-2 border-primary': openTab === 1}">
-                   All
+                  {{ $t('vendor.all') }}
                 </a>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
                 <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 2, 'border-b-2 border-primary': openTab === 2}">
-                  Verified
+                  {{ $t('vendor.verified') }}
                 </a>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
                 <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 3, 'border-b-2 border-primary': openTab === 3}">
-                    Not Verified
+                  {{ $t('vendor.not_verified') }}
                 </a>
                 </li>
 

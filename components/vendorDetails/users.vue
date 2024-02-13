@@ -16,11 +16,11 @@
       <table>
         <thead>
         <tr>
-          <th>User name</th>
-          <th>Phone</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Action</th>
+          <th>{{ $t("vendor.username") }}</th>
+          <th>{{ $t("vendor.mobile")  }}</th>
+          <th>{{ $t('vendor.email') }}</th>
+          <th>{{ $t('vendor.role') }}</th>
+          <th>{{ $t("vendor.action") }}</th>
         </tr>
         </thead>
         <tbody>
