@@ -5,30 +5,22 @@
     get-api="getSliderImage"
     set-image-api="uploadSliderImage"
     route-name="home-slider"
-    :name="$t('profile.vue.hSlid')"
+    :name="$t('profile.hSlid')"
     :validation-keys="['title']"
-    :file-keys="['id', 'type', 'source_type']"
     :result="result"
     gate="home_slider"
     @result="onSuccess"
   >
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
+        <img :src="result.image" alt="">
+        <upload-files @updateInput="sliderImage"></upload-files>
+      </div>
+      <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          name="title"
-          @change="slugChange"
-          v-model="result.title"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.title')"
+                    :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
 
@@ -166,12 +158,13 @@
           source_categories: [],
           source_sub_categories: [],
           source_products: [],
-          image: this.defaultImage,
+          image: '',
+          file: '',
           source_type: 1,
           tags: '',
           url: '',
           slug: '',
-          title: '',
+          title: {ar: '', en: ''},
           status: 2,
           type: parseInt(this.$route?.query?.type) || 1
         }
@@ -198,6 +191,12 @@
       ...mapGetters('common', ['allCategories', 'allSubCategories', 'allBrands'])
     },
     methods: {
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      sliderImage(images) {
+        this.result.file = images
+      },
       dropdownStatusSelected(data) {
         this.result.status = data.key
       },

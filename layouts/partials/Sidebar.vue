@@ -397,7 +397,7 @@
               },
               {
                 path: 'home-slider',
-                title: this.$t('profile.vue.hSlid'),
+                title: this.$t('admin.hSlid'),
                 icon: 'home-slider',
                 gate: 'home_slider'
               },
@@ -455,6 +455,12 @@
                 path: 'account/address',
                 title: this.$t('account.address'),
                 icon: 'map',
+                gate: 'user'
+              },
+              {
+                path: 'account/payment',
+                title: this.$t('account.payment'),
+                icon: 'dollar',
                 gate: 'user'
               }
             ]

@@ -8,44 +8,53 @@
     :name="$t('category.catUp')"
     gate="category"
     :validation-keys="['title', 'slug', 'meta_title', 'meta_description']"
-    :file-keys="['id', 'status']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
-
-        <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          v-model="result.title"
-          ref="title"
-          @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
-        </span>
+        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
+        <upload-files @updateInput="saveAttachment"></upload-files>
       </div>
 
       <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('title.pc')}}</span>
-          <dropdown
-            v-if="allCategories"
-            :default-null="true"
-            :selectedKey="`${result.parent}`"
-            :options="allCategories"
-            @clicked="categorySelected"
-          />
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                    @updateInput="updateInput"></lang-input>
+      </div>
+
+      <div class="input-wrapper">
+        <div class="form-group input-wrapper for-lang ar-lang">
+          <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
+          <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.category_id"
+            :options="allCategoriesTree"
+            label="title"
+            :reduce="cat => cat.id"
+            :placeholder="$t('rfq.Search by Category')"
+            @input="updateLevel2"
+            class="custom-select"
+          ></v-select>
         </div>
       </div>
 
+      <div class="input-wrapper">
+        <div class="form-group input-wrapper for-lang ar-lang">
+          <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
+          <v-select
+            :dir="$t('app.dir')"
+            v-model="result.subcategory_id"
+            :options="allCategoriesTree.find(c=>c.id==result.category_id)?.child"
+            label="title"
+            :reduce="cat => cat.id"
+            class="custom-select"
+            :placeholder="$t('rfq.Select Sub Category')"
+          ></v-select>
+        </div>
+      </div>
 
+<!--{{allCategoriesTree}}-->
       <div class="input-wrapper">
 
         <label>{{ $t('category.slug') }}</label>
@@ -67,33 +76,15 @@
 
       <div class="input-wrapper">
         <label>{{ $t('category.mTitle') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('category.mTitle')"
-          v-model="result.meta_title"
-          :class="{invalid: !!!result.meta_title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.meta_title && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mTitle')}) }}
-        </span>
+
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.meta_title"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
       <div class="input-wrapper">
         <label>{{ $t('category.mDesc') }}</label>
-        <textarea
-          :placeholder="$t('category.mDesc')"
-          v-model="result.meta_description"
-          :class="{invalid: !!!result.meta_description && hasError}"
-        />
-        <span
-          class="error"
-          v-if="!!!result.meta_description && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mDesc')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('prod.name')"  :valuesOfLang="result.meta_description"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
 
@@ -149,37 +140,56 @@
   import DataPage from "~/components/partials/DataPage";
   import util from "~/mixin/util"
   import Dropdown from '~/components/Dropdown'
-  import {mapGetters, mapActions } from 'vuex'
+  import LangInput from "~/components/langInput.vue";
+  import {mapGetters, mapActions } from 'vuex';
+  import FileUpload from '~/components/FileUpload'
 
   export default {
     name: "categories",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
+        selectedLevel1: null,
+        selectedLevel2: null,
         result: {
           id: '',
-          title: '',
+          title: {ar: '', en: ''},
           status: 2,
           featured: 2,
           parent: '',
           slug: '',
-          meta_description: '',
+          meta_description: {ar: '', en: ''},
           in_footer: 2,
-          meta_title: '',
-          image: ''
+          meta_title: {ar: '', en: ''},
+          image: '',
+          category_id: '',
+          subcategory_id: '',
+          file: ''
         }
       }
     },
     mixins: [util],
     components: {
       DataPage,
-      Dropdown
+      Dropdown,
+      LangInput,
+      FileUpload
     },
     computed: {
       ...mapGetters('language', ['currentLanguage']),
-      ...mapGetters('common', ['allCategories'])
+      ...mapGetters('common', ['allCategories', 'allCategoriesTree']),
     },
     methods: {
+      updateLevel2() {
+        this.result.subcategory_id = "";  // Reset Level 2 selection
+        // this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.category_id));
+      },
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+      saveAttachment(image) {
+        this.result.file = image
+      },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
           this.emptyAllList('allCategories')
@@ -201,16 +211,27 @@
       dropdownSelected(data) {
         this.result.status = data.key
       },
-      ...mapActions('common', ['getAllList', 'emptyAllList'])
+      ...mapActions('common', ['getAllList', 'emptyAllList', 'getCategoriesTree'])
     },
     async mounted() {
-      if (!this.allCategories) {
+      if (this.allCategoriesTree.length === 0) {
         try {
-          await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+          await this.getCategoriesTree().then(() => {
+            // this.updateLevel2()
+
+          })
         } catch (e) {
           return this.$nuxt.error(e)
         }
       }
+
+      // if (!this.allCategories) {
+      //   try {
+      //     await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
+      //   } catch (e) {
+      //     return this.$nuxt.error(e)
+      //   }
+      // }
     }
   }
 </script>

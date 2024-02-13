@@ -335,7 +335,7 @@
     "footer": "Footer",
     "sType": "Source type",
     "fImgs": "footer images",
-    "hSlid": "home slider",
+    "hSlid": "Home slider",
     "comp": "Component",
     "tags": "Tags",
     "img": "Image",
@@ -870,6 +870,7 @@
     "sellers":"Sellers",
     "vendors":"Vendors",
     "customers":"Customers",
-    "address":"Address"
+    "address":"Address",
+    "payment":"Payment"
   }
 }
