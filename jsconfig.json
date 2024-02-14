@@ -124,10 +124,11 @@
     "getVendorAddress": "vendor/address/get",
     "DeleteVendorAddress": "user/address/delete",
 
-
-
-
-
+    "getCustomers" : "customer-info/customers",
+    "getVerifiedCustomers" : "customer-info/customers/verified/get",
+    "getUnverifiedCustomers" : "customer-info/customers/unverified/get",
+    "getCustomerUsers" : "customer-info/users",
+    "getCustomerOrders" : "customer-info/customers/orders/get",
 
 
     "getTransportModes": "transportationMode/all",
