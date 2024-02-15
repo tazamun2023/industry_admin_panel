@@ -8,7 +8,7 @@
                     <p>Provide information on your billing address and where you would like your items to be picked up from. <br> We need your stock pickup location details in order to calculate accurate shipping rates.</p>
                 </div>
                 <div>
-                    <button @click="addressmodal=true" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
+                    <button @click="addAddress" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
                 </div>
            </div>
         </div>
@@ -88,7 +88,7 @@
               </ValidationProvider>
 
                 <div class="input-wrapper">
-                  <label class="font-bold"  for="">{{ $t('addressPopup.type') }}*</label>
+                  <label class="font-bold"  for="">{{ $t('address.type') }}*</label>
                   <div class="flex start my-4 gap-4">
 
                     <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary': addressData.type === 'shipping'}" @click="shipping">
@@ -264,7 +264,7 @@ export default{
             building_number:'',
               nearest_landmark:'',
               type:'',
-              default:'',
+              default:false,
               phone_code:''
           },
           hasError:false,

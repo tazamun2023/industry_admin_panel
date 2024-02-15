@@ -107,52 +107,16 @@
             open: false,
             children: [
               {
-                path: 'categories',
-                title: this.$t('error.cat'),
-                icon: 'categories',
-                gate: 'category'
-              },
-              {
                 path: 'brands',
                 title: this.$t('error.brands'),
                 icon: 'brands',
                 gate: 'brand'
               },
               {
-                path: 'attributes',
-                title: this.$t('list.attr'),
-                icon: 'attributes',
-                gate: 'attribute'
-              },
-              {
-                path: 'tax-rules',
-                title: this.$t('error.tr'),
-                icon: 'tax-rules',
-                gate: 'tax_rule'
-              },
-              {
-                path: 'shipping-rules',
-                title: this.$t('brand.shipRules'),
-                icon: 'shipping-rules',
-                gate: 'shipping_rule'
-              },
-              {
-                path: 'product-collections',
-                title: this.$t('error.col'),
-                icon: 'product-collections',
-                gate: 'product_collection'
-              },
-              {
-                path: 'bundle-deals',
-                title: this.$t('error.bd'),
-                icon: 'bundle-deals',
-                gate: 'bundle_deal'
-              },
-              {
-                path: 'vouchers',
-                title: this.$t('error.vou'),
-                icon: 'vouchers',
-                gate: 'voucher'
+                path: 'categories',
+                title: this.$t('error.cat'),
+                icon: 'categories',
+                gate: 'category'
               },
               {
                 path: 'products',
@@ -161,6 +125,20 @@
                 form: ['product', 'ratingReviews'],
                 gate: 'product'
               },
+              {
+                path: 'bulk-upload',
+                title: this.$t('title.bu'),
+                icon: 'bulk-upload',
+                form: ['bulk-upload'],
+                gate: 'bulk_upload'
+              },
+
+             /* {
+                path: 'vouchers',
+                title: this.$t('error.vou'),
+                icon: 'vouchers',
+                gate: 'voucher'
+              },*/
               // {
               //   path: 'products/create',
               //   title: 'Create',
@@ -176,61 +154,11 @@
             ]
           },
           {
-            path: 'flash-sales',
-            title: this.$t('error.fs'),
-            icon: 'flash-sales',
-            form: ['flash-sales'],
-            gate: 'flash_sale'
-          },
-          {
-            path: 'countries',
-            title: 'Countries',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'cities',
-            title: 'Cities',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'bank',
-            title: 'Bank',
-            icon: 'bank',
-          },
-          {
-            path: 'barcodes',
-            title: 'Barcodes',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'colors',
-            title: 'Colors',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'ports',
-            title: 'Ports',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'transportation-modes',
-            title: 'Transportation modes',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'units',
-            title: 'Units',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'warehouses',
-            title: 'warehouses',
-            icon: 'flash-sales',
-          },
-          {
-            path: 'storage-temperatures',
-            title: 'Storage Temperatures',
-            icon: 'flash-sales',
+            path: 'orders',
+            title: this.$t('error.orders'),
+            icon: 'orders',
+            form: ['order'],
+            gate: 'order'
           },
           {
             path: 'rfq',
@@ -259,15 +187,51 @@
               }
             ]
           },
-
-
-
           {
-            path: 'orders',
-            title: this.$t('error.orders'),
-            icon: 'orders',
-            form: ['order'],
-            gate: 'order'
+            path: 'flash-sales',
+            title: this.$t('error.message'),
+            icon: 'flash-sales',
+            form: ['flash-sales'],
+            gate: 'flash_sale'
+          },
+          {
+            path: 'flash-sales',
+            title: this.$t('error.fs'),
+            icon: 'flash-sales',
+            form: ['flash-sales'],
+            gate: 'flash_sale'
+          },
+          {
+            path: 'store',
+            title: this.$t('profile.content'),
+            icon: 'store',
+            open: false,
+            children: [
+              {
+                path: 'buisness-news',
+                title: this.$t('profile.news'),
+                icon: 'profile',
+                gate: 'store'
+              },
+              {
+                path: 'video',
+                title: this.$t('profile.video'),
+                icon: 'video',
+                gate: 'store'
+              },
+              {
+                path: 'certificate',
+                title: this.$t('profile.certificate'),
+                icon: 'video',
+                gate: 'store'
+              },
+              {
+                path: 'faq',
+                title: this.$t('profile.faq'),
+                icon: 'faq',
+                gate: 'store'
+              }
+            ]
           },
           {
             path: 'rating-reviews',
@@ -276,49 +240,6 @@
             form: ['rating-reviews'],
             gate: 'rating_review'
           },
-
-          {
-            path: 'users',
-            title: this.$t('error.users'),
-            icon: 'users',
-            open: false,
-            gate: 'user',
-            children: [
-              {
-                path: 'registered-users',
-                title: this.$t('profile.vue.registered'),
-                icon: 'registered',
-                gate: 'user'
-              },
-              {
-                path: 'guest-users',
-                title: this.$t('profile.vue.guest'),
-                icon: 'guest',
-                gate: 'user'
-              },
-              {
-                path: 'vendors',
-                title: this.$t('account.vendors'),
-                icon: 'guest',
-                gate: 'user'
-              },
-              {
-                path: 'customer',
-                title: this.$t('account.customers'),
-                icon: 'guest',
-                gate: 'user'
-              },
-            ]
-          },
-
-
-         /* {
-            path: 'users',
-            title: this.$t('error.users'),
-            icon: 'users',
-            form: ['user'],
-            gate: 'user'
-          },*/
           {
             path: 'subscription',
             title: this.$t('error.subs'),
@@ -340,27 +261,6 @@
                 gate: 'subscription_email_format'
               },
             ]
-          },
-          {
-            path: 'bulk-upload',
-            title: this.$t('title.bu'),
-            icon: 'bulk-upload',
-            form: ['bulk-upload'],
-            gate: 'bulk_upload'
-          },
-          {
-            path: 'roles-permissions',
-            title: this.$t('error.rp'),
-            icon: 'roles-permissions',
-            form: ['roles-permissions'],
-            gate: 'role'
-          },
-          {
-            path: 'admins-vendors',
-            title: this.$t('error.av'),
-            icon: 'admins-vendors',
-            form: ['admins-vendors'],
-            gate: 'admin'
           },
           {
             path: 'withdrawal',
@@ -439,6 +339,7 @@
               },
             ]
           },
+
           {
             path: 'account',
             title: this.$t('account.account'),
@@ -462,54 +363,163 @@
                 title: this.$t('account.payment'),
                 icon: 'dollar',
                 gate: 'user'
-              }
+              },
+              {
+                path: 'vendors',
+                title: this.$t('account.vendors'),
+                icon: 'guest',
+                gate: 'user'
+              },
+              {
+                path: 'customer',
+                title: this.$t('account.customers'),
+                icon: 'guest',
+                gate: 'user'
+              },
             ]
           },
+
           {
-            path: 'store',
-            title: this.$t('error.store'),
-            icon: 'store',
+            path: 'users',
+            title: this.$t('error.access'),
+            icon: 'users',
             open: false,
+            gate: 'user',
             children: [
               {
-                path: 'store',
-                title: this.$t('error.store'),
-                icon: 'store',
-                gate: 'store'
+                path: 'registered-users',
+                title: this.$t('profile.registered'),
+                icon: 'registered',
+                gate: 'user'
               },
               {
-                path: 'buisness-news',
-                title: this.$t('profile.vue.buisness-news'),
-                icon: 'profile',
-                gate: 'store'
+                path: 'guest-users',
+                title: this.$t('profile.guest'),
+                icon: 'guest',
+                gate: 'user'
               },
               {
-                path: 'video',
-                title: this.$t('profile.vue.video'),
-                icon: 'video',
-                gate: 'store'
+                path: 'roles-permissions',
+                title: this.$t('error.rp'),
+                icon: 'roles-permissions',
+                form: ['roles-permissions'],
+                gate: 'role'
               },
               {
-                path: 'certificate',
-                title: this.$t('profile.vue.certificate'),
-                icon: 'video',
-                gate: 'store'
+                path: 'admins-vendors',
+                title: this.$t('error.av'),
+                icon: 'admins-vendors',
+                form: ['admins-vendors'],
+                gate: 'admin'
               },
-              {
-                path: 'faq',
-                title: this.$t('profile.vue.faq'),
-                icon: 'faq',
-                gate: 'store'
-              }
             ]
           },
+
+
+
+
+         /* {
+            path: 'users',
+            title: this.$t('error.users'),
+            icon: 'users',
+            form: ['user'],
+            gate: 'user'
+          },*/
+
+
+
           {
-            path: 'setting/currency',
-            active: 'setting',
+            path: 'setting',
             title: this.$t('list.set'),
             icon: 'setting',
-            gate: 'setting'
-          }
+            open: false,
+            children:[
+              {
+                path: 'countries',
+                title: this.$t('setting.countries'),
+                icon: 'flash-sales',
+              },
+              {
+                path: 'cities',
+                title: this.$t('setting.cities'),
+                icon: 'flash-sales',
+              },
+              {
+                path: 'ports',
+                title: this.$t('setting.ports'),
+                icon: 'flash-sales',
+              },
+              {
+                path: 'colors',
+                title: this.$t('setting.colors'),
+                icon: 'flash-sales',
+              },
+
+              {
+                path: 'shipping-rules',
+                title: this.$t('brand.shipRules'),
+                icon: 'shipping-rules',
+                gate: 'shipping_rule'
+              },
+              {
+                path: 'transportation-modes',
+                title: this.$t('setting.transportation'),
+                icon: 'flash-sales',
+              },
+              {
+                path: 'units',
+                title: this.$t('setting.units'),
+                icon: 'flash-sales',
+                gate: 'setting',
+              },
+              {
+                path: 'storage-temperatures',
+                title: this.$t('setting.temperatures'),
+                icon: 'flash-sales',
+                gate: 'setting',
+              },
+
+              {
+                path: 'barcodes',
+                title: this.$t('setting.barcodes'),
+                icon: 'flash-sales',
+              },
+              {
+                path: 'tax-rules',
+                title: this.$t('error.tr'),
+                icon: 'tax-rules',
+                gate: 'tax_rule'
+              },
+              {
+                path: 'product-collections',
+                title: this.$t('error.col'),
+                icon: 'product-collections',
+                gate: 'product_collection'
+              },
+              {
+                path: 'bundle-deals',
+                title: this.$t('error.bd'),
+                icon: 'bundle-deals',
+                gate: 'bundle_deal'
+              },
+              {
+                path: 'attributes',
+                title: this.$t('list.attr'),
+                icon: 'attributes',
+                gate: 'attribute'
+              },
+
+              {
+                path: 'setting/currency',
+                title: 'More Setting',
+                icon: 'setting',
+                gate: 'setting',
+              },
+
+            ]
+          },
+
+
         ],
         childrenOpened: false
       }

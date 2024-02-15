@@ -26,41 +26,46 @@ export default {
              this.hasError = true
          }
 
-
-
        },
 
        async editAddress(value){
-         const data = await this.updateAddress({
-             id: value.id,
-           })
-
-         if(data.status == 200){
-
            this.addressmodal = true
-
-           this.addressData.id = data.data.id
-           this.addressData.vendor_id = data.data.vendor_id
-           this.addressData.email = data.data.email
-           this.addressData.name = data.data.name
-           this.addressData.phone = data.data.phone
-           this.addressData.country_id = data.data.country_id
-           this.addressData.city_id = data.data.city_id
-           this.addressData.zip = data.data.zip
-           this.addressData.address_name = data.data.address_name
-           this.addressData.district = data.data.district
-           this.addressData.street = data.data.street
-           this.addressData.building_number = data.data.building_number
-           this.addressData.nearest_landmark = data.data.nearest_landmark
-           this.addressData.type = data.data.type
-           this.addressData.default = data.data.default
-           this.addressData.phone_code = data.data.phone_code
-         }else if(data?.status === 201) {
-           this.setToastError(data.data?.form?.join(', '))
-
-         }
-
+           this.addressData.id = value.id
+           this.addressData.vendor_id = value.vendor_id
+           this.addressData.email = value.email
+           this.addressData.name = value.name
+           this.addressData.phone = value.phone
+           this.addressData.country_id = value.country_id
+           this.addressData.city_id = value.city_id
+           this.addressData.zip = value.zip
+           this.addressData.address_name = value.address_name
+           this.addressData.district = value.district
+           this.addressData.street = value.street
+           this.addressData.building_number = value.building_number
+           this.addressData.nearest_landmark = value.nearest_landmark
+           this.addressData.type = value.type
+           this.addressData.default = value.default
+           this.addressData.phone_code = value.phone_code
        },
+
+         addAddress(){
+           this.addressmodal = true
+           this.addressData.id = ''
+           this.addressData.vendor_id = ''
+           this.addressData.email = ''
+           this.addressData.name = ''
+           this.addressData.phone = ''
+           this.addressData.zip = ''
+           this.addressData.address_name = ''
+           this.addressData.district = ''
+           this.addressData.street = ''
+           this.addressData.building_number = ''
+           this.addressData.nearest_landmark = ''
+           this.addressData.type = ''
+           this.addressData.default = ''
+           this.addressData.phone_code = ''
+
+         },
 
        async deleting(address) {
            const data = await this.userAddressDelete({

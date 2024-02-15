@@ -432,6 +432,14 @@
     "organization": "Organization",
     "image": "Image"
   },
+  "bank": {
+    "bank_name": "Bank Name",
+    "bank_location": "Where is your bank located",
+    "iban": "IBAN",
+    "account_number" : "Bank account number",
+    "holder_name" : "Bank account holder's name",
+    "swift_code" : "Swift/BIC code"
+  },
 
   "address": {
     "country": "Country",
@@ -561,7 +569,17 @@
     "adr": "Address line",
     "sName": "Store name",
     "sLogo": "Store logo",
-    "store": "Store form"
+
+    "store": "Store form",
+    "countries": "Countries",
+    "cities": "Cities",
+    "ports": "Ports",
+    "colors": "Colors",
+    "transportation": "Transportation Mode",
+    "units": "Units",
+    "temperatures": "Storage Temperatures",
+    "barcodes": "Barcodes"
+
   },
   "list": {
     "show": "Showing {from} to {to} of {total} results",
@@ -638,7 +656,10 @@
     "scrn": "{type} screen",
     "up": "Uploading",
     "fn": "File name/URL",
-    "feo": "Following error occurred"
+    "feo": "Following error occurred",
+    "message": "Message",
+    "access": "Access Management"
+
   },
   "util": {
     "tod": "Top of daily discover",
@@ -721,9 +742,11 @@
     "fSale": "Flash sale",
     "id": "ID",
     "buisness-news":"Buisness News",
+    "news":"News",
     "video":"video",
     "certificate":"certificate",
-    "faq":"FAQ"
+    "faq":"FAQ",
+    "content":"Content"
   },
   "dataPage": {
     "fImgs": "Footer images",

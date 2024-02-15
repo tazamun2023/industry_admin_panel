@@ -106,8 +106,10 @@
     "getVendor" : "vendor",
     "getApprovalVendor" : "vendor/verified/get",
     "getNotApprovalVendor" : "vendor/un-verified/get",
+
     "getVendorBank": "banks",
     "DeleteVendorBank": "banks",
+
     "getVendorNews": "news",
     "DeleteVendorNews": "news",
     "getVendorVideos": "video-gallery",
@@ -126,6 +128,10 @@
     "userAddressAction": "user/address/action",
     "userAddressFind": "user/address/find",
     "userAddressDelete": "user/address/delete",
+
+
+
+
 
     "phoneCode": "user/phoneCode",
 
