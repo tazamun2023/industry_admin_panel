@@ -5,7 +5,7 @@
     get-api="getBanner"
     set-image-api="uploadBanner"
     route-name="banners"
-    :name="$t('profile.vue.banner')"
+    :name="$t('profile.banner')"
     :result="result"
     gate="banner"
     @result="onSuccess"
@@ -13,7 +13,7 @@
     <template v-slot:form="{hasError}">
 
       <div class="input-wrapper single-line">
-        <label>{{ $t('profile.vue.ui') }}: </label><b>{{ bannerUsed[result.type] }}</b>
+        <label>{{ $t('profile.ui') }}: </label><b>{{ bannerUsed[result.type] }}</b>
       </div>
 
       <div class="input-wrapper">

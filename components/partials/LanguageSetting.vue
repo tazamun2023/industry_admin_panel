@@ -6,7 +6,7 @@
     list-api="getLanguages"
     delete-api="deleteLanguage"
     route-name="setting/languages"
-    :name="$t('profile.vue.langLower')"
+    :name="$t('profile.langLower')"
     gate="language"
     :order-options="orderOptions"
   >

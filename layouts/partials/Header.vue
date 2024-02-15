@@ -161,7 +161,7 @@
         this.dotsOpen = false
       },
       goProfile() {
-        this.$route.name !== 'profile' ? this.$router.push({path: '/profile.vue'}) : false
+        this.$route.name !== 'profile' ? this.$router.push({path: '/profile'}) : false
         this.dotsOpen = false
       },
       ...mapActions('setting', ['clearSetting']),

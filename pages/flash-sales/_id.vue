@@ -5,7 +5,7 @@
     set-api="setFlashSale"
     get-api="getFlashSale"
     route-name="flash-sales"
-    :name="$t('profile.vue.fSale')"
+    :name="$t('profile.fSale')"
     :validation-keys="['title', 'start_time', 'end_time']"
     :result="result"
     gate="flash_sale"
