@@ -4,6 +4,7 @@ const state = () => ({
   allCategories: null,
   allCategoriesTree: [],
   allUnits: [],
+  phoneCode:null,
   allCountries: [],
   allCitiesById: [],
   allTaxRules: null,
@@ -37,6 +38,7 @@ const getters = {
   allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
   allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
   allRejectReasons: ({allRejectReasons}) => allRejectReasons,
+  phoneCode: ({phoneCode}) => phoneCode,
   allCountries: ({allCountries}) => allCountries,
   allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
@@ -106,6 +108,12 @@ const mutations = {
       state.allBarcodes = {...state.allBarcodes, ...{[item.id]: {name: item.name}}}
     })
   },
+
+  PHONE_CODE(state, code){
+    state.phoneCode = code
+  },
+
+
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
     state.allPackagingUnits = {}
     allPackagingUnits.forEach((item) => {
@@ -243,6 +251,14 @@ const actions = {
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
+  },
+
+  async getPhoneCode({commit}) {
+    const {data} = await Service.phoneCode(this.$auth.strategy.token.get())
+    if (data?.status === 200) {
+      commit('PHONE_CODE', data.data)
+    }
+    return data
   },
 
 

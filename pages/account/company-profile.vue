@@ -346,20 +346,10 @@
       <section>
         <div class="flex gap-4">
           <h4>Add Primary Email</h4>
-          <svg
-            @click="addEmail"
-              class="w-6 h-6 cursor-pointer"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-            </svg>
         </div>
 
-        <div v-for="(email, index) in emails" :key="index" class="flex my-2">
-          <input type="email" v-model="emails[index]">
+        <div v-for="(email, index) in fromData.email" :key="index" class="flex my-2">
+          <input type="email" v-model="fromData.email[index]">
           <div class="p-2 flex">
             <svg  @click="removeEmail(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
@@ -377,12 +367,13 @@
 
           </div>
         </div>
+
       </section>
     </template>
     <template v-slot:buttons>
      <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
-      <button  @click="emailModal = false" class="p-2 border border-primary leading-3">Cancell</button>
-      <button class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
+      <button  @click="emailModal = false" class="p-2 border border-primary leading-3">Cancel</button>
+      <button @click.prevent="saveEmail" class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
      </div>
     </template>
    </Modal>
@@ -391,20 +382,10 @@
       <section>
         <div class="flex gap-4">
           <h4>Add Primary Phone</h4>
-          <svg
-            @click="addPhone"
-              class="w-6 h-6 cursor-pointer"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-            </svg>
         </div>
 
-        <div v-for="(phone, index) in phones" :key="index" class="flex my-2">
-          <input type="number" v-model="phones[index]">
+        <div v-for="(phone, index) in fromData.mobile" :key="index" class="flex my-2">
+          <input type="number" v-model="fromData.mobile[index]">
           <div class="p-2 flex">
             <svg  @click="removePhone(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
@@ -425,8 +406,8 @@
       </section>
       <template v-slot:buttons>
      <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
-      <button @click="phoneModal = false" class="p-2 border border-primary leading-3">Cancell</button>
-      <button class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
+      <button @click="phoneModal = false" class="p-2 border border-primary leading-3">Cancel</button>
+      <button @click.prevent="saveMobile" class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
      </div>
     </template>
    </Modal>
@@ -463,8 +444,7 @@ export default {
   },
   data(){
     return {
-      emails:[''],
-      phones:[''],
+
       phoneModal: false,
       emailModal: false,
 
@@ -482,12 +462,15 @@ export default {
             facility_type_id:'',
              country_id:'',
              city_id:'',
+             email:[''],
+             mobile:[''],
+
          contact_json:{
            area:'',
            street:'',
            building:'',
-           email:[],
-           mobile:[],
+           email:[''],
+           mobile:[''],
          },
 
            links_json:{
@@ -529,8 +512,8 @@ export default {
       this.fromData.contact_json.area = this.vendorList.data.contact_json.area
       this.fromData.contact_json.street = this.vendorList.data.contact_json.street
       this.fromData.contact_json.building = this.vendorList.data.contact_json.building
-      this.fromData.contact_json.email = this.vendorList.data.contact_json.email
-      this.fromData.contact_json.mobile = this.vendorList.data.contact_json.mobile
+/*      this.fromData.contact_json.email = this.vendorList.data.contact_json.email
+      this.fromData.contact_json.mobile = this.vendorList.data.contact_json.mobile*/
       this.fromData.links_json.whatsapp = this.vendorList.data.links_json.whatsapp
       this.fromData.links_json.facebook = this.vendorList.data.links_json.facebook
       this.fromData.links_json.linkedin = this.vendorList.data.links_json.linkedin
@@ -567,28 +550,37 @@ export default {
         }
       }
     },
+    saveEmail(){
+      this.emailModal = false
+      this.fromData.contact_json.email = this.fromData.email
+    },
+    saveMobile(){
+      this.phoneModal = false
+      this.fromData.contact_json.mobile = this.fromData.mobile
+    },
+
     closeModal() {
       this.emailModal = false;
       this.phoneModal = false;
     },
     addEmail() {
       // Add a new email input field
-      this.emails.push('');
+      this.fromData.email.push('');
       // this.newEmail = ''; // Clear the value of the new email field
     },
     removeEmail(index) {
       // Remove the email input field at the specified index
-      this.emails.splice(index, 1);
+      this.fromData.email.splice(index, 1);
     },
 
     addPhone() {
       // Add a new email input field
-      this.phones.push('');
+      this.fromData.mobile.push('');
       // this.newEmail = ''; // Clear the value of the new email field
     },
     removePhone(index) {
       // Remove the email input field at the specified index
-      this.phones.splice(index, 1);
+      this.fromData.mobile.splice(index, 1);
     },
     updateInput(input, language, value) {
        this.$set(input, language, value);

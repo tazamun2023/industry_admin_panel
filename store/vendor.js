@@ -2,14 +2,18 @@
 import Service from '@/services/service.js'
 const state = () => ({
   vendorList: null,
+  addressList: null
 })
 const getters = {
   vendorList: ({ vendorList }) => vendorList,
+  addressList: ({ addressList }) => addressList,
 }
 const mutations = {
   SET_VENDOR_DATA(state, data){
     state.vendorList = data
   },
+
+
 }
 
 const actions = {
@@ -47,6 +51,7 @@ const actions = {
 
   },
 
+
   async changeVendorStatus ({rootState, commit , dispatch}, {params,api}) {
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
@@ -59,10 +64,6 @@ const actions = {
     }
     return data;
   },
-
-
-
-
 
 
 

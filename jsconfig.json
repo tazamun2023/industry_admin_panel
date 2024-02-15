@@ -106,8 +106,10 @@
     "getVendor" : "vendor",
     "getApprovalVendor" : "vendor/verified/get",
     "getNotApprovalVendor" : "vendor/un-verified/get",
+
     "getVendorBank": "banks",
     "DeleteVendorBank": "banks",
+
     "getVendorNews": "news",
     "DeleteVendorNews": "news",
     "getVendorVideos": "video-gallery",
@@ -121,8 +123,6 @@
     "DeleteVendorUser": "user/delete",
     "getVendorProduct": "vendor/product/get",
     "deleteVendorProduct": "product/delete",
-    "getVendorAddress": "vendor/address/get",
-    "DeleteVendorAddress": "user/address/delete",
 
     "getCustomers" : "customer-info/customers",
     "getVerifiedCustomers" : "customer-info/customers/verified/get",
@@ -131,6 +131,20 @@
     "getCustomerOrders" : "customer-info/customers/orders/get",
     "getCustomerAddress" : "customer-info/address/all",
     "updateCustomer" : "customer-info/customers/all",
+    "getVendorAddress": "vendor/address/get",
+    "userAddressAction": "user/address/action",
+    "userAddressFind": "user/address/find",
+    "userAddressDelete": "user/address/delete",
+
+
+
+
+
+    "phoneCode": "user/phoneCode",
+
+
+
+
 
 
     "getTransportModes": "transportationMode/all",

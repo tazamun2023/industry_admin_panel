@@ -12,22 +12,6 @@ const apiClient = axios.create({
   }
 })
 
-// apiClient.interceptors.response.use(function (response) {
-//   // Any status code that lie within the range of 2xx cause this function to trigger
-//   // Do something with response data
-//
-//   if(response.data.message) {
-//     alert(response.data.message)
-//     if (response.status == 200) {
-//
-//     }
-//   }
-//   return response;
-// }, function (error) {
-//   // Any status codes that falls outside the range of 2xx cause this function to trigger
-//   // Do something with response error
-//   return Promise.reject(error);
-// });
 
 export default {
   convertImage(params, bearer) {
@@ -99,6 +83,32 @@ export default {
 
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.post(json.api[api], params)
+  },
+
+  userAddressAction(params, bearer) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.post(json.api.userAddressAction, params)
+  },
+
+  userAddressDelete(id, bearer, params = null) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.delete(`${json.api.userAddressDelete}/${id}`, {params: params})
+  },
+
+  userAddressUpdate(id, bearer, params = null) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.get(`${json.api.userAddressFind}/${id}`, {params: params})
+  },
+
+
+
+
+  phoneCode(lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+
+    return apiClient.get(`${json.api.phoneCode}`)
   },
 
   async downloadRequest(params, bearer, api, lang = null) {
