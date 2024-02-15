@@ -25,7 +25,7 @@
                 <th>{{ $t('vendor.production_start') }}</th>
                 <th>{{ $t('vendor.location') }}</th>
                 <th>{{ $t('vendor.number_product') }}</th>
-                <th>{{ $t('vendor.approve') }}</th>
+                <th>{{ $t('vendor.verify') }}</th>
                 <th>{{ $t('vendor.status') }}</th>
                 <th>{{ $t('vendor.action') }}</th>
               </tr>
@@ -51,28 +51,47 @@
                   class="status"
                   :class="{active: value.verified == 1 }"
                 >
-                  <span>{{ VendorApproval(value.verified) }}</span>
+                  <span v-if="value.verified">{{ $t('util.verify') }}</span>
+                  <span v-else>{{ $t('util.notVerify') }}</span>
                 </td>
                 <td
                   class="status"
-                  :class="{active: value.status == 1 }"
+                  :class="{ active: value.status == 1 }"
                 >
-                  <span>{{ VendorStatus(value.status) }}</span>
+                  <span v-if="value.status">{{ $t('util.active') }}</span>
+                  <span v-else>{{ $t('util.deactive') }}</span>
                 </td>
                 <td>
-                  <div class="flex gap-4">
-                    <svg @click="approvedModal=true" class="w-4 h-4 cursor-pointer text-warning" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                      <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm9-3a1.5 1.5 0 0 1 2.5 1.1 1.4 1.4 0 0 1-1.5 1.5 1 1 0 0 0-1 1V14a1 1 0 1 0 2 0v-.5a3.4 3.4 0 0 0 2.5-3.3 3.5 3.5 0 0 0-7-.3 1 1 0 0 0 2 .1c0-.4.2-.7.5-1Zm1 7a1 1 0 1 0 0 2 1 1 0 1 0 0-2Z" clip-rule="evenodd"/>
+                  <button id="dropdownDefaultButton" @click="toggleAction(index)"
+                          class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
+                          type="button">{{ $t('prod.action') }}
+                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 10 6">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4"/>
                     </svg>
-                    <nuxt-link to="/vendors/1" >
-                      <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                        <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                        <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                      </svg>
-                    </nuxt-link>
+                  </button>
+                  <div id="dropdown"
+                       class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
+                       v-if="visibleAction === index"
+                  >
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownDefaultButton">
+                      <nuxt-link
+                        class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                        :to="`${/vendors/}${value.id}`">
+                        Edit
+                      </nuxt-link>
+                    </ul>
 
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="dropdownDefaultButton" @click="approvedModal=true">
+                      Verified
+                    </ul>
 
                   </div>
+
+
                 </td>
                 <!-- ------------------approved modal---------------------- -->
                 <template v-if="approvedModal">
@@ -84,7 +103,7 @@
                       </svg>
                       <!-- Modal Content -->
                       <div class="mb-4">
-                        <h4>Are you want to Aprroved?</h4>
+                        <h4>Are you want to Verified?</h4>
                       </div>
                       <!-- Close Button -->
                       <div class="flex justify-end gap-4">
@@ -122,7 +141,8 @@ export default {
   mixins: [util, bulkDelete],
   data(){
     return {
-      approvedModal:false
+      approvedModal:false,
+      visibleAction:false
 
     }
   },
@@ -132,9 +152,16 @@ export default {
   },
   methods:{
     ...mapActions('vendor', ['changeVendorStatus']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"]),
+    ...mapActions('common', ['']),
   async  approval(val){
       this.approvedModal = false
    const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'verified': 1}, api:"ChangeVendorApproved"})
+    if (data.status == 200){
+      this.setToastMessage(data.message)
+    }else{
+      this.setToastError(data.data.form.join(', '))
+    }
     this.$router.go(0)
     },
     searchFilterData(search){
@@ -148,6 +175,11 @@ export default {
         }
       })
     },
+
+    toggleAction(index){
+      this.visibleAction = this.visibleAction === index ? null : index;
+    },
+
   }
 }
 </script>

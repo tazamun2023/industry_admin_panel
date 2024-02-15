@@ -33,7 +33,6 @@ export default {
            this.addressData.id = value.id
            this.addressData.vendor_id = value.vendor_id
            this.addressData.email = value.email
-           this.addressData.name = value.name
            this.addressData.phone = value.phone
            this.addressData.country_id = value.country_id
            this.addressData.city_id = value.city_id
@@ -51,10 +50,11 @@ export default {
          addAddress(){
            this.addressmodal = true
            this.addressData.id = ''
-           this.addressData.vendor_id = ''
-           this.addressData.email = ''
-           this.addressData.name = ''
+           this.addressData.vendor_id = this.profile.vendor_id
+           this.addressData.email = this.profile.email
            this.addressData.phone = ''
+           this.addressData.country_id = this.profile.country_id
+           this.addressData.city_id = ''
            this.addressData.zip = ''
            this.addressData.address_name = ''
            this.addressData.district = ''
@@ -71,7 +71,7 @@ export default {
            const data = await this.userAddressDelete({
              id: address.id,
            })
-
+            this.deleteModal = false
            if(data?.status === 200){
              this.setToastMessage(data.message)
              await this.getAllAddress()
