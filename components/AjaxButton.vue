@@ -45,7 +45,7 @@
       text: {
         type: String,
         default: function () {
-          return this.$t('profile.vue.submit')
+          return this.$t('profile.submit')
         }
       },
       onlyIcon: {
@@ -55,7 +55,7 @@
       loadingText: {
         type: String,
         default: function () {
-          return this.$t('profile.vue.gr')
+          return this.$t('profile.gr')
         }
       },
       fetchingData: {

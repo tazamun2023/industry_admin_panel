@@ -5,7 +5,7 @@
     get-api="getBundleDeal"
     empty-store-variable="allBundleDeals"
     route-name="bundle-deals"
-    :name="$t('profile.vue.dleDeal')"
+    :name="$t('profile.dleDeal')"
     gate="bundle_deal"
     :validation-keys="['title', 'buy', 'free']"
     :result="result"

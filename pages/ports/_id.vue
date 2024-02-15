@@ -128,7 +128,7 @@
   import ListPage from "@/components/partials/ListPage.vue";
 
   export default {
-    name: "colors",
+    name: "ports",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {

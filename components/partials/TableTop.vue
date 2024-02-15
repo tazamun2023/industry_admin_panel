@@ -24,7 +24,7 @@
           :to="addRoute"
           class="button primary-btn"
         >
-          <span v-html="$t('profile.vue.add', { title: title})"></span>
+          <span v-html="$t('profile.add', { title: title})"></span>
         </nuxt-link>
       </slot>
     </div>
