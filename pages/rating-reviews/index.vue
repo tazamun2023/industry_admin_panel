@@ -34,7 +34,9 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
         <td><span class="mn-w-80x">{{ userName(value) }}</span></td>
-        <td><span>{{ value.rating }}</span></td>
+        <td><span>{{ value.rating.en }}</span></td>
+<!--        <td v-if="langCode === 'en'">{{ value.rating.en }}</td>
+        <td v-else>{{ value.rating.ar }}</td>-->
         <td><span>{{ value.review }}</span></td>
         <td>
           <span class="mx-w-400x dply-felx j-left f-wrap">

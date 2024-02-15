@@ -244,8 +244,6 @@ export default {
     },
 
 
-
-
     getImageURL(image) {
       if (image===null) {
         image = this.defaultImage

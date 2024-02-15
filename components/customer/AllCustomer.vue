@@ -129,6 +129,7 @@ export default {
                   </nuxt-link>
                 </ul>
               </div>
+
             </td>
           </tr>
 

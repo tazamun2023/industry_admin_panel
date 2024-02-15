@@ -2,7 +2,7 @@
 <template>
   <div>
     <ul class="flex mb-0 list-none flex-wrap  w-50 shadow mt-10 flex-row">
-      <li  v-for="(language, index) in languages" key="index" @click="currentTab = index" class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
+      <li  v-for="(language, index) in languages" :key="index" @click="currentTab = index" class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
         <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal"  v-bind:class="{'bg-white border-white border-b-2': currentTab != index, 'border-b-2 border-primary':currentTab == index}">
           {{ language }}
         </a>
@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     updateInputValue(language, value) {
-      console.log(0)
       this.$emit('updateInput',this.valuesOfLang, language, value);
     },
   },

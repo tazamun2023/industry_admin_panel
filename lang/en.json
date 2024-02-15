@@ -476,7 +476,9 @@
     "question": "Question",
     "answer": "Address Name",
     "organization": "Organization",
-    "image": "Image"
+    "image": "Image",
+    "verify": "Verification"
+
   },
   "bank": {
     "bank_name": "Bank Name",
@@ -738,8 +740,10 @@
     "del": "Deleted successfully!!!",
     "appr": "Approved",
     "active" : "Active",
-    "deactive" : "Deactive",
-    "notApproval" : "Not Approval"
+    "deactive" : "DeActive",
+    "notApproval" : "Not Approval",
+    "verify" : "Verified",
+    "notVerify" : "Not Verified"
 
   },
   "profile": {
