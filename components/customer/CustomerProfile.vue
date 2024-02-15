@@ -28,6 +28,7 @@ export default {
         billing_email: '',
         building_number: '',
         is_import: '',
+        verified: 0,
         street_name: '',
         license_number: '',
         expiry_date: '',
@@ -75,6 +76,12 @@ export default {
       this.fromData.building_number = this.customerList?.data?.building_number
       this.fromData.street_name = this.customerList?.data?.street_name
       this.fromData.post_box = this.customerList?.data?.post_box
+      this.fromData.verified = this.customerList?.data?.verified
+      this.fromData.is_import = this.customerList?.data?.is_import
+      this.fromData.status = this.customerList?.data?.status
+      this.fromData.license_number = this.customerList?.data?.license_number
+      this.fromData.expiry_date = this.customerList?.data?.expiry_date
+      this.fromData.city_id = this.customerList?.data?.city_id
     }
   },
 
@@ -165,6 +172,17 @@ export default {
                   <option :value="cityList.id" v-for="cityList in allCitiesById"
                           :selected="cityList.id === fromData.city_id">{{ cityList.name }}
                   </option>
+                </select>
+                <span  class="error">{{ errors[0] }}</span>
+              </div>
+              </ValidationProvider>
+              <ValidationProvider class="w-full"  name="is_import" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Import')})}">
+              <div class="input-wrapper w-full">
+                <label class="w-full" for="">{{ $t('vendor.city') }}</label>
+                <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.is_import">
+                  <option value="">{{ $t('customer.Import') }}</option>
+                  <option value="1"> {{ $t('customer.Yes')}}</option>
+                  <option value="0"> {{ $t('customer.No')}}</option>
                 </select>
                 <span  class="error">{{ errors[0] }}</span>
               </div>

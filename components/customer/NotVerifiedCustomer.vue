@@ -17,11 +17,11 @@ export default {
     ...mapGetters('language', ['langCode'])
   },
   methods: {
-    customerVerified(verified){
-      return verified===1?'Verified':'Unverified'
+    customerVerified(verified) {
+      return verified === 1 ? 'Verified' : 'Unverified'
     },
-    customerStatus(status){
-      return status===1?'Active':'Deactivate'
+    customerStatus(status) {
+      return status === 1 ? 'Active' : 'Deactivate'
     },
     searchFilterData(search) {
       this.$router.push({
@@ -62,16 +62,16 @@ export default {
           <thead>
           <tr>
             <th><input type="checkbox"></th>
-            <th>{{ $t('customer.Customer name')}}</th>
-            <th>{{ $t('customer.Business Type')}}</th>
-            <th>{{ $t('customer.Billing Email')}}</th>
-            <th>{{ $t('customer.Building Number')}}</th>
-            <th>{{ $t('customer.License Number')}}</th>
-            <th>{{ $t('customer.License Expiry Date')}}</th>
-            <th>{{ $t('customer.Country')}}</th>
-            <th>{{ $t('customer.City')}}</th>
-            <th>{{ $t('customer.status')}}</th>
-            <th>{{ $t('customer.verified')}}</th>
+            <th>{{ $t('customer.Customer name') }}</th>
+            <th>{{ $t('customer.Business Type') }}</th>
+            <th>{{ $t('customer.Billing Email') }}</th>
+            <th>{{ $t('customer.Building Number') }}</th>
+            <th>{{ $t('customer.License Number') }}</th>
+            <th>{{ $t('customer.License Expiry Date') }}</th>
+            <th>{{ $t('customer.Country') }}</th>
+            <th>{{ $t('customer.City') }}</th>
+            <th>{{ $t('customer.status') }}</th>
+            <th>{{ $t('customer.verified') }}</th>
             <th>Action</th>
           </tr>
           </thead>
@@ -95,7 +95,7 @@ export default {
             </td>
             <td>
               <div class="flex gap-4">
-                <nuxt-link :to="`${/customer/}${value.id}`" >
+                <nuxt-link :to="`${/customer/}${value.id}`">
                   <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                        fill="currentColor" viewBox="0 0 20 18">
                     <path
@@ -116,5 +116,13 @@ export default {
 </template>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>
