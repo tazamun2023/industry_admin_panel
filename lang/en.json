@@ -478,6 +478,46 @@
     "organization": "Organization",
     "image": "Image"
   },
+  "bank": {
+    "bank_name": "Bank Name",
+    "bank_location": "Where is your bank located",
+    "iban": "IBAN",
+    "account_number" : "Bank account number",
+    "holder_name" : "Bank account holder's name",
+    "swift_code" : "Swift/BIC code"
+  },
+
+  "address": {
+    "country": "Country",
+    "order": "Order",
+    "state": "State",
+    "email": "Email",
+    "name": "Name",
+    "address": "Address",
+    "city": "City",
+    "zipCode": "Zip code",
+    "isRequired": "{type} is required",
+    "phone": "Address phone number",
+    "cancel": "Cancel",
+    "update": "Update",
+    "thisAddress": "{type} this address",
+    "saving": "Saving",
+    "save": "Save",
+    "message": "Message",
+    "addressPlaceholder": "Street address or P.O. Box",
+    "address2Placeholder": "Apt, suite, unit, building, floor, etc.",
+    "subject": "Subject",
+    "district": "District",
+    "street": "Street",
+    "building_no": "Building Number",
+    "address_name": "Address Name",
+    "type" : "Address Type",
+    "phone_code": "Phone Code",
+    "invalidLength": "Mobile Number Not Valid",
+    "near" : "Nearest landmark",
+    "set_default" : "Set as Default address"
+  },
+
 
   "country": {
     "iso": "Iso",
@@ -575,7 +615,17 @@
     "adr": "Address line",
     "sName": "Store name",
     "sLogo": "Store logo",
-    "store": "Store form"
+
+    "store": "Store form",
+    "countries": "Countries",
+    "cities": "Cities",
+    "ports": "Ports",
+    "colors": "Colors",
+    "transportation": "Transportation Mode",
+    "units": "Units",
+    "temperatures": "Storage Temperatures",
+    "barcodes": "Barcodes"
+
   },
   "list": {
     "show": "Showing {from} to {to} of {total} results",
@@ -652,7 +702,10 @@
     "scrn": "{type} screen",
     "up": "Uploading",
     "fn": "File name/URL",
-    "feo": "Following error occurred"
+    "feo": "Following error occurred",
+    "message": "Message",
+    "access": "Access Management"
+
   },
   "util": {
     "tod": "Top of daily discover",
@@ -735,9 +788,11 @@
     "fSale": "Flash sale",
     "id": "ID",
     "buisness-news":"Buisness News",
+    "news":"News",
     "video":"video",
     "certificate":"certificate",
-    "faq":"FAQ"
+    "faq":"FAQ",
+    "content":"Content"
   },
   "dataPage": {
     "fImgs": "Footer images",
