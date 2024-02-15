@@ -1,57 +1,109 @@
 <script>
+import ListPage from "@/components/partials/ListPage.vue";
+import customer from "@/mixin/customer";
+import {mapGetters} from "vuex";
 
+export default {
+  name: 'CustomerAddress',
+  components: {ListPage},
+  middleware: ['common-middleware', 'auth'],
+  mixins: [customer],
+  props: {
+    customer_id: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      param: {
+        "customer_id": this.customer_id
+      },
+      deleteModal: false
+    }
+  },
+
+  computed: {
+    ...mapGetters('language', ['langCode'])
+  },
+
+  methods: {
+    closeModal() {
+      this.deleteModal = false
+    }
+  }
+
+}
 </script>
 
 <template>
-<div>
-  <template>
-    <table>
-      <thead>
-      <tr>
-        <th>Addrass Name</th>
-        <th>Address Type</th>
-        <th>Country</th>
-        <th>State</th>
-        <th>Zip Code</th>
-        <th>District</th>
-        <th>Street</th>
-        <th>Building No.</th>
-        <th>Nearest landmark</th>
-        <th>Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Makkah</td>
-        <td>Shipping</td>
-        <td>KSA</td>
-        <td>Makakh</td>
-        <td>111</td>
-        <td>Makakh</td>
-        <td>Mazjidul Haram</td>
-        <td>11/11</td>
-        <td>Mina</td>
+  <div>
+    <list-page
+      :filter="false"
+      ref="listPage"
+      list-api="getCustomerAddress"
+      delete-api="DeleteCustomerAddress"
+      route-name="getCustomerAddress"
+      :param="param"
+      empty-store-variable="allCustomerOrders"
+      :name="$t('title.prod')"
+      @list="itemList = $event"
+    >
+      <template v-slot:table="{list}">
+        <table>
+          <thead>
+          <tr>
+            <th>{{ $t('customer.Address Name') }}</th>
+            <th>{{ $t('customer.Address Type') }}</th>
+            <th>{{ $t('customer.Country')}}</th>
+            <th>{{ $t('customer.City') }}</th>
+            <th>{{ $t('customer.Zip Code') }}</th>
+            <th>{{ $t('customer.District') }}</th>
+            <th>{{ $t('customer.Building No') }}.</th>
+            <th>{{ $t('customer.Nearest landmark') }}</th>
+            <th>{{ $t('customer.Action') }}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(value, index) in list" :key="index">
+            <td>{{ value.address_name }}</td>
+            <td>{{ value.type }}</td>
+            <td>{{ value.country }}</td>
+            <td>{{ value.city }}</td>
+            <td>{{ value.zip }}</td>
+            <td>{{ value.district }}</td>
+            <td>{{ value.building_number }}</td>
+            <td>{{ value.nearest_landmark }}</td>
 
-        <td><div class="flex gap-4">
-          <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-            <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-            <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-          </svg>
-          <svg class="w-4 h-4 cursor-pointer text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-              <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-              <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-            </g>
-          </svg>
-          <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-          </svg>
-        </div></td>
-      </tr>
-      </tbody>
-    </table>
-  </template>
-</div>
+            <td>
+              <div class="flex gap-4">
+                <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="currentColor" viewBox="0 0 20 18">
+                  <path
+                    d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                  <path
+                    d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                </svg>
+                <svg class="w-4 h-4 cursor-pointer text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 20 14">
+                  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
+                  </g>
+                </svg>
+                <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 18 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
+                </svg>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </template>
+    </list-page>
+  </div>
 </template>
 
 <style scoped>

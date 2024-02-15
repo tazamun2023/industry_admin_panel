@@ -129,6 +129,8 @@
     "getUnverifiedCustomers" : "customer-info/customers/unverified/get",
     "getCustomerUsers" : "customer-info/users",
     "getCustomerOrders" : "customer-info/customers/orders/get",
+    "getCustomerAddress" : "customer-info/address/all",
+    "updateCustomer" : "customer-info/customers/all",
 
 
     "getTransportModes": "transportationMode/all",
