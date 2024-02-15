@@ -12,9 +12,7 @@
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-<!--        <th class="w-50x mx-w-50x">
-          <input type="checkbox" @change="checkAll">
-        </th>-->
+
         <th>{{ $t('country.iso') }}</th>
         <th>{{ $t('country.iso3') }}</th>
         <th>{{ $t('global.name') }}</th>
@@ -24,30 +22,12 @@
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
-<!--        <td class="w-50x mx-w-50x">
-          <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>-->
-
         <td>{{ value.iso }}</td>
         <td>{{ value.iso3 }}</td>
-        <td>{{ value.name }}</td>
+      <td v-if="langCode === 'en'">{{ value.name.en }}</td>
+        <td v-else>{{ value.name.ar }}</td>
         <td>+{{ value.phonecode }}</td>
         <td>{{ value.currency_code }}</td>
-<!--        <td>-->
-<!--          <button-->
-<!--            v-if="$can('brand', 'edit')"-->
-<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
-<!--          <button-->
-<!--            v-if="$can('brand', 'delete')"-->
-<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
-<!--        </td>    <td>-->
-<!--          <button-->
-<!--            v-if="$can('brand', 'edit')"-->
-<!--            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>-->
-<!--          <button-->
-<!--            v-if="$can('brand', 'delete')"-->
-<!--            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>-->
-<!--        </td>-->
       </tr>
     </template>
   </list-page>
@@ -58,6 +38,7 @@ import ListPage from "~/components/partials/ListPage";
 import util from '~/mixin/util'
 import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
+import {mapGetters} from "vuex";
 
 export default {
   name: "countries",
@@ -74,7 +55,10 @@ export default {
     ListPage
   },
   mixins: [util, bulkDelete],
-  computed: {},
+  computed: {
+    ...mapGetters('language', ['langCode']),
+
+  },
   methods: {},
   mounted() {
   }

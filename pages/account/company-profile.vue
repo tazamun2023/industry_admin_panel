@@ -36,87 +36,24 @@
                 </lang-input>
             <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
                   @updateInput="updateInput"></lang-input>
-              <!-- <ValidationProvider class="w-full" name="Name Arabic" rules="max:30|required" v-slot="{ errors }">
-            <div class="input-wrapper w-full mb-2">
-              <label for="">{{ $t('global.name') }}</label>
-                <input class="w-full" type="text" v-model="fromData.name.ar" >
-                <span v-if="errors.length" class="error">
-                {{ $t('global.req', { type: $t('vendor.name')}) }}
-              </span>
-            </div>
-              </ValidationProvider> -->
-
-
-            <!-- <ValidationProvider name="Name English" class="w-full" rules="max:30|required" v-slot="{ errors }">
-            <div class="input-wrapper w-full mb-2">
-              <label for="">{{ $t('global.name') }}</label>
-                <input type="text" v-model="fromData.name.en" >
-              <span  class="error">{{ errors[0] }}</span>
-            </div>
-            </ValidationProvider> -->
-
-            <!-- <ValidationProvider class="w-full"  name="Details English" rules="max:30|required" v-slot="{ errors }">
-            <div class="input-wrapper mb-2">
-              <label for="">{{ $t("vendor.details") }}</label>
-              <textarea  placeholder="Details English" v-model="fromData.details.en" name="" id="" cols="3" rows="3"></textarea>
-              <span v-if="errors.length" class="error">
-                {{ $t('global.req', { type: $t('vendor.details')}) }}
-              </span>
-            </div>
-            </ValidationProvider>
-
-
-            <ValidationProvider name="Details Arabic" class="w-full" rules="max:30|required" v-slot="{ errors }">
-              <div class="input-wrapper mb-2">
-                <label for="">{{ $t("vendor.details") }}</label>
-                <textarea placeholder="Details Arabic" v-model="fromData.details.ar" name="" id="" cols="3" rows="3"></textarea>
-                <span v-if="errors.length" class="error">
-                {{ $t('global.req', { type: $t('vendor.details')}) }}
-              </span>
-              </div>
-            </ValidationProvider> -->
-
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
               <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
             </div>
-<!--
-            <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
-            <div class="input-wrapper  mb-2">
-              <label for="">{{ $t('vendor.email') }}</label>
-                <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
-              <span  class="error">{{ errors[0] }}</span>
-            </div>
-            </ValidationProvider>
 
-            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
-            <div class="input-wrapper  mb-2">
-              <label for="">{{ $t('vendor.mobile') }}</label>
-              <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
-              <span  class="error">{{ errors[0] }}</span>
-            </div>
-            </ValidationProvider> -->
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.email") }}</label>
               <div class="flex">
                 <div class="w-full">
                   <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
                   <input type="text" placeholder="Email" v-model="fromData.contact_json.email">
-                <span v-if="errors.length" class="error">
-                  {{ $t('global.req', { type: $t('vendor.email')}) }}
-                </span>
+                    <span  class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                </div>
-                <div class="p-2">
-                  <svg @click="emailModal=true" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-              </svg>
                 </div>
               </div>
 
             </div>
-
 
 
             <div class="input-wrapper  mb-2">
@@ -125,15 +62,8 @@
                 <div class="w-full">
                   <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
                    <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
-                    <span v-if="errors.length" class="error">
-                      {{ $t('global.req', { type: $t('vendor.mobile')}) }}
-                    </span>
+                    <span  class="error">{{ errors[0] }}</span>
                    </ValidationProvider>
-                </div>
-                <div class="p-2">
-                  <svg @click="phoneModal=true" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-              </svg>
                 </div>
               </div>
 
@@ -151,8 +81,8 @@
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.status') }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
-                <option value="1">Enable</option>
-                <option value="2">Disable</option>
+                <option value="1" :selected="fromData.status">Enable</option>
+                <option value="0" :selected="fromData.status === 0">Disable</option>
               </select>
               <span  class="error">{{ errors[0] }}</span>
             </div>
@@ -176,13 +106,6 @@
              </div>
 
 
-<!--              <label class="w-64 flex flex-col items-center px-4 py-6 bg-white text-primary rounded-lg shadow-lg tracking-wide uppercase border border-smooth cursor-pointer hover:bg-primary hover:text-white">
-                  <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                      <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-                  </svg>
-                  <span class="mt-2 text-base leading-normal">Select a file</span>
-                  <input type='file' class="hidden"  />
-              </label>-->
           <upload-files  @updateInput="saveLogoAttachment"></upload-files>
 
           </div>
@@ -341,76 +264,6 @@
       </div>
     </form>
     </ValidationObserver>
-    <Modal :showModal="emailModal" @closeModal="closeModal">
-      <template v-slot:default>
-      <section>
-        <div class="flex gap-4">
-          <h4>Add Primary Email</h4>
-        </div>
-
-        <div v-for="(email, index) in fromData.email" :key="index" class="flex my-2">
-          <input type="email" v-model="fromData.email[index]">
-          <div class="p-2 flex">
-            <svg  @click="removeEmail(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
-          </svg>
-            <svg
-            @click="addEmail"
-              class="w-6 h-6 cursor-pointer"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-            </svg>
-
-          </div>
-        </div>
-
-      </section>
-    </template>
-    <template v-slot:buttons>
-     <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
-      <button  @click="emailModal = false" class="p-2 border border-primary leading-3">Cancel</button>
-      <button @click.prevent="saveEmail" class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
-     </div>
-    </template>
-   </Modal>
-   <!-- -----------------primary mobile---------------- -->
-   <Modal :showModal="phoneModal" @closeModal="closeModal">
-      <section>
-        <div class="flex gap-4">
-          <h4>Add Primary Phone</h4>
-        </div>
-
-        <div v-for="(phone, index) in fromData.mobile" :key="index" class="flex my-2">
-          <input type="number" v-model="fromData.mobile[index]">
-          <div class="p-2 flex">
-            <svg  @click="removePhone(index)" class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14"/>
-  </svg>
-            <svg
-            @click="addPhone"
-              class="w-6 h-6 cursor-pointer"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
-            </svg>
-
-          </div>
-        </div>
-      </section>
-      <template v-slot:buttons>
-     <div class="flex gap-4 border-t border-smooth w-full pt-2 justify-end">
-      <button @click="phoneModal = false" class="p-2 border border-primary leading-3">Cancel</button>
-      <button @click.prevent="saveMobile" class="p-2 border border-primary bg-primary text-white leading-3">Save Change</button>
-     </div>
-    </template>
-   </Modal>
   </div>
 
 </template>
@@ -462,9 +315,6 @@ export default {
             facility_type_id:'',
              country_id:'',
              city_id:'',
-             email:[''],
-             mobile:[''],
-
          contact_json:{
            area:'',
            street:'',
@@ -512,8 +362,8 @@ export default {
       this.fromData.contact_json.area = this.vendorList.data.contact_json.area
       this.fromData.contact_json.street = this.vendorList.data.contact_json.street
       this.fromData.contact_json.building = this.vendorList.data.contact_json.building
-/*      this.fromData.contact_json.email = this.vendorList.data.contact_json.email
-      this.fromData.contact_json.mobile = this.vendorList.data.contact_json.mobile*/
+      this.fromData.contact_json.email = this.vendorList.data.contact_json.email
+      this.fromData.contact_json.mobile = this.vendorList.data.contact_json.mobile
       this.fromData.links_json.whatsapp = this.vendorList.data.links_json.whatsapp
       this.fromData.links_json.facebook = this.vendorList.data.links_json.facebook
       this.fromData.links_json.linkedin = this.vendorList.data.links_json.linkedin
@@ -550,38 +400,12 @@ export default {
         }
       }
     },
-    saveEmail(){
-      this.emailModal = false
-      this.fromData.contact_json.email = this.fromData.email
-    },
-    saveMobile(){
-      this.phoneModal = false
-      this.fromData.contact_json.mobile = this.fromData.mobile
-    },
 
     closeModal() {
       this.emailModal = false;
       this.phoneModal = false;
     },
-    addEmail() {
-      // Add a new email input field
-      this.fromData.email.push('');
-      // this.newEmail = ''; // Clear the value of the new email field
-    },
-    removeEmail(index) {
-      // Remove the email input field at the specified index
-      this.fromData.email.splice(index, 1);
-    },
 
-    addPhone() {
-      // Add a new email input field
-      this.fromData.mobile.push('');
-      // this.newEmail = ''; // Clear the value of the new email field
-    },
-    removePhone(index) {
-      // Remove the email input field at the specified index
-      this.fromData.mobile.splice(index, 1);
-    },
     updateInput(input, language, value) {
        this.$set(input, language, value);
      },

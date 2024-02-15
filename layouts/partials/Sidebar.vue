@@ -438,21 +438,25 @@
                 path: 'countries',
                 title: this.$t('setting.countries'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
               {
                 path: 'cities',
                 title: this.$t('setting.cities'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
               {
                 path: 'ports',
                 title: this.$t('setting.ports'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
               {
                 path: 'colors',
                 title: this.$t('setting.colors'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
 
               {
@@ -465,6 +469,7 @@
                 path: 'transportation-modes',
                 title: this.$t('setting.transportation'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
               {
                 path: 'units',
@@ -483,6 +488,7 @@
                 path: 'barcodes',
                 title: this.$t('setting.barcodes'),
                 icon: 'flash-sales',
+                gate: 'setting',
               },
               {
                 path: 'tax-rules',

@@ -135,14 +135,6 @@
                   </ValidationProvider>
                 </div>
                 <div class="flex gap-4">
-                  <ValidationProvider name="Name" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.name')}`}">
-                    <div class="input-wrapper w-full">
-                        <label for="">{{ $t('address.name') }}*</label>
-                        <input type="text" placeholder="Enter Name" v-model="addressData.name">
-                      <span  class="error">{{ errors[0] }}</span>
-                    </div>
-                  </ValidationProvider>
-
                   <ValidationProvider name="email" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.email')}`}">
                     <div class="input-wrapper w-full">
                       <label for="">{{ $t('address.email') }}*</label>
@@ -208,7 +200,7 @@
 
                 <div class="input-wrapper w-full">
                         <label for="">{{ $t('address.near') }}</label>
-                        <input type="text" placeholder="Enter Post code" v-model="addressData.nearest_landmark">
+                        <input type="text" :placeholder="$t('address.near')" v-model="addressData.nearest_landmark">
                     </div>
               <ValidationProvider name="type" class="w-full" rules="" v-slot="{ errors }">
                 <div class="input-wrapper w-full">
@@ -253,7 +245,6 @@ export default{
               id: '',
               vendor_id:'',
               email: '',
-              name: '',
               phone: '',
               country_id: '',
               city_id: '',
@@ -279,15 +270,7 @@ export default{
     ...mapGetters('language', ['langCode'])
   },
   watch:{
-      profile(){
-        this.vendorCountryId = this.profile.country_id
-        this.addressData.country_id = this.profile.country_id
-        if (this.langCode === 'en'){
-          this.addressData.name = this.profile.name.en
-        }else{
-          this.addressData.name = this.profile.name.ar
-        }
-      }
+
   },
  methods:{
    ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
@@ -326,15 +309,6 @@ export default{
     try {
       this.loading = true
       this.vendorCountryId = this.profile.country_id
-      this.addressData.country_id = this.profile.country_id
-      this.addressData.email = this.profile.email
-      this.addressData.vendor_id =  this.profile.vendor_id
-      if (this.langCode === 'en'){
-        this.addressData.name = this.profile.name.en
-      }else{
-        this.addressData.name = this.profile.name.ar
-      }
-
       await  this.getAllAddress();
     await this.getPhoneCode()
     await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
@@ -342,7 +316,6 @@ export default{
          this.countrySelected()
       })
       this.loading = false
-    this.loading = false
   } catch (e) {
     return this.$nuxt.error(e)
   }
