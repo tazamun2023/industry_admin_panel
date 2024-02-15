@@ -254,6 +254,7 @@
     "getProductBySku": "product/sku",
     "setProduct": "product/action",
     "setRejectProduct": "product/reject",
+    "setApprovedProduct": "product/approved",
     "updateVisibility": "product/visibility",
     "setProductImage": "product/upload",
     "setProductImages": "product/upload-images",
