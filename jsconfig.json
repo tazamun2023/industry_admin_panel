@@ -282,6 +282,7 @@
     "deleteOrder": "order/delete",
     "getOrders": "order/all",
     "getVendorOrders": "order/vendor-all",
+    "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
     "updateOrderStatus": "order/update-status",
     "paymentStatus": "order/payment-status",

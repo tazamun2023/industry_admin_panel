@@ -1,150 +1,270 @@
 <template>
-    <div>
-        <!-- ---------------- -->
+  <div>
+    <!-- ---------------- -->
     <div class="row  mb-2">
-        <div class="card p-20 col-md-12">
-                <div class="card-body">
-                    <div class="row mt-2">
-                        <div class="col-md-12">
-                            <h4 class="bold black">RFQ Notifications</h4>
-                            <p class="font-14">Set your preferences to receive a customised list of Requests For Quotations (RFQ) periodically. Your specific preferences on categories and keywords will bring you the most recent RFQs on the marketplace.</p>
-                        </div>
-                    </div>
-                </div>
+      <div class="card p-20 col-md-12">
+        <div class="card-body">
+          <div class="row mt-2">
+            <div class="col-md-12">
+              <h4 class="bold black">{{ $t('rfq.RFQ Notifications') }}</h4>
+              <p class="font-14">{{ $t('rfq.RFQ Notifications Desc')}}</p>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
     <!-- ----------email notification----------- -->
     <div class="row mb-2">
-        <div class="card p-20 col-md-12">
-            <h4>How do you want to receive the RFQ list?</h4>
-            <div class="flex w-full my-2">
-            <h4>Email notification</h4>
-            <label for="toggle" class="flex ml-2 mr-2 items-center cursor-pointer">
-                <input style="position: absolute !important;" type="checkbox" id="toggle" class="sr-only peer absolute">
-                <div class="block relative bg-smooth w-16 h-8 p-1 rounded-full before:absolute before:bg-white before:w-6 before:h-6 before:p-1 before:rounded-full before:transition-all before:duration-500 before:left-1 peer-checked:before:left-8 peer-checked:before:bg-primary"></div>
-            </label>
-           
-            </div>
-            <p class="text-xs">Enable email notification to receive selling opportunities straight to your inbox.</p>
-            <p class="my-4">Send me RFQ notifications</p>
-            <div class="max-w-sm flex flex-wrap ">
-                <div class="flex items-center mr-4 mb-4">
-                <label for="radio1" class="flex items-center cursor-pointer">
-                    <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey" checked name="radio" id="radio1">
-                    Daily</label>
-                </div>
+      <div class="card p-20 col-md-12">
+        <h4>{{ $t('rfq.How do you want to receive the RFQ list') }}?</h4>
+        <div class="flex w-full my-2">
+          <h4>{{ $t('rfq.Email notification') }}</h4>
+          <label for="toggle" class="flex ml-2 mr-2 items-center cursor-pointer">
+            <input style="position: absolute !important;" type="checkbox" id="toggle" class="sr-only peer absolute"
+                   :checked="is_check" @click="isNotification">
+            <div
+              class="block relative bg-smooth w-16 h-8 p-1 rounded-full before:absolute before:bg-white before:w-6 before:h-6 before:p-1 before:rounded-full before:transition-all before:duration-500 before:left-1 peer-checked:before:left-8 peer-checked:before:bg-primary"></div>
+          </label>
 
-                <div class="flex items-center mr-4 mb-4">
-                <label for="radio2" class="flex items-center cursor-pointer">
-                <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey" name="radio" id="radio2">
-                Weekly</label>
-                </div>
-            </div>
         </div>
+        <p class="text-xs">
+          {{ $t('rfq.Enable email notification to receive selling opportunities straight to your inbox') }}.</p>
+        <p class="my-4">{{ $t('rfq.Send me RFQ notifications') }}</p>
+        <div class="max-w-sm flex flex-wrap ">
+          <div class="flex items-center mr-4 mb-4">
+            <label for="radio1" class="flex items-center cursor-pointer">
+              <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey"
+                     :checked="fromData.notification_schedule==='daily'" name="radio"
+                     id="radio1">
+              {{ $t('rfq.Daily') }}
+            </label>
+          </div>
+
+          <div class="flex items-center mr-4 mb-4">
+            <label for="radio2" class="flex items-center cursor-pointer">
+              <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey" name="radio"
+                     :checked="fromData.notification_schedule==='weekly'"
+                     id="radio2">
+              {{ $t('rfq.Weekly') }}
+            </label>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- ------------product categories----------------- -->
     <div class="row mb-2">
-        <div class="card p-20 col-md-12">
-            <h4>What type of RFQs would you like to be notified of?</h4>
-            <p>Select product categories and keywords that are relevant to you.</p>
-            <p>Product categories <span class="text-xs">(up to 15 categories)</span></p>
-            <div class="grid grid-cols-3 gap-4 py-3 w-50">
-                <div>
-                <label class="w-full" for="mainCategory">Main Category</label>
-                <select @change="onMainCategoryChange" class="p-2 border border-smooth rounded-lg w-full" id="mainCategory">
-                    <option value="">Select Category</option>
-                    <option value="category1">Category 1</option>
-                    <option value="category2">Category 2</option>
-                    <option value="category3">Category 3</option>
-                </select>
-                </div>
-                <div v-if="selectedMainCategory">
-                <label class="w-full" for="subCategory">Sub Category</label>
-                <select  @change="onSubCategoryChange" class="p-2 border border-smooth rounded-lg w-full" id="subCategory">
-                    <option value="">Select Category</option>
-                    <option value="subCategory1">Sub Category 1</option>
-                    <option value="subCategory2">Sub Category 2</option>
-                    <option value="subCategory3">Sub Category 3</option>
-                </select>
-                </div>
-                <div v-if="selectedSubCategory">
-                <label class="w-full" for="childCategory">Child Category</label>
-                <select class="p-2 border border-smooth w-full rounded-lg" id="childCategory">
-                    <option value="">Select Category</option>
-                    <option value="childCategory1">Child Category 1</option>
-                    <option value="childCategory2">Child Category 2</option>
-                    <option value="childCategory3">Child Category 3</option>
-                </select>
-                </div>
+      <div class="card p-20 col-md-12">
+        <h4>{{ $t('rfq.What type of RFQs would you like to be notified of') }}?</h4>
+        <p>{{ $t('rfq.Select product categories and keywords that are relevant to you') }}.</p>
+        <p>{{ $t('rfq.Product categories') }} <span class="text-xs">({{ $t('rfq.up to 15 categories') }})</span></p>
+        <div class="grid grid-cols-3 gap-4 py-3 w-50">
+          <div>
+            <div class="flex">
+              <label class="w-full" for="mainCategory">Main Category</label>
+              <button v-if="fromData.parentCategory" @click="confirmMainCategory" class="confirm-button">Confirm Selection</button>
             </div>
-            <div class="flex gap-4">
-                <button
-                v-for="(button, index) in buttons"
-                :key="index"
-                v-if="!button.deleted"
-                @click="deleteButton(index)"
-                class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
-                >
-                Cat name  <i class="icon close-icon ml-4"></i>
-                </button>
+            <v-select
+              :dir="$t('app.dir')"
+              v-model="fromData.parentCategory"
+              :options="allCategoriesTree"
+              label="title"
+              :reduce="cat => cat.id"
+              :placeholder="$t('rfq.Search by Category')"
+              @input="updateLevel2"
+              class="custom-select"
+            ></v-select>
+          </div>
+          <div v-if="fromData.parentCategory">
+            <div class="flex">
+              <label class="w-full" for="mainCategory">Sub Category</label>
+              <button v-if="fromData.subCategory" @click="confirmParentCategory" class="confirm-button">Confirm Selection</button>
             </div>
-            <div class="row py-4">
-                <div class="w-50">
-                    <label class="w-full" for="childCategory">Keywords <span class="text-xs">(up to 15 keywords)</span></label>
-                <select class="p-2 rounded-lg border border-smooth w-50" id="childCategory">
-                    <option value="">Select keywords</option>
-                    <option value="keywords1"> keywords 1</option>
-                    <option value="keywords2"> keywords 2</option>
-                    <option value="keywords3"> keywords 3</option>
-                </select>
-                </div>
-                <div class="flex py-4 gap-4">
-                <button
-                v-for="(button, index) in buttons"
-                :key="index"
-                v-if="!button.deleted"
-                @click="deleteButton(index)"
-                class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
-                >
-                keywords <i class="icon close-icon ml-4"></i>
-                </button>
+            <v-select
+              :dir="$t('app.dir')"
+              v-model="fromData.subCategory"
+              :options="selectedLevel1?.child"
+              label="title"
+              :reduce="cat => cat.id"
+              class="custom-select"
+              :placeholder="$t('rfq.Select Sub Category')"
+              @input="updateLevel3"
+            ></v-select>
+          </div>
+          <div v-if="fromData.subCategory">
+            <div class="flex">
+              <label class="w-full" for="mainCategory">Child Category</label>
+              <button v-if="fromData.childCategory" @click="confirmSubCategory" class="confirm-button">Confirm Selection</button>
             </div>
-            </div>
-            <div>
-                <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow">
-                   Apply
-                </button>
-            </div>
+            <v-select
+              :dir="$t('app.dir')"
+              v-model="fromData.childCategory"
+              :options="selectedLevel2?.child"
+              :reduce="cat => cat.id"
+              label="title"
+              class="custom-select"
+              @input="updateLevel4"
+              :placeholder="$t('rfq.Select Child Category')"
+            ></v-select>
+          </div>
         </div>
+        <div class="flex gap-4">
+          <button
+            v-for="(catItem, index) in fromData.category"
+            :key="index"
+            class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
+          >
+            {{ catItem.title }} <i class="icon close-icon ml-4"></i>
+          </button>
+        </div>
+        <div class="row py-4">
+          <label class="w-full" for="childCategory">Keywords <span class="text-xs">(up to 15 keywords)</span></label>
+          <div class="flex append-input pt-1">
+            <input type="text" class="form-control" v-model="keyword" placeholder="Keywords"
+            >
+            <button type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addKeyword(keyword)">
+              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 1v16M1 9h16"/>
+              </svg>
+            </button>
+          </div>
+          <div class="flex py-4 gap-4">
+            <button
+              v-for="(keyword, index) in fromData.keywords"
+              :key="index"
+              class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
+            >
+              {{ keyword }} <i class="icon close-icon ml-4" @click="removeKeyword(index)"></i>
+            </button>
+          </div>
+        </div>
+        <div>
+          <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow">
+            {{ $t('rfq.Apply') }}
+          </button>
+        </div>
+      </div>
     </div>
-        <!-- --------end-------- -->
-    </div>
+    <!-- --------end-------- -->
+  </div>
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
-    data(){
-        return{
-            selectedMainCategory : false,
-            selectedSubCategory : false,
-            buttons: [
-                { deleted: false },
-                { deleted: false },
-                // Add more button objects if needed
-            ],
-        }
+  data() {
+    return {
+      is_check: true,
+      selectedMainCategory: false,
+      selectedSubCategory: false,
+      selectedLevel1: null,
+      selectedLevel2: null,
+      selectedLevel3: null,
+      categoryItems:[],
+      keyword: '',
+      category_item: {
+        id:'',
+        title:''
+      },
+      fromData: {
+        vendor_id: this.$store.getters["admin/profile"].vendor_id,
+        delivery_channel: '',
+        notification_schedule: 'daily',
+        parentCategory: '',
+        subCategory: '',
+        childCategory: '',
+        category: [],
+
+        keywords: []
+      },
+      buttons: [
+        {deleted: false},
+        {deleted: false},
+      ],
+    }
+  },
+  computed: {
+    ...mapGetters('admin', ['profile']),
+    ...mapGetters('language', ['langCode']),
+    ...mapGetters('rfqnotification', ['notificationList']),
+    ...mapGetters('common', ['allCategoriesTree'])
+
+  },
+  async mounted() {
+    if (this.allCategoriesTree.length == 0) {
+      try {
+        await this.getCategoriesTree()
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
+
+    try {
+      let data = await this.getRfqNotificationData({  id: this.vendor_id, params:'', api:'RfqNotificationData'})
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
+
+  },
+  methods: {
+    addKeyword(keyword){
+      this.fromData.keywords.push(keyword)
+      this.keyword = ''
     },
-    methods: {
+    removeKeyword(index){
+      this.fromData.keywords.splice(index, 1);
+    },
+    categoryItemPush(category, id){
+      // Check if there is no item in this.fromData.category with the same id
+      const isDuplicateId = this.fromData.category.some(item => item.id === id);
+
+      // If it's not a duplicate, push the new item
+      if (!isDuplicateId) {
+        this.fromData.category.push({ title: category, id: id });
+      }
+    },
+    confirmMainCategory() {
+      this.categoryItemPush(this.selectedLevel1.title, this.fromData.parentCategory)
+    },
+    confirmParentCategory() {
+      this.categoryItemPush(this.selectedLevel2.title, this.fromData.subCategory)
+    },
+    confirmSubCategory() {
+      this.categoryItemPush(this.selectedLevel3.title, this.fromData.childCategory)
+    },
+    updateLevel2() {
+      this.fromData.subCategory = "";  // Reset Level 2 selection
+      this.fromData.category_id = "";  // Reset Level 2 selection
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.fromData.parentCategory));
+      this.selectedLevel2 = null;  // Reset Level 2 selection
+    },
+    updateLevel3() {
+      this.fromData.category_id = "";
+      this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.fromData.subCategory));
+    },
+    updateLevel4() {
+      this.fromData.category_id = "";
+      this.selectedLevel3 = this.selectedLevel2.child.find(c => c.id === parseInt(this.fromData.childCategory));
+    },
+    isNotification() {
+      this.is_check = !this.is_check
+    },
     onMainCategoryChange() {
-        // alert(77);
+      // alert(77);
       this.selectedMainCategory = true; // Reset subcategory when main category changes
     },
     onSubCategoryChange() {
-        this.selectedSubCategory = true;
+      this.selectedSubCategory = true;
     },
     deleteButton(index) {
-      this.$set(this.buttons, index, { deleted: true });
+      this.$set(this.buttons, index, {deleted: true});
     },
+
+
+    ...mapActions('rfqnotification', ['submitData', 'getRfqNotificationData']),
+    ...mapActions('common', ['getCategoriesTree']),
   },
 }
 </script>
