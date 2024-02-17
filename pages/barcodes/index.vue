@@ -57,7 +57,7 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 
 export default {
-  name: "brands",
+  name: "barcodes",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {

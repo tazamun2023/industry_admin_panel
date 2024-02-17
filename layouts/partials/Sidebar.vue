@@ -416,18 +416,6 @@
           },
 
 
-
-
-         /* {
-            path: 'users',
-            title: this.$t('error.users'),
-            icon: 'users',
-            form: ['user'],
-            gate: 'user'
-          },*/
-
-
-
           {
             path: 'setting',
             title: this.$t('list.set'),

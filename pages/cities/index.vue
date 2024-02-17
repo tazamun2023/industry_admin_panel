@@ -6,7 +6,6 @@
     delete-api="deleteCity"
     route-name="cities"
     empty-store-variable="allCities"
-    :name="$t('city.city')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
