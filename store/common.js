@@ -114,6 +114,7 @@ const mutations = {
   },
 
 
+
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
     state.allPackagingUnits = {}
     allPackagingUnits.forEach((item) => {
@@ -222,6 +223,7 @@ const mutations = {
   EMPTY_ALL_LIST(state, storeAllVariable) {
     state[storeAllVariable] = null
   },
+
 }
 
 const actions = {
@@ -231,6 +233,14 @@ const actions = {
   emptyAllList({commit}, storeAllVariable) {
     if (storeAllVariable) {
       commit('EMPTY_ALL_LIST', storeAllVariable)
+    }
+  },
+  async getAllList({rootState, commit}, {api, mutation}) {
+    const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
 
