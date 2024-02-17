@@ -409,16 +409,13 @@
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
         <div class="tab-sidebar p-3" v-if="!is_variant ">
-          <!--          <div class="flex pl-4">-->
-          <!--            <h4 class="header-title mt-0 text-capitalize mb-1">Images and Videos</h4>-->
-          <!--            <span @click.prevent="uploadModalToggle()" class="font-bold ml-auto cursor-pointer text-primary">Upload media</span>-->
-          <!--          </div>-->
+
           <div class="input-wrapper">
             <label class="pl-4 pt-0 fw-bold">
               {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>
               {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>
-              {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>
-              {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}
+              {{ $t('prod.Allowed file extensions are') }} (png, bmp, jpeg, and jpg)<br>
+              {{ $t('prod.and allowed video extensions are') }} (mp4, mpeg and webp)
             </label>
           </div>
           <table class="table mb-0">
@@ -629,7 +626,7 @@
         <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
           <p>
-            {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate.These measurements are for the product's shipping container") }}.</p>
+            {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the products shipping container") }}.</p>
           <div class="grid grid-cols-2 gap-4">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Weight') }} ?</label>
@@ -722,7 +719,7 @@
         <!-- ------------------------------------- -->
         <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
-          <p>{{ $t("prod.These attributes provide information about the product's dimensions and weight") }}.</p>
+          <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Weight') }} ?</label>
             <div class="relative flex input-group gap-4 w-50 mb-3">
@@ -796,9 +793,9 @@
               </select>
             </div>
           </div>
-          <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.UAE Market(GULF) - AED') }}</p>
+          <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.KSA Market(GULF) - SAR') }}</p>
           <p>
-            {{ $t('prod.Add pricing to your product. You can also create bulk pricing rules to offer price discounts based on quantity breaks') }}</p>
+            {{ $t('prod.Add pricing to your product You can also create bulk pricing rules to offer price discounts based on quantity breaks') }}</p>
           <div class="table-responsive">
             <table class="table table-bordered mb-0">
               <thead>

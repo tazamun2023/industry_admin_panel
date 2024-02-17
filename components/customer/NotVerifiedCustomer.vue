@@ -10,13 +10,18 @@ export default {
   components: {ListPage},
 
   data() {
-    return {}
+    return {
+      visibleAction: null,
+    }
   },
 
   computed: {
     ...mapGetters('language', ['langCode'])
   },
   methods: {
+    toggleAction(index) {
+      this.visibleAction = this.visibleAction === index ? null : index;
+    },
     customerVerified(verified) {
       return verified === 1 ? 'Verified' : 'Unverified'
     },
@@ -94,16 +99,27 @@ export default {
               <span>{{ customerVerified(value.verified) }}</span>
             </td>
             <td>
-              <div class="flex gap-4">
-                <nuxt-link :to="`${/customer/}${value.id}`">
-                  <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                       fill="currentColor" viewBox="0 0 20 18">
-                    <path
-                      d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                    <path
-                      d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                  </svg>
-                </nuxt-link>
+              <button id="dropdownDefaultButton" @click="toggleAction(index)"
+                      class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
+                      type="button">{{ $t('prod.action') }}
+                <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 4 4 4-4"/>
+                </svg>
+              </button>
+              <div id="dropdown"
+                   class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
+                   v-if="visibleAction === index"
+              >
+                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    aria-labelledby="dropdownDefaultButton">
+                  <nuxt-link
+                    class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                    :to="`${/customer/}${value.id}`">
+                    Edit
+                  </nuxt-link>
+                </ul>
               </div>
             </td>
           </tr>
