@@ -123,7 +123,7 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "countries",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {

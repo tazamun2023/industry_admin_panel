@@ -1,6 +1,6 @@
 <template>
   <inline-pop-over
-    :title="$t('profile.vue.um')"
+    :title="$t('profile.um')"
     @open="fetchMessages"
     ref="messagePop"
   >

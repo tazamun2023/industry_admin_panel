@@ -56,7 +56,7 @@
   import {mapGetters, mapActions } from 'vuex'
 
   export default {
-    name: "categories",
+    name: "barcodes",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
