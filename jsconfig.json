@@ -275,6 +275,7 @@
     "deleteOrder": "order/delete",
     "getOrders": "order/all",
     "getVendorOrders": "order/vendor-all",
+    "RfqNotificationDataGet": "rfq/notification/get",
     "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
     "updateOrderStatus": "order/update-status",

@@ -7,7 +7,7 @@
           <div class="row mt-2">
             <div class="col-md-12">
               <h4 class="bold black">{{ $t('rfq.RFQ Notifications') }}</h4>
-              <p class="font-14">{{ $t('rfq.RFQ Notifications Desc')}}</p>
+              <p class="font-14">{{ $t('rfq.RFQ Notifications Desc') }}</p>
             </div>
           </div>
         </div>
@@ -58,10 +58,12 @@
         <p>{{ $t('rfq.Select product categories and keywords that are relevant to you') }}.</p>
         <p>{{ $t('rfq.Product categories') }} <span class="text-xs">({{ $t('rfq.up to 15 categories') }})</span></p>
         <div class="grid grid-cols-3 gap-4 py-3 w-50">
-          <div>
+          <div class="ppppp">
             <div class="flex">
               <label class="w-full" for="mainCategory">Main Category</label>
-              <button v-if="fromData.parentCategory" @click="confirmMainCategory" class="confirm-button">Confirm Selection</button>
+              <button v-if="fromData.parentCategory" @click="confirmMainCategory" class="confirm-button">Confirm
+                Selection
+              </button>
             </div>
             <v-select
               :dir="$t('app.dir')"
@@ -72,12 +74,15 @@
               :placeholder="$t('rfq.Search by Category')"
               @input="updateLevel2"
               class="custom-select"
-            ></v-select>
+            >
+            </v-select>
           </div>
           <div v-if="fromData.parentCategory">
             <div class="flex">
               <label class="w-full" for="mainCategory">Sub Category</label>
-              <button v-if="fromData.subCategory" @click="confirmParentCategory" class="confirm-button">Confirm Selection</button>
+              <button v-if="fromData.subCategory" @click="confirmParentCategory" class="confirm-button">Confirm
+                Selection
+              </button>
             </div>
             <v-select
               :dir="$t('app.dir')"
@@ -93,7 +98,9 @@
           <div v-if="fromData.subCategory">
             <div class="flex">
               <label class="w-full" for="mainCategory">Child Category</label>
-              <button v-if="fromData.childCategory" @click="confirmSubCategory" class="confirm-button">Confirm Selection</button>
+              <button v-if="fromData.childCategory" @click="confirmSubCategory" class="confirm-button">Confirm
+                Selection
+              </button>
             </div>
             <v-select
               :dir="$t('app.dir')"
@@ -140,7 +147,7 @@
           </div>
         </div>
         <div>
-          <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow">
+          <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow" @click="submitApply">
             {{ $t('rfq.Apply') }}
           </button>
         </div>
@@ -154,6 +161,7 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
+  name: 'RfqNotification',
   data() {
     return {
       is_check: true,
@@ -162,14 +170,14 @@ export default {
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
-      categoryItems:[],
+      categoryItems: [],
       keyword: '',
       category_item: {
-        id:'',
-        title:''
+        id: '',
+        title: ''
       },
       fromData: {
-        vendor_id: this.$store.getters["admin/profile"].vendor_id,
+        vendor_id: '',
         delivery_channel: '',
         notification_schedule: 'daily',
         parentCategory: '',
@@ -192,8 +200,16 @@ export default {
     ...mapGetters('common', ['allCategoriesTree'])
 
   },
+  watch: {
+    // notificationList() {
+    //   this.fromData.vendor_id = this.notificationList?.data.vendor_id
+    //   this.fromData.delivery_channel = this.notificationList?.data.delivery_channel
+    //   this.fromData.category = this.notificationList?.data.categories
+    //   this.fromData.keywords = this.notificationList?.data.keywords
+    // }
+  },
   async mounted() {
-    if (this.allCategoriesTree.length == 0) {
+    if (this.allCategoriesTree.length === 0) {
       try {
         await this.getCategoriesTree()
       } catch (e) {
@@ -202,27 +218,54 @@ export default {
     }
 
     try {
-      let data = await this.getRfqNotificationData({  id: this.vendor_id, params:'', api:'RfqNotificationData'})
+      // await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
+      await this.fetchingData(this.$store.getters["admin/profile"].vendor_id??1)
+      // await this.getRfqNotificationData({id: 1, params: '', api: 'RfqNotificationData'})
     } catch (e) {
       return this.$nuxt.error(e)
     }
 
   },
   methods: {
-    addKeyword(keyword){
+    async submitApply(){
+      try {
+        const data = await this.setById({id: this.$store.getters["admin/profile"].vendor_id??1, params: {result: this.fromData}, api: 'RfqNotificationData'})
+      }catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+    async fetchingData(id) {
+      try {
+        this.loading = true
+        let res = Object.assign({}, await this.getById({id: id, params: {}, api: 'RfqNotificationDataGet'}))
+        this.fromData ={
+          vendor_id: res.vendor_id,
+          delivery_channel: res.delivery_channel,
+          notification_schedule: res.notification_schedule,
+          category: res.categories,
+          keywords: res.keywords,
+        }
+        console.log('res', res)
+      }catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+    addKeyword(keyword) {
       this.fromData.keywords.push(keyword)
       this.keyword = ''
     },
-    removeKeyword(index){
+    removeKeyword(index) {
       this.fromData.keywords.splice(index, 1);
     },
-    categoryItemPush(category, id){
+    categoryItemPush(category, id) {
       // Check if there is no item in this.fromData.category with the same id
       const isDuplicateId = this.fromData.category.some(item => item.id === id);
 
       // If it's not a duplicate, push the new item
       if (!isDuplicateId) {
-        this.fromData.category.push({ title: category, id: id });
+        // this.$store.commit('addItemToCategory', { title: category, id: id });
+        this.fromData.category.push({title: category, id: id});
+        // this.$store.state.rfqnotification.notificationList.data.categories.push({title: category, id: id});
       }
     },
     confirmMainCategory() {
@@ -237,7 +280,7 @@ export default {
     updateLevel2() {
       this.fromData.subCategory = "";  // Reset Level 2 selection
       this.fromData.category_id = "";  // Reset Level 2 selection
-      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.fromData.parentCategory));
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id === (this.fromData.parentCategory));
       this.selectedLevel2 = null;  // Reset Level 2 selection
     },
     updateLevel3() {
@@ -264,7 +307,13 @@ export default {
 
 
     ...mapActions('rfqnotification', ['submitData', 'getRfqNotificationData']),
-    ...mapActions('common', ['getCategoriesTree']),
+    ...mapActions('common', ['getCategoriesTree', 'getById', 'setById']),
   },
 }
 </script>
+
+<style scoped>
+.custom-select svg{
+  height: 34px !important;
+}
+</style>

@@ -1865,7 +1865,7 @@ export default {
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
-        console.log('res', res)
+        // console.log('res', res)
         this.result = {
           title: res.title,
           description: res.description,

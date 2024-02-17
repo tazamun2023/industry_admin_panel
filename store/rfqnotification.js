@@ -1,15 +1,16 @@
 import Service from '@/services/service.js'
 
 const state = () => ({
-  customerList: null,
+  notificationList: null,
 })
 const getters = {
   notificationList: ({notificationList}) => notificationList,
 }
 const mutations = {
   SET_RFQ_NOTIFICATION_DATA(state, data) {
-    state.customerList = data
+    state.notificationList = data
   },
+
 }
 
 const actions = {
