@@ -20,11 +20,15 @@ const mutations = {
 };
 
 const actions = {
-  async allRfqRejectReason({ rootState, commit }) {
+  async getAllRfqRejectReason({ rootState, commit }) {
     try {
+      console.log('SET_ALL_RFQ_REJECT_REASONS')
       const { data } = await Service.getRequest(null, this.$auth.strategy.token.get(), 'allRfqRejectReason', rootState.language.langCode);
       if (data.status === 200) {
-        commit('SET_ALL_RFQ_REJECT_REASONS', data);
+
+        console.log("SET_ALL_RFQ_REJECT_REASONS")
+        console.log(data)
+        commit('SET_ALL_RFQ_REJECT_REASONS', data.data);
       } else {
         throw new Error(`Failed to fetch RFQ reject reasons: ${data.message}`);
       }
