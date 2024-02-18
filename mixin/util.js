@@ -253,6 +253,7 @@ export default {
 
       // return image.url
     },
+
     getThumbImageURL(image) {
 
       if (!image) {
