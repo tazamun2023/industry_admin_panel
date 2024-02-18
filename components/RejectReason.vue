@@ -83,8 +83,15 @@ export default {
 
 
     ...mapActions('common', ['setRequest', 'getRequest']),
+    ...mapActions('rfq', [ 'getAllRfqRejectReason']),
   },
   async mounted() {
+
+    try {
+      await this.getAllRfqRejectReason()
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
 
   }
 }
