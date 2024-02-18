@@ -666,7 +666,9 @@
               </div>
             </div>
             <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.KSA Market(GULF) - SAR') }}</p>
-            <p>{{ $t('prod.Add pricing to your product You can also create bulk pricing rules to offer price discounts based on quantity breaks') }}</p>
+            <p>{{
+                $t('prod.Add pricing to your product You can also create bulk pricing rules to offer price discounts based on quantity breaks')
+              }}</p>
             <div class="table-responsive">
               <table class="table table-bordered mb-0">
                 <thead>
@@ -723,9 +725,9 @@
 
                 </tbody>
               </table>
-<!--              <button v-if="result.product_prices.length <= 2" class="btn btn-link fw-bold"-->
-<!--                      @click.prevent="addPriceingRows()">+ {{ $t('prod.ADD TIER') }}-->
-<!--              </button>-->
+              <!--              <button v-if="result.product_prices.length <= 2" class="btn btn-link fw-bold"-->
+              <!--                      @click.prevent="addPriceingRows()">+ {{ $t('prod.ADD TIER') }}-->
+              <!--              </button>-->
             </div>
           </div>
           <!-- ----------------- -->
@@ -836,7 +838,8 @@
             </div>
             <div class="form-group input-wrapper mb-10 for-lang ar-lang">
               <label for="name">{{ $t("prod.hts_code") }}</label>
-              <input class="form-control" name="e.g. Macbook Pro 2019" type="text" :disabled="is_show" v-model="result.hts_code">
+              <input class="form-control" name="e.g. Macbook Pro 2019" type="text" :disabled="is_show"
+                     v-model="result.hts_code">
             </div>
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Additional attributes') }} <span
               class="text-xs">(optional)</span>
@@ -847,24 +850,24 @@
                 <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
                        v-model="item.name" :disabled="is_show">
                 <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
-<!--                <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"-->
-<!--                        v-if="index!=0"-->
-<!--                        class="btn ml-2 mr-2 btn-danger">-->
-<!--                  <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 2">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M1 1h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
-<!--                <button type="button" class="btn ml-2 mr-2 btn-primary"-->
-<!--                        v-if="index+1==result.additional_details_row.length"-->
-<!--                        @click.prevent="addAdditionalDetailsRows(index)">-->
-<!--                  <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->
-<!--                       fill="none" viewBox="0 0 18 18">-->
-<!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                          d="M9 1v16M1 9h16"/>-->
-<!--                  </svg>-->
-<!--                </button>-->
+                <!--                <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"-->
+                <!--                        v-if="index!=0"-->
+                <!--                        class="btn ml-2 mr-2 btn-danger">-->
+                <!--                  <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                       fill="none" viewBox="0 0 18 2">-->
+                <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+                <!--                          d="M1 1h16"/>-->
+                <!--                  </svg>-->
+                <!--                </button>-->
+                <!--                <button type="button" class="btn ml-2 mr-2 btn-primary"-->
+                <!--                        v-if="index+1==result.additional_details_row.length"-->
+                <!--                        @click.prevent="addAdditionalDetailsRows(index)">-->
+                <!--                  <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->
+                <!--                       fill="none" viewBox="0 0 18 18">-->
+                <!--                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+                <!--                          d="M9 1v16M1 9h16"/>-->
+                <!--                  </svg>-->
+                <!--                </button>-->
               </div>
             </div>
             <div class="button-group border-t border-smooth mt-20">
@@ -881,43 +884,48 @@
             </div>
           </div>
         </form>
-        <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="is_reject_modal"
-               @closeModal="closeModal">
-          <div class="flex justify-between relative">
-            <h4>Rejection reasons in show page </h4>
-          </div>
-          <div class="mb-4">
-            <slot>
-              <!-- -------------- -->
-              <div class="flex h-[400px] overflow-y-scroll flex-wrap">
-                <div class="p-2 w-100 w-full" v-for="(item, index) in allRejectReasons" :key="index">
-                  <div class="p-2 rounded  h-full items-center">
-                    <input type="checkbox" v-model="rejected.reject_reasons" :value="item.id" :class="{ hasError }">
-                    <span class="font-medium">{{ item.name }}</span>
-                    <textarea
-                      class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"
-                      rows="4"
-                      readonly
-                      v-model="item.description"
-                      :placeholder="item.description"
-                    ></textarea>
+        <reject-reason
+          v-if="is_reject_modal"
+          @close="closeRejectModal"
+          :type="`product`"
+        ></reject-reason>
+<!--        <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="is_reject_modal"-->
+<!--               @closeModal="closeModal">-->
+<!--          <div class="flex justify-between relative">-->
+<!--            <h4>Rejection reasons in show page </h4>-->
+<!--          </div>-->
+<!--          <div class="mb-4">-->
+<!--            <slot>-->
+<!--              &lt;!&ndash; &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;-->
+<!--              <div class="flex h-[400px] overflow-y-scroll flex-wrap">-->
+<!--                <div class="p-2 w-100 w-full" v-for="(item, index) in allRejectReasons" :key="index">-->
+<!--                  <div class="p-2 rounded  h-full items-center">-->
+<!--                    <input type="checkbox" v-model="rejected.reject_reasons" :value="item.id" :class="{ hasError }">-->
+<!--                    <span class="font-medium">{{ item.name }}</span>-->
+<!--                    <textarea-->
+<!--                      class="resize-none border rounded-md mt-2 p-2 focus:outline-none focus:ring focus:border-blue-500"-->
+<!--                      rows="4"-->
+<!--                      readonly-->
+<!--                      v-model="item.description"-->
+<!--                      :placeholder="item.description"-->
+<!--                    ></textarea>-->
 
-                  </div>
-                </div>
-              </div>
-              <!-- --------------- -->
-            </slot>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; &ndash;&gt;-->
+<!--            </slot>-->
 
-          </div>
-          <template v-slot:buttons>
-            <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal
-            </button>
-            <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2"
-                    @click.prevent="doRejected()">Submit
-            </button>
-            <!-- Your Submit button or other buttons go here -->
-          </template>
-        </Modal>
+<!--          </div>-->
+<!--          <template v-slot:buttons>-->
+<!--            <button @click="closeModal" class="leading-3 hover:text-primary  px-4 py-2 rounded-md mr-2">Close Modal-->
+<!--            </button>-->
+<!--            <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2"-->
+<!--                    @click.prevent="doRejected()">Submit-->
+<!--            </button>-->
+<!--            &lt;!&ndash; Your Submit button or other buttons go here &ndash;&gt;-->
+<!--          </template>-->
+<!--        </Modal>-->
         <!-- -----------------------reject modal end----------- -->
 
 
@@ -1337,6 +1345,9 @@ export default {
     closeModal() {
       this.modalVisible = false;
     },
+    closeRejectModal() {
+      this.is_reject_modal = false;
+    },
     async doRejected() {
       try {
         const atLeastOneSelected = this.rejected.reject_reasons.length > 0;
@@ -1364,7 +1375,7 @@ export default {
               this.modalVisible = false;
 
               const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
-              this.$router.push({ path: `/${this.routeName}${pathSuffix}` });
+              this.$router.push({path: `/${this.routeName}${pathSuffix}`});
             }
           }
         } else {
@@ -1381,8 +1392,10 @@ export default {
         // Handle error (e.g., show an error message)
       }
     },
+    isRejectedTest() {
+      this.is_reject_modal_test = !this.is_reject_modal_test
+    },
     isRejected() {
-      this.modalVisible = true;
       this.is_reject_modal = !this.is_reject_modal;
     },
     async doApproved() {
@@ -1407,7 +1420,7 @@ export default {
           this.modalVisible = false;
 
           const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
-          this.$router.push({ path: `/${this.routeName}${pathSuffix}` });
+          this.$router.push({path: `/${this.routeName}${pathSuffix}`});
         }
       }
     },

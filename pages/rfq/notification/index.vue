@@ -34,6 +34,8 @@
           <div class="flex items-center mr-4 mb-4">
             <label for="radio1" class="flex items-center cursor-pointer">
               <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey"
+                     v-model="fromData.notification_schedule"
+                     value="daily"
                      :checked="fromData.notification_schedule==='daily'" name="radio"
                      id="radio1">
               {{ $t('rfq.Daily') }}
@@ -43,6 +45,8 @@
           <div class="flex items-center mr-4 mb-4">
             <label for="radio2" class="flex items-center cursor-pointer">
               <input type="radio" class="w-4 h-4 inline-block mr-1 rounded-full border border-grey" name="radio"
+                     v-model="fromData.notification_schedule"
+                     value="weekly"
                      :checked="fromData.notification_schedule==='weekly'"
                      id="radio2">
               {{ $t('rfq.Weekly') }}
@@ -120,22 +124,12 @@
             :key="index"
             class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
           >
-            {{ catItem.title }} <i class="icon close-icon ml-4"></i>
+            {{ catItem.title }} <i class="icon close-icon ml-4" @click="removeCategory(index)"></i>
           </button>
         </div>
-        <div class="row py-4">
+
+        <div class="row py-4 relative">
           <label class="w-full" for="childCategory">Keywords <span class="text-xs">(up to 15 keywords)</span></label>
-          <div class="flex append-input pt-1">
-            <input type="text" class="form-control" v-model="keyword" placeholder="Keywords"
-            >
-            <button type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addKeyword(keyword)">
-              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M9 1v16M1 9h16"/>
-              </svg>
-            </button>
-          </div>
           <div class="flex py-4 gap-4">
             <button
               v-for="(keyword, index) in fromData.keywords"
@@ -145,6 +139,31 @@
               {{ keyword }} <i class="icon close-icon ml-4" @click="removeKeyword(index)"></i>
             </button>
           </div>
+          <div class="flex append-input pt-1">
+            <input type="text" class="form-control" v-model="keyword" @keyup="findKeyword" placeholder="Keywords"
+            >
+            <button type="button" class="btn ml-2 mr-2  btn-primary" @click.prevent="addKeyword(keyword)">
+              <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 1v16M1 9h16"/>
+              </svg>
+            </button>
+          </div>
+
+          <div v-if="allKeywords.length!==0" class="row absolute mt-[-40px] bg-white border border-gray-300 w-1/2 rounded-md shadow-md gap-4 mb-2 overflow-y-scroll h-[200px]">
+            <ul>
+              <li v-for="(value, index) in allKeywords" :key="index"
+                  @click="selectKeyword(value.basic_keyword_en)"
+                  class="cursor-pointer transition-colors duration-300 hover:bg-gray-100 px-4 py-2 flex items-center justify-between">
+                <span>{{ value.basic_keyword_en }}</span>
+                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </li>
+            </ul>
+          </div>
+
         </div>
         <div>
           <button class="bg-primary  text-white px-16 hover:text-primary  font-semiboldv border rounded shadow" @click="submitApply">
@@ -165,6 +184,7 @@ export default {
   data() {
     return {
       is_check: true,
+      allKeywords: [],
       selectedMainCategory: false,
       selectedSubCategory: false,
       selectedLevel1: null,
@@ -178,7 +198,7 @@ export default {
       },
       fromData: {
         vendor_id: '',
-        delivery_channel: '',
+        delivery_channel: 'email',
         notification_schedule: 'daily',
         parentCategory: '',
         subCategory: '',
@@ -230,6 +250,12 @@ export default {
     async submitApply(){
       try {
         const data = await this.setById({id: this.$store.getters["admin/profile"].vendor_id??1, params: {result: this.fromData}, api: 'RfqNotificationData'})
+        // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/rfq/notification'}`})
+        if (data) {
+          this.fromData = Object.assign({}, data)
+          this.fromData.category = data.categories
+          this.$router.push({path: `/rfq/notification`})
+        }
       }catch (e) {
         return this.$nuxt.error(e)
       }
@@ -245,10 +271,23 @@ export default {
           category: res.categories,
           keywords: res.keywords,
         }
-        console.log('res', res)
       }catch (e) {
         return this.$nuxt.error(e)
       }
+    },
+    selectKeyword(selectedKeyword) {
+      // Add the selected keyword to the list of keywords
+      this.fromData.keywords.push(selectedKeyword);
+      // Clear the input field
+      this.keyword = '';
+      // Clear the list of allKeywords
+      this.allKeywords = [];
+    },
+    async findKeyword(){
+      let res = Object.assign({}, await this.getById({id: 1, params: {keyword: this.keyword}, api: 'findRfqKeyword'}))
+
+
+      this.allKeywords = res; // Replace with actual fetched data
     },
     addKeyword(keyword) {
       this.fromData.keywords.push(keyword)
@@ -256,6 +295,9 @@ export default {
     },
     removeKeyword(index) {
       this.fromData.keywords.splice(index, 1);
+    },
+    removeCategory(index) {
+      this.fromData.category.splice(index, 1);
     },
     categoryItemPush(category, id) {
       // Check if there is no item in this.fromData.category with the same id
