@@ -272,6 +272,8 @@
     "getFlashSales": "flash-sale/all",
     "getFlashSale": "flash-sale/find",
     "setFlashSale": "flash-sale/action",
+    "setFlashSaleAction": "flash-sale-product",
+    "getFlashSaleAction": "flash-sale-product",
 
     "deleteOrder": "order/delete",
     "getOrders": "order/all",
