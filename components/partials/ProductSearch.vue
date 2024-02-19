@@ -43,10 +43,10 @@
                 <div class="dply-felx j-left ">
                   <lazy-image
                     class="mr-15 img-40x"
-                    :data-src="getThumbImageURL(item.image)"
+                    :data-src="setThumbImage(item.thumb_image, item.first_thumb_image)"
                     :alt="item.title"
                   />
-                  <h5 v-if="item.title">{{item.title}}</h5>
+                  <h5 v-if="item.title">{{ item.title }}</h5>
                   <h5 v-else>{{ $t('list.nt') }}</h5>
                 </div>
                 <i
@@ -59,7 +59,7 @@
             v-else
             class="p-15"
           >
-            {{ $t('list.noData', { data: $t('product.product') }) }}
+            {{ $t('list.noData', {data: $t('product.product')}) }}
           </p>
         </div>
         <div
@@ -95,99 +95,111 @@
 
 <script>
 
-  import util from "~/mixin/util";
-  import {mapActions} from "vuex";
-  import Spinner from "~/components/Spinner";
-  import outsideClick from '~/directives/outside-click'
-  import {debounce} from 'debounce'
-  import LazyImage from "../LazyImage";
+import util from "~/mixin/util";
+import {mapActions} from "vuex";
+import Spinner from "~/components/Spinner";
+import outsideClick from '~/directives/outside-click'
+import {debounce} from 'debounce'
+import LazyImage from "../LazyImage";
 
-  export default {
-    name: 'ProductSearch',
-    data() {
-      return {
-        productPage: 1,
-        productData: null,
-        autoSuggestionOpen: false,
-        searchedString: '',
-        fetchingProductList: true
-      }
-    },
-    watch: {
-      searchedString: debounce(function () {
-        this.productPage = 1
-        this.fetchingData()
-      }, 700)
-    },
-    directives: {
-      outsideClick
-    },
-    props: {},
-    mixins: [util],
-    components: {LazyImage, Spinner},
-    computed: {
-      productList(){
-        return this.productData?.data || []
-      },
-      resultText() {
-        if (this.productData) {
-          if(this.productData?.total > 0){
-            return this.$t('list.show', { from: this.productData?.from, to: this.productData?.to, total: this.productData?.total })
-          }
-        }
-      },
-      totalPage() {
-        return this.productData?.last_page
-      },
-      orderId() {
-        return this.$route?.params?.id
-      }
-    },
-    methods: {
-      autoSuggestionClose() {
-        this.autoSuggestionOpen = false
-      },
-      async openSuggestions() {
-        if(!this.autoSuggestionOpen){
-          this.autoSuggestionOpen = true
-        }
-
-        if (this.productList.length === 0){
-          await this.fetchingData()
-        }
-      },
-      goNext(data){
-
-        const nextPage = this.productPage + data
-        if(nextPage <= this.totalPage && nextPage > 0){
-          this.productPage = nextPage
-          this.fetchingData()
-        }
-      },
-      async fetchingData() {
-        this.fetchingProductList = true
-        try {
-          this.productData = await this.getRequest({
-            params: {
-              page: this.productPage,
-              orderby: 'created_at',
-              type: 'DESC',
-              q: this.searchedString
-            },
-            api: 'getProducts'
-          })
-
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
-        this.fetchingProductList = false
-      },
-      ...mapActions('common', ['getRequest'] )
-    },
-    mounted() {
+export default {
+  name: 'ProductSearch',
+  data() {
+    return {
+      productPage: 1,
+      productData: null,
+      autoSuggestionOpen: false,
+      searchedString: '',
+      fetchingProductList: true
     }
+  },
+  watch: {
+    searchedString: debounce(function () {
+      this.productPage = 1
+      this.fetchingData()
+    }, 700)
+  },
+  directives: {
+    outsideClick
+  },
+  props: {},
+  mixins: [util],
+  components: {LazyImage, Spinner},
+  computed: {
+    productList() {
+      return this.productData?.data || []
+    },
+    resultText() {
+      if (this.productData) {
+        if (this.productData?.total > 0) {
+          return this.$t('list.show', {
+            from: this.productData?.from,
+            to: this.productData?.to,
+            total: this.productData?.total
+          })
+        }
+      }
+    },
+    totalPage() {
+      return this.productData?.last_page
+    },
+    orderId() {
+      return this.$route?.params?.id
+    }
+  },
+  methods: {
+    autoSuggestionClose() {
+      this.autoSuggestionOpen = false
+    },
+    async openSuggestions() {
+      if (!this.autoSuggestionOpen) {
+        this.autoSuggestionOpen = true
+      }
+
+      if (this.productList.length === 0) {
+        await this.fetchingData()
+      }
+    },
+    setThumbImage(thumb_url, url){
+      if (thumb_url !== null){
+        return thumb_url;
+      }else {
+        //if no thumb set then 1st image thumb
+        return url;
+      }
+    },
+    goNext(data) {
+
+      const nextPage = this.productPage + data
+      if (nextPage <= this.totalPage && nextPage > 0) {
+        this.productPage = nextPage
+        this.fetchingData()
+      }
+    },
+    async fetchingData() {
+      this.fetchingProductList = true
+      try {
+        this.productData = await this.getRequest({
+          params: {
+            page: this.productPage,
+            orderby: 'created_at',
+            type: 'DESC',
+            q: this.searchedString
+          },
+          api: 'getProducts'
+        })
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      this.fetchingProductList = false
+    },
+    ...mapActions('common', ['getRequest'])
+  },
+  mounted() {
   }
+}
 </script>
 <style lang="stylus">
-  @import '~/assets/styles/product-search.styl'
+@import '~/assets/styles/product-search.styl'
 </style>

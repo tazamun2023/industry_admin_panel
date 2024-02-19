@@ -14,13 +14,15 @@
               </a>
             </li>
             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" @click="toggleTabs('verified')"
+              <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal"
+                 @click="toggleTabs('verified')"
                  v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'verified', 'border-b-2 border-primary': openTab === 'verified'}">
                 {{ $t('customer.Verified') }}
               </a>
             </li>
             <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" @click="toggleTabs('not_verified')"
+              <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal"
+                 @click="toggleTabs('not_verified')"
                  v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'not_verified', 'border-b-2 border-primary': openTab === 'not_verified'}">
                 {{ $t('customer.Not Verified') }}
               </a>
@@ -30,15 +32,14 @@
         </div>
       </div>
       <div :class="{'hidden': openTab !== 'all', 'block': openTab === 'all'}">
-        <all-customer></all-customer>
+          <all-customer></all-customer>
       </div>
       <div :class="{'hidden': openTab !== 'verified', 'block': openTab === 'verified'}">
-        <verified-customer></verified-customer>
+          <verified-customer></verified-customer>
       </div>
       <div :class="{'hidden': openTab !== 'not_verified', 'block': openTab === 'not_verified'}">
-        <not-verified-customer></not-verified-customer>
+          <not-verified-customer></not-verified-customer>
       </div>
-
     </div>
   </div>
 </template>
@@ -56,7 +57,7 @@ export default {
       openTab: 'all',
     }
   },
-  computed:{
+  computed: {
     ...mapGetters('customer', ['customerList'])
   },
   methods: {
@@ -69,3 +70,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

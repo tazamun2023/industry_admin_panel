@@ -35,7 +35,7 @@
                     <customer-orders :customer_id="$route.params.id"></customer-orders>
                 </div>
                 <div :class="{'hidden': openTab !== 'address', 'block': openTab === 'address'}">
-                    <customer-address></customer-address>
+                    <customer-address :customer_id="$route.params.id"></customer-address>
                 </div>
                 <div :class="{'hidden': openTab !== 'payment', 'block': openTab === 'payment'}">
                   <customer-payment></customer-payment>

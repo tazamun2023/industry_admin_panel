@@ -6,7 +6,9 @@ export default {
   },
   methods: {
     async fromSubmit() {
-      let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api: 'updateCustomer'})
+      // let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api: 'updateCustomer'})
+
+      let data = await this.submitData({id: this.fromData.id, params:{...this.fromData}, api:"updateCustomer"})
       if (status === 200) {
         this.errors = null
       } else if (status === 201) {
