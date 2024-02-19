@@ -90,6 +90,7 @@
     "Total target price": "Total target price"
   },
   "index": {
+    "qty": "Quantity",
     "tProduct": "Total products",
     "tUsers": "Total users",
     "tOrders": "Total orders",
