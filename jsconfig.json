@@ -241,6 +241,7 @@
     "getLanguage": "language/find",
     "setLanguage": "language/action",
 
+    "getAllFlashSale": "flash-sale/all",
     "getProducts": "product/all",
     "deleteProduct": "product/delete",
     "getProduct": "product/find",

@@ -15,18 +15,21 @@
 
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('index.title')"
-          v-model="result.title"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', {type: $t('index.title')}) }}
-        </span>
+        <select>
+          <option v-for="(item, index) in allFlashSale" :value="item.id" >{{ item.title }}</option>
+        </select>
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('index.title')"-->
+<!--          v-model="result.title"-->
+<!--          :class="{invalid: !!!result.title && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.title && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', {type: $t('index.title')}) }}-->
+<!--        </span>-->
       </div>
 
       <div
@@ -316,6 +319,8 @@ export default {
       return this.setting?.currency_icon || '$'
     },
     ...mapGetters('setting', ['setting']),
+    ...mapGetters('common', ['allFlashSale'])
+
   },
   methods: {
     settingResult(evt) {
@@ -370,12 +375,25 @@ export default {
       }
       this.result = {...this.result, ...{products: this.result.products}}
     },
-    ...mapActions('common', ['getById'])
+    ...mapActions('common', ['getById']),
+    ...mapActions('common', ['getAllFlashSale']),
   },
 
 
   async mounted() {
+    try {
+      await this.getAllFlashSale({api: 'getAllFlashSale', mutation: 'SET_ALL_FLASH_SALE'})
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
+    // try {
+    //   await this.getAllFlashSale()
+    // } catch (e) {
+    //   return this.$nuxt.error(e)
+    // }
+
   }
+
 }
 </script>
 
