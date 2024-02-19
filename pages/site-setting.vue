@@ -42,7 +42,7 @@
             class="logo-upload upload-block"
             :image="result.header_logo"
             :file-uploading="fileUploading.header_logo"
-            :btn-text="$t('profile.vue.cngLogo', {type: $t('title.headLogo')})"
+            :btn-text="$t('profile.cngLogo', {type: $t('title.headLogo')})"
             @file-upload="uploadFile('header_logo', $event)"
           />
         </div>
@@ -64,7 +64,7 @@
             class="logo-upload upload-block"
             :image="result.footer_logo"
             :file-uploading="fileUploading.footer_logo"
-            :btn-text="$t('profile.vue.cngLogo', {type: $t('title.fLogo')})"
+            :btn-text="$t('profile.cngLogo', {type: $t('title.fLogo')})"
             @file-upload="uploadFile('footer_logo', $event)"
           />
         </div>
@@ -86,7 +86,7 @@
             class="logo-upload upload-block"
             :image="result.email_logo"
             :file-uploading="fileUploading.email_logo"
-            :btn-text="$t('profile.vue.cngLogo', {type: $t('profile.vue.emailLogo')})"
+            :btn-text="$t('profile.cngLogo', {type: $t('profile.emailLogo')})"
             @file-upload="uploadFile('email_logo', $event)"
           />
         </div>
