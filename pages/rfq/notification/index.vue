@@ -21,6 +21,7 @@
           <h4>{{ $t('rfq.Email notification') }}</h4>
           <label for="toggle" class="flex ml-2 mr-2 items-center cursor-pointer">
             <input style="position: absolute !important;" type="checkbox" id="toggle" class="sr-only peer absolute"
+                   v-model="fromData.delivery_channel"
                    :checked="is_check" @click="isNotification">
             <div
               class="block relative bg-smooth w-16 h-8 p-1 rounded-full before:absolute before:bg-white before:w-6 before:h-6 before:p-1 before:rounded-full before:transition-all before:duration-500 before:left-1 peer-checked:before:left-8 peer-checked:before:bg-primary"></div>
@@ -154,9 +155,9 @@
           <div v-if="allKeywords.length!==0" class="row absolute mt-[-40px] bg-white border border-gray-300 w-1/2 rounded-md shadow-md gap-4 mb-2 overflow-y-scroll h-[200px]">
             <ul>
               <li v-for="(value, index) in allKeywords" :key="index"
-                  @click="selectKeyword(value.basic_keyword_en)"
+                  @click="selectKeyword(value)"
                   class="cursor-pointer transition-colors duration-300 hover:bg-gray-100 px-4 py-2 flex items-center justify-between">
-                <span>{{ value.basic_keyword_en }}</span>
+                <span>{{ value }}</span>
                 <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
@@ -270,6 +271,9 @@ export default {
           notification_schedule: res.notification_schedule,
           category: res.categories,
           keywords: res.keywords,
+          parentCategory: '',
+          subCategory: '',
+          childCategory: '',
         }
       }catch (e) {
         return this.$nuxt.error(e)

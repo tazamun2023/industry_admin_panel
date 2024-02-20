@@ -7,6 +7,7 @@
     route-name="flash-sales"
     :name="$t('profile.fSale')"
     :result="result"
+    :validationKeys="[]"
     gate="flash_sale"
     @result="settingResult"
   >
@@ -349,7 +350,6 @@ export default {
   },
   methods: {
     settingResult(evt) {
-      console.log('yes', evt)
       evt['start_time'] = moment(moment.utc(evt['start_time'])).local().format('YYYY-MM-DD HH:mm:ss')
       evt['end_time'] = moment(moment.utc(evt['end_time'])).local().format('YYYY-MM-DD HH:mm:ss')
 
