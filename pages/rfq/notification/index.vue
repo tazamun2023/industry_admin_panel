@@ -276,6 +276,7 @@ export default {
       }
     },
     selectKeyword(selectedKeyword) {
+      this.fromData.keywords = this.fromData.keywords || [];
       // Add the selected keyword to the list of keywords
       this.fromData.keywords.push(selectedKeyword);
       // Clear the input field
@@ -290,8 +291,10 @@ export default {
       this.allKeywords = res; // Replace with actual fetched data
     },
     addKeyword(keyword) {
-      this.fromData.keywords.push(keyword)
-      this.keyword = ''
+      console.log(keyword)
+      // this.fromData.keywords = this.fromData.keywords || [];
+      // this.fromData.keywords.push(keyword)
+      // this.keyword = ''
     },
     removeKeyword(index) {
       this.fromData.keywords.splice(index, 1);
@@ -300,15 +303,18 @@ export default {
       this.fromData.category.splice(index, 1);
     },
     categoryItemPush(category, id) {
+      // Ensure that this.fromData.category is initialized as an array
+      this.fromData.category = this.fromData.category || [];
       // Check if there is no item in this.fromData.category with the same id
       const isDuplicateId = this.fromData.category.some(item => item.id === id);
 
       // If it's not a duplicate, push the new item
       if (!isDuplicateId) {
         // this.$store.commit('addItemToCategory', { title: category, id: id });
-        this.fromData.category.push({title: category, id: id});
-        // this.$store.state.rfqnotification.notificationList.data.categories.push({title: category, id: id});
+        this.fromData.category.push({ title: category, id: id });
+        // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
       }
+
     },
     confirmMainCategory() {
       this.categoryItemPush(this.selectedLevel1.title, this.fromData.parentCategory)
