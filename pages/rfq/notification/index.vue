@@ -263,7 +263,7 @@ export default {
     async fetchingData(id) {
       try {
         this.loading = true
-        let res = Object.assign({}, await this.getById({id: id, params: {}, api: 'RfqNotificationDataGet'}))
+        let res = Object.assign({}, await this.getById({id: this.profile.vendor_id, params: {}, api: 'RfqNotificationDataGet'}))
         this.fromData ={
           vendor_id: res.vendor_id,
           delivery_channel: res.delivery_channel,
