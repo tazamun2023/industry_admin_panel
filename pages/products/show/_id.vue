@@ -887,7 +887,7 @@
         <reject-reason
           v-if="is_reject_modal"
           @close="closeRejectModal"
-          :type="`product`"
+          :type="`rfq`"
         ></reject-reason>
 <!--        <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="is_reject_modal"-->
 <!--               @closeModal="closeModal">-->
