@@ -886,8 +886,11 @@
         </form>
         <reject-reason
           v-if="is_reject_modal"
+          get-api="RejectReasons"
+          set-api="setRejectProduct"
+          :set-id="$route?.params?.id"
+          :param="param"
           @close="closeRejectModal"
-          :type="`rfq`"
         ></reject-reason>
 <!--        <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="is_reject_modal"-->
 <!--               @closeModal="closeModal">-->
@@ -989,6 +992,9 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      param: {
+        "type": 'product'
+      },
       modalVisible: false,
       is_reject_modal: false,
       is_next: false,

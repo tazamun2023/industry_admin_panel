@@ -281,6 +281,7 @@
     "RfqNotificationDataGet": "rfq/notification/get",
     "findRfqKeyword": "rfq/notification/find-keyword",
     "allRfqRejectReason": "rfq/reject-reason/all",
+    "RejectReasons": "reject-reason/all",
     "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
     "updateOrderStatus": "order/update-status",

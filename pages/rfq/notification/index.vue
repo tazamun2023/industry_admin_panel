@@ -240,6 +240,7 @@ export default {
 
     try {
       // await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
+      //adding 1 for testing from admin
       await this.fetchingData(this.$store.getters["admin/profile"].vendor_id??1)
       // await this.getRfqNotificationData({id: 1, params: '', api: 'RfqNotificationData'})
     } catch (e) {
@@ -314,6 +315,9 @@ export default {
 
       // If it's not a duplicate, push the new item
       if (!isDuplicateId) {
+        if (this.fromData.category.length === 15){
+          return false
+        }
         // this.$store.commit('addItemToCategory', { title: category, id: id });
         this.fromData.category.push({ title: category, id: id });
         // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
