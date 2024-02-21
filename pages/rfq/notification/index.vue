@@ -21,8 +21,8 @@
           <h4>{{ $t('rfq.Email notification') }}</h4>
           <label for="toggle" class="flex ml-2 mr-2 items-center cursor-pointer">
             <input style="position: absolute !important;" type="checkbox" id="toggle" class="sr-only peer absolute"
-                   v-model="fromData.delivery_channel"
-                   :checked="is_check" @click="isNotification">
+                   v-model="fromData.is_active_delivery_channel"
+                   :checked="fromData.is_active_delivery_channel" @click="isNotification">
             <div
               class="block relative bg-smooth w-16 h-8 p-1 rounded-full before:absolute before:bg-white before:w-6 before:h-6 before:p-1 before:rounded-full before:transition-all before:duration-500 before:left-1 peer-checked:before:left-8 peer-checked:before:bg-primary"></div>
           </label>
@@ -123,9 +123,9 @@
           <button
             v-for="(catItem, index) in fromData.category"
             :key="index"
-            class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center"
+            class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center cursor-default"
           >
-            {{ catItem.title }} <i class="icon close-icon ml-4" @click="removeCategory(index)"></i>
+            {{ catItem.title }} <i class="icon close-icon ml-4 cursor-pointer" @click="removeCategory(index)"></i>
           </button>
         </div>
 
@@ -205,6 +205,7 @@ export default {
         subCategory: '',
         childCategory: '',
         category: [],
+        is_active_delivery_channel: true,
 
         keywords: []
       },
@@ -275,6 +276,7 @@ export default {
           parentCategory: '',
           subCategory: '',
           childCategory: '',
+          is_active_delivery_channel: res.is_active_delivery_channel
         }
       }catch (e) {
         return this.$nuxt.error(e)
@@ -290,13 +292,12 @@ export default {
       this.allKeywords = [];
     },
     async findKeyword(){
-      let res = Object.assign({}, await this.getById({id: 1, params: {keyword: this.keyword}, api: 'findRfqKeyword'}))
+      let res = Object.assign({}, await this.getById({id: this.profile.vendor_id, params: {keyword: this.keyword}, api: 'findRfqKeyword'}))
 
 
       this.allKeywords = res; // Replace with actual fetched data
     },
     addKeyword(keyword) {
-      console.log(keyword)
       // this.fromData.keywords = this.fromData.keywords || [];
       // this.fromData.keywords.push(keyword)
       // this.keyword = ''
@@ -305,6 +306,7 @@ export default {
       this.fromData.keywords.splice(index, 1);
     },
     removeCategory(index) {
+      // console.log(index)
       this.fromData.category.splice(index, 1);
     },
     categoryItemPush(category, id) {
@@ -312,7 +314,6 @@ export default {
       this.fromData.category = this.fromData.category || [];
       // Check if there is no item in this.fromData.category with the same id
       const isDuplicateId = this.fromData.category.some(item => item.id === id);
-
       // If it's not a duplicate, push the new item
       if (!isDuplicateId) {
         if (this.fromData.category.length === 15){
@@ -348,7 +349,7 @@ export default {
       this.selectedLevel3 = this.selectedLevel2.child.find(c => c.id === parseInt(this.fromData.childCategory));
     },
     isNotification() {
-      this.is_check = !this.is_check
+      this.fromData.is_active_delivery_channel = !this.fromData.is_active_delivery_channel
     },
     onMainCategoryChange() {
       // alert(77);
