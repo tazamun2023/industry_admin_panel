@@ -242,7 +242,7 @@ export default {
     try {
       // await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
       //adding 1 for testing from admin
-      await this.fetchingData(this.$store.getters["admin/profile"].vendor_id??1)
+      await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
       // await this.getRfqNotificationData({id: 1, params: '', api: 'RfqNotificationData'})
     } catch (e) {
       return this.$nuxt.error(e)
@@ -266,7 +266,7 @@ export default {
     async fetchingData(id) {
       try {
         this.loading = true
-        let res = Object.assign({}, await this.getById({id: this.profile.vendor_id, params: {}, api: 'RfqNotificationDataGet'}))
+        let res = Object.assign({}, await this.getById({id: id, params: {}, api: 'RfqNotificationDataGet'}))
         this.fromData ={
           vendor_id: res.vendor_id,
           delivery_channel: res.delivery_channel,
@@ -306,22 +306,18 @@ export default {
       this.fromData.keywords.splice(index, 1);
     },
     removeCategory(index) {
-      // console.log(index)
+      console.log(index)
       this.fromData.category.splice(index, 1);
     },
     categoryItemPush(category, id) {
       // Ensure that this.fromData.category is initialized as an array
-      this.fromData.category = this.fromData.category || [];
+      this.fromData.category = this.fromData.category ?? [];
       // Check if there is no item in this.fromData.category with the same id
       const isDuplicateId = this.fromData.category.some(item => item.id === id);
       // If it's not a duplicate, push the new item
-      if (!isDuplicateId) {
-        if (this.fromData.category.length === 15){
-          return false
-        }
-        // this.$store.commit('addItemToCategory', { title: category, id: id });
+      if (!isDuplicateId && this.fromData.category.length < 15) {
+        console.log('category', category, id);
         this.fromData.category.push({ title: category, id: id });
-        // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
       }
 
     },
