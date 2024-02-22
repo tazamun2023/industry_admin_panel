@@ -22,8 +22,9 @@
       v-if="$can('category', 'edit')"
       class="bg-primary text-white"
       @click.prevent="editNode(node)"
-    >
-      {{ $t('category.edit') }}
+    >  
+   <div class="flex gap-2"> <img class="w-4 h-4 mt-[11px]" src="~/assets/icon/edit.svg" alt="">
+      <div>{{ $t('category.edit') }}</div></div>
     </button>
 
     <button
