@@ -21,8 +21,8 @@
           <h4>{{ $t('rfq.Email notification') }}</h4>
           <label for="toggle" class="flex ml-2 mr-2 items-center cursor-pointer">
             <input style="position: absolute !important;" type="checkbox" id="toggle" class="sr-only peer absolute"
-                   v-model="fromData.is_active_delivery_channel"
-                   :checked="fromData.is_active_delivery_channel" @click="isNotification">
+                   v-model="fromData.delivery_channel"
+                   :checked="is_check" @click="isNotification">
             <div
               class="block relative bg-smooth w-16 h-8 p-1 rounded-full before:absolute before:bg-white before:w-6 before:h-6 before:p-1 before:rounded-full before:transition-all before:duration-500 before:left-1 peer-checked:before:left-8 peer-checked:before:bg-primary"></div>
           </label>
@@ -62,14 +62,10 @@
         <h4>{{ $t('rfq.What type of RFQs would you like to be notified of') }}?</h4>
         <p>{{ $t('rfq.Select product categories and keywords that are relevant to you') }}.</p>
         <p>{{ $t('rfq.Product categories') }} <span class="text-xs">({{ $t('rfq.up to 15 categories') }})</span></p>
-        <div class="grid grid-cols-3 gap-4 py-3 w-50">
-          <div class="ppppp">
-            <div class="flex">
-              <label class="w-full" for="mainCategory">Main Category</label>
-              <button v-if="fromData.parentCategory" @click="confirmMainCategory" class="confirm-button">Confirm
-                Selection
-              </button>
-            </div>
+          <div class="grid grid-cols-3 w-full  gap-4">
+            <div class="w-full">
+            <label class="w-full" for="mainCategory">Main Category</label>
+           <div class="flex gap-4">
             <v-select
               :dir="$t('app.dir')"
               v-model="fromData.parentCategory"
@@ -78,60 +74,80 @@
               :reduce="cat => cat.id"
               :placeholder="$t('rfq.Search by Category')"
               @input="updateLevel2"
-              class="custom-select"
+              class="custom-select w-full my-2 font-12px"
             >
             </v-select>
-          </div>
-          <div v-if="fromData.parentCategory">
-            <div class="flex">
-              <label class="w-full" for="mainCategory">Sub Category</label>
-              <button v-if="fromData.subCategory" @click="confirmParentCategory" class="confirm-button">Confirm
+              <button v-if="fromData.parentCategory" @click="confirmMainCategory" class="confirm-button  font-12px rounded text-primary my-2 h-auto w-2/4">Confirm
                 Selection
               </button>
-            </div>
-            <v-select
+           </div>
+          </div>
+          <div class="w-full" v-if="fromData.parentCategory">
+            <label class="w-full" for="mainCategory">Sub Category</label>
+            <div class="flex gap-4">
+              
+              <v-select
               :dir="$t('app.dir')"
               v-model="fromData.subCategory"
               :options="selectedLevel1?.child"
               label="title"
               :reduce="cat => cat.id"
-              class="custom-select"
+              class="custom-select w-full my-2 font-12px"
               :placeholder="$t('rfq.Select Sub Category')"
               @input="updateLevel3"
             ></v-select>
-          </div>
-          <div v-if="fromData.subCategory">
-            <div class="flex">
-              <label class="w-full" for="mainCategory">Child Category</label>
-              <button v-if="fromData.childCategory" @click="confirmSubCategory" class="confirm-button">Confirm
+              <button v-if="fromData.subCategory" @click="confirmParentCategory" class="confirm-button rounded font-12px text-primary my-2  h-auto w-2/4">Confirm
                 Selection
               </button>
             </div>
-            <v-select
+            
+          </div>
+          <div class="w-full" v-if="fromData.subCategory">
+            <label class="w-full" for="mainCategory">Child Category</label>
+            <div class="flex gap-4">
+              <v-select
               :dir="$t('app.dir')"
               v-model="fromData.childCategory"
               :options="selectedLevel2?.child"
               :reduce="cat => cat.id"
               label="title"
-              class="custom-select"
+              class="custom-select w-full my-2 font-12px"
               @input="updateLevel4"
               :placeholder="$t('rfq.Select Child Category')"
             ></v-select>
+              <button v-if="fromData.childCategory" @click="confirmSubCategory" class="confirm-button rounded font-12px my-2 text-primary  h-auto w-2/4">Confirm
+                Selection
+              </button>
+            </div>
+            
           </div>
-        </div>
-        <div class="flex gap-4">
+          </div>
+
+        <div class="flex flex-wrap gap-4">
           <button
             v-for="(catItem, index) in fromData.category"
             :key="index"
-            class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded inline-flex items-center cursor-default"
+            class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded flex gap-2 justify-between"
           >
-            {{ catItem.title }} <i class="icon close-icon ml-4 cursor-pointer" @click="removeCategory(index)"></i>
+            <span class="leading-7">{{ catItem.title }}</span> <i class="icon close-icon  ltr:ml-4 rtl:mr-4 mt-1" @click="removeCategory(index)"></i>
           </button>
         </div>
-
+        
         <div class="row py-4 relative">
+          <div v-if="allKeywords.length!==0" class="row absolute top-[-94px] z-50 bg-white border border-smooth w-1/2 rounded-md shadow-md gap-4 mb-2 overflow-y-scroll h-[200px]">
+            <ul>
+              <li v-for="(value, index) in allKeywords" :key="index"
+                  @click="selectKeyword(value)"
+                  class="cursor-pointer transition-colors duration-300 hover:bg-gray-100 px-4 py-2 flex items-center justify-between">
+                <span>{{ value }}</span>
+                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </li>
+            </ul>
+          </div>
           <label class="w-full" for="childCategory">Keywords <span class="text-xs">(up to 15 keywords)</span></label>
-          <div class="flex py-4 gap-4">
+          <div class="flex flex-wrap py-4 gap-4">
             <button
               v-for="(keyword, index) in fromData.keywords"
               :key="index"
@@ -152,18 +168,7 @@
             </button>
           </div>
 
-          <div v-if="allKeywords.length!==0" class="row absolute mt-[-40px] bg-white border border-gray-300 w-1/2 rounded-md shadow-md gap-4 mb-2 overflow-y-scroll h-[200px]">
-            <ul>
-              <li v-for="(value, index) in allKeywords" :key="index"
-                  @click="selectKeyword(value)"
-                  class="cursor-pointer transition-colors duration-300 hover:bg-gray-100 px-4 py-2 flex items-center justify-between">
-                <span>{{ value }}</span>
-                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-              </li>
-            </ul>
-          </div>
+          
 
         </div>
         <div>
@@ -205,7 +210,6 @@ export default {
         subCategory: '',
         childCategory: '',
         category: [],
-        is_active_delivery_channel: true,
 
         keywords: []
       },
@@ -241,8 +245,7 @@ export default {
 
     try {
       // await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
-      //adding 1 for testing from admin
-      await this.fetchingData(this.$store.getters["admin/profile"].vendor_id)
+      await this.fetchingData(this.$store.getters["admin/profile"].vendor_id??1)
       // await this.getRfqNotificationData({id: 1, params: '', api: 'RfqNotificationData'})
     } catch (e) {
       return this.$nuxt.error(e)
@@ -266,7 +269,7 @@ export default {
     async fetchingData(id) {
       try {
         this.loading = true
-        let res = Object.assign({}, await this.getById({id: id, params: {}, api: 'RfqNotificationDataGet'}))
+        let res = Object.assign({}, await this.getById({id: this.profile.vendor_id, params: {}, api: 'RfqNotificationDataGet'}))
         this.fromData ={
           vendor_id: res.vendor_id,
           delivery_channel: res.delivery_channel,
@@ -276,7 +279,6 @@ export default {
           parentCategory: '',
           subCategory: '',
           childCategory: '',
-          is_active_delivery_channel: res.is_active_delivery_channel
         }
       }catch (e) {
         return this.$nuxt.error(e)
@@ -292,12 +294,13 @@ export default {
       this.allKeywords = [];
     },
     async findKeyword(){
-      let res = Object.assign({}, await this.getById({id: this.profile.vendor_id, params: {keyword: this.keyword}, api: 'findRfqKeyword'}))
+      let res = Object.assign({}, await this.getById({id: 1, params: {keyword: this.keyword}, api: 'findRfqKeyword'}))
 
 
       this.allKeywords = res; // Replace with actual fetched data
     },
     addKeyword(keyword) {
+      console.log(keyword)
       // this.fromData.keywords = this.fromData.keywords || [];
       // this.fromData.keywords.push(keyword)
       // this.keyword = ''
@@ -306,18 +309,19 @@ export default {
       this.fromData.keywords.splice(index, 1);
     },
     removeCategory(index) {
-      console.log(index)
       this.fromData.category.splice(index, 1);
     },
     categoryItemPush(category, id) {
       // Ensure that this.fromData.category is initialized as an array
-      this.fromData.category = this.fromData.category ?? [];
+      this.fromData.category = this.fromData.category || [];
       // Check if there is no item in this.fromData.category with the same id
       const isDuplicateId = this.fromData.category.some(item => item.id === id);
+
       // If it's not a duplicate, push the new item
-      if (!isDuplicateId && this.fromData.category.length < 15) {
-        console.log('category', category, id);
+      if (!isDuplicateId) {
+        // this.$store.commit('addItemToCategory', { title: category, id: id });
         this.fromData.category.push({ title: category, id: id });
+        // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
       }
 
     },
@@ -345,7 +349,7 @@ export default {
       this.selectedLevel3 = this.selectedLevel2.child.find(c => c.id === parseInt(this.fromData.childCategory));
     },
     isNotification() {
-      this.fromData.is_active_delivery_channel = !this.fromData.is_active_delivery_channel
+      this.is_check = !this.is_check
     },
     onMainCategoryChange() {
       // alert(77);
@@ -368,5 +372,11 @@ export default {
 <style scoped>
 .custom-select svg{
   height: 34px !important;
+}
+.custom-select input{
+  height: 44px;
+}
+.font-12px{
+  font-size: 12px;
 }
 </style>
