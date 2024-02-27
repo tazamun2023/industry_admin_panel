@@ -28,7 +28,8 @@ module.exports = {
       white: '#fff',
       trnsp:'#f1f1f1',
       modal:'#0000007d',
-      warning:'#ffc107'
+      warning:'#ffc107',
+      graylight:'#F9F9F9'
     },
 
     screens: {
