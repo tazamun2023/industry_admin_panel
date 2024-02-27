@@ -82,7 +82,7 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
-    "mid_order_qty": "Min.Order Quantity",
+    "min_order_qty": "Min.Order Quantity",
     "name": "Product name",
     "add": "Add Product",
     "Products": "Products",
@@ -118,6 +118,10 @@
     "tSells": "Total sells",
     "cityName": "City Name",
     "name" : "Name"
+  },
+  "bnews": {
+    "News Title": "News Title",
+    "News Details": "News Details"
   },
   "category": {
     "mDesc": "Meta description",

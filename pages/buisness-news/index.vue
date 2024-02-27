@@ -2,7 +2,7 @@
     <div class="card">
         <div class="title p-2 border-b border-smooth flex justify-between">
                 <h3>Buisness News List</h3>
-                <nuxt-link :to="`/buisness-news/create`" class="button primary-btn">Create</nuxt-link>
+                <nuxt-link :to="`/buisness-news/add`" class="button primary-btn">Create</nuxt-link>
             </div>
         <div class="table-wrapper">
             <table class="w-full">

@@ -260,6 +260,8 @@
 
     "setProductImageAttributes": "product-image-attributes/action",
 
+    "setBusinessNews": "business-news/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",
