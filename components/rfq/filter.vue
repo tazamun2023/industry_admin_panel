@@ -139,7 +139,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-wrap card  relative flex flex-col min-w-0 rounded break-words  bg-white border-1">
+  <div class="flex flex-wrap card  relative  flex-col min-w-0 rounded break-words  bg-white border-1">
     <div class="md:w-full py-3">
       <div class="flex flex-wrap ">
         <div class="md:w-1/5 pr-4 pl-4">
