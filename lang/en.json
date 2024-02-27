@@ -81,6 +81,7 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
+    "mid_order_qty": "Min.Order Quantity",
     "name": "Product name",
     "add": "Add Product",
     "Products": "Products",
