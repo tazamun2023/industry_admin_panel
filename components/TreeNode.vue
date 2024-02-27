@@ -7,32 +7,35 @@
     />
 
 
-    <span class="node-data">
+   <div class="bg-smooth rounded flex justify-between my-1">
+    <span class="node-data leading-9">
 
-     <lazy-image
-       :data-src="getThumbImageURL(node.image)"
-       :alt="node.title"
-     />
-      {{ node.title }}
+    <lazy-image
+      :data-src="getThumbImageURL(node.image)"
+      :alt="node.title"
+    />
+    {{ node.title }}
     </span>
 
     <span>
-      <button
-        v-if="$can('category', 'edit')"
-        class="lite-btn"
-        @click.prevent="editNode(node)"
-      >
-        {{ $t('category.edit') }}
-      </button>
+    <button
+      v-if="$can('category', 'edit')"
+      class="bg-primary text-white"
+      @click.prevent="editNode(node)"
+    >  
+   <div class="flex gap-2"> <img class="w-4 h-4 mt-[11px]" src="~/assets/icon/edit.svg" alt="">
+      <div>{{ $t('category.edit') }}</div></div>
+    </button>
 
-      <button
-        v-if="$can('category', 'delete')"
-        @click.prevent="deleteNode(node)"
-        class="delete-btn lite-btn"
-      >
-        {{ $t('category.delete') }}
-      </button>
+    <button
+      v-if="$can('category', 'delete')"
+      @click.prevent="deleteNode(node)"
+      class="delete-btn lite-btn"
+    >
+      {{ $t('category.delete') }}
+    </button>
     </span>
+   </div>
 
     <ul>
     <tree-node

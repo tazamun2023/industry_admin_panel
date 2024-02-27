@@ -1,6 +1,7 @@
 {
   "app": {
     "dir":"ltr",
+    "lang": "lang",
     "Save":"Save",
     "Done":"Done",
     "SAR":"SAR",
