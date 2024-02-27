@@ -7,7 +7,7 @@
     /> -->
 
 
-   <div class="pt-2 pl-2 border-b-2 border-graylight pr-2 flex justify-between my-1"  :class="{ 'bg-graylight rounded-lg': node.child.length > 0 }">
+   <div  @click="toggleVisibility" class="pt-2 pl-2 border-b-2 border-graylight pr-2 flex justify-between my-1"  :class="{ 'bg-graylight rounded-lg': node.child.length > 0 }">
 
     <span class="node-data leading-9">
 
@@ -40,7 +40,7 @@
     </span>
    </div>
 
-    <ul>
+    <ul v-if="showChildren">
     <tree-node
       v-for="childNode in node.child"
         :key="childNode.id"
@@ -78,6 +78,7 @@
     },
     data() {
       return {
+        showChildren: false
       };
     },
     mixins: [util],
@@ -88,7 +89,10 @@
       },
       deleteNode(node){
         this.$emit('delete', node)
-      }
+      },
+      toggleVisibility() {
+      this.showChildren = !this.showChildren;
+    },
     },
 
   }
