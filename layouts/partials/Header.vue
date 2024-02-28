@@ -15,11 +15,18 @@
         to="/"
         class="logo"
       >
-        <img
+        <!-- <img
           v-if="storeData"
           :src="getImageURL(siteLogo)"
           alt=""
-        >
+        > -->
+        <div>
+          <img class="w-6 h-6" src="~/assets/icon/user.svg" alt="">
+          <div>
+            <p class="font-bold">Admin User</p>
+            
+          </div>
+        </div>
       </nuxt-link>
     </div>
 

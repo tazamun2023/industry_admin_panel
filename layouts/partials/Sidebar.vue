@@ -24,10 +24,11 @@
           :title="value.title"
           @click.native="clicked(value)"
         >
-          <i
+          <!-- <i
             class="icon"
             :class="value.icon"
-          />
+          /> -->
+          <img class="h-4 w-4" :src="value.icon" alt="">
           <span class="dply-felx grow">
             <span>
                {{ value.title }}
@@ -97,7 +98,7 @@
           {
             path: '',
             title: this.$t('error.das'),
-            icon: 'dashboard',
+            icon: '/assets/icon/home-2.svg',
             gate: 'dashboard'
           },
           {
