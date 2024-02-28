@@ -25,7 +25,7 @@
     <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
       <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
-        <div class="w-[250px] h-[710px] shadow  p-1 bg-white tab-bg  rounded-lg">
+        <div class="w-[250px] h-[710px] shadow sticky top-100px  pl-1 pr-1 bg-white tab-bg  rounded-lg">
           <ul class="">
         <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1)" >
@@ -532,4 +532,7 @@ export default {
 .font-10px{
   font-size: 10px;
 }
+/* .top-100px{
+  top:400px !important;
+} */
 </style>
