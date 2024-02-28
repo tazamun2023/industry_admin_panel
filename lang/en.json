@@ -1,6 +1,7 @@
 {
   "app": {
     "dir":"ltr",
+    "lang": "lang",
     "Save":"Save",
     "Done":"Done",
     "SAR":"SAR",
@@ -81,6 +82,7 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
+    "min_order_qty": "Min.Order Quantity",
     "name": "Product name",
     "add": "Add Product",
     "Products": "Products",
@@ -90,6 +92,7 @@
     "Total target price": "Total target price"
   },
   "index": {
+    "qty": "Quantity",
     "tProduct": "Total products",
     "tUsers": "Total users",
     "tOrders": "Total orders",
@@ -115,6 +118,10 @@
     "tSells": "Total sells",
     "cityName": "City Name",
     "name" : "Name"
+  },
+  "bnews": {
+    "News Title": "News Title",
+    "News Details": "News Details"
   },
   "category": {
     "mDesc": "Meta description",

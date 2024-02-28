@@ -1258,6 +1258,7 @@ export default {
         overview: '',
         description: {ar: '', en: ''},
         status: '',
+        is_quote: '',
         brand_id: 0,
         primary_category_id: '',
         category_id: '',
@@ -1572,6 +1573,9 @@ export default {
         this.result.unit_id = null
       }
       this.result.status = 'pending'
+      this.result.is_quote = false
+      this.result.is_variant = false
+
       this.checkForm()
     },
 
@@ -1710,7 +1714,7 @@ export default {
     //   }
     // },
     updateInput(input, language, value) {
-      this.$set(input, language, value);
+      this.$set(input, language, value);f
     },
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {

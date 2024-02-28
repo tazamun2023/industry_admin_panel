@@ -1,40 +1,46 @@
 <template>
   <li class="tree-node">
 
-    <slot
+    <!-- <slot
       name="checkbox"
       v-bind:id="node.id"
+    /> -->
+
+
+   <div  @click="toggleVisibility" class="pt-2 pl-2 border-b-2 border-graylight pr-2 flex justify-between my-1"  :class="{ 'bg-graylight rounded-lg': node.child.length > 0 }">
+
+    <span class="node-data leading-9">
+
+      <img v-if="node.child.length > 0" class="w-3 h-3 arrocon" src="~/assets/icon/Listbutton.svg" alt="">
+    <lazy-image
+      :data-src="getThumbImageURL(node.image)"
+      :alt="node.title"
     />
-
-
-    <span class="node-data">
-
-     <lazy-image
-       :data-src="getThumbImageURL(node.image)"
-       :alt="node.title"
-     />
-      {{ node.title }}
+    {{ node.title }}
     </span>
 
     <span>
-      <button
-        v-if="$can('category', 'edit')"
-        class="lite-btn"
-        @click.prevent="editNode(node)"
-      >
-        {{ $t('category.edit') }}
-      </button>
 
-      <button
-        v-if="$can('category', 'delete')"
-        @click.prevent="deleteNode(node)"
-        class="delete-btn lite-btn"
-      >
-        {{ $t('category.delete') }}
-      </button>
+
+    <span
+    class="mx-2"
+      v-if="$can('category', 'delete')"
+      @click.prevent="deleteNode(node)"
+    >
+
+      <img  class="w-4 h-4 mt-[11px]" src="~/assets/icon/trash-01.svg" alt="">
     </span>
+    <span
+      v-if="$can('category', 'edit')"
+      class="text-white mx-2"
+      @click.prevent="editNode(node)"
+    >
+   <img class="w-4 h-4 mt-[11px]" src="~/assets/icon/edit-01.svg" alt="">
+  </span>
+    </span>
+   </div>
 
-    <ul>
+    <ul v-if="showChildren">
     <tree-node
       v-for="childNode in node.child"
         :key="childNode.id"
@@ -72,6 +78,7 @@
     },
     data() {
       return {
+        showChildren: false
       };
     },
     mixins: [util],
@@ -82,7 +89,10 @@
       },
       deleteNode(node){
         this.$emit('delete', node)
-      }
+      },
+      toggleVisibility() {
+      this.showChildren = !this.showChildren;
+    },
     },
 
   }
@@ -123,5 +133,9 @@
     margin-top: -20px;
     height: 40px;
     width: 40px;
+  }
+  .arrocon{
+    width: 33px !important;
+    height: 27px !important;
   }
 </style>

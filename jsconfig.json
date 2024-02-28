@@ -241,6 +241,7 @@
     "getLanguage": "language/find",
     "setLanguage": "language/action",
 
+    "getAllFlashSale": "flash-sale/all",
     "getProducts": "product/all",
     "deleteProduct": "product/delete",
     "getProduct": "product/find",
@@ -259,6 +260,8 @@
 
     "setProductImageAttributes": "product-image-attributes/action",
 
+    "setBusinessNews": "business-news/action",
+
 
     "getDropdownList": "product/dropdown-data",
     "setWysiwygImage": "wysiwyg-image/upload",
@@ -271,6 +274,8 @@
     "getFlashSales": "flash-sale/all",
     "getFlashSale": "flash-sale/find",
     "setFlashSale": "flash-sale/action",
+    "setFlashSaleAction": "flash-sale-product",
+    "getFlashSaleAction": "flash-sale-product",
 
     "deleteOrder": "order/delete",
     "getOrders": "order/all",
@@ -278,6 +283,7 @@
     "RfqNotificationDataGet": "rfq/notification/get",
     "findRfqKeyword": "rfq/notification/find-keyword",
     "allRfqRejectReason": "rfq/reject-reason/all",
+    "RejectReasons": "reject-reason/all",
     "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
     "updateOrderStatus": "order/update-status",

@@ -23,59 +23,8 @@
   <div>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
-      <div class="flex gap-4">
-        <div class="w-[250px] h-[710px] shadow border bg-white tab-bg border-primary rounded-lg">
-          <ul class="">
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer block  flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1)" >
-            <div class="flex gap-2">
-              <span class="rounded-full  w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-primary bg-primary text-white': openTab === 1}">1</span>
-              <div class="text-start">
-                <span class="block">STEP 1</span>
-              <span>GENERAL INFO</span>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(2)">
-            <div class="flex gap-2">
-              <span class="rounded-full  w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-primary bg-primary text-white': openTab === 2}">2</span>
-              <div class="text-start">
-                <span class="block">STEP 2</span>
-              <span>PRIMARY INFO</span>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold  uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(3)">
-            <div class="flex gap-2">
-              <span class="rounded-full w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-primary bg-primary text-white': openTab === 3}">3</span>
-              <div class="text-start">
-                <span class="block">STEP 3</span>
-              <span>LOCATION INFO</span>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(4)">
-            <div class="flex gap-2">
-              <span class="rounded-full w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-primary bg-primary text-white': openTab === 4}">4</span>
-              <div class="text-start">
-                <span class="block">STEP 4</span>
-              <span>SOCIAL INFO</span>
-              </div>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
-      <div class="w-full">
-        <div class="tab-content input-wrapper tab-space">
-            <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-              <div class="card p-4">
+      <div class="grid grid-cols-2 container-c mx-auto gap-4">
+        <div class="card p-4">
           <div class="title">
             <h4>General Information</h4>
           </div>
@@ -141,9 +90,7 @@
           </div>
         </div>
         <!-- --------------- -->
-              </div>
-              <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
-                <div class="card p-4">
+        <div class="card p-4">
           <div class="title">
             <h4>Primary Information</h4>
           </div>
@@ -229,9 +176,7 @@
           </div>
         </div>
         <!-- --------------- -->
-              </div>
-              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-                <div class="card p-4">
+        <div class="card p-4">
           <div class="title">
             <h4>Location Information</h4>
           </div>
@@ -287,11 +232,9 @@
 
 
           </div>
-                  </div>
+        </div>
         <!-- --------------- -->
-              </div>
-              <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
-                <div class="card p-4">
+        <div class="card p-4">
           <div class="title">
             <h4>Social Information</h4>
           </div>
@@ -317,9 +260,7 @@
             </div>
           </div>
         </div>
-              </div>
-          </div>
-      </div>
+
       </div>
     </form>
     </ValidationObserver>
@@ -356,7 +297,7 @@ export default {
   },
   data(){
     return {
-      openTab: 1,
+
       phoneModal: false,
       emailModal: false,
 
@@ -448,9 +389,7 @@ export default {
     saveLicenceAttachment(attachments) {
       this.fromData.licence = attachments
     },
-    toggleTabs: function(tabNumber){
-      this.openTab = tabNumber
-    },
+
    async countrySelected() {
       let countryId = this.fromData.country_id;
       if(countryId){
@@ -503,10 +442,5 @@ export default {
 .file-wrapper .file-input img{
   height: 178px;
   width:100%;
-}
-.tab-bg{
- background-image: url('~/assets/images/cbg.svg');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
 }
 </style>

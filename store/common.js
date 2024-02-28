@@ -27,6 +27,7 @@ const state = () => ({
   allStorageTemperatures: null,
   allTransportationModes: null,
   allWarehouses: null,
+  allFlashSale: null,
 })
 const getters = {
   allUnits: ({allUnits}) => allUnits,
@@ -40,6 +41,7 @@ const getters = {
   allRejectReasons: ({allRejectReasons}) => allRejectReasons,
   phoneCode: ({phoneCode}) => phoneCode,
   allCountries: ({allCountries}) => allCountries,
+  allFlashSale: ({allFlashSale}) => allFlashSale,
   allCitiesById: ({allCitiesById}) => allCitiesById,
   allProductCollections: ({allProductCollections}) => allProductCollections,
   allBundleDeals: ({allBundleDeals}) => allBundleDeals,
@@ -59,6 +61,9 @@ const getters = {
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
     state.allPermissions = allPermissions
+  },
+  SET_ALL_FLASH_SALE(state, allFlashSale) {
+    state.allFlashSale = allFlashSale
   },
   SET_ALL_Units(state, allUnits) {
     state.allUnits = allUnits
@@ -248,6 +253,17 @@ const actions = {
     const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+  async getAllFlashSale({rootState, commit}, {api, mutation}) {
+    const {data} = await Service.getRequest({}, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      commit('SET_ALL_FLASH_SALE', data.data.data)
+      // return data
+      // commit(mutation, data.data)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
