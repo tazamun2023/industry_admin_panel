@@ -120,7 +120,9 @@
     "name" : "Name"
   },
   "bnews": {
+    "news": "Business News",
     "News Title": "News Title",
+    "Short Details": "Short Details",
     "News Details": "News Details"
   },
   "category": {
@@ -504,6 +506,9 @@
 
   "global": {
     "name": "Name",
+    "title": "Title",
+    "image": "Image",
+    "action": "Action",
     "status": "Status",
     "created": "Created",
     "date": "Date",
@@ -513,6 +518,11 @@
     "type": "Type",
     "req": "{type} is required",
     "url": "Url",
+    "sl": "SL",
+    "video": "Video",
+    "question": "Question",
+    "answer": "Answer",
+    "vendor": "Vendor name",
     "video_type": "Video Type"
   },
 
