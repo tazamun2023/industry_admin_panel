@@ -106,7 +106,8 @@ export default {
         {
           path: 'product',
           title: this.$t('fSale.product'),
-          icon: 'products',
+          icon: 'box.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -159,14 +160,16 @@ export default {
         {
           path: 'orders',
           title: this.$t('error.orders'),
-          icon: 'orders',
+          icon: 'clipboard-text.svg',
+          is_image:true,
           form: ['order'],
           gate: 'order'
         },
         {
           path: 'rfq',
           title: this.$t('rfq.RFQ_Market'),
-          icon: 'flash-sales',
+          icon: 'document-text.svg',
+          is_image:true,
           open: false,
           gate: 'user',
           children: [
@@ -193,21 +196,24 @@ export default {
         {
           path: 'flash-sales',
           title: this.$t('error.message'),
-          icon: 'flash-sales',
+          icon: 'sms.svg',
+          is_image:true,
           form: ['flash-sales'],
           gate: 'flash_sale'
         },
         {
           path: 'flash-sales',
           title: this.$t('error.fs'),
-          icon: 'flash-sales',
+          icon: 'receipt-disscount.svg',
+          is_image:true,
           form: ['flash-sales'],
           gate: 'flash_sale'
         },
         {
           path: 'store',
           title: this.$t('profile.content'),
-          icon: 'store',
+          icon: 'dd.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -239,14 +245,16 @@ export default {
         {
           path: 'rating-reviews',
           title: this.$t('error.rr'),
-          icon: 'rating-reviews',
+          icon: 'star.svg',
+          is_image:true,
           form: ['rating-reviews'],
           gate: 'rating_review'
         },
         {
           path: 'subscription',
           title: this.$t('error.subs'),
-          icon: 'subscription',
+          icon: 'verify.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -268,7 +276,8 @@ export default {
         {
           path: 'withdrawal',
           title: this.$t('error.wth'),
-          icon: 'withdrawal',
+          icon: 'wallet-add.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -288,7 +297,8 @@ export default {
         {
           path: 'ui',
           title: 'UI',
-          icon: 'ui',
+          icon: 'brush.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -346,7 +356,8 @@ export default {
         {
           path: 'account',
           title: this.$t('account.account'),
-          icon: 'user',
+          icon: 'profile.svg',
+          is_image:true,
           open: false,
           children: [
             {
@@ -385,7 +396,8 @@ export default {
         {
           path: 'users',
           title: this.$t('error.access'),
-          icon: 'users',
+          icon: 'security-safe.svg',
+          is_image:true,
           open: false,
           gate: 'user',
           children: [
@@ -422,7 +434,8 @@ export default {
         {
           path: 'setting',
           title: this.$t('list.set'),
-          icon: 'setting',
+          icon: 'setting-2.svg',
+          is_image:true,
           open: false,
           children: [
             {
