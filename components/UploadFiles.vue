@@ -1,7 +1,7 @@
 <!-- MultilingualInput.vue -->
 <template>
 
-  <div class="mt-20">
+  <div class="mt-20  ">
     <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
     <dropzone id="foo" ref="el" :options="options"
               @removeUpload="removeFile"
