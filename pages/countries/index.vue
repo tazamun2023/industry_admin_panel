@@ -24,8 +24,10 @@
       <tr v-for="(value, index) in list" :key="index">
         <td>{{ value.iso }}</td>
         <td>{{ value.iso3 }}</td>
+
       <td v-if="langCode === 'en'">{{ value.name.en }}</td>
         <td v-else>{{ value.name.ar }}</td>
+
         <td>+{{ value.phonecode }}</td>
         <td>{{ value.currency_code }}</td>
       </tr>
