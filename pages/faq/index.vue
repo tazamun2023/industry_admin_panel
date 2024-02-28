@@ -17,9 +17,10 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>id</th>
+        <th>{{ $t('global.sl') }}</th>
+        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.question') }}</th>
-        <th>{{ $t('global.anwser') }}</th>
+        <th>{{ $t('global.answer') }}</th>
         <th>{{ $t('global.created') }}</th>
         <th>Action</th>
       </tr>
@@ -29,7 +30,8 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
 
-        <td>{{ value.id }}</td>
+        <td>{{ index+1 }}</td>
+        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
         <td>{{ value.local_questions }}</td>
         <td>{{ value.local_answers }}</td>
 

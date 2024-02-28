@@ -123,15 +123,20 @@
                       <!-- filter by status menu -->
                       <div
                         v-if="isMultiDropdownVisible"
-                           class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-[50px]">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                             @click.prevent="setStatus(1, null)">{{ $t('prod.set_online') }}</a>
-                          <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                             @click.prevent="setStatus(0, null)">{{ $t('prod.set_offline') }}</a>
-                          <a v-if="openTab !== 'is_archived'" class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute mt-[50px]">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                            aria-labelledby="dropdownDefaultButton">
+                          <a
+                            class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            @click.prevent="setStatus(1, null)">{{ $t('prod.set_online') }}</a>
+                          <a
+                            class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            @click.prevent="setStatus(0, null)">{{ $t('prod.set_offline') }}</a>
+                          <a v-if="openTab !== 'is_archived'"
+                             class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                              @click.prevent="setStatus(null, true)">{{ $t('prod.archived') }}</a>
-                          <a v-if="openTab === 'is_archived'" class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                          <a v-if="openTab === 'is_archived'"
+                             class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                              @click.prevent="statusUpdate(value.id, 'approved')">{{ $t('prod.back_to_approved') }}</a>
                         </ul>
                       </div>
@@ -167,7 +172,7 @@
                         />
                       </nuxt-link>
                     </td>
-                    <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor_name}}</td>
+                    <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor_name }}</td>
                     <td>{{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}</td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
@@ -194,33 +199,45 @@
                       <div class="flex">
                         {{ value.status }}
                         <div class="tooltip">
-                          <svg v-if="value.status==='rejected'" style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24" focusable="false" id="popover-trigger-64" aria-haspopup="dialog" aria-expanded="false" aria-controls="popover-content-64"><path fill="currentColor" d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"></path></svg>
+                          <svg v-if="value.status==='rejected'"
+                               style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24"
+                               focusable="false" id="popover-trigger-64" aria-haspopup="dialog" aria-expanded="false"
+                               aria-controls="popover-content-64">
+                            <path fill="currentColor"
+                                  d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"></path>
+                          </svg>
                           <span class="tooltiptext" style="width: 260px; margin-left: -100px">Click on this product to view why your product has been rejected and make edits accordingly.</span>
                         </div>
                       </div>
                       <br>
-                      <span class="text-error cursor-pointer underline" @click="openModal(index)" v-if="value.status==='rejected'">
+                      <span class="text-error cursor-pointer underline" @click="openModal(index)"
+                            v-if="value.status==='rejected'">
                         show
                       </span>
-                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index" @closeModal="closeModal" v-if="value.reject_reasons">
+                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index"
+                             @closeModal="closeModal" v-if="value.reject_reasons">
                         <div class="flex justify-between relative">
                           <h4><strong>Rejection reasons</strong></h4>
 
-                          </div>
-                          <div class="mb-4 mt-10">
-                            <slot>
-                              <div v-for="(reject_reason_item, index) in value.reject_reasons">
-                                <p class="capitalize"><strong>{{ translateRejectReason(reject_reason_item.name)}}</strong></p>
-                                <ul>
-                                  <li class="block py-2 mx-3">{{ translateRejectReason(reject_reason_item.description) }} </li>
-                                </ul>
-                              </div>
-                            </slot>
-                          </div>
-<!--                          <template v-slot:buttons>-->
-<!--                            <button @click="closeModal" class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Close Modal</button>-->
-<!--                            &lt;!&ndash; Your Submit button or other buttons go here &ndash;&gt;-->
-<!--                          </template>-->
+                        </div>
+                        <div class="mb-4 mt-10">
+                          <slot>
+                            <div v-for="(reject_reason_item, index) in value.reject_reasons">
+                              <p class="capitalize">
+                                <strong>{{ translateRejectReason(reject_reason_item.name) }}</strong></p>
+                              <ul>
+                                <li class="block py-2 mx-3">{{
+                                    translateRejectReason(reject_reason_item.description)
+                                  }}
+                                </li>
+                              </ul>
+                            </div>
+                          </slot>
+                        </div>
+                        <!--                          <template v-slot:buttons>-->
+                        <!--                            <button @click="closeModal" class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Close Modal</button>-->
+                        <!--                            &lt;!&ndash; Your Submit button or other buttons go here &ndash;&gt;-->
+                        <!--                          </template>-->
                       </Modal>
                     </td>
                     <td v-if="value.is_buyable">Online</td>
@@ -248,28 +265,28 @@
                             :to="`/products/show/${value.id}`">Show
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
-<!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
+                          <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
                             v-if="$store.state.admin.isVendor"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">Edit
-<!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
 
-<!--                          <li-->
-<!--                            v-if="openTab !== 'is_archived'"-->
-<!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
-<!--                            @click.prevent="stockUpdate(value.id, 0)">Set out of stock</li>-->
-<!--                          <li-->
-<!--                            v-if="openTab !== 'is_archived' || openTab !== 'is_approved'"-->
-<!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
-<!--                            @click="stockUpdate(value.id, 1)"-->
-<!--                          >Set in stock</li>-->
-<!--                          <li
-                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                             @click="statusUpdate(value.id, 'archived')"
-                            v-if="openTab === 'archived'"
-                          >Archive</li>-->
+                          <!--                          <li-->
+                          <!--                            v-if="openTab !== 'is_archived'"-->
+                          <!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
+                          <!--                            @click.prevent="stockUpdate(value.id, 0)">Set out of stock</li>-->
+                          <!--                          <li-->
+                          <!--                            v-if="openTab !== 'is_archived' || openTab !== 'is_approved'"-->
+                          <!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
+                          <!--                            @click="stockUpdate(value.id, 1)"-->
+                          <!--                          >Set in stock</li>-->
+                          <!--                          <li
+                                                      class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                                                       @click="statusUpdate(value.id, 'archived')"
+                                                      v-if="openTab === 'archived'"
+                                                    >Archive</li>-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click="statusUpdate(value.id, 'archived')"
@@ -286,12 +303,13 @@
                             {{ $t('prod.back_to_approved') }}
                           </li>
 
-<!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
+                          <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
                             v-if="$store.state.admin.isVendor"
-                          >Delete</li>
+                          >Delete
+                          </li>
                         </ul>
                       </div>
                     </td>
@@ -301,13 +319,12 @@
               </template>
             </list-page>
 
-              </div>
-            </div>
           </div>
         </div>
       </div>
-<!-- ----------------modal--------------- -->
-
+    </div>
+  </div>
+  <!-- ----------------modal--------------- -->
 
 
 </template>
@@ -416,10 +433,10 @@ export default {
       })
     },
 
-    setThumbImage(thumb_url, url){
-      if (thumb_url !== null){
+    setThumbImage(thumb_url, url) {
+      if (thumb_url !== null) {
         return thumb_url;
-      }else {
+      } else {
         //if no thumb set then 1st image thumb
         return url;
       }
@@ -475,7 +492,7 @@ export default {
     toggleTabs: function (tab) {
       this.openTab = tab
     },
-    toggleMultiDropdown(){
+    toggleMultiDropdown() {
       this.isMultiDropdownVisible = !this.isMultiDropdownVisible;
     },
     actionCheckToggle() {
@@ -486,9 +503,9 @@ export default {
       let params = {};
 
       if (status !== null) {
-        params = { set_status: status, product_ids: this.cbList };
+        params = {set_status: status, product_ids: this.cbList};
       } else if (archived !== null) {
-        params = { set_archived: archived, product_ids: this.cbList };
+        params = {set_archived: archived, product_ids: this.cbList};
       }
 
       if (status !== null || archived !== null) {

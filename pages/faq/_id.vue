@@ -31,7 +31,7 @@ import Dropdown from '~/components/Dropdown'
 import {mapGetters, mapActions} from 'vuex'
 
 export default {
-  name: "colors",
+  name: "FAQ",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
@@ -39,8 +39,6 @@ export default {
         id: '',
         questions: {'ar': '', 'en': ''},
         answers: {'ar': '', 'en': ''},
-
-
       }
     }
   },

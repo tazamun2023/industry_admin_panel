@@ -2,11 +2,12 @@
   <list-page
     v-if="$can('brand', 'view')"
     ref="listPage"
-    list-api="getVideo"
-    delete-api="deleteVideo"
+    list-api="VideoGallery"
+    delete-api="VideoGallery"
+    :param="param"
     route-name="video"
-    empty-store-variable="allCities"
-    :name="$t('video.video')"
+    empty-store-variable="VideoGallery"
+    :name="$t('bnews.news')"
     gate="brand"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -17,15 +18,20 @@
         <th class="w-50x mx-w-50x">
           <input type="checkbox" @change="checkAll">
         </th>
+        <th>{{ $t('global.sl') }}</th>
+        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.url') }}</th>
-        <th>Action</th>
+        <th>{{ $t('global.action') }}</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
         <td class="w-50x mx-w-50x">
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
-        <td>{{  value.url }}</td>
+
+        <td>{{ index+1 }}</td>
+        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
+        <td>{{ value.url }}</td>
         <td>
           <button
             v-if="$can('brand', 'edit')"
@@ -44,14 +50,20 @@ import ListPage from "~/components/partials/ListPage";
 import util from '~/mixin/util'
 import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
+import vendor from "@/mixin/vendor";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: "brands",
+  name: "FaqNews",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      param: {
+        vendor_id: this.$store.getters["admin/profile"].vendor_id
+      },
       orderOptions: {
-        url: { title: this.$t('index.url') },
+        created_at: { title: this.$t('category.date') },
+        id: { title: "id" }
       }
     }
   },
@@ -60,7 +72,12 @@ export default {
     ListPage
   },
   mixins: [util, bulkDelete],
-  computed: {},
+  computed: {
+    ...mapGetters('admin', ['profile']),
+    vendor() {
+      return vendor
+    }
+  },
   methods: {},
   mounted() {
   }
