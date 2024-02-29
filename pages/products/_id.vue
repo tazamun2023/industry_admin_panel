@@ -1714,7 +1714,7 @@ export default {
     //   }
     // },
     updateInput(input, language, value) {
-      this.$set(input, language, value);
+      this.$set(input, language, value);f
     },
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {

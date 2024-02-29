@@ -90,6 +90,9 @@
     "setColor": "color/action",
 
     "FAQ": "faqs",
+    "NEWS": "news",
+    "Certificate": "certificate",
+    "VideoGallery": "video-gallery",
 
 
     "getAllCityById" : "port/all-city",

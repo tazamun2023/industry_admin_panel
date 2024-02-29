@@ -1,88 +1,93 @@
 <template>
-    <div class="card">
-        <div class="title p-2 border-b border-smooth flex justify-between">
-                <h3>Buisness News List</h3>
-                <nuxt-link :to="`/buisness-news/create`" class="button primary-btn">Create</nuxt-link>
-            </div>
-        <div class="table-wrapper">
-            <table class="w-full">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Title</th>
-                        <th>Image</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Title here</td>
-                        <td><img class="w-20 h-20" src="https://cfn-catalog-prod.tradeling.com/up/5fba0c6142480f001bed85d4/40e5415ab532978c0467cd44c874c496.jpg" alt=""></td>
-                        <td>
-                            <div class="flex gap-4">
-                                <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                            <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                        </svg></a>
-                                                    <nuxt-link :to="`buisness-news/1`"><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-                            </g>
-                        </svg></nuxt-link>
-                                                    <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-                        </svg></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Title here</td>
-                        <td><img class="w-20 h-20" src="https://cfn-catalog-prod.tradeling.com/up/5fba0c6142480f001bed85d4/40e5415ab532978c0467cd44c874c496.jpg" alt=""></td>
-                        <td>
-                            <div class="flex gap-4">
-                                <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                            <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                        </svg></a>
-                        <nuxt-link :to="`buisness-news/1`"><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-                            </g>
-                        </svg></nuxt-link>
-                                                    <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-                        </svg></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Title here</td>
-                        <td><img class="w-20 h-20" src="https://cfn-catalog-prod.tradeling.com/up/5fba0c6142480f001bed85d4/40e5415ab532978c0467cd44c874c496.jpg" alt=""></td>
-                        <td>
-                            <div class="flex gap-4">
-                                <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                            <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
-                            <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
-                        </svg></a>
-                        <nuxt-link :to="`buisness-news/1`"><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-                            </g>
-                        </svg></nuxt-link>
-                                                    <a href=""><svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-                        </svg></a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+  <list-page
+    v-if="$can('brand', 'view')"
+    ref="listPage"
+    list-api="NEWS"
+    delete-api="NEWS"
+    :param="param"
+    route-name="buisness-news"
+    empty-store-variable="NEWS"
+    :name="$t('bnews.news')"
+    gate="brand"
+    :order-options="orderOptions"
+    @delete-bulk="deleteBulk"
+    @list="itemList = $event"
+  >
+    <template v-slot:table="{list}">
+      <tr class="lite-bold">
+        <th class="w-50x mx-w-50x">
+          <input type="checkbox" @change="checkAll">
+        </th>
+        <th>{{ $t('global.sl') }}</th>
+        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
+        <th>{{ $t('global.title') }}</th>
+        <th>{{ $t('global.image') }}</th>
+        <th>{{ $t('global.action') }}</th>
+      </tr>
+
+      <tr v-for="(value, index) in list" :key="index">
+        <td class="w-50x mx-w-50x">
+          <input type="checkbox" :value="value.id" v-model="cbList">
+        </td>
+
+        <td>{{ index+1 }}</td>
+        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
+        <td>{{ value._title }}</td>
+        <td>
+          <img :src="value.image" :alt="value._title">
+        </td>
+        <td>
+          <button
+            v-if="$can('brand', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
+          <button
+            v-if="$can('brand', 'delete')"
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+        </td>
+      </tr>
+    </template>
+  </list-page>
 </template>
+
+<script>
+import ListPage from "~/components/partials/ListPage";
+import util from '~/mixin/util'
+import LazyImage from "~/components/LazyImage";
+import bulkDelete from "~/mixin/bulkDelete";
+import vendor from "@/mixin/vendor";
+import {mapActions, mapGetters} from "vuex";
+
+export default {
+  name: "FaqNews",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      param: {
+        vendor_id: this.$store.getters["admin/profile"].vendor_id
+      },
+      orderOptions: {
+        created_at: { title: this.$t('category.date') },
+        id: { title: "id" }
+      }
+    }
+  },
+  components: {
+    LazyImage,
+    ListPage
+  },
+  mixins: [util, bulkDelete],
+  computed: {
+    ...mapGetters('admin', ['profile']),
+    vendor() {
+      return vendor
+    }
+  },
+  methods: {},
+  mounted() {
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
