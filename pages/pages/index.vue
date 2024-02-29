@@ -33,11 +33,12 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('page', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
             v-if="$can('page', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><DeleteButtonIcon/></button>
+          <button
+            v-if="$can('page', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
+
         </td>
       </tr>
     </template>
@@ -47,6 +48,8 @@
 <script>
   import ListPage from "~/components/partials/ListPage";
   import util from '~/mixin/util'
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: "brands",
@@ -61,8 +64,10 @@
       }
     },
     components: {
-      ListPage
-    },
+    ListPage,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     mixins: [util],
     computed: {},
     methods: {},

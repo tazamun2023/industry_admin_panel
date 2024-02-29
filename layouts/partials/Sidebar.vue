@@ -363,13 +363,15 @@ export default {
             {
               path: 'account/company-profile',
               title: this.$t('account.company-profile'),
-              icon: 'user',
+              icon: 'building-4.svg',
+              is_image:true,
               gate: 'user'
             },
             {
               path: 'account/address',
               title: this.$t('account.address'),
-              icon: 'map',
+              icon: 'location.svg',
+              is_image:true,
               gate: 'user'
             },
             {
@@ -381,13 +383,15 @@ export default {
             {
               path: 'vendors',
               title: this.$t('account.vendors'),
-              icon: 'guest',
+              icon: 'user-octagon.svg',
+              is_image:true,
               gate: 'user'
             },
             {
               path: 'customer',
               title: this.$t('account.customers'),
-              icon: 'guest',
+              icon: 'emoji-happy.svg',
+              is_image:true,
               gate: 'user'
             },
           ]

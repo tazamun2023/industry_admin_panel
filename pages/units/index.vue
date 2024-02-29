@@ -41,11 +41,12 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('brand', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
             v-if="$can('brand', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+          <button
+            v-if="$can('brand', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+
         </td>
       </tr>
     </template>
@@ -57,6 +58,8 @@ import ListPage from "~/components/partials/ListPage";
 import util from '~/mixin/util'
 import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
 export default {
   name: "units",
@@ -72,8 +75,10 @@ export default {
   },
   components: {
     LazyImage,
-    ListPage
-  },
+    ListPage,
+    EditButtonIcon,
+    DeleteButtonIcon
+},
   mixins: [util, bulkDelete],
   computed: {},
   methods: {},

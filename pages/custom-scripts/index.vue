@@ -40,11 +40,12 @@
 
         <td>
           <button
-            v-if="$can('header_link', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
             v-if="$can('header_link', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+          <button
+            v-if="$can('header_link', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+
         </td>
 
       </tr>
@@ -59,6 +60,8 @@
   import outsideClick from "~/directives/outside-click"
   import LazyImage from "~/components/LazyImage";
   import bulkDelete from "~/mixin/bulkDelete";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: "banners",
@@ -79,9 +82,11 @@
     },
     directives: {outsideClick},
     components: {
-      LazyImage,
-      ListPage
-    },
+    LazyImage,
+    ListPage,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     mixins: [util, bulkDelete],
     computed: {
     },

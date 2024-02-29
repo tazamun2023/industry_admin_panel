@@ -38,11 +38,12 @@
         </td>
         <td>
           <button
-            v-if="$can('brand', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
             v-if="$can('brand', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+          <button
+            v-if="$can('brand', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+
         </td>
       </tr>
     </template>
@@ -56,6 +57,8 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import vendor from "@/mixin/vendor";
 import {mapActions, mapGetters} from "vuex";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
 export default {
   name: "FaqNews",
@@ -73,8 +76,10 @@ export default {
   },
   components: {
     LazyImage,
-    ListPage
-  },
+    ListPage,
+    EditButtonIcon,
+    DeleteButtonIcon
+},
   mixins: [util, bulkDelete],
   computed: {
     ...mapGetters('admin', ['profile']),

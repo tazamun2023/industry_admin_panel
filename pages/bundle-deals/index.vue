@@ -40,11 +40,12 @@
           <td>{{ value.created }}</td>
           <td>
             <button
-              v-if="$can('bundle_deal', 'edit')"
-              @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-            <button
               v-if="$can('bundle_deal', 'delete')"
-              @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+              @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+            <button
+              v-if="$can('bundle_deal', 'edit')"
+              @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+
           </td>
         </tr>
     </template>
@@ -55,6 +56,8 @@
   import bulkDelete from "~/mixin/bulkDelete";
   import util from "~/mixin/util";
   import ListPage from "~/components/partials/ListPage";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: "tax-rule",
@@ -69,8 +72,10 @@
     },
     mixins: [util, bulkDelete],
     components: {
-      ListPage
-    },
+    ListPage,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     computed: {
     },
     methods:{

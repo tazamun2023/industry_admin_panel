@@ -63,11 +63,13 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('brand', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-          <button
+          class="border-0"
             v-if="$can('brand', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)"><delete-button-icon/></button>
+          <button
+          class="border-0"
+            v-if="$can('brand', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)"><edit-button-icon/></button>
         </td>
       </tr>
     </template>
@@ -79,6 +81,8 @@
   import util from '~/mixin/util'
   import LazyImage from "~/components/LazyImage";
   import bulkDelete from "~/mixin/bulkDelete";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: "brands",
@@ -94,9 +98,11 @@
       }
     },
     components: {
-      LazyImage,
-      ListPage
-    },
+    LazyImage,
+    ListPage,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     mixins: [util, bulkDelete],
     computed: {},
     methods: {},
@@ -105,6 +111,4 @@
   }
 </script>
 
-<style scoped>
 
-</style>
