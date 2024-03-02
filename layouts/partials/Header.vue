@@ -15,23 +15,35 @@
         to="/"
         class="logo"
       >
-        <img
+        <!-- <img
           v-if="storeData"
           :src="getImageURL(siteLogo)"
           alt=""
-        >
+        > -->
+        <div class="flex gap-2">
+          <img class="w-6 h-6 mt-5" src="~/assets/icon/user.svg" alt="">
+          <div>
+            <p class="font-bold">Admin User</p>
+            <p class="text-xs">@UserName</p>
+          </div>
+        </div>
       </nuxt-link>
     </div>
 
     <div class="dply-felx grow right-wrap">
 
-      <clear-cache-btn
+      <div class="flex gap-4  m-2">
+        <clear-cache-btn
         color="primary"
-        class="outline-btn"
+        class="outline-btn mt-2"
       />
+      <img class="w-[228px] h-[57px]" src="~/assets/images/ar_logo_admin1.svg" alt="">
+      </div>
 
-      <div class="dply-felx j-left pos-rel">
-
+      <div class="dply-felx w-[60%] j-left pos-rel">
+        <div class="w-full">
+        <input class="w-full" type="text" placeholder="Search">
+      </div>
         <dropdown
           v-if="$can('language', 'view') && Object.keys(languages).length > 1"
           :selected-key="currentLanguage.code"
@@ -39,7 +51,9 @@
           class="lang-down"
           key-name="name"
           @clicked="selectedLanguage"
-        />
+        >
+        <img class="w-4 h-4" src="~/assets/icon/glove.svg" alt="">
+      </dropdown>
 
         <user-messages
           v-if="$can('message', 'view')"
@@ -58,7 +72,7 @@
           id="right-menu"
           v-outside-click="closeRightMenu"
         >
-          <button
+          <!-- <button
             v-if="$can('profile', 'view')"
             @click.prevent="goProfile"
           >
@@ -66,18 +80,18 @@
               class="icon profile"
             />
             {{ $t('error.pro') }}
-          </button>
+          </button> -->
 
 
 
-          <button
+          <!-- <button
             @click.prevent="loggingOut"
           >
             <i
               class="icon logout"
             />
             {{ $t('error.log') }}
-          </button>
+          </button> -->
         </div>
 
 
@@ -170,6 +184,9 @@
   }
 </script>
 
-<style lang="stylus">
+<style  lang="stylus">
   @import "~/assets/styles/header.styl"
+  .arrowIcon{
+    display:none;
+  }
 </style>

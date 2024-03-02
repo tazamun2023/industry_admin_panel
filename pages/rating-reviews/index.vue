@@ -35,8 +35,10 @@
         </td>
         <td><span class="mn-w-80x">{{ userName(value) }}</span></td>
         <td><span>{{ value.rating.en }}</span></td>
-<!--        <td v-if="langCode === 'en'">{{ value.rating.en }}</td>
-        <td v-else>{{ value.rating.ar }}</td>-->
+
+        <td v-if="currentLanguage.code == 'en'">{{ value.rating.en }}</td>
+        <td v-else>{{ value.rating.ar }}</td>
+
         <td><span>{{ value.review }}</span></td>
         <td>
           <span class="mx-w-400x dply-felx j-left f-wrap">
@@ -60,7 +62,7 @@
         <td>
           <button
             v-if="$can('rating_review', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
     </template>
@@ -72,6 +74,8 @@
   import util from '~/mixin/util'
   import LazyImage from "~/components/LazyImage";
   import bulkDelete from "~/mixin/bulkDelete";
+  import {mapGetters} from "vuex";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
     name: "rating-reviews",
@@ -87,11 +91,14 @@
       }
     },
     components: {
-      LazyImage,
-      ListPage
-    },
+    LazyImage,
+    ListPage,
+    DeleteButtonIcon
+},
     mixins: [util, bulkDelete],
-    computed: {},
+    computed: {
+      ...mapGetters('language', ['langCode', 'currentLanguage'])
+    },
     methods: {
       userName(review){
         if(review?.user){

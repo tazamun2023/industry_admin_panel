@@ -22,16 +22,16 @@
         <td>{{ value.subject }}</td>
         <td>{{ value.created }}</td>
         <td>
-
-          <button
-            v-if="$can('subscription_email_format', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
           <button
             v-if="$can('subscription_email_format', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn"
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"
           >
-            {{ $t('category.delete') }}
+           <DeleteButtonIcon/>
           </button>
+          <button
+            v-if="$can('subscription_email_format', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
+
 
         </td>
       </tr>
@@ -43,6 +43,8 @@
   import ListPage from "~/components/partials/ListPage"
   import util from '~/mixin/util'
   import outsideClick from "~/directives/outside-click"
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue"
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue"
 
   export default {
     name: "subscription-email-formats",
@@ -58,8 +60,11 @@
     },
     directives: {outsideClick},
     components: {
-      ListPage
-    },
+    ListPage,
+    DeleteButtonIcon,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     mixins: [util],
     computed: {
     },

@@ -20,13 +20,67 @@
       </div>
     </div>-->
 
-  <div>
+  <div class="card shadow p-3">
+    <h3 class="py-2">Company Profiles</h3>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
-      <div class="grid grid-cols-2 container-c mx-auto gap-4">
-        <div class="card p-4">
+      <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
+        <div class="w-[250px] h-[710px] shadow sticky top-100px  pl-1 pr-1 bg-white tab-bg  rounded-lg">
+          <ul class="">
+        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer block  flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1)" >
+            <div class="flex gap-2">
+              <span class="rounded-full  w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-primary bg-primary text-white': openTab === 1}">1</span>
+              <div class="text-start">
+                <span class="block">STEP 1</span>
+              <span class="font-10px" v-bind:class="{'text-black': openTab !== 1, 'text-primary': openTab === 1}">GENERAL INFO</span>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(2)">
+            <div class="flex gap-2">
+              <span class="rounded-full  w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-primary bg-primary text-white': openTab === 2}">2</span>
+              <div class="text-start">
+                <span class="block">STEP 2</span>
+              <span class="font-10px" v-bind:class="{'text-black': openTab !== 2, 'text-primary': openTab === 2}">PRIMARY INFO</span>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold  uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(3)">
+            <div class="flex gap-2">
+              <span class="rounded-full w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-primary bg-primary text-white': openTab === 3}">3</span>
+              <div class="text-start">
+                <span class="block">STEP 3</span>
+              <span class="font-10px" v-bind:class="{'text-black': openTab !== 3, 'text-primary': openTab === 3}">LOCATION INFO</span>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(4)">
+            <div class="flex gap-2">
+              <span class="rounded-full w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-primary bg-primary text-white': openTab === 4}">4</span>
+              <div class="text-start">
+                <span class="block">STEP 4</span>
+              <span class="font-10px" v-bind:class="{'text-black': openTab !== 4, 'text-primary': openTab === 4}">SOCIAL INFO</span>
+              </div>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+      <div class="w-full">
+        <div class="tab-content input-wrapper tab-space">
+            <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+              <div class="p-4">
           <div class="title">
-            <h4>General Information</h4>
+            <h4 class="uppercase text-primary font-bold">General Information</h4>
+            <p class="text-smooth">Please, provide company name, details, sub domain,
+email, mobile, and CR number </p>
           </div>
 
           <div class="form-group">
@@ -87,12 +141,19 @@
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
+            <div class="text-right">
+              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+            </div>
           </div>
         </div>
         <!-- --------------- -->
-        <div class="card p-4">
+              </div>
+              <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
+                <div class="p-4">
           <div class="title">
-            <h4>Primary Information</h4>
+            <h4 class="uppercase text-primary font-bold">Primary Information</h4>
+            <p class="text-smooth">Please, provide company logo, licence, foundation date,
+              production start date, email, mobile, and facility </p>
           </div>
           <div class="form-group">
             <div  class="input-wrapper   mb-2">
@@ -106,7 +167,7 @@
              </div>
 
 
-          <upload-files  @updateInput="saveLogoAttachment"></upload-files>
+          <upload-files class="w-full  border border-dashed border-smooth h-[182px]"  @updateInput="saveLogoAttachment"></upload-files>
 
           </div>
             </div>
@@ -120,7 +181,7 @@
                 <img v-else class="w-full h-[181px] !important" :src="getLicence" />
             </div>
              </div>
-              <upload-files  @updateInput="saveLicenceAttachment"></upload-files>
+              <upload-files class="w-full border border-dashed border-smooth h-[182px]"  @updateInput="saveLicenceAttachment"></upload-files>
              </div>
 
             </div>
@@ -172,13 +233,20 @@
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
-
+            <div class="flex justify-between">
+              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+            </div>
           </div>
         </div>
         <!-- --------------- -->
-        <div class="card p-4">
+              </div>
+              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+                <div class="p-4">
           <div class="title">
-            <h4>Location Information</h4>
+            <h4 class="uppercase text-primary font-bold">Location Information</h4>
+            <p class="text-smooth">Please, provide country, city, area,
+              street, building information</p>
           </div>
           <div class="form-group">
             <div class="grid grid-cols-2 gap-4">
@@ -229,14 +297,21 @@
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
-
+            <div class="flex justify-between mt-[200px]">
+              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(4)" class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+            </div>
 
           </div>
-        </div>
+                  </div>
         <!-- --------------- -->
-        <div class="card p-4">
+              </div>
+              <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
+                <div class="p-4">
           <div class="title">
-            <h4>Social Information</h4>
+            <h4 class="uppercase text-primary font-bold">Social Information</h4>
+            <p class="text-smooth">Please, provide whatsapp, facebook, linkedin,
+              and youtube</p>
           </div>
           <div class="form-group">
             <div class="input-wrapper  mb-2">
@@ -255,12 +330,15 @@
               <label for="">{{ $t('vendor.youtube') }}</label>
               <input type="url" placeholder="http://" v-model="fromData.links_json.youtube">
             </div>
-            <div class="input-wrapper text-end mb-2">
-              <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
+            <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
+              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid"><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
-
+              </div>
+          </div>
+      </div>
       </div>
     </form>
     </ValidationObserver>
@@ -297,7 +375,7 @@ export default {
   },
   data(){
     return {
-
+      openTab: 1,
       phoneModal: false,
       emailModal: false,
 
@@ -389,7 +467,9 @@ export default {
     saveLicenceAttachment(attachments) {
       this.fromData.licence = attachments
     },
-
+    toggleTabs: function(tabNumber){
+      this.openTab = tabNumber
+    },
    async countrySelected() {
       let countryId = this.fromData.country_id;
       if(countryId){
@@ -443,4 +523,16 @@ export default {
   height: 178px;
   width:100%;
 }
+.tab-bg{
+ background-image: url('~/assets/images/cbg.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+}
+.font-10px{
+  font-size: 10px;
+}
+/* .top-100px{
+  top:400px !important;
+} */
 </style>

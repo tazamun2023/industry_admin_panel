@@ -48,7 +48,7 @@
         <td>
           <button
             v-if="$can('banner', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn"> {{ $t('category.edit') }}</button>
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"> <EditButtonIcon/></button>
         </td>
       </tr>
     </template>
@@ -61,6 +61,7 @@
   import util from '~/mixin/util'
   import outsideClick from "~/directives/outside-click"
   import LazyImage from "../../components/LazyImage";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: "banners",
@@ -76,9 +77,10 @@
     },
     directives: {outsideClick},
     components: {
-      LazyImage,
-      ListPage
-    },
+    LazyImage,
+    ListPage,
+    EditButtonIcon
+},
     mixins: [util],
     computed: {
     },
