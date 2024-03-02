@@ -61,6 +61,18 @@
         </div>
       </ValidationProvider>
     </div>
+
+
+    <div class="flex flex-wrap gap-4">
+      <button
+        v-for="(catItem, index) in result.category_names"
+        :key="index"
+        class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded flex gap-2 justify-between"
+      >
+        <span class="leading-7">{{ catItem }}</span> <i class="icon close-icon  ltr:ml-4 rtl:mr-4 mt-1" @click="removeCategory(index)"></i>
+      </button>
+    </div>
+
     <div class="mb-20 card p-20">
       <h4>{{ $t('title.epd') }}</h4>
       <p class="info-msg mtb-15">{{ $t('title.csvDn') }}</p>
@@ -176,7 +188,8 @@
           parentCategory: '',
           subCategory: '',
           childCategory: '',
-          category: []
+          category: [],
+          category_names: [],
         }
       }
     },
@@ -213,6 +226,7 @@
         // If it's not a duplicate, push the new item
         if (!isDuplicateId) {
           // this.$store.commit('addItemToCategory', { title: category, id: id });
+          this.result.category_names.push( category );
           this.result.category.push( id );
           // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
         }
@@ -226,6 +240,10 @@
 
       confirmCategory(){
         this.categoryItemPush(this.selectedLevel3.title, this.result.childCategory)
+      },
+      removeCategory(index) {
+        this.result.category_names.splice(index, 1);
+        this.result.category.splice(index, 1);
       },
       async exportData() {
         this.exporting = true
