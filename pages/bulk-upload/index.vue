@@ -1,7 +1,7 @@
 <template>
-  <div class="mx-w-600x mlr-auto">
+  <div class=" mlr-auto">
 
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-2  md:grid-cols-4 gap-4">
       <!-- Main Category Dropdown -->
       <ValidationProvider name="email" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.required_main_category')}) }">
         <div class="form-group input-wrapper for-lang ar-lang">
@@ -50,28 +50,30 @@
             :reduce="cat => cat.id"
             @input="updateLevel4"
             label="title"
-            class="custom-select"
+            class="custom-select  "
             :placeholder="$t('rfq.Select Child Category')"
           ></v-select>
-
-          <button v-if="result.childCategory" @click="confirmCategory" class="confirm-button rounded font-12px my-2 text-primary  h-auto w-2/4">Confirm
-            Selection
-          </button>
           <span class="error">{{ errors[0] }}</span>
         </div>
+
       </ValidationProvider>
-    </div>
-
-
-    <div class="flex flex-wrap gap-4">
-      <button
-        v-for="(catItem, index) in result.category_names"
-        :key="index"
-        class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded flex gap-2 justify-between"
-      >
-        <span class="leading-7">{{ catItem }}</span> <i class="icon close-icon  ltr:ml-4 rtl:mr-4 mt-1" @click="removeCategory(index)"></i>
+      <button v-if="result.childCategory" @click="confirmCategory" class="confirm-button rounded font-12px my-5 text-primary  h-md">Confirm
+        Selection
       </button>
     </div>
+      <div class="flex flex-wrap gap-4 my-2">
+        <button
+          v-for="(catItem, index) in result.category_names"
+          :key="index"
+          class="hover:bg-smooth text-disabled  py-1 pl-2 pr-0 rounded flex gap-2 justify-between"
+        >
+          <span class="leading-7">{{ catItem }}</span> <i class="icon close-icon  ltr:ml-4 rtl:mr-4 mt-1" @click="removeCategory(index)"></i>
+        </button>
+      </div>
+
+
+
+
 
     <div class="mb-20 card p-20">
       <h4>{{ $t('title.epd') }}</h4>
@@ -219,9 +221,12 @@
       },
       categoryItemPush(category, id) {
         // Ensure that this.fromData.category is initialized as an array
+
+        console.log(id)
+        console.log(category)
         this.result.category = this.result.category || [];
         // Check if there is no item in this.fromData.category with the same id
-        const isDuplicateId = this.result.category.some(item => item.id === id);
+        const isDuplicateId = this.result.category.some(item => item == id);
 
         // If it's not a duplicate, push the new item
         if (!isDuplicateId) {
