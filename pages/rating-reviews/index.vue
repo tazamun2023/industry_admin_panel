@@ -35,8 +35,10 @@
         </td>
         <td><span class="mn-w-80x">{{ userName(value) }}</span></td>
         <td><span>{{ value.rating.en }}</span></td>
-<!--        <td v-if="langCode === 'en'">{{ value.rating.en }}</td>
-        <td v-else>{{ value.rating.ar }}</td>-->
+
+        <td v-if="currentLanguage.code == 'en'">{{ value.rating.en }}</td>
+        <td v-else>{{ value.rating.ar }}</td>
+
         <td><span>{{ value.review }}</span></td>
         <td>
           <span class="mx-w-400x dply-felx j-left f-wrap">
@@ -72,6 +74,7 @@
   import util from '~/mixin/util'
   import LazyImage from "~/components/LazyImage";
   import bulkDelete from "~/mixin/bulkDelete";
+  import {mapGetters} from "vuex";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
@@ -93,7 +96,9 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     DeleteButtonIcon
 },
     mixins: [util, bulkDelete],
-    computed: {},
+    computed: {
+      ...mapGetters('language', ['langCode', 'currentLanguage'])
+    },
     methods: {
       userName(review){
         if(review?.user){
