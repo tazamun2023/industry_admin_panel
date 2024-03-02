@@ -41,8 +41,9 @@
       </div>
 
       <div class="dply-felx w-[60%] j-left pos-rel">
-        <div class="w-full">
-        <input class="w-full" type="text" placeholder="Search">
+        <div class="w-full relative">
+          <img class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] top-[14px]" src="~/assets/icon/search-normal.svg" alt="">
+        <input class="w-full px-34px" type="text" placeholder="Search">
       </div>
         <dropdown
           v-if="$can('language', 'view') && Object.keys(languages).length > 1"
@@ -188,5 +189,9 @@
   @import "~/assets/styles/header.styl"
   .arrowIcon{
     display:none;
+  }
+  .px-34px{
+    padding-left: 34px !important;
+    padding-right: 34px !important;
   }
 </style>
