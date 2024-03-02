@@ -62,7 +62,7 @@
         <td>
           <button
             v-if="$can('rating_review', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
     </template>
@@ -75,6 +75,7 @@
   import LazyImage from "~/components/LazyImage";
   import bulkDelete from "~/mixin/bulkDelete";
   import {mapGetters} from "vuex";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
     name: "rating-reviews",
@@ -90,9 +91,10 @@
       }
     },
     components: {
-      LazyImage,
-      ListPage
-    },
+    LazyImage,
+    ListPage,
+    DeleteButtonIcon
+},
     mixins: [util, bulkDelete],
     computed: {
       ...mapGetters('language', ['langCode', 'currentLanguage'])

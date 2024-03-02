@@ -48,19 +48,20 @@
         <td>{{ value.branch_name }}</td>
         <td>
           <button
-            v-if="$can('withdrawal_account', 'edit')"
-            @click.prevent="$refs.listPage.editItem(value.id)"
-            class="lite-btn"
-          >
-            {{ $t('category.edit') }}
-          </button>
-          <button
             v-if="$can('withdrawal_account', 'delete')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
-            class="delete-btn lite-btn"
+            class="border-0"
           >
-            {{ $t('category.delete') }}
+           <delete-button-icon/>
           </button>
+          <button
+            v-if="$can('withdrawal_account', 'edit')"
+            @click.prevent="$refs.listPage.editItem(value.id)"
+            class="border-0"
+          >
+            <edit-button-icon/>
+          </button>
+
         </td>
       </tr>
     </template>
@@ -72,6 +73,8 @@
   import ListPage from "~/components/partials/ListPage";
   import util from '~/mixin/util'
   import bulkDelete from "~/mixin/bulkDelete";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 
   export default {
     name: 'withdrawal-accounts',
@@ -92,8 +95,10 @@
     props: {},
     mixins: [util, bulkDelete],
     components: {
-      ListPage
-    },
+    ListPage,
+    DeleteButtonIcon,
+    EditButtonIcon
+},
     computed: {
     },
     methods: {

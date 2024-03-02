@@ -7,12 +7,13 @@
     <template
       v-slot:button
     >
-      <i
+      <!-- <i
         class="icon user-messages"
-      />
-      <span class="hide-sm">
+      /> -->
+      <img class="w-4 h-4" src="~/assets/icon/notification-bing.svg" alt="">
+      <!-- <span class="hide-sm">
         {{ $t('user.msg') }}
-      </span>
+      </span> -->
       ({{ messageCount }})
     </template>
     <template

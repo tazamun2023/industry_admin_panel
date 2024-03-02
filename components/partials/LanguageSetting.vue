@@ -45,15 +45,16 @@
         </td>
         <td>
           <button
-            v-if="$can('language', 'edit')"
-            @click.prevent="$refs.listPage.editItem(item.id)" class="lite-btn">Edit
+            v-if="$can('language', 'delete')"
+            @click.prevent="$refs.listPage.deleteItem(item.id)" class="border-0"
+          >
+            <DeleteButtonIcon/>
           </button>
           <button
-            v-if="$can('language', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(item.id)" class="delete-btn lite-btn"
-          >
-            {{ $t('category.delete') }}
+            v-if="$can('language', 'edit')"
+            @click.prevent="$refs.listPage.editItem(item.id)" class="border-0"><EditButtonIcon/>
           </button>
+
         </td>
       </tr>
     </template>
@@ -64,6 +65,8 @@
 <script>
   import util from "~/mixin/util"
   import ListPage from "./ListPage";
+import EditButtonIcon from "./EditButtonIcon.vue";
+import DeleteButtonIcon from "./DeleteButtonIcon.vue";
 
   export default {
     name: 'LanguageSetting',
@@ -82,8 +85,10 @@
     props: {},
     mixins: [util],
     components: {
-      ListPage
-    },
+    ListPage,
+    EditButtonIcon,
+    DeleteButtonIcon
+},
     computed: {},
     methods: {},
     created() {

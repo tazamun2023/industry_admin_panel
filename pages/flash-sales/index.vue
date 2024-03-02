@@ -46,11 +46,14 @@
           <td>{{ value.created }}</td>
           <td>
             <button
-              v-if="$can('flash_sale', 'edit')"
-              @click.prevent="$refs.listPage.editItem(value.id)" class="lite-btn">{{ $t('category.edit') }}</button>
-            <button
+            class="border-0"
               v-if="$can('flash_sale', 'delete')"
-              @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+              @click.prevent="$refs.listPage.deleteItem(value.id)"><DeleteButtonIcon/></button>
+            <button
+            class="border-0"
+              v-if="$can('flash_sale', 'edit')"
+              @click.prevent="$refs.listPage.editItem(value.id)"><EditButtonIcon/></button>
+
           </td>
         </tr>
     </template>
@@ -58,6 +61,8 @@
 </template>
 
 <script>
+  import DeleteButtonIcon from "~/components/partials/DeleteButtonIcon";
+  import EditButtonIcon from "~/components/partials/EditButtonIcon";
   import ListPage from "~/components/partials/ListPage";
   import util from '~/mixin/util'
   import {mapGetters} from 'vuex'
@@ -77,7 +82,9 @@
     },
     mixins: [util, bulkDelete],
     components: {
-      ListPage
+      ListPage,
+      DeleteButtonIcon,
+      EditButtonIcon
     },
     computed: {
     },
@@ -89,5 +96,11 @@
 </script>
 
 <style scoped>
-
+.action_img{
+  height:16px !important;
+  height:16px !important;
+  max-height:16px !important;
+  min-width:16px !important;
+  max-width:16px !important;
+}
 </style>

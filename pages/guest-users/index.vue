@@ -39,7 +39,7 @@
         <td>
           <button
             v-if="$can('user', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
     </template>
@@ -50,6 +50,7 @@
   import ListPage from "~/components/partials/ListPage";
   import util from '~/mixin/util'
   import bulkDelete from "~/mixin/bulkDelete";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
     name: "rating-reviews",
@@ -64,8 +65,9 @@
       }
     },
     components: {
-      ListPage
-    },
+    ListPage,
+    DeleteButtonIcon
+},
     mixins: [util, bulkDelete],
     computed: {},
     methods: {},

@@ -9,8 +9,9 @@
       @click.prevent="openDropdown"
     >
       {{ selectedValue }}
+      <slot></slot>
       <i
-        class="icon black ignore-click"
+        class="icon black ignore-click arrowIcon"
         :class="[{'arrow-up': dropdownOpen}, {'arrow-down': !dropdownOpen}]"
       />
     </span>
