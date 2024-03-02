@@ -1,5 +1,7 @@
 {
   "api": {
+    "exportTemplate": "exportTemplate",
+
     "url": "api/admin/",
     "login": "login",
     "logout": "logout",
@@ -180,6 +182,8 @@
     "setAvailableQty": "product/update-qty",
     "updateStock": "product/update-stock",
     "updateStatus": "product/update-status",
+
+
 
 
     "getQuote": "quotes/find",
