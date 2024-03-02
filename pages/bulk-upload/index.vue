@@ -213,7 +213,7 @@
         // If it's not a duplicate, push the new item
         if (!isDuplicateId) {
           // this.$store.commit('addItemToCategory', { title: category, id: id });
-          this.result.category.push({ title: category, id: id });
+          this.result.category.push( id );
           // this.$store.state.rfqnotification.notificationList.data.categories.push({ title: category, id: id });
         }
 
@@ -231,7 +231,7 @@
         this.exporting = true
         try {
           // await this.downloadRequest({params: {}, api: 'bulkExport'})
-          await this.downloadRequest({params: {result: this.result}, api: 'exportTemplate'})
+          await this.downloadRequest({params: {categoreis: this.result.category}, api: 'exportTemplate'})
         } catch (e) {
           return this.$nuxt.error(e)
         }
