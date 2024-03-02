@@ -51,7 +51,7 @@
         <td>
           <button
             v-if="$can('subscriber', 'delete')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="delete-btn lite-btn">{{ $t('category.delete') }}</button>
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
     </template>
@@ -63,6 +63,7 @@
   import util from '~/mixin/util'
   import TableTop from "~/components/partials/TableTop";
   import bulkDelete from "~/mixin/bulkDelete";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
 
   export default {
@@ -77,9 +78,10 @@
       }
     },
     components: {
-      TableTop,
-      ListPage
-    },
+    TableTop,
+    ListPage,
+    DeleteButtonIcon
+},
     mixins: [util, bulkDelete],
     computed: {
       sendEmailRoute(){

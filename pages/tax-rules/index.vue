@@ -39,16 +39,17 @@
           <td>{{ item.created }}</td>
           <td>
             <button
-              v-if="$can('tax_rule', 'edit')"
-              @click.prevent="$refs.listPage.editItem(item.id)" class="lite-btn"
-            >
-              {{ $t('category.edit') }}</button>
-            <button
               v-if="$can('tax_rule', 'delete')"
               @click.prevent="$refs.listPage.deleteItem(item.id)"
-              class="delete-btn lite-btn"
+              class="border-0"
             >
-              {{ $t('category.delete') }}</button>
+              <delete-button-icon/></button>
+            <button
+              v-if="$can('tax_rule', 'edit')"
+              @click.prevent="$refs.listPage.editItem(item.id)" class="border-0"
+            >
+              <edit-button-icon/></button>
+
           </td>
         </tr>
     </template>
@@ -60,6 +61,8 @@
   import util from '~/mixin/util'
   import {mapGetters} from 'vuex'
   import bulkDelete from "~/mixin/bulkDelete";
+import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
     name: "tax-rule",
@@ -74,8 +77,10 @@
     },
     mixins: [util, bulkDelete],
     components: {
-      ListPage
-    },
+    ListPage,
+    EditButtonIcon,
+    DeleteButtonIcon
+},
     computed: {
       currencyIcon() {
         return this.setting?.currency_icon || '$'
