@@ -61,9 +61,8 @@
           name="form"
           v-bind:hasError="hasError"
         />
-
+<!--          v-if="!gate || $can(gate, 'edit') || $can(gate, 'create')"-->
         <div
-          v-if="!gate || $can(gate, 'edit') || $can(gate, 'create')"
           class="dply-felx j-right single-btn"
         >
           <ajax-button
