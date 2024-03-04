@@ -154,7 +154,7 @@
                                   })
                                 }}</strong></span></p> -->
                                 <div class="bg-primarylight text-primary relative p-3 uppercase rounded-lg">
-                                  <span > {{ $t("rfq.Received quotes") }}: </span>
+                                  <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
                                   <span
                                 class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 right-0">
                                   {{ value.received_quotes }}</span>
@@ -226,7 +226,13 @@
                             </div>
                           </div>
                           <div class="text-center relative">
-                          <img  @click="toggleCollapse(value.id)"  class="w-10 h-10 absolute shadow mx-auto left-0 right-0 mt-[-36px] rounded-tr-lg" src="~/assets/icon/arrowdown.PNG" alt="">
+                            <img
+                              @click="toggleCollapse(value.id)"
+                              :class="{'rt180deg': isCollapsed, 'rounded-t-lg': !isCollapsed, 'rounded-b-lg': isCollapsed }"
+                              class="w-10 h-10 absolute shadow mx-auto left-0 right-0 mt-[-36px]"
+                              src="~/assets/icon/arrowdown.PNG"
+                              alt=""
+                            />
                          </div>
                         </div>
                       </div>
@@ -321,5 +327,8 @@ export default {
 <style scoped>
 .rt180deg{
   transform: rotate(180deg);
+}
+.font-12px{
+  font-size: 12px;
 }
 </style>
