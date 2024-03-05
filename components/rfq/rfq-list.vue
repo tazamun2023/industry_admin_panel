@@ -82,16 +82,16 @@
 
                   <div v-for="(value, index) in list" :key="index">
 
-                    <div class="card mt-20 p-4 bg-white">
+                    <div class="card mt-20 p-1 m-2 bg-white">
                       <div class="grid grid-cols-7 gap-4">
                         <div>
                           <lazy-image
-                            class="w-48 h-32 object-cover rounded"
+                            class="w-48 h-full object-cover rounded"
                             :data-src="getThumbImageURL(value.products[0].image)"
                             :alt=" value.products[0].name"
                           />
 
-                          <div class="my-2 flex flex-row justify-start">
+                          <!-- <div class="my-2 flex flex-row justify-start">
                             <template v-for="(product,index) in value.products">
                               <lazy-image
                                 class="mr-15 img-40x"
@@ -101,37 +101,37 @@
                             </template>
 
 
-                          </div>
+                          </div> -->
                         </div>
-                        <div class="col-span-5">
-                          <div class="flex justify-end">
-                            <h5 class="mb-4 ml-4">
+                        <div class="col-span-5 p-3">
+                          <div class="">
+                            <h5 class="mb-4 ml-4 font-bold">
                               <a v-for="p in value.products">{{ p.name }}</a>
                             </h5>
-                            <div class="p-2 ml-auto">
+                            <!-- <div class="p-2 ml-auto">
                               <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewcard="0 0 21 19">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                       stroke-width="2"
                                       d="M11 4C5.5-1.5-1.5 5.5 4 11l7 7 7-7c5.458-5.458-1.542-12.458-7-7Z"/>
                               </svg>
-                            </div>
+                            </div> -->
                           </div>
                           <table class="w-full ">
                             <tr>
                               <td class="rtl:text-end">
-                                <p class="m-0"><strong>{{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
-                                <p class="m-0"><strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg" alt=""> <strong> {{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg" alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
                                 </p>
-                                <p class="m-0"><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/clipboard-text.svg" alt=""><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
                               </td>
                               <td class="rtl:text-end">
-                                <p class="m-0"><strong> {{ $t("rfq.Shipping country") }}:</strong>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong> {{ $t("rfq.Shipping country") }}:</strong>
                                   {{ value.country.name }}
                                 </p>
-                                <p class="m-0"><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
                                 </p>
-                                <p class="m-0"><strong> {{ $t("rfq.Shipping terms") }}:</strong>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
 
                                   <template v-for="(term,index) in value.shipmen_terms">
                                     <span>{{ term.name }}</span>
@@ -144,41 +144,34 @@
                           </table>
                         </div>
                         <div>
-                          <div class="qoute-card text-center">
-                            <p><span>{{ $t("products.Total target price") }}:</span>
+                          <div class="qoute-card p-3">
+                            <!-- <p><span>{{ $t("products.Total target price") }}:</span>
                               <span><strong> {{
                                   value.total_target_price.toLocaleString($t('app.currency_local'), {
                                     style: 'currency',
                                     maximumFractionDigits: 0,
                                     currency: 'SAR'
                                   })
-                                }}</strong></span></p>
-                            <p>
-                              <span> {{ $t("rfq.Received quotes") }}: </span>
-                              <span
-                                class="inline-block p-1 text-center font-semibold text-sm align-baseline leading-none rounded bg-green-500  hover:green-600 ml-2 mr-2">
+                                }}</strong></span></p> -->
+                                <div class="bg-primarylight text-primary relative p-3 uppercase rounded-lg">
+                                  <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
+                                  <span
+                                class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 right-0">
                                   {{ value.received_quotes }}</span>
-                            </p>
+                                </div>
+
+                           <div class="text-center">
                             <nuxt-link
-                              class="inline-block align-middle hover:bg-primary  hover:text-white   hover:border-primary shadow text-center select-none border border-smooth  font-normal whitespace-no-wrap rounded py-1 mt-3 px-3 leading-normal no-underline  mr-4 mb-3  sm:mb-0"
+                              class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
                               :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
                             </nuxt-link>
+                           </div>
                           </div>
                         </div>
                       </div>
                       <div class="w-100">
                         <div>
-                          <button
-                            @click="toggleCollapse(value.id)"
-                            class="flex items-center hover:text-primary bg-primary text-white font-bold py-2 px-4 rounded"
-                          >
-                            <svg class="w-6 h-4 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                 fill="currentColor" viewcard="0 0 20 14">
-                              <path
-                                d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-                            </svg>
-                            {{ $t('rfq.View all products') }}
-                          </button>
+
                           <div
                             v-if="collapsedId==value.id"
                             class="mt-4 bg-gray-200 p-4 rounded"
@@ -187,8 +180,8 @@
                               <table class="table mb-0">
                                 <thead class="thead-light">
                                 <tr>
-                                  <th>{{ $t('products.Id') }}</th>
-                                  <th> {{ $t('products.Image') }}</th>
+                                  <!-- <th>{{ $t('products.Id') }}</th>
+                                  <th> {{ $t('products.Image') }}</th> -->
                                   <th> {{ $t('products.Products') }} ({{ value.products.length }})</th>
                                   <th> {{ $t('products.Category') }}</th>
                                   <th> {{ $t('products.Quantity') }}</th>
@@ -198,14 +191,16 @@
                                 </thead>
                                 <tbody>
                                 <tr v-for="product in value.products">
-                                  <td>{{ product.id }}</td>
+                                  <!-- <td>{{ product.id }}</td>
                                   <td>
+                                   </td> -->
+                                  <td><div class="flex">
                                     <lazy-image
                                       class="mr-15 img-40x"
                                       :data-src="getThumbImageURL(product.image)"
                                       :alt=" product.name"
-                                    /></td>
-                                  <td> {{ product.name }}</td>
+                                    /> <span class="mt-3">{{ product.name }}</span>
+                                  </div></td>
                                   <td>{{ product.category?.title }}</td>
                                   <td>{{ product.quantity }} {{ product.unit.name }}</td>
                                   <td> {{
@@ -230,6 +225,15 @@
                               </table>
                             </div>
                           </div>
+                          <div class="text-center relative">
+                            <img
+                              @click="toggleCollapse(value.id)"
+                              :class="{'rt180deg': isCollapsed, 'rounded-t-lg': !isCollapsed, 'rounded-b-lg': isCollapsed }"
+                              class="w-10 h-10 absolute shadow mx-auto left-0 right-0 mt-[-36px]"
+                              src="~/assets/icon/arrowdown.PNG"
+                              alt=""
+                            />
+                         </div>
                         </div>
                       </div>
                     </div>
@@ -320,3 +324,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.rt180deg{
+  transform: rotate(180deg);
+}
+.font-12px{
+  font-size: 12px;
+}
+</style>

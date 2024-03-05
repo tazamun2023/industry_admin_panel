@@ -11,7 +11,6 @@
         class="mr-15"
       />
     </div>
-
     <div v-if="filter">
     <slot
       name="table-top"

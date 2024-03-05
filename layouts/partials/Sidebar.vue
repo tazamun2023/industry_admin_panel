@@ -69,7 +69,12 @@
       </li>
 
     </ul>
-
+    <div class="absolute bottom-0 w-full bg-white py-4 ">
+        <button class="w-full border-0 flex gap-4 hover:bg-white" @click.prevent="loggingOut">
+        <img src="~/assets/icon/logout.svg" class="h-4 w-4 mt-3" alt="">
+            <span>{{ $t('error.log') }}</span>
+       </button>
+    </div>
     <button
       class="minimize-btn centered-flex"
       @click.prevent="toggleSidebar"
@@ -171,25 +176,25 @@ export default {
           icon: 'document-text.svg',
           is_image:true,
           open: false,
-          gate: 'user',
+          // gate: 'user',
           children: [
             {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
               icon: 'registered',
-              gate: 'user'
+              gate: 'order'
             },
             {
               path: 'rfq/notification',
               title: this.$t('rfq.notification'),
               icon: 'flash-notification',
-              gate: 'user'
+              gate: 'order'
             },
             {
               path: 'rfq/manage-quotes',
               title: this.$t('rfq.manage_quotations'),
               icon: 'flash-sales',
-              gate: 'user'
+              gate: 'order'
             }
           ]
         },
@@ -532,8 +537,6 @@ export default {
 
           ]
         },
-
-
       ],
       childrenOpened: false
     }
@@ -644,7 +647,19 @@ export default {
         }
       })
     },
-    ...mapActions('ui', ['toggleSidebar', 'hideSidebar'])
+    async loggingOut() {
+        try {
+          this.clearSetting()
+          await this.$auth.logout()
+          // window.location.reload()
+          this.settingDashboardNotice(false)
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+      },
+    ...mapActions('ui', ['toggleSidebar', 'hideSidebar',]),
+    ...mapActions('setting', ['clearSetting']),
+      ...mapActions('ui', ['hideSidebar', 'toggleSidebar', 'settingDashboardNotice'])
   },
   mounted() {
 
