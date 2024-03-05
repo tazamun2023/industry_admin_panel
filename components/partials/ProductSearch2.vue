@@ -62,7 +62,7 @@
                   <td>
                     <lazy-image
                       class="w-32 h-24 object-cover rounded"
-                      :data-src="getThumbImageURL(product.image)"
+                      :data-src="(product.image)"
                       :alt=" product.name"
                     />
                   </td>

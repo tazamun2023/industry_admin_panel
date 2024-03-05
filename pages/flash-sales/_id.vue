@@ -124,18 +124,18 @@
               </td>
               <td>
                 <div>
-                  <nuxt-link
-                    :to="`/products/${item.product.id}`"
+                  <p
+
                     class="dply-felx j-left"
                   >
                     <lazy-image
                       class="mr-20"
-                      :data-src="getThumbImageURL(item.product.image)"
+                      :data-src="(item.product.image)"
                       :alt="item.product.title"
                     />
 
                     <h5 class="mx-w-400x">{{ item.product.title }}</h5>
-                  </nuxt-link>
+                  </p>
                 </div>
 
               </td>
