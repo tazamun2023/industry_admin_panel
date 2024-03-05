@@ -190,7 +190,7 @@
               <td></td>
               <td colspan="3"><span
                 @click="ShowProductSearch"
-                class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">Add product</span></td>
+                class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">{{ $t('prod.Add product')}}</span></td>
             </tr>
             </tfoot>
 
@@ -209,58 +209,20 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
             </svg>
-            <h4>Select products</h4>
+            <h4>{{ $t('prod.Select products') }}</h4>
             <!-- Modal Content -->
             <div class="mb-4">
-              <p>Search or select the product eligible for the promotion from the list below</p>
+              <p>{{ $t('prod.Search or select the product eligible for the promotion from the list below') }}</p>
               <product-search2
                 ref="productSearch"
                 @product-clicked="addFlashProduct"
               />
-              <!--            <div>-->
-              <!--              <div class="flex gap-1">-->
-              <!--                -->
-              <!--                &lt;!&ndash;            <input placeholder="Search products" type="text">&ndash;&gt;-->
-              <!--                &lt;!&ndash;            <button class="p-2 justify-end leading-3 rounded bg-primary text-white ">Search</button>&ndash;&gt;-->
-              <!--              </div>-->
-              <!--            </div>-->
-              <!--        <div class="flex py-2 gap-4">-->
-              <!--          <select class="p-3 w-full border border-smooth rounded" name="" id="">-->
-              <!--            <option value="">Cat 1</option>-->
-              <!--            <option value="">Cat 2</option>-->
-              <!--          </select>-->
-              <!--          <select class="p-3 w-full border border-smooth rounded" name="" id="">-->
-              <!--            <option value="">Sub Cat 1</option>-->
-              <!--            <option value="">Sub Cat 2</option>-->
-              <!--          </select>-->
-              <!--          <select class="p-3 w-full border border-smooth rounded" name="" id="">-->
-              <!--            <option value="">Sub sub Cat 1</option>-->
-              <!--            <option value="">Sub sub Cat 2</option>-->
-              <!--          </select>-->
-              <!--        </div>-->
-              <!--        <div class="h-[300px] scrolbar overflow-y-scroll">-->
-              <!--          <table>-->
-              <!--            <tr>-->
-              <!--              <td><input style="width:20px" type="checkbox"></td>-->
-              <!--              <td>Qty: 1223</td>-->
-              <!--              <td>lorem ipsum lorem ipsum lorem ipsum</td>-->
-              <!--              <td>Discount:122</td>-->
-              <!--            </tr>-->
-              <!--            <tr>-->
-              <!--              <td><input style="width:20px" type="checkbox"></td>-->
-              <!--              <td>Qty: 1223</td>-->
-              <!--              <td>lorem ipsum lorem ipsum lorem ipsum</td>-->
-              <!--              <td>Discount:122</td>-->
-              <!--            </tr>-->
-              <!--          </table>-->
-              <!--        </div>-->
             </div>
             <!-- Close Button -->
             <div class="flex gap-4 justify-end">
-              <button @click="closeProductSearch" class="p-2 justify-end leading-3 rounded bg-smooth text-primary ">
-                Cancel
+              <button @click="closeProductSearch" class="p-2 justify-end leading-3 rounded bg-primary text-white">
+                {{ $t('prod.Submit') }}
               </button>
-              <button class="p-2 justify-end leading-3 rounded bg-primary text-white ">Submit</button>
             </div>
 
           </div>
@@ -379,10 +341,10 @@ export default {
           product: {
             id: product.id,
             title: product.title,
-            image: product.image,
+            image: product.image??'',
             offered: product.offered,
-            quantity: product.minOrderQuantity?.min_quantity,
-            selling: product.minSellingPrice?.min_selling_price
+            quantity: product.minOrderQuantity?.min_quantity??0,
+            selling: product.minSellingPrice?.min_selling_price??0
           }
         })
       }

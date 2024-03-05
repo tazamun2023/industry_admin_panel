@@ -61,14 +61,16 @@
                              v-model="selectedProduct" type="radio" id="1" :value="product"></td>
                   <td>
                     <lazy-image
+                      v-if="product.image"
                       class="w-32 h-24 object-cover rounded"
-                      :data-src="(product.image)"
+                      :data-src="product.image"
                       :alt=" product.name"
                     />
+
                   </td>
                   <td><button style="overflow: hidden;text-overflow: ellipsis;    width: 100%; border: unset;">{{ product.title }}</button></td>
                   <td><span>{{ product.sku }}</span></td>
-                  <td><span>191 SAR</span></td>
+                  <td><span>{{ product.minSellingPrice?.min_selling_price }} SAR</span></td>
                   <td><span>{{ product.status }}</span></td>
                   <td><span>-</span></td>
                 </tr>
@@ -198,7 +200,8 @@ export default {
             page: this.productPage,
             orderby: 'created_at',
             type: 'DESC',
-            q: this.searchedString
+            q: this.searchedString,
+            page_type: 'flash_sale'
           },
           api: 'getProducts'
         })

@@ -233,6 +233,10 @@
     "All": "All"
   },
   "prod": {
+    "Submit": "Submit",
+    "Add product": "Add product",
+    "Select products": "Select products",
+    "Search or select the product eligible for the promotion from the list below": "Search or select the product eligible for the promotion from the list below",
     "greater": "End time must be greater than Start time.",
     "eTime": "End time",
     "Keywords - English": "Keywords - English",

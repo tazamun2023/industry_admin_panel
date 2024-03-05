@@ -191,7 +191,7 @@
 
 
     "bulkExport": "bulk/export",
-    "bulkImport": "bulk/import",
+    "bulkImport": "product/import-bulk-products",
 
     "imgAll": "images/all",
     "imgDelete": "images/delete",
