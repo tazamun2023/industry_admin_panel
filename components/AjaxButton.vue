@@ -1,8 +1,15 @@
 <template>
-  <button
+
+<!--  <button
     @click.passive="btnClicked"
     class="ajax-btn"
     :disabled="disable || disabled || !isActive"
+    :type="type"
+  >-->
+
+  <button
+    @click.passive="btnClicked"
+    class="ajax-btn"
     :type="type"
   >
     <spinner
