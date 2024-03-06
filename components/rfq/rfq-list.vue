@@ -127,7 +127,7 @@
                               </td>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong> {{ $t("rfq.Shipping country") }}:</strong>
-                                  {{ value.country.name }}
+                                  {{ value.country.name }} {{ value.is_submit }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
                                 </p>
@@ -161,7 +161,19 @@
                                 </div>
 
                            <div class="text-center">
+                             <button v-if="$store.state.admin.isSuperAdmin" type="button" @click.prevent="isRejected(value.id)"
+                                     class="btn mb-10 w-25 bg-error">
+                               Rejected
+                             </button>
+                             <nuxt-link
+                               v-if="value.is_submit"
+                               class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
+                               :to="`/rfq/${value.id}`"
+                             >
+                               View Quote
+                             </nuxt-link>
                             <nuxt-link
+                              v-else
                               class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
                               :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
                             </nuxt-link>
@@ -247,6 +259,14 @@
     </div>
     <!-- ==================tab============== -->
 
+    <reject-reason
+      v-if="is_reject_modal"
+      get-api="RejectReasons"
+      set-api="setRejectRfq"
+      :set-id="rfqId"
+      :param="param"
+      @close="closeRejectModal"
+    ></reject-reason>
   </div>
 
 
@@ -272,6 +292,11 @@ export default {
       activeIndex: null,
       itemList: [],
       dataLoading: true,
+      is_reject_modal: false,
+      rfqId: '',
+      param: {
+        "type": 'rfq'
+      },
     }
   },
   components: {
@@ -291,6 +316,16 @@ export default {
   },
   mixins: [util, bulkDelete],
   methods: {
+
+    closeRejectModal() {
+      this.is_reject_modal = false;
+      this.rfqId = ''
+    },
+
+    isRejected(id) {
+      this.is_reject_modal = !this.is_reject_modal;
+      this.rfqId = id
+    },
 
     filterChanged(result) {
 
