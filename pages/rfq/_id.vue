@@ -106,9 +106,10 @@
                       <tr>
                         <td>{{ k + 1 }}</td>
                         <td>
+<!--                          <img :src="product.image" alt="">-->
                           <lazy-image
                             class="mr-15 img-40x"
-                            :data-src="getThumbImageURL(product.image)"
+                            :data-src="product.image"
                             :alt=" product.name"
                           />
                         </td>
@@ -249,6 +250,7 @@
                 <div class="md:w-full pr-4 pl-4">
                   <div class="mb-4 text-right">
                     <button id="add_form_cancel"
+                            @click="addDraftQuote"
                             class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mb-auto  ml-4 mr-4">
                       {{ $t('app.Discard Draft') }}
 
@@ -293,14 +295,14 @@
                       <div class="grid grid-cols-3 gap-4">
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"
-                                 id="productLog" @click="productTableShow">
+                                 id="productLog" @click="productTableShow('select_from_my_catalog')" v-model="select_from_my_catalog">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="productLog">
                             {{ $t("rfq.Select from my catalogue") }}
                           </label>
                         </div>
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"
-                                 id="allproductLog" @click="productTableShow">
+                                 id="allproductLog" @click="productTableShow('copy_from_product')" v-model="copy_from_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="allproductLog">
                             {{ $t("rfq.Copy from website catalogue") }}
                           </label>
@@ -308,7 +310,7 @@
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"
                                  @click="tableNotShow('is_upload')"
-                                 id="upload_new" value="option3">
+                                 id="upload_new" value="option3" v-model="upload_new_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="upload_new">
                             {{ $t("rfq.Upload a new product") }}</label>
                         </div>
@@ -371,7 +373,7 @@ import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 import rfq from "./index.vue";
 
 export default {
-  name: "order",
+  name: "RFQDetails",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
@@ -379,14 +381,18 @@ export default {
       isCollapsed: false,
       isDisable: false,
       open: false,
-      tableShow: false,
+      tableShow: '',
       is_upload: '',
       uploadNewText: false,
+      copy_from_product: false,
+      select_from_my_catalog: false,
+      upload_new_product: false,
       result: {
         id: "",
         rfq_id: "",
         additional_details: "",
         expiry_date: "",
+        is_draft: false,
 
         products: []
       },
@@ -454,7 +460,7 @@ export default {
         }
       }
       this.result = {...this.result, products: qoutes}
-      console.log(this.result)
+      // console.log(this.result)
     },
     async addQuote() {
 
@@ -471,12 +477,38 @@ export default {
           // alert('saved')
         })
     },
+    async addDraftQuote() {
+      this.result.is_draft = true
+      // console.log(this.canSend)
+      // console.log(this.result)
+      this.save()
+      // if (this.canSend)
+        await this.setById({
+          id: this.id,
+          params: this.result,
+          api: 'setQuote'
+        }).then(() => {
+
+          // alert('saved')
+        })
+    },
     addProduct() {
       this.open = true;
     },
-    saveSelectedProduct() {
+   async saveSelectedProduct() {
       this.open = false
-
+      if (this.tableShow==='copy_from_product'){
+        this.result.is_draft = true
+        var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
+        await this.setById({
+          id: this.id,
+          params: this.result,
+          api: 'setQuote'
+        }).then((res) => {
+          console.log(res)
+          return this.$router.push(`/products/add?id=`+rfqProduct.qoute.product.id+`&quote=`+res.quotation_id)
+        })
+      }
 
     },
     cancel() {
@@ -493,8 +525,8 @@ export default {
       this.uploadNewText = true;
       this.is_upload = tab
     },
-    productTableShow() {
-      this.tableShow = true;
+    productTableShow(type) {
+      this.tableShow = type;
       this.uploadNewText = false;
     },
     addRFQProduct(product) {

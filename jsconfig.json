@@ -172,6 +172,7 @@
     "getRfqsRelevent": "rfq/all/relevent",
     "getRfqsMYList": "rfq/all/my-list",
     "getRFQ": "rfq/find",
+    "getRfqQuotation": "rfq/view-quotation",
 
     "getAllProducts": "product/all",
     "getAllApprovedProducts": "product/all/approved",

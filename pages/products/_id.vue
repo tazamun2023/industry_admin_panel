@@ -1461,8 +1461,7 @@ export default {
     },
 
     cloneProduct(product) {
-      console.log(product)
-      console.log('product', product)
+
       // this.id=product.id
       this.fetchingData(product.id).then(() => {
         this.is_clone = false
@@ -2153,8 +2152,11 @@ export default {
     if (!this.isAdding) {
       await this.fetchingData(this.id)
     }
-    console.log(this.isCloning)
-    console.log(this.id)
+    if (this.$route.query?.id){
+      this.fetchingData(this.$route.query?.id).then(() => {
+        this.result.id = ""
+      })
+    }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 
@@ -2166,6 +2168,7 @@ export default {
       }
       this.loading = false
     }
-  }
+  },
+
 }
 </script>
