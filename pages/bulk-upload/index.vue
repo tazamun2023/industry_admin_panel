@@ -334,7 +334,7 @@
             const data = await this.setRequest({params: fd, api: 'bulkImport'})
 
             this.file = null
-
+            this.$router.push({path: '/products/draft'})
           } catch (e) {
             return this.$nuxt.error(e)
           }

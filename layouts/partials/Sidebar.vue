@@ -176,25 +176,25 @@ export default {
           icon: 'document-text.svg',
           is_image:true,
           open: false,
-          gate: 'user',
+          // gate: 'user',
           children: [
             {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
               icon: 'registered',
-              gate: 'user'
+              gate: 'order'
             },
             {
               path: 'rfq/notification',
               title: this.$t('rfq.notification'),
               icon: 'flash-notification',
-              gate: 'user'
+              gate: 'order'
             },
             {
               path: 'rfq/manage-quotes',
               title: this.$t('rfq.manage_quotations'),
               icon: 'flash-sales',
-              gate: 'user'
+              gate: 'order'
             }
           ]
         },

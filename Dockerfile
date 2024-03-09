@@ -26,7 +26,6 @@ WORKDIR /app
 COPY --from=builder /app  .
 
 ENV HOST 0.0.0.0
-EXPOSE 9000
-ENV NUXT_PORT=9000
+EXPOSE 3000
 
 CMD [ "npm", "start" ]
