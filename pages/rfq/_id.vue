@@ -552,9 +552,7 @@ export default {
         for (var i = 0; i < this.rfq.products.length; i++) {
           // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
 
-          console.log("kkk")
-          console.log(this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1)
-          if (this.rfq.quote && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1) {
+          if (this.rfq.quote!=null  && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1) {
             let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
               this.rfq.products[i].qoute = ({
                 rfq_product_id: p.rfq_product_id,
