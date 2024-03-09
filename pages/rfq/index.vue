@@ -1,5 +1,5 @@
 <template>
-  <rfq-list api="getRfqsRelevent"  :open-tab="1"></rfq-list>
+  <rfq-list api="getRfqsRelevent"  :open-tab="$store.state.admin.isVendor?1:2"></rfq-list>
 </template>
 
 <script>
