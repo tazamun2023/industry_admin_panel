@@ -26,6 +26,6 @@ WORKDIR /app
 COPY --from=builder /app  .
 
 ENV HOST 0.0.0.0
-EXPOSE 3000
+EXPOSE 9000
 
 CMD [ "npm", "start" ]
