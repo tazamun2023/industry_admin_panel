@@ -1,11 +1,11 @@
 <template>
-  <quote-list api="getAllQuoteRfqs" :open-tab="'all_quotes'"></quote-list>
+  <quote-list api="getDraftQuoteRfqs" :open-tab="'draft_quotes'"></quote-list>
 </template>
 
 <script>
 import QuoteList from "~/components/rfq/quote-list.vue";
 export default {
-  name: "rfq",
+  name: "DraftQuote",
   middleware: ['common-middleware', 'auth'],
 
   components: {
