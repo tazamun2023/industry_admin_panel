@@ -24,6 +24,7 @@
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
 
             <nuxt-link
+              v-if="!$store.state.admin.isVendor"
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
               v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 1, 'border-t-4 border-primary': openTab === 1}"
               :to="`/rfq`"
@@ -85,10 +86,10 @@
                     <div class="card mt-20 p-1 m-2 bg-white">
                       <div class="grid grid-cols-7 gap-4">
                         <div v-if="value.products[0]?.image">
-                          <lazy-image
-                            class="w-48 h-full object-cover rounded"
-                            :data-src="value.products[0].image"
-                          />
+<!--                          <lazy-image-->
+<!--                            class="w-48 h-full object-cover rounded"-->
+<!--                            :data-src="value.products[0].image"-->
+<!--                          />-->
                         </div>
                         <div class="col-span-5 p-3">
                           <div class="">
@@ -159,12 +160,20 @@
                                   {{ value.received_quotes }}</span>
                             </div>
 
-                            <div class="text-center">
-                              <button v-if="$store.state.admin.isSuperAdmin" type="button"
+                            <div>
+                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
                                       @click.prevent="isRejected(value.id)"
-                                      class="btn mb-10 w-25 bg-error">
+                                      class="bg-error rounded-lg uppercase leading-3 text-white px-4 w-full p-3 mt-2 border-primary border-2">
                                 Rejected
                               </button>
+                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
+                                      @click.prevent="isApproved(value.id)"
+                                      class="bg-primary rounded-lg uppercase leading-3 text-white px-4 mt-2 w-full p-3 border-primary border-2">
+                                Approved
+                              </button>
+                            </div>
+
+                            <div class="text-center">
                               <nuxt-link
                                 v-if="value.is_submit"
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
@@ -208,11 +217,11 @@
                                    </td> -->
                                   <td>
                                     <div class="flex" v-if="product.image">
-                                      <lazy-image
-                                        class="mr-15 img-40x"
-                                        :data-src="product.image"
-                                        :alt=" product.name"
-                                      />
+<!--                                      <lazy-image-->
+<!--                                        class="mr-15 img-40x"-->
+<!--                                        :data-src="product.image"-->
+<!--                                        :alt=" product.name"-->
+<!--                                      />-->
                                       <span class="mt-3">{{ product.name }}</span>
                                     </div>
                                   </td>
@@ -283,6 +292,7 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import moment from 'moment-timezone'
 import RfqFilter from "../../components/rfq/filter.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: "rfq-list",
@@ -292,6 +302,7 @@ export default {
     return {
       collapsedId: 0,
       isCollapsed: false,
+      is_loading: false,
       activeIndex: null,
       itemList: [],
       dataLoading: true,
@@ -329,6 +340,16 @@ export default {
       this.is_reject_modal = !this.is_reject_modal;
       this.rfqId = id
     },
+    async isApproved(id) {
+      this.is_loading = true
+      await this.setById({
+        id: id,
+        params: {status: 'approved'},
+        api: 'setApprovedRfq'
+      }).then((res) => {
+        return this.$router.push(`/rfq`)
+      })
+    },
 
     filterChanged(result) {
 
@@ -354,8 +375,10 @@ export default {
     },
     dateFormat(dataTime) {
       return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
-    }
+    },
 
+
+    ...mapActions('common', ['setRequest', 'getById', 'setById']),
   },
   mounted() {
 

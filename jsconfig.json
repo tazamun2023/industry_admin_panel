@@ -257,6 +257,7 @@
     "setProduct": "product/action",
     "setRejectProduct": "product/reject",
     "setRejectRfq": "rfq/reject",
+    "setApprovedRfq": "rfq/approved",
     "setApprovedProduct": "product/approved",
     "updateVisibility": "product/visibility",
     "setProductImage": "product/upload",

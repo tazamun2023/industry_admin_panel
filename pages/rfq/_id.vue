@@ -311,13 +311,13 @@
                         </div>
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"
-                                 @click="tableNotShow('is_upload')"
+                                 @click="productTableShow('upload_new_product')"
                                  id="upload_new" value="option3" v-model="upload_new_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="upload_new">
                             {{ $t("rfq.Upload a new product") }}</label>
                         </div>
                       </div>
-                      <div v-if="tableShow"
+                      <div v-if="tableShow!=='upload_new_product'"
                            class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
                         <product-search2
                           ref="productSearch"
@@ -333,14 +333,23 @@
                 </div>
               </div>
               <div class="bg-smooth px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <div v-if="is_upload==='is_upload'">
-                  <NuxtLink to="/products/quote/add"
-                            class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
+                <div v-if="tableShow==='upload_new_product'">
+<!--                  return this.$router.push(`/products/add?id=` + rfqProduct.qoute.product.id + `&rfq_product_id=` + this.activeProductId + `&quote=` + res.id)-->
+
+<!--                  <NuxtLink to="/products/quote/add?quote="-->
+<!--                            class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">-->
+<!--                    {{ $t('app.Continue') }}-->
+<!--                  </NuxtLink>-->
+
+                  <button type="button"
+                          @click="saveUploadNewProduct"
+                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
                     {{ $t('app.Continue') }}
-                  </NuxtLink>
+                  </button>
                 </div>
                 <div v-else>
                   <button type="button"
+                          :disabled="result.products.length===0"
                           @click="saveSelectedProduct"
                           class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
                     {{ $t('app.Save') }}
@@ -496,6 +505,7 @@ export default {
     },
     addProduct() {
       this.open = true;
+      this.tableShow = 'select_from_my_catalog'
     },
     async saveSelectedProduct() {
       this.open = false
@@ -513,6 +523,23 @@ export default {
       }
 
     },
+    async saveUploadNewProduct() {
+      this.open = false
+      if (this.tableShow === 'upload_new_product') {
+        this.result.is_draft = true
+        this.result.rfq_id = this.id
+        var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
+
+        await this.setById({
+          id: this.id,
+          params: this.result,
+          api: 'setQuote'
+        }).then((res) => {
+          return this.$router.push(`/products/quote/add?rfq_product_id=` + this.activeProductId + `&quote=` + res.id)
+        })
+      }
+
+    },
     cancel() {
       this.open = false
       var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
@@ -526,6 +553,7 @@ export default {
       this.tableShow = false;
       this.uploadNewText = true;
       this.is_upload = tab
+      this.upload_new_product = tab
     },
     productTableShow(type) {
       this.tableShow = type;
@@ -552,9 +580,7 @@ export default {
         for (var i = 0; i < this.rfq.products.length; i++) {
           // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
 
-          console.log("kkk")
-          console.log(this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1)
-          if (this.rfq.quote && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1) {
+          if (this.rfq.quote!=null  && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1) {
             let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
               this.rfq.products[i].qoute = ({
                 rfq_product_id: p.rfq_product_id,

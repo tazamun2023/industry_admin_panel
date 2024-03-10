@@ -113,40 +113,40 @@
           <div class="tab-sidebar p-3">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
             <div class="grid grid-cols-2">
-            <ValidationProvider name="brand" rules="required" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.sku', { type: $t('prod.sku')}) }">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Unit of measure') }} ?</label>
-                <div class="input-group mb-3">
-                  <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                          v-model="result.unit_id">
-                    <option value="">{{ $t('prod.Unit') }}</option>
-                    <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
-                        item.name
-                      }}
-                    </option>
-                  </select>
+              <ValidationProvider name="brand" rules="required" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.sku', { type: $t('prod.sku')}) }">
+                <div class="input-wrapper">
+                  <label for="">{{ $t('prod.Unit of measure') }} ?</label>
+                  <div class="input-group mb-3">
+                    <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
+                            v-model="result.unit_id">
+                      <option value="">{{ $t('prod.Unit') }}</option>
+                      <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
+                          item.name
+                        }}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
-            <ValidationProvider name="selling_price" rules="required" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.selling_price', { type: $t('prod.selling_price')}) }">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Price') }} ?</label>
-                <div class="input-group mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    :placeholder="$t('prod.selling_price')"
-                    @keypress="onlyNumber"
-                    v-model="result.product_prices.selling_price"
-                    @input="stockCheck"
-                  >
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <ValidationProvider name="selling_price" rules="required" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.selling_price', { type: $t('prod.selling_price')}) }">
+                <div class="input-wrapper">
+                  <label for="">{{ $t('prod.Price') }} ?</label>
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      :placeholder="$t('prod.selling_price')"
+                      @keypress="onlyNumber"
+                      v-model="result.product_prices.selling_price"
+                      @input="stockCheck"
+                    >
+                  </div>
                 </div>
-              </div>
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
           </div>
 
@@ -1425,14 +1425,27 @@ export default {
 
         delete this.result.created_at
         delete this.result.updated_at
-        const data = await this.setById({id: this.id, params: {result: this.result}, api: this.setApi})
-        // if (data) {
+        await this.setById({id: this.id,
+          params: {
+            result: {
+              ...this.result,
+              rfq_id: this.$route.query?.quote,
+              rfq_product_id: this.$route.query?.rfq_product_id
+            },
+          },
+          api: this.setApi
+        })
+        if (this.$route.query?.quote > 0) {
+          this.$router.push({path: `/rfq/${this.$route.query?.quote}`})
+        }
         //
-        //   this.result = Object.assign({}, data)
-        //   // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-        //   this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
+        // this.result = Object.assign({}, data)
+        // // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
+        // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
         // }
-        this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/approved'}`})
+
+        //
+        // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/approved'}`})
       } catch (e) {
         return this.$nuxt.error(e)
       }
