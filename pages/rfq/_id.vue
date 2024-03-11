@@ -349,7 +349,6 @@
                 </div>
                 <div v-else>
                   <button type="button"
-                          :disabled="result.products.length===0"
                           @click="saveSelectedProduct"
                           class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
                     {{ $t('app.Save') }}

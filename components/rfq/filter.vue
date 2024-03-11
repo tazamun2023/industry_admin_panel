@@ -23,6 +23,7 @@ export default {
         subCategory: '',
         category_id: '',
         multi_products: '',
+        status: ''
       }
     }
   },
@@ -207,9 +208,21 @@ export default {
             <select
               class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
              v-model="result.multi_products">
-              <option value="">{{ ("app.Select on Option") }}</option>
+              <option value="">{{ $t("app.Select on Option") }}</option>
               <option value="single">{{$t('rfq.Single product')}}</option>
               <option value="multi">  {{$t('rfq.Multi-product')}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="md:w-1/5 pr-4 pl-4" v-if="$store.state.admin.isSuperAdmin">
+          <div class="mb-4 for-lang">
+            <label for=""> {{ $t("rfq.RFQ Status") }} </label>
+            <select
+              class="bg-gray-50 border border-smooth text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-primary-500 dark:focus:border-primary-500"
+             v-model="result.status">
+              <option value="">{{ $t("app.Select on Status") }}</option>
+              <option value="approved">{{$t('app.Approved')}}</option>
+              <option value="rejected">  {{$t('app.Rejected')}}</option>
             </select>
           </div>
         </div>
