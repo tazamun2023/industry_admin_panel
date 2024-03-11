@@ -24,6 +24,7 @@
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
 
             <nuxt-link
+              v-if="!$store.state.admin.isVendor"
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
               v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 1, 'border-t-4 border-primary': openTab === 1}"
               :to="`/rfq`"
@@ -84,24 +85,11 @@
 
                     <div class="card mt-20 p-1 m-2 bg-white">
                       <div class="grid grid-cols-7 gap-4">
-                        <div>
-                          <lazy-image
-                            class="w-48 h-full object-cover rounded"
-                            :data-src="getThumbImageURL(value.products[0].image)"
-                            :alt=" value.products[0].name"
-                          />
-
-                          <!-- <div class="my-2 flex flex-row justify-start">
-                            <template v-for="(product,index) in value.products">
-                              <lazy-image
-                                class="mr-15 img-40x"
-                                :data-src="getThumbImageURL(product.image)"
-                                :alt=" product.name"
-                              />
-                            </template>
-
-
-                          </div> -->
+                        <div v-if="value.products[0]?.image">
+<!--                          <lazy-image-->
+<!--                            class="w-48 h-full object-cover rounded"-->
+<!--                            :data-src="value.products[0].image"-->
+<!--                          />-->
                         </div>
                         <div class="col-span-5 p-3">
                           <div class="">
@@ -120,18 +108,30 @@
                           <table class="w-full ">
                             <tr>
                               <td class="rtl:text-end">
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg" alt=""> <strong> {{ $t("rfq.Created on") }} :</strong> {{ value.created }}</p>
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg" alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong> {{ value.expiry_date }}
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
+                                                               alt=""> <strong> {{ $t("rfq.Created on") }} :</strong>
+                                  {{ value.created }}</p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
+                                                               alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong>
+                                  {{ value.expiry_date }}
                                 </p>
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/clipboard-text.svg" alt=""><strong> {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
+                                                               src="~/assets/icon/clipboard-text.svg" alt=""><strong>
+                                  {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
                               </td>
                               <td class="rtl:text-end">
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong> {{ $t("rfq.Shipping country") }}:</strong>
-                                  {{ value.country.name }}
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong> {{
+                                    $t("rfq.Shipping country")
+                                  }}:</strong>
+                                  {{ value.country.name }} {{ value.is_submit }}
                                 </p>
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong> {{ value.city.name }}
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>
+                                  {{ value.city.name }}
                                 </p>
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg" alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
 
                                   <template v-for="(term,index) in value.shipmen_terms">
                                     <span>{{ term.name }}</span>
@@ -153,19 +153,40 @@
                                     currency: 'SAR'
                                   })
                                 }}</strong></span></p> -->
-                                <div class="bg-primarylight text-primary relative p-3 uppercase rounded-lg">
-                                  <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
-                                  <span
+                            <div class="bg-primarylight text-primary relative p-3 uppercase rounded-lg">
+                              <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
+                              <span
                                 class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 right-0">
                                   {{ value.received_quotes }}</span>
-                                </div>
+                            </div>
 
-                           <div class="text-center">
-                            <nuxt-link
-                              class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
-                              :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
-                            </nuxt-link>
-                           </div>
+                            <div>
+                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
+                                      @click.prevent="isRejected(value.id)"
+                                      class="bg-error rounded-lg uppercase leading-3 text-white px-4 w-full p-3 mt-2 border-primary border-2">
+                                Rejected
+                              </button>
+                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
+                                      @click.prevent="isApproved(value.id)"
+                                      class="bg-primary rounded-lg uppercase leading-3 text-white px-4 mt-2 w-full p-3 border-primary border-2">
+                                Approved
+                              </button>
+                            </div>
+
+                            <div class="text-center">
+                              <nuxt-link
+                                v-if="value.is_submit"
+                                class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
+                                :to="`/rfq/quotation-details/${value.quotation_id}`"
+                              >
+                                {{ $t('rfq.View Quote')}}
+                              </nuxt-link>
+                              <nuxt-link
+                                v-else
+                                class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
+                                :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
+                              </nuxt-link>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -194,13 +215,16 @@
                                   <!-- <td>{{ product.id }}</td>
                                   <td>
                                    </td> -->
-                                  <td><div class="flex">
-                                    <lazy-image
-                                      class="mr-15 img-40x"
-                                      :data-src="getThumbImageURL(product.image)"
-                                      :alt=" product.name"
-                                    /> <span class="mt-3">{{ product.name }}</span>
-                                  </div></td>
+                                  <td>
+                                    <div class="flex" v-if="product.image">
+<!--                                      <lazy-image-->
+<!--                                        class="mr-15 img-40x"-->
+<!--                                        :data-src="product.image"-->
+<!--                                        :alt=" product.name"-->
+<!--                                      />-->
+                                      <span class="mt-3">{{ product.name }}</span>
+                                    </div>
+                                  </td>
                                   <td>{{ product.category?.title }}</td>
                                   <td>{{ product.quantity }} {{ product.unit.name }}</td>
                                   <td> {{
@@ -233,7 +257,7 @@
                               src="~/assets/icon/arrowdown.PNG"
                               alt=""
                             />
-                         </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -247,6 +271,14 @@
     </div>
     <!-- ==================tab============== -->
 
+    <reject-reason
+      v-if="is_reject_modal"
+      get-api="RejectReasons"
+      set-api="setRejectRfq"
+      :set-id="rfqId"
+      :param="param"
+      @close="closeRejectModal"
+    ></reject-reason>
   </div>
 
 
@@ -260,6 +292,7 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import moment from 'moment-timezone'
 import RfqFilter from "../../components/rfq/filter.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: "rfq-list",
@@ -269,9 +302,15 @@ export default {
     return {
       collapsedId: 0,
       isCollapsed: false,
+      is_loading: false,
       activeIndex: null,
       itemList: [],
       dataLoading: true,
+      is_reject_modal: false,
+      rfqId: '',
+      param: {
+        "type": 'rfq'
+      },
     }
   },
   components: {
@@ -291,6 +330,26 @@ export default {
   },
   mixins: [util, bulkDelete],
   methods: {
+
+    closeRejectModal() {
+      this.is_reject_modal = false;
+      this.rfqId = ''
+    },
+
+    isRejected(id) {
+      this.is_reject_modal = !this.is_reject_modal;
+      this.rfqId = id
+    },
+    async isApproved(id) {
+      this.is_loading = true
+      await this.setById({
+        id: id,
+        params: {status: 'approved'},
+        api: 'setApprovedRfq'
+      }).then((res) => {
+        return this.$router.push(`/rfq`)
+      })
+    },
 
     filterChanged(result) {
 
@@ -316,8 +375,10 @@ export default {
     },
     dateFormat(dataTime) {
       return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
-    }
+    },
 
+
+    ...mapActions('common', ['setRequest', 'getById', 'setById']),
   },
   mounted() {
 
@@ -325,10 +386,11 @@ export default {
 }
 </script>
 <style scoped>
-.rt180deg{
+.rt180deg {
   transform: rotate(180deg);
 }
-.font-12px{
+
+.font-12px {
   font-size: 12px;
 }
 </style>

@@ -172,6 +172,7 @@
     "getRfqsRelevent": "rfq/all/relevent",
     "getRfqsMYList": "rfq/all/my-list",
     "getRFQ": "rfq/find",
+    "getRfqQuotation": "rfq/view-quotation",
 
     "getAllProducts": "product/all",
     "getAllApprovedProducts": "product/all/approved",
@@ -255,6 +256,8 @@
     "getProductBySku": "product/sku",
     "setProduct": "product/action",
     "setRejectProduct": "product/reject",
+    "setRejectRfq": "rfq/reject",
+    "setApprovedRfq": "rfq/approved",
     "setApprovedProduct": "product/approved",
     "updateVisibility": "product/visibility",
     "setProductImage": "product/upload",
