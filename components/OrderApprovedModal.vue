@@ -2,15 +2,15 @@
 <template>
     <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
       <div class="absolute inset-0 bg-black opacity-50"></div>
-      
+
       <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-3/5">
         <svg @click="closeModal" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                       </svg>
         <!-- Modal Content -->
         <div class="mb-4">
-          <h4>Approved Order: T233343r4343</h4>
-          
+          <h4 class="font-bold">Approved Order: T233343r4343</h4>
+
         </div>
         <div class="flex px-20 ">
       <div class="w-full">
@@ -42,12 +42,12 @@
           </div>
         </div>
         <div class="mt-2">
-          <h6 class="text-base font-bold">Confirmation</h6>
+          <h6 class="text-base text-smooth font-bold">Confirmation</h6>
         </div>
       </div>
     </div>
         <div v-if="firstBox" class="firstStep">
-          <div class="my-2 p-4">
+          <div class="my-2 p-4 border border-smooth rounded">
                     <div class="flex gap-4 justify-between">
                       <div class="flex gap-4">
                         <div>
@@ -64,11 +64,11 @@
                         </div>
                         <div>
                           <p>Payment</p>
-                          <p class="font-bold text-primary">Paid</p>
+                          <p class="font-bold text-primary"><span class="text-primary bg-primarylight px-2 rounded-3xl">Paid</span></p>
                         </div>
                         <div>
                           <p>Status</p>
-                          <p class="font-bold">Order Placed</p>
+                          <p class="font-bold"><span class="text-primary bg-primarylight px-2 rounded-3xl">Order Placed</span> </p>
                         </div>
                       </div>
                       <div class="flex gap-4">
@@ -76,10 +76,10 @@
                           <p>Total</p>
                           <p><strong>12345,88</strong></p>
                         </div>
-                       
+
                       </div>
                     </div>
-                    
+
                     <div class="flex flex-col">
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -88,20 +88,20 @@
                             <table class="min-w-full  text-left text-sm font-light">
                               <thead class=" font-medium ">
                                 <tr>
-                                  <th scope="col" class="px-6 py-4">#</th>
-                                  <th scope="col" class="px-6 py-4">Product</th>
-                                  <th scope="col" class="px-6 py-4">Quantity</th>
-                                  <th scope="col" class="px-6 py-4">Agreed Price</th>
-                                  <th scope="col" class="px-6 py-4">Subtotal</th>
-                                  <th scope="col" class="px-6 py-4">Action</th>
+                                  <th scope="col" class="p-2 w-[50px]">#</th>
+                                  <th scope="col" class="p-2">Product</th>
+                                  <th scope="col" class="p-2">Quantity</th>
+                                  <th scope="col" class="p-2">Agreed Price</th>
+                                  <th scope="col" class="p-2">Subtotal</th>
+                                  <th scope="col" class="p-2">Action</th>
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr class=" ">
-                                  <td class="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                  <td class="whitespace-nowrap px-6 py-4">
-                                    <div class="flex gap-4">
-                                      <img src="https://c8n.tradeling.com/img/plain/cms/rs:auto:600::0/f:webp/q:95/Apple_f92d899cac.png" alt="">
+                                  <td class="whitespace-nowrap p-2 font-medium">1</td>
+                                  <td class="whitespace-nowrap p-2">
+                                    <div class="flex items-center gap-4">
+                                      <img class="w-10 h-10" src="https://c8n.tradeling.com/img/plain/cms/rs:auto:600::0/f:webp/q:95/Apple_f92d899cac.png" alt="">
                                       <div>
                                         <a href="">Product name here Product name here ....</a>
                                         <p>Sku:fa-01</p>
@@ -109,10 +109,10 @@
                                     </div>
 
                                   </td>
-                                  <td class="whitespace-nowrap px-6 py-4">3</td>
-                                  <td class="whitespace-nowrap px-6 py-4">SAR 293.66 / price</td>
-                                  <td class="whitespace-nowrap px-6 py-4">SAR 2963.66</td>
-                                  <td class="whitespace-nowrap px-6 py-4">
+                                  <td class="whitespace-nowrap p-2">3</td>
+                                  <td class="whitespace-nowrap p-2">SAR 293.66 / price</td>
+                                  <td class="whitespace-nowrap p-2">SAR 2963.66</td>
+                                  <td class="whitespace-nowrap p-2">
                                     <select @change="handleSelectChange(1)" v-model="selectedValue" class="p-3 border border-smooth rounded">
                                       <option selected value="1">Available</option>
                                       <option value="2">No Available</option>
@@ -122,16 +122,16 @@
                                 <tr v-if="selectedValue === '2'">
                                   <td colspan="6">
                                     <div class="py-2 w-50 mx-auto">
-                                        <label class="w-full text-warning" for="">Select  rejection reason</label>
+                                        <label class="w-full text-warning capitalize py-2" for="">Select  rejection reason</label>
                                         <div class="flex gap-4">
-                                          <select class="p-2 w-full border border-smooth rounded">
+                                          <select class="p-4 w-full border border-smooth rounded">
                                             <option value="">Please Select</option>
                                             <option value="">Out of Stock</option>
                                             <option value="">Product Near Expiry</option>
                                             <option value="">Pricing Error</option>
                                             <option value="">No Document for Internation Shipping</option>
                                         </select>
-                                        <button class="p-2 m-0 rounded w-[80px] leading-3 bg-primary text-white hover:text-primary">Save</button>
+                                        <button class="py-4 m-0 rounded h-[52px] w-[80px] leading-5 bg-primary text-white hover:text-primary">Save</button>
                                         </div>
                                     </div>
                                   </td>
@@ -179,10 +179,10 @@
                         </div>
                       </div>
                     </div>
-                    <div class="w-full border-t p-2 border-smooth">
-                      <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
+                    <div class="w-full border-t relative p-8 border-smooth">
+                      <div class="items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
                           <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Cancel</button>
-                          <button @click="firstStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+                          <button @click="firstStep" class="bg-primary hover:bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
                       </div>
                     </div>
                   </div>
@@ -193,16 +193,16 @@
           <div class="card p-4">
             <div class="flex justify-between">
               <h4>Pickup Address</h4>
-              <a class="border border-smooth p-2 leading-3 rounded" href="">Add Address</a>
+              <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" href="">Add Address</a>
             </div>
-            <div class="card gap-4 my-2 p-2 flex">
+            <div class="card gap-4 my-4 p-2 flex">
                 <div class="p-1">
                   <input type="radio">
                 </div>
                 <div>
-                  <h4>Mahmud1 <span class="text-xs text-primary p-1 bg-smooth rounded-lg"> Stock Location</span></h4>
+                  <h4>Mahmud1 <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> Stock Location</span></h4>
                   <p><span>test,</span> <span>test,</span> <span>black river jamaika,</span> <span>P.O box-test,</span> <span>post code 1000</span></p>
-                  <p class="flex"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <p class="flex"><svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18.4 14.8-1.2-1.3a1.7 1.7 0 0 0-2.4 0l-.7.7a1.7 1.7 0 0 1-2.4 0l-1.9-1.9a1.7 1.7 0 0 1 0-2.4l.7-.6a1.7 1.7 0 0 0 0-2.5L9.2 5.6a1.6 1.6 0 0 0-2.4 0c-3.2 3.2-1.7 6.9 1.5 10 3.2 3.3 7 4.8 10.1 1.6a1.6 1.6 0 0 0 0-2.4Z"/>
                   </svg> <span>+566666666 55666</span></p>
                 </div>
@@ -210,14 +210,14 @@
                   <button  class="bg-smooth px-4 text-primary p-1 rounded leading-3">Edit</button>
                 </div>
             </div>
-            <div class="card gap-4 my-2 p-2 flex">
+            <div class="card gap-4 my-4 p-2 flex">
                 <div class="p-1">
                   <input type="radio">
                 </div>
                 <div>
-                  <h4>Mahmud2 <span class="text-xs text-primary p-1 bg-smooth rounded-lg"> Stock Location</span></h4>
+                  <h4>Mahmud2 <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> Stock Location</span></h4>
                   <p><span>test,</span> <span>test,</span> <span>black river jamaika,</span> <span>P.O box-test,</span> <span>post code 1000</span></p>
-                  <p class="flex"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <p class="flex"><svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18.4 14.8-1.2-1.3a1.7 1.7 0 0 0-2.4 0l-.7.7a1.7 1.7 0 0 1-2.4 0l-1.9-1.9a1.7 1.7 0 0 1 0-2.4l.7-.6a1.7 1.7 0 0 0 0-2.5L9.2 5.6a1.6 1.6 0 0 0-2.4 0c-3.2 3.2-1.7 6.9 1.5 10 3.2 3.3 7 4.8 10.1 1.6a1.6 1.6 0 0 0 0-2.4Z"/>
                   </svg> <span>+566666666 55666</span></p>
                 </div>
@@ -249,8 +249,8 @@
                   <tbody>
                     <tr>
                       <td>
-                        <div class="flex gap-4">
-                          <img src="https://c8n.tradeling.com/img/plain/pim/rs:auto:300::0/f:webp/q:95/up/62971b6fa31f5224dcb37c3e/699288713187262780e1b8f337a3bdcf.jpg" alt="">
+                        <div class="flex items-flex gap-4">
+                          <img class="w-10 h-10" src="https://c8n.tradeling.com/img/plain/pim/rs:auto:300::0/f:webp/q:95/up/62971b6fa31f5224dcb37c3e/699288713187262780e1b8f337a3bdcf.jpg" alt="">
                           <p class="pt-2">Product name here Product name here ...</p>
                         </div>
                       </td>
@@ -268,7 +268,7 @@
               <p>12,test,dhaka area</p>
             </div>
           </div>
-          
+
           <div class="w-full border-t p-2 mb-2 border-smooth">
             <p class="text-primary">Please keep your item ready for pickup 12 February 2023</p>
             <div class="items-end p-1  text-end absolute ltr:right-[40px] rtl:left-[40px]">
@@ -309,7 +309,7 @@
         firstBox:true,
         secondBox:false,
         thirdBox:false,
-        selectedValue: '', 
+        selectedValue: '',
         rejectionReason: '',
       }
     },
