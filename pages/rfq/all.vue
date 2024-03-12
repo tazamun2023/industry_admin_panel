@@ -1,5 +1,5 @@
 <template>
-  <rfq-list api="getRfqsAll"  :open-tab="2"></rfq-list>
+  <rfq-list api="getRfqsAll"  :open-tab="2" :quote="'all'"></rfq-list>
 </template>
 
 <script>
