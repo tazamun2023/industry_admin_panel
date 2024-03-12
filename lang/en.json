@@ -30,6 +30,7 @@
   },
 
   "rfq": {
+    "Shipping details": "Shipping details",
     "Total Quote Price": "Total Quote Price",
     "Price valid until": "Price valid until",
     "Quote ID": "Quote ID",
@@ -90,9 +91,10 @@
     "Shipping country": "Shipping country",
     "Shipping city": "Shipping city",
     "Shipping terms": "Shipping terms",
-
+    "RFQ Total Value": "RFQ Total Value",
     "Received quotes": "Received quotes",
     "Submit Quotes": "Submit Quotes",
+    "View Details": "View Details",
     "d": "dd",
     "View all products": "View all products",
     "Search by RFQ ID or Product": "Search by RFQ ID or Product",
