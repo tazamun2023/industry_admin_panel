@@ -30,7 +30,10 @@ module.exports = {
       trnsp:'#f1f1f1',
       modal:'#0000007d',
       warning:'#ffc107',
-      graylight:'#F9F9F9'
+      graylight:'#F9F9F9',
+      smoothlight:'#4B5563',
+      theem:'#27436F',
+      theemlight:'#27436F1A'
     },
 
     screens: {

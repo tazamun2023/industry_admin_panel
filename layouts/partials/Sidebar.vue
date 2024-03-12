@@ -163,6 +163,14 @@ export default {
           ]
         },
         {
+          path: 'admin-orders',
+          title: "admin-orders",
+          icon: 'clipboard-text.svg',
+          is_image:true,
+          form: ['order'],
+          gate: 'order'
+        },
+        {
           path: 'orders',
           title: this.$t('error.orders'),
           icon: 'clipboard-text.svg',
@@ -170,6 +178,7 @@ export default {
           form: ['order'],
           gate: 'order'
         },
+
         {
           path: 'rfq',
           title: this.$t('rfq.RFQ_Market'),
