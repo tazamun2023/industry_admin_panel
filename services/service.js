@@ -76,6 +76,7 @@ export default {
   },
 
 
+
   setRequest(params, bearer, api, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang

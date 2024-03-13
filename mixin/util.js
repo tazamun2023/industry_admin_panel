@@ -253,6 +253,12 @@ export default {
 
       // return image.url
     },
+    productLink(item) {
+      if (item) {
+        return `/${item?.slug}/product/${item?.id}`
+      }
+    },
+
 
     getThumbImageURL(image) {
 
