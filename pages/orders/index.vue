@@ -233,6 +233,7 @@
 <!-- ------------------------------------- -->
     <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
           <div class="flex-auto ">
+            <spinner :radius="100" v-if="loading" />
               <div class="tab-content input-wrapper tab-space">
                 <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
                   <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index">
@@ -795,17 +796,18 @@
           </div>
       </div>
     </div>
-    <OrderApprovedModal :selectedOrders="selectedOrders" v-if="approvedModal" @close="handleModalClose"/>
-    <OrderReject v-if="rejectModal" @close="rejectModalClose"/>
+    <OrderApprovedModal :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct" :reasonsRejection="reasonsRejection" @close="handleModalClose"/>
+    <OrderReject v-if="rejectModal" @close="rejectModalClose" :reasonsRejection="reasonsRejection" :selectedOrders="selectedOrders" @save="saveReject" />
     </div>
 </template>
 
 <script>
 import { mapGetters , mapActions } from "vuex";
 import LazyImage from "../../components/LazyImage.vue";
+import Spinner from "../../components/Spinner.vue";
 
 export default{
-  components: {LazyImage},
+  components: {Spinner, LazyImage},
   data(){
    return{
     openTab:  1,
@@ -819,6 +821,7 @@ export default{
        {id:1,name:"Rejected"},
        {id:1,name:"Rejected"}
      ],
+     RejectionOrder:"",
     productTable:{
       1:false,
       2:false
@@ -826,10 +829,10 @@ export default{
    }
   },
  computed :{
-    ...mapGetters('order',['orders'])
+    ...mapGetters('order',['orders','reasonsRejection'])
  },
   methods:{
-    ...mapActions('order',['getOrder']),
+    ...mapActions('order',['getOrder','getReasonsRejection','changeStatus']),
     toggleTabs: function (tabNumber) {
       this.openTab = tabNumber
     },
@@ -839,6 +842,7 @@ export default{
     approvedModalShow(order){
       if(this.selectedOrders.length > 0) {
         this.approvedModal = !this.approvedModal
+        this.selectedOrders.push(order);
       } else {
         this.selectedOrders.push(order);
         this.approvedModal = !this.approvedModal
@@ -852,10 +856,36 @@ export default{
         this.rejectModal = !this.rejectModal
       }
     },
+    saveReject(data) {
+      this.loading= true;
+      this.changeStatus({
+         payload:{
+           status: data.status,
+           order_id: data.order_id,
+           reject_reasons: data.reject_reasons
+         }
+      })
+      this.rejectModalClose();
+      this.loading= false;
+    },
+    saveRejectProduct(data) {
+      this.loading= true;
+      this.changeStatus({
+        payload:{
+          status: data.status,
+          product_id: data.order.product.id,
+          reject_reasons: data.reject_reasons
+        }
+      })
+      this.approvedModal();
+      this.loading= false;
+    },
     handleModalClose() {
+      this.selectedOrders=[];
       this.approvedModal = false;
     },
     rejectModalClose(){
+      this.selectedOrders=[];
       this.rejectModal = false;
     },
     setSelectedOrder(order,checked) {
@@ -875,6 +905,7 @@ export default{
   mounted() {
     this.loading= true;
     this.getOrder();
+    this.getReasonsRejection();
     this.loading= false;
   }
 

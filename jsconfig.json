@@ -411,7 +411,9 @@
     "getVideo" : "video-gallery",
     "deleteVideo" : "video-gallery",
 
-    "subOrder": "sub-order"
+    "subOrder": "sub-order",
+    "reasonsRejection": "rfq/get-reject",
+    "changeStatusOrder": "main-order/change-status"
 
   }
 }

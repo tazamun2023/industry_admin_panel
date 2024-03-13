@@ -102,9 +102,9 @@
                         <th scope="col" class="p-2">Action</th>
                       </tr>
                       </thead>
-                      <tbody>
-                      <tr class=" " v-for="(subItem,x) in order.sub_order_items" :key="x">
-                        <td class="whitespace-nowrap p-2 font-medium">1</td>
+                      <tbody v-for="(subItem,x) in order.sub_order_items" :key="x">
+                      <tr class=" " >
+                        <td class="whitespace-nowrap p-2 font-medium">{{ x + 1 }}</td>
                         <td class="whitespace-nowrap p-2">
                           <div class="flex items-center gap-4">
                             <LazyImage
@@ -124,26 +124,25 @@
                         <td class="whitespace-nowrap p-2">SAR {{subItem?.price}} / price</td>
                         <td class="whitespace-nowrap p-2">SAR {{subItem?.total_price}}</td>
                         <td class="whitespace-nowrap p-2">
-                          <select @change="handleSelectChange(1)" v-model="selectedValue"
+                          <select @change="handleSelectChange($event,subItem)"
                                   class="p-3 border border-smooth rounded">
                             <option selected value="1">Available</option>
                             <option value="2">No Available</option>
                           </select>
                         </td>
                       </tr>
-                      <tr v-if="selectedValue === '2'">
+                      <tr v-if="subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 2">
                         <td colspan="6">
                           <div class="py-2 w-50 mx-auto">
                             <label class="w-full text-warning capitalize py-2" for="">Select rejection reason</label>
                             <div class="flex gap-4">
-                              <select class="p-4 w-full border border-smooth rounded">
-                                <option value="">Please Select</option>
-                                <option value="">Out of Stock</option>
-                                <option value="">Product Near Expiry</option>
-                                <option value="">Pricing Error</option>
-                                <option value="">No Document for Internation Shipping</option>
+                              <select class="p-4 w-full border border-smooth rounded" v-model="subItemSelected.reject_reasons">
+                                <option :value="item" v-for="(item, index) in reasonsRejection" :key="index">
+                                  {{item.name}}
+                                </option>
                               </select>
                               <button
+                                @click="saveProductUnAvaliable()"
                                 class="py-4 m-0 rounded h-[52px] w-[80px] leading-5 bg-primary text-white hover:text-primary">
                                 Save
                               </button>
@@ -324,20 +323,7 @@
     </div>
   </div>
 </template>
-<style class="scoped">
-/* For WebKit browsers (Chrome, Safari) */
-.scroll-thin::-webkit-scrollbar {
-  width: 6px; /* Adjust as needed for thickness */
-}
 
-.scroll-thin::-webkit-scrollbar-thumb {
-  background-color: gray;
-}
-
-.scroll-thin::-webkit-scrollbar-track {
-  background-color: lightgray;
-}
-</style>
 <script>
 import LazyImage from "./LazyImage.vue";
 
@@ -350,9 +336,21 @@ export default {
       thirdBox: false,
       selectedValue: '',
       rejectionReason: '',
+      reasonsRejection:[
+        {id:1 , name:"Out of Stock"},
+        {id:2 , name:"Product Near Expiry"},
+        {id:3 , name:"Pricing Error"},
+      ],
+      subItemSelected:{
+        order:"",
+        availabilityStatus:"",
+        reject_reasons:"",
+        status:""
+      }
     }
   },
   props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders'],
+
   methods: {
     closeModal() {
       this.$emit('close');
@@ -378,12 +376,35 @@ export default {
       this.thirdBox = false
     },
 
-    handleSelectChange(index) {
-      if (this.selectedValue[index] === '2') {
-        // Additional logic for when "No Available" is selected
-        console.log('No Available selected');
+    handleSelectChange(event, subItem) {
+      this.subItemSelected.availabilityStatus = event.target.value;
+      this.subItemSelected.order = subItem;
+    },
+    saveProductUnAvaliable() {
+      if(this.subItemSelected.availabilityStatus == 1) {
+
+      } else {
+        this.subItemSelected.status = "reject";
+        this.$emit('save',this.subItemSelected);
       }
+
+
     }
   },
 };
 </script>
+
+<style class="scoped">
+/* For WebKit browsers (Chrome, Safari) */
+.scroll-thin::-webkit-scrollbar {
+  width: 6px; /* Adjust as needed for thickness */
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: gray;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background-color: lightgray;
+}
+</style>

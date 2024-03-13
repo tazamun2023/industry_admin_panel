@@ -167,5 +167,14 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     const response = await apiClient.get(`${json.api.subOrder}/${id}`);
     return response;
-  }
+  },
+//   changeStatusOrder
+  async changeStatusOrder(bearer, params,lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.post(json.api.changeStatusOrder,params)
+    return response;
+  },
 }
