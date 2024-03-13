@@ -101,8 +101,6 @@ export default {
   },
 
 
-
-
   phoneCode(lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
@@ -152,4 +150,22 @@ export default {
 
     return res
   },
+
+//   get Order
+  async getData(bearer, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.get(json.api.subOrder)
+    return response;
+  },
+  async getOrderDetails(id, bearer, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.get(`${json.api.subOrder}/${id}`);
+    return response;
+  }
 }

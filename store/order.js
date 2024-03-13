@@ -1,0 +1,45 @@
+import Service from '@/services/service.js'
+const state = () => ({
+  orders: null,
+  orderDetails:""
+})
+const getters = {
+  orders: ({orders}) => orders,
+  orderDetails: ({orderDetails}) => orderDetails,
+}
+const mutations = {
+  SET_ORDER_DATA(state, orders) {
+    state.orders = orders
+  },
+  SET_ORDER_DETAILS(state, orderDetails) {
+    state.orderDetails = orderDetails
+  },
+}
+
+const actions = {
+  async getOrder ({ commit }) {
+    const {data} = await Service.getData(this.$auth.strategy.token.get(), "subOrder")
+    if(data.status === 200){
+      commit('SET_ORDER_DATA', data.data)
+    }
+    else {
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  },
+  async getOrderDetails ({ commit },{id}) {
+    const {data} = await Service.getOrderDetails(id,this.$auth.strategy.token.get())
+    if(data.status === 200){
+      commit('SET_ORDER_DETAILS', data.data)
+    }
+    else {
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  },
+}
+
+export {
+  state,
+  getters,
+  mutations,
+  actions
+}

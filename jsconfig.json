@@ -409,6 +409,9 @@
 
     "setVideo" : "video-gallery",
     "getVideo" : "video-gallery",
-    "deleteVideo" : "video-gallery"
+    "deleteVideo" : "video-gallery",
+
+    "subOrder": "sub-order"
+
   }
 }
