@@ -100,7 +100,7 @@ export default {
           login: {url: apiBase + configJson.api.login, method: 'post'},
           logout: {url: apiBase + configJson.api.logout, method: 'get'},
           user: false
-          // user: {url: apiBase + configJson.api.profile.vue, method: 'get'}
+           //user: {url: apiBase + configJson.api.profile, method: 'get'}
         }
       }
     }
