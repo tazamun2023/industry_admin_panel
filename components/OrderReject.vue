@@ -27,8 +27,8 @@
         <div class="py-4">
           <label class="block py-2" for="">Select rejection reason</label>
           <select class="p-4 w-full border border-smooth rounded" v-model="RejectionSelected">
-            <option :value="item" v-for="(item, index) in reasonsRejection" :key="index">
-              {{ item.name }}
+            <option :value="item.id" v-for="(item, index) in reasonsRejection" :key="index">
+              {{ item.description }}
             </option>
           </select>
         </div>
@@ -48,15 +48,11 @@ import ToastMessage from "./ToastMessage.vue";
 
 export default {
   components: {ToastMessage},
-  props: ['selectedOrders'],
+  props: ['selectedOrders','reasonsRejection'],
   data() {
     return {
       RejectionSelected: "",
-      reasonsRejection: [
-        {id: 1, name: "Out of Stock"},
-        {id: 2, name: "Product Near Expiry"},
-        {id: 3, name: "Pricing Error"},
-      ],
+
       hasError: false,
     }
   },
@@ -72,7 +68,7 @@ export default {
         let data = {
           status: "reject",
           order_id: this.selectedOrders[0]?.order_id,
-          reject_reasons: this.RejectionSelected.id
+          reject_reasons: this.RejectionSelected
         }
         this.$emit('save', data)
       }

@@ -412,7 +412,7 @@
     "deleteVideo" : "video-gallery",
 
     "subOrder": "sub-order",
-    "reasonsRejection": "rfq/get-reject",
+    "reasonsRejection": "reject-reason",
     "changeStatusOrder": "main-order/change-status"
 
   }

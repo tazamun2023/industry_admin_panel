@@ -102,7 +102,7 @@
                         <th scope="col" class="p-2">Action</th>
                       </tr>
                       </thead>
-                      <tbody v-for="(subItem,x) in order.sub_order_items" :key="x">
+                      <tbody v-for="(subItem,x) in order?.sub_order_items" :key="x">
                       <tr class=" " >
                         <td class="whitespace-nowrap p-2 font-medium">{{ x + 1 }}</td>
                         <td class="whitespace-nowrap p-2">
@@ -137,12 +137,12 @@
                             <label class="w-full text-warning capitalize py-2" for="">Select rejection reason</label>
                             <div class="flex gap-4">
                               <select class="p-4 w-full border border-smooth rounded" v-model="subItemSelected.reject_reasons">
-                                <option :value="item" v-for="(item, index) in reasonsRejection" :key="index">
-                                  {{item.name}}
+                                <option :value="item.id" v-for="(item, index) in reasonsRejection" :key="index">
+                                  {{item.description}}
                                 </option>
                               </select>
                               <button
-                                @click="saveProductUnAvaliable()"
+                                @click="saveProductUnAvaliable(subItem.product_id)"
                                 class="py-4 m-0 rounded h-[52px] w-[80px] leading-5 bg-primary text-white hover:text-primary">
                                 Save
                               </button>
@@ -158,7 +158,7 @@
                     <div class="w-2/5 ml-auto items-end border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
                         <div><h5>Item(S) Subtotal</h5></div>
-                        <div><h5>SAR {{order.order_total}}</h5></div>
+                        <div><h5>SAR {{order?.order_total}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>Vat (%):</h5></div>
@@ -214,41 +214,22 @@
             <h4>Pickup Address</h4>
             <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" href="">Add Address</a>
           </div>
-          <div class="card gap-4 my-4 p-2 flex" v-for="(address,d) in  selectedOrders" :key="d">
+
+          <div class="card gap-4 my-4 p-2 flex" v-for="(address,d) in  addressList.data" :key="d">
             <div class="p-1">
               <input type="radio">
             </div>
             <div>
-              <h4>Mahmud1 <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> Stock Location</span></h4>
-              <p><span>test,</span> <span>test,</span> <span>black river jamaika,</span> <span>P.O box-test,</span>
-                <span>{{address?.billing_address?.name}}</span></p>
+              <h4>{{ address?.address_name }} <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> {{ address?.country }} - {{ address?.city }}</span></h4>
+              <p><span>{{ address?.address_name }},</span> <span>{{ address?.district }},</span> <span>{{ address?.street }},</span> <span>{{ address?.building_number }},</span>
+                <span>{{address?.shipping_address}}</span></p>
               <p class="flex">
                 <svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                      viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="m18.4 14.8-1.2-1.3a1.7 1.7 0 0 0-2.4 0l-.7.7a1.7 1.7 0 0 1-2.4 0l-1.9-1.9a1.7 1.7 0 0 1 0-2.4l.7-.6a1.7 1.7 0 0 0 0-2.5L9.2 5.6a1.6 1.6 0 0 0-2.4 0c-3.2 3.2-1.7 6.9 1.5 10 3.2 3.3 7 4.8 10.1 1.6a1.6 1.6 0 0 0 0-2.4Z"/>
                 </svg>
-                <span>+566666666 55666</span></p>
-            </div>
-            <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3">Edit</button>
-            </div>
-          </div>
-          <div class="card gap-4 my-4 p-2 flex">
-            <div class="p-1">
-              <input type="radio">
-            </div>
-            <div>
-              <h4>Mahmud2 <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> Stock Location</span></h4>
-              <p><span>test,</span> <span>test,</span> <span>black river jamaika,</span> <span>P.O box-test,</span>
-                <span>{{address?.shipping_address.name}}</span></p>
-              <p class="flex">
-                <svg class="w-6 h-6 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m18.4 14.8-1.2-1.3a1.7 1.7 0 0 0-2.4 0l-.7.7a1.7 1.7 0 0 1-2.4 0l-1.9-1.9a1.7 1.7 0 0 1 0-2.4l.7-.6a1.7 1.7 0 0 0 0-2.5L9.2 5.6a1.6 1.6 0 0 0-2.4 0c-3.2 3.2-1.7 6.9 1.5 10 3.2 3.3 7 4.8 10.1 1.6a1.6 1.6 0 0 0 0-2.4Z"/>
-                </svg>
-                <span>+566666666 55666</span></p>
+                <span>+{{address?.phone_code}} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
               <button class="bg-smooth px-4 text-primary p-1 rounded leading-3">Edit</button>
@@ -326,9 +307,14 @@
 
 <script>
 import LazyImage from "./LazyImage.vue";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   components: {LazyImage},
+  computed :{
+    ...mapGetters('order',['orders','selectedOrdersall']),
+    ...mapGetters('address',['addressList'])
+  },
   data() {
     return {
       firstBox: true,
@@ -336,22 +322,17 @@ export default {
       thirdBox: false,
       selectedValue: '',
       rejectionReason: '',
-      reasonsRejection:[
-        {id:1 , name:"Out of Stock"},
-        {id:2 , name:"Product Near Expiry"},
-        {id:3 , name:"Pricing Error"},
-      ],
-      subItemSelected:{
-        order:"",
-        availabilityStatus:"",
-        reject_reasons:"",
-        status:""
+      orders: "",
+      subItemSelected: {
+        order: "",
+        availabilityStatus: "",
+        reject_reasons: "",
+        status: ""
       }
     }
   },
-  props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders'],
-
   methods: {
+    ...mapActions('address',['getVendorAddress']),
     closeModal() {
       this.$emit('close');
     },
@@ -380,17 +361,29 @@ export default {
       this.subItemSelected.availabilityStatus = event.target.value;
       this.subItemSelected.order = subItem;
     },
-    saveProductUnAvaliable() {
-      if(this.subItemSelected.availabilityStatus == 1) {
-
-      } else {
-        this.subItemSelected.status = "reject";
-        this.$emit('save',this.subItemSelected);
-      }
-
+    saveProductUnAvaliable(product_id) {
+      // if(this.subItemSelected.availabilityStatus == 1) {
+      //
+      // } else {
+      //   this.subItemSelected.status = "reject";
+      //   this.$emit('save',this.subItemSelected);
+      // }
+      // قم بتحديث المصفوفة باستخدام دالة map
+      this.$store.commit('order/CHANGE_ORDER_SELECTED',{
+        payload:{
+          product_id:product_id,
+          reject_reasons:this.subItemSelected.reject_reasons,
+          status:this.subItemSelected.availabilityStatus
+        }
+      })
 
     }
   },
+  mounted() {
+    this.orders = this.selectedOrders;
+    this.getVendorAddress();
+  },
+  props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders', 'reasonsRejection']
 };
 </script>
 
