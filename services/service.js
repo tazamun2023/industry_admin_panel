@@ -152,12 +152,12 @@ export default {
   },
 
 //   get Order
-  async getData(bearer, lang = null) {
+  async getData(bearer,page = 0, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
     }
     apiClient.defaults.headers.common['Authorization'] = bearer
-    const response = await apiClient.get(json.api.subOrder)
+    const response = await apiClient.get(`${json.api.subOrder}?page=`+page)
     return response;
   },
   async getOrderDetails(id, bearer, lang = null) {
@@ -187,6 +187,15 @@ export default {
   },
 //   changeStatusOrder
   async changeStatusOrder(bearer, params,lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.post(json.api.changeStatusOrder,params)
+    return response;
+  },
+  //approve Order
+  async approveOrder(bearer, params,lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
     }

@@ -432,7 +432,8 @@
     "rejectOrder": "رفض الطلب",
     "approveOrder": "الموافقة على الطلب",
     "available": "متاح",
-    "noAvailable": "غير متاح"
+    "noAvailable": "غير متاح",
+    "product": ""
   },
 "fSale": {
     "sProd": "المنتجات المحددة ",
@@ -835,7 +836,41 @@
     "message": "رسالة",
     "access": "إدارة الوصول"
   },
-  "util": {
+  "approveModal": {
+    "approvedOrder": "تمت الموافقة على الطلب",
+    "ordersItems": "العناصر المطلوبة",
+    "pickupAddress": "عنوان الاستلام",
+    "confirmation": "التأكيد",
+    "order": "الطلب",
+    "orderPlaced": "تم الطلب في",
+    "paymentMethod": "طريقة الدفع",
+    "payment": "الدفع",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "itemSubtotal": "مجموع العناصر",
+    "vat": "ضريبة القيمة المضافة",
+    "itemTotal": "مجموع العناصر",
+    "industryFee": "رسوم الصناعة",
+    "commission": "العمولة",
+    "vatOnCommission": "ضريبة القيمة المضافة على العمولة",
+    "totalCommission": "إجمالي العمولة",
+    "totalPayout": "المبلغ الإجمالي",
+    "pickupItems": "عناصر الاستلام",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "next": "التالي",
+    "back": "رجوع"
+  },
+  "orderReject": {
+    "title": "رفض الطلب",
+    "confirmation": "أنت على وشك رفض الطلب التالي. يرجى تحديد سبب الرفض.",
+    "order": "الطلب",
+    "orderPlaced": "تاريخ الطلب",
+    "selectRejectionReason": "اختر سبب الرفض",
+    "cancel": "إلغاء",
+    "save": "حفظ"
+  },
+"util": {
     "tod": "أهم الاكتشافات اليومية ",
     "bfb": "بجانب العلامات التجارية المميزة ",
     "bod": "الجزء السفلي من الاكتشاف اليومي ",
