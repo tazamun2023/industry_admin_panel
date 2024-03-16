@@ -421,6 +421,11 @@
   },
   "order": {
     "allOrders": "جميع الطلبات",
+    "orderId": "رقم الطلب",
+    "statusOrder": "حالة الطلب",
+    "paymentStatus": "حالة الدفع",
+    "paymentMthodType": "نوع طريقة الدفع",
+    "sortFilter": "الفلتره حسب",
     "pendingApproval": "في انتظار الموافقة",
     "readyForPickup": "جاهز للاستلام",
     "rejected": "مرفوض",
@@ -433,7 +438,19 @@
     "approveOrder": "الموافقة على الطلب",
     "available": "متاح",
     "noAvailable": "غير متاح",
-    "product": ""
+    "product": "",
+    "Pending Upload": "قيد الانتظار للتحميل",
+    "Pending Verification": "قيد الانتظار للتحقق",
+    "Paid": "تم الدفع",
+    "Pending Payment": "قيد الدفع",
+    "SortBy": "الترتيب حسب",
+    "LastUpdateOldest": "آخر تحديث (الأقدم)",
+    "LastUpdateNewest": "آخر تحديث (الأحدث)",
+    "PriceHighest": "السعر (الأعلى)",
+    "PriceLowest": "السعر (الأقل)",
+    "CartOrders": "طلبات السلة",
+    "NegotiatedOrders": "الطلبات المتفاوض عليها",
+    "ViewOrder": "عرض الطلب"
   },
 "fSale": {
     "sProd": "المنتجات المحددة ",

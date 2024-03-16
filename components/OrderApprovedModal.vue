@@ -126,12 +126,12 @@
                         <td class="whitespace-nowrap p-2">
                           <select @change="handleSelectChange($event,subItem)"
                                   class="p-3 border border-smooth rounded">
-                            <option selected value="1">Available</option>
-                            <option value="0">No Available</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'available' ? true : false" value="1">Available</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'unavailable' ? true : false" value="0">No Available</option>
                           </select>
                         </td>
                       </tr>
-                      <tr v-if="subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 0">
+                      <tr v-if="subItemSelected && subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 0">
                         <td colspan="6">
                           <div class="py-2 w-50 mx-auto">
                             <label class="w-full text-warning capitalize py-2" for="">Select rejection reason</label>
@@ -309,7 +309,6 @@
             </button>
             <button @click="backThirdStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back
             </button>
-<!--             @click="thirdStep"-->
             <button @click="approveSave" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">save</button>
           </div>
         </div>
@@ -389,8 +388,16 @@ export default {
     },
 
     handleSelectChange(event, subItem) {
-      this.subItemSelected.availabilityStatus = event.target.value;
-      this.subItemSelected.order = subItem;
+      console.log(event.target.value, subItem)
+      if(event.target.value == 0) {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+      } else {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+        this.saveProductAvaliable(subItem.product_id);
+      }
+
     },
     saveProductUnAvaliable(product_id) {
       this.$store.commit('order/CHANGE_ORDER_SELECTED',{
@@ -398,6 +405,19 @@ export default {
           product_id:product_id,
           reject_reasons:this.subItemSelected.reject_reasons,
           status:this.subItemSelected.availabilityStatus
+        }
+      })
+      this.subItemSelected.order=""
+      this.subItemSelected.availabilityStatus="";
+      this.subItemSelected.status="";
+      this.subItemSelected.reject_reasons="";
+    },
+    saveProductAvaliable(product_id) {
+      this.$store.commit('order/CHANGE_ORDER_SELECTED',{
+        payload:{
+          product_id:product_id,
+          reject_reasons: null,
+          status: 1
         }
       })
 

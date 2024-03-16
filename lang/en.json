@@ -428,6 +428,11 @@
 
   "order": {
     "allOrders": "All Orders",
+    "orderId": "Order Id",
+    "statusOrder": "status Order",
+    "paymentStatus": "payment Status",
+    "paymentMthodType": "payment Mthods Type",
+    "sortFilter": "sort By Filter",
     "pendingApproval": "Pending approval",
     "readyForPickup": "Ready for pickup",
     "rejected": "Rejected",
@@ -443,7 +448,19 @@
     "product": "product",
     "quantity": "quantity",
     "subtotal": "subtotal",
-    "action": "action"
+    "action": "action",
+    "PendingUpload": "Pending Upload",
+    "PendingVerification": "Pending Verification",
+    "Paid": "Paid",
+    "PendingPayment": "Pending Payment",
+    "SortBy": "Sort By",
+    "LastUpdateOldest": "Last Update (Oldest)",
+    "LastUpdateNewest": "Last Update (Newest)",
+    "PriceHighest": "Price (Highest)",
+    "PriceLowest": "Price (Lowest)",
+    "CartOrders": "Cart Orders",
+    "NegotiatedOrders": "Negotiated Orders",
+    "ViewOrder": "View Order"
   },
 
 "fSale": {

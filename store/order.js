@@ -26,7 +26,8 @@ const mutations = {
       console.log('payload',payload)
         state.selectedOrdersall?.sub_order_items.map(item => {
           if (item.product_id === payload.product_id) {
-            item.status= "unavailable"
+
+            item.status= payload.status === 1 ? 'available' : "unavailable"
             item.status_update = payload.status;
             item.reason_id = payload.reject_reasons;
           }

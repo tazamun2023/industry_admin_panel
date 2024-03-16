@@ -9,7 +9,7 @@
     <div class="flex gap-4">
       <div>
         <p>Order Number:</p>
-        <p><strong>2323232112312</strong></p>
+        <p><strong>{{orderDetails?.order_id}}</strong></p>
       </div>
       <div>
         <p>Initial Date:</p>
@@ -21,7 +21,7 @@
       </div>
       <div>
         <p>Order Status</p>
-        <p class="text-warning p-1 rounded bg-smooth">Ready To Ship</p>
+        <p class="text-warning p-1 rounded bg-smooth">{{ orderDetails?.status }}p</p>
       </div>
       <div>
         <p>Invoice Status</p>
@@ -29,14 +29,14 @@
       </div>
       <div>
         <p>Pickup Date</p>
-        <p><strong>10 jan 24</strong></p>
+        <p><strong>{{orderDetails.pickup_date}}</strong></p>
       </div>
       <div>
         <p>Pickup Location</p>
         <p><strong class="flex gap-2"><svg class="w-6 h-6 text-gray" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
-  </svg> <span>Office</span></strong></p>
+  </svg> <span>{{orderDetails.pickup_location}}</span></strong></p>
       </div>
     </div>
   </div>
@@ -60,48 +60,35 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="bg-white">
-                    <td class="py-4 px-6"> 
+                <tr class="bg-white" v-for="(item,index) in orderDetails.sub_order_items" :key="index">
+                    <td class="py-4 px-6">
                       <div class="flex gap-2">
-                        <img src="https://c8n.tradeling.com/img/plain/cms/rs:auto:600::0/f:webp/q:95/Apple_f92d899cac.png" alt="">
+                        <LazyImage
+                          :data-src="item.product.image"
+                          :title="item.product.title"
+                          :alt="item.product.title"
+                          class="w-10 h-10"
+                        />
                         <div>
-                          <p class="font-bold">Product name here ...</p>
+                          <p class="font-bold">{{item.product.title.slice(0,30)}} ...</p>
                           <p><del>321321</del></p>
                           <p>MCQ:3</p>
-                          <p>SKU: QF-1</p>
+                          <p>{{$t('app.sku')}}:{{item.product.sku}}</p>
                         </div>
                       </div>
                     </td>
-                    <td class="py-4 px-6">SAR 82926417</td>
-                    <td class="py-4 px-6">10</td>
-                    <td class="py-4 px-6"><span class="bg-smooth text-warning p-2 rounded">Cancel</span></td>
-                    <td class="py-4 px-6"><del>$4,500.00</del></td>
-                    <td class="py-4 px-6">20%</td>
+                    <td class="py-4 px-6">{{ $t('app.SAR') }} {{ item.price }}</td>
+                    <td class="py-4 px-6">{{ item.quantity }}</td>
+                    <td class="py-4 px-6"><span class="bg-smooth text-warning p-2 rounded">{{ item.status }}</span></td>
+                    <td class="py-4 px-6"><del>>>{{ $t('app.SAR') }} {{ item.total_price }}</del></td>
+                    <td class="py-4 px-6">{{ orderDetails.commission_tax }} %</td>
                     <td class="py-4 px-6"><del>$4,500.00</del></td>
                 </tr>
-                <tr class="bg-white">
-                    <td class="py-4 px-6"> 
-                      <div class="flex gap-2">
-                        <img src="https://c8n.tradeling.com/img/plain/cms/rs:auto:600::0/f:webp/q:95/Apple_f92d899cac.png" alt="">
-                        <div>
-                          <p class="font-bold">Product name here ...</p>
-                          <p><del>321321</del></p>
-                          <p>MCQ:3</p>
-                          <p>SKU: QF-1</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="py-4 px-6">SAR 82926417</td>
-                    <td class="py-4 px-6">10</td>
-                    <td class="py-4 px-6"><span class="bg-smooth text-primary p-2 rounded">Iteams Placed</span></td>
-                    <td class="py-4 px-6">$4,500.00</td>
-                    <td class="py-4 px-6">20%</td>
-                    <td class="py-4 px-6">$4,500.00</td>
-                </tr>
+
                 </tbody>
             </table>
             </div>
-    
+
 </div>
 </div>
 <!-- ------------subtotal--------------- -->
@@ -109,7 +96,7 @@
                               <div class="w-1/4 ml-auto items-end border border-smooth p-4 rounded">
                               <div class="flex my-1 justify-between">
                                   <div><h5>Item(S) Subtotal</h5></div>
-                                  <div><h5>SAR 123343</h5></div>
+                                  <div><h5>{{orderDetails.order_total}}</h5></div>
                               </div>
                               <div class="flex my-1 justify-between">
                                   <div><h5>Vat (%):</h5></div>
@@ -124,19 +111,19 @@
                               </div>
                               <div class="flex my-1 justify-between">
                                   <div><h5>Commission</h5></div>
-                                  <div><h5>SAR 1233</h5></div>
+                                  <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission }}</h5></div>
                               </div>
                               <div class="flex my-1 justify-between">
                                   <div><h5>VAT(S) on Comission (5%)</h5></div>
-                                  <div><h5>SAR 123343</h5></div>
+                                  <div><h5>{{ $t('app.SAR') }} {{orderDetails.commission_tax}}</h5></div>
                               </div>
                               <div class="flex my-1 justify-between">
                                   <div><h5>Total Comission</h5></div>
-                                  <div><h5>SAR 123343</h5></div>
+                                  <div><h5>{{ $t('app.SAR') }} {{orderDetails.commission}}</h5></div>
                               </div>
                               <div class="flex border-t border-smooth pt-2 my-1 justify-between">
                                   <div><h5  class="font-bold">Total Payout</h5></div>
-                                  <div><h5  class="font-bold">SAR 123343</h5></div>
+                                  <div><h5  class="font-bold">{{ $t('app.SAR') }} {{orderDetails.order_total}}</h5></div>
                               </div>
                             </div>
                             </div>
@@ -198,10 +185,28 @@
             </table>
             </div>
     </div>
-    
+
 </div>
 </div>
 
   </div>
 </div>
 </template>
+<script>
+import {mapGetters, mapActions} from "vuex";
+import LazyImage from "../../components/LazyImage.vue";
+export  default  {
+  components: {LazyImage},
+  computed: {
+    ...mapGetters('order', ['orderDetails'])
+  },
+  methods: {
+    ...mapActions('order', ['getOrderDetails']),
+  },
+  mounted() {
+    this.getOrderDetails({
+      id: this.$route.params.id
+    })
+  }
+}
+</script>
