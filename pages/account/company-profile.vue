@@ -88,8 +88,21 @@ email, mobile, and CR number </p>
             <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
                   @updateInput="updateInput">
                 </lang-input>
-            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
-                  @updateInput="updateInput"></lang-input>
+
+<!--            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
+                  @updateInput="updateInput"></lang-input>-->
+
+            <div class="input-wrapper mb-2">
+              <ValidationProvider name="details" class="w-full" rules="required|max:1000" v-slot="{ errors }">
+              <label for="">{{ $t('vendor.details') }}</label>
+              <textarea v-model="fromData.details" rows="4" cols="50">
+
+                </textarea>
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+
+
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
