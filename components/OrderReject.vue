@@ -10,22 +10,22 @@
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
       </svg>
       <div class="p-2">
-        <h4 class="font-bold">Reject Order #{{ selectedOrders[0]?.order_id }}</h4>
-        <p class="text-xs">You are about to reject following order. Please select rejection reason.</p>
+        <h4 class="font-bold">{{ $t('orderReject.title') }} #{{ selectedOrders[0]?.order_id }}</h4>
+        <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>
       </div>
       <div class="card p-4">
         <div class="flex border-b pb-4 border-smooth gap-4">
           <div>
-            <p>Order</p>
+            <p>{{ $t('orderReject.order') }}</p>
             <p class="text-xs">{{ selectedOrders[0]?.order_id }}</p>
           </div>
           <div>
-            <p>Order Placed</p>
+            <p>{{ $t('orderReject.orderPlaced') }}</p>
             <p class="text-xs">03 Aug 23</p>
           </div>
         </div>
         <div class="py-4">
-          <label class="block py-2" for="">Select rejection reason</label>
+          <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
           <select class="p-4 w-full border border-smooth rounded" v-model="RejectionSelected">
             <option :value="item.id" v-for="(item, index) in reasonsRejection" :key="index">
               {{ item.description }}
@@ -34,9 +34,9 @@
         </div>
         <div class="w-full px-2 py-4 ">
           <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
-            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">Cancel
+            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{ $t('orderReject.cancel') }}
             </button>
-            <button @click="save" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Save</button>
+            <button @click="save" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{ $t('orderReject.save') }}</button>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@
                       <input type="checkbox" @change="setSelectedOrder(order,$event.target.checked)">
                     </div>
                     <div>
-                      <p>{{ $t('order.order') }}: </p>
+                      <p>{{ $t('order.orderId') }}: </p>
                       <p class="font-bold">{{ order?.order_id }}</p>
                     </div>
                     <div>
@@ -53,20 +53,24 @@
                     </div>
                     <div>
                       <p>{{ $t('order.paymentMethod') }}:</p>
-                      <p class="font-bold">{{ order?.payment_method }}</p>
+                      <p class="font-bold">
+                        {{$t(`paymentMethod.${order?.payment_method}`)}}
+                      </p>
                     </div>
                     <div>
                       <p>{{ $t('order.payment') }}:</p>
                       <p class="font-bold"
                       ><span class="bg-primarylight px-2 text-primary rounded-3xl text-[12px]">
-                                        {{ order?.payment_status }}</span>
+                      {{$t(`status.${order?.payment_status}`)}}
+
+                      </span>
                       </p>
                     </div>
                     <div>
                       <p>{{ $t('order.status') }}:</p>
                       <p class="font-bold"><span class="bg-theemlight
                                     px-2 text-theem rounded-3xl text-[12px]">
-                                        {{ order?.status }}
+                           {{$t(`status.${order?.status}`)}}
                                     </span></p>
                     </div>
                   </div>
@@ -111,14 +115,14 @@
                                 />
                                 <div>
                                   <a href="">{{ subItem.product.title.slice(0, 30) }}</a>
-                                  <p>{{ $t('app.sku') }}: {{ subItem.product.sku }}</p>
+                                  <p>{{ $t('vendor.sku') }}: {{ subItem.product.sku }}</p>
                                 </div>
                               </div>
 
                             </td>
                             <td class="whitespace-nowrap p-2">{{ subItem?.quantity }}</td>
                             <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.price }} /
-                              {{ $t('app.price') }}
+                              {{ $t('brand.price') }}
                             </td>
                             <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.total_price }}</td>
                             <td class="whitespace-nowrap p-2">
@@ -150,7 +154,7 @@
                       <input type="checkbox" @change="setSelectedOrder(order,$event.target.checked)">
                     </div>
                     <div>
-                      <p>{{ $t('order.order') }}: </p>
+                      <p>{{ $t('order.orderId') }}: </p>
                       <p class="font-bold">{{ order?.order_id }}</p>
                     </div>
                     <div>
@@ -159,20 +163,22 @@
                     </div>
                     <div>
                       <p>{{ $t('order.paymentMethod') }}:</p>
-                      <p class="font-bold">{{ order?.payment_method }}</p>
+                      <p class="font-bold">
+                        {{$t(`paymentMethod.${order?.payment_method}`)}}
+                       </p>
                     </div>
                     <div>
                       <p>{{ $t('order.payment') }}:</p>
                       <p class="font-bold"
                       ><span class="bg-primarylight px-2 text-primary rounded-3xl text-[12px]">
-                    {{ order?.payment_status }}</span>
+                       {{$t(`status.${order?.payment_status}`)}}</span>
                       </p>
                     </div>
                     <div>
                       <p>{{ $t('order.status') }}:</p>
                       <p class="font-bold"><span class="bg-theemlight
                                     px-2 text-theem rounded-3xl text-[12px]">
-                                        {{ order?.status }}
+                        {{$t(`status.${order?.status}`)}}
                                     </span></p>
                     </div>
                   </div>
@@ -213,14 +219,14 @@
                         />
                         <div>
                           <a href="">{{ subItem.product.title.slice(0, 30) }}</a>
-                          <p>Sku: {{ subItem.product.sku }}</p>
+                          <p>{{ $t('vendor.sku') }}: {{ subItem.product.sku }}</p>
                         </div>
                       </div>
 
                     </td>
                     <td class="whitespace-nowrap p-2">{{ subItem?.quantity }}</td>
-                    <td class="whitespace-nowrap p-2">SAR {{ subItem?.price }} / price</td>
-                    <td class="whitespace-nowrap p-2">SAR {{ subItem?.total_price }}</td>
+                    <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.price }} / {{ $t('brand.price') }}</td>
+                    <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.total_price }}</td>
                     <td class="whitespace-nowrap p-2">
                       <select class="p-3 border border-smooth rounded" name="" id="">
                         <option value="">{{ $t('order.available') }}</option>
@@ -307,6 +313,7 @@ export default {
   computed: {
     ...mapGetters('order', ['orders', 'reasonsRejection'])
   },
+  middleware: ['common-middleware', 'auth'],
   methods: {
     ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder']),
 

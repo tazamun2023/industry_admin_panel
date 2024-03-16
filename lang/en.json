@@ -431,6 +431,7 @@
     "orderId": "Order Id",
     "statusOrder": "status Order",
     "paymentStatus": "payment Status",
+    "new": "new",
     "paymentMthodType": "payment Mthods Type",
     "sortFilter": "sort By Filter",
     "pendingApproval": "Pending approval",
@@ -438,6 +439,7 @@
     "rejected": "Rejected",
     "orderPlaced": "Order Placed",
     "paymentMethod": "Payment Method",
+    "OrderType": "Order Type",
     "payment": "Payment",
     "status": "Status",
     "total": "Total",
@@ -461,6 +463,45 @@
     "CartOrders": "Cart Orders",
     "NegotiatedOrders": "Negotiated Orders",
     "ViewOrder": "View Order"
+  },
+  "orderDetails": {
+    "title": "My Orders",
+    "next_step": "Next step for this order",
+    "content": "Once you have delivered the order, please mark the status as delivered and upload your proof of delivery.",
+    "order_number": "Order Number",
+    "order_id": "Order Id",
+    "InitialDate": "Initial Date",
+    "count_items_subtotal": "count sub items",
+    "delivery_method": "Delivery Method",
+    "ex_works": "EX Works",
+    "order_status": "Order Status",
+    "invoice_status": "Invoice Status",
+    "pickup_date": "Pickup Date",
+    "pickup_location": "Pickup Location",
+    "orders_overview": "Orders overview",
+    "product": "Product",
+    "agreed_price": "Agreed Price",
+    "quantity": "Quantity",
+    "item_status": "Item Status",
+    "subtotal": "Subtotal",
+    "commission_percentage": "Commission ",
+    "commission_subtotal": "Commission Subtotal",
+    "items_subtotal": "Item(S) Subtotal",
+    "vat": "Vat (%)",
+    "item_total": "Item(S) Total",
+    "industry_fee": "Industry fee",
+    "commission": "Commission",
+    "vat_on_commission": "VAT(S) on Commission ",
+    "total_commission": "Total Commission",
+    "total_payout": "Total Payout",
+    "payment_shipping_dimension": "Payment Shipping & Dimenssion",
+    "payment_method": "Payment Method:",
+    "shipping_method": "Shipping Method:",
+    "shipping_cost": "Shipping Cost:",
+    "timeline": "Timeline",
+    "user": "User",
+    "action": "Action",
+    "date": "Date"
   },
 
 "fSale": {
@@ -536,6 +577,7 @@
     "inPass": "Invalid password length",
     "nMatch": "Two password didn't match",
     "name": "Name"
+
   },
   "admin": {
     "default": "Default",
@@ -655,6 +697,13 @@
     "image": "Image",
     "verify": "Verification"
 
+  },
+  "paymentMethod": {
+    "bank": "bank",
+    "cred_Card": ""
+  },
+  "status": {
+    "pending": "pending"
   },
   "bank": {
     "bank_name": "Bank Name",
@@ -889,6 +938,7 @@
     "approvedOrder": "Approved Order",
     "ordersItems": "Orders Items",
     "pickupAddress": "Pickup Address",
+    "Add Address": "Add Address",
     "confirmation": "Confirmation",
     "order": "Order",
     "orderPlaced": "Order Placed",

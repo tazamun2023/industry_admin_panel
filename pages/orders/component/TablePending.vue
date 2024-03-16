@@ -7,11 +7,11 @@
     <thead class=" font-medium ">
     <tr>
       <th scope="col" class="p-2 w-[50px]">#</th>
-      <th scope="col" class="p-2">{{$t('order.product')}}</th>
-      <th scope="col" class="p-2">{{$t('order.quantity')}}</th>
-      <th scope="col" class="p-2">{{$t('order.agreedPrice')}}</th>
-      <th scope="col" class="p-2">{{$t('order.subtotal')}}</th>
-      <th scope="col" class="p-2" v-if="action">{{$t('order.action')}}</th>
+      <th scope="col" class="p-2">{{$t('orderDetails.product')}}</th>
+      <th scope="col" class="p-2">{{$t('orderDetails.quantity')}}</th>
+      <th scope="col" class="p-2">{{$t('orderDetails.agreed_price')}}</th>
+      <th scope="col" class="p-2">{{$t('orderDetails.subtotal')}}</th>
+      <th scope="col" class="p-2" v-if="action">{{$t('global.action')}}</th>
     </tr>
     </thead>
 <!--    <tbody>-->
