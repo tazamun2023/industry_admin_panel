@@ -193,7 +193,7 @@ export default {
 <!--                            class="w-48 h-full object-cover rounded"-->
 <!--                            :data-src="value.products[0].product.image"-->
 <!--                          />-->
-                                                  <img :src="value.products[0].product.image" alt="">
+                                                  <img :src="value.products[0]?.product.image" alt="">
                         </div>
                         <div class="col-span-5 p-3">
                           <div class="">
@@ -331,7 +331,7 @@ export default {
                                   <td>{{ product.product.category?.title }}</td>
                                   <td>{{ product.quantity }} {{ product.unit.name }}</td>
                                   <td> {{
-                                      product.total_offer_price.toLocaleString($t('app.currency_local'), {
+                                      product.total_offer_price?.toLocaleString($t('app.currency_local'), {
                                         style: 'currency',
                                         maximumFractionDigits: 0,
                                         currency: 'SAR'
@@ -340,7 +340,7 @@ export default {
                                   </td>
                                   <td>
                                     {{
-                                      product.total.toLocaleString($t('app.currency_local'), {
+                                      product.total?.toLocaleString($t('app.currency_local'), {
                                         style: 'currency',
                                         maximumFractionDigits: 0,
                                         currency: 'SAR'

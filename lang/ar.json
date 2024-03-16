@@ -419,7 +419,22 @@
     "sku": "رمز SKU",
     "parent_sku": "الرمز الرئيسي (Parent SKU)"
   },
-  "fSale": {
+  "order": {
+    "allOrders": "جميع الطلبات",
+    "pendingApproval": "في انتظار الموافقة",
+    "readyForPickup": "جاهز للاستلام",
+    "rejected": "مرفوض",
+    "orderPlaced": "تم وضع الطلب",
+    "paymentMethod": "طريقة الدفع",
+    "payment": "الدفع",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "rejectOrder": "رفض الطلب",
+    "approveOrder": "الموافقة على الطلب",
+    "available": "متاح",
+    "noAvailable": "غير متاح"
+  },
+"fSale": {
     "sProd": "المنتجات المحددة ",
     "sPrice": "سعر البيع ",
     "undo": "تراجع ",
