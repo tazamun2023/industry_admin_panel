@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ValidationObserver class="w-full" v-slot="{ invalid }">
+
       <!-- ---------------- -->
       <div v-if="!is_next" class="tab-sidebar">
         <div class="col-md-12 p-4 title">
@@ -17,7 +17,7 @@
           <label class="custom-control-label fw-bold" for="clonecheck"><strong
             style="line-height: 26px;">{{ $t('prod.Clone from existing product') }}</strong></label>
         </div>
-
+        <ValidationObserver class="w-full" v-slot="{ invalid }">
         <form action="" class="p-3" id="product_sku" v-if="is_clone">
           <div class="input-wrapper">
             <label for="name">{{ $t('prod.Clone All Data From Existing Product Using Product SKU Code') }}</label>
@@ -42,10 +42,11 @@
           </div>
           <button type="button" class="btn btn-primary">{{ $t('prod.submit') }}</button>
         </form>
+        </ValidationObserver>
       </div>
 
       <div v-if="!is_next && !is_clone">
-
+        <ValidationObserver class="w-full" v-slot="{ invalid }">
         <form>
           <!-- --------------------------- -->
           <div class="my-10"></div>
@@ -132,7 +133,7 @@
             <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
                         :valuesOfLang="result.description"
                         @updateInput="updateInput"></lang-input>
-            <ValidationProvider name="brand" rules="required" v-slot="{ errors }"
+            <ValidationProvider name="brand" :rules="is_draft?'null':'required'" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
               <div class="input-wrapper mt-3 mt-sm-0">
@@ -143,7 +144,7 @@
                   <option :value="index" v-for="(item, index) in allBrands" :key="index">{{ item.title }}</option>
                 </select>
               </div>
-
+              <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
           <!-- --------------------------- -->
@@ -1045,7 +1046,7 @@
             </div>
             <div class="button-group border-t border-smooth mt-20">
               <div class="flex justify-end gap-4 pt-3">
-                <button type="button" class="btn text-primary" @click.prevent="doDraft">
+                <button type="button" class="btn text-primary" :disabled="invalid" @click.prevent="doDraft">
                   {{ $t('prod.Save Draft') }}
                 </button>
                 <button type="button" class="btn bg-primary text-white border-secondary" :disabled="invalid"
@@ -1056,7 +1057,7 @@
             </div>
           </div>
         </form>
-
+        </ValidationObserver>
       </div>
       <div v-if="is_next">
         <Transition>
@@ -1070,7 +1071,6 @@
           ></Variant>
         </Transition>
       </div>
-    </ValidationObserver>
   </div>
 </template>
 <style scoped>
