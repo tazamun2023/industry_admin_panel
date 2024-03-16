@@ -1,3 +1,64 @@
+<!--<template>-->
+<!--  <div class="flex gap-4">-->
+<!--    &lt;!&ndash; <div class="p-2">-->
+<!--      <input type="checkbox" >-->
+<!--    </div> &ndash;&gt;-->
+<!--    <div class="relative">-->
+<!--      <input-->
+<!--        type="text"-->
+<!--        placeholder="Order #"-->
+<!--        class="pl-10 pr-4 py-2 border rounded-lg w-full focus:outline-none focus:border-primary"-->
+<!--      />-->
+<!--      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">-->
+<!--        &lt;!&ndash; Search Icon &ndash;&gt;-->
+<!--        <svg class="w-6 h-6 text-smooth" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">-->
+<!--          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>-->
+<!--        </svg>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <select class="p-2 border rounded border-smooth" name="" id="">-->
+<!--      <option value="">Action</option>-->
+<!--      <option value="">Pending approval</option>-->
+<!--      <option value="">Ready for pickup</option>-->
+<!--      <option value=""> Rejected </option>-->
+<!--    </select>-->
+
+<!--    <select class="p-2 border rounded border-smooth" name="" id="">-->
+<!--      <option value="">All</option>-->
+<!--      <option value="">Order Placed</option>-->
+<!--      <option value="">Recived</option>-->
+<!--      <option value=""> Partialy Recevied </option>-->
+<!--      <option value=""> Delivered </option>-->
+<!--      <option value="">Partialy Delivered </option>-->
+<!--      <option value=""> Pending Cancellation </option>-->
+<!--      <option value=""> Cancelled </option>-->
+<!--      <option value=""> Ready to ship </option>-->
+<!--      <option value=""> Pending Cancellation </option>-->
+<!--    </select>-->
+<!--    <select class="p-2 border rounded border-smooth" name="" id="">-->
+<!--      <option value="">All</option>-->
+<!--      <option value="">Pending upload</option>-->
+<!--      <option value="">Pending Verification</option>-->
+<!--      <option value=""> Paid </option>-->
+<!--      <option value=""> Pending Payment </option>-->
+<!--    </select>-->
+<!--    <select class="p-2 border rounded border-smooth" name="" id="">-->
+<!--      <option value="">Order Type</option>-->
+<!--      <option value="">All</option>-->
+<!--      <option value="">Cart Orders</option>-->
+<!--      <option value=""> Negotiated Orders </option>-->
+<!--    </select>-->
+<!--    <select class="p-2 border rounded border-smooth" name="" id="">-->
+<!--      <option value="">Sort By</option>-->
+<!--      <option value="">Last Update (Oldest)</option>-->
+<!--      <option value="">Last Update (Newest)</option>-->
+<!--      <option value="">Price  (Highest)</option>-->
+<!--      <option value="">Price (Lowest)</option>-->
+<!--    </select>-->
+<!--  </div>-->
+<!--</template>-->
+<!--<script setup>-->
+<!--</script>-->
 <template>
   <div class="flex gap-4 my-10">
     <div class="relative">
@@ -27,7 +88,7 @@
       <option value="">{{$t('order.paymentStatus')}}</option>
       <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">
         {{ $t(`order.${option.label}`) }}
-        </option>
+      </option>
 
     </select>
     <select class="p-2 border rounded border-smooth"  v-model="search.orderType" @change="FilterOrder">
@@ -119,7 +180,7 @@ export default {
           return order.payment_status === this.search.paymentStatus;
         });
       }
-      if(this.search.orderStatus == '' && this.search.sortBy !== '') {
+      if(this.search.orderStatus == '') {
         this.search.orderStatus="pending";
         filteredList= this.FilterOrderStatus(filteredList)
       }

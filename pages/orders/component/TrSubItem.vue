@@ -12,13 +12,13 @@
         />
         <div>
           <a >{{item.product.title.slice(0,30)}} ....</a>
-          <p>{{$t('app.sku')}}:{{item.product.title.sku}}</p>
+          <p>{{$t('vendor.sku')}}:{{item.product.title.sku}}</p>
         </div>
       </div>
 
     </td>
     <td class="whitespace-nowrap p-2">{{ item?.quantity }}</td>
-    <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ item?.price }} / {{ $t('app.price') }}</td>
+    <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ item?.price }} / {{ $t('brand.price') }}</td>
     <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ item?.total_price }}</td>
   </tr>
   </tbody>
