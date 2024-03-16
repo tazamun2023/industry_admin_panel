@@ -13,7 +13,7 @@
 
       <div v-for="(language, index) in languages" :key="language" v-show="currentTab === index" class="col-span-11">
         <div class="input-wrapper">
-          <label>{{ title }}   ({{ language }})</label>
+          <label>{{ title }}   ({{ language }})  <strong class="text-error">*</strong></label>
           <input v-if="type=='text'"
                  type="text"
                  :placeholder="title"

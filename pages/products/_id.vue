@@ -21,12 +21,6 @@
         <form action="" class="p-3" id="product_sku" v-if="is_clone">
           <div class="input-wrapper">
             <label for="name">{{ $t('prod.Clone All Data From Existing Product Using Product SKU Code') }}</label>
-
-            <!--          <input class="form-control required" placeholder="Product SKU" type="text" v-model="search_sku" @keypress="onlyNumber" @keyup.prevent.enter="findSku">-->
-            <!--          <product-search2-->
-            <!--            ref="productSearch"-->
-            <!--            @product-clicked="cloneProduct"-->
-            <!--          />-->
             <div
               class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
               <product-search
@@ -62,27 +56,13 @@
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic information') }}</h4>
             </div>
 
-            <ValidationProvider name="email" rules="required" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.required_unit')}) }">
-              <div class="input-group mb-3">
-                <label class="w-full" for="mainCategory">{{ $t('prod.Select Unit') }}</label>
-                <select data-plugin="customselect" class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                        v-model="result.unit">
-                  <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
-                      item.name
-                    }}
-                  </option>
-                </select>
-                <span class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider>
-            <!--          <span class="text-primary">{{ result.mainCategorySlug }}/{{result.subCategorySlug}}</span>-->
             <div class="grid grid-cols-3 gap-4">
               <!-- Main Category Dropdown -->
-              <ValidationProvider name="email" rules="required" v-slot="{ errors }"
+              <ValidationProvider name="parentCategory" rules="required" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.required_main_category')}) }">
                 <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
+                  <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }} <strong
+                    class="text-error">*</strong></label>
                   <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
                   <v-select
                     :dir="$t('app.dir')"
@@ -93,17 +73,17 @@
                     :placeholder="$t('rfq.Search by Category')"
                     @input="updateLevel2"
                     class="custom-select"
-                    :class="{invalid: result.parentCategory === '' && hasError}"
                   ></v-select>
                   <span class="error">{{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
 
               <!-- Sub Category Dropdown -->
-              <ValidationProvider name="email" rules="required" v-slot="{ errors }"
+              <ValidationProvider name="subCategory" rules="required" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.required_sub_category')}) }">
                 <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
+                  <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }} <strong
+                    class="text-error">*</strong></label>
                   <v-select
                     :dir="$t('app.dir')"
                     v-model="result.subCategory"
@@ -120,10 +100,11 @@
               </ValidationProvider>
 
               <!-- Child Category Dropdown -->
-              <ValidationProvider name="email" rules="required" v-slot="{ errors }"
+              <ValidationProvider name="childCategory" rules="required" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.required_child_category')}) }">
                 <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }}</label>
+                  <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }} <strong
+                    class="text-error">*</strong></label>
                   <v-select
                     :dir="$t('app.dir')"
                     v-model="result.childCategory"
@@ -151,17 +132,19 @@
             <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
                         :valuesOfLang="result.description"
                         @updateInput="updateInput"></lang-input>
+            <ValidationProvider name="brand" rules="required" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
-            <div class="form-group input-wrapper mb-10  for-lang ar-lang">
-              <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
+              <div class="input-wrapper mt-3 mt-sm-0">
+                <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
+                <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                        v-model="result.brand_id">
+                  <option value="">{{ $t('prod.Select Brand') }}</option>
+                  <option :value="index" v-for="(item, index) in allBrands" :key="index">{{ item.title }}</option>
+                </select>
+              </div>
 
-              <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
-                      :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
-                      v-model="result.brand_id">
-                <option value="0">Select Brand</option>
-                <option v-for="(item, index) in allBrands" :key="index" :value="item.id">{{ item.title }}</option>
-              </select>
-            </div>
+            </ValidationProvider>
           </div>
           <!-- --------------------------- -->
           <div class="my-10"></div>
@@ -534,23 +517,21 @@
               <div class="input-wrapper mt-3 mt-sm-0">
                 <label class="w-full">{{ $t('prod.Barcode type') }}</label>
                 <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
-                        :class="{invalid: !is_draft && result.barcode_type == 0 && hasError}"
+                        :class="{invalid: !is_draft && hasError}"
                         v-model="result.barcode_type">
-                  <option value="0">Select Barcode</option>
+                  <option value="">{{ $t('prod.Select Barcode') }}</option>
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
               </div>
               <div class="form-group input-wrapper mt-3 mt-sm-0">
                 <label>{{ $t('prod.Barcode') }}</label>
                 <input type="text" class="form-control" v-model="result.barcode"
-                       :class="{invalid: !is_variant && result.barcode===null && hasError}"
                        placeholder="Please enter barcode number"
-                       :readonly="result.barcode_type==0">
+                       :readonly="result.barcode_type==4">
               </div>
               <div class="form-group input-wrapper  mt-3 mt-sm-0">
-                <label>{{ $t('prod.SKU') }}</label>
+                <label>{{ $t('prod.SKU') }} <strong class="text-error">*</strong></label>
                 <input type="text" class="form-control" v-model="result.sku" placeholder="sku"
-                       :readonly="result.barcode_type==0"
                        :class="{invalid: !is_draft && result.sku===null && hasError}"
                 >
               </div>
@@ -568,12 +549,15 @@
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
               <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
             </div>
-            <div class="input-wrapper">
-              <label for="">{{ $t('prod.Available quantity') }} ?</label>
-              <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber"
-                     @input="availableQuantity">
-              <label>{{ $t('prod.Minimum order quantity') }}: 1</label>
-            </div>
+            <ValidationProvider name="available_quantity" rules="required" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
+              <div class="input-wrapper">
+                <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
+                <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber"
+                       @input="availableQuantity">
+                <label>{{ $t('prod.Minimum order quantity') }}: 1</label>
+              </div>
+            </ValidationProvider>
           </div>
           <div class="my-10"></div>
           <!-- ------------------------------------- -->
@@ -581,47 +565,54 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
             <div class="grid grid-cols-2 gap-4">
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Size') }} ?</label>
-                <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Size" aria-label="Recipient's username"
-                         :class="{invalid: !is_draft && (!result.pk_size) && hasError}"
-                         @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pk_size">
-                  <div class="absolute right-0 top-0">
-                    <select class="p-2 m-1 float-right border-l border-smooth uppercase"
-                            @change="updateSizeUnit($event)"
-                            v-model="result.pk_size_unit"
-                            :class="{invalid: !is_draft && (result.pk_size_unit===null) && hasError}"
-                    >
-                      <option value="0">{{ $t('prod.Size Unit') }}</option>
-                      <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
-                          item.name
-                        }}
-                      </option>
-                    </select>
+                <label for="">{{ $t('prod.Size') }} ? <strong class="text-error">*</strong></label>
+                <div class="relative flex input-group gap-4 mb-3 w-full">
+                  <ValidationProvider name="pk_size" rules="required" v-slot="{ errors }"
+                                      class="w-full"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
+                    <input type="text" class="form-control pr-12" placeholder="Size"
+                           @keypress="onlyNumber"
+                           v-model="result.pk_size">
+                  </ValidationProvider>
+                  <ValidationProvider name="pk_size_unit" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Size Unit')}) }">
+                    <div class="absolute right-0 top-0">
+                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                              v-model="result.pk_size_unit"
+                      >
+                        <option value="">{{ $t('prod.Size Unit') }}</option>
+                        <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
+                            item.name
+                          }}
+                        </option>
+                      </select>
+                    </div>
+                  </ValidationProvider>
+                </div>
+
+
+              </div>
+              <ValidationProvider name="pk_number_of_carton" rules="required" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
+                <div class="input-wrapper">
+                  <label for="">{{ $t('prod.Number of units per carton') }} <strong
+                    class="text-error">*</strong></label>
+                  <div class=" mb-3">
+                    <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
+                           @keypress="onlyNumber" v-model="result.pk_number_of_carton">
                   </div>
                 </div>
-
-
-              </div>
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Number of units per carton') }}</label>
-                <div class=" mb-3">
-                  <input type="text" class="form-control" placeholder="Size" aria-label="Units per carton"
-                         :class="{invalid: !is_draft && (!result.pk_number_of_carton) && hasError}"
-                         @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pk_number_of_carton">
+              </ValidationProvider>
+              <ValidationProvider name="pk_average_lead_time" rules="required" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Average lead time(Days)')}) }">
+                <div class="input-wrapper">
+                  <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label> <strong class="text-error">*</strong>
+                  <div class=" mb-3">
+                    <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
+                           @keypress="onlyNumber" v-model="result.pk_average_lead_time">
+                  </div>
                 </div>
-              </div>
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label>
-                <div class=" mb-3">
-                  <input type="text" class="form-control" placeholder="Avg. Lead Time" aria-label="Units per carton"
-                         :class="{invalid: !is_draft && (!result.pk_average_lead_time) && hasError}"
-                         @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pk_average_lead_time">
-                </div>
-              </div>
+              </ValidationProvider>
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Transportation Mode') }}</label>
                 <div class=" mb-3">
@@ -649,86 +640,106 @@
               }}.</p>
             <div class="grid grid-cols-2 gap-4">
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Weight') }} ?</label>
+                <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Carton Weight"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         :class="{invalid: !is_draft && (result.pc_weight===null) && hasError}"
-                         aria-describedby="button-addon2" v-model="result.pc_weight">
-                  <div class="absolute right-0 top-0">
-                    <select class="p-2 m-1 float-right border-l border-smooth uppercase"
-                            :class="{invalid: !is_draft && (result.pc_weight_unit_id===null) && hasError}"
-                            v-model="result.pc_weight_unit_id">
-                      <!--                  <option value="0">Select</option>-->
-                      <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
-                          item.name
-                        }}
-                      </option>
-                    </select>
-                  </div>
+                  <ValidationProvider name="pc_weight" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
+                    <input
+                      type="text"
+                      class="form-control pr-12"
+                      :placeholder="$t('prod.Available quantity')"
+                      @keypress="onlyNumber"
+                      v-model="result.pc_weight">
+                  </ValidationProvider>
+                  <ValidationProvider name="pc_weight_unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Weight Unit')}) }">
+                    <div class="absolute right-0 top-0">
+                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                              :class="{invalid: !is_draft && (result.pc_weight_unit_id===null) && hasError}"
+                              v-model="result.pc_weight_unit_id">
+                        <!--                  <option value="0">Select</option>-->
+                        <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
+                            item.name
+                          }}
+                        </option>
+                      </select>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Length') }} ?</label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Carton Length"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         :class="{invalid: !is_draft && (result.pc_length===null) && hasError}"
-                         aria-describedby="button-addon2" v-model="result.pc_length">
-                  <div class="absolute right-0 top-0">
-                    <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                            :class="{invalid: !is_draft && (result.pc_length_unit_id===null) && hasError}"
-                            v-model="result.pc_length_unit_id">
-                      <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                          item.name
-                        }}
-                      </option>
-                    </select>
-                  </div>
+                  <ValidationProvider name="pc_length" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
+                    <input type="text" class="form-control pr-12" placeholder="Carton Length"
+                           aria-label="Recipient's username"
+                           @keypress="onlyNumber"
+                           v-model="result.pc_length">
+                  </ValidationProvider>
+                  <ValidationProvider name="pc_length_unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
+                    <div class="absolute right-0 top-0">
+                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                              :class="{invalid: !is_draft && (result.pc_length_unit_id===null) && hasError}"
+                              v-model="result.pc_length_unit_id">
+                        <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
+                            item.name
+                          }}
+                        </option>
+                      </select>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
 
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Height') }} ?</label>
+                <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Carton Height"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         :class="{invalid: !is_draft && (result.pc_height===null) && hasError}"
-                         aria-describedby="button-addon2" v-model="result.pc_height">
-                  <div class="absolute right-0 top-0">
-                    <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                            :class="{invalid: !is_draft && (result.pc_height_unit_id===null) && hasError}"
-                            v-model="result.pc_height_unit_id">
-                      <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                          item.name
-                        }}
-                      </option>
-                    </select>
-                  </div>
+                  <ValidationProvider name="pc_height" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
+                    <input type="text" class="form-control pr-12" placeholder="Carton Height"
+                           aria-label="Recipient's username"
+                           @keypress="onlyNumber"
+                           v-model="result.pc_height">
+                  </ValidationProvider>
+                  <ValidationProvider name="pc_height_unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
+                    <div class="absolute right-0 top-0">
+                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                              v-model="result.pc_height_unit_id">
+                        <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
+                            item.name
+                          }}
+                        </option>
+                      </select>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
 
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Width') }} ?</label>
+                <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Carton Width"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         :class="{invalid: !is_draft && (result.pc_width===null) && hasError}"
-                         aria-describedby="button-addon2" v-model="result.pc_width">
-                  <div class="absolute right-0 top-0">
-                    <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                            :class="{invalid: !is_draft && (result.pc_width_unit_id===null) && hasError}"
-                            v-model="result.pc_width_unit_id">
-                      <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-                          item.name
-                        }}
-                      </option>
-                    </select>
-                  </div>
+                  <ValidationProvider name="pc_width" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
+                    <input type="text" class="form-control pr-12" placeholder="Carton Width"
+                           aria-label="Recipient's username"
+                           @keypress="onlyNumber"
+                           v-model="result.pc_width">
+                  </ValidationProvider>
+                  <ValidationProvider name="pc_width_unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
+                    <div class="absolute right-0 top-0">
+                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                              v-model="result.pc_width_unit_id">
+                        <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
+                            item.name
+                          }}
+                        </option>
+                      </select>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
 
@@ -741,50 +752,65 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
             <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
             <div class="input-wrapper">
-              <label for="">{{ $t('prod.Weight') }} ?</label>
+              <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
               <div class="relative flex input-group gap-4 w-50 mb-3">
-                <input type="text" class="form-control pr-12" placeholder="Carton Weight"
-                       aria-label="Recipient's username"
-                       @keypress="onlyNumber"
-                       :class="{invalid: !is_draft && (result.pdime_weight ===null) && hasError}"
-                       aria-describedby="button-addon2" v-model="result.pdime_weight">
+                <ValidationProvider name="pc_width" class="w-full" rules="required" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
+                <input
+                  type="text"
+                  class="form-control pr-12"
+                  :placeholder="$t('prod.Weight')"
+                  @keypress="onlyNumber"
+                  v-model="result.pdime_weight"
+                >
+                </ValidationProvider>
+                <ValidationProvider name="pdime_weight_unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
                 <div class="absolute right-0 top-0">
-                  <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
-                          :class="{invalid: !is_draft && (result.pdime_weight_unit_id === null) && hasError}"
+                  <select class="p-2 m-1 float-right border-l border-smooth uppercase"
                           v-model="result.pdime_weight_unit_id">
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.name }}</option>
                   </select>
                 </div>
+                </ValidationProvider>
               </div>
             </div>
             <div class="grid grid-cols-4 gap-4">
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Length') }} ?</label>
+                <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
+                <ValidationProvider name="pdime_length" class="w-full" rules="required" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Enter Length" aria-label="Recipient's username"
-                         :class="{invalid: !is_draft && (result.pdime_length === null) && hasError}"
+                  <input type="text" class="form-control" :placeholder="$t('prod.Length')"
                          @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pdime_length">
+                         v-model="result.pdime_length">
                 </div>
+                </ValidationProvider>
               </div>
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Height') }} ?</label>
+                <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
+                <ValidationProvider name="pdime_height" class="w-full" rules="required" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"
-                         :class="{invalid: !is_draft && (result.pdime_height === null) && hasError}"
-                         @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pdime_height">
+                  <input
+                    type="text" class="form-control"
+                    :placeholder="$t('prod.Height')"
+                    @keypress="onlyNumber"
+                    v-model="result.pdime_height">
                 </div>
+                </ValidationProvider>
               </div>
 
               <div class="input-wrapper">
-                <label for="">{{ $t('prod.Width') }} ?</label>
+                <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
+                <ValidationProvider name="pdime_width" class="w-full" rules="required" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"
-                         :class="{invalid: !is_draft && (result.pdime_width===null) && hasError}"
+                  <input type="text" class="form-control" placeholder="Enter Width"
                          @keypress="onlyNumber"
-                         aria-describedby="button-addon2" v-model="result.pdime_width">
+                         v-model="result.pdime_width">
                 </div>
+                </ValidationProvider>
               </div>
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Dimension Unit') }}</label>
@@ -806,18 +832,20 @@
           <div class="tab-sidebar p-3" v-if="!is_variant ">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
             <div class="input-wrapper">
-              <label for="">{{ $t('prod.Unit of measure') }} ?</label>
-              <div class="input-group mb-3">
-                <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                        :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"
-                        v-model="result.unit_id">
-                  <option value="0">{{ $t('prod.Unit') }}</option>
-                  <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
-                      item.name
-                    }}
-                  </option>
-                </select>
-              </div>
+              <label for="">{{ $t('prod.Unit of measure') }} ? <strong class="text-error">*</strong></label>
+              <ValidationProvider name="unit_id" class="w-full" rules="required" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Unit')}) }">
+                <div class="input-group mb-3">
+                  <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
+                          v-model="result.unit_id">
+                    <option value="0">{{ $t('prod.Unit') }}</option>
+                    <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
+                        item.name
+                      }}
+                    </option>
+                  </select>
+                </div>
+              </ValidationProvider>
             </div>
             <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.KSA Market(GULF) - SAR') }}</p>
             <p>
@@ -925,7 +953,7 @@
 
               <div class="col-md-6">
                 <div class="input-wrapper">
-                  <label for="">{{ $t('prod.Storage temperature') }}</label>
+                  <label for="">{{ $t('prod.Storage temperature') }} <strong class="text-error">*</strong></label>
                   <select class="border p-3 w-full border-smooth rounded-lg"
                           :class="{invalid: !is_draft && (result.storage_temperature===0 || result.storage_temperature===null) && hasError}"
                           v-model="result.storage_temperature">
@@ -938,7 +966,7 @@
 
               <div class="col-md-6">
                 <div class="input-wrapper">
-                  <label for="">{{ $t('prod.Ware House') }}</label>
+                  <label for="">{{ $t('prod.Ware House') }} <strong class="text-error">*</strong></label>
                   <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location"
                           :class="{invalid: !is_draft && (result.stock_location===0 || result.stock_location===null) && hasError}">
                     <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{ item.name }}</option>
@@ -948,7 +976,7 @@
 
               <div class="col-md-6">
                 <div class="input-wrapper">
-                  <label for="">{{ $t('prod.Country of origin') }}</label>
+                  <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
                   <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin"
                           :class="{invalid: !is_draft && (result.country_of_origin===null) && hasError}">
                     <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
@@ -1017,7 +1045,7 @@
             </div>
             <div class="button-group border-t border-smooth mt-20">
               <div class="flex justify-end gap-4 pt-3">
-                <button type="button" class="btn text-primary" :disabled="invalid" @click.prevent="doDraft">
+                <button type="button" class="btn text-primary" @click.prevent="doDraft">
                   {{ $t('prod.Save Draft') }}
                 </button>
                 <button type="button" class="btn bg-primary text-white border-secondary" :disabled="invalid"
@@ -1192,7 +1220,7 @@ export default {
         subCategory: '',
         childCategory: '',
         /*Product Inventory*/
-        available_quantity: 0,
+        available_quantity: '',
         /*End Product Inventory*/
         mainCategorySlug: null,
         subCategorySlug: null,
@@ -1219,10 +1247,10 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: 0,
         stock_location: 1,
-        country_of_origin: 194,
+        country_of_origin: 193,
         /*Shipping details*/
         /*Product Identifiers*/
-        barcode_type: 0,
+        barcode_type: '',
         barcode: null,
         sku: null,
         /*Product Identifiers*/
@@ -1254,10 +1282,10 @@ export default {
         add_attribute_value: [],
         /*additional attribute end*/
         /*packaging start*/
-        pk_size: 0,
-        pk_size_unit: 0,
-        pk_number_of_carton: 0,
-        pk_average_lead_time: 0, //days
+        pk_size: '',
+        pk_size_unit: '',
+        pk_number_of_carton: '',
+        pk_average_lead_time: '', //days
         pk_transportation_mode: 1,
         /*packaging end*/
         /*product dimensions start*/
@@ -1270,13 +1298,13 @@ export default {
         pdime_dimention_unit: 19,
         /*product dimensions end*/
         /*product cartons start*/
-        pc_weight: 0,
+        pc_weight: '',
         pc_weight_unit_id: 17,
-        pc_height: 0,
+        pc_height: '',
         pc_height_unit_id: 19,
-        pc_length: 0,
+        pc_length: '',
         pc_length_unit_id: 19,
-        pc_width: 0,
+        pc_width: '',
         pc_width_unit_id: 19,
         /*end product cartons*/
         id: '',
@@ -1288,7 +1316,7 @@ export default {
         description: {ar: '', en: ''},
         status: '',
         is_quote: '',
-        brand_id: 0,
+        brand_id: '',
         primary_category_id: '',
         category_id: '',
         bundle_deal_id: '',
@@ -1879,7 +1907,17 @@ export default {
         delete this.result.updated_at
 
 
-        const data = await this.setById({id: this.id, params: {result: {...this.result,rfq_id:this.$route.query?.quote,rfq_product_id:this.$route.query?.rfq_product_id},}, api: this.setApi})
+        const data = await this.setById({
+          id: this.id,
+          params: {
+            result: {
+              ...this.result,
+              rfq_id: this.$route.query?.quote,
+              rfq_product_id: this.$route.query?.rfq_product_id
+            },
+          },
+          api: this.setApi
+        })
         // if (data) {
         //
         //   this.result = Object.assign({}, data)

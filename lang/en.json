@@ -266,6 +266,8 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Select Barcode": "Select Barcode",
+    "Select Brand": "Select Brand",
     "Add product": "Add product",
     "Select products": "Select products",
     "Search or select the product eligible for the promotion from the list below": "Search or select the product eligible for the promotion from the list below",
@@ -287,6 +289,7 @@
     "Availability": "Availability",
     "optional": "optional",
     "Weight": "Weight",
+    "Weight Unit": "Weight Unit",
     "Pricing": "Pricing",
     "ADD TIER": "ADD TIER",
     "Enter the available quantity of your product": "Enter the available quantity of your product",
