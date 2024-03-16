@@ -430,7 +430,24 @@
     "sku": "SKU",
     "parent_sku": "Parent SKU"
   },
-  "fSale": {
+
+  "order": {
+    "allOrders": "All Orders",
+    "pendingApproval": "Pending approval",
+    "readyForPickup": "Ready for pickup",
+    "rejected": "Rejected",
+    "orderPlaced": "Order Placed",
+    "paymentMethod": "Payment Method",
+    "payment": "Payment",
+    "status": "Status",
+    "total": "Total",
+    "rejectOrder": "Reject Order",
+    "approveOrder": "Approve Order",
+    "available": "Available",
+    "noAvailable": "No Available"
+  },
+
+"fSale": {
     "sProd": "Selected products",
     "sPrice": "Sale price",
     "undo": "Undo",

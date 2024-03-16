@@ -33,7 +33,8 @@ module.exports = {
       graylight:'#F9F9F9',
       smoothlight:'#4B5563',
       theem:'#27436F',
-      theemlight:'#27436F1A'
+      theemlight:'#27436F1A',
+      lightdeep:'#F9FAFB'
     },
 
     screens: {
