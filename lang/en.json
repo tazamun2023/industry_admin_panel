@@ -433,6 +433,11 @@
 
   "order": {
     "allOrders": "All Orders",
+    "orderId": "Order Id",
+    "statusOrder": "status Order",
+    "paymentStatus": "payment Status",
+    "paymentMthodType": "payment Mthods Type",
+    "sortFilter": "sort By Filter",
     "pendingApproval": "Pending approval",
     "readyForPickup": "Ready for pickup",
     "rejected": "Rejected",
@@ -444,7 +449,23 @@
     "rejectOrder": "Reject Order",
     "approveOrder": "Approve Order",
     "available": "Available",
-    "noAvailable": "No Available"
+    "noAvailable": "No Available",
+    "product": "product",
+    "quantity": "quantity",
+    "subtotal": "subtotal",
+    "action": "action",
+    "PendingUpload": "Pending Upload",
+    "PendingVerification": "Pending Verification",
+    "Paid": "Paid",
+    "PendingPayment": "Pending Payment",
+    "SortBy": "Sort By",
+    "LastUpdateOldest": "Last Update (Oldest)",
+    "LastUpdateNewest": "Last Update (Newest)",
+    "PriceHighest": "Price (Highest)",
+    "PriceLowest": "Price (Lowest)",
+    "CartOrders": "Cart Orders",
+    "NegotiatedOrders": "Negotiated Orders",
+    "ViewOrder": "View Order"
   },
 
 "fSale": {
@@ -869,7 +890,41 @@
     "access": "Access Management"
 
   },
-  "util": {
+  "approveModal": {
+    "approvedOrder": "Approved Order",
+    "ordersItems": "Orders Items",
+    "pickupAddress": "Pickup Address",
+    "confirmation": "Confirmation",
+    "order": "Order",
+    "orderPlaced": "Order Placed",
+    "paymentMethod": "Payment Method",
+    "payment": "Payment",
+    "status": "Status",
+    "total": "Total",
+    "itemSubtotal": "Item(s) Subtotal",
+    "vat": "Vat (%)",
+    "itemTotal": "Item(s) Total",
+    "industryFee": "Industry Fee",
+    "commission": "Commission",
+    "vatOnCommission": "VAT(s) on Comission (5%)",
+    "totalCommission": "Total Comission",
+    "totalPayout": "Total Payout",
+    "pickupItems": "Pickup Items",
+    "save": "Save",
+    "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back"
+  },
+  "orderReject": {
+    "title": "Reject Order",
+    "confirmation": "You are about to reject the following order. Please select the rejection reason.",
+    "order": "Order",
+    "orderPlaced": "Order Placed",
+    "selectRejectionReason": "Select rejection reason",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+"util": {
     "tod": "Top of daily discover",
     "bfb": "Beside featured brands",
     "bod": "Bottom of daily discover",

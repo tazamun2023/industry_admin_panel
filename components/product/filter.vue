@@ -116,7 +116,8 @@ export default {
     },
 
     filterData() {
-      if (this.result.search !== '' || this.result.status !== '' || this.result.parentCategory !== '' || this.result.subCategory !== '' || this.result.category_id !== '' || this.result.sort_by !== '') {
+      if (this.result.search !== '' || this.result.status !== '' || this.result.parentCategory !== '' ||
+        this.result.subCategory !== '' || this.result.category_id !== '' || this.result.sort_by !== '') {
         this.$emit('filter', this.result);
       }
     },

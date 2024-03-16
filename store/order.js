@@ -15,34 +15,19 @@ const mutations = {
   SET_ORDER_DATA(state, orders) {
     state.orders = orders
   },
+  SET_ORDER_DATA_SEARCHE(state, orders) {
+    state.orders.data = orders
+  },
   SET_ORDER_SELECTED(state, selectedOrdersall) {
     state.selectedOrdersall = selectedOrdersall
   },
-  // CHANGE_ORDER_SELECTED(state, product_id,reject_reasons) {
-  //   state.selectedOrdersall?.map(order => {
-  //     // التحقق من وجود sub_order_items
-  //     if (order?.sub_order_items) {
-  //       // تحديث العناصر داخل sub_order_items
-  //       order?.sub_order_items?.map(item => {
-  //         // التحقق من تطابق product_id
-  //         if (item.product_id === product_id) {
-  //           // تحديث القيم
-  //           // item.status = "unavailable";
-  //           // item.product_not_available_reason_id = 22;
-  //           item.reason_id = reject_reasons;
-  //         }
-  //         return item;
-  //       });
-  //     }
-  //     return order;
-  //   });
-  // },
+
   CHANGE_ORDER_SELECTED(state, {payload}) {
       console.log('payload',payload)
         state.selectedOrdersall?.sub_order_items.map(item => {
-          // التحقق من تطابق product_id
           if (item.product_id === payload.product_id) {
-            // تحديث القيم
+
+            item.status= payload.status === 1 ? 'available' : "unavailable"
             item.status_update = payload.status;
             item.reason_id = payload.reject_reasons;
           }
@@ -61,8 +46,8 @@ const mutations = {
 }
 
 const actions = {
-  async getOrder ({ commit }) {
-    const {data} = await Service.getData(this.$auth.strategy.token.get(), "subOrder")
+  async getOrder ({ commit }, {payload}) {
+    const {data} = await Service.getData(this.$auth.strategy.token.get(), payload.page,null)
     if(data.status === 200){
       commit('SET_ORDER_DATA', data.data)
     }
@@ -80,24 +65,37 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message })
     }
   },
-  async getReasonsRejection ({ commit }) {
+  async getReasonsRejection ({ commit,dispatch }) {
     const {data} = await Service.getReasonsRejection(this.$auth.strategy.token.get())
     if(data.status === 200){
       commit('SET_REASONS_REJECTION', data.data)
+      dispatch('ui/setToastMessage', data.message, {root: true})
     }
     else {
       return Promise.reject({statusCode: data.status, message: data.message })
     }
   },
-  async changeStatus ({ commit },{payload}) {
+  async changeStatus ({ commit,dispatch },{payload}) {
     const {data} = await Service.changeStatusOrder(this.$auth.strategy.token.get(),payload)
     if(data.status === 200){
-      commit('SET_ORDER_DATA', data.data)
+      dispatch('ui/setToastMessage', data.message, {root: true})
+    } else if(data.status === 500) {
+      dispatch('ui/setToastError', data?.message, {root: true})
     }
     else {
       return Promise.reject({statusCode: data.status, message: data.message })
     }
-}
+},
+  async approveOrder ({ commit,dispatch },{payload}) {
+    const {data} = await Service.approveOrder(this.$auth.strategy.token.get(),payload)
+    if(data.status === 200){
+      commit('SET_ORDER_DATA', data.data)
+      dispatch('ui/setToastMessage', data.message, {root: true})
+    }
+    else {
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  }
 }
 
 export {

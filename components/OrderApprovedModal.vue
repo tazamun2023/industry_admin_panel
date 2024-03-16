@@ -126,12 +126,12 @@
                         <td class="whitespace-nowrap p-2">
                           <select @change="handleSelectChange($event,subItem)"
                                   class="p-3 border border-smooth rounded">
-                            <option selected value="1">Available</option>
-                            <option value="2">No Available</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'available' ? true : false" value="1">Available</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'unavailable' ? true : false" value="0">No Available</option>
                           </select>
                         </td>
                       </tr>
-                      <tr v-if="subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 2">
+                      <tr v-if="subItemSelected && subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 0">
                         <td colspan="6">
                           <div class="py-2 w-50 mx-auto">
                             <label class="w-full text-warning capitalize py-2" for="">Select rejection reason</label>
@@ -212,12 +212,27 @@
         <div class="card p-4">
           <div class="flex justify-between">
             <h4>Pickup Address</h4>
-            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" href="">Add Address</a>
+            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="addressmodal=true">Add Address</a>
           </div>
 
-          <div class="card gap-4 my-4 p-2 flex" v-for="(address,d) in  addressList.data" :key="d">
+          <div  v-for="(address,d) in  addressList.data" :key="d"
+               @click="focusAddress(address)"
+               :class="{
+    'card gap-4 my-4 p-2 flex border border-primary cursor-pointer':
+      addressSelected.id === address.id,
+    'card gap-4 my-4 p-2 flex cursor-pointer':
+      addressSelected.id !== address.id
+  }"
+          >
             <div class="p-1">
-              <input type="radio">
+              <input type="radio"
+                     :id="'addressRadio_' + d"
+                     :value="address"
+                     v-model="addressSelected"
+                     :checked="addressSelected != '' && addressSelected.id === address.id ? true : false"
+
+                     @change="focusAddress(address)"
+              />
             </div>
             <div>
               <h4>{{ address?.address_name }} <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> {{ address?.country }} - {{ address?.city }}</span></h4>
@@ -242,7 +257,7 @@
             </button>
             <button @click="backSecondStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back
             </button>
-            <button @click="secondStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+            <button @click="secondStep" v-if="addressSelected" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
           </div>
         </div>
       </div>
@@ -259,17 +274,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="(order,index) in selectedOrdersall.sub_order_items" :key="index"
+                v-if="order.status == 'available'"
+                >
                   <td>
                     <div class="flex items-flex gap-4">
                       <img class="w-10 h-10"
                            src="https://c8n.tradeling.com/img/plain/pim/rs:auto:300::0/f:webp/q:95/up/62971b6fa31f5224dcb37c3e/699288713187262780e1b8f337a3bdcf.jpg"
                            alt="">
-                      <p class="pt-2">Product name here Product name here ...</p>
+                      <p class="pt-2">{{order.product.title.slice(0,30)}}...</p>
                     </div>
                   </td>
                   <td>
-                    22
+                    {{ order.quantity }}
                   </td>
                 </tr>
                 </tbody>
@@ -278,8 +295,10 @@
           </div>
           <div class="card my-2 p-4">
             <h4>Pickup Address</h4>
-            <p><strong>Office</strong></p>
-            <p>12,test,dhaka area</p>
+            <p><strong>{{ addressSelected.type }}</strong></p>
+            <p>{{ addressSelected.address_name }},{{ addressSelected.country }},{{addressSelected.city}}
+            ,{{addressSelected.building_number}}
+            </p>
           </div>
         </div>
 
@@ -290,7 +309,7 @@
             </button>
             <button @click="backThirdStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back
             </button>
-            <button @click="thirdStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+            <button @click="approveSave" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">save</button>
           </div>
         </div>
       </div>
@@ -302,18 +321,20 @@
       </div>
 
     </div>
+    <AddAddressModel v-if="addressmodal" @close="closeModelAddAddress"  />
   </div>
 </template>
 
 <script>
 import LazyImage from "./LazyImage.vue";
 import {mapGetters, mapActions} from "vuex";
+import AddAddressModel from "./AddAddressModel.vue";
 
 export default {
-  components: {LazyImage},
+  components: {AddAddressModel, LazyImage},
   computed :{
     ...mapGetters('order',['orders','selectedOrdersall']),
-    ...mapGetters('address',['addressList'])
+    ...mapGetters('address',['addressList']),
   },
   data() {
     return {
@@ -323,18 +344,24 @@ export default {
       selectedValue: '',
       rejectionReason: '',
       orders: "",
+      addressmodal:false,
       subItemSelected: {
         order: "",
         availabilityStatus: "",
         reject_reasons: "",
         status: ""
-      }
+      },
+      addressSelected:""
     }
   },
   methods: {
     ...mapActions('address',['getVendorAddress']),
     closeModal() {
       this.$emit('close');
+    },
+    focusAddress(item) {
+      console.log(item)
+      this.addressSelected = item;
     },
     firstStep() {
       this.firstBox = false;
@@ -356,19 +383,23 @@ export default {
       this.secondBox = false;
       this.thirdBox = false
     },
+    closeModelAddAddress() {
+      this.addressmodal = false
+    },
 
     handleSelectChange(event, subItem) {
-      this.subItemSelected.availabilityStatus = event.target.value;
-      this.subItemSelected.order = subItem;
+      console.log(event.target.value, subItem)
+      if(event.target.value == 0) {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+      } else {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+        this.saveProductAvaliable(subItem.product_id);
+      }
+
     },
     saveProductUnAvaliable(product_id) {
-      // if(this.subItemSelected.availabilityStatus == 1) {
-      //
-      // } else {
-      //   this.subItemSelected.status = "reject";
-      //   this.$emit('save',this.subItemSelected);
-      // }
-      // قم بتحديث المصفوفة باستخدام دالة map
       this.$store.commit('order/CHANGE_ORDER_SELECTED',{
         payload:{
           product_id:product_id,
@@ -376,7 +407,36 @@ export default {
           status:this.subItemSelected.availabilityStatus
         }
       })
+      this.subItemSelected.order=""
+      this.subItemSelected.availabilityStatus="";
+      this.subItemSelected.status="";
+      this.subItemSelected.reject_reasons="";
+    },
+    saveProductAvaliable(product_id) {
+      this.$store.commit('order/CHANGE_ORDER_SELECTED',{
+        payload:{
+          product_id:product_id,
+          reject_reasons: null,
+          status: 1
+        }
+      })
 
+    },
+    approveSave() {
+      let orders=[];
+      this.selectedOrdersall?.sub_order_items.map((item,index) => {
+        orders[index]= {
+          sub_order_product_id: item.product_id,
+          status: item.status == 'unavailable' ? 0 : 1,
+          reason_id: item.status == 'unavailable' ? item.reason_id : null
+        }
+        return item;
+      });
+      let data= {
+        sub_order_id: this.selectedOrdersall.order_id.slice(0, -2),
+        products:orders
+      }
+      this.$emit('approveOrder',data)
     }
   },
   mounted() {
