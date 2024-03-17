@@ -3,7 +3,7 @@
     <div class="grid border-b-smooth grid-cols-4">
       <div>
         <h4>{{ $t('prod.product_list') }}</h4>
-        <p class="text-xs">Find and manage your uploaded products here</p>
+        <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
       </div>
       <div class="flex gap-4 col-span-2 justify-center">
         <button class="flex gap-1  hover:text-primary">
@@ -163,26 +163,33 @@
                       <nuxt-link
                         class="dply-felx j-left link"
                         style="max-width:100px;height:70px;object-fit:cover"
-                        :to="`/products/${value.id}`"
+                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
                       >
                         <lazy-image
+                          v-if="value.image"
                           class="mr-20"
-                          :data-src="setThumbImage(value.thumb_image, value.first_thumb_image)"
+                          :data-src="value.image"
                           :alt="value.title?.en"
                         />
                       </nuxt-link>
                     </td>
-                    <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor_name }}</td>
+                    <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
                     <td>{{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}</td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td>
-                      <p v-if="value.maxUnitPrice">
-                        <del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del>
+<!--                      <p v-if="value.maxUnitPrice">-->
+<!--                        <del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del>-->
+<!--                      </p>-->
+<!--                      <p v-else>NAN</p>-->
+<!--                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>-->
+                      <p>
+                        <del>SAR {{ value.product_prices[0]?.unit_price}}</del>
                       </p>
-                      <p v-else>NAN</p>
-                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>
+                      <p>
+                        SAR {{ value.product_prices[0]?.selling_price}}
+                      </p>
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>

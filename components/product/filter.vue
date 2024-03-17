@@ -110,9 +110,8 @@ export default {
         this.filterData()
       }
     },
-    clearFilterData(){
-      this.result = []
-      this.$emit('filter', this.result);
+    clearFilterData() {
+      return this.$router.push({path: this.$route.path})
     },
 
     filterData() {
