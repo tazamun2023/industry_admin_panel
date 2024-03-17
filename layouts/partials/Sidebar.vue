@@ -379,34 +379,34 @@ export default {
               title: this.$t('account.company-profile'),
               icon: 'building-4.svg',
               is_image:true,
-              gate: 'user'
+              gate: 'vendor'
             },
             {
               path: 'account/address',
               title: this.$t('account.address'),
               icon: 'location.svg',
               is_image:true,
-              gate: 'user'
+              gate: 'vendor'
             },
             {
               path: 'account/payment',
               title: this.$t('account.payment'),
               icon: 'dollar',
-              gate: 'user'
+              gate: 'vendor'
             },
             {
               path: 'vendors',
               title: this.$t('account.vendors'),
               icon: 'user-octagon.svg',
               is_image:true,
-              gate: 'user'
+              gate: 'admin'
             },
             {
               path: 'customer',
               title: this.$t('account.customers'),
               icon: 'emoji-happy.svg',
               is_image:true,
-              gate: 'user'
+              gate: 'admin'
             },
           ]
         },

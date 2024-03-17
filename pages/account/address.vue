@@ -13,9 +13,9 @@
            </div>
         </div>
         <div class="grid grid-cols-3 my-2 gap-4">
-            <div v-for="(value, index) in addressList" :key="index" class="card p-4 my-2">
+            <div v-for="(value, index) in addressList.data" :key="index" class="card p-4 my-2">
                 <div class="flex gap-4 py-2 justify-between">
-                    <h4>{{ value.address_name }}</h4>
+                    <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
                         <button class="p-2 leading-3 rounded bg-smooth  hover:text-warning" @click="deleteModal=true" >Remove</button>
                     <button class="p-2 leading-3 rounded bg-primary text-white hover:text-primary" @click="editAddress(value)">Edit</button>
@@ -66,7 +66,7 @@
 
 
         <!-- -----------------modal------------ -->
-        <template v-if="addressmodal">
+      <template v-if="addressmodal">
     <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
       <div class="absolute inset-0 bg-black opacity-50"></div>
       <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-2/5">
@@ -240,7 +240,7 @@ export default{
   mixins:[address],
     data(){
         return{
-            addressmodal:false,
+          addressmodal:false,
           addressData : {
               id: '',
               vendor_id:'',
@@ -305,7 +305,6 @@ export default{
    }
  },
   async mounted() {
-
     try {
       this.loading = true
       this.vendorCountryId = this.profile.country_id

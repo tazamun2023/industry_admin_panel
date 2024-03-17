@@ -11,7 +11,7 @@
       </svg>
       <!-- Modal Content -->
       <div class="mb-4">
-        <h4 class="font-bold">Approved Order: T233343r4343</h4>
+        <h4 class="font-bold">{{$t('approveModal.approvedOrder')}}: {{ selectedOrders[0]?.order_id }}</h4>
 
       </div>
       <div class="flex px-20 ">
@@ -23,7 +23,7 @@
             <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
           </div>
           <div class="mt-2 mr-4">
-            <h6 class="text-base font-bold text-blue-500">Orders Items</h6>
+            <h6 class="text-base font-bold text-blue-500">{{$t('approveModal.ordersItems')}}</h6>
           </div>
         </div>
         <div class="w-full">
@@ -34,7 +34,7 @@
             <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
           </div>
           <div class="mt-2 mr-4">
-            <h6 class="text-base font-bold text-blue-500">Pickup Address</h6>
+            <h6 class="text-base font-bold text-blue-500">{{$t('approveModal.pickupAddress')}}</h6>
           </div>
         </div>
         <div>
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="mt-2">
-            <h6 class="text-base text-smooth font-bold">Confirmation</h6>
+            <h6 class="text-base text-smooth font-bold">{{$t('approveModal.confirmation')}}</h6>
           </div>
         </div>
       </div>
@@ -54,32 +54,32 @@
           <div class="flex gap-4 justify-between" >
             <div class="flex gap-4">
               <div>
-                <p>Order</p>
+                <p>{{$t('approveModal.order')}}</p>
                 <p class="font-bold">{{order?.order_id}}</p>
               </div>
               <div>
-                <p>Order Placed</p>
+                <p>{{$t('approveModal.orderPlaced')}}</p>
                 <p class="font-bold">09-nov-23</p>
               </div>
               <div>
-                <p>Payment Method</p>
-                <p class="font-bold">Credit Card</p>
+                <p>{{$t('approveModal.paymentMethod')}}</p>
+                <p class="font-bold">{{ $t(`paymentMethod.${order.payment_method}`) }}</p>
               </div>
               <div>
-                <p>Payment</p>
+                <p>{{$t('approveModal.payment')}}</p>
                 <p class="font-bold text-primary"><span
-                  class="text-primary bg-primarylight px-2 rounded-3xl">Paid</span></p>
+                  class="text-primary bg-primarylight px-2 rounded-3xl">{{ $t(`status.${order.payment_status}`) }}</span></p>
               </div>
               <div>
-                <p>Status</p>
+                <p>{{$t('approveModal.status')}}</p>
                 <p class="font-bold"><span class="text-primary bg-primarylight px-2 rounded-3xl">
-                  {{order?.status}}
+                  {{ $t(`status.${order.status}`) }}
                 </span></p>
               </div>
             </div>
             <div class="flex gap-4">
               <div>
-                <p>Total</p>
+                <p>{{$t('approveModal.total')}}</p>
                 <p><strong>{{order?.total_price}}</strong></p>
               </div>
 
@@ -95,11 +95,11 @@
                       <thead class=" font-medium ">
                       <tr>
                         <th scope="col" class="p-2 w-[50px]">#</th>
-                        <th scope="col" class="p-2">Product</th>
-                        <th scope="col" class="p-2">Quantity</th>
-                        <th scope="col" class="p-2">Agreed Price</th>
-                        <th scope="col" class="p-2">Subtotal</th>
-                        <th scope="col" class="p-2">Action</th>
+                        <th scope="col" class="p-2">{{$t('order.total')}}</th>
+                        <th scope="col" class="p-2">{{$t('orderDetails.quantity')}}</th>
+                        <th scope="col" class="p-2">>{{$t('orderDetails.agreed_price')}}</th>
+                        <th scope="col" class="p-2">{{$t('orderDetails.subtotal')}}</th>
+                        <th scope="col" class="p-2">{{$t('vendor.action')}}</th>
                       </tr>
                       </thead>
                       <tbody v-for="(subItem,x) in order?.sub_order_items" :key="x">
@@ -115,26 +115,28 @@
                             />
                             <div>
                               <a href="">{{subItem.product.title.slice(0, 30)}}....</a>
-                              <p>Sku: {{subItem.product.sku}}</p>
+                              <p>{{$t('vendor.sku')}}: {{subItem.product.sku}}</p>
                             </div>
                           </div>
 
                         </td>
                         <td class="whitespace-nowrap p-2">{{subItem?.quantity}}</td>
-                        <td class="whitespace-nowrap p-2">SAR {{subItem?.price}} / price</td>
-                        <td class="whitespace-nowrap p-2">SAR {{subItem?.total_price}}</td>
+                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{subItem?.price}} / {{ $t('brand.price') }}</td>
+                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{subItem?.total_price}}</td>
                         <td class="whitespace-nowrap p-2">
                           <select @change="handleSelectChange($event,subItem)"
                                   class="p-3 border border-smooth rounded">
-                            <option selected value="1">Available</option>
-                            <option value="2">No Available</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'available' ? true : false" value="1">
+                              {{ $t('order.available') }}</option>
+                            <option :selected="selectedOrdersall && selectedOrdersall.sub_order_items[x]?.status == 'unavailable' ? true : false" value="0">
+                              {{ $t('order.noAvailable') }}</option>
                           </select>
                         </td>
                       </tr>
-                      <tr v-if="subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 2">
+                      <tr v-if="subItemSelected && subItemSelected?.order.product?.id == subItem?.product?.id && subItemSelected?.availabilityStatus == 0">
                         <td colspan="6">
                           <div class="py-2 w-50 mx-auto">
-                            <label class="w-full text-warning capitalize py-2" for="">Select rejection reason</label>
+                            <label class="w-full text-warning capitalize py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
                             <div class="flex gap-4">
                               <select class="p-4 w-full border border-smooth rounded" v-model="subItemSelected.reject_reasons">
                                 <option :value="item.id" v-for="(item, index) in reasonsRejection" :key="index">
@@ -144,7 +146,8 @@
                               <button
                                 @click="saveProductUnAvaliable(subItem.product_id)"
                                 class="py-4 m-0 rounded h-[52px] w-[80px] leading-5 bg-primary text-white hover:text-primary">
-                                Save
+
+                                {{ $t('orderReject.save') }}
                               </button>
                             </div>
                           </div>
@@ -157,37 +160,37 @@
                   <div class="w-full" >
                     <div class="w-2/5 ml-auto items-end border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
-                        <div><h5>Item(S) Subtotal</h5></div>
-                        <div><h5>SAR {{order?.order_total}}</h5></div>
+                        <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.order_total}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>Vat (%):</h5></div>
-                        <div><h5>SAR 123343</h5></div>
+                        <div><h5>{{ $t('approveModal.vat') }}:</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} 123343</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>Item(S) Total</h5></div>
-                        <div><h5>SAR 123343</h5></div>
+                        <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} 123343</h5></div>
                       </div>
                       <div class="flex my-2 justify-between">
-                        <div><h5 class="font-bold">Industry fee</h5></div>
+                        <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>Commission</h5></div>
-                        <div><h5>SAR {{order?.commission}}</h5></div>
+                        <div><h5>{{ $t('approveModal.commission') }}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.commission}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>VAT(S) on Comission (5%)</h5></div>
-                        <div><h5>SAR {{order?.commission_tax}}</h5></div>
+                        <div><h5>{{ $t('approveModal.vatOnCommission') }}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.commission_tax}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>Total Comission</h5></div>
-                        <div><h5>SAR
+                        <div><h5>{{ $t('approveModal.totalCommission') }}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }}
                           {{ (order?.commission || 0) + (order?.commission_tax || 0) }}
                         </h5></div>
                       </div>
                       <div class="flex border-t border-smooth pt-2 my-1 justify-between">
-                        <div><h5 class="font-bold">Total Payout</h5></div>
-                        <div><h5 class="font-bold">SAR 123343</h5></div>
+                        <div><h5 class="font-bold">{{ $t('approveModal.totalPayout') }}</h5></div>
+                        <div><h5 class="font-bold">{{ $t('app.SAR') }} 123343</h5></div>
                       </div>
                     </div>
                   </div>
@@ -197,10 +200,10 @@
           </div>
           <div class="w-full border-t relative p-8 border-smooth">
             <div class="items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
-              <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Cancel
+              <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">{{ $t('approveModal.cancel') }}
               </button>
               <button @click="firstStep"
-                      class="bg-primary hover:bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next
+                      class="bg-primary hover:bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{ $t('approveModal.next') }}
               </button>
             </div>
           </div>
@@ -211,13 +214,29 @@
       <div v-if="secondBox" class="secondStep p-4">
         <div class="card p-4">
           <div class="flex justify-between">
-            <h4>Pickup Address</h4>
-            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" href="">Add Address</a>
+            <h4> {{ $t('approveModal.pickupAddress') }}</h4>
+            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="addressmodal=true">
+              {{ $t('approveModal.pickupAddress') }}</a>
           </div>
 
-          <div class="card gap-4 my-4 p-2 flex" v-for="(address,d) in  addressList.data" :key="d">
+          <div  v-for="(address,d) in  addressList.data" :key="d"
+               @click="focusAddress(address)"
+               :class="{
+    'card gap-4 my-4 p-2 flex border border-primary cursor-pointer':
+      addressSelected.id === address.id,
+    'card gap-4 my-4 p-2 flex cursor-pointer':
+      addressSelected.id !== address.id
+  }"
+          >
             <div class="p-1">
-              <input type="radio">
+              <input type="radio"
+                     :id="'addressRadio_' + d"
+                     :value="address"
+                     v-model="addressSelected"
+                     :checked="addressSelected != '' && addressSelected.id === address.id ? true : false"
+
+                     @change="focusAddress(address)"
+              />
             </div>
             <div>
               <h4>{{ address?.address_name }} <span class="text-xs text-primary p-1 bg-primarylight rounded-3xl"> {{ address?.country }} - {{ address?.city }}</span></h4>
@@ -232,44 +251,46 @@
                 <span>+{{address?.phone_code}} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3">Edit</button>
+              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3">{{ $t('category.edit') }}</button>
             </div>
           </div>
         </div>
         <div class="w-full border-t mb-2 p-2 border-smooth">
           <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
-            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Cancel
+            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">{{ $t('approveModal.cancel') }}
             </button>
-            <button @click="backSecondStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back
+            <button @click="backSecondStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">{{ $t('approveModal.back') }}
             </button>
-            <button @click="secondStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+            <button @click="secondStep" v-if="addressSelected" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{ $t('approveModal.next') }}</button>
           </div>
         </div>
       </div>
       <div v-if="thirdBox" class="thirdStep p-4">
         <div>
-          <h4>Pickup Items</h4>
+          <h4>{{ $t('approveModal.pickupItems') }}</h4>
           <div class="card">
             <div>
               <table>
                 <thead>
                 <tr>
-                  <th>Product</th>
-                  <th>Quantity</th>
+                  <th>{{ $t('orderDetails.product') }}</th>
+                  <th>{{ $t('orderDetails.quantity') }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <tr v-for="(order,index) in selectedOrdersall.sub_order_items" :key="index"
+                v-if="order.status == 'available'"
+                >
                   <td>
                     <div class="flex items-flex gap-4">
                       <img class="w-10 h-10"
                            src="https://c8n.tradeling.com/img/plain/pim/rs:auto:300::0/f:webp/q:95/up/62971b6fa31f5224dcb37c3e/699288713187262780e1b8f337a3bdcf.jpg"
                            alt="">
-                      <p class="pt-2">Product name here Product name here ...</p>
+                      <p class="pt-2">{{order.product.title.slice(0,30)}}...</p>
                     </div>
                   </td>
                   <td>
-                    22
+                    {{ order.quantity }}
                   </td>
                 </tr>
                 </tbody>
@@ -277,20 +298,22 @@
             </div>
           </div>
           <div class="card my-2 p-4">
-            <h4>Pickup Address</h4>
-            <p><strong>Office</strong></p>
-            <p>12,test,dhaka area</p>
+            <h4>{{ $t('approveModal.pickupAddress') }}</h4>
+            <p><strong>{{ addressSelected.type }}</strong></p>
+            <p>{{ addressSelected.address_name }},{{ addressSelected.country }},{{addressSelected.city}}
+            ,{{addressSelected.building_number}}
+            </p>
           </div>
         </div>
 
         <div class="w-full border-t p-2 mb-2 border-smooth">
           <p class="text-primary">Please keep your item ready for pickup 12 February 2023</p>
           <div class="items-end p-1  text-end absolute ltr:right-[40px] rtl:left-[40px]">
-            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Cancel
+            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">{{ $t('approveModal.cancel') }}
             </button>
-            <button @click="backThirdStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">Back
+            <button @click="backThirdStep" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">{{ $t('approveModal.back') }}
             </button>
-            <button @click="thirdStep" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">Next</button>
+            <button @click="approveSave" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{ $t('approveModal.save') }}</button>
           </div>
         </div>
       </div>
@@ -302,18 +325,20 @@
       </div>
 
     </div>
+    <AddAddressModel v-if="addressmodal" @close="closeModelAddAddress"  />
   </div>
 </template>
 
 <script>
 import LazyImage from "./LazyImage.vue";
 import {mapGetters, mapActions} from "vuex";
+import AddAddressModel from "./AddAddressModel.vue";
 
 export default {
-  components: {LazyImage},
+  components: {AddAddressModel, LazyImage},
   computed :{
     ...mapGetters('order',['orders','selectedOrdersall']),
-    ...mapGetters('address',['addressList'])
+    ...mapGetters('address',['addressList']),
   },
   data() {
     return {
@@ -323,18 +348,24 @@ export default {
       selectedValue: '',
       rejectionReason: '',
       orders: "",
+      addressmodal:false,
       subItemSelected: {
         order: "",
         availabilityStatus: "",
         reject_reasons: "",
         status: ""
-      }
+      },
+      addressSelected:""
     }
   },
   methods: {
     ...mapActions('address',['getVendorAddress']),
     closeModal() {
       this.$emit('close');
+    },
+    focusAddress(item) {
+      console.log(item)
+      this.addressSelected = item;
     },
     firstStep() {
       this.firstBox = false;
@@ -356,19 +387,23 @@ export default {
       this.secondBox = false;
       this.thirdBox = false
     },
+    closeModelAddAddress() {
+      this.addressmodal = false
+    },
 
     handleSelectChange(event, subItem) {
-      this.subItemSelected.availabilityStatus = event.target.value;
-      this.subItemSelected.order = subItem;
+      console.log(event.target.value, subItem)
+      if(event.target.value == 0) {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+      } else {
+        this.subItemSelected.availabilityStatus = event.target.value;
+        this.subItemSelected.order = subItem;
+        this.saveProductAvaliable(subItem.product_id);
+      }
+
     },
     saveProductUnAvaliable(product_id) {
-      // if(this.subItemSelected.availabilityStatus == 1) {
-      //
-      // } else {
-      //   this.subItemSelected.status = "reject";
-      //   this.$emit('save',this.subItemSelected);
-      // }
-      // قم بتحديث المصفوفة باستخدام دالة map
       this.$store.commit('order/CHANGE_ORDER_SELECTED',{
         payload:{
           product_id:product_id,
@@ -376,7 +411,36 @@ export default {
           status:this.subItemSelected.availabilityStatus
         }
       })
+      this.subItemSelected.order=""
+      this.subItemSelected.availabilityStatus="";
+      this.subItemSelected.status="";
+      this.subItemSelected.reject_reasons="";
+    },
+    saveProductAvaliable(product_id) {
+      this.$store.commit('order/CHANGE_ORDER_SELECTED',{
+        payload:{
+          product_id:product_id,
+          reject_reasons: null,
+          status: 1
+        }
+      })
 
+    },
+    approveSave() {
+      let orders=[];
+      this.selectedOrdersall?.sub_order_items.map((item,index) => {
+        orders[index]= {
+          sub_order_product_id: item.product_id,
+          status: item.status == 'unavailable' ? 0 : 1,
+          reason_id: item.status == 'unavailable' ? item.reason_id : null
+        }
+        return item;
+      });
+      let data= {
+        sub_order_id: this.selectedOrdersall.order_id.slice(0, -2),
+        products:orders
+      }
+      this.$emit('approveOrder',data)
     }
   },
   mounted() {
