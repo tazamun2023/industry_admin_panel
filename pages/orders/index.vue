@@ -5,25 +5,25 @@
         <h4 class="font-bold">{{ $t('order.allOrders') }}</h4>
         <ul class="flex mb-0 list-none flex-wrap pt-3 w-2/4 pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1)"
+            <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1,'all')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 1, 'border-b-2  border-primary text-primary': openTab === 1}">
               {{ $t('order.allOrders') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(2)"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(2,'pending')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 2, 'border-b-2  border-primary text-primary': openTab === 2}">
               {{ $t('order.pendingApproval') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(3)"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(3,'approved')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 3, 'border-b-2    border-primary text-primary': openTab === 3}">
               {{ $t('order.readyForPickup') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(4)"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(4,'rejected')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 4, 'border-b-2   border-primary text-primary': openTab === 4}">
               {{ $t('order.rejected') }}
             </a>
@@ -37,7 +37,7 @@
           <spinner :radius="100" v-if="loading"/>
           <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-              <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index">
+              <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
                     <div class="p-2">
@@ -141,12 +141,12 @@
                 </div>
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page"
+                          :page="order?.current_page" v-if="!loading"
               />
             </div>
             <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index"
-                   v-show="order.status === 'pending'"
+                   v-if="!loading"
               >
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
@@ -239,12 +239,12 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page"
+                          :page="order?.current_page" v-if="!loading"
               />
             </div>
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
-                   v-for="(order,index) in orders?.data" :key="index">
+                   v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <CardTab :order="order"/>
                 <TablePending v-if="index  === indexTabel" :action="false">
                   <tr-sub-items :subItems="order.sub_order_items"/>
@@ -252,12 +252,12 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page"
+                          :page="order?.current_page" v-if="!loading"
               />
             </div>
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
-                   v-for="(order,index) in orders?.data" :key="index">
+                   v-for="(order,index) in orders?.data" :key="index"  v-if="!loading">
                 <CardTab :order="order"/>
 
                 <TablePending v-if="index  === indexTabel" :action="false">
@@ -266,7 +266,7 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page"
+                          :page="order?.current_page" v-if="!loading"
               />
             </div>
           </div>
@@ -302,7 +302,7 @@ export default {
       selectedOrders: [],
       rejectModal: false,
       indexTabel: null,
-
+      status: 'pending',
       RejectionOrder: "",
       productTable: {
         1: false,
@@ -315,10 +315,47 @@ export default {
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder']),
+    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
 
-    toggleTabs: function (tabNumber) {
+    toggleTabs: function (tabNumber,status) {
+      this.loading= true
+      this.status= status
       this.openTab = tabNumber
+
+      if(this.status === 'pending') {
+
+        this.getDataPending({
+          payload: {
+            page: this.$route.query.page ? this.$route.query.page : 1
+          }
+        })
+        this.loading= false
+      }
+      else if(this.status === 'approved') {
+        this.getDataOrderApproved({
+          payload: {
+            page: this.$route.query.page ? this.$route.query.page : 1
+          }
+        })
+        this.loading= false
+      }
+      else if(this.status === 'rejected') {
+        this.getDataOrderRejected({
+          payload: {
+            page: this.$route.query.page ? this.$route.query.page : 1
+          }
+        })
+        this.loading= false
+      }
+      else {
+        this.getOrder({
+          payload: {
+            page: this.$route.query.page ? this.$route.query.page : 1
+          }
+        });
+        this.loading= false
+      }
+
     },
     productTableShow(index) {
       this.productTable[index] = !this.productTable[index];
@@ -408,11 +445,7 @@ export default {
     }
   },
   mounted() {
-    this.getOrder({
-      payload: {
-        page: this.$route.query.page ? this.$route.query.page : 1
-      }
-    });
+    this.toggleTabs(this.openTab,this.status)
     this.getReasonsRejection();
     this.loading = false;
   }

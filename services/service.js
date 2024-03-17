@@ -160,6 +160,30 @@ export default {
     const response = await apiClient.get(`${json.api.subOrder}?page=`+page)
     return response;
   },
+  async getDataPending(bearer,page = 0, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.get(`${json.api.subOrderPending}?page=`+page)
+    return response;
+  },
+  async getDataOrderApproved(bearer,page = 0, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.get(`${json.api.subOrderApproved}?page=`+page)
+    return response;
+  },
+  async getDataOrderRejected(bearer,page = 0, lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.get(`${json.api.subOrderRejected}?page=`+page)
+    return response;
+  },
   async getOrderDetails(id, bearer, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
