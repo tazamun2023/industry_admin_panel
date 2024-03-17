@@ -283,10 +283,15 @@
                 >
                   <td>
                     <div class="flex items-flex gap-4">
-                      <img class="w-10 h-10"
-                           src="https://c8n.tradeling.com/img/plain/pim/rs:auto:300::0/f:webp/q:95/up/62971b6fa31f5224dcb37c3e/699288713187262780e1b8f337a3bdcf.jpg"
-                           alt="">
+                      <div class="flex gap-4">
+                        <LazyImage
+                          :data-src="order.product.image"
+                          :title="order.product.title"
+                          :alt="order.product.title"
+                          class="w-10 h-10"
+                        />
                       <p class="pt-2">{{order.product.title.slice(0,30)}}...</p>
+                      </div>
                     </div>
                   </td>
                   <td>
@@ -325,7 +330,7 @@
       </div>
 
     </div>
-    <AddAddressModel v-if="addressmodal" @close="closeModelAddAddress"  />
+    <AddAddressModel v-if="addressmodal" @close="addressmodal=!addressmodal"  />
   </div>
 </template>
 
@@ -430,15 +435,16 @@ export default {
       let orders=[];
       this.selectedOrdersall?.sub_order_items.map((item,index) => {
         orders[index]= {
-          sub_order_product_id: item.product_id,
+          id: item.product_id,
           status: item.status == 'unavailable' ? 0 : 1,
-          reason_id: item.status == 'unavailable' ? item.reason_id : null
+          reject_reason_id: item.status == 'unavailable' ? item.reason_id : null
         }
         return item;
       });
       let data= {
-        sub_order_id: this.selectedOrdersall.order_id.slice(0, -2),
-        products:orders
+        order_id: this.selectedOrdersall.order_id,
+        pickup_address_id: this.addressSelected.id,
+        products: orders
       }
       this.$emit('approveOrder',data)
     }

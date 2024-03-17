@@ -2,7 +2,7 @@
   <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-2/5">
-      <svg @click.prevent="closeAddressModel" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+      <svg @click="$emit('close')" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
       </svg>
       <!-- Modal Content -->
@@ -145,7 +145,7 @@
               </ValidationProvider>
               <!-- Close Button -->
               <div class="flex justify-end gap-4">
-                <button  @click.prevent="closeAddressModel" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
+                <button  @click.prevent="$emit('close')" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
                 <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
               </div>
             </form>
@@ -216,9 +216,8 @@ export default{
     },
 
     closeAddressModel(){
-      this.addressmodal = false
+      this.$emit('closeModel')
       this.addressData = {}
-      this.$emit('close')
     },
   },
   async mounted() {
