@@ -13,9 +13,9 @@
            </div>
         </div>
         <div class="grid grid-cols-3 my-2 gap-4">
-            <div v-for="(value, index) in addressList" :key="index" class="card p-4 my-2">
+            <div v-for="(value, index) in addressList.data" :key="index" class="card p-4 my-2">
                 <div class="flex gap-4 py-2 justify-between">
-                    <h4>{{ value.address_name }}</h4>
+                    <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
                         <button class="p-2 leading-3 rounded bg-smooth  hover:text-warning" @click="deleteModal=true" >Remove</button>
                     <button class="p-2 leading-3 rounded bg-primary text-white hover:text-primary" @click="editAddress(value)">Edit</button>
