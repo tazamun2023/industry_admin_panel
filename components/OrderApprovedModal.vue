@@ -215,7 +215,7 @@
         <div class="card p-4">
           <div class="flex justify-between">
             <h4> {{ $t('approveModal.pickupAddress') }}</h4>
-            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="addressmodal=true">
+            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="closeModelAddAddress">
               {{ $t('approveModal.pickupAddress') }}</a>
           </div>
 
@@ -328,9 +328,10 @@
 
         </slot>
       </div>
-
+      <div  v-if="addressmodal">
+      <AddAddressModel @close="closeModelAddAddress"  />
+      </div>
     </div>
-    <AddAddressModel v-if="addressmodal" @close="addressmodal=!addressmodal"  />
   </div>
 </template>
 
@@ -393,9 +394,8 @@ export default {
       this.thirdBox = false
     },
     closeModelAddAddress() {
-      this.addressmodal = false
+      this.addressmodal = ! this.addressmodal
     },
-
     handleSelectChange(event, subItem) {
       console.log(event.target.value, subItem)
       if(event.target.value == 0) {

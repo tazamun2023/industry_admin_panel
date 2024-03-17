@@ -15,6 +15,9 @@ const mutations = {
   SET_ORDER_DATA(state, orders) {
     state.orders = orders
   },
+  SET_EMPTYـORDER(state) {
+    state.orders = []
+  },
   SET_ORDER_DATA_SEARCHE(state, orders) {
     state.orders.data = orders
   },
@@ -52,9 +55,43 @@ const actions = {
       commit('SET_ORDER_DATA', data.data)
     }
     else {
+      commit('SET_EMPTYـORDER')
       return Promise.reject({statusCode: data.status, message: data.message })
     }
   },
+  async getDataPending ({ commit }, {payload}) {
+    const {data} = await Service.getDataPending(this.$auth.strategy.token.get(), payload.page,null)
+    if(data.status === 200){
+      commit('SET_ORDER_DATA', data.data)
+    }
+    else {
+      commit('SET_EMPTYـORDER')
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  },
+  async getDataOrderApproved ({ commit }, {payload}) {
+    const {data} = await Service.getDataOrderApproved(this.$auth.strategy.token.get(), payload.page,null)
+    if(data.status === 200){
+      commit('SET_EMPTYـORDER')
+      commit('SET_ORDER_DATA', data.data)
+    }
+    else {
+      commit('SET_EMPTYـORDER')
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  },
+  async getDataOrderRejected ({ commit }, {payload}) {
+    const {data} = await Service.getDataOrderRejected(this.$auth.strategy.token.get(), payload.page,null)
+    if(data.status === 200){
+      commit('SET_EMPTYـORDER')
+      commit('SET_ORDER_DATA', data.data)
+    }
+    else {
+      commit('SET_EMPTYـORDER')
+      return Promise.reject({statusCode: data.status, message: data.message })
+    }
+  },
+
   // reasonsRejection
   async getOrderDetails ({ commit },{id}) {
     const {data} = await Service.getOrderDetails(id,this.$auth.strategy.token.get())

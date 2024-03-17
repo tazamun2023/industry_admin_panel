@@ -5,26 +5,26 @@
       <h3 class="uppercase">{{ $t('error.orders') }}</h3>
       <ul class="flex list-none bg-smooth shadow flex-wrap rounded-xl p-1  w-2/5  my-3 flex-row">
         <li class="-mb-px  last:mr-0 cursor-pointer  flex-auto">
-          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(1)"
+          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(1,'all')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 1, 'rounded-lg text-primary bg-white': openTab === 1}">
             {{$t('order.allOrders')}} <span v-bind:class="{'py-2 px-2': openTab !== 1, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 1}">150</span>
 
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
-          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(2)"
+          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(2,'pending')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 2, 'rounded-lg text-primary bg-white': openTab === 2}">
             {{$t('order.new')}}  <span v-bind:class="{'py-2 px-2': openTab !== 2, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 2}">150</span>
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
-          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(3)"
+          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(3,'approved')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 3, 'rounded-lg text-primary bg-white': openTab === 3}">
               {{$t('app.Approved')}}<span v-bind:class="{'py-2 px-2': openTab !== 3, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 3}">150</span>
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
-          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(4)"
+          <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(4,'rejected')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 4, 'rounded-lg text-primary bg-white': openTab === 4}">
             {{$t('app.Rejected')}} <span v-bind:class="{'py-2 px-2': openTab !== 4, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 4}">150</span>
           </a>
@@ -33,7 +33,7 @@
       <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
         <div class="flex-auto ">
             <div class="tab-content input-wrapper tab-space">
-              <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+              <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" >
             <FilterData :orders="orders?.data" @clear-filter="clearFilter" />
             </div>
             <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
@@ -55,28 +55,28 @@
         <div class="flex-auto ">
             <div class="tab-content input-wrapper tab-space">
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order">
+               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading">
                  <button  class="hover:border-2 hover:border-error p-2 rounded-lg leading-3 uppercase font-bold"
                           @click="rejectModalShow(order)">{{ $t('order.rejectOrder') }}</button>
                  <button class="border-2 border-primary p-2 rounded-lg  text-primary  leading-3 uppercase font-bold"
                          @click="approvedModalShow(order)">{{ $t('order.approveOrder') }}</button>
                </CartOrder>
                 <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                            :page="order?.current_page" />
+                            :page="order?.current_page" v-if="!loading" />
              </div>
              <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
-               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" >
+               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading">
                  <button  class="hover:border-2 hover:border-error p-2 rounded-lg leading-3 uppercase font-bold" @click="rejectModalShow(order)">{{ $t('order.rejectOrder') }}</button>
                  <button class="border-2 border-primary p-2 rounded-lg  text-primary  leading-3 uppercase font-bold" @click="approvedModalShow(order)"> {{ $t('order.approveOrder') }}</button>
                </CartOrder>
                <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                           :page="order?.current_page" />
+                           :page="order?.current_page" v-if="!loading" />
              </div>
              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" />
+               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading" />
              </div>
              <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
-               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" />
+               <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading" />
              </div>
         </div>
     </div>
@@ -108,6 +108,7 @@ data(){
   approvedModal:false,
   rejectModal:false,
    loading: false,
+   status: 'pending',
   productTable:{
     1:false,
     2:false
@@ -119,9 +120,46 @@ data(){
   },
   middleware: ['common-middleware', 'auth'],
 methods:{
-  ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder']),
-  toggleTabs: function (tabNumber) {
+  ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
+
+  toggleTabs: function (tabNumber,status) {
+    this.loading= true
+    this.status= status
     this.openTab = tabNumber
+
+    if(this.status === 'pending') {
+      this.getDataPending({
+        payload: {
+          page: this.$route.query.page ? this.$route.query.page : 1
+        }
+      })
+      this.loading= false
+    }
+    else if(this.status === 'approved') {
+      this.getDataOrderApproved({
+        payload: {
+          page: this.$route.query.page ? this.$route.query.page : 1
+        }
+      })
+      this.loading= false
+    }
+    else if(this.status === 'rejected') {
+      this.getDataOrderRejected({
+        payload: {
+          page: this.$route.query.page ? this.$route.query.page : 1
+        }
+      })
+      this.loading= false
+    }
+    else {
+      this.getOrder({
+        payload: {
+          page: this.$route.query.page ? this.$route.query.page : 1
+        }
+      });
+      this.loading= false
+    }
+
   },
   productTableShow(index){
     this.productTable[index] = !this.productTable[index]
@@ -192,11 +230,7 @@ methods:{
   }
 },
 async mounted() {
-  await this.getOrder({
-    payload: {
-      page: this.$route.query.page ? this.$route.query.page : 1
-    }
-  });
+  this.toggleTabs(this.openTab,this.status)
   this.getReasonsRejection();
 }
 
