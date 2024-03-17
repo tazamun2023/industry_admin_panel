@@ -266,6 +266,10 @@
   },
   "prod": {
     "Submit": "Submit",
+    "SAR": "SAR",
+    "Find and manage your uploaded products here": "Find and manage your uploaded products here",
+    "Select Option": "Select Option",
+    "Basic Information": "Basic Information",
     "Select Barcode": "Select Barcode",
     "Select Brand": "Select Brand",
     "Add product": "Add product",

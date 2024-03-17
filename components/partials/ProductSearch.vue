@@ -42,8 +42,9 @@
               >
                 <div class="dply-felx j-left ">
                   <lazy-image
+                    v-if="item.image"
                     class="mr-15 img-40x"
-                    :data-src="setThumbImage(item.thumb_image, item.first_thumb_image)"
+                    :data-src="item.image"
                     :alt="item.title"
                   />
                   <h5 v-if="item.title">{{ item.title }}</h5>
