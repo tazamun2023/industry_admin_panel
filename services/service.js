@@ -201,7 +201,7 @@ export default {
       apiClient.defaults.headers.common['Language'] = lang
     }
     apiClient.defaults.headers.common['Authorization'] = bearer
-    const response = await apiClient.post(json.api.changeStatusOrder,params)
+    const response = await apiClient.post(`${json.api.SubOrderApprove}/${params.order_id}`,params)
     return response;
   },
 }
