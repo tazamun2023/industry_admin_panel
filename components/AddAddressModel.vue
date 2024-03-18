@@ -226,6 +226,7 @@ export default{
       this.vendorCountryId = this.profile.country_id;
       this.addressData.country_id=  this.profile.country_id;
       await  this.getAllAddress();
+      if (this.phoneCode.length == 0)
       await this.getPhoneCode()
       await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
         .then(()=>{
