@@ -26,7 +26,7 @@
       </div>
 
       <div v-if="!is_next && !is_clone">
-        <ValidationObserver class="w-full" v-slot="{ invalid }">
+        <ValidationObserver class="w-full" v-slot="{ handleSubmit }">
         <form>
           <!-- --------------------------- -->
           <div class="my-10"></div>
@@ -394,6 +394,7 @@
           <packaging-section
             v-if="!is_variant"
             :result="result"
+            :is_draft="is_draft"
             :allPackagingUnits="allPackagingUnits"
             :allTransportationModes="allTransportationModes"
             @PackagingSection="PackagingSection"
@@ -405,6 +406,7 @@
           <carton-dimension-section
             v-if="!is_variant"
             :result="result"
+            :is_draft="is_draft"
             @CartonDimensionSection="CartonDimensionSection"
             :allWeightUnits="allWeightUnits"
             :allDimensionUnits="allDimensionUnits"
@@ -416,6 +418,7 @@
           <product-dimensions-and-weight-section
             v-if="!is_variant"
             :result="result"
+            :is_draft="is_draft"
             @ProductDimensionsAndWeightSection="ProductDimensionsAndWeightSection"
             :allWeightUnits="allWeightUnits"
             :allDimensionUnits="allDimensionUnits"
@@ -427,6 +430,7 @@
           <product-priceing-section
             v-if="!is_variant"
             :result="result"
+            :is_draft="is_draft"
             :allPackagingUnits="allPackagingUnits"
             :product_price="product_price"
             @ProductPriceingSection="ProductPriceingSection"
@@ -487,11 +491,11 @@
             </div>
             <div class="button-group border-t border-smooth mt-20">
               <div class="flex justify-end gap-4 pt-3">
-                <button type="button" class="btn text-primary" :disabled="invalid" @click.prevent="doDraft">
+                <button type="button" class="btn text-primary" @click.prevent="handleSubmit(doDraft)">
                   {{ $t('prod.Save Draft') }}
                 </button>
-                <button type="button" class="btn bg-primary text-white border-secondary" :disabled="invalid"
-                        @click.prevent="doSubmit">
+                <button type="button" class="btn bg-primary text-white border-secondary"
+                        @click.prevent="handleSubmit(doSubmit)">
                   {{ $t('prod.Send for review') }}
                 </button>
               </div>
@@ -585,7 +589,7 @@ export default {
       uploadModal: false,
       is_clone: false,
       is_variant: false,
-      is_draft: false,
+      is_draft: true,
       pv_type: false,
       isColor: false,
       isSize: false,
@@ -734,12 +738,12 @@ export default {
         pk_transportation_mode: 1,
         /*packaging end*/
         /*product dimensions start*/
-        pdime_weight: 0,
+        pdime_weight: '',
         pdime_weight_unit_id: 17,
-        pdime_height: 0,
-        pdime_length: 0,
-        pdime_width: 0,
-        pdime_unit: 0,
+        pdime_height: '',
+        pdime_length: '',
+        pdime_width: '',
+        pdime_unit: '',
         pdime_dimention_unit: 19,
         /*product dimensions end*/
         /*product cartons start*/
@@ -1113,10 +1117,17 @@ export default {
       this.checkForm()
 
     },
+    handleSubmit(){
+      console.log('ddddddddddddddd')
+      // alert('Form has been submitted!');
+    },
+
 
     doSubmit() {
+      console.log('zzzzzzzzzzzzzzz')
       this.is_draft = false;
       this.result.is_draft = false;
+
 
       if (this.validationKeysIfNotVariant.findIndex((i) => {
         return (!this.result[i])

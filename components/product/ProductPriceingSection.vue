@@ -1,12 +1,17 @@
 <script>
 import util from "@/mixin/util";
+import {ValidationProvider} from "vee-validate";
 
 export default {
   name: "ProductPriceingSection",
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
+  components: {
+    ValidationProvider
+  },
   props: {
     result: {},
+    is_draft: {},
     allPackagingUnits: {},
     product_price: {},
   },
@@ -36,19 +41,22 @@ export default {
 <template>
   <div class="tab-sidebar p-3">
     <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
-    <div class="input-wrapper">
-      <label for="">{{ $t('prod.Unit of measure') }} ? <strong class="text-error">*</strong></label>
-      <div class="input-group mb-3">
-        <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
-                v-model="result.unit_id">
-          <option value="0">{{ $t('prod.Unit') }}</option>
-          <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
-              item.name
-            }}
-          </option>
-        </select>
+    <ValidationProvider name="unit_id" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                        :custom-messages="{required: $t('global.req', { type: $t('prod.Unit of measure')}) }">
+      <div class="input-wrapper">
+        <label for="">{{ $t('prod.Unit of measure') }} ? <strong class="text-error">*</strong></label>
+        <div class="input-group mb-3">
+          <select class="border p-3 w-50 border-smooth rounded-lg uppercase"
+                  v-model="result.unit_id">
+            <option value="0">{{ $t('prod.Unit') }}</option>
+            <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
+                item.name
+              }}
+            </option>
+          </select>
+        </div>
       </div>
-    </div>
+    </ValidationProvider>
     <p><span class="fw-bold">{{ $t('prod.Price list') }}</span> {{ $t('prod.KSA Market(GULF) - SAR') }}</p>
     <p>
       {{
@@ -67,20 +75,25 @@ export default {
         <tbody>
 
         <tr v-for="(product_price, index) in result.product_prices" :key="index">
+          <ValidationProvider name="pdime_weight" class="w-full" :rules="{ required: !is_draft && result.product_prices[index].quantity}" v-slot="{ errors }"
+                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">
           <td class="p-2">
             <input
               type="text"
               class="form-control"
-              placeholder="Enter Quantity"
+              :placeholder="$t('prod.Minimum order quantity')"
               @keypress="onlyNumber"
               v-model="product_price.quantity"
               @input="ProductPriceingSection"
             >
           </td>
+            <span class="error">{{ errors[0] }}</span>
+          </ValidationProvider>
           <td class="p-2">
             <div class="relative flex">
               <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
-              <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
+              <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                     :placeholder="$t('prod.Unit price')"
                      @keypress="onlyNumber"
                      @input="ProductPriceingSection"
                      v-model="product_price.unit_price">
@@ -89,7 +102,8 @@ export default {
           <td class="p-2">
             <div class="relative flex">
               <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
-              <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
+              <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                     :placeholder="$t('prod.Sale price')"
                      @keypress="onlyNumber"
                      @input="ProductPriceingSection"
                      v-model="product_price.selling_price">
