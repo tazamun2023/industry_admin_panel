@@ -28,10 +28,12 @@
         </div>
         <div class="w-full">
           <div class="flex items-center w-full">
-            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full">
+            <div :class="{'w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full':secondBox || thirdBox,
+            'w-8 h-8 shrink-0 mx-[-1px] bg-smooth p-1.5 flex items-center justify-center rounded-full': !thirdBox && !secondBox,
+            }">
               <span class="text-base text-white font-bold">2</span>
             </div>
-            <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
+            <div :class="{'w-full h-1 mx-4 rounded-lg bg-primary': secondBox || thirdBox ,'w-full h-1 mx-4 rounded-lg bg-smooth':!thirdBox && !secondBox}" ></div>
           </div>
           <div class="mt-2 mr-4">
             <h6 class="text-base font-bold text-blue-500">{{$t('approveModal.pickupAddress')}}</h6>
@@ -39,12 +41,14 @@
         </div>
         <div>
           <div class="flex items-center">
-            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-smooth p-1.5 flex items-center justify-center rounded-full">
+            <div :class="{'w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full':thirdBox,
+            'w-8 h-8 shrink-0 mx-[-1px] bg-smooth p-1.5 flex items-center justify-center rounded-full': !thirdBox,
+            }">
               <span class="text-base text-white font-bold">3</span>
             </div>
           </div>
           <div class="mt-2">
-            <h6 class="text-base text-smooth font-bold">{{$t('approveModal.confirmation')}}</h6>
+            <h6 :class="{'text-base text-primary font-bold': thirdBox,'text-base text-smooth font-bold': !thirdBox}">{{$t('approveModal.confirmation')}}</h6>
           </div>
         </div>
       </div>
@@ -68,11 +72,11 @@
               <div>
                 <p>{{$t('approveModal.payment')}}</p>
                 <p class="font-bold text-primary"><span
-                  class="text-primary bg-primarylight px-2 rounded-3xl">{{ $t(`status.${order.payment_status}`) }}</span></p>
+                  class="text-primary  px-2 rounded-3xl">{{ $t(`status.${order.payment_status}`) }}</span></p>
               </div>
               <div>
                 <p>{{$t('approveModal.status')}}</p>
-                <p class="font-bold"><span class="text-primary bg-primarylight px-2 rounded-3xl">
+                <p class="font-bold"><span class="text-primary  px-2 rounded-3xl">
                   {{ $t(`status.${order.status}`) }}
                 </span></p>
               </div>

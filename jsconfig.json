@@ -410,7 +410,7 @@
     "setVideo" : "video-gallery",
     "getVideo" : "video-gallery",
     "deleteVideo" : "video-gallery",
-
+    "subOrder": "sub-order",
     "subOrderPending": "sub-order/pending",
     "subOrderApproved": "sub-order/approved",
     "subOrderRejected": "sub-order/rejected",

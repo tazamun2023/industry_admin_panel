@@ -703,7 +703,9 @@
     "cred_Card": ""
   },
   "status": {
-    "pending": "pending"
+    "pending": "pending",
+    "approved": "approved",
+    "rejected": "rejected"
   },
   "bank": {
     "bank_name": "Bank Name",

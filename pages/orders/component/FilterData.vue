@@ -3,7 +3,7 @@
     <div class="relative">
       <input
         type="text"
-        @input="FilterOrder" v-model="search.orderNumber"
+        v-model="search.order_id"
         :placeholder="$t('order.orderId')"
         class="pl-10 pr-4 py-2 border rounded-lg w-full focus:outline-none focus:border-primary"
       />
@@ -16,33 +16,36 @@
         </svg>
       </div>
     </div>
-    <select class="p-2 border rounded border-smooth" name="" id="" @change="FilterOrder" v-model="search.orderStatus">
+    <select v-if="tap===1" class="p-2 border rounded border-smooth" name="" id="" v-model="search.order_status">
       <option value="">{{$t('order.statusOrder')}}</option>
       <option :value="item.value" v-for="(item,i) in orderStatus" :key="i">
-        {{ $t(`order.${item?.name}`) }}
+        {{ $t(`status.${item?.name}`) }}
       </option>
 
     </select>
-    <select class="p-2 border rounded border-smooth" name="" id=""  v-model="search.paymentStatus"  @change="FilterOrder">
-      <option value="">{{$t('order.paymentStatus')}}</option>
-      <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">
-        {{ $t(`order.${option.label}`) }}
-        </option>
+<!--    <select class="p-2 border rounded border-smooth" name="" id=""  v-model="search.paymentStatus"  @change="FilterOrder">-->
+<!--      <option value="">{{$t('order.paymentStatus')}}</option>-->
+<!--      <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">-->
+<!--        {{ $t(`order.${option.label}`) }}-->
+<!--        </option>-->
 
-    </select>
-    <select class="p-2 border rounded border-smooth"  v-model="search.orderType" @change="FilterOrder">
-      <option value="">{{$t('order.paymentMthodType')}}</option>
-      <option v-for="orderType in orderTypes" :key="orderType.value" :value="orderType.value">{{
-          $t(`order.${orderType.label}`)
-        }}</option>
-    </select>
-    <select class="p-2 border rounded border-smooth" name="" id="" v-model="search.sortBy" @change="FilterOrder">
+<!--    </select>-->
+<!--    <select class="p-2 border rounded border-smooth"  v-model="search.orderType" @change="FilterOrder">-->
+<!--      <option value="">{{$t('order.paymentMthodType')}}</option>-->
+<!--      <option v-for="orderType in orderTypes" :key="orderType.value" :value="orderType.value">{{-->
+<!--          $t(`order.${orderType.label}`)-->
+<!--        }}</option>-->
+<!--    </select>-->
+    <select class="p-2 border rounded border-smooth" name="" id="" v-model="search.sort_by" >
       <option value="">{{$t('order.sortFilter')}}</option>
-      <option v-for="(sortBy,index) in sortOptions" :key="index" :value="sortBy.value">{{
+      <option v-for="(sortBy,index) in sortOptions" :key="index" :value="sortBy.api">{{
           $t(`order.${sortBy.label}`)
         }}</option>
     </select>
     <div class="flex col-span-2">
+      <a
+        class="inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+        @click.prevent="FilterOrder">  {{ $t("app.Apply Filters") }} </a>
       <a
         class="inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
         @click.prevent="clearFilterData"> {{ $t("prod.clear_filter") }} </a>
@@ -53,20 +56,19 @@
 import {mapActions} from "vuex";
 
 export default {
-  props: ['orders'],
+  props: ['tap'],
   data() {
     return {
       search: {
-        orderNumber: "",
-        orderStatus: "",
-        sortBy: "",
-        orderType:"",
-        sortSelected:"",
-        paymentStatus:""
+        order_id: '',
+        order_status: '',
+        sort_by: '',
+        invoice_status:'',
+        tap:''
       },
       orderStatus: [
-        {id: 1, name: "pendingApproval", value:"pending"},
-        {id: 2, name: "readyForPickup",value:"pickup"},
+        {id: 1, name: "pendingGIT", value:"pending"},
+        {id: 2, name: "approved",value:"approved"},
         {id: 3, name: "rejected" , value:"rejected"},
       ],
       paymentStatuses: [
@@ -76,11 +78,10 @@ export default {
         { value: 'pending_payment', label: 'PendingPayment' }
       ],
       sortOptions: [
-        { value: '', label: 'SortBy' },
-        { value: 'oldest', label: 'LastUpdateOldest' },
-        { value: 'newest', label: 'LastUpdateNewest' },
-        { value: 'highest_price', label: 'PriceHighest' },
-        { value: 'lowest_price', label: 'PriceLowest' }
+        { value: 'oldest', label: 'LastUpdateOldest', api:'last-updated-oldest' },
+        { value: 'newest', label: 'LastUpdateNewest', api:'last-updated-newest' },
+        { value: 'highest_price', label: 'PriceHighest', api:'price-high' },
+        { value: 'lowest_price', label: 'PriceLowest', api:'price-low' }
       ],
       orderTypes: [
         { value: '', label: 'OrderType' },
@@ -92,56 +93,17 @@ export default {
   },
 
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder']),
-    FilterOrderStatus(filteredList) {
-      if (this.search.orderStatus) {
-        filteredList = filteredList.filter(order => {
-          return order.status === this.search.orderStatus;
-        });
-      }
-      return filteredList;
-    },
+
     async FilterOrder() {
-      let filteredList = this.orders;
-      if (this.search.orderNumber) {
-        const orderNumberRegExp = new RegExp(this.search.orderNumber, "i");
-        filteredList = filteredList.filter(order => {
-          return String(order.order_id).match(orderNumberRegExp);
-        });
+      if (this.search.order_id !=='' || this.search.order_status !=='' || this.search.invoice_status !=='' || this.search.sort_by !=='' ) {
+        this.search.tap= this.tap === 1 ?  'all' : this.tap ===2 ? 'pending' : this.tap === 3 ? 'approved' : this.tap === 4 ? 'rejected' :'';
+        if( this.tap === 1) {
+          this.search.tap= this.search.order_status;
+        }
+        this.$emit('filter-update',this.search)
+      } else {
+        return false;
       }
-      if (this.search.orderStatus) {
-        filteredList = filteredList.filter(order => {
-          return order.status === this.search.orderStatus;
-        });
-      }
-      if (this.search.paymentStatus) {
-        filteredList = filteredList.filter(order => {
-          return order.payment_status === this.search.paymentStatus;
-        });
-      }
-      if(this.search.orderStatus == '' && this.search.sortBy !== '') {
-        this.search.orderStatus="pending";
-        filteredList= this.FilterOrderStatus(filteredList)
-      }
-      switch (this.search.sortBy) {
-        case "highest_price":
-          filteredList = filteredList.sort((a, b) => b.order_total - a.order_total);
-          break;
-        case "lowest_price":
-          filteredList =  filteredList.sort((a, b) => a.order_total - b.order_total);
-          break;
-        case "oldest":
-          filteredList = filteredList.reverse();
-          // filteredList = filteredList.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-          break;
-        case "newest":
-          filteredList = filteredList.reverse();
-          // filteredList = filteredList.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-          break;
-        default:
-          break;
-      }
-      this.$store.commit('order/SET_ORDER_DATA_SEARCHE', filteredList)
     },
     clearFilterData() {
       this.search.orderNumber= "";
