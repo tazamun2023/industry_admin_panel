@@ -133,7 +133,7 @@ methods:{
         params: {
           ...result,
         },
-        api: "subOrder"
+        api: "mainOrder"
       })
       this.loading = false
     } catch (e) {
@@ -152,7 +152,7 @@ methods:{
           ...this.param,
           ...search
         },
-        api: "subOrder"
+        api: "mainOrder"
       })
       this.loading = false
     } catch (e) {
