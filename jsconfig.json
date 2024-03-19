@@ -416,7 +416,8 @@
     "subOrderRejected": "sub-order/rejected",
     "reasonsRejection": "reject-reason",
     "changeStatusOrder": "main-order/change-status",
-    "SubOrderApprove": "sub-order/approve"
+    "SubOrderApprove": "sub-order/approve",
+    "mainOrder": "sub-order/admin"
 
   }
 }

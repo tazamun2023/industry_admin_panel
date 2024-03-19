@@ -126,7 +126,6 @@ const actions = {
   async approveOrder ({ commit,dispatch },{payload}) {
     const {data} = await Service.approveOrder(this.$auth.strategy.token.get(),payload)
     if(data.status === 200){
-      commit('SET_ORDER_DATA', data.data)
       dispatch('ui/setToastMessage', data.message, {root: true})
     }
     else {

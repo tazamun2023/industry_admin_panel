@@ -164,7 +164,7 @@ export default {
         },
         {
           path: 'admin-orders',
-          title: "admin-orders",
+          title:  this.$t('rfq.admin_order'),
           icon: 'clipboard-text.svg',
           is_image:true,
           form: ['order'],

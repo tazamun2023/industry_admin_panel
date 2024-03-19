@@ -333,7 +333,9 @@
         </slot>
       </div>
       <div  v-if="addressmodal">
-      <AddAddressModel @close="closeModelAddAddress"  />
+      <AddAddressModel @close="closeModelAddAddress"  >
+
+      </AddAddressModel>
       </div>
     </div>
   </div>

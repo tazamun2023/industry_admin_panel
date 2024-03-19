@@ -6,6 +6,7 @@
     "Done": "تم",
     "SAR": "س.ر",
     "Discard Draft": "حذف المسودة",
+    "of": "من",
     "Cancel": "الغاء",
     "Actions": "اجراءات",
     "All": "الكل",
@@ -26,7 +27,8 @@
     "Draft Quotes": "مسودات عروض الأسعار",
     "All quotes": "جميع عروض الأسعار ",
     "Order Placed": "تم الطلب ",
-    "Select on Status": "اختر الحالة"
+    "Select on Status": "اختر الحالة",
+    "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً"
   },
   "rfq": {
     "Select from my catalogue": "اختر من الكتالوج الخاص بي",
@@ -55,6 +57,7 @@
     "Received quotes": " عروض الأسعار المستلمة",
     "Submit Quotes": "تقديم العروض",
     "d": "يوم",
+    "admin_order": "ادارة الطلبات",
     "View all products": "عرض جميع المنتجات",
     "Search by RFQ ID or Product": "البحث حسب معرف طلب السعر أو المنتج",
     "Search by Category": "البحث حسب الفئة",
@@ -454,8 +457,24 @@
     "NegotiatedOrders": "الطلبات المتفاوض عليها",
     "ViewOrder": "عرض تفاصيل الطلب"
   },
+  "paymentStatus": {
+    "check_payment": "التحقق من الدفع",
+    "partial_payment": "دفع جزء من المال",
+    "full_payment": "دفع كامل",
+    "pending": "قيد الانتظار"
+  },
   "orderDetails": {
   "title": "الطلبات الخاصة بي",
+    "ItemPrice": "سعر المتتج",
+    "ItemStatus": "حالة المنتج ",
+    "TotalPrice": "السعر الكلي",
+    "OrderTotal": "اجمالي سعر الطلب",
+    "CreateDate": "تاريخ الانشاء",
+    "Shipping": "الشحنة",
+    "ShippingAddress": "عنوان الشحن",
+    "BillingAddress": "عنوان الفاتوره",
+    "ShipmentMethod": "طريقة الشحن",
+    "ShipmentCost": "تكلفة الشحن",
   "next_step": "الخطوة التالية لهذا الطلب",
   "content": "بمجرد تسليم الطلب، يرجى وضع الحالة كتم تم التسليم وتحميل دليل التسليم الخاص بك.",
   "order_number": "رقم الطلب:",
@@ -491,7 +510,9 @@
   "timeline": "الجدول الزمني",
   "user": "المستخدم",
   "action": "الإجراء",
-  "date": "التاريخ"
+  "date": "التاريخ",
+    "messageOne": "سوف تقوم Industry بإطلاعك على تاريخ التسليم بمجرد",
+    "messageTow": "استلام الدفعة بنجاح"
 
 },
   "paymentMethod": {
@@ -501,7 +522,10 @@
   "status": {
     "pending": "قيد الانتظار",
     "approved": "تمة الموافقة",
-    "rejected": "مرفوض"
+    "rejected": "مرفوض",
+    "available": "متاح",
+    "not-available": "غير متاح"
+
   },
 "fSale": {
     "sProd": "المنتجات المحددة ",

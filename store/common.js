@@ -360,6 +360,16 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+  async getRequestDtails({rootState, commit, dispatch}, {params, api}) {
+
+    const {data} = await Service.getRequestDtails(params.id, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      return data.data
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
   async downloadRequest({rootState, commit, dispatch}, {params, api}) {
     const response = await Service.downloadRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
 

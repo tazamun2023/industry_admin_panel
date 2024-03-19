@@ -32,11 +32,13 @@
       </div>
 
       <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
-        <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
-        <div class="flex-auto ">
+        <div class="text-center flex justify-center">
           <spinner :radius="100" v-if="loading"/>
+        </div>
+        <div class="flex-auto ">
           <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
@@ -148,6 +150,7 @@
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index"
                    v-if="!loading"
               >
+                <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
                     <div class="p-2">
@@ -243,6 +246,7 @@
               />
             </div>
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
                    v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <CardTab :order="order"/>
@@ -256,6 +260,7 @@
               />
             </div>
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
                    v-for="(order,index) in orders?.data" :key="index"  v-if="!loading">
                 <CardTab :order="order"/>
@@ -382,7 +387,6 @@ export default {
       }
     },
     saveReject(data) {
-      this.loading = true;
       this.changeStatus({
         payload: {
           status: data.status,
@@ -390,9 +394,8 @@ export default {
           reject_reasons: data.reject_reasons
         }
       })
-      this.getOrder();
+      this.fetchingData()
       this.rejectModalClose();
-      this.loading = false;
     },
     saveRejectProduct(data) {
       this.loading = true;
@@ -410,6 +413,8 @@ export default {
       this.approveOrder({
         payload: data
       })
+      this.fetchingData()
+      this.handleModalClose();
     },
     handleModalClose() {
       this.selectedOrders = [];
@@ -451,6 +456,7 @@ export default {
     },
   },
   mounted() {
+    this.getReasonsRejection()
     this.fetchingData()
   }
 

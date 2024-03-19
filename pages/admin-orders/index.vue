@@ -85,8 +85,7 @@
         </div>
     </div>
   </div>
-<!--  <OrderApprovedModal v-if="approvedModal" @close="handleModalClose"/>-->
-<!--  <OrderReject v-if="rejectModal" @close="rejectModalClose"/>-->
+
     <OrderApprovedModal :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct"
                         @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection?.data"
                         @close="handleModalClose"/>
@@ -191,7 +190,6 @@ methods:{
     this.rejectModal = false;
   },
   saveReject(data) {
-    this.loading = true;
     this.changeStatus({
       payload: {
         status: data.status,
@@ -199,9 +197,8 @@ methods:{
         reject_reasons: data.reject_reasons
       }
     })
-    this.getOrder();
+    this.fetchingData()
     this.rejectModalClose();
-    this.loading = false;
   },
   saveRejectProduct(data) {
     this.loading = true;
@@ -219,6 +216,8 @@ methods:{
     this.approveOrder({
       payload: data
     })
+    this.fetchingData()
+    this.handleModalClose()
   },
   clearFilter() {
     this.getOrder({
@@ -244,8 +243,8 @@ methods:{
   },
 },
 async mounted() {
-  this.fetchingData()
   this.getReasonsRejection();
+  this.fetchingData()
 }
 
 }

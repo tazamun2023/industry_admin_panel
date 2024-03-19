@@ -160,7 +160,7 @@
 <!--    </div>-->
     <div class="card p-4">
       <div>
-        <h4>Timeline</h4>
+        <h4> {{$t('orderDetails.timeline')}}</h4>
       </div>
       <!-- component -->
       <!-- This is an example component -->
@@ -171,17 +171,18 @@
               <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs  uppercase bg-gray-50  ">
                 <tr>
-                  <th scope="col" class="py-3 px-6">User</th>
-                  <th scope="col" class="py-3 px-6">Action</th>
-                  <th scope="col" class="py-3 px-6">Date</th>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.user')}}</th>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.action')}}</th>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.date')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr class="bg-white" v-for="(timeline,index) in orderDetails.timeline" :key="index">
-                  <td class="py-4 px-6">Buyer</td>
-                  <td class="py-4 px-6">item placed</td>
-                  <td class="py-4 px-6">Nov 09, 23 4:55pm</td>
+                  <td class="py-4 px-6">{{ timeline.user }}</td>
+                  <td class="py-4 px-6">{{ timeline.action }}</td>
+                  <td class="py-4 px-6">{{ timeline.date }}</td>
                 </tr>
+                <div class="mt-7" v-if="orderDetails.timeline?.length < 1">{{$t('app.tableEmptyData')}}</div>
                 </tbody>
               </table>
             </div>
