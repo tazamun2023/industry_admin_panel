@@ -411,6 +411,7 @@
     "getVideo" : "video-gallery",
     "deleteVideo" : "video-gallery",
     "subOrder": "sub-order",
+    "mainOrder": "main-order",
     "subOrderPending": "sub-order/pending",
     "subOrderApproved": "sub-order/approved",
     "subOrderRejected": "sub-order/rejected",
