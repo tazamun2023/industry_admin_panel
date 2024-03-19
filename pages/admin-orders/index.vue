@@ -1,6 +1,5 @@
 <template>
   <div class="orders card p-4">
-    <spinner :radius="100" v-if="loading"/>
     <div class="p-4">
       <h3 class="uppercase">{{ $t('error.orders') }}</h3>
       <ul class="flex list-none bg-smooth shadow flex-wrap rounded-xl p-1  w-2/5  my-3 flex-row">
@@ -34,17 +33,19 @@
         <div class="flex-auto ">
             <div class="tab-content input-wrapper tab-space">
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}" >
-            <FilterData :orders="orders?.data" @clear-filter="clearFilter" />
+            <FilterData  @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" />
             </div>
             <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
-              <FilterData :orders="orders?.data" @clear-filter="clearFilter" />
+              <FilterData  @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" />
 
             </div>
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-             <FilterOrderSecond />
+<!--             <FilterOrderSecond />-->
+              <FilterData  @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" />
             </div>
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
-              <FilterOrderSecond />
+<!--              <FilterOrderSecond />-->
+              <FilterData  @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" />
             </div>
             </div>
         </div>
@@ -52,6 +53,9 @@
     </div>
 <!-- ------------------------------------- -->
   <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
+    <div class="text-center flex justify-center">
+      <spinner :radius="100" v-if="loading"/>
+    </div>
         <div class="flex-auto ">
             <div class="tab-content input-wrapper tab-space">
               <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
@@ -109,6 +113,7 @@ data(){
   rejectModal:false,
    loading: false,
    status: 'pending',
+   orders:[],
   productTable:{
     1:false,
     2:false
@@ -116,53 +121,47 @@ data(){
  }
 },
   computed: {
-    ...mapGetters('order', ['orders', 'reasonsRejection'])
+    ...mapGetters('order', ['reasonsRejection'])
   },
   middleware: ['common-middleware', 'auth'],
 methods:{
-  ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
+  ...mapActions('order', ['getReasonsRejection', 'changeStatus', 'approveOrder']),
+  ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] ),
+  async filterUpdate(result) {
+    try {
+      this.loading = true
+      this.orders = await this.getRequest({
+        params: {
+          ...result,
+        },
+        api: "subOrder"
+      })
+      this.loading = false
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
+    // this.fetchingData();
+  },
+  async toggleTabs(tabNumber,status) {
+    let search= {
+      tap:status,
+    }
+    try {
+      this.loading = true
+      this.orders = await this.getRequest({
+        params: {
+          ...this.param,
+          ...search
+        },
+        api: "subOrder"
+      })
+      this.loading = false
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
 
-  toggleTabs: function (tabNumber,status) {
-    this.loading= true
     this.status= status
     this.openTab = tabNumber
-
-    if(this.status === 'pending') {
-      this.getDataPending({
-        payload: {
-          page: this.$route.query.page ? this.$route.query.page : 1
-        }
-      })
-      this.loading= false
-    }
-    else if(this.status === 'approved') {
-      this.getDataOrderApproved({
-        payload: {
-          page: this.$route.query.page ? this.$route.query.page : 1
-        }
-      })
-      this.loading= false
-    }
-    else if(this.status === 'rejected') {
-      this.getDataOrderRejected({
-        payload: {
-          page: this.$route.query.page ? this.$route.query.page : 1
-        }
-      })
-      this.loading= false
-    }
-    else {
-      this.getOrder({
-        payload: {
-          page: this.$route.query.page ? this.$route.query.page : 1
-        }
-      });
-      this.loading= false
-    }
-
-  },
-  productTableShow(index){
-    this.productTable[index] = !this.productTable[index]
   },
   approvedModalShow(order){
     this.$store.commit('order/EMPTY_ORDER_SELECTED');
@@ -227,10 +226,25 @@ methods:{
         page: 1
       }
     });
-  }
+  },
+  async fetchingData() {
+    try {
+      this.loading = true
+      this.orders = await this.getRequest({
+        params: {
+          ...this.param,
+          ...this.$route.query,
+        },
+        api: "subOrder"
+      })
+      this.loading = false
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
+  },
 },
 async mounted() {
-  this.toggleTabs(this.openTab,this.status)
+  this.fetchingData()
   this.getReasonsRejection();
 }
 

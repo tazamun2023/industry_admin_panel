@@ -5,25 +5,25 @@
         <h4 class="font-bold">{{ $t('order.allOrders') }}</h4>
         <ul class="flex mb-0 list-none flex-wrap pt-3 w-2/4 pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1,'all')"
+            <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click.prevent="toggleTabs(1,'all')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 1, 'border-b-2  border-primary text-primary': openTab === 1}">
               {{ $t('order.allOrders') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(2,'pending')"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click.prevent="toggleTabs(2,'pending')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 2, 'border-b-2  border-primary text-primary': openTab === 2}">
               {{ $t('order.pendingApproval') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(3,'approved')"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click.prevent="toggleTabs(3,'approved')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 3, 'border-b-2    border-primary text-primary': openTab === 3}">
               {{ $t('order.readyForPickup') }}
             </a>
           </li>
           <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click="toggleTabs(4,'rejected')"
+            <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal" v-on:click.prevent="toggleTabs(4,'rejected')"
                v-bind:class="{'bg-white border-white border-b': openTab !== 4, 'border-b-2   border-primary text-primary': openTab === 4}">
               {{ $t('order.rejected') }}
             </a>
@@ -32,7 +32,7 @@
       </div>
 
       <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
-        <FilterData :orders="orders?.data" @clear-filter="clearFilter"/>
+        <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
         <div class="flex-auto ">
           <spinner :radius="100" v-if="loading"/>
           <div class="tab-content input-wrapper tab-space">
@@ -304,6 +304,7 @@ export default {
       indexTabel: null,
       status: 'pending',
       RejectionOrder: "",
+      orders:[],
       productTable: {
         1: false,
         2: false
@@ -311,51 +312,47 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('order', ['orders', 'reasonsRejection'])
+    ...mapGetters('order', [ 'reasonsRejection'])
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
     ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
-
-    toggleTabs: function (tabNumber,status) {
-      this.loading= true
-      this.status= status
-      this.openTab = tabNumber
-
-      if(this.status === 'pending') {
-
-        this.getDataPending({
-          payload: {
-            page: this.$route.query.page ? this.$route.query.page : 1
-          }
+    ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] ),
+   async filterUpdate(result) {
+      try {
+        this.loading = true
+        this.orders = await this.getRequest({
+          params: {
+            ...result,
+          },
+          api: "subOrder"
         })
-        this.loading= false
+        this.loading = false
+      } catch (e) {
+        return this.$nuxt.error(e)
       }
-      else if(this.status === 'approved') {
-        this.getDataOrderApproved({
-          payload: {
-            page: this.$route.query.page ? this.$route.query.page : 1
-          }
-        })
-        this.loading= false
+    // this.fetchingData();
+    },
+    async toggleTabs(tabNumber,status) {
+      let search= {
+        tap:status,
       }
-      else if(this.status === 'rejected') {
-        this.getDataOrderRejected({
-          payload: {
-            page: this.$route.query.page ? this.$route.query.page : 1
-          }
-        })
-        this.loading= false
-      }
-      else {
-        this.getOrder({
-          payload: {
-            page: this.$route.query.page ? this.$route.query.page : 1
-          }
-        });
-        this.loading= false
-      }
+       try {
+         this.loading = true
+         this.orders = await this.getRequest({
+           params: {
+             ...this.param,
+             ...search
+           },
+           api: "subOrder"
+         })
+         this.loading = false
+       } catch (e) {
+         return this.$nuxt.error(e)
+       }
 
+       this.status= status
+       this.openTab = tabNumber
     },
     productTableShow(index) {
       this.productTable[index] = !this.productTable[index];
@@ -376,7 +373,6 @@ export default {
       }
       this.approvedModal = !this.approvedModal
     },
-
     rejectModalShow(order) {
       if (this.selectedOrders.length > 0) {
         this.rejectModal = !this.rejectModal
@@ -436,18 +432,26 @@ export default {
       }
 
     },
-    clearFilter() {
-      this.getOrder({
-        payload: {
-          page: 1
-        }
-      });
-    }
+    async fetchingData() {
+      try {
+        this.loading = true
+        this.orders = await this.getRequest({
+          params: {
+            ...this.param,
+            ...this.$route.query,
+            // ...this.listParams,
+            ...{time_zone: this.timeZone}
+          },
+          api: "subOrder"
+        })
+        this.loading = false
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
   },
   mounted() {
-    this.toggleTabs(this.openTab,this.status)
-    this.getReasonsRejection();
-    this.loading = false;
+    this.fetchingData()
   }
 
 }

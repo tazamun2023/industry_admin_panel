@@ -499,7 +499,9 @@
     "cred_Card": ""
   },
   "status": {
-    "pending": "قيد الانتظار"
+    "pending": "قيد الانتظار",
+    "approved": "تمة الموافقة",
+    "rejected": "مرفوض"
   },
 "fSale": {
     "sProd": "المنتجات المحددة ",
