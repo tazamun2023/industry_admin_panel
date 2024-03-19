@@ -116,6 +116,7 @@ const actions = {
     const {data} = await Service.changeStatusOrder(this.$auth.strategy.token.get(),payload)
     if(data.status === 200){
       dispatch('ui/setToastMessage', data.message, {root: true})
+      return data.data;
     } else if(data.status === 500) {
       dispatch('ui/setToastError', data?.message, {root: true})
     }

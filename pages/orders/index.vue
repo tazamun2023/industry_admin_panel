@@ -387,19 +387,21 @@ export default {
       }
     },
     saveReject(data) {
-      this.changeStatus({
+      const response= this.changeStatus({
         payload: {
           status: data.status,
           order_id: data.order_id.slice(0, -2),
           reject_reasons: data.reject_reasons
         }
       })
-      this.fetchingData()
+      // this.fetchingData()
+      const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
       this.rejectModalClose();
     },
     saveRejectProduct(data) {
       this.loading = true;
-      this.changeStatus({
+
+        this.changeStatus({
         payload: {
           status: data.status,
           product_id: data.order.product.id,

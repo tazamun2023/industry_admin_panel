@@ -277,7 +277,7 @@ export default {
           params: {
             id: this.$route.params.id.slice(0, -2),
           },
-          api: "mainOrder"
+          api: "mainOrderDetails"
         })
         this.loading = false
       } catch (e) {

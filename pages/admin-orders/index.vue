@@ -234,7 +234,7 @@ methods:{
           ...this.param,
           ...this.$route.query,
         },
-        api: "subOrder"
+        api: "mainOrder"
       })
       this.loading = false
     } catch (e) {
