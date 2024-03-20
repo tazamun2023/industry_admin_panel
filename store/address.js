@@ -44,10 +44,12 @@ const actions = {
 
   },
 
-  async userAddressAction({commit}, params) {
+  async userAddressAction({commit,dispatch}, params) {
     const {data} = await Service.userAddressAction(params, this.$auth.strategy.token.get())
     if (data?.status === 200) {
-      commit('UPDATE_ADDRESS', data.data)
+      // getVendorAddress
+      dispatch('getVendorAddress');
+      // commit('UPDATE_ADDRESS', data.data)
     }
     return data
   },

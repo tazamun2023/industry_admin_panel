@@ -402,6 +402,7 @@ export default {
       this.secondBox = false;
       this.thirdBox = false
     },
+   
     closeModelAddAddress() {
       this.addressmodal = ! this.addressmodal
     },
