@@ -9,7 +9,7 @@
         <div>
           <ValidationObserver  v-slot="{ invalid }">
             <form @submit.prevent="saveAddress">
-              <ValidationProvider name="Address Name" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.address_name')}`}">
+              <ValidationProvider name="Address Name" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `${$t('validation.required')} ${$t('address.address_name')}`}">
                 <div class="input-wrapper">
                   <label for="">{{ $t('address.address_name') }}*</label>
                   <input type="text" :placeholder="$t('address.address_name')" v-model="addressData.address_name">
@@ -44,29 +44,36 @@
                 </div>
               </div>
               <div class="input-wrapper flex gap-4">
-                <ValidationProvider name="country" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.country')}`}">
+                <ValidationProvider name="country" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `${$t('validation.required')} ${$t('address.country')}`}">
                   <div class="w-full input-wrapper">
                     <label class="w-full" for="">{{ $t('address.country') }}*</label>
                     <select class="p-2 border border-smooth rounded w-full" v-model="addressData.country_id" disabled>
-                     <option value="" >Select Country</option>
-                      <option :value="country.id" v-for="country in allCountries"  >{{ country.name }}</option>
+                     <!-- <option value="" >Select Country</option> -->
+                      <option :value="country.id" :selected="country.country_id == addressData.country_id" 
+                       v-for="(country,index) in allCountries"   :key="index" >{{ country.name }}</option>
                     </select>
                     <span  class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="city" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.city')}`}">
+                <ValidationProvider name="city" class="w-full" rules="required" v-slot="{ errors }" 
+                :custom-messages="{required: `${$t('validation.required')} ${$t('address.city')}`}"
+              
+                >
                   <div class="w-full input-wrapper">
                     <label class="w-full" for="">{{ $t('address.city') }}*</label>
                     <select class="p-2 border border-smooth rounded w-full" v-model="addressData.city_id">
                       <option value="">Select City</option>
-                      <option :value="city.id" v-for="city in allCitiesById">{{ city.name }}</option>
+                      <option :value="city.id" v-for="(city,index) in allCitiesById" :key="index">{{ city.name }}</option>
                     </select>
                     <span  class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
               </div>
               <div class="flex gap-4">
-                <ValidationProvider name="email" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.email')}`}">
+                <ValidationProvider name="email" class="w-full" rules="required|email" v-slot="{ errors }" 
+                :custom-messages="{required: `${$t('validation.required')} ${$t('address.email')}`,email: `${$t('validation.email')}`}"
+
+                >
                   <div class="input-wrapper w-full">
                     <label for="">{{ $t('address.email') }}*</label>
                     <input type="text" placeholder="Enter Email" v-model="addressData.email">
@@ -74,7 +81,9 @@
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="district" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.district')}`}">
+                <ValidationProvider name="district" class="w-full" rules="required" v-slot="{ errors }"
+                 :custom-messages="{required: `${$t('validation.required')} ${$t('address.district')}`}"
+                 >
                   <div class="input-wrapper w-full">
                     <label for="">{{ $t('address.district') }}*</label>
                     <input type="text" placeholder="Enter district" v-model="addressData.district">
@@ -82,7 +91,10 @@
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="Building" class="w-full" rules="required|numeric" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.building_no')}`, numeric: 'Enter Number'}">
+                <ValidationProvider name="Building" class="w-full" rules="required|numeric" v-slot="{ errors }" 
+                :custom-messages="
+                {required: `${$t('validation.required')} ${$t('address.building_no')}`, 
+                numeric: $t('validation.number')}">
                   <div class="input-wrapper w-full">
                     <label for="">{{ $t('address.building_no') }}*</label>
                     <input type="text" placeholder="Enter Building/warehouse/office" v-model="addressData.building_number">
@@ -91,7 +103,8 @@
                 </ValidationProvider>
               </div>
               <div class="flex gap-4">
-                <ValidationProvider name="Street" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.street')}`}">
+                <ValidationProvider name="Street" class="w-full" rules="required" v-slot="{ errors }" 
+                :custom-messages="{required: `${$t('validation.required')}  ${$t('address.street')}`}">
                   <div class="input-wrapper w-full">
                     <label for="">{{ $t('address.street') }}*</label>
                     <input type="text" placeholder="Street name" v-model="addressData.street">
@@ -102,16 +115,17 @@
                 <div class="input-wrapper w-full">
                   <label for="">{{ $t('address.phone_code') }}*</label>
                   <div class="flex gap-2">
-                    <ValidationProvider name="Phone Code" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.phone_code')}`}">
+                    <ValidationProvider name="Phone Code" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `${$t('validation.required')} ${$t('address.phone_code')}`}">
                       <select class="p-2 border border-smooth rounded " v-model="addressData.phone_code">
                         <option value="">Select Phone Code</option>
-                        <option :value="code.phonecode" v-for="code in phoneCode">
+                        <option :value="code.phonecode" v-for="(code,index) in phoneCode" :key="index" >
                           {{ code.phonecode }}
                         </option>
                       </select>
                       <span  class="error">{{ errors[0] }}</span>
                     </ValidationProvider>
-                    <ValidationProvider name="phone" class="w-full" rules="required|numeric" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.phone')}`, numeric: 'Enter Number'}">
+                    <ValidationProvider name="phone" class="w-full" rules="required|numeric" v-slot="{ errors }" :custom-messages="
+                    {required: `${$t('validation.required')} ${$t('address.phone')}`, numeric: `${$t('validation.number')}`}">
                       <input type="text" placeholder="Enter Address phone number" v-model="addressData.phone">
                       <span  class="error">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -120,7 +134,7 @@
 
               </div>
               <div class="flex gap-4">
-                <ValidationProvider name="post" class="w-full" rules="required|numeric" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.zipCode')}`, numeric: 'Enter Number'}">
+                <ValidationProvider name="post" class="w-full" rules="required|numeric" v-slot="{ errors }" :custom-messages="{required: `${$t('validation.required')} ${$t('address.zipCode')}`, numeric: `${$t('validation.number')}`}">
                   <div class="input-wrapper w-full">
                     <label for="">{{ $t('address.zipCode') }}*</label>
                     <input type="text" placeholder="Enter Post code" v-model="addressData.zip">
@@ -266,42 +280,48 @@ export default{
    }
   },
   async mounted() {
-    this.clearForm();
+    // this.clearForm();
     try {
       this.loading = true
-      this.vendorCountryId = this.profile.country_id;
-      this.addressData.country_id=  this.profile.country_id;
       await  this.getAllAddress();
-      await this.getPhoneCode()
-      await this.countrySelected()
-      
+      await this.getPhoneCode();
+      await this.getAllCountries({
+       api:'getAllCountries',
+       mutation:'SET_ALL_COUNTRIES',
+            });
       this.loading = false
     } catch (e) {
       return this.$nuxt.error(e)
     }
+    this.addressData.country_id = this.vendorCountryId = this.profile.country_id;
+    // this.addressData?.country_id
+    // = this.vendorCountryId ;
     if(this.address){
       this.addressData = {...this.addressData, ...this.address}
       this.addressData.city_id = this.address.city_id;
+      this.addressData.country_id = this.address.country_id;
       this.addressData.building_number = this.address.building_number;
       this.countrySelected(this.address.city_id);
     } else {
-      this.addressData = {
-        id: '',
-        email: '',
-        name: '',
-        phone: '',
-        country_id: '',
-        city_id: '',
-        zip: '',
-        address_name:'',
-        district:'',
-        street:'',
-        building_number:'',
-        nearest_landmark:'',
-        type:'',
-        default:'',
-        phone_code:''
-      }
+      this.addressData.country_id = this.profile.country_id;
+      this.countrySelected(this.addressData.city_id);
+      // this.addressData = {
+      //   id: '',
+      //   email: '',
+      //   name: '',
+      //   phone: '',
+      //   country_id: '',
+      //   city_id: '',
+      //   zip: '',
+      //   address_name:'',
+      //   district:'',
+      //   street:'',
+      //   building_number:'',
+      //   nearest_landmark:'',
+      //   type:'',
+      //   default:'',
+      //   phone_code:''
+      // }
     }
 
 

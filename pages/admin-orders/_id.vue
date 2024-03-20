@@ -35,7 +35,7 @@
           <p class="text-smoothlight">{{ $t('order.total') }}</p>
           <p><strong class="text-[14px]"> {{ orderDetails?.order_total }}</strong> <span
             class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
-<!--          <a class="border-b border-smooth" href="">Show breakdown</a>-->
+         <a class="border-b border-smooth" href="">Show breakdown</a>
         </div>
       </div>
     </div>
@@ -275,7 +275,7 @@ export default {
         this.loading = true
         this.orderDetails = await this.getRequestDtails({
           params: {
-            id: this.$route.params.id.slice(0, -2),
+            id: this.$route.params.id,
           },
           api: "mainOrderDetails"
         })
