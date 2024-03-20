@@ -8,7 +8,7 @@
         <h4>Add Address</h4>
         <div>
           <ValidationObserver  v-slot="{ invalid }">
-            <form @submit.prevent="addressAction">
+            <form @submit.prevent="saveAddress">
               <ValidationProvider name="Address Name" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.address_name')}`}">
                 <div class="input-wrapper">
                   <label for="">{{ $t('address.address_name') }}*</label>
@@ -16,20 +16,23 @@
                   <span  class="error">{{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
-
               <div class="input-wrapper">
                 <label class="font-bold"  for="">{{ $t('address.type') }}*</label>
                 <div class="flex start my-4 gap-4">
 
-                  <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary': addressData.type === 'shipping'}" @click="shipping">
+                  <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary': addressData.type === 'shipping'}" 
+                  @click="selectdTypeAdddress('shipping')"
+                  >
                     <p>Shipping</p>
                   </div>
 
-                  <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary': addressData.type === 'billing'}" @click="billing">
+                  <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary': addressData.type === 'billing'}"
+                  @click="selectdTypeAdddress('billing')" >
                     <p>Billing</p>
                   </div>
 
-                  <div class="border  rounded border-smooth cursor-pointer p-2" :class="{'bg-primary': addressData.type === 'both'}" @click="both">
+                  <div class="border  rounded border-smooth cursor-pointer p-2" :class="{'bg-primary': addressData.type === 'both'}"
+                  @click="selectdTypeAdddress('both')">
                     <p>Both</p>
                   </div>
                   <span
@@ -40,14 +43,12 @@
             </span>
                 </div>
               </div>
-
-
               <div class="input-wrapper flex gap-4">
                 <ValidationProvider name="country" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.country')}`}">
                   <div class="w-full input-wrapper">
                     <label class="w-full" for="">{{ $t('address.country') }}*</label>
                     <select class="p-2 border border-smooth rounded w-full" v-model="addressData.country_id" disabled>
-<!--                      <option value="" >Select Country</option>-->
+                     <option value="" >Select Country</option>
                       <option :value="country.id" v-for="country in allCountries"  >{{ country.name }}</option>
                     </select>
                     <span  class="error">{{ errors[0] }}</span>
@@ -128,6 +129,8 @@
                 </ValidationProvider>
               </div>
 
+         
+
               <div class="input-wrapper w-full">
                 <label for="">{{ $t('address.near') }}</label>
                 <input type="text" :placeholder="$t('address.near')" v-model="addressData.nearest_landmark">
@@ -141,9 +144,9 @@
                   <span  class="error">{{ errors[0] }}</span>
                 </div>
               </ValidationProvider>
-              <!-- Close Button -->
+             
               <div class="flex justify-end gap-4">
-                <button  @click.prevent="$emit('close')" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
+                <button type="button" @click.prevent="$emit('close')" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
                 <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
               </div>
             </form>
@@ -160,6 +163,7 @@ import {ValidationObserver, ValidationProvider} from "vee-validate";
 
 export default{
   components: { ValidationObserver, ValidationProvider },
+  props:['address'],
   data(){
     return{
       addressData : {
@@ -195,7 +199,9 @@ export default{
     ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
     ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode']),
-
+    selectdTypeAdddress(type) {
+     this.addressData.type= type;
+    },
     countrySelected() {
       this.addressData.city_id = ""
       try {
@@ -213,26 +219,90 @@ export default{
       await this.getVendorAddress({params:{'vendor_id': this.profile.id}, api:'getVendorAddress'})
     },
 
+    clearForm() {
+      this.addressData = {
+        id: '',
+        email: '',
+        name: '',
+        phone: '',
+        country_id: '',
+        city_id: '',
+        zip: '',
+        address_name:'',
+        district:'',
+        street:'',
+        building_number:'',
+        nearest_landmark:'',
+        type:'',
+        default:'',
+        phone_code:''
+      }
+    },
     closeAddressModel(){
-      this.$emit('closeModel')
+      this.$emit('close')
       this.addressData = {}
     },
+    async saveAddress() {
+      await this.userAddressAction(
+    {
+            id: this.address ? this.address.id : null,
+            phone :this.addressData.phone,
+            email :this.addressData.email,
+            name :this.addressData.name,
+            zip :this.addressData.zip,
+            country_id:this.addressData.country_id ? this.addressData.country_id : this.profile.country_id,
+            address_name: this.addressData.address_name,
+            city_id: this.addressData.city_id,
+            is_default: this.addressData.default,
+            building_number: this.addressData.building_number,
+            type: this.addressData.type ?  this.addressData.type : null,
+            nearest_landmark: this.addressData.nearest_landmark ? this.addressData.nearest_landmark  : null,
+    }
+    )
+    if (!this.hasError) {
+      this.clearForm();
+        this.$emit('close')
+      }
+   }
   },
   async mounted() {
     try {
       this.loading = true
       this.vendorCountryId = this.profile.country_id;
-      // this.addressData.country_id=  this.profile.country_id;
+      this.addressData.country_id=  this.profile.country_id;
       await  this.getAllAddress();
       await this.getPhoneCode()
-      await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-        .then(()=>{
-          this.countrySelected()
-        })
+      await this.countrySelected()
+      
       this.loading = false
     } catch (e) {
       return this.$nuxt.error(e)
     }
+    if(this.address){
+      this.addressData = {...this.addressData, ...this.address}
+      this.addressData.city_id = this.address.city_id;
+      this.addressData.building_number = this.address.building_number;
+      this.countrySelected(this.address.city_id);
+    } else {
+      this.addressData = {
+        id: '',
+        email: '',
+        name: '',
+        phone: '',
+        country_id: '',
+        city_id: '',
+        zip: '',
+        address_name:'',
+        district:'',
+        street:'',
+        building_number:'',
+        nearest_landmark:'',
+        type:'',
+        default:'',
+        phone_code:''
+      }
+    }
+
 
   }
 }

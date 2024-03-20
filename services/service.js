@@ -225,6 +225,15 @@ export default {
     const response = await apiClient.post(json.api.changeStatusOrder,params)
     return response;
   },
+  // subOrderReject
+  async subOrderReject(bearer, params,lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.post(`${json.api.subOrderReject}/${params.order_id}`,params)
+    return response;
+  },
   //approve Order
   async approveOrder(bearer, params,lang = null) {
     if (lang) {

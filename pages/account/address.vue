@@ -301,8 +301,8 @@ export default{
 
    closeModal(){
      this.deleteModal = false
-
    }
+  
  },
   async mounted() {
     try {

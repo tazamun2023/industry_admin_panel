@@ -143,8 +143,9 @@
                 </div>
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
             <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index"
@@ -242,8 +243,9 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
               <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
@@ -256,8 +258,10 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
+             
             </div>
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
               <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
@@ -271,8 +275,9 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
           </div>
         </div>
@@ -321,7 +326,7 @@ export default {
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
+    ...mapActions('order', ['getOrder', 'getReasonsRejection','subOrderReject','changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
     ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] ),
    async filterUpdate(result) {
       try {
@@ -386,16 +391,19 @@ export default {
         this.rejectModal = !this.rejectModal
       }
     },
-    saveReject(data) {
-      const response= this.changeStatus({
+   async saveReject(data) {
+     const response= await this.subOrderReject({
         payload: {
           status: data.status,
-          order_id: data.order_id.slice(0, -2),
-          reject_reasons: data.reject_reasons
+          order_id: data.order_id,
+          reject_reason_id: data.reject_reasons
         }
       })
-      // this.fetchingData()
       const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
+    if (index !== -1) {
+     this.orders.data[index].status=response.status;
+    }
+      // this.fetchingData()
       this.rejectModalClose();
     },
     saveRejectProduct(data) {
@@ -411,11 +419,14 @@ export default {
       this.approvedModal();
       this.loading = false;
     },
-    approveOrderSave(data) {
-      this.approveOrder({
+    async  approveOrderSave(data) {
+      const response= await this.approveOrder({
         payload: data
       })
-      this.fetchingData()
+      const index = this.orders.data.findIndex(order => order.order_id === response.data.order_id);
+    if (index !== -1) {
+    this.$set(this.orders.data, index, Object.assign({}, this.orders.data[index], { status: response.data.status }));
+    }
       this.handleModalClose();
     },
     handleModalClose() {

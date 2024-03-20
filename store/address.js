@@ -12,13 +12,13 @@ const mutations = {
   },
 
   UPDATE_ADDRESS(state, address) {
-    const index = state.addressList.findIndex(obj => {
+    const index = state.addressList?.findIndex(obj => {
       return parseInt(obj.id) === parseInt(address.id)
     })
     if (index > -1) {
-      state.addressList.splice(index, 1, address)
+      state.addressList?.splice(index, 1, address)
     } else {
-      state.addressList.unshift(address)
+      state.addressList?.unshift(address)
     }
   }
 }

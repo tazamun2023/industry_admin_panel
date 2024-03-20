@@ -6,26 +6,30 @@
         <li class="-mb-px  last:mr-0 cursor-pointer  flex-auto">
           <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(1,'all')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 1, 'rounded-lg text-primary bg-white': openTab === 1}">
-            {{$t('order.allOrders')}} <span v-bind:class="{'py-2 px-2': openTab !== 1, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 1}">150</span>
+            {{$t('order.allOrders')}} <span v-bind:class="{'py-2 px-2': openTab !== 1, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 1}">
+            {{ orders?.total }}</span>
 
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
           <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(2,'pending')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 2, 'rounded-lg text-primary bg-white': openTab === 2}">
-            {{$t('order.new')}}  <span v-bind:class="{'py-2 px-2': openTab !== 2, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 2}">150</span>
+            {{$t('order.new')}}  <span v-bind:class="{'py-2 px-2': openTab !== 2, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 2}">
+            {{ pendingCount }}</span>
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
           <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(3,'approved')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 3, 'rounded-lg text-primary bg-white': openTab === 3}">
-              {{$t('app.Approved')}}<span v-bind:class="{'py-2 px-2': openTab !== 3, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 3}">150</span>
+              {{$t('app.Approved')}}<span v-bind:class="{'py-2 px-2': openTab !== 3, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 3}">
+                {{ approvedCount }}</span>
           </a>
         </li>
         <li class="-mb-px  last:mr-0 cursor-pointer flex-auto">
           <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal" v-on:click="toggleTabs(4,'rejected')"
              v-bind:class="{'rounded-lg bg-smooth': openTab !== 4, 'rounded-lg text-primary bg-white': openTab === 4}">
-            {{$t('app.Rejected')}} <span v-bind:class="{'py-2 px-2': openTab !== 4, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 4}">150</span>
+            {{$t('app.Rejected')}} <span v-bind:class="{'py-2 px-2': openTab !== 4, 'shadow py-2 px-2 bg-primarylight rounded-lg': openTab === 4}">
+              {{ rejectCount }}</span>
           </a>
         </li>
       </ul>
@@ -66,7 +70,8 @@
                          @click="approvedModalShow(order)">{{ $t('order.approveOrder') }}</button>
                </CartOrder>
                 <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                            :page="order?.current_page" v-if="!loading" />
+                            :page="orders?.current_page" v-if="!loading" />
+                            <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
              </div>
              <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading">
@@ -74,7 +79,8 @@
                  <button class="border-2 border-primary p-2 rounded-lg  text-primary  leading-3 uppercase font-bold" @click="approvedModalShow(order)"> {{ $t('order.approveOrder') }}</button>
                </CartOrder>
                <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                           :page="order?.current_page" v-if="!loading" />
+                           :page="orders?.current_page" v-if="!loading" />
+                           <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
              </div>
              <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
                <CartOrder v-for="(order,index) in orders?.data" :key="index" :order="order" v-if="!loading" />
@@ -112,6 +118,9 @@ data(){
   rejectModal:false,
    loading: false,
    status: 'pending',
+   pendingCount:0,
+   rejectCount:0,
+   approvedCount:0,
    orders:[],
   productTable:{
     1:false,
@@ -162,6 +171,20 @@ methods:{
     this.status= status
     this.openTab = tabNumber
   },
+  countStatus() {
+    // this.pendingCount = 0;
+        // this.rejectCount = 0;
+        // this.approvedCount = 0;
+        this.orders.data.forEach(order => {
+            if (order.status == 'pending' || order.status == '') {
+                this.pendingCount++;
+            } else if (order.status === 'reject') {
+              this.rejectCount++;
+            } else if (order.status === 'approved'  ) {
+              this.approvedCount++;
+            }
+        });
+    },
   approvedModalShow(order){
     this.$store.commit('order/EMPTY_ORDER_SELECTED');
     if (this.selectedOrders.length > 0) {
@@ -189,26 +212,33 @@ methods:{
     this.selectedOrders = [];
     this.rejectModal = false;
   },
-  saveReject(data) {
-    this.changeStatus({
+ async saveReject(data) {
+    const response= await this.changeStatus({
       payload: {
         status: data.status,
-        order_id: data.order_id.slice(0, -2),
+        order_id: data.order_id,
         reject_reasons: data.reject_reasons
       }
     })
-    this.fetchingData()
+    const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
+    if (index !== -1) {
+     this.orders.data[index].status=response.status;
+    }
     this.rejectModalClose();
   },
-  saveRejectProduct(data) {
+  async saveRejectProduct(data) {
     this.loading = true;
-    this.changeStatus({
+    const response= await this.changeStatus({
       payload: {
         status: data.status,
         product_id: data.order.product.id,
         reject_reasons: data.reject_reasons
       }
     })
+    const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
+    if (index !== -1) {
+     this.orders.data[index].status=response.status;
+    }
     this.approvedModal();
     this.loading = false;
   },
@@ -245,7 +275,9 @@ methods:{
 async mounted() {
   this.getReasonsRejection();
   this.fetchingData()
-}
+  
+},
+
 
 }
 </script>

@@ -726,6 +726,7 @@
     "pending": "pending",
     "approved": "approved",
     "rejected": "rejected",
+    "reject": "reject",
     "available": "available",
     "not-available": "not-available"
   },

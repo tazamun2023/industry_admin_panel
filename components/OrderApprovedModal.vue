@@ -255,7 +255,7 @@
                 <span>+{{address?.phone_code}} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3">{{ $t('category.edit') }}</button>
+              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="closeModelAddAddress">{{ $t('category.edit') }}</button>
             </div>
           </div>
         </div>
@@ -333,7 +333,7 @@
         </slot>
       </div>
       <div  v-if="addressmodal">
-      <AddAddressModel @close="closeModelAddAddress"  >
+      <AddAddressModel @close="closeModelAddAddress" :address="addressSelected" >
 
       </AddAddressModel>
       </div>
@@ -372,6 +372,9 @@ export default {
   },
   methods: {
     ...mapActions('address',['getVendorAddress']),
+    updateAddreess() {
+
+    },
     closeModal() {
       this.$emit('close');
     },
