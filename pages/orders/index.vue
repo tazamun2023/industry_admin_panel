@@ -32,11 +32,13 @@
       </div>
 
       <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
-        <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
-        <div class="flex-auto ">
+        <div class="text-center flex justify-center">
           <spinner :radius="100" v-if="loading"/>
+        </div>
+        <div class="flex-auto ">
           <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
@@ -141,13 +143,15 @@
                 </div>
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
             <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
               <div class="card my-2 p-4" v-for="(order,index) in orders?.data" :key="index"
                    v-if="!loading"
               >
+                <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab"/>
                 <div class="flex gap-4 justify-between">
                   <div class="flex gap-4">
                     <div class="p-2">
@@ -239,10 +243,12 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
                    v-for="(order,index) in orders?.data" :key="index" v-if="!loading">
                 <CardTab :order="order"/>
@@ -252,10 +258,13 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
+             
             </div>
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
+              <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab,status)" :tap="openTab" :invoice_status="true"/>
               <div @click="productTableShow(index)" class="card cursor-pointer my-2 p-4"
                    v-for="(order,index) in orders?.data" :key="index"  v-if="!loading">
                 <CardTab :order="order"/>
@@ -266,8 +275,9 @@
 
               </div>
               <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page"
-                          :page="order?.current_page" v-if="!loading"
+                          :page="order?.current_page" v-if="!loading && orders.data?.length > 0"
               />
+              <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
             </div>
           </div>
         </div>
@@ -316,7 +326,7 @@ export default {
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
+    ...mapActions('order', ['getOrder', 'getReasonsRejection','subOrderReject','changeStatus', 'approveOrder','getDataPending','getDataOrderApproved','getDataOrderRejected']),
     ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] ),
    async filterUpdate(result) {
       try {
@@ -381,22 +391,25 @@ export default {
         this.rejectModal = !this.rejectModal
       }
     },
-    saveReject(data) {
-      this.loading = true;
-      this.changeStatus({
+   async saveReject(data) {
+     const response= await this.subOrderReject({
         payload: {
           status: data.status,
-          order_id: data.order_id.slice(0, -2),
-          reject_reasons: data.reject_reasons
+          order_id: data.order_id,
+          reject_reason_id: data.reject_reasons
         }
       })
-      this.getOrder();
+      const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
+    if (index !== -1) {
+     this.orders.data[index].status=response.status;
+    }
+      // this.fetchingData()
       this.rejectModalClose();
-      this.loading = false;
     },
     saveRejectProduct(data) {
       this.loading = true;
-      this.changeStatus({
+
+        this.changeStatus({
         payload: {
           status: data.status,
           product_id: data.order.product.id,
@@ -406,10 +419,15 @@ export default {
       this.approvedModal();
       this.loading = false;
     },
-    approveOrderSave(data) {
-      this.approveOrder({
+    async  approveOrderSave(data) {
+      const response= await this.approveOrder({
         payload: data
       })
+      const index = this.orders.data.findIndex(order => order.order_id === response.data.order_id);
+    if (index !== -1) {
+    this.$set(this.orders.data, index, Object.assign({}, this.orders.data[index], { status: response.data.status }));
+    }
+      this.handleModalClose();
     },
     handleModalClose() {
       this.selectedOrders = [];
@@ -451,6 +469,7 @@ export default {
     },
   },
   mounted() {
+    this.getReasonsRejection()
     this.fetchingData()
   }
 

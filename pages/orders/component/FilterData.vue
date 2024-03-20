@@ -23,13 +23,13 @@
       </option>
 
     </select>
-<!--    <select class="p-2 border rounded border-smooth" name="" id=""  v-model="search.paymentStatus"  @change="FilterOrder">-->
-<!--      <option value="">{{$t('order.paymentStatus')}}</option>-->
-<!--      <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">-->
-<!--        {{ $t(`order.${option.label}`) }}-->
-<!--        </option>-->
+    <select class="p-2 border rounded border-smooth" name="" id=""  v-model="search.invoice_status"  v-if="invoice_status" >
+      <option value="">{{$t('order.paymentStatus')}}</option>
+      <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">
+        {{ $t(`paymentStatus.${option.value}`) }}
+        </option>
 
-<!--    </select>-->
+    </select>
 <!--    <select class="p-2 border rounded border-smooth"  v-model="search.orderType" @change="FilterOrder">-->
 <!--      <option value="">{{$t('order.paymentMthodType')}}</option>-->
 <!--      <option v-for="orderType in orderTypes" :key="orderType.value" :value="orderType.value">{{-->
@@ -56,7 +56,7 @@
 import {mapActions} from "vuex";
 
 export default {
-  props: ['tap'],
+  props: ['tap','invoice_status'],
   data() {
     return {
       search: {
@@ -67,15 +67,15 @@ export default {
         tap:''
       },
       orderStatus: [
-        {id: 1, name: "pendingGIT", value:"pending"},
+        {id: 1, name: "pending", value:"pending"},
         {id: 2, name: "approved",value:"approved"},
         {id: 3, name: "rejected" , value:"rejected"},
       ],
       paymentStatuses: [
-        { value: 'pending', label: 'PendingUpload' },
-        { value: 'pending', label: 'PendingVerification' },
-        { value: 'paid', label: 'Paid' },
-        { value: 'pending_payment', label: 'PendingPayment' }
+        { value: 'pending', label: 'pending' },
+        { value: 'check_payment', label: 'check payment' },
+        { value: 'partial_payment', label: 'partial payment' },
+        { value: 'full_payment', label: 'full payment' }
       ],
       sortOptions: [
         { value: 'oldest', label: 'LastUpdateOldest', api:'last-updated-oldest' },
@@ -106,10 +106,10 @@ export default {
       }
     },
     clearFilterData() {
-      this.search.orderNumber= "";
-      this.search.orderStatus= "";
-      this.search.paymentStatus= "";
-      this.search.sortBy= "";
+      this.search.order_id= "";
+      this.search.order_status= "";
+      this.search.invoice_status= "";
+      this.search.sort_by= "";
       this.$emit('clear-filter')
     }
   }

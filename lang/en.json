@@ -5,6 +5,7 @@
     "Save":"Save",
     "Add":"Add",
     "Done":"Done",
+    "of": "of",
     "SAR":"SAR",
     "Discard Draft":"Discard Draft",
     "Cancel":"Cancel",
@@ -26,7 +27,8 @@
     "Order Placed": "Order Placed",
     "Apply Filters": "Apply Filters",
     "Select on Option": "Select on Option",
-    "Select on Status": "Select on Status"
+    "Select on Status": "Select on Status",
+    "tableEmptyData": "This table is currently empty of any data"
   },
 
   "rfq": {
@@ -38,6 +40,7 @@
     "Product": "Product",
     "Category": "Category",
     "Quantity": "Quantity",
+    "admin_order": "Admin Order",
     "View Quote": "View Quote",
     "View Draft Quote": "View Draft Quote",
     "Products in your quote": "Products in your quote",
@@ -434,7 +437,12 @@
     "sku": "SKU",
     "parent_sku": "Parent SKU"
   },
-
+  "paymentStatus": {
+    "check_payment": "check payment",
+    "partial_payment": "partial payment",
+    "full_payment": "full payment",
+    "pending": "pending"
+  },
   "order": {
     "allOrders": "All Orders",
     "orderId": "Order Id",
@@ -476,6 +484,15 @@
   "orderDetails": {
     "title": "My Orders",
     "next_step": "Next step for this order",
+    "ItemPrice": "Item Price",
+    "ShipmentMethod": "Shipment method",
+    "ShippingAddress": "Shipping Address",
+    "BillingAddress": "Billing Address",
+    "OrderTotal": "Order total",
+    "CreateDate": "Created date",
+    "ItemStatus": "Item status",
+    "ShipmentCost": "Shipment cost",
+    "TotalPrice": "Total Price",
     "content": "Once you have delivered the order, please mark the status as delivered and upload your proof of delivery.",
     "order_number": "Order Number",
     "order_id": "Order Id",
@@ -493,6 +510,7 @@
     "quantity": "Quantity",
     "item_status": "Item Status",
     "subtotal": "Subtotal",
+    "Shipping": "Shipping",
     "commission_percentage": "Commission ",
     "commission_subtotal": "Commission Subtotal",
     "items_subtotal": "Item(S) Subtotal",
@@ -510,7 +528,9 @@
     "timeline": "Timeline",
     "user": "User",
     "action": "Action",
-    "date": "Date"
+    "date": "Date",
+    "messageOne": "Industry will update you on the delivery date once the",
+    "messageTow": "payment has been successfully received"
   },
 
 "fSale": {
@@ -714,7 +734,10 @@
   "status": {
     "pending": "pending",
     "approved": "approved",
-    "rejected": "rejected"
+    "rejected": "rejected",
+    "reject": "reject",
+    "available": "available",
+    "not-available": "not-available"
   },
   "bank": {
     "bank_name": "Bank Name",
