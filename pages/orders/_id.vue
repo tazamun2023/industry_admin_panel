@@ -158,54 +158,40 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-<!--    <div class="card p-4">-->
-<!--      <div>-->
-<!--        <h4>Timeline</h4>-->
-<!--      </div>-->
-<!--      &lt;!&ndash; component &ndash;&gt;-->
-<!--      &lt;!&ndash; This is an example component &ndash;&gt;-->
-<!--      <div class='flex w-full from-purple-200 via-purple-300 to-purple-500 bg-gradient-to-br'>-->
-<!--        <div class="flex w-full items-center justify-center">-->
-<!--          <div class="overflow-x-auto w-full relative sm:rounded-lg">-->
-<!--            <div class="overflow-x-auto w-full relative sm:rounded-lg">-->
-<!--              <table class="w-full text-sm text-left text-gray-500 ">-->
-<!--                <thead class="text-xs  uppercase bg-gray-50  ">-->
-<!--                <tr>-->
-<!--                  <th scope="col" class="py-3 px-6">User</th>-->
-<!--                  <th scope="col" class="py-3 px-6">Action</th>-->
-<!--                  <th scope="col" class="py-3 px-6">Date</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr class="bg-white">-->
-<!--                  <td class="py-4 px-6">Buyer</td>-->
-<!--                  <td class="py-4 px-6">item placed</td>-->
-<!--                  <td class="py-4 px-6">Nov 09, 23 4:55pm</td>-->
-<!--                </tr>-->
-<!--                <tr class="bg-white">-->
-<!--                  <td class="py-4 px-6">System</td>-->
-<!--                  <td class="py-4 px-6">order status changed</td>-->
-<!--                  <td class="py-4 px-6">Nov 09, 23 4:55pm</td>-->
-<!--                </tr>-->
-<!--                <tr class="bg-white">-->
-<!--                  <td class="py-4 px-6">Suplier</td>-->
-<!--                  <td class="py-4 px-6">item placed</td>-->
-<!--                  <td class="py-4 px-6">Nov 09, 23 4:55pm</td>-->
-<!--                </tr>-->
-<!--                <tr class="bg-white">-->
-<!--                  <td class="py-4 px-6">Buyer</td>-->
-<!--                  <td class="py-4 px-6">item placed</td>-->
-<!--                  <td class="py-4 px-6">Nov 09, 23 4:55pm</td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
+    <div class="card p-4">
+      <div>
+        <h4> {{$t('orderDetails.timeline')}}</h4>
+      </div>
+      <!-- component -->
+      <!-- This is an example component -->
+      <div class='flex w-full from-purple-200 via-purple-300 to-purple-500 bg-gradient-to-br'>
+        <div class="flex w-full items-center justify-center">
+          <div class="overflow-x-auto w-full relative sm:rounded-lg">
+            <div class="overflow-x-auto w-full relative sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 ">
+                <thead class="text-xs  uppercase bg-gray-50  ">
+                <tr>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.user')}}</th>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.action')}}</th>
+                  <th scope="col" class="py-3 px-6">{{$t('orderDetails.date')}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="bg-white" v-for="(timeline,index) in orderDetails.timeline" :key="index">
+                  <td class="py-4 px-6">{{ timeline.user }}</td>
+                  <td class="py-4 px-6">{{ timeline.action }}</td>
+                  <td class="py-4 px-6">{{ timeline.date }}</td>
+                </tr>
+                <div class="mt-7" v-if="orderDetails.timeline?.length < 1">{{$t('app.tableEmptyData')}}</div>
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-<!--        </div>-->
-<!--      </div>-->
+        </div>
+      </div>
 
-<!--    </div>-->
+    </div>
   </div>
 </template>
 <script>

@@ -350,7 +350,6 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-
   async getRequest({rootState, commit, dispatch}, {params, api}) {
 
     const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
@@ -361,11 +360,9 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+  async getRequestDtails({rootState, commit, dispatch}, {params, api}) {
 
-  async FrontGetRequest({rootState, commit, dispatch}, {params,token, api}) {
-
-    const {data} = await Service.getRequest(params, token, api, rootState.language.langCode)
-
+    const {data} = await Service.getRequestDtails(params.id, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       return data.data
     } else {

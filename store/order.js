@@ -112,10 +112,11 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message })
     }
   },
-  async changeStatus ({ commit,dispatch },{payload}) {
+  async changeStatus ({ dispatch },{payload}) {
     const {data} = await Service.changeStatusOrder(this.$auth.strategy.token.get(),payload)
     if(data.status === 200){
       dispatch('ui/setToastMessage', data.message, {root: true})
+      return data.data;
     } else if(data.status === 500) {
       dispatch('ui/setToastError', data?.message, {root: true})
     }
@@ -123,11 +124,24 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message })
     }
 },
+// sub-order/reject/
+async subOrderReject ({ dispatch },{payload}) {
+  const {data} = await Service.subOrderReject(this.$auth.strategy.token.get(),payload)
+  if(data.status === 200){
+    dispatch('ui/setToastMessage', data.message, {root: true})
+    return data.data;
+  } else if(data.status === 500) {
+    dispatch('ui/setToastError', data?.message, {root: true})
+  }
+  else {
+    return Promise.reject({statusCode: data.status, message: data.message })
+  }
+},
   async approveOrder ({ commit,dispatch },{payload}) {
     const {data} = await Service.approveOrder(this.$auth.strategy.token.get(),payload)
     if(data.status === 200){
-      commit('SET_ORDER_DATA', data.data)
       dispatch('ui/setToastMessage', data.message, {root: true})
+      return data;
     }
     else {
       return Promise.reject({statusCode: data.status, message: data.message })

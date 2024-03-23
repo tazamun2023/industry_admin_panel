@@ -410,13 +410,17 @@
     "setVideo" : "video-gallery",
     "getVideo" : "video-gallery",
     "deleteVideo" : "video-gallery",
-
+    "subOrder": "sub-order",
+    "mainOrder": "main-order",
     "subOrderPending": "sub-order/pending",
     "subOrderApproved": "sub-order/approved",
     "subOrderRejected": "sub-order/rejected",
+    "subOrderReject":"sub-order/reject",
     "reasonsRejection": "reject-reason",
     "changeStatusOrder": "main-order/change-status",
-    "SubOrderApprove": "sub-order/approve"
+    "SubOrderApprove": "sub-order/approve",
+    "mainOrderDetails": "sub-order/admin",
+    "mainOrder": "main-order"
 
   }
 }

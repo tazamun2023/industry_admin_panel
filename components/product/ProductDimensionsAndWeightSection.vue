@@ -1,12 +1,17 @@
 <script>
 import util from "@/mixin/util";
+import {ValidationProvider} from "vee-validate";
 
 export default {
   name: "ProductDimensionsAndWeightSection",
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
+  components: {
+    ValidationProvider
+  },
   props: {
     result: {},
+    is_draft: {},
     allWeightUnits: {},
     allDimensionUnits: {},
   },
@@ -22,9 +27,11 @@ export default {
   <div class="tab-sidebar p-3">
     <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
     <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
-    <div class="input-wrapper">
-      <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
-      <div class="relative flex input-group gap-4 w-50 mb-3">
+    <ValidationProvider name="pdime_weight" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                        :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
+      <div class="input-wrapper">
+        <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
+        <div class="relative flex input-group gap-4 w-50 mb-3">
           <input
             type="text"
             class="form-control pr-12"
@@ -42,50 +49,66 @@ export default {
               <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{ item.name }}</option>
             </select>
           </div>
+        </div>
+        <span class="error">{{ errors[0] }}</span>
       </div>
-    </div>
+    </ValidationProvider>
     <div class="grid grid-cols-4 gap-4">
-      <div class="input-wrapper">
-        <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
+      <ValidationProvider name="pdime_length" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                          :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
+        <div class="input-wrapper">
+          <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
           <div class="input-group mb-3">
             <input type="text" class="form-control" :placeholder="$t('prod.Length')"
                    @keypress="onlyNumber"
                    @input="ProductDimensionsAndWeightSection"
                    v-model="result.pdime_length">
           </div>
-      </div>
+        </div>
+        <span class="error">{{ errors[0] }}</span>
+      </ValidationProvider>
+      <ValidationProvider name="pdime_height" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                          :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
       <div class="input-wrapper">
         <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
-          <div class="input-group mb-3">
-            <input
-              type="text" class="form-control"
-              :placeholder="$t('prod.Height')"
-              @keypress="onlyNumber"
-              @input="ProductDimensionsAndWeightSection"
-              v-model="result.pdime_height">
-          </div>
+        <div class="input-group mb-3">
+          <input
+            type="text" class="form-control"
+            :placeholder="$t('prod.Height')"
+            @keypress="onlyNumber"
+            @input="ProductDimensionsAndWeightSection"
+            v-model="result.pdime_height">
+        </div>
       </div>
-
-      <div class="input-wrapper">
-        <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
+      </ValidationProvider>
+      <ValidationProvider name="pdime_width" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                          :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
+        <div class="input-wrapper">
+          <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Enter Width"
+            <input type="text" class="form-control" :placeholder="$t('prod.Width')"
                    @keypress="onlyNumber"
                    @input="ProductDimensionsAndWeightSection"
                    v-model="result.pdime_width">
           </div>
-      </div>
-      <div class="input-wrapper">
-        <label for="">{{ $t('prod.Dimension Unit') }}</label>
-        <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
-                @input="ProductDimensionsAndWeightSection"
-                v-model="result.pdime_dimention_unit">
-          <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
-              item.name
-            }}
-          </option>
-        </select>
-      </div>
+        </div>
+        <span class="error">{{ errors[0] }}</span>
+      </ValidationProvider>
+      <ValidationProvider name="pdime_dimention_unit" class="w-full" :rules="{ required: !is_draft}" v-slot="{ errors }"
+                          :custom-messages="{required: $t('global.req', { type: $t('prod.Dimension Unit')}) }">
+        <div class="input-wrapper">
+          <label for="">{{ $t('prod.Dimension Unit') }}</label>
+          <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
+                  @input="ProductDimensionsAndWeightSection"
+                  v-model="result.pdime_dimention_unit">
+            <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
+                item.name
+              }}
+            </option>
+          </select>
+        </div>
+        <span class="error">{{ errors[0] }}</span>
+      </ValidationProvider>
     </div>
 
   </div>
