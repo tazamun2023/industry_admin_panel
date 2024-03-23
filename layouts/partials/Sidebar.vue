@@ -417,7 +417,7 @@ export default {
           icon: 'security-safe.svg',
           is_image:true,
           open: false,
-          gate: 'user',
+          gate: 'vendor',
           children: [
             {
               path: 'registered-users',
@@ -444,6 +444,14 @@ export default {
               icon: 'admins-vendors',
               form: ['admins-vendors'],
               gate: 'admin'
+            },
+
+            {
+              path: 'vendor-users',
+              title: this.$t('error.vendor_users'),
+              icon: 'admins-vendors',
+              form: ['vendor-users'],
+              gate: 'vendor'
             },
           ]
         },

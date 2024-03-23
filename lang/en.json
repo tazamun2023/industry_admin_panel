@@ -575,7 +575,8 @@
     "rating": "Rating",
     "product": "Product",
     "review": "Review",
-    "fSale": "flash sale"
+    "fSale": "flash sale",
+    "role": "Role"
   },
   "user": {
     "users": "users",
@@ -605,8 +606,14 @@
     "wAcc": "Withdrawal account",
     "inPass": "Invalid password length",
     "nMatch": "Two password didn't match",
-    "name": "Name"
-
+    "name": "Name",
+    "new_password" : "New Password",
+    "password" : "password",
+    "one_numeric" : "Contain at least one numeric character",
+    "alphabetic_uppercase" : "Contain at least one alphabetic Uppercase character",
+    "alphabetic _lowercase" : "Contain at least one alphabetic Lowercase character",
+    "one_special": "Contain at least one Special character",
+    "confirm_password" : "Confirm New Password"
   },
   "admin": {
     "default": "Default",
@@ -965,7 +972,8 @@
     "fn": "File name/URL",
     "feo": "Following error occurred",
     "message": "Message",
-    "access": "Access Management"
+    "access": "Access Management",
+    "vendor_users": "Vendor Users"
 
   },
   "approveModal": {
