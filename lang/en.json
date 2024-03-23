@@ -1239,5 +1239,10 @@
     "customers":"Customers",
     "address":"Address",
     "payment":"Payment"
+  },
+  "content": {
+    "faq": "FAQ",
+    "Questions": "Questions",
+    "Answers": "Answers"
   }
 }
