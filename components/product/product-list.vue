@@ -166,11 +166,12 @@
                         :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
                       >
                         <lazy-image
-                          v-if="value.image"
                           class="mr-20"
-                          :data-src="value.image"
+
+                          :data-src="getThumbImageURL(value.image)"
                           :alt="value.title?.en"
                         />
+
                       </nuxt-link>
                     </td>
                     <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
@@ -194,7 +195,7 @@
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
                       <input type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber"
-                             @focusout="updateQty(value.id, $event)">
+                             @change="updateQty(value.id, $event)">
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:
                         {{ value.minOrderQuantity?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>

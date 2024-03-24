@@ -7,6 +7,7 @@
       @error="onError"
       class="lazy-img"
       height="50"
+      style="width: 50px;"
       width="50"
     >
 </template>
