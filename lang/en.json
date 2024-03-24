@@ -576,7 +576,9 @@
     "product": "Product",
     "review": "Review",
     "fSale": "flash sale",
-    "role": "Role"
+    "role": "Role",
+    "first_name": "Role",
+    "last_name": "Role"
   },
   "user": {
     "users": "users",
@@ -1066,6 +1068,7 @@
     "up": "Update profile",
     "np": "New password",
     "wb": "Welcome back",
+    "register_user": "Register your account",
     "cp": "Change password",
     "um": "User message",
     "umLower": "user message",

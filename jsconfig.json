@@ -389,7 +389,19 @@
     "getAdmins": "admin-data/all",
     "getAdmin": "admin-data/find",
     "deleteAdmin": "admin-data/delete",
+
+    "getVendorUsers": "vendor-users/all",
+    "getUser": "vendor-users/find",
+    "deleteVendors": "vendor-users/delete",
+
+
+
+
     "setAdmin": "admin-data/action",
+    "getUserInfo": "user-register/getUserByEmail",
+    "userRegistration": "user-register/userRegistration",
+
+
 
     "getStore": "store/find",
     "setStore": "store/action",

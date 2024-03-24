@@ -5,8 +5,8 @@
   <list-page
 
     ref="listPage"
-    list-api="getAdmins"
-    delete-api="deleteAdmin"
+    list-api="getVendorUsers"
+    delete-api="deleteVendors"
     route-name="vendor-users"
     :name="$t('user.admVendUp')"
     :order-options="orderOptions"
