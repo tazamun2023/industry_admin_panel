@@ -1117,10 +1117,10 @@ export default {
       this.checkForm()
 
     },
-    handleSubmit(){
-      console.log('ddddddddddddddd')
-      // alert('Form has been submitted!');
-    },
+    // handleSubmit(){
+    //   console.log('ddddddddddddddd')
+    //   // alert('Form has been submitted!');
+    // },
 
 
     doSubmit() {
