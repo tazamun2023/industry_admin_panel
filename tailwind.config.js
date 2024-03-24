@@ -34,7 +34,8 @@ module.exports = {
       smoothlight:'#4B5563',
       theem:'#27436F',
       theemlight:'#27436F1A',
-      lightdeep:'#F9FAFB'
+      lightdeep:'#F9FAFB',
+      warninglight:'#FFD9D9'
     },
 
     screens: {
