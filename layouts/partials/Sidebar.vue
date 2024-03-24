@@ -208,7 +208,7 @@ export default {
           ]
         },
         {
-          path: 'flash-sales',
+          path: 'message-center',
           title: this.$t('error.message'),
           icon: 'sms.svg',
           is_image:true,
