@@ -13,7 +13,7 @@
            </div>
         </div>
         <div class="grid grid-cols-3 my-2 gap-4">
-            <div v-for="(value, index) in addressList.data" :key="index" class="card p-4 my-2">
+            <div v-for="(value, index) in addressList?.data" :key="index" class="card p-4 my-2">
                 <div class="flex gap-4 py-2 justify-between">
                     <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
@@ -302,14 +302,14 @@ export default{
    closeModal(){
      this.deleteModal = false
    }
-  
+
  },
   async mounted() {
     try {
       this.loading = true
       this.vendorCountryId = this.profile.country_id
       await  this.getAllAddress();
-      if (this.phoneCode.length == 0)
+      // if (this.phoneCode.length == 0)
     await this.getPhoneCode()
     await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
       .then(()=>{

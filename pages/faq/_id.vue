@@ -5,18 +5,18 @@
     get-api="FAQ"
     method="put"
     route-name="FAQ"
-    :name="$t('color.color')"
+    :name="$t('content.faq')"
     gate="brand"
     :validation-keys="['questions.ar','questions.en']"
     :result="result"
     @result="resultData"
   >
     <template v-slot:form="{hasError}">
-      <lang-input :hasError="hasError" type="text" :title="$t('global.questions')" :valuesOfLang="result.questions"
+      <lang-input :hasError="hasError" type="text" :title="$t('content.Questions')" :valuesOfLang="result.questions"
                   @updateInput="updateInput"></lang-input>
 
 
-      <lang-input type="text" :title="$t('global.answers')" :valuesOfLang="result.answers"
+      <lang-input type="text" :title="$t('content.Answers')" :valuesOfLang="result.answers"
                   @updateInput="updateInput"></lang-input>
 
     </template>

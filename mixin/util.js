@@ -244,14 +244,23 @@ export default {
     },
 
 
-    getImageURL(image) {
-      if (image===null) {
-        image = this.defaultImage
+    // getImageURL(image) {
+    //   if (!image)  {
+    //     image = this.defaultImage
+    //   }
+    //
+    //   return image;
+    //
+    //   // return image.url
+    // },
+    getImageURL(image = this.defaultImage) {
+      if (image !== 'default-image.webp'){
+        return image;
+      }else {
+        let new_path= this.$store.state.imgSrcUrl + image
+        return image.includes("http")? image: new_path
       }
 
-      return image;
-
-      // return image.url
     },
     productLink(item) {
       if (item) {

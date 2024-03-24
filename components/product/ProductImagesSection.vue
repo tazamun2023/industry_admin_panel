@@ -85,7 +85,7 @@ export default {
           </div>
         </td>
         <td style="width:60%">
-          <div class="media">
+          <div class="media" style="width: 100px;">
             <lazy-image
               class="mr-20"
               :data-src="getThumb(isThumb)"
@@ -123,16 +123,16 @@ export default {
             <label class="custom-control-label" for="customCheck2"></label>
           </div>
         </td>
-        <td style="width:60%">
-          <div class="media">
+        <td >
+          <div class="media" style="width: 100px">
             <lazy-image
               class="mr-20"
               :data-src="image.image"
               :alt="image.file_name"
             />
             <div class="media-body">
-              <h6 class="mt-0 mb-0  text-xs">{{ image.file_name }}</h6>
-              <span class="text-muted  text-xs">Image</span>
+<!--              <h6 class="mt-0 mb-0  text-xs">{{ image.file_name }}</h6>-->
+<!--              <span class="text-muted  text-xs">Image</span>-->
             </div>
           </div>
         </td>
