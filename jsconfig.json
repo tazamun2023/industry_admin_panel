@@ -393,15 +393,11 @@
     "getVendorUsers": "vendor-users/all",
     "getUser": "vendor-users/find",
     "deleteVendors": "vendor-users/delete",
-
-
-
+    "sentInvitation": "vendor-users/SentInvitation",
 
     "setAdmin": "admin-data/action",
     "getUserInfo": "user-register/getUserByEmail",
     "userRegistration": "user-register/userRegistration",
-
-
 
     "getStore": "store/find",
     "setStore": "store/action",
@@ -423,7 +419,6 @@
     "getVideo" : "video-gallery",
     "deleteVideo" : "video-gallery",
     "subOrder": "sub-order",
-    "mainOrder": "main-order",
     "subOrderPending": "sub-order/pending",
     "subOrderApproved": "sub-order/approved",
     "subOrderRejected": "sub-order/rejected",

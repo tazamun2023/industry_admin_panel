@@ -69,7 +69,7 @@ export default {
             <td>{{ value.username }}</td>
             <td>{{ value.phone }}</td>
             <td>{{ value.email }}</td>
-            <td>{{ value.roll }}</td>
+            <td>{{ value.role }}</td>
             <td>
               <!--          <div class="flex gap-4">-->
               <!--          <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">-->

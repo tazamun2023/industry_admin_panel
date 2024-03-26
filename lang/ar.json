@@ -515,6 +515,11 @@
     "messageTow": "استلام الدفعة بنجاح"
 
 },
+"validation": {
+"number":"يجب ان يكون ارقام",
+"required":"يجب ان تكتب",
+"email":"يجب ان يكون بريد الكتروني"
+},
   "paymentMethod": {
     "bank": "بنك",
     "cred_Card": ""
@@ -931,6 +936,7 @@
   },
   "approveModal": {
     "approvedOrder": "تمت الموافقة على الطلب",
+    "titleModel":"هل انت متأكد من انك تريد الموافقة على هذا الطلب",
     "ordersItems": "العناصر المطلوبة",
     "pickupAddress": "عنوان الاستلام",
     "Add Address": "Add Address",

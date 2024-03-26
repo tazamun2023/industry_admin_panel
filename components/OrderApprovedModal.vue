@@ -219,7 +219,7 @@
         <div class="card p-4">
           <div class="flex justify-between">
             <h4> {{ $t('approveModal.pickupAddress') }}</h4>
-            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="closeModelAddAddress">
+            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="showModelAddAddress">
               {{ $t('approveModal.pickupAddress') }}</a>
           </div>
 
@@ -405,6 +405,10 @@ export default {
    
     closeModelAddAddress() {
       this.addressmodal = ! this.addressmodal
+    },
+    showModelAddAddress() {
+      this.addressSelected = "";
+      this.closeModelAddAddress();
     },
     handleSelectChange(event, subItem) {
       console.log(event.target.value, subItem)
