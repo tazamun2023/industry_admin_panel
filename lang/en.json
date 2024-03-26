@@ -267,6 +267,11 @@
     "Not Verified": "Not Verified",
     "All": "All"
   },
+  "validation": {
+    "number":"Enter Number",
+    "required":"This required",
+    "email":"Required is Email Yype"
+    },
   "prod": {
     "Submit": "Submit",
     "SAR": "SAR",
@@ -980,6 +985,7 @@
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
+    "titleModel":"Are you sure you want to approve this request?",
     "ordersItems": "Orders Items",
     "pickupAddress": "Pickup Address",
     "Add Address": "Add Address",
