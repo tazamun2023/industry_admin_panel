@@ -3,12 +3,12 @@
 <!--  v-if="$can('vendor', 'view')"-->
 
   <list-page
-
+    :param="vendor_id"
     ref="listPage"
     list-api="getVendorUsers"
     delete-api="deleteVendors"
     route-name="vendor-users"
-    :name="$t('user.admVendUp')"
+    :name="$t('user.name')"
     :order-options="orderOptions"
     gate="vendor"
   >
@@ -81,7 +81,7 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
   export default {
-    name: "roles-permissions",
+    name: "vendor-users",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
@@ -90,6 +90,9 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
           email: { title: this.$t('fSale.email') },
           username: { title: this.$t('user.uName') },
           created_at: { title: this.$t('category.date') },
+        },
+        vendor_id: {
+          vendor_id: 1
         }
       }
     },

@@ -89,6 +89,12 @@ const actions = {
 
   },
 
+  async sentInvitation ({rootState, commit , dispatch}, {params,api, lang}) {
+    const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, lang)
+    return data
+
+  },
+
 
 
 
