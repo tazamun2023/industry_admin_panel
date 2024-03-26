@@ -113,7 +113,7 @@
             <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
                         :valuesOfLang="result.description"
                         @updateInput="updateInput"></lang-input>
-            <ValidationProvider name="brand" :rules="is_draft?'null':'required'" v-slot="{ errors }"
+            <ValidationProvider name="brand" :rules="is_draft?'':'required'" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
               <div class="input-wrapper mt-3 mt-sm-0">
