@@ -167,7 +167,7 @@
           this.loading = true
           this.result = await this.getRequest({
             params: {
-               ...this.param,
+              ...this.param,
               ...this.$route.query,
               ...this.listParams,
               ...{time_zone: this.timeZone}
