@@ -1,9 +1,15 @@
 <template>
   <div>
-    <div class="card my-2 p-4">
-      <h4>{{ $t('orderDetails.title') }}</h4>
+    <div class="card flex justify-between my-2 p-4">
+      <div>
+        <h4>{{ $t('orderDetails.title') }}</h4>
       <h5>{{ $t('orderDetails.next_step') }}</h5>
       <p>{{ $t('orderDetails.content') }}</p>
+      </div>
+<div>
+  <button @click="printInvoice()">Download Invoice</button>
+  <Invoice ref="invoiceDownload"  class="hidden print:block"/>
+</div>
     </div>
     <div class="card my-2 p-4">
       <div class="flex gap-4">
@@ -197,15 +203,23 @@
 <script>
 import {mapGetters, mapActions} from "vuex";
 import LazyImage from "../../components/LazyImage.vue";
+import Invoice from "./component/Invoice.vue"
 
 export default {
-  components: {LazyImage},
+  components: {LazyImage, Invoice},
   computed: {
     ...mapGetters('order', ['orderDetails'])
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
     ...mapActions('order', ['getOrderDetails']),
+    printInvoice() {
+      const printContent = this.$refs.invoiceDownload.$el.innerHTML;
+      const originalContent = document.body.innerHTML;
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent; // Restore original content after printing
+    },
   },
   mounted() {
     this.getOrderDetails({
