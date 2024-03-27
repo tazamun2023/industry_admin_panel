@@ -35,7 +35,9 @@ module.exports = {
       theem:'#27436F',
       theemlight:'#27436F1A',
       lightdeep:'#F9FAFB',
-      warninglight:'#FFD9D9'
+      warninglight:'#FFD9D9',
+      inbg:'#FBFCFE',
+      intext:'#737982'
     },
 
     screens: {
