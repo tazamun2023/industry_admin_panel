@@ -54,7 +54,7 @@ import ShippingDetails from "@/components/rfq/ShippingDetails.vue";
 import AdditionalInformation from "@/components/rfq/AdditionalInformation.vue";
 import Quotation from "@/components/rfq/Quotation.vue";
 import ImageSlider from "@/components/rfq/ImageSlider.vue";
-
+import '@glidejs/glide/dist/css/glide.core.min.css';
 export default {
   name: "RFQDetails",
   components: {ImageSlider, Quotation, AdditionalInformation, ShippingDetails, RFQProducts},
@@ -129,7 +129,7 @@ export default {
   border-left: 5px solid #27436f;
 }
 
-@import '@glidejs/glide/dist/css/glide.core.min.css';
+
 
 .glide .glide-nav button {
   top: 7%;
