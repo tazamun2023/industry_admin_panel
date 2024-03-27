@@ -53,7 +53,7 @@
           <div
             v-for="(value, key, index) in groupBy(allPermissions, 'group_name')"
             :key="index"
-            class="permission-group"
+            class="permission-group mt-5"
           >
             <div>
               <input
@@ -91,7 +91,8 @@
                   :for="`checkbox-${index}-${ind}`"
                   class="mtb-7-5"
                 >
-                  {{ formatPermissionName(i.name) }}
+                  {{i.description!=null?(i?.description[$t('app.local')]): formatPermissionName(i.name) }}
+
                 </label>
               </span>
             </div>
