@@ -15,7 +15,7 @@
         <div class="grid grid-cols-3 my-2 gap-4">
             <div v-for="(value, index) in addressList" :key="index" class="card p-4 my-2">
                 <div class="flex gap-4 py-2 justify-between">
-                    <h4>{{ value.address_name }}</h4>
+                    <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
                         <button class="p-2 leading-3 rounded bg-smooth  hover:text-warning" @click="deleteModal=true" >Remove</button>
                     <button class="p-2 leading-3 rounded bg-primary text-white hover:text-primary" @click="editAddress(value)">Edit</button>
@@ -26,7 +26,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
                             </svg>
-                    <p>{{ value.city }}, {{ value.country }}, {{ value.street }}, {{ value.district }}, {{ value.zip }}</p>
+                    <p>{{ value.city }}, {{ value?.country }}, {{ value?.street }}, {{ value?.district }}, {{ value.zip }}</p>
                 </div>
                 <div class="flex gap-4  justify-between">
                     <div class="flex py-2 gap-2">
@@ -39,13 +39,13 @@
                         <svg class="w-6 h-6  text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 18-7 3 7-18 7 18-7-3Zm0 0v-5"/>
                         </svg>
-                        <p>{{ value.city }}</p>
+                        <p>{{ value?.city }}</p>
                     </div>
                     <div class="flex py-2 gap-2">
                         <svg class="w-6 h-6  text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21v-9m3-4H7.5a2.5 2.5 0 1 1 0-5c1.5 0 2.9 1.3 3.9 2.5M14 21v-9m-9 0h14v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8ZM4 8h16a1 1 0 0 1 1 1v3H3V9a1 1 0 0 1 1-1Zm12.2-5c-3 0-5.5 5-5.5 5h5.5a2.5 2.5 0 0 0 0-5Z"/>
                         </svg>
-                        <p>{{ value.country }}</p>
+                        <p>{{ value?.country }}</p>
                     </div>
                 </div>
               <DeleteModal v-if="deleteModal" @closeModal="closeModal">
