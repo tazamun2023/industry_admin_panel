@@ -282,28 +282,28 @@ export default {
     },
 
     getStatus(index) {
-      return index && this.statusObj[index].title
+      return index && this.statusObj[index]?.title
     },
 
     VendorStatus(index) {
-      return index && this.VendorStatusObj[index].title
+      return index && this.VendorStatusObj[index]?.title
     },
 
     VendorApproval(index) {
-      return index && this.VendorApprovalObj[index].title
+      return index && this.VendorApprovalObj[index]?.title
     },
 
     isNewRecord(value) {
       return parseInt(value) !== this.status.PUBLIC
     },
     getFeatured(index) {
-      return index && this.featuredObj[index].title
+      return index && this.featuredObj[index]?.title
     },
     getBoolean(index) {
-      return this.booleanObj[index].title
+      return this.booleanObj[index]?.title
     },
     getVerificationStatus(index) {
-      return this.verifiedObj[index].title
+      return this.verifiedObj[index]?.title
     },
     formatPrice(num) {
       return parseFloat(num).toFixed(2)

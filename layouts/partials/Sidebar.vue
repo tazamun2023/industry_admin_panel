@@ -450,7 +450,7 @@ export default {
               title: this.$t('error.vendor_users'),
               icon: 'admins-vendors',
               form: ['vendor-users'],
-              gate: 'view_users'
+              gate: 'invite'
             },
           ]
         },
