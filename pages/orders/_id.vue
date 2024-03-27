@@ -8,7 +8,8 @@
       </div>
 <div>
   <button @click="printInvoice()">Download Invoice</button>
-  <Invoice ref="invoiceDownload"  class="hidden print:block"/>
+  <!-- <Invoice ref="invoiceDownload"  class="hidden print:block"/> -->
+  <Invoice ref="invoiceDownload"/>
 </div>
     </div>
     <div class="card my-2 p-4">

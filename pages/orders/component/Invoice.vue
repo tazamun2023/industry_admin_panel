@@ -2,7 +2,7 @@
     <div>
         <div class="flex justify-between py-2  px-3">
           <div>
-            <h2 class="text-[32px] font-bold py-2 px-2">Invoice</h2>
+            <h3 class="text-[32px] font-bold py-2 px-2">Invoice</h3>
             <table>
               <tr>
                 <td class="text-intext text-[16px] px-2 py-1">Invoice No. : </td>
@@ -26,8 +26,8 @@
 
         <div class="grid grid-cols-2 rounded my-1 py-1 px-4 bg-inbg gap-4">
             <div>
-              <p class="font-bold text-[18px] text-theem py-1">Billed By</p>
-              <p class="font-bold text-[20px]  py-1">
+              <p class="font-bold text-[16px] text-theem py-1">Billed By</p>
+              <p class="font-bold text-[18px]  py-1">
                 Almarai
               </p>
               <p class="font-bold  py-1">305, 3rd Floor Orion mall, Alshifa, Ryadh, Saudi Arabia</p>
@@ -35,8 +35,8 @@
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/call-g.svg" alt=""> +966 555555555</p>
             </div>
             <div>
-              <p class="font-bold text-[18px] text-theem  py-1">Billed To</p>
-              <p class="font-bold  text-[20px]  py-1">
+              <p class="font-bold text-[16px] text-theem  py-1">Billed To</p>
+              <p class="font-bold  text-[18px]  py-1">
                 Mohammed Alhumaidi
               </p>
               <p class="font-bold  py-1">305, 3rd Floor Orion mall, Alshifa, Ryadh, Saudi Arabia</p>
@@ -88,7 +88,7 @@
         <div class="p-1 grid grid-cols-3 gap-4">
             <div class="col-span-2">
               <div class="bg-inbg py-1 px-3 my-1">
-                <h3 class="text-theem font-bold py-2">Bank Account Details</h3>
+                <h4 class="text-theem font-bold py-2">Bank Account Details</h4>
               <table>
                 <tr>
                   <td class="text-intext py-2">Bank Name</td>
@@ -113,7 +113,7 @@
               </table>
               </div>
               <div class="bg-inbg p-1 my-2">
-                  <h3 class="text-theem font-bold py-2">Terms and Conditions</h3>
+                  <h4 class="text-theem font-bold py-2">Terms and Conditions</h4>
                   <p class="py-1 text-[16px]">Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.</p>
                   <p class="py-1 text-[16px]">Please quote invoice number when remitting funds.</p>
               </div>
@@ -155,5 +155,9 @@
 <style>
 table td {
     border-bottom: 0px !important;
+}
+.px-2 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem;
 }
 </style>
