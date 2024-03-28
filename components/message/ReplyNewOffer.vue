@@ -79,18 +79,11 @@ export default {
 
 <template>
   <div>
-    <p class="font-bold">Send new offer</p>
+    <p class="font-bold">{{ $t('products.Send new offer') }}</p>
     <ValidationObserver v-slot="{ invalid }">
       <div class="bg-darklight p-4">
         <div class="flex justify-between gap-4 pt-4">
-          <p>How many Piece</p>
-<!--          <div class="flex border-smooth bg-white rounded my-2 border">-->
-<!--            <button @click="decrement" class="m-2 border w-7 h-7 rounded-full text-center  border-smooth"><img-->
-<!--              class="w-3 h-1 mx-auto" src="~/assets/icon/minus.svg" alt=""></button>-->
-<!--            <input class="w-[83px] mx-2 p-2  text-center" :value="formData.quantity" type="text">-->
-<!--            <button @click="increment" class="m-2 border w-7 h-7 rounded-full text-center  border-smooth"><img-->
-<!--              class="w-3 h-3 mx-auto" src="~/assets/icon/plus.svg" alt=""></button>-->
-<!--          </div>-->
+          <p>{{ $t('products.How many Piece') }}</p>
           <div class="flex border-smooth bg-white rounded my-2 border">
             <button @click="decrement" class="w-14  text-center  p-0 border-0"><img class="w-3 h-1 mx-auto" src="~/assets/icon/minus.svg" alt=""></button>
             <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" :value="formData.quantity">
@@ -100,7 +93,7 @@ export default {
         <ValidationProvider name="email" rules="required|number" v-slot="{ errors }"
                             :custom-messages="{required: `${$t('products.Unit target price')} is Required`}">
           <div class="flex justify-between gap-4 pt-4">
-            <p class="w-50">Unit target price</p>
+            <p class="w-50">{{ $t('products.Unit target price') }}</p>
             <input
               class="w-50 p-2 rounded"
               :placeholder="$t('products.Unit target price')"
@@ -120,12 +113,12 @@ export default {
     <div class="flex justify-end gap-4 pt-2" v-if="is_after_send">
       <button @click="Cancel"
               class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-        Cancel
+        {{ $t('products.Cancel') }}
       </button>
       <button
         @click="Confirm"
         class="border-2 border-primary px-2 h-[34px] leading-3 bg-primary text-white font-bold">
-        Confirm
+        {{ $t('products.Confirm') }}
       </button>
     </div>
   </div>

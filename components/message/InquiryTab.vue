@@ -100,17 +100,17 @@ export default {
           <div class="flex justify-between">
             <span class="text-smooth  font-12px">INQ{{ inquirie.inquirable_id }}</span>
             <span class="p-1 rounded text-smooth bg-theemlight text-theem uppercase font-12px"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='pending_response')">PENDING RESPONSE</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
             <span class="p-1 rounded text-smooth bg-theemlight text-theem uppercase font-12px"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='pending_agreement')">PENDING AGREEMENT</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='pending_agreement')">{{ $t('products.PENDING AGREEMENT') }}</span>
             <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='expired')">expired</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='expired')">{{ $t('products.expired') }}</span>
             <span class="p-1 rounded bg-warninglight text-error uppercase text-[12px]"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='canceled')">canceled</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='canceled')">{{ $t('products.canceled') }}</span>
             <span class="p-1 rounded bg-primarylight text-primary uppercase text-[12px]"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='approved')">approved</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='approved')">{{ $t('products.approved') }}</span>
             <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
-                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='rejected')">rejected</span>
+                  v-if="(inquirie.offers[inquirie.offers.length - 1].status==='rejected')">{{ $t('products.rejected') }}</span>
           </div>
         </div>
       </div>

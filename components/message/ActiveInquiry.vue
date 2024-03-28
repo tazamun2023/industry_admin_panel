@@ -181,21 +181,6 @@ export default {
         <div class="flex-auto">
           <div class="tab-content tab-space">
             <div class="border-b  border-smooth">
-<!--              <div class="d-flex py-1 px-4 justify-between items-center">-->
-<!--                <div class="d-flex gap-4 items-center">-->
-<!--                  <lazy-image-->
-<!--                    class="w-[38px] h-[38px] object-cover rounded"-->
-<!--                    :data-src="activeInquiries?.vendor?.logo"-->
-<!--                    :alt="activeInquiries?.vendor?.local_name"-->
-<!--                  />-->
-<!--                  &lt;!&ndash;                <img class="w-[38px] h-[38px]" src="~/assets/icon/sellersvg.svg" alt="">&ndash;&gt;-->
-<!--                  <a :href="`/vendor/` + ActiveInquiryData?.vendor?.subdomain"-->
-<!--                     target="_blank">{{ ActiveInquiryData?.vendor?.name }}</a>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                  <p class="text-smooth">{{ $t('products.Last Seen') }}: March 15, 2024 3:25 PM</p>-->
-<!--                </div>-->
-<!--              </div>-->
               <div class="flex py-1 px-4 justify-between items-center">
                 <div class="flex gap-4 items-center">
                   <lazy-image
@@ -203,11 +188,10 @@ export default {
                     :data-src="activeInquiries?.vendor?.logo"
                     :alt="activeInquiries?.vendor?.local_name"
                   />
-<!--                  <img class="w-[38px] h-[38px]" src="~/assets/icon/sellersvg.svg" alt="">-->
                   <span>{{ ActiveInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="text-smooth">Last Seen: March 15, 2024 3:25 PM</p>
+                  <p class="text-smooth">{{ $t('products.Last Seen') }}: March 15, 2024 3:25 PM</p>
                 </div>
               </div>
             </div>
@@ -226,10 +210,6 @@ export default {
                         <a class="text-primary font-bold" href="">{{ activeInquirie?.product?.title }}</a>
                         <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                           <div class="flex items-center gap-4">
-                            <!--                          <img class="w-7 h-7"-->
-                            <!--                               :src="activeInquirie?.product?.image"-->
-                            <!--                               alt=""-->
-                            <!--                          >-->
                             <lazy-image
                               class="h-10 w-10 object-cover rounded"
                               :data-src="activeInquirie?.product?.image"
@@ -381,7 +361,7 @@ export default {
                                 }}</span> {{ activeInquiries.offer?.unit?.name }}</span>
                             </div>
                             <div class="flex justify-between p-1">
-                              <span>Unit target price</span>
+                              <span>{{ $t('products.Unit target price') }}</span>
                               <span><span class="font-bold">{{
                                   activeInquirie.offer.price / activeInquirie.offer.quantity
                                 }}</span> <span
@@ -414,27 +394,26 @@ export default {
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
-                          <p class="p-2 bg-warning rounded">Are you sure you want to cancel? You can send
-                            a counter offer.</p>
+                          <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel')}}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_cancel_new_offer_customer=false"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              No
+                              {{ $t('products.No')}}
                             </button>
                             <button @click="cancelOffer"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              Cancel
+                              {{  $t('products.Cancel')}}
                             </button>
                           </div>
                         </div>
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="activeInquirie.status==='canceled'">
-                          <p class="p-2 bg-warning rounded">Cancelled. We'll let Seller know .</p>
+                          <p class="p-2 bg-warning rounded">{{ $t('products.Cancelled Well let Seller know') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_send_new_offer_vendor=index"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              Send New Offer
+                              {{ $t('products.Send New Offer') }}
                             </button>
                           </div>
                         </div>

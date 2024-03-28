@@ -199,16 +199,15 @@ export default {
                   :data-src="activeRfqInquiries?.vendor?.logo"
                   :alt="activeRfqInquiries?.vendor?.local_name"
                 />
-                <!--                <img class="w-[38px] h-[38px]" src="~/assets/icon/sellersvg.svg" alt="">-->
                 <span>{{ activeRfqInquiries?.vendor?.local_name }}</span>
               </div>
               <div>
-                <p class="text-smooth">Last Seen: March 15, 2024 3:25 PM</p>
+                <p class="text-smooth">{{ $t('products.Last Seen') }}: March 15, 2024 3:25 PM</p>
               </div>
             </div>
           </div>
           <div class="p-4 bg-graylight rounded">
-            <p class="font-bold text-[18px] py-2">RFQ Details</p>
+            <p class="font-bold text-[18px] py-2">{{ $t('products.RFQ Details') }}</p>
             <div class="lg:grid lg:grid-cols-2 gap-4">
               <div class="flex gap-4 items-center">
                 <lazy-image
@@ -218,16 +217,17 @@ export default {
                 />
                 <div>
                   <a class="font-bold text-theem" href="">{{ activeRFQData?.inquirable?.title }}</a>
-                  <p>Quantity: <span class="text-primary">{{ activeRfqInquiries.rfq?.products[is_active_inq]?.quantity }}</span> GR • Initial unit target price:
+                  <p>Quantity: <span class="text-primary">{{ activeRfqInquiries.rfq?.products[is_active_inq]?.quantity }}</span>
+                    {{ $t('products.Initial unit target price') }}
                     {{ activeRfqInquiries.rfq?.products[is_active_inq]?.target_price }}
-                    <span class="text-primary">SAR</span></p>
-                  <p>Expires on : <span class="text-red">{{ activeRfqInquiries.rfq?.expiry_date }}</span></p>
+                    <span class="text-primary">{{ $t('app.SAR') }}</span></p>
+                  <p>{{ $t('products.Expires on') }} : <span class="text-red">{{ activeRfqInquiries.rfq?.expiry_date }}</span></p>
                 </div>
               </div>
               <div class="ltr:text-end rtl:text-left">
-                <p>RFQ ID: RFQ{{ activeRfqInquiries.rfq?.id }}</p>
-                <p>Quote ID: Q{{ activeRfqInquiries.rfq?.quotes[is_active_inq]?.id }}</p>
-                <p><NuxtLink class="underline" :to="`user/rfq/${activeRfqInquiries.rfq?.id}`">Manage RFQ</NuxtLink></p>
+                <p>{{ $t('products.RFQ ID') }}: RFQ{{ activeRfqInquiries.rfq?.id }}</p>
+                <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries.rfq?.quotes[is_active_inq]?.id }}</p>
+                <p><NuxtLink class="underline" :to="`user/rfq/${activeRfqInquiries.rfq?.id}`">{{ $t('products.Manage RFQ') }}</NuxtLink></p>
               </div>
             </div>
           </div>
@@ -257,7 +257,7 @@ export default {
                           <span class="text-smooth"><del>
                             {{
                               activeInquirie.product?.product_prices[0]?.selling_price
-                            }} SAR</del>
+                            }} {{ $t('app.SAR') }}</del>
                           </span>
                         </div>
                         <div>
@@ -268,20 +268,20 @@ export default {
                               }}</span> {{ activeInquirie?.unit?.name }}</span>
                           </div>
                           <div class="flex justify-between p-1">
-                            <span>Unit target price</span>
+                            <span>{{ $t('products.Unit target price') }}</span>
                             <span><span class="font-bold">{{
                                 activeInquirie.offer.price / activeInquirie.offer.quantity
                               }}</span> <span
-                              class="text-primary">SAR</span></span>
+                              class="text-primary">{{ $t('app.SAR') }}</span></span>
                           </div>
                         </div>
                       </div>
                       <div class="grid grid-cols-2 p-2">
                         <div></div>
                         <div class="text-end flex justify-between">
-                          <span>Total Price excl. VAT</span>
+                          <span>{{ $t('products.Total Price excl VAT') }}</span>
                           <span><span class="font-bold">{{ activeInquirie.offer.price }}</span> <span
-                            class="text-primary"> SAR</span></span>
+                            class="text-primary">{{ $t('app.SAR') }}</span></span>
                         </div>
                       </div>
                       <!-- --------------end-------- -->
@@ -321,7 +321,7 @@ export default {
                       <!-- ---------end-------- -->
                       <!-- ---------------------- -->
                       <div v-if="activeInquirie.status==='canceled'">
-                        <p class="p-2 bg-warning rounded">Cancelled. We'll let Seller know.</p>
+                        <p class="p-2 bg-warning rounded">{{ $t('products.Cancelled Well let Seller know') }}</p>
                         <div class="flex justify-end gap-4 pt-4">
                           <button @click="sendNewOfferAfterCancel(index)"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
@@ -387,7 +387,7 @@ export default {
                           />
                           <span class="text-smooth"><del>{{
                               activeInquirie.product?.product_prices[0]?.selling_price
-                            }} SAR</del></span>
+                            }} {{ $t('app.SAR') }}</del></span>
                         </div>
                         <div>
                           <div class="flex justify-between p-1">
@@ -401,65 +401,62 @@ export default {
                             <span><span class="font-bold">{{
                                 activeInquirie.offer?.price / activeInquirie.offer?.quantity
                               }}</span> <span
-                              class="text-primary">SAR</span></span>
+                              class="text-primary">{{ $t('app.SAR') }}</span></span>
                           </div>
                         </div>
                       </div>
                       <div class="grid grid-cols-2 p-2">
                         <div></div>
                         <div class="text-end flex justify-between">
-                          <span>Total Price excl. VAT</span>
+                          <span>{{ $t('products.Total Price excl VAT') }}</span>
                           <span><span class="font-bold">{{ activeInquirie.offer?.price }}</span> <span
-                            class="text-primary"> SAR</span></span>
+                            class="text-primary"> {{ $t('app.SAR') }}</span></span>
                         </div>
                       </div>
                       <!-- --------------end-------- -->
                       <div v-if="activeInquirie.status!=='canceled'">
-                        <p class="p-2 bg-primarylight rounded">Offer Sent! Thank you. We’ll let Seller
-                          know.</p>
+                        <p class="p-2 bg-primarylight rounded">{{ $t('products.Offer sent message')}}</p>
                         <div class="flex justify-end gap-4 pt-4">
                           <button @click="is_cancel_new_offer_customer=activeInquirie.id"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            Cancel Offer
+                            {{ $t('products.Cancel Offer') }}
                           </button>
                           <button @click="sendNewOfferVendor(index)"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            Send New Offer
+                            {{ $t('products.Send New Offer') }}
                           </button>
                         </div>
                       </div>
                       <!-- ---------end-------- -->
                       <!-- ---------------------- -->
                       <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
-                        <p class="p-2 bg-warning rounded">Are you sure you want to cancel? You can send
-                          a counter offer.</p>
+                        <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel')}}</p>
                         <div class="flex justify-end gap-4 pt-4">
                           <button @click="is_cancel_new_offer_customer=false"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            No
+                            {{$t('products.No')}}
                           </button>
                           <button @click="cancelOffer"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            Cancel
+                            {{ $t('products.Cancel')}}
                           </button>
                         </div>
                       </div>
                       <!-- ---------end-------- -->
                       <!-- ---------------------- -->
                       <div v-if="activeInquirie.status==='canceled'">
-                        <p class="p-2 bg-warning rounded">Cancelled. We'll let Seller know .</p>
+                        <p class="p-2 bg-warning rounded">{{ $t('products.Cancelled Well let Seller know') }}</p>
                         <div class="flex justify-end gap-4 pt-4">
                           <button @click="is_send_new_offer_vendor=index"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            Send New Offer
+                            {{ $t('products.Send New Offer') }}
                           </button>
                         </div>
                       </div>
                       <!-- ---------end-------- -->
                       <!-- -------------- -->
                       <div v-if="is_send_new_offer">
-                        <p class="p-2 bg-warninglight rounded">Sending a new offer will withdraw your
-                          existing offer. Do you still want to send a new offer?</p>
+                        <p class="p-2 bg-warninglight rounded">{{ $t('products.Sending a new offer will withdraw your existing offer Do you still want to send a new offer')}}</p>
                         <div class="flex justify-end gap-4 pt-4">
                           <button @click="offerSent=true,sendNew=false"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
@@ -467,7 +464,7 @@ export default {
                           </button>
                           <button @click="sendNew=false,sendNewForm=true"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                            Send New Offer
+                            {{ $t('products.Send New Offer') }}
                           </button>
                         </div>
                       </div>
