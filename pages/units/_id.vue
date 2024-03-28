@@ -6,7 +6,7 @@
     empty-store-variable="allBrands"
     route-name="units"
     :name="$t('prod.unit')"
-    gate="brand"
+    gate="manage_initial_setting"
     :validation-keys="['name.ar','name.en', 'unit_type']"
     :result="result"
     @result="result = $event"

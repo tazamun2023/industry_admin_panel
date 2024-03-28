@@ -8,7 +8,8 @@
     :name="$t('profile.fSale')"
     :result="result"
     :validationKeys="[]"
-    gate="flash_sale"
+    gate="view_flash_sales"
+    manage_gate="manage_flash_sales"
     @result="settingResult"
   >
     <template v-slot:form="{hasError}">

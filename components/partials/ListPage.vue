@@ -214,7 +214,7 @@
       ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] )
     },
     mounted() {
-      if(!this.gate || this.$can(this.gate, 'view')){
+      if(!this.gate || this.$can(this.gate)){
         this.fetchingData()
       }
     }

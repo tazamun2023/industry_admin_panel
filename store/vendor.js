@@ -3,6 +3,7 @@ import Service from '@/services/service.js'
 const state = () => ({
   vendorList: null,
   addressList: null,
+  vendorProfile: null,
   userInfo:null
 })
 const getters = {
@@ -14,6 +15,10 @@ const mutations = {
 
   SET_VENDOR_DATA(state, data){
     state.vendorList = data
+  },
+
+  SET_VENDOR_Profile(state, data){
+    state.vendorProfile = data
   },
 
   SET_USERS_DATA(state, data){
@@ -38,10 +43,19 @@ const actions = {
     return data;
   },
 
-  async getVendorData ({rootState, commit, dispatch}, {id, params,api}) {
-    const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+  async getVendorData ({rootState, commit, dispatch}, { params,api}) {
+    const {data} = await Service.getRequest( params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit('SET_VENDOR_DATA', data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+
+  },
+  async getVendorProfile ({rootState, commit, dispatch}, {id, params,api}) {
+    const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      commit('SET_VENDOR_Profile', data)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }

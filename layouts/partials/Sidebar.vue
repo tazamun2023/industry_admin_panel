@@ -106,7 +106,7 @@ export default {
           title: this.$t('error.das'),
           icon: 'home-2.svg',
           is_image:true,
-          gate: true
+          // gate: 'dashboard'
         },
         {
           path: 'product',
@@ -120,6 +120,7 @@ export default {
               title: this.$t('error.brands'),
               icon: 'brands',
               gate: 'view_brands'
+
             },
             {
               path: 'categories',
@@ -435,7 +436,7 @@ export default {
               title: this.$t('error.rp'),
               icon: 'roles-permissions',
               form: ['roles-permissions'],
-              gate: 'assign_roles'
+              gate: 'manage_roles'
             },
             {
               path: 'admins-vendors',

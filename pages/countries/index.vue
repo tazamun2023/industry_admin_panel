@@ -1,11 +1,11 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('manage_shipment_setting')"
     ref="listPage"
     list-api="getCountriesData"
     route-name="countries"
     empty-store-variable="allBrands"
-    gate="brand"
+    gate="manage_shipment_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"

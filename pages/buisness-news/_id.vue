@@ -6,7 +6,7 @@
     method="put"
     route-name="buisness-news"
     :name="$t('bnews.news')"
-    gate="brand"
+    gate="view_content"  manage_gate="manage_content"
     :validation-keys="['title.ar','title.en', 'short_description.ar', 'short_description.en']"
     :result="result"
     @result="resultData"

@@ -10,7 +10,7 @@
     route-name="vendor-users"
     :name="$t('user.name')"
     :order-options="orderOptions"
-    gate="vendor"
+    gate="invite"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
@@ -54,14 +54,14 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('admin', 'delete')"
+            v-if="$can('invite')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
             class="border-0"
           >
             <DeleteButtonIcon/>
           </button>
           <button
-            v-if="$can('admin', 'edit')"
+            v-if="$can('invite')"
             @click.prevent="$refs.listPage.editItem(value.id)"
             class="border-0"
           >

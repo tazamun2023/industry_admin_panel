@@ -22,7 +22,7 @@
         route-name="orders"
         :name="$t('fSale.orderD')"
         :order-options="orderByOrders"
-        gate="order"
+        gate="view_main_orders"
         @deleted="deletedOrder"
         @list="itemList = $event"
       >

@@ -4,7 +4,7 @@
     list-api="getVendorOrders"
     route-name="orders"
     :name="$t('fSale.orderD')"
-    gate="order"
+    gate="view_orders"
   >
     <template
       v-slot:table-top="{orderOptions}"

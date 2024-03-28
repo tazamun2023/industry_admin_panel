@@ -78,14 +78,14 @@
           <div class="flex-auto">
             <div class="tab-content tab-space">
               <list-page
-                v-if="$can('brand', 'view')"
+                v-if="$can('view_RFQ')"
                 ref="listPage"
                 :list-api="api"
                 delete-api="deleteBrand"
                 route-name="rfqs"
                 empty-store-variable="allRfqs"
                 :name="$t('rfq.rfq')"
-                gate="brand"
+                gate="view_RFQ"
                 :order-options="orderOptions"
                 @delete-bulk="deleteBulk"
                 @list="itemList = $event"

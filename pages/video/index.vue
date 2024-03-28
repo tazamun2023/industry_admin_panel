@@ -1,6 +1,6 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('view_content')"
     ref="listPage"
     list-api="VideoGallery"
     delete-api="VideoGallery"
@@ -8,7 +8,7 @@
     route-name="video"
     empty-store-variable="VideoGallery"
     :name="$t('bnews.news')"
-    gate="brand"
+    gate="view_content"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -34,10 +34,10 @@
         <td>{{ value.url }}</td>
         <td>
           <button
-            v-if="$can('brand', 'delete')"
+            v-if="$can('view_content')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('brand', 'edit')"
+            v-if="$can('view_content')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

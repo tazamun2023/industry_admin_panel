@@ -25,7 +25,7 @@
 
       <div v-if="!loading">
         <div
-          v-if="fileKeys.length && (!gate || $can(gate, 'edit') || $can(gate, 'create'))"
+          v-if="fileKeys.length && (!manage_gate || $can(manage_gate) || $can(manage_gate))"
         >
           <image-input
             v-if="mediaStorageData.URL === mediaStorage"
@@ -45,7 +45,7 @@
         </div>
 
         <img
-          v-else-if="fileKeys.length && $can(gate, 'view')"
+          v-else-if="fileKeys.length && $can(gate)"
           class="mx-w-300x"
           :src="getImageURL(result.image)"
         >
@@ -61,7 +61,7 @@
           name="form"
           v-bind:hasError="hasError"
         />
-<!--          v-if="!gate || $can(gate, 'edit') || $can(gate, 'create')"-->
+<!--          v-if="!manage_gate || $can(manage_gate) || $can(manage_gate)"-->
         <div
           class="dply-felx j-right single-btn"
         >
@@ -128,6 +128,10 @@ export default {
       default: 'post'
     },
     gate: {
+      type: String,
+      default: null
+    },
+    manage_gate: {
       type: String,
       default: null
     },
@@ -208,7 +212,7 @@ export default {
         this.fileUploading = true
 
         const data = await this.setImageById({id: this.id, params: params, api: this.setImageApi})
-        if (data && (!this.gate || this.$can(this.gate, 'view'))) {
+        if (data && (!this.gate || this.$can(this.gate))) {
           await this.$emit('result', Object.assign({}, data))
           await this.$router.push({path: `/${this.routeName}/${this.result.id}`})
         }
@@ -253,7 +257,7 @@ export default {
 
           await this.$emit('result', Object.assign({}, data))
 
-          if (!this.gate || this.$can(this.gate, 'view') && this.result?.id) {
+          if (!this.gate || this.$can(this.gate) && this.result?.id) {
             await this.$router.push({
               path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.id}`,
               hash: this.hash
@@ -286,7 +290,7 @@ export default {
 
     if (!this.isAdding) {
       this.$nextTick(() => {
-        if (!this.gate || this.$can(this.gate, 'view')) {
+        if (!this.gate || this.$can(this.gate)) {
           this.fetchingData()
         }
       })
