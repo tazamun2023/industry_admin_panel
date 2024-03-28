@@ -106,7 +106,7 @@ export default {
           title: this.$t('error.das'),
           icon: 'home-2.svg',
           is_image:true,
-          gate: 'dashboard'
+          // gate: 'dashboard'
         },
         {
           path: 'product',
@@ -119,27 +119,28 @@ export default {
               path: 'brands',
               title: this.$t('error.brands'),
               icon: 'brands',
-              gate: 'brand'
+              gate: 'view_brands'
+
             },
             {
               path: 'categories',
               title: this.$t('error.cat'),
               icon: 'categories',
-              gate: 'category'
+              gate: 'manage_categories'
             },
             {
               path: 'products',
               title: this.$t('error.prod'),
               icon: 'products',
               form: ['product', 'ratingReviews'],
-              gate: 'product'
+              gate: 'view_products'
             },
             {
               path: 'bulk-upload',
               title: this.$t('title.bu'),
               icon: 'bulk-upload',
               form: ['bulk-upload'],
-              gate: 'bulk_upload'
+              gate: 'manage_products'
             },
 
             /* {
@@ -168,7 +169,7 @@ export default {
           icon: 'clipboard-text.svg',
           is_image:true,
           form: ['order'],
-          gate: 'order'
+          gate: 'view_main_orders'
         },
         {
           path: 'orders',
@@ -176,7 +177,7 @@ export default {
           icon: 'clipboard-text.svg',
           is_image:true,
           form: ['order'],
-          gate: 'order'
+          gate: 'view_orders'
         },
 
         {
@@ -191,19 +192,19 @@ export default {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
               icon: 'registered',
-              gate: 'order'
+              gate: 'view_RFQ'
             },
             {
               path: 'rfq/notification',
               title: this.$t('rfq.notification'),
               icon: 'flash-notification',
-              gate: 'order'
+              gate: 'notification_RFQ'
             },
             {
               path: 'rfq/manage-quotes',
               title: this.$t('rfq.manage_quotations'),
               icon: 'flash-sales',
-              gate: 'order'
+              gate: 'view_quotation'
             }
           ]
         },
@@ -213,7 +214,7 @@ export default {
           icon: 'sms.svg',
           is_image:true,
           form: ['flash-sales'],
-          gate: 'flash_sale'
+          gate: 'view_messages'
         },
         {
           path: 'flash-sales',
@@ -221,7 +222,7 @@ export default {
           icon: 'receipt-disscount.svg',
           is_image:true,
           form: ['flash-sales'],
-          gate: 'flash_sale'
+          gate: 'view_flash_sales'
         },
         {
           path: 'store',
@@ -234,25 +235,25 @@ export default {
               path: 'buisness-news',
               title: this.$t('profile.news'),
               icon: 'profile',
-              gate: 'store'
+              gate: 'view_content'
             },
             {
               path: 'video',
               title: this.$t('profile.video'),
               icon: 'video',
-              gate: 'store'
+              gate: 'view_content'
             },
             {
               path: 'certificate',
               title: this.$t('profile.certificate'),
               icon: 'video',
-              gate: 'store'
+              gate: 'view_content'
             },
             {
               path: 'faq',
               title: this.$t('profile.faq'),
               icon: 'faq',
-              gate: 'store'
+              gate: 'view_content'
             }
           ]
         },
@@ -262,7 +263,7 @@ export default {
           icon: 'star.svg',
           is_image:true,
           form: ['rating-reviews'],
-          gate: 'rating_review'
+          gate: 'view_product_review'
         },
         {
           path: 'subscription',
@@ -276,7 +277,7 @@ export default {
               title: this.$t('error.subCrbs'),
               icon: 'subscribers',
               form: ['subscriber'],
-              gate: 'subscriber'
+              gate: 'manage_subscriber'
             },
             {
               path: 'subscription-email-formats',
@@ -320,49 +321,49 @@ export default {
               title: this.$t('error.pages'),
               icon: 'pages',
               form: ['customPage'],
-              gate: 'page'
+              gate: 'view_ui_settings'
             },
             {
               path: 'home-slider',
               title: this.$t('admin.hSlid'),
               icon: 'home-slider',
-              gate: 'home_slider'
+              gate: 'view_ui_settings'
             },
             {
               path: 'banners',
               title: this.$t('admin.banners'),
               icon: 'banners',
-              gate: 'banner'
+              gate: 'view_ui_settings'
             },
             {
               path: 'footer-links',
               title: this.$t('error.fl'),
               icon: 'footer',
-              gate: 'footer_link'
+              gate: 'view_ui_settings'
             },
             {
               path: 'header-links',
               title: this.$t('dataPage.hl'),
               icon: 'header-links',
-              gate: 'header_link'
+              gate: 'view_ui_settings'
             },
             {
               path: 'site-features',
               title: this.$t('title.sf'),
               icon: 'site-features',
-              gate: 'home_slider'
+              gate: 'view_ui_settings'
             },
             {
               path: 'site-setting',
               title: this.$t('admin.site'),
               icon: 'site-setting',
-              gate: 'site_setting'
+              gate: 'view_ui_settings'
             },
             {
               path: 'custom-scripts',
               title: this.$t('title.cs'),
               icon: 'custom-scripts',
-              gate: 'site_setting'
+              gate: 'view_ui_settings'
             },
           ]
         },
@@ -379,34 +380,34 @@ export default {
               title: this.$t('account.company-profile'),
               icon: 'building-4.svg',
               is_image:true,
-              gate: 'vendor'
+              gate: 'edit_company'
             },
             {
               path: 'account/address',
               title: this.$t('account.address'),
               icon: 'location.svg',
               is_image:true,
-              gate: 'vendor'
+              gate: 'view_addresses'
             },
             {
               path: 'account/payment',
               title: this.$t('account.payment'),
               icon: 'dollar',
-              gate: 'vendor'
+              gate: 'view_financial'
             },
             {
               path: 'vendors',
               title: this.$t('account.vendors'),
               icon: 'user-octagon.svg',
               is_image:true,
-              gate: 'admin'
+              gate: 'view_users'
             },
             {
               path: 'customer',
               title: this.$t('account.customers'),
               icon: 'emoji-happy.svg',
               is_image:true,
-              gate: 'admin'
+              gate: 'view_users'
             },
           ]
         },
@@ -417,33 +418,32 @@ export default {
           icon: 'security-safe.svg',
           is_image:true,
           open: false,
-          gate: 'vendor',
           children: [
             {
               path: 'registered-users',
               title: this.$t('profile.registered'),
               icon: 'registered',
-              gate: 'user'
+              gate: 'view_users'
             },
             {
               path: 'guest-users',
               title: this.$t('profile.guest'),
               icon: 'guest',
-              gate: 'user'
+              gate: 'view_users'
             },
             {
               path: 'roles-permissions',
               title: this.$t('error.rp'),
               icon: 'roles-permissions',
               form: ['roles-permissions'],
-              gate: 'role'
+              gate: 'manage_roles'
             },
             {
               path: 'admins-vendors',
               title: this.$t('error.av'),
               icon: 'admins-vendors',
               form: ['admins-vendors'],
-              gate: 'admin'
+              gate: 'view_users'
             },
 
             {
@@ -451,7 +451,7 @@ export default {
               title: this.$t('error.vendor_users'),
               icon: 'admins-vendors',
               form: ['vendor-users'],
-              gate: 'vendor'
+              gate: 'invite'
             },
           ]
         },
@@ -468,88 +468,88 @@ export default {
               path: 'countries',
               title: this.$t('setting.countries'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_shipment_setting',
             },
             {
               path: 'cities',
               title: this.$t('setting.cities'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_shipment_setting',
             },
             {
               path: 'ports',
               title: this.$t('setting.ports'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_shipment_setting',
             },
             {
               path: 'colors',
               title: this.$t('setting.colors'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
 
             {
               path: 'shipping-rules',
               title: this.$t('brand.shipRules'),
               icon: 'shipping-rules',
-              gate: 'shipping_rule'
+              gate: 'manage_shipment_setting'
             },
             {
               path: 'transportation-modes',
               title: this.$t('setting.transportation'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
             {
               path: 'units',
               title: this.$t('setting.units'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
             {
               path: 'storage-temperatures',
               title: this.$t('setting.temperatures'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
 
             {
               path: 'barcodes',
               title: this.$t('setting.barcodes'),
               icon: 'flash-sales',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
             {
               path: 'tax-rules',
               title: this.$t('error.tr'),
               icon: 'tax-rules',
-              gate: 'tax_rule'
+              gate: 'manage_shipment_setting'
             },
             {
               path: 'product-collections',
               title: this.$t('error.col'),
               icon: 'product-collections',
-              gate: 'product_collection'
+              gate: 'manage_initial_setting'
             },
             {
               path: 'bundle-deals',
               title: this.$t('error.bd'),
               icon: 'bundle-deals',
-              gate: 'bundle_deal'
+              gate: 'manage_initial_setting'
             },
             {
               path: 'attributes',
               title: this.$t('list.attr'),
               icon: 'attributes',
-              gate: 'attribute'
+              gate: 'manage_initial_setting'
             },
 
             {
               path: 'setting/currency',
               title: 'More Setting',
               icon: 'setting',
-              gate: 'setting',
+              gate: 'manage_initial_setting',
             },
 
           ]
@@ -600,10 +600,8 @@ export default {
       return this.hasPermission(item)
     },
     hasPermission(item) {
-      return (this.sidebarPermissions &&
-        (this.sidebarPermissions[`${item?.gate}.create`] !== undefined ||
-          this.sidebarPermissions[`${item?.gate}.view`] !== undefined)
-      )
+      return (this.sidebarPermissions && (item?.gate===true || this.sidebarPermissions[item?.gate] !== undefined))
+
     },
     isCurrentRoute(val) {
       let check = val.path

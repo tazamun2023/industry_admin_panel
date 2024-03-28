@@ -6,7 +6,8 @@
     route-name="flash-sales"
     :name="$t('fSale.fSale')"
     :order-options="orderOptions"
-    gate="flash_sale"
+    gate="view_flash_sales"
+    manage_gate="manage_flash_sales"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >

@@ -8,7 +8,8 @@
     :name="$t('profile.hSlid')"
     :validation-keys="['title']"
     :result="result"
-    gate="home_slider"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @result="onSuccess"
   >
     <template v-slot:form="{hasError}">

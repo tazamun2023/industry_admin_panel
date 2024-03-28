@@ -7,7 +7,8 @@
     route-name="banners"
     :name="$t('profile.banner')"
     :result="result"
-    gate="banner"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @result="onSuccess"
   >
     <template v-slot:form="{hasError}">

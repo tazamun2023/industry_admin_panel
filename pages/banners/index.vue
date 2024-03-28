@@ -5,7 +5,8 @@
     delete-api="deleteBanner"
     route-name="banners"
     :name="$t('admin.banner')"
-    gate="banner"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     :add-button="false"
     class="banner-table"
   >

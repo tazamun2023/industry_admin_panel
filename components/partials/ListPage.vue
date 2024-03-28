@@ -19,6 +19,7 @@
       <table-top
         :title="name"
         :gate="gate"
+        :manage_gate="manage_gate"
         :add-button="addButton"
         :order-by-options="orderOptions"
         @delete-bulk="deleteBulk"
@@ -32,7 +33,7 @@
     </div>
 
     <transition
-      v-if="!gate || $can(gate, 'view')"
+      v-if="!gate || $can(gate)"
       name="fade" mode="out-in"
     >
       <div v-if="!loading">
@@ -94,6 +95,10 @@
         default: null
       },
       gate: {
+        type: String,
+        default: null
+      },
+      manage_gate: {
         type: String,
         default: null
       },
@@ -214,7 +219,7 @@
       ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] )
     },
     mounted() {
-      if(!this.gate || this.$can(this.gate, 'view')){
+      if(!this.gate || this.$can(this.gate)){
         this.fetchingData()
       }
     }

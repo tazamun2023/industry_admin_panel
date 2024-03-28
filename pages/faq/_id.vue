@@ -6,7 +6,7 @@
     method="put"
     route-name="FAQ"
     :name="$t('content.faq')"
-    gate="brand"
+    gate="view_content"  manage_gate="manage_content"
     :validation-keys="['questions.ar','questions.en']"
     :result="result"
     @result="resultData"

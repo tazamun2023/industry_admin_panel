@@ -1,13 +1,14 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('view_brands')"
     ref="listPage"
     list-api="getBrands"
     delete-api="deleteBrand"
     route-name="brands"
     empty-store-variable="allBrands"
     :name="$t('brand.brand')"
-    gate="brand"
+    gate="view_brands"
+    manage_gate="manage_brands"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -64,11 +65,11 @@
         <td>
           <button
           class="border-0"
-            v-if="$can('brand', 'delete')"
+            v-if="$can('manage_brands')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"><delete-button-icon/></button>
           <button
           class="border-0"
-            v-if="$can('brand', 'edit')"
+            v-if="$can('manage_brands')"
             @click.prevent="$refs.listPage.editItem(value.id)"><edit-button-icon/></button>
         </td>
       </tr>

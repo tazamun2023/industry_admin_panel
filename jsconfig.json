@@ -109,6 +109,7 @@
     "setUnit": "unit/action",
     "updateVendor": "vendor",
     "getVendor" : "vendor",
+    "getVendorProfile" : "vendorProfile",
     "getApprovalVendor" : "vendor/verified/get",
     "getNotApprovalVendor" : "vendor/un-verified/get",
 

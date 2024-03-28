@@ -1,13 +1,14 @@
 <template>
   <data-page
-    v-if="$can('brand', 'create') || $can('brand', 'view')"
+    v-if="$can('view_brands') || $can('manage_brands')"
     ref="dataPage"
     set-api="setBrand"
     get-api="getBrand"
     empty-store-variable="allBrands"
     route-name="brands"
     :name="$t('prod.brand')"
-    gate="brand"
+    gate="view_brands"
+    manage_gate="manage_brands"
     :validation-keys="['title', 'slug']"
     :result="result"
     @result="result = $event"

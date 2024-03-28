@@ -8,7 +8,9 @@
     :name="$t('title.sf')"
     :validation-keys="['detail']"
     :result="result"
-    gate="home_slider"
+
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @result="result = $event"
   >
     <template v-slot:form="{hasError}">

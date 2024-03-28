@@ -88,7 +88,7 @@ export default {
     method="put"
     route-name="certificate"
     :name="$t('bnews.news')"
-    gate="brand"
+    gate="view_content"  manage_gate="manage_content"
     :validation-keys="['title.ar','title.en']"
     :result="result"
     @result="resultData"

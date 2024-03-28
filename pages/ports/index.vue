@@ -1,13 +1,14 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('manage_shipment_setting')"
     ref="listPage"
     list-api="getPorts"
     delete-api="deletePort"
     route-name="ports"
     empty-store-variable="allBrands"
     :name="$t('port.port')"
-    gate="brand"
+    gate="manage_shipment_setting"
+    manage_gate="manage_shipment_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -49,10 +50,10 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('brand', 'delete')"
+            v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('brand', 'edit')"
+            v-if="$can('manage_shipment_settingedit')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

@@ -7,7 +7,8 @@
     route-name="pages"
     :name="$t('admin.page')"
     :order-options="orderOptions"
-    gate="page"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">

@@ -509,7 +509,7 @@ export default {
       this.fromData.id = this.profile?.id
     }
    try {
-     await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendor'})
+     await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendorProfile'})
 
      await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(()=>{
        this.fromData.country_id= this.vendorList.data.country_id

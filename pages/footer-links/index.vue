@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="$can('footer_link', 'view')"
+    v-if="$can('view_ui_settings')"
     class="tab-sidebar"
   >
     <h4 class="title">{{ $t('admin.footer') }}</h4>
@@ -151,7 +151,8 @@
           return this.$nuxt.error(e)
         }
       }
-      if(this.$can('footer_link', 'view')) {
+
+      if(this.$can('view_ui_settings')) {
         await this.fetchingData()
       } else {
         this.loading = false

@@ -5,7 +5,8 @@
     delete-api="deleteRatingReview"
     route-name="rating-reviews"
     :name="$t('fSale.rr')"
-    gate="rating_review"
+    gate="view_product_review"
+    manage_gate="manage_product_review"
     class="rating-review-wrapper"
     :add-button="false"
     :order-options="ratingReviewObj"
@@ -61,7 +62,7 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('rating_review', 'delete')"
+            v-if="$can('manage_product_review')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
