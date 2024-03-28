@@ -102,7 +102,7 @@ export default {
       <form class="relative">
         <img class="w-6 h-6 ltr:ml-2 rtl:mr-2 mt-2  absolute" src="~/assets/icon/search-normal.svg"
              alt="">
-        <input class="w-full rounded px-8" type="text" placeholder="Search" v-model="searchQuery">
+        <input class="w-full rounded px-8" type="text" :placeholder="$t('products.Search')" v-model="searchQuery">
       </form>
     </div>
     <!-- ------------------ -->
