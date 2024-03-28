@@ -32,7 +32,7 @@
           class="btn-wrapper"
         >
           <nuxt-link
-            v-if="$can('home_slider', 'create')"
+            v-if="$can('manage_ui_settings')"
             to="/home-slider/add?type=1"
             class="primary-btn button"
           >
@@ -56,14 +56,14 @@
             >
             <div class="btn-wrapper">
               <nuxt-link
-                v-if="$can('home_slider', 'edit')"
+                v-if="$can('manage_ui_settings')"
                 class="primary-btn button"
                 :to="`/home-slider/${result.right_top.id}`"
               >
                 {{ $t('category.edit') }}
               </nuxt-link>
               <button
-                v-if="$can('home_slider', 'delete')"
+                v-if="$can('manage_ui_settings')"
                 class="primary-btn"
                 @click.prevent="deleteItem(result.right_top.id)"
               >
@@ -76,7 +76,7 @@
             v-else class="btn-wrapper"
           >
             <nuxt-link
-              v-if="$can('home_slider', 'create')"
+              v-if="$can('manage_ui_settings')"
               to="/home-slider/add?type=2"
               class="primary-btn button"
             >
@@ -97,14 +97,14 @@
               class="btn-wrapper"
             >
               <nuxt-link
-                v-if="$can('home_slider', 'edit')"
+                v-if="$can('manage_ui_settings')"
                 class="primary-btn button"
                 :to="`/home-slider/${result.right_bottom.id}`"
               >
                 {{ $t('category.edit') }}
               </nuxt-link>
               <button
-                v-if="$can('home_slider', 'delete')"
+                v-if="$can('manage_ui_settings')"
                 class="primary-btn"
                 @click.prevent="deleteItem(result.right_bottom.id)"
               >
@@ -114,7 +114,7 @@
           </template>
           <div v-else class="btn-wrapper">
             <nuxt-link
-              v-if="$can('home_slider', 'create')"
+              v-if="$can('manage_ui_settings')"
               to="/home-slider/add?type=3"
               class="primary-btn button"
             >

@@ -1,12 +1,13 @@
 <template>
   <list-page
-    v-if="$can('home_slider', 'view')"
+    v-if="$can('view_ui_settings')"
     ref="listPage"
     list-api="getSiteFeatures"
     delete-api="deleteSiteFeature"
     route-name="site-features"
     :name="$t('title.sf')"
-    gate="home_slider"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -54,13 +55,13 @@
         <td>
 
           <button
-            v-if="$can('home_slider', 'delete')"
+            v-if="$can('manage_ui_settings')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
             class="border-0"
           >
             <delete-button-icon/></button>
             <button
-            v-if="$can('home_slider', 'edit')"
+            v-if="$can('manage_ui_settings')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"
           >
            <edit-button-icon/></button>

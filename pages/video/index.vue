@@ -9,6 +9,7 @@
     empty-store-variable="VideoGallery"
     :name="$t('bnews.news')"
     gate="view_content"
+    manage_gate="manage_content"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"

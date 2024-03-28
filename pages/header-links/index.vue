@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="$can('header_link', 'view')"
+    v-if="$can('view_ui_settings')"
     class="tab-sidebar"
   >
     <h4 class="title">{{ $t('dataPage.head') }}</h4>
@@ -51,7 +51,7 @@
 
 
         <div
-          v-if="!gate || $can(gate, 'edit') || $can(gate, 'create')"
+          v-if="!gate || $can(gate) "
           class="dply-felx j-right single-btn"
         >
           <ajax-button
@@ -82,7 +82,7 @@
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
-        gate: 'header_link',
+        gate: 'manage_ui_settings',
         result: null,
         formSubmitting: false,
         loading: false,

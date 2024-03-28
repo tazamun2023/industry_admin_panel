@@ -6,7 +6,9 @@
     route-name="categories"
     empty-store-variable="allCategories"
     :name="$t('category.cat')"
-    gate="category"
+    gate="manage_categories"
+    manage_gate="manage_categories"
+
     :order-options="orderOptions"
     class="tree-wrapper"
     @delete-bulk="deleteBulk"

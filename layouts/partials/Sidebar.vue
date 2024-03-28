@@ -140,7 +140,7 @@ export default {
               title: this.$t('title.bu'),
               icon: 'bulk-upload',
               form: ['bulk-upload'],
-              gate: 'view_products'
+              gate: 'manage_products'
             },
 
             /* {

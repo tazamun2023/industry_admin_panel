@@ -6,6 +6,7 @@
     route-name="rating-reviews"
     :name="$t('fSale.rr')"
     gate="view_product_review"
+    manage_gate="manage_product_review"
     class="rating-review-wrapper"
     :add-button="false"
     :order-options="ratingReviewObj"

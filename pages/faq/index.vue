@@ -8,6 +8,7 @@
     empty-store-variable="FAQ"
     :name="$t('color.color')"
     gate="view_content"
+    manage_gate="manage_content"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"

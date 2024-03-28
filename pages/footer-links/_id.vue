@@ -9,7 +9,8 @@
     :name="$t('dataPage.fImgs')"
     :validation-keys="['title', 'link']"
     :result="result"
-    gate="footer_link"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @result="result = $event"
   >
     <template v-slot:form="{hasError}">
