@@ -29,7 +29,8 @@
     "Apply Filters": "Apply Filters",
     "Select on Option": "Select on Option",
     "Select on Status": "Select on Status",
-    "tableEmptyData": "This table is currently empty of any data"
+    "tableEmptyData": "This table is currently empty of any data",
+    "add_admin": "Add admin User"
   },
 
   "rfq": {
