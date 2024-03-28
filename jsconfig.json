@@ -197,6 +197,12 @@
     "setQuote": "quotes/action",
 
 
+    "getAllInquiries": "message-center/inquiries/all",
+    "activeInquiries": "message-center/inquiries/active",
+    "activeInquiriesRfq": "message-center/inquiries/rfq/active",
+    "inquiriesOfferStore": "message-center/inquiries/offer/store",
+    "getAllInquiriesRfqs": "message-center/inquiries/rfq/all",
+
     "bulkExport": "bulk/export",
     "bulkImport": "product/import-bulk-products",
 
