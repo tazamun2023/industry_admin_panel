@@ -169,6 +169,7 @@
         passwordFieldType: 'password',
         confirmation: '',
         roles:'',
+        type:'',
         passwordCon:{
           containsUppercase:false,
           containsLowercase:false,
@@ -217,6 +218,7 @@
               'password': this.password,
               'admin_id': this.admin_id,
               'customer_id': this.customer_id,
+              'type': this.type
             },
             lang: this.currentLanguage.code,
             api:'userRegistration'
@@ -261,6 +263,7 @@
          })
         this.loading = false
         if(data.status === 200){
+          this.type = data.data.type
           this.roles = data.data.roles
           this.vendor_id = data.data.vendor_id
         }

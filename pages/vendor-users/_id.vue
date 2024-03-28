@@ -80,7 +80,8 @@ export default {
           email:'',
           roles: '',
           isVerified:'',
-          vendor_id: ''
+          vendor_id: '',
+          type:'admin',
         },
       errors:[],
       loading:false

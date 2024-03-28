@@ -20,7 +20,9 @@
         :title="name"
         :gate="gate"
         :add-button="addButton"
+        :modal-button="modalButton"
         :order-by-options="orderOptions"
+        @open-modal="openModal"
         @delete-bulk="deleteBulk"
       >
         <slot
@@ -36,8 +38,6 @@
       name="fade" mode="out-in"
     >
       <div v-if="!loading">
-
-
         <div class="card">
         <div class="table-wrapper">
           <table class="mn-w-600x">
@@ -80,6 +80,10 @@
       addButton: {
         type: Boolean,
         default: true
+      },
+      modalButton: {
+        type: Boolean,
+        default: false
       },
       filter: {
         type: Boolean,
@@ -157,6 +161,9 @@
       ...mapGetters('language', ['currentLanguage']),
     },
     methods: {
+      openModal(){
+        this.$emit('open-modal')
+      },
       deleteBulk(){
         this.$emit('delete-bulk')
       },

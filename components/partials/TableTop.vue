@@ -26,6 +26,18 @@
         >
           <span v-html="$t('profile.add', { title: title})"></span>
         </nuxt-link>
+
+<!--        <nuxt-link
+          v-if="title && modalButton && (gate && $can(gate, 'create'))"
+          @click="openModal"
+          class="button primary-btn"
+        >
+          <span v-html="$t('profile.add', { title: title})"></span>
+        </nuxt-link>-->
+
+        <button v-html="$t('profile.add', { title: title})" v-if="title && modalButton && (gate && $can(gate, 'create'))" @click="openModal" class="button primary-btn">
+        </button>
+
       </slot>
     </div>
 
@@ -75,6 +87,10 @@
         type: Boolean,
         default: true
       },
+      modalButton: {
+        type: Boolean,
+        default: false
+      },
       enableSearch: {
         type: Boolean,
         default: true
@@ -111,6 +127,9 @@
       }
     },
     methods: {
+      openModal(){
+        this.$emit('open-modal')
+      },
       deleteBulk(){
         this.$refs.bulkDelete.closePop()
         this.$emit('delete-bulk')
