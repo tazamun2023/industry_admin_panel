@@ -30,7 +30,7 @@
               <p class="font-bold text-[18px]  py-1">
                 Almarai
               </p>
-              <p class="font-bold  py-1">305, 3rd Floor Orion mall, Alshifa, Ryadh, Saudi Arabia</p>
+              <p class="font-bold  py-1">{{ order.shipping_address?.name}}</p>
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/sms-g.svg" alt=""> almarai@gmail.com</p>
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/call-g.svg" alt=""> +966 555555555</p>
             </div>
@@ -39,7 +39,7 @@
               <p class="font-bold  text-[18px]  py-1">
                 Mohammed Alhumaidi
               </p>
-              <p class="font-bold  py-1">305, 3rd Floor Orion mall, Alshifa, Ryadh, Saudi Arabia</p>
+              <p class="font-bold  py-1">{{  order.billing_address?.name }}</p>
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/sms-g.svg" alt=""> mohammed@gmail.com</p>
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/call-g.svg" alt=""> +966 555555555</p>
             </div>
@@ -62,20 +62,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="bg-white border-b border-smooth ">
-                    <td class="py-2 px-6">1</td>
-                    <td class="py-2 px-6">Samsung A15 4GB RAM 128GB Black UAE Version</td>
-                    <td class="py-2 px-6">1</td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
+                <tr class="bg-white border-b border-smooth " v-for="(item,i) in order.sub_order_items" :key="i" >
+                    <td class="py-2 px-6">{{ i + 1}}</td>
+                    <td class="py-2 px-6">{{ item.product.title}}</td>
+                    <td class="py-2 px-6">{{item.quantity}}</td>
+                    <td class="py-2 px-6"><span class="font-bold">{{item.price}}</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
+                    <td class="py-2 px-6"><span class="font-bold">{{item.total_price}}</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
                 </tr>
-                <tr class="bg-white border-b border-smooth">
-                    <td class="py-2 px-6">2</td>
-                    <td class="py-2 px-6">Samsung A15 4GB RAM 128GB Black UAE Version</td>
-                    <td class="py-2 px-6">1</td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
-                </tr>
+               
                 </tbody>
             </table>
             </div>
@@ -113,31 +107,31 @@
               </table>
               </div>
               <div class="bg-inbg p-1 my-2">
-                  <h4 class="text-theem font-bold py-2">Terms and Conditions</h4>
-                  <p class="py-1 text-[16px]">Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.</p>
-                  <p class="py-1 text-[16px]">Please quote invoice number when remitting funds.</p>
+                   <h4 class="text-theem font-bold py-2">{{$t('invoice.terms_and_conditions')}}</h4>
+                  <p class="py-1 text-[16px]">{{$t('invoice.pay_within_15_days')}}</p>
+                  <p class="py-1 text-[16px]">{{$t('invoice.quote_invoice_number')}}</p>
               </div>
             </div>
             <div class="p-4">
               <div class="flex justify-between">
                 <span class="text-intext py-2">{{$t('invoice.subTotal')}}</span>
-                <span><span class="font-bold">1500</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
+                <span><span class="font-bold">{{ order.sub_total}}</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">{{$t('invoice.discount')}}(0%)</span>
+                <span class="text-intext  py-2">{{$t('invoice.discount')}} (0%)</span>
                 <span><span class="font-bold">0</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
-              <div class="flex justify-between">
+              <div class="flex justify-between" v-if="order.shipping_cost">
                 <span class="text-intext  py-2">{{$t('invoice.shipping')}}</span>
-                <span><span class="font-bold">100</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
+                <span><span class="font-bold">{{ order.shipping_cost }}</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">{{$t('invoice.vat')}}(5%)</span>
-                <span><span class="font-bold">200</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
+                <span class="text-intext  py-2">{{$t('invoice.vat')}}({{order.commission_tax}} %)</span>
+                <span><span class="font-bold">{{ order.commission }}</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between border-t border-b  py-2 border-smooth">
                 <span class="font-bold text-[18px]">{{$t('invoice.total')}}</span>
-                <span><span class="font-bold text-[18px]">1800</span> <span class="text-primary text-[18px]">{{$t('app.SAR')}}</span></span>
+                <span><span class="font-bold text-[18px]">{{order.order_total}}</span> <span class="text-primary text-[18px]">{{$t('app.SAR')}}</span></span>
               </div>
             </div>
         </div>
