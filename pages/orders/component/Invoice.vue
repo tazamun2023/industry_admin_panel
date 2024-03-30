@@ -2,18 +2,18 @@
     <div>
         <div class="flex justify-between py-2  px-3">
           <div>
-            <h3 class="text-[32px] font-bold py-2 px-2">Invoice</h3>
+            <h3 class="text-[32px] font-bold py-2 px-2">{{$t('invoice.invoice')}}</h3>
             <table>
               <tr>
-                <td class="text-intext text-[16px] px-2 py-1">Invoice No. : </td>
-                <td class="px-2 py-1 font-bold text-[16px]">#INV0001</td>
+                <td class="text-intext text-[16px] px-2 py-1">{{$t('invoice.invoiceNo')}}: </td>
+                <td class="px-2 py-1 font-bold text-[16px]">#{{order?.order_id}}</td>
               </tr>
               <tr>
-                <td class="text-intext text-[16px]  px-2 py-1">Invoice Date : </td>
-                <td class="px-2 py-1 font-bold text-[16px]">30/12/2023</td>
+                <td class="text-intext text-[16px]  px-2 py-1">{{$t('invoice.invoiceDate')}} : </td>
+                <td class="px-2 py-1 font-bold text-[16px]">{{ order.order_placed }}</td>
               </tr>
               <tr>
-                <td class="text-intext text-[16px]  px-2 py-1">Due Date : </td>
+                <td class="text-intext text-[16px]  px-2 py-1">{{$t('invoice.dueDate')}} : </td>
                 <td class="px-2 py-1 font-bold text-[16px]">30/12/2023</td>
               </tr>
             </table>
@@ -26,7 +26,7 @@
 
         <div class="grid grid-cols-2 rounded my-1 py-1 px-4 bg-inbg gap-4">
             <div>
-              <p class="font-bold text-[16px] text-theem py-1">Billed By</p>
+              <p class="font-bold text-[16px] text-theem py-1">{{$t('invoice.billedBy')}} </p>
               <p class="font-bold text-[18px]  py-1">
                 Almarai
               </p>
@@ -35,7 +35,7 @@
               <p class="flex gap-2  py-1"><img class="w-5 h-5" src="~/assets/icon/call-g.svg" alt=""> +966 555555555</p>
             </div>
             <div>
-              <p class="font-bold text-[16px] text-theem  py-1">Billed To</p>
+              <p class="font-bold text-[16px] text-theem  py-1">{{$t('invoice.billedTo')}}</p>
               <p class="font-bold  text-[18px]  py-1">
                 Mohammed Alhumaidi
               </p>
@@ -55,10 +55,10 @@
                 <thead class="text-xs uppercase bg-primary">
                 <tr>
                     <th scope="col" class="py-3 px-6">#</th>
-                    <th scope="col" class="py-3 px-6">Products</th>
-                    <th scope="col" class="py-3 px-6">Qty</th>
-                    <th scope="col" class="py-3 px-6">Price</th>
-                    <th scope="col" class="py-3 px-6">Total</th>
+                    <th scope="col" class="py-3 px-6">{{ $t('products.products') }}</th>
+                    <th scope="col" class="py-3 px-6">{{ $t('products.Qty') }}</th>
+                    <th scope="col" class="py-3 px-6">{{ $t('brand.price') }}</th>
+                    <th scope="col" class="py-3 px-6">{{ $t('order.total') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,15 +66,15 @@
                     <td class="py-2 px-6">1</td>
                     <td class="py-2 px-6">Samsung A15 4GB RAM 128GB Black UAE Version</td>
                     <td class="py-2 px-6">1</td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">SAR</span></td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">SAR</span></td>
+                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
+                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
                 </tr>
                 <tr class="bg-white border-b border-smooth">
                     <td class="py-2 px-6">2</td>
                     <td class="py-2 px-6">Samsung A15 4GB RAM 128GB Black UAE Version</td>
                     <td class="py-2 px-6">1</td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">SAR</span></td>
-                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">SAR</span></td>
+                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
+                    <td class="py-2 px-6"><span class="font-bold">500</span> <span class="text-primary">{{$t('app.SAR')}}</span></td>
                 </tr>
                 </tbody>
             </table>
@@ -88,26 +88,26 @@
         <div class="p-1 grid grid-cols-3 gap-4">
             <div class="col-span-2">
               <div class="bg-inbg py-1 px-3 my-1">
-                <h4 class="text-theem font-bold py-2">Bank Account Details</h4>
+                <h4 class="text-theem font-bold py-2">{{$t('invoice.bankAccountDetails')}}</h4>
               <table>
                 <tr>
-                  <td class="text-intext py-2">Bank Name</td>
+                  <td class="text-intext py-2">{{$t('invoice.bankName')}}</td>
                   <td><span class="font-bold p-2">HDFC Bank</span></td>
                 </tr>
                 <tr>
-                  <td class="text-intext py-2">Account Holder Name</td>
+                  <td class="text-intext py-2">{{$t('invoice.accountHolderName')}}</td>
                   <td><span class="font-bold px-2">Foobar Labs</span></td>
                 </tr>
                 <tr>
-                  <td class="text-intext py-2">Account Number</td>
+                  <td class="text-intext py-2">{{$t('invoice.accountNumber')}}</td>
                   <td><span class="font-bold px-2">45366287987</span></td>
                 </tr>
                 <tr>
-                  <td class="text-intext py-2">IFSC</td>
+                  <td class="text-intext py-2">{{$t('invoice.ifsc')}}</td>
                   <td><span class="font-bold px-2">HDFC0018159</span></td>
                 </tr>
                 <tr>
-                  <td class="text-intext py-2">Account Type</td>
+                  <td class="text-intext py-2">{{$t('invoice.accountType')}}</td>
                   <td><span class="font-bold px-2">Savings</span></td>
                 </tr>
               </table>
@@ -120,24 +120,24 @@
             </div>
             <div class="p-4">
               <div class="flex justify-between">
-                <span class="text-intext py-2">Sub Total</span>
-                <span><span class="font-bold">1500</span> <span class="text-primary">SAR</span></span>
+                <span class="text-intext py-2">{{$t('invoice.subTotal')}}</span>
+                <span><span class="font-bold">1500</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">Discount(0%)</span>
-                <span><span class="font-bold">0</span> <span class="text-primary">SAR</span></span>
+                <span class="text-intext  py-2">{{$t('invoice.discount')}}(0%)</span>
+                <span><span class="font-bold">0</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">Shipping</span>
-                <span><span class="font-bold">100</span> <span class="text-primary">SAR</span></span>
+                <span class="text-intext  py-2">{{$t('invoice.shipping')}}</span>
+                <span><span class="font-bold">100</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">VAT(5%)</span>
-                <span><span class="font-bold">200</span> <span class="text-primary">SAR</span></span>
+                <span class="text-intext  py-2">{{$t('invoice.vat')}}(5%)</span>
+                <span><span class="font-bold">200</span> <span class="text-primary">{{$t('app.SAR')}}</span></span>
               </div>
               <div class="flex justify-between border-t border-b  py-2 border-smooth">
-                <span class="font-bold text-[18px]">Total</span>
-                <span><span class="font-bold text-[18px]">1800</span> <span class="text-primary text-[18px]">SAR</span></span>
+                <span class="font-bold text-[18px]">{{$t('invoice.total')}}</span>
+                <span><span class="font-bold text-[18px]">1800</span> <span class="text-primary text-[18px]">{{$t('app.SAR')}}</span></span>
               </div>
             </div>
         </div>
@@ -151,7 +151,11 @@
         </div> -->
     </div>
 </template>
-
+<script>
+export default {
+  props:['order'],
+}
+</script>
 <style>
 table td {
     border-bottom: 0px !important;
