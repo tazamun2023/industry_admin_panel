@@ -51,7 +51,7 @@
                     </div>
                     <div>
                       <p>{{ $t('order.orderPlaced') }}:</p>
-                      <p class="font-bold">>{{ order?.order_placed }}</p>
+                      <p class="font-bold">{{ order?.order_placed }}</p>
                     </div>
                     <div>
                       <p>{{ $t('order.paymentMethod') }}:</p>
