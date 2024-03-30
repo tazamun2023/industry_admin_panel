@@ -1,7 +1,7 @@
 <template>
   <div>
   <list-page
-    v-if="$can('admin', 'view')"
+
     ref="listPage"
     :addButton="false"
     :modalButton="true"
