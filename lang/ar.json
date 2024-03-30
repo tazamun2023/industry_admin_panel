@@ -1201,5 +1201,26 @@
     "customers": "العملاء",
     "address": "العنوان",
     "payment": "الدفع"
+  },
+  "invoice" : {
+  "invoice": "الفاتورة",
+  "invoiceNo": "رقم الفاتورة ",
+  "invoiceDate": "تاريخ الفاتورة ",
+  "dueDate": "تاريخ الاستحقاق ",
+  "moveMap": "قم بتحريك الخريطة للعثور على عنوانك",
+  "billedBy": "المُفوتر من قبل",
+  "billedTo": "المُفوتر إلى",
+  "bankAccountDetails": "تفاصيل الحساب البنكي",
+  "bankName": "اسم البنك",
+  "accountHolderName": "اسم صاحب الحساب",
+  "accountNumber": "رقم الحساب",
+  "ifsc": "الرمز الدولي لتحديد الفرع",
+  "accountType": "نوع الحساب",
+  "termsAndConditions": "الشروط والأحكام",
+  "subTotal": "الإجمالي الفرعي",
+  "discount": "الخصم",
+  "shipping": "الشحن",
+  "vat": "ضريبة القيمة المضافة",
+  "total": "المجموع"
   }
 }

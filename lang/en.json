@@ -1305,5 +1305,26 @@
     "faq": "FAQ",
     "Questions": "Questions",
     "Answers": "Answers"
-  }
+  },
+  "invoice" : {
+    "invoice": "Invoice",
+    "invoiceNo": "Invoice No.",
+    "invoiceDate": "Invoice Date",
+    "dueDate": "Due Date",
+    "moveMap": "Move the map to find your address",
+    "billedBy": "Billed By",
+    "billedTo": "Billed To",
+    "bankAccountDetails": "Bank Account Details",
+    "bankName": "Bank Name",
+    "accountHolderName": "Account Holder Name",
+    "accountNumber": "Account Number",
+    "ifsc": "IFSC",
+    "accountType": "Account Type",
+    "termsAndConditions": "Terms and Conditions",
+    "subTotal": "Sub Total",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "vat": "VAT",
+    "total": "Total"
+  }  
 }

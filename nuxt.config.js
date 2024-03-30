@@ -44,6 +44,7 @@ export default {
     { src: '~/plugins/vue-select.js', ssr: false },
     { src: '@/plugins/i18n.js' },
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
+    { src: '@/plugins/google-map.js', mode: 'client' } ,
     { src: '@/plugins/ability.js' },
     {src: '~/plugins/cryptojs.js', mode: 'client'},
     { src: '@/plugins/casl.js' },
@@ -149,7 +150,7 @@ export default {
   build: {
     // Add exception
     transpile: [
-      "vee-validate/dist/rules"
+      "vee-validate/dist/rules",/^vue2-google-maps($|\/)/
     ],
     /*
       ** You can extend webpack config here
