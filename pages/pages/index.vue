@@ -7,7 +7,7 @@
     route-name="pages"
     :name="$t('admin.page')"
     :order-options="orderOptions"
-    gate="page"
+    gate="view_ui_settings"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
@@ -33,10 +33,10 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('page', 'delete')"
+            v-if="$can('manage_ui_settings')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><DeleteButtonIcon/></button>
           <button
-            v-if="$can('page', 'edit')"
+            v-if="$can('manage_ui_settings')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
 
         </td>

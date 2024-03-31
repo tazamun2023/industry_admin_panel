@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="$can('view_addresses')">
         <div class="card p-4">
            <div class="flex justify-between">
 
@@ -8,7 +8,7 @@
                     <p>Provide information on your billing address and where you would like your items to be picked up from. <br> We need your stock pickup location details in order to calculate accurate shipping rates.</p>
                 </div>
                 <div>
-                    <button @click="addAddress" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
+                    <button  v-if="$can('edit_addresses')" @click="addAddress" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
                 </div>
            </div>
         </div>
@@ -18,7 +18,7 @@
                     <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
                         <button class="p-2 leading-3 rounded bg-smooth  hover:text-warning" @click="deleteModal=true" >Remove</button>
-                    <button class="p-2 leading-3 rounded bg-primary text-white hover:text-primary" @click="editAddress(value)">Edit</button>
+                    <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary" @click="editAddress(value)">Edit</button>
                     </div>
                 </div>
                 <div class="flex gap-2">

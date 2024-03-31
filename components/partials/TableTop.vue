@@ -20,7 +20,7 @@
         name="add-button"
       >
         <nuxt-link
-          v-if="title && addButton && (gate && $can(gate, 'create'))"
+          v-if="title && addButton && (gate && $can(gate))"
           :to="addRoute"
           class="button primary-btn"
         >

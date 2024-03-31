@@ -1,13 +1,13 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('manage_initial_setting')"
     ref="listPage"
     list-api="getStorageTems"
     delete-api="deleteStorageTems"
     route-name="storage-temperatures"
     empty-store-variable="allBrands"
     :name="$t('storagetem.storagetem')"
-    gate="brand"
+    gate="manage_initial_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -39,10 +39,10 @@
 
         <td>
           <button
-            v-if="$can('brand', 'delete')"
+            v-if="$can('manage_initial_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('brand', 'edit')"
+            v-if="$can('manage_initial_setting')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

@@ -8,7 +8,7 @@
     :name="$t('fSale.attr')"
     :validation-keys="['title']"
     :result="result"
-    gate="attribute"
+    gate="manage_initial_setting"
     @result="result = $event"
   >
     <template v-slot:form="{hasError}">

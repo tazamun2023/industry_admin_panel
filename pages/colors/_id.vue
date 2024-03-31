@@ -6,7 +6,7 @@
     set-image-api="setCategoryImage"
     route-name="colors"
     :name="$t('color.color')"
-    gate="brand"
+    gate="manage_initial_setting"
     :validation-keys="['code','name.ar','name.en']"
     :result="result"
     @result="resultData"

@@ -6,7 +6,7 @@
     set-image-api="setCategoryImage"
     route-name="categories"
     :name="$t('country.country')"
-    gate="category"
+    gate="manage_shipment_setting"
     :validation-keys="['name', 'iso', 'phonecode']"
     :result="result"
     @result="resultData"

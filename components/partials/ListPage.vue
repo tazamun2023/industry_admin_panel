@@ -32,7 +32,7 @@
     </div>
 
     <transition
-      v-if="!gate || $can(gate, 'view')"
+      v-if="!gate || $can(gate)"
       name="fade" mode="out-in"
     >
       <div v-if="!loading">
@@ -214,7 +214,7 @@
       ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] )
     },
     mounted() {
-      if(!this.gate || this.$can(this.gate, 'view')){
+      if(!this.gate || this.$can(this.gate)){
         this.fetchingData()
       }
     }

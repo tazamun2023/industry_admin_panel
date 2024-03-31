@@ -2,6 +2,7 @@
   <setting-layout
     active-route="currency"
     class="mb-5"
+    v-if="$can('manage_initial_setting')"
   >
     <template v-slot:rightArea>
 
@@ -69,7 +70,7 @@
 
 
         <ajax-button
-          v-if="$can('setting', 'edit')"
+          v-if="$can('manage_initial_setting')"
           class="primary-btn"
           :text="$t('dataPage.uc')"
           :fetching-data="updatingCurrency"

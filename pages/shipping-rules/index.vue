@@ -6,7 +6,7 @@
     route-name="shipping-rules"
     empty-store-variable="allShippingRules"
     :name="$t('brand.shipRule')"
-    gate="shipping_rule"
+    gate="manage_shipment_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -36,13 +36,13 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('shipping_rule', 'delete')"
+            v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
             class="border-0"
           >
             <delete-button-icon/></button>
           <button
-            v-if="$can('shipping_rule', 'edit')"
+            v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.editItem(value.id)"
             class="border-0"
           >

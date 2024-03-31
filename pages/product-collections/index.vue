@@ -7,7 +7,7 @@
     route-name="product-collections"
     :name="$t('brand.prodCol')"
     :order-options="orderOptions"
-    gate="product_collection"
+    gate="manage_initial_setting"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >
@@ -45,13 +45,13 @@
           <td>{{ value.created }}</td>
           <td>
             <button
-              v-if="$can('product_collection', 'delete')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.deleteItem(value.id)"
               class="border-0"
             >
               <delete-button-icon/></button>
             <button
-              v-if="$can('product_collection', 'edit')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.editItem(value.id)"
               class="border-0"
             >

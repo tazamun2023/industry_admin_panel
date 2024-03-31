@@ -9,7 +9,7 @@
     :name="$t('dataPage.shipRule')"
     :validation-keys="['title']"
     :result="result"
-    gate="shipping_rule"
+    gate="manage_shipment_setting"
     @result="resultUpdated"
   >
     <template v-slot:form="{hasError}">
