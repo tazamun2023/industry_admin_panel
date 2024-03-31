@@ -119,20 +119,20 @@ export default {
               path: 'brands',
               title: this.$t('error.brands'),
               icon: 'brands',
-              gate: 'brand'
+              gate: 'view_brands'
             },
             {
               path: 'categories',
               title: this.$t('error.cat'),
               icon: 'categories',
-              gate: 'category'
+              gate: 'manage_categories'
             },
             {
               path: 'products',
               title: this.$t('error.prod'),
               icon: 'products',
               form: ['product', 'ratingReviews'],
-              gate: 'product'
+              gate: 'view_products'
             },
             {
               path: 'bulk-upload',
@@ -168,7 +168,7 @@ export default {
           icon: 'clipboard-text.svg',
           is_image:true,
           form: ['order'],
-          gate: 'order'
+          gate: 'view_main_orders'
         },
         {
           path: 'orders',
@@ -176,7 +176,7 @@ export default {
           icon: 'clipboard-text.svg',
           is_image:true,
           form: ['order'],
-          gate: 'order'
+          gate: 'view_orders'
         },
 
         {
@@ -320,25 +320,25 @@ export default {
               title: this.$t('error.pages'),
               icon: 'pages',
               form: ['customPage'],
-              gate: 'page'
+              gate: 'manage_ui_settings'
             },
             {
               path: 'home-slider',
               title: this.$t('admin.hSlid'),
               icon: 'home-slider',
-              gate: 'home_slider'
+              gate: 'manage_ui_settings'
             },
             {
               path: 'banners',
               title: this.$t('admin.banners'),
               icon: 'banners',
-              gate: 'banner'
+              gate: 'manage_ui_settings'
             },
             {
               path: 'footer-links',
               title: this.$t('error.fl'),
               icon: 'footer',
-              gate: 'footer_link'
+              gate: 'manage_ui_settings'
             },
             {
               path: 'header-links',
@@ -350,19 +350,19 @@ export default {
               path: 'site-features',
               title: this.$t('title.sf'),
               icon: 'site-features',
-              gate: 'home_slider'
+              gate: 'manage_ui_settings'
             },
             {
               path: 'site-setting',
               title: this.$t('admin.site'),
               icon: 'site-setting',
-              gate: 'site_setting'
+              gate: 'view_ui_settings'
             },
             {
               path: 'custom-scripts',
               title: this.$t('title.cs'),
               icon: 'custom-scripts',
-              gate: 'site_setting'
+              gate: 'manage_ui_settings'
             },
           ]
         },
@@ -593,9 +593,7 @@ export default {
     },
     hasPermission(item) {
       return (this.sidebarPermissions &&
-        (this.sidebarPermissions[`${item?.gate}`] !== undefined
-          // this.sidebarPermissions[`${item?.gate}.view`] !== undefined
-          )
+        (this.sidebarPermissions[`${item?.gate}`] !== undefined)
       )
     },
     isCurrentRoute(val) {
