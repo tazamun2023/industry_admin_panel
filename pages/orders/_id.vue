@@ -5,6 +5,12 @@
       <h5>{{ $t('orderDetails.next_step') }}</h5>
       <p>{{ $t('orderDetails.content') }}</p>
     </div>
+  <div>
+    <div>
+  <!-- <button @click="printInvoice()">Download Invoice</button> -->
+  <Invoice ref="invoiceDownload"  :order="orderDetails" />
+</div>
+</div>
     <div class="card my-2 p-4">
       <div class="flex gap-4">
         <div>
@@ -94,7 +100,7 @@
                 </td>
                 <td class="py-4 px-6">{{ orderDetails.commission_tax }} %</td>
                 <td class="py-4 px-6">
-                  <del>$4,500.00</del>
+                  <del>{{ orderDetails.commission}}</del>
                 </td>
               </tr>
 
@@ -196,16 +202,27 @@
 </template>
 <script>
 import {mapGetters, mapActions} from "vuex";
-import LazyImage from "../../components/LazyImage.vue";
-
+import LazyImage from "@/components/LazyImage.vue";
+import Invoice from "./component/Invoice.vue"
 export default {
-  components: {LazyImage},
+  components: {LazyImage,Invoice},
   computed: {
     ...mapGetters('order', ['orderDetails'])
   },
   middleware: ['common-middleware', 'auth'],
   methods: {
     ...mapActions('order', ['getOrderDetails']),
+
+    printInvoice() {
+      const printContent = this.$refs.invoiceDownload.$el.innerHTML;
+      const originalContent = document.body.innerHTML;
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent; // Restore original content after printing
+    },
+  
+    
+
   },
   mounted() {
     this.getOrderDetails({
