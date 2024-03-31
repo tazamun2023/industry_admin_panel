@@ -23,15 +23,18 @@
     "Relevant to me": "Relevant to me",
     "to": "To",
     "currency_local": "en-US",
+    "local": "en",
     "Clear Filter": "Clear Filter",
     "Order Placed": "Order Placed",
     "Apply Filters": "Apply Filters",
     "Select on Option": "Select on Option",
     "Select on Status": "Select on Status",
-    "tableEmptyData": "This table is currently empty of any data"
+    "tableEmptyData": "This table is currently empty of any data",
+    "add_admin": "Add admin User"
   },
 
   "rfq": {
+    "Shipping details": "Shipping details",
     "Total Quote Price": "Total Quote Price",
     "Price valid until": "Price valid until",
     "Quote ID": "Quote ID",
@@ -93,9 +96,10 @@
     "Shipping country": "Shipping country",
     "Shipping city": "Shipping city",
     "Shipping terms": "Shipping terms",
-
+    "RFQ Total Value": "RFQ Total Value",
     "Received quotes": "Received quotes",
     "Submit Quotes": "Submit Quotes",
+    "View Details": "View Details",
     "d": "dd",
     "View all products": "View all products",
     "Search by RFQ ID or Product": "Search by RFQ ID or Product",
@@ -115,6 +119,9 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
+    "RFQ ID": "RFQ ID",
+    "Quote ID": "Quote ID",
+    "Manage RFQ": "Manage RFQ",
     "min_order_qty": "Min.Order Quantity",
     "name": "Product name",
     "add": "Add Product",
@@ -122,7 +129,46 @@
     "Category": "Category",
     "Quantity": "Quantity",
     "Unit Target Price": "Unit Target Price",
-    "Total target price": "Total target price"
+    "Total target price": "Total target price",
+    "Message": "Message",
+    "No": "No",
+    "Search": "Search",
+    "PENDING RESPONSE": "PENDING RESPONSE",
+    "PENDING AGREEMENT": "PENDING AGREEMENT",
+    "expired": "expired",
+    "canceled": "canceled",
+    "approved": "approved",
+    "rejected": "rejected",
+    "Last Seen": "Last Seen",
+    "Message Sent": "Message Sent",
+    "RFQ Details": "RFQ Details",
+    "Expires on": "Expires on",
+    "Initial unit target price": "GR • Initial unit target price:",
+    "Cancelled Well let Seller know": "Cancelled. We'll let Seller know.",
+    "Send": "Send",
+    "Offer sent message": "Offer Sent! Thank you. We’ll let Seller know.",
+    "Are you sure you want to cancel": "Are you sure you want to cancel? You can send a counter offer.",
+    "Cancel Offer": "Cancel Offer",
+    "Seller Message": "Seller Message",
+    "View Message": "View Message",
+    "Done": "Done",
+    "How many Piece": "How many Piece",
+    "Qty": "Qty",
+    "Cancel": "Cancel",
+    "Sending a new offer will withdraw your existing offer Do you still want to send a new offer": "Sending a new offer will withdraw your existing offer. Do you still want to send a new offer?",
+    "Negotiate a better price with the seller": "Negotiate a better price with the seller",
+    "success_inquires_send_msg": "Inquires has been send!",
+    "cancel_inquires_send_msg": "Inquires has been cancel!",
+    "You have an existing negotiation offer": "You have an existing negotiation offer",
+    "An inquiry already exist for this product": "An inquiry already exist for this product. Would you like to withdraw your existing offer and send a new offer to the seller?",
+    "View existing negotiation": "View existing negotiation",
+    "Send New Offer": "Send New Offer",
+    "Thank you!We’ll let the seller know of your inquiry": "Thank you!We’ll let the seller know of your inquiry.",
+    "You’ll receive a notification when the seller respond to you inquiry": "You’ll receive a notification when the seller respond to you inquiry.",
+    "Send Offer": "Send Offer",
+    "Your offer price": "Your offer price",
+    "Total Price excl VAT": "Total Price excl.VAT",
+    "Unit target price": "Unit target price"
   },
   "index": {
     "qty": "Quantity",
@@ -272,6 +318,12 @@
     },
   "prod": {
     "Submit": "Submit",
+    "SAR": "SAR",
+    "Find and manage your uploaded products here": "Find and manage your uploaded products here",
+    "Select Option": "Select Option",
+    "Basic Information": "Basic Information",
+    "Select Barcode": "Select Barcode",
+    "Select Brand": "Select Brand",
     "Add product": "Add product",
     "Select products": "Select products",
     "Search or select the product eligible for the promotion from the list below": "Search or select the product eligible for the promotion from the list below",
@@ -293,6 +345,7 @@
     "Availability": "Availability",
     "optional": "optional",
     "Weight": "Weight",
+    "Weight Unit": "Weight Unit",
     "Pricing": "Pricing",
     "ADD TIER": "ADD TIER",
     "Enter the available quantity of your product": "Enter the available quantity of your product",
@@ -571,7 +624,10 @@
     "rating": "Rating",
     "product": "Product",
     "review": "Review",
-    "fSale": "flash sale"
+    "fSale": "flash sale",
+    "role": "Role",
+    "first_name": "Role",
+    "last_name": "Role"
   },
   "user": {
     "users": "users",
@@ -601,8 +657,14 @@
     "wAcc": "Withdrawal account",
     "inPass": "Invalid password length",
     "nMatch": "Two password didn't match",
-    "name": "Name"
-
+    "name": "Name",
+    "new_password" : "New Password",
+    "password" : "password",
+    "one_numeric" : "Contain at least one numeric character",
+    "alphabetic_uppercase" : "Contain at least one alphabetic Uppercase character",
+    "alphabetic _lowercase" : "Contain at least one alphabetic Lowercase character",
+    "one_special": "Contain at least one Special character",
+    "confirm_password" : "Confirm New Password"
   },
   "admin": {
     "default": "Default",
@@ -961,7 +1023,8 @@
     "fn": "File name/URL",
     "feo": "Following error occurred",
     "message": "Message",
-    "access": "Access Management"
+    "access": "Access Management",
+    "vendor_users": "Vendor Users"
 
   },
   "approveModal": {
@@ -1055,6 +1118,7 @@
     "up": "Update profile",
     "np": "New password",
     "wb": "Welcome back",
+    "register_user": "Register your account",
     "cp": "Change password",
     "um": "User message",
     "umLower": "user message",
@@ -1236,5 +1300,34 @@
     "customers":"Customers",
     "address":"Address",
     "payment":"Payment"
-  }
+  },
+  "content": {
+    "faq": "FAQ",
+    "Questions": "Questions",
+    "Answers": "Answers"
+  },
+  "invoice" : {
+    "invoice": "Invoice",
+    "invoiceNo": "Invoice No.",
+    "invoiceDate": "Invoice Date",
+    "dueDate": "Due Date",
+    "moveMap": "Move the map to find your address",
+    "billedBy": "Billed By",
+    "billedTo": "Billed To",
+    "bankAccountDetails": "Bank Account Details",
+    "bankName": "Bank Name",
+    "accountHolderName": "Account Holder Name",
+    "accountNumber": "Account Number",
+    "ifsc": "IFSC",
+    "accountType": "Account Type",
+    "termsAndConditions": "Terms and Conditions",
+    "subTotal": "Sub Total",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "vat": "VAT",
+    "total": "Total",
+    "terms_and_conditions": "Terms and Conditions",
+    "pay_within_15_days": "Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.",
+    "quote_invoice_number": "Please quote invoice number when remitting funds."
+  }  
 }
