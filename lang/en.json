@@ -30,7 +30,8 @@
     "Select on Option": "Select on Option",
     "Select on Status": "Select on Status",
     "tableEmptyData": "This table is currently empty of any data",
-    "add_admin": "Add admin User"
+    "add_admin": "Add admin User",
+    "update_admin": "Update admin User"
   },
 
   "rfq": {
@@ -626,8 +627,8 @@
     "review": "Review",
     "fSale": "flash sale",
     "role": "Role",
-    "first_name": "Role",
-    "last_name": "Role"
+    "first_name": "First Name",
+    "last_name": "Last Name"
   },
   "user": {
     "users": "users",
@@ -1326,5 +1327,5 @@
     "shipping": "Shipping",
     "vat": "VAT",
     "total": "Total"
-  }  
+  }
 }
