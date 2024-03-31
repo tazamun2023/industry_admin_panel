@@ -133,6 +133,7 @@
     "Message": "Message",
     "No": "No",
     "Search": "Search",
+    "Confirm": "Confirm",
     "PENDING RESPONSE": "PENDING RESPONSE",
     "PENDING AGREEMENT": "PENDING AGREEMENT",
     "expired": "expired",
@@ -1326,5 +1327,5 @@
     "shipping": "Shipping",
     "vat": "VAT",
     "total": "Total"
-  }  
+  }
 }

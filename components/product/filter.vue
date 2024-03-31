@@ -177,7 +177,11 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+select option {
+  padding: 0.5rem;
+}
+</style>
 <template>
   <div class="grid grid-cols-12 mt-20 gap-4">
     <div class="col-span-9">
@@ -190,7 +194,7 @@ export default {
                    aria-label="Recipient's username" aria-describedby="button-addon2">
           </div>
         </div>
-        <div class="form-group for-lang ar-lang">
+        <div class="form-group input-wrapper for-lang ar-lang">
           <v-select
             :dir="$t('app.dir')"
             v-model="result.parentCategory"

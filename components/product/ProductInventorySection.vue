@@ -1,13 +1,28 @@
 <script>
+import {ValidationProvider} from "vee-validate";
+
 export default {
   name: "ProductInventorySection",
   middleware: ['common-middleware', 'auth'],
+  components: {
+    ValidationProvider
+  },
   props: {
-    result:{
-
+    result:{},
+    is_draft: {},
+  },
+  computed: {
+    validationRules() {
+      return {
+        required: !this.is_draft,
+        numeric: true,
+        min_value: 1
+      };
+    },
+    requiredErrorMessage() {
+      return this.$t('global.req', { type: this.$t('prod.Available quantity') });
     }
   },
-
   methods:{
 
     ProductInventorySection(){
@@ -51,13 +66,16 @@ export default {
       <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
       <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
     </div>
-
+    <ValidationProvider name="available_quantity" class="w-full" :rules="validationRules" v-slot="{ errors }"
+                        :custom-messages="{ required: requiredErrorMessage }">
     <div class="input-wrapper">
       <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
-      <input type="text" class="form-control" v-model="result.available_quantity" @keypress="onlyNumber"
+      <input type="text" class="form-control" v-model="result.available_quantity"
              @input="availableQuantity" @change="ProductInventorySection">
       <label>{{ $t('prod.Minimum order quantity') }}: 1</label>
     </div>
+      <span class="error">{{ errors[0] }}</span>
+    </ValidationProvider>
   </div>
 </template>
 
