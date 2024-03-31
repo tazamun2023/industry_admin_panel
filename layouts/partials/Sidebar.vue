@@ -593,8 +593,9 @@ export default {
     },
     hasPermission(item) {
       return (this.sidebarPermissions &&
-        (this.sidebarPermissions[`${item?.gate}.create`] !== undefined ||
-          this.sidebarPermissions[`${item?.gate}.view`] !== undefined)
+        (this.sidebarPermissions[`${item?.gate}`] !== undefined
+          // this.sidebarPermissions[`${item?.gate}.view`] !== undefined
+          )
       )
     },
     isCurrentRoute(val) {
