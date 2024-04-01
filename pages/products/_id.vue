@@ -532,7 +532,7 @@
                        :placeholder="$t('prod.Barcode')"
                        :readonly="result.barcode_type===4">
               </div>
-              <ValidationProvider name="sku" :rules="{ required: !is_draft }" v-slot="{ errors }"
+              <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
                 <div class="form-group input-wrapper  mt-3 mt-sm-0">
                   <label>{{ $t('prod.SKU') }} <strong class="text-error">*</strong></label>
@@ -1070,7 +1070,7 @@
             </div>
             <div class="form-group input-wrapper mb-10 for-lang ar-lang">
               <label for="name">{{ $t("prod.hts_code") }}</label>
-              <input class="form-control" name="e.g. Macbook Pro 2019" type="text" v-model="result.hts_code">
+              <input class="form-control" :placeholder="$t('prod.hts_code')" type="text" v-model="result.hts_code">
             </div>
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Additional attributes') }} <span
               class="text-xs">({{ $t('prod.optional') }})</span>
@@ -1182,6 +1182,15 @@ extend('min', {
   },
   params: ['length'],
   message: 'The {_field_} field must have at least {length} characters'
+});
+
+extend('uniqueSku', {
+  validate: (value, { allSKus }) => {
+    // Check if the provided SKU value already exists in allSKus
+    return !Object.values(allSKus).find(item => item.sku === value);
+  },
+  params: ['allSKus'], // Define the parameter name as allSKus
+  message: 'SKU must be unique'
 });
 
 
@@ -1459,19 +1468,13 @@ export default {
 
   computed: {
     skuRules() {
+      const allSKus = this.allSKus;
+
       return {
         required: !this.is_draft,
-        async validate(value) {
-          if (!value) return true; // If the field is empty, skip validation
-          try {
-            const response = this.getRequest({params: {sku: this.result.sku}, api: 'findSku'})
-            return response.data;
-          } catch (error) {
-            console.error('Error checking SKU uniqueness:', error);
-            return false; // Validation fails due to an error
-          }
-        },
-      }
+        numeric: true,
+        uniqueSku: { allSKus }, // Pass allSKus as a parameter to uniqueSku
+      };
     },
     availableQuantityValidationRules() {
       return {
@@ -1571,7 +1574,7 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
-      'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
+      'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
     // getThumb(isThumb)
@@ -2101,10 +2104,13 @@ export default {
         //   // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
         //   this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
         // }
-        if (this.$route.query?.quote > 0)
-          this.$router.push({path: `/rfq/${this.$route.query?.quote}`})
-        else
-          this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`})
+        if (this.$route.query?.quote > 0) {
+          this.$router.push({ path: `/rfq/${this.$route.query.quote}` });
+        } else {
+          const path = this.is_draft ? '/products/draft' : `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`;
+          this.$router.push({ path });
+        }
+
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -2408,7 +2414,7 @@ export default {
       })
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {
 
       this.loading = true
       try {
