@@ -458,9 +458,8 @@ export default {
           id: id,
           params: {available_quantity: available_quantity},
           api: 'setAvailableQty'
-        }).then(() => {
-
-          // alert('saved')
+        }).then(data =>{
+          console.log(data)
         })
       }
     },
