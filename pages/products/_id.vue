@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <ValidationObserver class="w-full" v-slot="{ invalid }">
-      <!-- ---------------- -->
-      <div v-if="!is_next" class="tab-sidebar">
-        <div class="col-md-12 p-4 title">
-          <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>
-          <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>
-          <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
-          <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
-        </div>
+  <div   v-if="$can('manage_products')">
+
+    <!-- ---------------- -->
+    <div v-if="!is_next" class="tab-sidebar">
+      <div class="col-md-12 p-4 title">
+        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>
+        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>
+        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
+        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
+      </div>
 
         <div class="input-wrapper p-3" v-if="!id">
           <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"

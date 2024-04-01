@@ -46,7 +46,7 @@ export default {
 
 <template>
   <div>
-    <div v-if="quotation">
+    <div v-if="quotation && $can('view_quotation')">
       <div class="card my-4 p-4">
         <h4 class="font-bold pb-2">{{ $t('rfq.Quote Details') }}</h4>
         <div class="flex justify-between">

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$can('notification_RFQ')">
     <!-- ---------------- -->
     <div class="row  mb-2">
       <div class="card p-20 col-md-12">
