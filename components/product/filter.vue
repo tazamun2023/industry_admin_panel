@@ -204,6 +204,7 @@ select option {
             :placeholder="$t('rfq.Search by Category')"
             @input="updateLevel2"
             class="custom-select"
+            autocomplete="null"
           ></v-select>
         </div>
 
@@ -217,6 +218,7 @@ select option {
             class="custom-select"
             :placeholder="$t('rfq.Select Sub Category')"
             @input="updateLevel3"
+            autocomplete="null"
           ></v-select>
         </div>
 
@@ -227,7 +229,7 @@ select option {
               v-model="result.category_id"
               :options="selectedLevel2?.child"
               :reduce="cat => cat.id"
-
+              autocomplete="null"
               label="title"
               class="custom-select"
               :placeholder="$t('rfq.Select Child Category')"

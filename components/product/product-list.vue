@@ -420,15 +420,32 @@ export default {
     },
 
     async statusUpdate(id, status = null) {
-      if (status != null) {
-        await this.setById({
-          id: id,
-          params: {status: status},
-          api: 'updateStatus'
-        }).then(() => {
-          this.visibleDropdown = null
-          // window.location.reload()
-        })
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+      if (confirmation.value) {
+        if (status != null) {
+          await this.setById({
+            id: id,
+            params: {status: status},
+            api: 'updateStatus'
+          }).then(() => {
+            this.visibleDropdown = null
+            // window.location.reload()
+            if (status==='approved'){
+              this.$router.push({path: `/products/approved`})
+            }
+            if (status==='archived'){
+              this.$router.push({path: `/products/archived`})
+            }
+          })
+        }
       }
     },
     async isDelete(id) {
