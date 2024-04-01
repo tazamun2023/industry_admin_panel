@@ -1,7 +1,7 @@
 <template>
   <div class="tab-sidebar p-4">
     <div class="flex mb-2 justify-between">
-      <h3>{{ $t('app.add_admin') }}</h3>
+      <h3>{{ $t('app.update_admin') }}</h3>
       <nuxt-link to="/admins-vendors" >
         <button class="bg-primary border p-2 leading-3 text-white w-[100px]">List</button>
       </nuxt-link>
@@ -42,22 +42,58 @@
             </ul>
           </div>
           <div class="input-wrapper">
+            <ValidationProvider name="Name"  v-slot="{ errors }">
+              <label for="">{{ $t('fSale.name') }}</label>
+              <input type="text" :placeholder="$t('fSale.name')" v-model="userInfo.name">
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+          <div class="input-wrapper">
             <ValidationProvider name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
               <label for="">{{ $t('fSale.email') }}</label>
               <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
+
           <div class="input-wrapper">
-            <ValidationProvider name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
-              <label class="w-full" for="">{{ $t('user.role') }}</label>
-              <select class="w-50 p-2 border border-smooth rounded" v-model="userInfo.roles">
-                <option value="">Select role</option>
-                <option value="superadmin">Admin</option>
-              </select>
+            <div class="relative">
+              <ValidationProvider name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+                <label class="w-full"  for="">{{ $t('user.new_password') }}*</label>
+                <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="userInfo.password" @keyup="checkPassword()">
+                <i
+                  class="icon"
+                  :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
+                  @click="passwordFieldToggle"
+                />
+                <span class="error">{{ errors[0] }} </span>
+              </ValidationProvider>
+            </div>
+
+            <div class="pb-4">
+              <p class="text-xs" :class="{'text-smooth': passwordCon.containsNumber}">{{ $t('user.one_numeric') }}</p>
+              <p class="text-xs" :class="{'text-smooth': passwordCon.containsUppercase}">{{ $t('user.alphabetic_uppercase') }}</p>
+              <p class="text-xs" :class="{'text-smooth': passwordCon.containsLowercase}">{{ $t('user.alphabetic _lowercase') }}</p>
+              <p class="text-xs" :class="{'text-smooth': passwordCon.containsSpecial}">{{ $t('user.one_special') }}</p>
+            </div>
+          </div>
+
+
+          <div class="relative">
+            <ValidationProvider name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+              <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
+              <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
+              <i
+                class="icon"
+                :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
+                @click="passwordFieldToggle()"
+              />-
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
+
+
+
           <div class="input-wrapper mb-0 text-end">
             <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
           </div>
@@ -77,17 +113,30 @@ export default {
   data(){
     return {
       userInfo: {
+        name:'',
         email:'',
-        roles: '',
-        vendor_id: '',
-        type:'admin',
+        password:''
+      },
+      confirmation: '',
+      passwordFieldType: 'password',
+      passwordCon:{
+        containsUppercase:false,
+        containsLowercase:false,
+        containsNumber:false,
+        containsSpecial:false,
+        checkLicence:false
       },
       errors:[],
-      loading:false
+      loading:false,
+      id:''
     }
   },
   computed:{
+    isPasswordTypePassword(){
+      return this.passwordFieldType === 'password'
+    },
     ...mapGetters('admin', ['profile']),
+    ...mapGetters('language', [ 'languages', 'currentLanguage']),
   },
   watch:{
     profile(){
@@ -95,28 +144,72 @@ export default {
     }
   },
   methods:{
-    ...mapActions('vendor', ['sentInvitation']),
+    ...mapActions('vendor', ['getUserById', 'updateUserInformation']),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
+
+    passwordFieldToggle() {
+      if (this.isPasswordTypePassword) {
+        this.passwordFieldType = 'text'
+      } else {
+        this.passwordFieldType = 'password'
+      }
+    },
+
+    checkPassword(){
+      this.passwordCon.containsUppercase = /[A-Z]/.test(this.userInfo.password)
+      this.passwordCon.containsLowercase = /[a-z]/.test(this.userInfo.password)
+      this.passwordCon.containsNumber = /[0-9]/.test(this.userInfo.password)
+      this.passwordCon.containsSpecial = /[#?!@$%^&*-]/.test(this.userInfo.password)
+    },
+
     async formSubmit(){
+      try {
+        this.loading = true
+        const data = await this.updateUserInformation({
+          id: this.id,
+          params:{
+            ...this.userInfo
+          },
+          lang: this.currentLanguage.code,
+          api:'updateUserInformation'
+        })
+        this.loading = false
+
+        if(data?.status === 200){
+          this.$router.push('/admins-vendors')
+          this.setToastMessage(data.message)
+          this.errors = []
+        }else{
+          this.errors = data.data.form
+          this.setToastError(data.message)
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+
+   async getVendorUserById(){
+      this.id = this.$route?.params?.id
       this.loading  = true
-      const data = await this.sentInvitation({
-        params:{
-          ...this.userInfo
-        },
-        api:"sentInvitation"
+      const data = await this.getUserById({
+        id: this.id,
+        api:"getUserById"
       })
       this.loading = false
       if(data.status === 200){
+        this.userInfo.name = data.data.name
+        this.userInfo.email = data.data.email
         this.errors = []
-        this.setToastMessage(data.message)
+
       }else{
         this.errors = data.data.form
         this.setToastError("", 'Solve the Error')
       }
     }
+
   },
-  mounted() {
-    this.userInfo.vendor_id = this.profile?.vendor_id
+  async mounted() {
+       await this.getVendorUserById()
   }
 }
 
