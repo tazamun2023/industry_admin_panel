@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+  <div v-if="$can('order_cancellation')" class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <toast-message v-if="hasError" :is-error="hasError"
                    :message="$t('error.has error sorry please select data reject')"/>

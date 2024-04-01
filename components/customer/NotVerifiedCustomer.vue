@@ -77,7 +77,7 @@ export default {
             <th>{{ $t('customer.City') }}</th>
             <th>{{ $t('customer.status') }}</th>
             <th>{{ $t('customer.verified') }}</th>
-            <th>Action</th>
+            <th v-if="$can('manage_users')">{{ $t('customer.Action') }}</th>
           </tr>
           </thead>
           <tbody>
@@ -98,7 +98,7 @@ export default {
             <td class="status" :class="value.verified===1?'active':'text-warning'">
               <span>{{ customerVerified(value.verified) }}</span>
             </td>
-            <td>
+            <td v-if="$can('manage_users')">
               <button id="dropdownDefaultButton" @click="toggleAction(index)"
                       class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                       type="button">{{ $t('prod.action') }}

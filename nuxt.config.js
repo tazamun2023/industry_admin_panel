@@ -46,6 +46,8 @@ export default {
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
     { src: '@/plugins/ability.js' },
     {src: '~/plugins/cryptojs.js', mode: 'client'},
+    // global-component
+    {src: '~/plugins/global-component.js', ssr: false},
     { src: '@/plugins/casl.js' },
     {src: '~/plugins/dompurify.js'},
     {src: '~/plugins/nuxt-client-init.js', ssr: false},

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$can('view_addresses')">
+       <check-validity :gate="'view_addresses'">
         <div class="card p-4">
            <div class="flex justify-between">
 
@@ -225,7 +225,7 @@
     </div>
   </template>
         <!-- -----------------modal end------------ -->
-    </div>
+    </check-validity>
 </template>
 
 <script>

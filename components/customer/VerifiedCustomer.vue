@@ -77,7 +77,7 @@ export default {
             <th>{{ $t('customer.City') }}</th>
             <th>{{ $t('customer.status') }}</th>
             <th>{{ $t('customer.verified') }}</th>
-            <th>Action</th>
+            <th v-if="$can('manage_users')">{{ $t('customer.Action') }}</th>
           </tr>
           </thead>
           <tbody>
@@ -98,7 +98,7 @@ export default {
             <td class="status" :class="value.verified===1?'active':'text-warning'">
               <span>{{ customerVerified(value.verified) }}</span>
             </td>
-            <td>
+            <td v-if="$can('manage_users')">
               <!--              <div class="flex gap-4">-->
               <!--                <nuxt-link :to="`${/customer/}${value.id}`">-->
               <!--                  <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"-->

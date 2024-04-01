@@ -191,19 +191,19 @@ export default {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
               icon: 'registered',
-              gate: 'order'
+              gate: 'view_RFQ'
             },
             {
               path: 'rfq/notification',
               title: this.$t('rfq.notification'),
               icon: 'flash-notification',
-              gate: 'order'
+              gate: 'notification_RFQ'
             },
             {
               path: 'rfq/manage-quotes',
               title: this.$t('rfq.manage_quotations'),
               icon: 'flash-sales',
-              gate: 'order'
+              gate: 'view_quotation'
             }
           ]
         },
@@ -409,7 +409,7 @@ export default {
               title: this.$t('account.customers'),
               icon: 'emoji-happy.svg',
               is_image:true,
-              gate: 'user'
+              gate: 'view_users'
             },
           ]
         },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <check-validity :gate="'view_main_orders'" >
     <div class="flex justify-between border-b border-smooth pb-3">
       <div class="flex items-center gap-4">
         <h3 class="font-bold">Order <span>{{ orderDetails.order_id }}</span></h3>
@@ -249,7 +249,7 @@
         <button class="font-bold border-2 text-primary">Accept</button>
       </div>
     </div>
-  </div>
+  </check-validity>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";

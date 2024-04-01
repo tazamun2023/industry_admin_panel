@@ -1,5 +1,5 @@
 <template>
-       <div v-if="$can('view_financial')">
+       <check-validity :gate="'view_financial'">
         <div class="card p-4">
            <div class="flex justify-between">
                 <div>
@@ -150,7 +150,7 @@
     </div>
   </template>
         <!-- -----------------modal end------------ -->
-    </div>
+    </check-validity>
 </template>
 <style scoped>
 table td {
