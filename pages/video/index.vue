@@ -1,6 +1,6 @@
 <template>
   <list-page
-    v-if="$can('brand', 'view')"
+    v-if="$can('view_content')"
     ref="listPage"
     list-api="VideoGallery"
     delete-api="VideoGallery"
@@ -8,7 +8,8 @@
     route-name="video"
     empty-store-variable="VideoGallery"
     :name="$t('bnews.news')"
-    gate="brand"
+    gate="view_content"
+    manage_gate="manage_content"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
