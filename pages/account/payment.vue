@@ -8,7 +8,7 @@
                 </div>
                 <div>
                     <button @click="addPayment" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary"
-                    v-if="$can('edit_addresses')"
+                    v-if="$can('update_financial')"
                     >Add Payment</button>
                 </div>
            </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="flex gap-4">
                         <button @click="deleteModal=true" class="p-2 leading-3 rounded bg-smooth  hover:text-warning">Remove</button>
-                    <button @click="editing(value)" v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Edit</button>
+                    <button @click="editing(value)" v-if="$can('update_financial')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Edit</button>
                 </div>
             </div>
             <div class="w-3/4">
