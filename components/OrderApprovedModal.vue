@@ -1,5 +1,5 @@
 <!-- components/Modal.vue -->
-<template>
+<template v-if="$can('fulfil_orders')">
   <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
     <div class="absolute inset-0 bg-black opacity-50"></div>
 

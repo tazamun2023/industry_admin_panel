@@ -7,7 +7,9 @@
     route-name="cities"
     method="put"
     :name="$t('city.city')"
+
     gate="manage_shipment_setting"  manage_gate="manage_shipment_setting"
+
     :validation-keys="['name.ar','name.en','country_id']"
     :result="result"
     @result="resultData"

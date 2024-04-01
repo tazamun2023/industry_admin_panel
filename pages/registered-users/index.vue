@@ -5,7 +5,7 @@
     delete-api="deleteUser"
     route-name="users"
     :name="$t('user.users')"
-    gate="user"
+    gate="view_users"
     :add-button="false"
     :order-options="userObj"
     @delete-bulk="deleteBulk"
@@ -42,7 +42,7 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('user', 'delete')"
+            v-if="$can('manage_users')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>

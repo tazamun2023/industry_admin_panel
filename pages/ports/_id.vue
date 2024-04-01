@@ -7,7 +7,9 @@
     set-image-api="setCategoryImage"
     route-name="ports"
     :name="$t('port.port')"
+
     gate="manage_shipment_setting"  manage_gate="manage_shipment_setting"
+
     :validation-keys="['name.ar','name.en', 'type', 'country_id', 'city_id']"
     :result="result"
     @result="resultData"

@@ -6,7 +6,7 @@
     set-image-api="setCategoryImage"
     route-name="transportation-modes"
     :name="$t('transportation_mode.transportation_mode')"
-    gate="category"
+    gate="manage_shipment_setting"
     :validation-keys="['name.ar','name.en']"
     :result="result"
     @result="resultData"

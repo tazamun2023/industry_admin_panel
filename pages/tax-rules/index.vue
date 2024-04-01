@@ -1,13 +1,13 @@
 <template>
   <list-page
-    v-if="$can('tax_rule', 'view')"
+    v-if="$can('manage_initial_setting')"
     ref="listPage"
     list-api="getTaxRules"
     delete-api="deleteTaxRule"
     route-name="tax-rules"
     empty-store-variable="allTaxRules"
     :name="$t('brand.tRule')"
-    gate="tax_rule"
+    gate="manage_initial_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -39,13 +39,13 @@
           <td>{{ item.created }}</td>
           <td>
             <button
-              v-if="$can('tax_rule', 'delete')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.deleteItem(item.id)"
               class="border-0"
             >
               <delete-button-icon/></button>
             <button
-              v-if="$can('tax_rule', 'edit')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.editItem(item.id)" class="border-0"
             >
               <edit-button-icon/></button>

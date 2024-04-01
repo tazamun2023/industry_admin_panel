@@ -7,6 +7,7 @@
     empty-store-variable="allBrands"
     gate="manage_shipment_setting"
     manage_gate="manage_shipment_setting"
+
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"

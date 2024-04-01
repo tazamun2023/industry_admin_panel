@@ -1,13 +1,13 @@
 <template>
   <data-page
-    v-if="$can('tax_rule', 'view')"
+    v-if="$can('manage_initial_setting')"
     ref="dataPage"
     set-api="setTaxRule"
     get-api="getTaxRule"
     route-name="tax-rules"
     empty-store-variable="allTaxRules"
     :name="$t('prod.tRule')"
-    gate="tax_rule"
+    gate="manage_initial_setting"
     :validation-keys="['title', 'price', 'type']"
     :result="result"
     @result="result = $event"

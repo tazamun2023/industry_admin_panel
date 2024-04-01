@@ -8,7 +8,9 @@
     empty-store-variable="allBrands"
     :name="$t('port.port')"
     gate="manage_shipment_setting"
+
     manage_gate="manage_shipment_setting"
+
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -53,7 +55,8 @@
             v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('manage_shipment_settingedit')"
+            v-if="$can('manage_shipment_setting')"
+
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

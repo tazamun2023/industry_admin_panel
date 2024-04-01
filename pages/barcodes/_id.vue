@@ -6,7 +6,7 @@
     set-image-api="setCategoryImage"
     route-name="barcodes"
     :name="$t('barcode.barcode')"
-    gate="category"
+    gate="manage_initial_setting"
     :validation-keys="['name']"
     :result="result"
     @result="resultData"
