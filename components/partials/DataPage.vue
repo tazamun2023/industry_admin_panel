@@ -63,7 +63,7 @@
         />
 <!--          v-if="!manage_gate || $can(manage_gate) || $can(manage_gate)"-->
         <div
-          class="dply-felx j-right single-btn"
+          class="dply-felx j-right single-btn my-2"
         >
           <ajax-button
             name="save-edit"
