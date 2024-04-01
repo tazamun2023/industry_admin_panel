@@ -6,7 +6,10 @@
     method="put"
     route-name="video"
     :name="$t('global.video')"
-    gate="view_content"  manage_gate="manage_content"
+
+    gate="view_content"
+    manage_gate="manage_content"
+
     :validation-keys="['url']"
     :result="result"
     @result="resultData"

@@ -7,8 +7,10 @@
     route-name="FAQ"
     empty-store-variable="FAQ"
     :name="$t('color.color')"
-    gate="view_content"
-    manage_gate="manage_content"
+
+       gate="view_content"
+      manage_gate="manage_content"
+
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -39,10 +41,12 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('view_content')"
+
+            v-if="$can('manage_content')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('view_content')"
+            v-if="$can('manage_content')"
+
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

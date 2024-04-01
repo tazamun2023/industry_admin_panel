@@ -224,6 +224,7 @@ export default {
       this.approvedModal = !this.approvedModal
     },
     rejectModalShow(order) {
+      console.log(this.selectedOrders.length)
       if (this.selectedOrders.length > 0) {
         this.rejectModal = !this.rejectModal
       } else {

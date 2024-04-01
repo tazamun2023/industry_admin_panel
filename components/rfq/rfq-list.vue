@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div v-if="$can('view_RFQ')">
 
     <!-- ---------------       -->
     <div class="row  mb-2">

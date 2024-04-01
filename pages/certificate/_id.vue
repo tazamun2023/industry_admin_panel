@@ -82,13 +82,17 @@ export default {
 
 <template>
   <data-page
+  v-if="$can('manage_content')"
     ref="dataPage"
     set-api="Certificate"
     get-api="Certificate"
     method="put"
     route-name="certificate"
     :name="$t('bnews.news')"
-    gate="view_content"  manage_gate="manage_content"
+
+    gate="manage_content"
+    manage_gate="manage_content"
+
     :validation-keys="['title.ar','title.en']"
     :result="result"
     @result="resultData"

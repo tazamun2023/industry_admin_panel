@@ -7,6 +7,7 @@
     :name="$t('fSale.rr')"
     gate="view_product_review"
     manage_gate="manage_product_review"
+
     class="rating-review-wrapper"
     :add-button="false"
     :order-options="ratingReviewObj"
@@ -41,19 +42,22 @@
         <td v-else>{{ value.rating.ar }}</td>
 
         <td><span>{{ value.review }}</span></td>
-        <td>
-          <span class="mx-w-400x dply-felx j-left f-wrap">
+        <td >
+          <span v-if="value.review_images" class="mx-w-400x dply-felx j-left f-wrap">
             <lazy-image
               v-for="(img, index) in value.review_images"
               :key="index"
               :data-src="getThumbImageURL(img.image)"
               class="m-5 img-80x"
             />
+           <!-- <img  class="m-5 img-80x" v-for="(img, index) in value.review_images" :key="index" :src="getThumbImageURL(img.image)"  /> -->
+
           </span>
         </td>
         <td>
           <nuxt-link
             class="ellipsis mx-w-200x link"
+            v-if="$can('approve_products')"
             :to="`products/${value.product.id}`"
           >
             {{ value.product.title }}
