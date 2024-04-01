@@ -1,7 +1,7 @@
 <template>
   <div>
   <list-page
-
+    v-if="$can('view_brands')"
     ref="listPage"
     :addButton="false"
     :modalButton="true"
@@ -10,7 +10,8 @@
     route-name="admins-vendors"
     :name="$t('user.admVendUp')"
     :order-options="orderOptions"
-    gate="admin"
+    gate="view_brands"
+    manage_gate="manage_brands"
     @open-modal="openModalItem"
   >
     <template v-slot:table="{list}">
@@ -52,15 +53,15 @@
         <td>{{ getBoolean(value.active) }}</td>
         <td>{{ value.created }}</td>
         <td>
+<!--          v-if="$can('admin', 'delete')"-->
           <button
-            v-if="$can('admin', 'delete')"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
             class="border-0"
           >
             <DeleteButtonIcon/>
           </button>
+<!--          v-if="$can('admin', 'edit')"-->
           <button
-            v-if="$can('admin', 'edit')"
             @click.prevent="$refs.listPage.editItem(value.id)"
             class="border-0"
           >

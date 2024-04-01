@@ -90,12 +90,35 @@ const actions = {
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit('SET_USERS_DATA', data.data)
-      return data
     }else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
+    return data
+  },
+
+  async updateUserInformation ({rootState, commit , dispatch}, {id, params,api, lang}) {
+    const {data} = await Service.setById(id, params, this.$auth.strategy.token.get(), api, lang)
+    if (data.status === 200) {
+      commit('SET_USERS_DATA', data.data)
+    }else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+    return data;
 
   },
+
+
+  async getUserById ({rootState, commit , dispatch}, {id, params,api}) {
+    const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      commit('SET_USERS_DATA', data.data)
+    }else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+    return data
+
+  },
+
 
   async registerUser ({rootState, commit , dispatch}, {params,api, lang}) {
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, lang)

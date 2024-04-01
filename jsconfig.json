@@ -411,6 +411,8 @@
     "getStore": "store/find",
     "setStore": "store/action",
     "setStoreLogo": "store/upload-logo",
+    "updateUserInformation": "user-register/updateUserInformation",
+    "getUserById": "user-register/getUserById",
 
     "setWithdrawalAccount": "withdrawal-account/action",
     "getWithdrawalAccount": "withdrawal-account/find",
