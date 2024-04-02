@@ -120,9 +120,22 @@ input:not([type='checkbox'], [type='radio']):not(.vs__search):not(.vs__selected-
 }
 
 .vs__search, .vs__search:focus{
-  height:44px;
+  height:36px;
 }
-
+.vs--searchable .vs__dropdown-toggle{
+  padding: 0px;
+}
+.vs--single .vs__selected {
+    margin: 0px;
+    white-space: nowrap;
+    padding: 0px;
+    width: 182px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.vs__clear{
+  height: 30px;
+}
 .button{
   width auto
 }

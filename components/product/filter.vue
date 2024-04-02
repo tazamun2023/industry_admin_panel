@@ -184,17 +184,17 @@ select option {
 </style>
 <template>
   <div class="grid grid-cols-12 mt-20 gap-4">
-    <div class="col-span-9">
-      <div class="grid grid-cols-6 gap-4">
-        <div>
-          <div class="input-group flex">
-            <input type="text" class="form-control" :placeholder="$t('prod.write_group_name')"
+    <div class="col-span-10">
+      <div class="flex gap-4">
+        <div class="w-full">
+          <div class="input-group w-full flex">
+            <input type="text" class="form-control w-full" :placeholder="$t('prod.write_group_name')"
                    v-model="result.search"
                    @input="doSearch"
                    aria-label="Recipient's username" aria-describedby="button-addon2">
           </div>
         </div>
-        <div class="form-group input-wrapper for-lang ar-lang">
+        <div class="form-group input-wrapper w-full for-lang ar-lang">
           <v-select
             :dir="$t('app.dir')"
             v-model="result.parentCategory"
@@ -203,12 +203,13 @@ select option {
             :reduce="cat => cat.id"
             :placeholder="$t('rfq.Search by Category')"
             @input="updateLevel2"
-            class="custom-select"
-            autocomplete="null"
+
+            class="custom-select w-full"
+
           ></v-select>
         </div>
 
-        <div class="form-group for-lang ar-lang">
+        <div class="form-group w-full for-lang ar-lang">
           <v-select
             :dir="$t('app.dir')"
             v-model="result.subCategory"
@@ -222,8 +223,8 @@ select option {
           ></v-select>
         </div>
 
-        <div class="col-md-3">
-          <div class="form-group for-lang ar-lang">
+        <div class="col-md-3 w-full">
+          <div class="form-group w-full for-lang ar-lang">
             <v-select
               :dir="$t('app.dir')"
               v-model="result.category_id"
@@ -231,24 +232,24 @@ select option {
               :reduce="cat => cat.id"
               autocomplete="null"
               label="title"
-              class="custom-select"
+              class="custom-select w-full"
               :placeholder="$t('rfq.Select Child Category')"
             ></v-select>
           </div>
         </div>
-        <div class="flex col-span-2">
+        <div class="flex w-full col-span-2">
           <button type="button"
                   @click="filterData"
-                  class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long">
+                  class="w-full inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long">
             {{ $t("app.Apply Filters") }}
           </button>
           <a
-            class="inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+            class="w-full inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
             @click.prevent="clearFilterData"> {{ $t("prod.clear_filter") }} </a>
         </div>
       </div>
     </div>
-    <div class="col-span-3">
+    <div class="col-span-2">
       <div class="flex justify-end">
         <div class="form-group for-lang ar-lang mr-2 ml-2">
           <button @click="toggleDropdown"
