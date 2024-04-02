@@ -11,6 +11,7 @@ const state = () => ({
   allAttributes: null,
   allAttributeValues: null,
   allBrands: null,
+  allSKus: null,
   allProductCollections: null,
   allBundleDeals: null,
   allShippingRules: null,
@@ -35,6 +36,7 @@ const getters = {
   allAttributeValues: ({allAttributeValues}) => allAttributeValues,
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
+  allSKus: ({allSKus}) => allSKus,
   allCategories: ({allCategories}) => allCategories,
   allStorageTemperatures: ({allStorageTemperatures}) => allStorageTemperatures,
   allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
@@ -205,6 +207,12 @@ const mutations = {
       state.allBrands = {...state.allBrands, ...{[item.id]: {title: item.title, id: item.id}}}
     })
   },
+  SET_ALL_SKUS(state, allSKus) {
+    state.allSKus = {}
+    Object.entries(allSKus).forEach(([sku, id]) => {
+      state.allSKus[id] = { sku };
+    });
+  },
   SET_ALL_REJECT_REASONS(state, allRejectReasons) {
     state.allRejectReasons = {}
     allRejectReasons.forEach((item) => {
@@ -322,6 +330,7 @@ const actions = {
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)
       commit('SET_ALL_ATTRIBUTES', result.attributes)
       commit('SET_ALL_BRANDS', result.brands)
+      commit('SET_ALL_SKUS', result.vendor_skus)
       commit('SET_ALL_REJECT_REASONS', result.all_reject_reasons)
       commit('SET_ALL_TAX_RULES', result.tax_rules)
     } else {
