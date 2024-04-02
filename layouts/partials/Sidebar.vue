@@ -214,7 +214,8 @@ export default {
           icon: 'sms.svg',
           is_image:true,
           form: ['flash-sales'],
-          gate: 'view_messages'
+
+          gate: 'view_flash_sales'
         },
         {
           path: 'flash-sales',
@@ -376,6 +377,7 @@ export default {
           open: false,
           children: [
             {
+              // dont have permission
               path: 'account/company-profile',
               title: this.$t('account.company-profile'),
               icon: 'building-4.svg',
@@ -396,6 +398,7 @@ export default {
               gate: 'view_financial'
             },
             {
+              // dont have permission
               path: 'vendors',
               title: this.$t('account.vendors'),
               icon: 'user-octagon.svg',
@@ -403,6 +406,7 @@ export default {
               gate: 'view_users'
             },
             {
+              // dont have permission
               path: 'customer',
               title: this.$t('account.customers'),
               icon: 'emoji-happy.svg',
@@ -418,6 +422,7 @@ export default {
           icon: 'security-safe.svg',
           is_image:true,
           open: false,
+
           children: [
             {
               path: 'registered-users',
@@ -444,6 +449,7 @@ export default {
               icon: 'admins-vendors',
               form: ['admins-vendors'],
               gate: 'view_users'
+
             },
 
             {
@@ -452,6 +458,7 @@ export default {
               icon: 'admins-vendors',
               form: ['vendor-users'],
               gate: 'invite'
+
             },
           ]
         },
@@ -481,12 +488,14 @@ export default {
               title: this.$t('setting.ports'),
               icon: 'flash-sales',
               gate: 'manage_shipment_setting',
+
             },
             {
               path: 'colors',
               title: this.$t('setting.colors'),
               icon: 'flash-sales',
               gate: 'manage_initial_setting',
+
             },
 
             {
@@ -499,8 +508,10 @@ export default {
               path: 'transportation-modes',
               title: this.$t('setting.transportation'),
               icon: 'flash-sales',
-              gate: 'manage_initial_setting',
+
+              gate: 'manage_shipment_setting',
             },
+
             {
               path: 'units',
               title: this.$t('setting.units'),
@@ -525,6 +536,7 @@ export default {
               title: this.$t('error.tr'),
               icon: 'tax-rules',
               gate: 'manage_shipment_setting'
+
             },
             {
               path: 'product-collections',
@@ -600,7 +612,9 @@ export default {
       return this.hasPermission(item)
     },
     hasPermission(item) {
+
       return (this.sidebarPermissions && (item?.gate===true || this.sidebarPermissions[item?.gate] !== undefined))
+
 
     },
     isCurrentRoute(val) {

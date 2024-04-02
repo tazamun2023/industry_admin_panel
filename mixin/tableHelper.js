@@ -4,7 +4,7 @@ export default {
       sortByType: this.$route.query.orderbyType || 'desc',
       sortBy: this.$route.query.orderby || 'created_at',
       page: Number(this.$route.query.page) || 1,
-      search: this.$route.query.q || null,
+      search: this.$route.query.search || null,
     }
   },
   methods: {
@@ -16,7 +16,7 @@ export default {
       this.$emit('fetching-data')
     },
     makeSearch() {
-      if (this.$route.query.q !== this.search) {
+      if (this.$route.query.search !== this.search) {
         this.page = 1
         this.getDataWithRoute()
       }
@@ -33,7 +33,7 @@ export default {
       if (this.isDefaultPage() && !this.search && this.resetRoute) {
         this.$router.replace({query: {}})?.catch(()=>{})
       } else if (this.isDefaultPage() && this.resetRoute) {
-        this.$router.replace({query: {q: this.search}})?.catch(()=>{})
+        this.$router.replace({query: {search: this.search}})?.catch(()=>{})
       } else {
         this.$router.push({
           query: {
@@ -41,7 +41,7 @@ export default {
             orderby: this.sortBy,
             orderbyType: this.sortByType,
             page: this.page,
-            q: this.search
+            search: this.search
           }
         })?.catch(()=>{})
       }

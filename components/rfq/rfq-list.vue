@@ -1,6 +1,6 @@
 <template>
 
-  <div>
+  <div v-if="$can('view_RFQ')">
 
     <!-- ---------------       -->
     <div class="row  mb-2">
@@ -179,12 +179,12 @@
                             </div>
 
                             <div>
-                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
+                              <button v-if="$can('approve_RFQ') && value.status ==='pending'" type="button"
                                       @click.prevent="isRejected(value.id)"
                                       class="bg-error rounded-lg uppercase leading-3 text-white px-4 w-full p-3 mt-2 border-primary border-2">
                                 Rejected
                               </button>
-                              <button v-if="$store.state.admin.isSuperAdmin && value.status ==='pending'" type="button"
+                              <button v-if="$can('approve_RFQ') && value.status ==='pending'" type="button"
                                       @click.prevent="isApproved(value.id)"
                                       class="bg-primary rounded-lg uppercase leading-3 text-white px-4 mt-2 w-full p-3 border-primary border-2">
                                 Approved
@@ -193,14 +193,16 @@
 
                             <div class="text-center">
                               <nuxt-link
-                                v-if="value.is_submit && $store.state.admin.isVendor"
+
+                                v-if="$can('view_quotation') && value.is_submit"
+
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
                                 :to="`/rfq/quotation-details/${value.quotation_id}`"
                               >
                                 {{ $t('rfq.View Quote')}}
                               </nuxt-link>
                               <nuxt-link
-                                v-else-if="$store.state.admin.isVendor && !value.is_submit"
+                                v-else-if="$can('submit_quotation') && $store.state.admin.isVendor && !value.is_submit"
                                 class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
                                 :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
                               </nuxt-link>

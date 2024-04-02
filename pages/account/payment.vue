@@ -1,6 +1,5 @@
 <template>
-    <div>
-
+       <check-validity :gate="'view_financial'">
         <div class="card p-4">
            <div class="flex justify-between">
                 <div>
@@ -8,7 +7,9 @@
                     <p>Providing this bank account information allows us to deposit payments into your account, including payouts from orders</p>
                 </div>
                 <div>
-                    <button @click="addPayment" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Payment</button>
+                    <button @click="addPayment" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary"
+                    v-if="$can('update_financial')"
+                    >Add Payment</button>
                 </div>
            </div>
         </div>
@@ -22,7 +23,7 @@
                 </div>
                 <div class="flex gap-4">
                         <button @click="deleteModal=true" class="p-2 leading-3 rounded bg-smooth  hover:text-warning">Remove</button>
-                    <button @click="editing(value)" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Edit</button>
+                    <button @click="editing(value)" v-if="$can('update_financial')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Edit</button>
                 </div>
             </div>
             <div class="w-3/4">
@@ -149,7 +150,7 @@
     </div>
   </template>
         <!-- -----------------modal end------------ -->
-    </div>
+    </check-validity>
 </template>
 <style scoped>
 table td {

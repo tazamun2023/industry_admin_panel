@@ -1,4 +1,5 @@
 <template>
+  <check-validity :gate="'view_orders'" >
   <div :class="{loading: loading}">
     <div class="orders">
       <div class="card p-4">
@@ -51,7 +52,7 @@
                     </div>
                     <div>
                       <p>{{ $t('order.orderPlaced') }}:</p>
-                      <p class="font-bold">>{{ order?.order_placed }}</p>
+                      <p class="font-bold">{{ order?.order_placed }}</p>
                     </div>
                     <div>
                       <p>{{ $t('order.paymentMethod') }}:</p>
@@ -85,12 +86,14 @@
                     </div>
                     <div>
                       <button @click="rejectModalShow(order)"
+                      v-if="$can('fulfil_orders')"
                               class="border-2 mt-1 border-warning text-warning uppercase font-bold p-2 rounded leading-3">
                         {{ $t('order.rejectOrder') }}
                       </button>
                     </div>
                     <div>
                       <button @click="approvedModalShow(order)"
+                      v-if="$can('fulfil_orders')"
                               class="border mt-1 border-primary font-bold p-2 uppercase rounded bg-primary text-white hover:text-primary leading-3">
                         {{ $t('order.approveOrder') }}
                       </button>
@@ -283,13 +286,14 @@
         </div>
       </div>
 
-      <OrderApprovedModal :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct"
+      <OrderApprovedModal  :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct"
                           @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                           @close="handleModalClose"/>
-      <OrderReject v-if="rejectModal" @close="rejectModalClose" :reasonsRejection="reasonsRejection.data"
+      <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose" :reasonsRejection="reasonsRejection.data"
                    :selectedOrders="selectedOrders" @save="saveReject"/>
     </div>
   </div>
+</check-validity>
 </template>
 
 <script>

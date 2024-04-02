@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  v-if="$can('approve_products')" >
     <ValidationObserver class="w-full" v-slot="{ invalid }">
       <!-- ---------------- -->
       <div v-if="!is_next" class="tab-sidebar">
@@ -1415,7 +1415,7 @@ export default {
         showCloseButton: true,
       });
 
-      if (confirmation) {
+      if (confirmation.value) {
         const data = await this.setRequest({
           params: {id: this.id},
           api: this.setApprovedProduct,
@@ -1425,8 +1425,7 @@ export default {
           this.is_reject_modal = false;
           this.modalVisible = false;
 
-          const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
-          this.$router.push({path: `/${this.routeName}${pathSuffix}`});
+          this.$router.push({path: `/${this.routeName}`})
         }
       }
     },

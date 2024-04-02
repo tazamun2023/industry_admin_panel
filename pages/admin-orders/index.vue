@@ -1,5 +1,6 @@
 <template>
-  <div class="orders card p-4">
+  
+  <check-validity :gate="'view_main_orders'" class="orders card p-4">
     <div class="p-4">
       <h3 class="uppercase">{{ $t('error.orders') }}</h3>
       <ul class="flex list-none bg-smooth shadow flex-wrap rounded-xl p-1  w-2/5  my-3 flex-row">
@@ -73,8 +74,10 @@
           <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
             <CartOrder v-for="(order, index) in orders?.data" :key="index" :order="order" v-if="!loading">
               <button class="hover:border-2 hover:border-error p-2 rounded-lg leading-3 uppercase font-bold"
+              v-if="$can('approve_orders')"
                 @click="rejectModalShow(order)">{{ $t('order.rejectOrder') }}</button>
               <button class="border-2 border-primary p-2 rounded-lg  text-primary  leading-3 uppercase font-bold"
+              v-if="$can('approve_orders')"
                 @click="approvedModalShow(order)">{{ $t('order.approveOrder') }}</button>
             </CartOrder>
             <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page" :page="orders?.current_page"
@@ -84,8 +87,10 @@
           <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
             <CartOrder v-for="(order, index) in orders?.data" :key="index" :order="order" v-if="!loading">
               <button class="hover:border-2 hover:border-error p-2 rounded-lg leading-3 uppercase font-bold"
+              v-if="$can('approve_orders')"
                 @click="rejectModalShow(order)">{{ $t('order.rejectOrder') }}</button>
               <button class="border-2 border-primary p-2 rounded-lg  text-primary  leading-3 uppercase font-bold"
+              v-if="$can('approve_orders')"
                 @click="approvedModalShow(order)"> {{ $t('order.approveOrder') }}</button>
             </CartOrder>
             <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page" :page="orders?.current_page"
@@ -103,7 +108,7 @@
     </div>
 
    
-    <delete-modal v-if="approvedModal" @closeModal="handleModalClose" class="flex items-center justify-center">
+    <delete-modal  v-if="approvedModal" @closeModal="handleModalClose" class="flex items-center justify-center">
       <template #title>
         <h2 class="text-center font-medium text-lg">{{ $t('approveModal.titleModel') }}</h2>
       </template>
@@ -119,7 +124,7 @@
 
     <OrderReject v-if="rejectModal" @close="rejectModalClose" :reasonsRejection="reasonsRejection?.data"
       :selectedOrders="selectedOrders" @save="saveReject" />
-  </div>
+  </check-validity>
 </template>
 
 <script>
@@ -219,6 +224,7 @@ export default {
       this.approvedModal = !this.approvedModal
     },
     rejectModalShow(order) {
+      console.log(this.selectedOrders.length)
       if (this.selectedOrders.length > 0) {
         this.rejectModal = !this.rejectModal
       } else {

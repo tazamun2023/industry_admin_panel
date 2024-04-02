@@ -20,6 +20,7 @@
         </th>
         <th>{{ $t('index.title') }}</th>
         <th>{{ $t('category.slug') }}</th>
+        <th>{{ $t('prod.vendor_name') }}</th>
         <th>{{ $t('category.featured') }}</th>
         <th>{{ $t('category.status') }}</th>
         <th>{{ $t('category.created') }}</th>
@@ -47,6 +48,10 @@
 
         <td>
           {{ value.slug }}
+        </td>
+
+        <td>
+          {{ value.vendor_name }}
         </td>
 
         <td

@@ -91,7 +91,9 @@
               :list-api="api"
               delete-api="deleteProduct"
               gate="view_products"
+
               manage_gate="view_products"
+
               empty-store-variable="allProducts"
               :name="$t('title.prod')"
               :order-options="orderByProduct"
@@ -269,14 +271,14 @@
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                             aria-labelledby="dropdownDefaultButton">
                           <nuxt-link
-                            v-if="$store.state.admin.isSuperAdmin"
+                            v-if="$can('approve_products')"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/show/${value.id}`">Show
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
-                            v-if="$store.state.admin.isVendor"
+                            v-if="$can('manage_products')"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">Edit
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
@@ -420,15 +422,32 @@ export default {
     },
 
     async statusUpdate(id, status = null) {
-      if (status != null) {
-        await this.setById({
-          id: id,
-          params: {status: status},
-          api: 'updateStatus'
-        }).then(() => {
-          this.visibleDropdown = null
-          // window.location.reload()
-        })
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+      if (confirmation.value) {
+        if (status != null) {
+          await this.setById({
+            id: id,
+            params: {status: status},
+            api: 'updateStatus'
+          }).then(() => {
+            this.visibleDropdown = null
+            // window.location.reload()
+            if (status==='approved'){
+              this.$router.push({path: `/products/approved`})
+            }
+            if (status==='archived'){
+              this.$router.push({path: `/products/archived`})
+            }
+          })
+        }
       }
     },
     async isDelete(id) {
@@ -458,9 +477,8 @@ export default {
           id: id,
           params: {available_quantity: available_quantity},
           api: 'setAvailableQty'
-        }).then(() => {
-
-          // alert('saved')
+        }).then(data =>{
+          console.log(data)
         })
       }
     },

@@ -9,7 +9,7 @@
     :name="$t('dataPage.rPer')"
     :validation-keys="['name']"
     :result="result"
-    gate="role"
+    gate="manage_roles"
     @result="result = $event"
   >
     <template v-slot:form="{hasError}">
