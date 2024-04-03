@@ -22,7 +22,7 @@ const state = () => ({
   allColors: null,
   allRejectReasons: null,
   allBarcodes: null,
-  allPackagingUnits: [],
+  allPackagingUnits: null,
   allDimensionUnits: null,
   allWeightUnits: null,
   allStorageTemperatures: null,
@@ -324,7 +324,7 @@ const actions = {
       commit('SET_ALL_PACKAGING_WEIGHT_UNITS', result.carton_dimensions_weight_units)
       commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_TRANSPORTATIONMODES', result.transportation_modes)
-      // commit('SET_ALL_COUNTRIES', result.countries)
+      commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_SHIPPING_RULES', result.shipping_rules)
       commit('SET_ALL_PRODUCT_COLLECTIONS', result.product_collections)
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)
