@@ -204,7 +204,8 @@ select option {
             :placeholder="$t('rfq.Search by Category')"
             @input="updateLevel2"
 
-            class="custom-select w-full"
+            class="custom-select"
+            autocomplete="null"
 
           ></v-select>
         </div>
