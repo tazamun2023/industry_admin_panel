@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <check-validity :gate="'manage_users'">
     <list-page
       ref="listPage"
       list-api="getCustomers"
@@ -74,7 +74,7 @@ export default {
             <th>{{ $t('customer.City') }}</th>
             <th>{{ $t('customer.status') }}</th>
             <th>{{ $t('customer.verified') }}</th>
-            <th>Action</th>
+            <th v-if="$can('manage_users')">{{ $t('customer.Action') }}</th>
           </tr>
           </thead>
           <tbody>
@@ -95,7 +95,7 @@ export default {
             <td class="status" :class="value.verified===1?'active':'text-warning'">
               <span>{{ customerVerified(value.verified) }}</span>
             </td>
-            <td>
+            <td v-if="$can('manage_users')">
               <button id="dropdownDefaultButton" @click="toggleAction(index)"
                       class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                       type="button">{{ $t('prod.action') }}
@@ -105,9 +105,9 @@ export default {
                         d="m1 1 4 4 4-4"/>
                 </svg>
               </button>
-              <div id="dropdown"
+              <div  id="dropdown"
                    class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
-                   v-if="visibleAction === index"
+                   v-if="visibleAction === index "
               >
                 <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownDefaultButton">
@@ -126,7 +126,7 @@ export default {
         </table>
       </template>
     </list-page>
-  </div>
+  </check-validity>
 </template>
 
 <style scoped>

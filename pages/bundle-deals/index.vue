@@ -7,7 +7,7 @@
     empty-store-variable="allBundleDeals"
     :name="$t('brand.dleDeal')"
     :order-options="orderOptions"
-    gate="bundle_deal"
+    gate="manage_initial_setting"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >
@@ -40,10 +40,10 @@
           <td>{{ value.created }}</td>
           <td>
             <button
-              v-if="$can('bundle_deal', 'delete')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
             <button
-              v-if="$can('bundle_deal', 'edit')"
+              v-if="$can('manage_initial_setting')"
               @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
           </td>

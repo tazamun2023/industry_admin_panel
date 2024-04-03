@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-width">
+  <check-validity :gate="'submit_quotation'" class="detail-width">
     <div
       v-if="loading"
       class="spinner-wrapper"
@@ -367,7 +367,7 @@
       <!-- ==========modal end============= -->
       <!-- ====================end========== -->
     </div>
-  </div>
+  </check-validity>
 </template>
 <script>
 

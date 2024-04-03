@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <check-validity :gate="'manage_users'">
     <div class="card p-4">
       <div class="p-2">
         <h4>{{ $t('customer.All Customer Information') }}</h4>
@@ -41,7 +41,7 @@
           <not-verified-customer></not-verified-customer>
       </div>
     </div>
-  </div>
+  </check-validity>
 </template>
 
 <script>

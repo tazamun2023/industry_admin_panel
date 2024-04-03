@@ -7,7 +7,9 @@
     route-name="categories"
     :name="$t('country.country')"
     gate="manage_shipment_setting"
+
     manage_gate="manage_shipment_setting"
+
     :validation-keys="['name', 'iso', 'phonecode']"
     :result="result"
     @result="resultData"

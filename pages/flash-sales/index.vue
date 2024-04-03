@@ -7,7 +7,9 @@
     :name="$t('fSale.fSale')"
     :order-options="orderOptions"
     gate="view_flash_sales"
+
     manage_gate="manage_flash_sales"
+
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >
@@ -48,11 +50,11 @@
           <td>
             <button
             class="border-0"
-              v-if="$can('flash_sale', 'delete')"
+              v-if="$can('manage_flash_sales')"
               @click.prevent="$refs.listPage.deleteItem(value.id)"><DeleteButtonIcon/></button>
             <button
             class="border-0"
-              v-if="$can('flash_sale', 'edit')"
+              v-if="$can('manage_flash_sales')"
               @click.prevent="$refs.listPage.editItem(value.id)"><EditButtonIcon/></button>
 
           </td>

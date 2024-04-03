@@ -1,5 +1,6 @@
 <template>
   <list-page
+
     v-if="$can('manage_initial_setting')"
     ref="listPage"
     list-api="getTransportModes"
@@ -8,6 +9,8 @@
     empty-store-variable="allBrands"
     :name="$t('transportation_mode.transportation_mode')"
     gate="manage_initial_setting"
+    manage_gate="manage_shipment_setting"
+
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -38,10 +41,11 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('manage_initial_setting')"
+
+            v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('manage_initial_setting')"
+            v-if="$can('manage_shipment_setting')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>

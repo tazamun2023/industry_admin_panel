@@ -6,7 +6,7 @@
     set-image-api="setCategoryImage"
     route-name="storage-temperatures"
     :name="$t('storagetem.create')"
-    gate="category"
+    gate="manage_initial_setting"
     :validation-keys="['name.ar','name.en']"
     :result="result"
     @result="resultData"

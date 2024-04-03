@@ -7,7 +7,7 @@
     empty-store-variable="allAttributes"
     :name="$t('brand.attr')"
     :order-options="orderOptions"
-    gate="attribute"
+    gate="manage_initial_setting"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >
@@ -47,10 +47,10 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('attribute', 'delete')"
+            v-if="$can('manage_initial_setting')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><DeleteButtonIcon/></button>
           <button
-            v-if="$can('attribute', 'edit')"
+            v-if="$can('manage_initial_setting')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
 
         </td>
