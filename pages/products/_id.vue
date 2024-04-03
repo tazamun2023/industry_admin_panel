@@ -616,15 +616,24 @@
 
 
                     <div class="absolute right-0 top-0">
-                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"
-                              v-model="result.pk_size_unit"
-                      >
-                        <option value="">{{ $t('prod.Size Unit') }}</option>
-                        <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
-                            item.name
-                          }}
-                        </option>
-                      </select>
+<!--                      <select class="p-2 m-1 float-right border-l border-smooth uppercase"-->
+<!--                              v-model="result.pk_size_unit"-->
+<!--                              :placeholder="$t('prod.Size Unit')"-->
+<!--                      >-->
+<!--                        <option value="">pp</option>-->
+<!--                        <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{-->
+<!--                            item.name-->
+<!--                          }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+                      <v-select
+                        v-model="result.pk_size_unit"
+                        :dir="$t('app.dir')"
+                        :options="allPackagingUnits"
+                        :placeholder="$t('products.Unit')"
+                        :reduce="c => c.id"
+                        class="custom-select  unitbox w-100"
+                      ></v-select>
                     </div>
                   </div>
                 </div>

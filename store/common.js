@@ -22,7 +22,7 @@ const state = () => ({
   allColors: null,
   allRejectReasons: null,
   allBarcodes: null,
-  allPackagingUnits: null,
+  allPackagingUnits: [],
   allDimensionUnits: null,
   allWeightUnits: null,
   allStorageTemperatures: null,
@@ -125,7 +125,7 @@ const mutations = {
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
     state.allPackagingUnits = {}
     allPackagingUnits.forEach((item) => {
-      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {name: item.name}}}
+      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {id: item.id, name: item.name}}}
     })
   },
 
