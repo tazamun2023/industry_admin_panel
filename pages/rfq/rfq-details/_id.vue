@@ -1,5 +1,7 @@
 <template>
-  <div>
+
+  <div v-if="$can('view_RFQ')">
+
     <h3>Rfq Details</h3>
     <div class="card pb-4">
       <div class="flex justify-between items-center px-4 py-3 bg-primary rounded-t">

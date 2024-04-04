@@ -86,7 +86,7 @@
                     </div>
                     <div>
                       <button @click="rejectModalShow(order)"
-                      v-if="$can('order_cancellation')"
+                      v-if="$can('fulfil_orders')"
                               class="border-2 mt-1 border-warning text-warning uppercase font-bold p-2 rounded leading-3">
                         {{ $t('order.rejectOrder') }}
                       </button>
@@ -289,7 +289,7 @@
       <OrderApprovedModal  :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct"
                           @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                           @close="handleModalClose"/>
-      <OrderReject v-if="rejectModal" @close="rejectModalClose" :reasonsRejection="reasonsRejection.data"
+      <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose" :reasonsRejection="reasonsRejection.data"
                    :selectedOrders="selectedOrders" @save="saveReject"/>
     </div>
   </div>

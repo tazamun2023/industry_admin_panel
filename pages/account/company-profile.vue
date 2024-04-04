@@ -20,7 +20,7 @@
       </div>
     </div>-->
 
-  <div class="card shadow p-3">
+  <div class="card shadow p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">

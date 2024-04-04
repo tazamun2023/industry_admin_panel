@@ -7,7 +7,8 @@
     :name="$t('profile.rp')"
     empty-store-variable="allRoles"
     :order-options="orderOptions"
-    gate="role"
+    gate="manage_roles"
+    manage_gate="manage_roles"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
@@ -28,10 +29,10 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('role', 'delete')"
+            v-if="$can('manage_roles')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><DeleteButtonIcon/></button>
           <button
-            v-if="$can('role', 'edit')"
+            v-if="$can('manage_roles')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
 
         </td>

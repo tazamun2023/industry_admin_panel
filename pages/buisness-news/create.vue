@@ -1,5 +1,5 @@
 <template>
-    <div class="tab-sidebar">
+    <div class="tab-sidebar"  v-if="$can('manage_content')">
         <div class="card">
             <div class="title p-2 border-b border-smooth flex justify-between">
                 <h3>Add Buisness News </h3>

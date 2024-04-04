@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  v-if="$can('approve_products')" >
     <ValidationObserver class="w-full" v-slot="{ invalid }">
       <!-- ---------------- -->
       <div v-if="!is_next" class="tab-sidebar">

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$can('view_orders')">
     <div class="card my-2 p-4">
       <h4>{{ $t('orderDetails.title') }}</h4>
       <h5>{{ $t('orderDetails.next_step') }}</h5>

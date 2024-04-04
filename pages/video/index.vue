@@ -35,10 +35,12 @@
         <td>{{ value.url }}</td>
         <td>
           <button
-            v-if="$can('view_content')"
+
+            v-if="$can('manage_content')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
-            v-if="$can('view_content')"
+            v-if="$can('manage_content')"
+
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
 
         </td>
