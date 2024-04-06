@@ -620,7 +620,6 @@
                               v-model="result.pk_size_unit"
                               :placeholder="$t('prod.Size Unit')"
                       >
-                        <option value="">pp</option>
                         <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                             item.name
                           }}
@@ -1374,7 +1373,7 @@ export default {
         /*additional attribute end*/
         /*packaging start*/
         pk_size: '',
-        pk_size_unit: '',
+        pk_size_unit: 1,
         pk_number_of_carton: '',
         pk_average_lead_time: '', //days
         pk_transportation_mode: 1,
