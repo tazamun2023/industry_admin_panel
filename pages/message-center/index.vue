@@ -21,7 +21,7 @@
               <ul class="flex mb-0 list-none flex-wrap  flex-row border-b border-smooth">
                 <li class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
                   <div
-                    class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
+                    class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'inquiry', 'border-b border-primary text-primary': activeTab === 'inquiry'}"
                     @click="activeTab = 'inquiry'"
                   > Inquiries
@@ -29,7 +29,7 @@
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
                   <div
-                    class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
+                    class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'rfq', 'border-b border-primary  text-primary': activeTab === 'rfq'}"
                     @click="activeTab = 'rfq'"
                   > RFQs
@@ -37,7 +37,7 @@
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
                   <div
-                    class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
+                    class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'shipping', 'border-b border-primary  text-primary': activeTab === 'shipping'}"
                     @click="activeTab = 'shipping'"
                   > Shipping
