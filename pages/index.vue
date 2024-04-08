@@ -151,6 +151,8 @@
         month: date.getMonth() + 1
       }
       this.fetchingData()
+
+
     }
   }
 </script>

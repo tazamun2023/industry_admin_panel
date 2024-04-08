@@ -369,6 +369,19 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+
+  async checkLogin({rootState, commit, dispatch}, {params, token , api}) {
+
+    const {data} = await Service.getRequest(params, token, api, rootState.language.langCode)
+
+    if (data.status === 200) {
+      return data.data
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+
   async getRequestDtails({rootState, commit, dispatch}, {params, api}) {
 
     const {data} = await Service.getRequestDtails(params.id, this.$auth.strategy.token.get(), api, rootState.language.langCode)
