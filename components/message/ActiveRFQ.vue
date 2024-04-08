@@ -46,6 +46,7 @@ export default {
       this.fetchingData();
     },
     sendNewOffer1(index) {
+      this.fetchingData()
       this.is_cancel_new_offer_customer=index
       this.is_send_new_offer_index = index
       this.is_send_new_offer_customer=index
@@ -285,7 +286,7 @@ export default {
                         </div>
                       </div>
                       <!-- --------------end-------- -->
-                      <div v-if="!is_cancel_new_offer_customer && activeInquirie.status!=='canceled'">
+                      <div v-if="!is_cancel_new_offer_customer && activeInquirie.status!=='canceled' || activeInquirie.status==='pending_response'">
                         <p class="p-2 bg-primarylight rounded">
                           {{ $t('products.Offer sent message') }}
                         </p>
@@ -331,26 +332,26 @@ export default {
                       </div>
                       <!-- ---------end-------- -->
                       <!-- -------------- -->
-                      <!--                      <div v-if="sendNew">-->
-                      <!--                        <p class="p-2 bg-warninglight rounded">Sending a new offer will withdraw your-->
-                      <!--                          existing offer. Do you still want to send a new offer?</p>-->
-                      <!--                        <div class="flex justify-end gap-4 pt-4">-->
-                      <!--                          <button @click="offerSent=true,sendNew=false"-->
-                      <!--                                  class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                      <!--                            No-->
-                      <!--                          </button>-->
-                      <!--                          <button @click="sendNew=false,sendNewForm=true"-->
-                      <!--                                  class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                      <!--                            Send New Offer-->
-                      <!--                          </button>-->
-                      <!--                        </div>-->
-                      <!--                      </div>-->
+<!--                                            <div v-if="activeInquirie.status==='pending_response'">-->
+<!--                                              <p class="p-2 bg-warninglight rounded">Sending a new offer will withdraw your-->
+<!--                                                existing offer. Do you still want to send a new offer?</p>-->
+<!--                                              <div class="flex justify-end gap-4 pt-4">-->
+<!--                                                <button @click="offerSent=true,sendNew=false"-->
+<!--                                                        class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
+<!--                                                  No-->
+<!--                                                </button>-->
+<!--                                                <button @click="sendNewOffer1(index)"-->
+<!--                                                        class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
+<!--                                                  Send New Offer-->
+<!--                                                </button>-->
+<!--                                              </div>-->
+<!--                                            </div>-->
                       <!-- ---------------------- -->
                       <!-- -------------- -->
                       <ReplyNewOffer
                         v-if="is_send_new_offer_customer===index"
                         :customer="true"
-                        :ActiveInquiryData="activeRFQData"
+                        :ActiveInquiryData="activeRfqInquiries"
                         @is_send_new_offer="sendNewOffer"
                         @is_cancel="clickCancelOffer"
                         :offer_index="offer_index"

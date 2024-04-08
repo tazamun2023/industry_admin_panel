@@ -618,13 +618,21 @@
                     <div class="absolute right-0 top-0">
                       <select class="p-2 m-1 float-right border-l border-smooth uppercase"
                               v-model="result.pk_size_unit"
+                              :placeholder="$t('prod.Size Unit')"
                       >
-                        <option value="">{{ $t('prod.Size Unit') }}</option>
                         <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                             item.name
                           }}
                         </option>
                       </select>
+<!--                      <v-select-->
+<!--                        v-model="result.pk_size_unit"-->
+<!--                        :dir="$t('app.dir')"-->
+<!--                        :options="allPackagingUnits"-->
+<!--                        :placeholder="$t('products.Unit')"-->
+<!--                        :reduce="c => c.id"-->
+<!--                        class="custom-select  unitbox w-100"-->
+<!--                      ></v-select>-->
                     </div>
                   </div>
                 </div>
@@ -1365,7 +1373,7 @@ export default {
         /*additional attribute end*/
         /*packaging start*/
         pk_size: '',
-        pk_size_unit: '',
+        pk_size_unit: 1,
         pk_number_of_carton: '',
         pk_average_lead_time: '', //days
         pk_transportation_mode: 1,
@@ -2425,8 +2433,7 @@ export default {
         this.result.id = ""
       })
     }
-    if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {
+    if (!this.allCategories || !this.allTaxRules || !this.allAttributes || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {
 
       this.loading = true
       try {

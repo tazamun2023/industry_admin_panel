@@ -219,7 +219,7 @@
         <div class="card p-4">
           <div class="flex justify-between">
             <h4> {{ $t('approveModal.pickupAddress') }}</h4>
-            <a class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="showModelAddAddress">
+            <a   v-if="$can('edit_addresses')" class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg" @click="showModelAddAddress">
               {{ $t('approveModal.pickupAddress') }}</a>
           </div>
 
@@ -255,7 +255,9 @@
                 <span>+{{address?.phone_code}} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="closeModelAddAddress">{{ $t('category.edit') }}</button>
+              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="closeModelAddAddress"
+              v-if="$can('edit_addresses')"
+              >{{ $t('category.edit') }}</button>
             </div>
           </div>
         </div>

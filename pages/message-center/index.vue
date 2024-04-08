@@ -562,7 +562,6 @@ export default {
     },
     isClickNewOfferIndex(data){
       this.offer_index=data
-      console.log('sendNewOfferVendor')
     },
 
 
