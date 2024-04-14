@@ -203,8 +203,10 @@ select option {
             :reduce="cat => cat.id"
             :placeholder="$t('rfq.Search by Category')"
             @input="updateLevel2"
+
             class="custom-select"
             autocomplete="null"
+
           ></v-select>
         </div>
 

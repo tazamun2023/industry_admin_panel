@@ -125,7 +125,7 @@ const mutations = {
   SET_ALL_PACKAGING_UNITS(state, allPackagingUnits) {
     state.allPackagingUnits = {}
     allPackagingUnits.forEach((item) => {
-      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {name: item.name}}}
+      state.allPackagingUnits = {...state.allPackagingUnits, ...{[item.id]: {id: item.id, name: item.name}}}
     })
   },
 
@@ -324,7 +324,7 @@ const actions = {
       commit('SET_ALL_PACKAGING_WEIGHT_UNITS', result.carton_dimensions_weight_units)
       commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_TRANSPORTATIONMODES', result.transportation_modes)
-      // commit('SET_ALL_COUNTRIES', result.countries)
+      commit('SET_ALL_COUNTRIES', result.countries)
       commit('SET_ALL_SHIPPING_RULES', result.shipping_rules)
       commit('SET_ALL_PRODUCT_COLLECTIONS', result.product_collections)
       commit('SET_ALL_BUNDLE_DEALS', result.bundle_deals)

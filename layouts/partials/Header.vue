@@ -46,7 +46,7 @@
         <input class="w-full px-34px" type="text" placeholder="Search">
       </div>
         <dropdown
-          v-if="$can('language', 'view') && Object.keys(languages).length > 1"
+          v-if=" Object.keys(languages).length > 1"
           :selected-key="currentLanguage.code"
           :options="languages"
           class="lang-down"
@@ -57,7 +57,7 @@
       </dropdown>
 
         <user-messages
-          v-if="$can('message', 'view')"
+          v-if="$can('view_messages')"
         />
         <button
           data-ignore="right-menu"
