@@ -124,7 +124,7 @@
             <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
                         :valuesOfLang="result.description"
                         @updateInput="updateInput"></lang-input>
-            <ValidationProvider name="brand" :rules="{ required: !is_draft }" v-slot="{ errors }"
+            <ValidationProvider name="brand" :rules="{ required_if: !is_draft }" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
               <div class="input-wrapper mt-3 mt-sm-0">
@@ -583,7 +583,7 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                 <input type="text" class="form-control" v-model="result.available_quantity" @input="availableQuantity">
-                <label>{{ $t('prod.Minimum order quantity') }}: 1</label>
+                <label>{{ $t('prod.Minimum order quantity') }}: {{  result.product_prices[0].quantity }}</label>
               </div>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
@@ -956,14 +956,17 @@
                     </div>
                   </td>
                   <td class="p-2">
+                    <ValidationProvider name="selling_price" :rules="priceValidationRules" v-slot="{ errors }"
+                                        :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
                     <div class="relative flex">
                       <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
                       <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                              :placeholder="$t('prod.Sale price')"
                              @keypress="onlyNumber"
-                             @input="ProductPriceingSection"
                              v-model="product_price.selling_price">
                     </div>
+                      <span class="error">{{ errors[0] }}</span>
+                    </ValidationProvider>
                   </td>
                   <td class="p-2">
                     <button type="button" class="btn  btn-outline-secondary" @click.prevent="removePriceingRows(index)">
@@ -1487,6 +1490,39 @@ export default {
   },
 
   computed: {
+    priceValidationRules() {
+      const rules = {
+        numeric: true
+      };
+
+      if (!this.is_draft) {
+        rules.required = true;
+      }
+
+      // Perform additional validation checks
+      const productPrices = this.result.product_prices;
+
+      if (productPrices.length >= 3) {
+        const errors = [];
+
+        for (let i = 0; i < 3; i++) {
+          const unitPrice = parseFloat(productPrices[i].unit_price);
+          const sellingPrice = parseFloat(productPrices[i].selling_price);
+
+          if (unitPrice <= sellingPrice) {
+            errors.push(`Sale Price for product ${i + 1} must be lower than price`);
+          }
+        }
+
+        if (errors.length > 0) {
+          rules.custom = (value) => {
+            return errors.join(', ');
+          };
+        }
+      }
+
+      return rules;
+    },
     skuRules() {
       const allSKus = this.allSKus;
 
@@ -1656,8 +1692,23 @@ export default {
       this.result.is_dangerous = result.is_dangerous
 
     },
-    ProductPriceingSection(result) {
+    ProductPriceingSection() {
+      const unit_price1 = this.result.product_prices[0].unit_price;
+      const selling_price1 = this.result.product_prices[0].selling_price;
+      const unit_price2 = this.result.product_prices[1].selling_price;
+      const selling_price2 = this.result.product_prices[1].selling_price;
+      const unit_price3 = this.result.product_prices[2].selling_price;
+      const selling_price3 = this.result.product_prices[2].selling_price;
 
+      if (unit_price1 < selling_price1){
+        return  'Sale Price must be lower than price';
+      }
+      if (unit_price2 < selling_price2){
+        return  'Sale Price must be lower than price';
+      }
+      if (unit_price3 < selling_price3){
+        return  'Sale Price must be lower than price';
+      }
     },
     compareMethods() {
       let ava_qty = this.result.available_quantity;
