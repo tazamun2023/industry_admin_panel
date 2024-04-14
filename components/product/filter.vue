@@ -203,7 +203,6 @@ select option {
             :reduce="cat => cat.id"
             :placeholder="$t('rfq.Search by Category')"
             @input="updateLevel2"
-
             class="custom-select"
             autocomplete="null"
 
@@ -254,7 +253,7 @@ select option {
       <div class="flex justify-end">
         <div class="form-group for-lang ar-lang mr-2 ml-2">
           <button @click="toggleDropdown"
-                  class="bg-blue-700 hover:bg-blue-800 relative font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
+                  class="bg-blue-700 hover:bg-blue-800 relative font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
                   type="button">
             {{ $t('prod.status') }}
             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -288,7 +287,7 @@ select option {
         </div>
         <div class="form-group for-lang ar-lang mr-2 ml-2">
           <button @click="toggleDropdownByShort"
-                  class="bg-blue-700 hover:bg-blue-800 relative font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
+                  class="bg-blue-700 hover:bg-blue-800 relative font-medium rounded-lg text-sm px-1 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700"
                   type="button">
             {{ $t('prod.sortBy') }}
             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"

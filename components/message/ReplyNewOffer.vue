@@ -71,6 +71,11 @@ export default {
         this.formData.quantity--; // Decrement the quantity
       }
     },
+    calculateTotalPrice() {
+      const total = this.formData.quantity * this.formData.unit_target_price;
+      return isNaN(total) ? 0 : total;
+    },
+
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
   }
@@ -86,11 +91,11 @@ export default {
           <p>{{ $t('products.How many Piece') }}</p>
           <div class="flex border-smooth bg-white rounded my-2 border">
             <button @click="decrement" class="w-14  text-center  p-0 border-0"><img class="w-3 h-1 mx-auto" src="~/assets/icon/minus.svg" alt=""></button>
-            <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" :value="formData.quantity">
+            <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" v-model="formData.quantity">
             <button @click="increment" class="w-14  text-center  p-0 border-0"><img class="w-3 h-3 mx-auto" src="~/assets/icon/plus.svg" alt=""></button>
           </div>
         </div>
-        <ValidationProvider name="email" rules="required|number" v-slot="{ errors }"
+        <ValidationProvider name="email" rules="required|numeric" v-slot="{ errors }"
                             :custom-messages="{required: `${$t('products.Unit target price')} is Required`}">
           <div class="flex justify-between gap-4 pt-4">
             <p class="w-50">{{ $t('products.Unit target price') }}</p>
@@ -108,7 +113,7 @@ export default {
     </ValidationObserver>
     <p class="text-end font-bold py-1 px-4">{{ $t('products.Total Price excl VAT') }} <span class="text-primary">{{
         $t('app.SAR')
-      }} {{ formData.quantity * formData.unit_target_price }}</span>
+      }} {{ calculateTotalPrice() }}</span>
     </p>
     <div class="flex justify-end gap-4 pt-2" v-if="is_after_send">
       <button @click="Cancel"
