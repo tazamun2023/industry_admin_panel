@@ -131,7 +131,7 @@ export default {
       this.sortByType = this.$route.query.orderByType || "desc";
       this.sortBy = this.$route.query.orderBy || "created_at";
       this.currentPage = Number(this.$route.query.page) || 1;
-      this.search = this.$route.query.q || null;
+      this.search = this.$route.query.search|| null;
 
       this.$emit("fetching-data");
     },
