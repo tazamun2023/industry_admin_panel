@@ -17,7 +17,7 @@ export default {
           type: this.$route.query.orderbyType || 'desc',
           orderby: this.$route.query.orderby || 'created_at',
           page: Number(this.$route.query.page) || 1,
-          q: this.$route.query.q || null
+          q: this.$route.query.search|| null
         }
       }
     }
