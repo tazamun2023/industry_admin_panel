@@ -26,6 +26,7 @@
         <th>{{ $t('fSale.product') }}</th>
         <th>{{ $t('category.created') }}</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>
 
       <tr
