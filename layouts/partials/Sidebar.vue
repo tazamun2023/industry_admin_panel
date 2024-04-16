@@ -611,10 +611,11 @@ export default {
       }
       return this.hasPermission(item)
     },
+
+
     hasPermission(item) {
 
       return (this.sidebarPermissions && (item?.gate===true || this.sidebarPermissions[item?.gate] !== undefined))
-
 
     },
     isCurrentRoute(val) {
