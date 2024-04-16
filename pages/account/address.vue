@@ -12,9 +12,62 @@
                 </div>
            </div>
         </div>
-        <div class="grid grid-cols-3 my-2 gap-4">
-            <div v-for="(value, index) in addressList?.data" :key="index" class="card p-4 my-2">
-                <div class="flex gap-4 py-2 justify-between">
+        <div class="grid grid-cols-5 my-2 gap-4">
+            <div v-for="(value, index) in addressList?.data" :key="index" class="card my-2">
+              <div>
+          <div class="bg-primary p-3 rounded-t-lg">
+           <div class="truncate">
+            <h3 class="text-white truncate capitalize">{{value.address_name}}</h3>
+           </div>
+            <div class="d-flex gap-2">
+            <!-- <span v-show="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span> -->
+            <span class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">{{ value.type }}</span>
+          </div>
+          </div>
+          <div class="flex gap-4 justify-between  p-3">
+              <div class="flex items-start gap-1">
+                <img class="w-4 h-4 mt-1" src="~/assets/icon/flag.svg" alt="">
+                <div>
+                  <p>{{ $t('address.country') }}</p>
+                  <p class="font-bold capitalize text-primary">{{ value?.country }}</p>
+                </div>
+              </div>
+              <div>
+                  <p>{{ $t('address.city') }}</p>
+                  <p class="font-bold capitalize text-primary">{{value?.street}}  {{ value?.district }}  {{ value?.zip }}</p>
+                </div>
+          </div>
+          <div class="flex gap-4 justify-between  p-3">
+              <div class="flex items-start gap-1">
+                <img class="w-4 h-4 mt-1" src="~/assets/icon/phone-g.svg" alt="">
+                <div>
+                  <p>{{ $t('fSale.phone') }}.</p>
+                  <p class="font-bold capitalize text-primary">{{value?.phone}}</p>
+                </div>
+              </div>
+
+          </div>
+          <div class="flex gap-4 justify-between  p-3">
+              <div class="flex items-start gap-1">
+                <img class="w-4 h-4 mt-1" src="~/assets/icon/locationgreen.svg" alt="">
+                <div>
+                  <p>{{ $t('address.near') }}</p>
+                  <p class="font-bold capitalize text-primary">{{value?.nearest_landmark}}</p>
+                </div>
+              </div>
+              <!-- <div v-show="!value.is_default">
+                  <p class="text-primary">SET AS DEFAULT</p>
+                  <div class="text-center">
+                    <input type="checkbox" name="" id="">
+                  </div>
+                </div> -->
+          </div>
+          <div class="flex gap-4  p-3">
+                        <button class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error" @click="deleteModal=true" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Remove</button>
+                    <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
+          </div>
+      </div>
+                <!-- <div class="flex gap-4 py-2 justify-between">
                     <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
                         <button class="p-2 leading-3 rounded bg-smooth  hover:text-warning" @click="deleteModal=true" >Remove</button>
@@ -47,7 +100,7 @@
                         </svg>
                         <p>{{ value?.country }}</p>
                     </div>
-                </div>
+                </div> -->
               <DeleteModal v-if="deleteModal" @closeModal="closeModal">
                 <template v-slot:title>
                   <h4>{{ $t('vendor.deletemessage') }}</h4>
