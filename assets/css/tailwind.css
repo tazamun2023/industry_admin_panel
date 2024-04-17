@@ -7,3 +7,19 @@
 :root {
   /*--vs-dropdown-option--active-bg: "#01a781"*/
 }
+.cancel-button {
+  background-color: rgb(208, 205, 205);
+}
+.btn-hove:hover {
+  transform: translateY(-10px);
+}
+/* this code to hid button in input have type number  */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* this code fro firfox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

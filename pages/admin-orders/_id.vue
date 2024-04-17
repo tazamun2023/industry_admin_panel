@@ -1,14 +1,14 @@
 <template>
-  <check-validity :gate="'view_main_orders'" >
+  <check-validity :gate="'view_main_orders'">
     <div class="flex justify-between border-b border-smooth pb-3">
       <div class="flex items-center gap-4">
         <h3 class="font-bold">Order <span>{{ orderDetails.order_id }}</span></h3>
         <span class="bg-primarylight text-primary px-2 rounded-3xl font-bold text-[13px]"> {{
           $t(`status.${orderDetails?.status}`)
-        }}</span>
+          }}</span>
       </div>
       <div>
-        <invoice  :order="order" />
+        <!-- <invoice :order="order" /> -->
         <!-- <span @click="invoices = true"
           class="border-2 border-smooth text-smooth font-bold leading-5 p-2 rounded-lg uppercase">
           <a>Download Invoice</a></span> -->
@@ -170,7 +170,7 @@
           <h4 class="font-bold text-theem">{{ $t('orderDetails.ShippingAddress') }}</h4>
           <p>{{ orderDetails.shipping_address?.name }}</p>
           <p class="flex items-center gap-4"><img class="h-4 w-4" src="~/assets/icon/phone.svg" alt="">{{
-          orderDetails.shipping_address?.address_phone }}</p>
+            orderDetails.shipping_address?.address_phone }}</p>
         </div>
       </div>
       <div class="relative">
@@ -178,7 +178,7 @@
           <h4 class="font-bold text-theem">{{ $t('orderDetails.BillingAddress') }}</h4>
           <p>{{ orderDetails.billing_address?.name }}</p>
           <p class="flex items-center gap-4"><img class="h-4 w-4" src="~/assets/icon/phone.svg" alt="">{{
-          orderDetails.billing_address?.address_phone }}</p>
+            orderDetails.billing_address?.address_phone }}</p>
         </div>
       </div>
     </div>
@@ -210,7 +210,7 @@
       <div class="text-center">
         <p class="my-1">Action</p>
         <p class="my-1">
-          <button class="border-2 border-primary text-primary font-bold">Accept</button>
+          <button class="border-2 border-primary text-primary font-bold" @click="bankModalFun">Accept</button>
         </p>
         <p class="my-1">
           <button class="border-0 font-bold">Reject</button>
@@ -230,7 +230,7 @@
           <td>{{ timeline.action }}</td>
           <td class="text-end">{{ timeline.date }}</td>
         </tr>
-        <div class="mt-4 mb-4 text-center" v-if="orderDetails.timeline?.length < 1">{{ $t('app.tableEmptyData')}}</div>
+        <div class="mt-4 mb-4 text-center" v-if="orderDetails.timeline?.length < 1">{{ $t('app.tableEmptyData') }}</div>
       </table>
     </div>
 
@@ -249,77 +249,60 @@
         <button class="font-bold border-2 text-primary">Accept</button>
       </div>
     </div>
+    <div v-if="bankModal"
+      class="fixed bg-modal border border-gray-200 shadow-md  inset-0 z-50 flex items-center justify-center rounded-lg">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/3 lg:w-1/3 xl:w-2/5">
+       <img  @click="bankModalFun" src="~/assets/images/close.svg" alt="close"     class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" />
+        <h4 class="mb-2 text-lg font-semibold text-gray-900">{{$t('order.enterTotAmPay')}} </h4>
+        <ValidationObserver tag="div"  v-slot="{ invalid }">
+        <div class="mb-4">
+          <div class="max-w-sm ">
+            <form  @submit.prevent="acceptPayment">
+              <ValidationProvider name="total_amount" tag="div"
+               class="w-full" rules="required" v-slot="{ errors }" 
+               :custom-messages="{ required: $t('order.isRequired', { type: $t('order.total_amount') }) }"
+            >
+              <input type="number"
+                v-model="acceptPaymentBank.total_amount"
+                class="form-input w-full p-2 border rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                placeholder="100">
+                <span  class="error mt-2 mr-1 ml-1">{{ errors[0] }}</span>
+
+                </ValidationProvider>
+            </form>
+          </div>
+        </div>
+        <div class="flex justify-start gap-3 mt-6">
+          <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
+            >{{$t('prod.submit')}}</button>
+          <button type="button" class="btn-hove cancel-button border-2 text-black font-bold transition"
+            @click="bankModalFun">{{$t('app.Cancel')}}</button>
+        </div>
+      </ValidationObserver>
+      </div>
+    </div>
+
   </check-validity>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import LazyImage from "~/components/LazyImage.vue";
+import Modal from "~/components/Modal.vue";
 import Invoice from './components/Invoice.vue';
+import { ValidationProvider, ValidationObserver} from "vee-validate";
 
 export default {
-  components: { LazyImage, Invoice },
+  components: { LazyImage, Invoice, Modal, ValidationProvider, ValidationObserver },
   data() {
     return {
       loading: false,
       orderDetails: "",
       invoices: false,
-      order: {
-        order_id: 9729387893,
-        created: "2024/2/12",
-        user: {
-          email: "test@mail.com",
-          name: "aseel adnan ahmed"
-        },
-        address: {
-          name: " yemen taiz 2024",
-          phone: 777124565,
-          date: "2024/2/12"
-        },
-        order_method: "bank",
-        ordered_products: [
-
-          {
-            id: 1,
-            product: {
-              title: "product title",
-            },
-            shipping_price: 100,
-              quantity: 3,
-              selling: 5.00,
-            updated_inventory: {
-              sku: 7868,
-              inventory_attributes: [
-                {
-                  id: 1,
-                  attribute_value: {
-                    attribute: {
-                      id: 1,
-                      title: "title one"
-                    }
-                  }
-                },
-                {
-                  id: 2,
-                  attribute_value: {
-                    attribute: {
-                      id: 1,
-                      title: "title 2"
-                    }
-                  }
-                }
-              ],
-             
-            }
-          }
-        ],
-        calculated: {
-          total_price: 2000.00,
-          voucher_price: 100.00,
-          bundle_offer: 0,
-          shipping_price: 1200.0,
-          tax: 10,
-          subtotal: 100,
-        }
+      bankModal: false,
+      acceptPaymentBank :{
+        order_id:0,
+        amount: 0
       }
     }
   },
@@ -338,6 +321,13 @@ export default {
         });
       }
       return totalPrice;
+    },
+    bankModalFun() {
+      this.bankModal = !this.bankModal;
+    },
+    acceptPayment(){
+      alert('ddd')
+      this.acceptPaymentBank.order_id= this.orderDetails.order_id;
     },
     async fetchingData() {
       try {

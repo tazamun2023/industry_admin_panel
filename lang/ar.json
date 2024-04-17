@@ -448,6 +448,9 @@
     "parent_sku": "الرمز الرئيسي (Parent SKU)"
   },
   "order": {
+    "enterTotAmPay":"أدخل المبلغ الإجمالي للدفع",
+    "total_amount":"مبلغ الدفع",
+    "isRequired": "{type} يجب كتابته",
     "allOrders": "جميع الطلبات",
     "orderId": "رقم الطلب",
     "OrderType": "نوع الطلب",
