@@ -14,12 +14,12 @@
 
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
-      <div class="col-md-12 p-4 title">
-        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>
-        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>
-        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
-        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
-      </div>
+<!--      <div class="col-md-12 p-4 title">-->
+<!--        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>-->
+<!--        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>-->
+<!--        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>-->
+<!--        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>-->
+<!--      </div>-->
 
       <div class="input-wrapper p-3" v-if="!id">
         <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
@@ -543,6 +543,7 @@
                 <label>{{ $t('prod.Barcode') }}</label>
                 <input type="text" class="form-control" v-model="result.barcode"
                        :placeholder="$t('prod.Barcode')"
+                       @keypress="onlyNumber"
                        :readonly="result.barcode_type===4">
               </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -1496,7 +1497,7 @@ export default {
   computed: {
     priceValidationRules() {
       const rules = {
-        numeric: true
+
       };
 
       if (!this.is_draft) {
@@ -1530,35 +1531,33 @@ export default {
     skuRules() {
       const allSKus = this.allSKus;
 
-      return {
-        required: !this.is_draft,
-        numeric: true,
-        uniqueSku: { allSKus }, // Pass allSKus as a parameter to uniqueSku
-      };
+      if (!this.id){
+        return {
+          required: !this.is_draft,
+          uniqueSku: { allSKus }, // Pass allSKus as a parameter to uniqueSku
+        };
+      }
+
     },
     availableQuantityValidationRules() {
       return {
         required: !this.is_draft,
-        numeric: true,
         min_value: 1
       };
     },
     PackagingSizeValidationRules() {
       return {
         required: !this.is_draft || !this.result.pk_size_unit,
-        numeric: true
       };
     },
     NumberOfCartonValidationRules() {
       return {
         required: !this.is_draft,
-        numeric: true
       };
     },
     NotDraftValidationRules() {
       return {
-        required: !this.is_draft,
-        numeric: true
+        required: !this.is_draft
       };
     },
     requiredErrorMessage() {
