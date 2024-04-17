@@ -537,12 +537,16 @@
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
               </div>
+              <ValidationProvider name="barcode" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode')}) }">
               <div class="form-group input-wrapper mt-3 mt-sm-0">
                 <label>{{ $t('prod.Barcode') }}</label>
                 <input type="text" class="form-control" v-model="result.barcode"
                        :placeholder="$t('prod.Barcode')"
                        :readonly="result.barcode_type===4">
               </div>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
               <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
                 <div class="form-group input-wrapper  mt-3 mt-sm-0">
@@ -1711,19 +1715,14 @@ export default {
       }
     },
     compareMethods() {
-      let ava_qty = this.result.available_quantity;
-      let product_prices_min_qty = this.result.product_prices[0].quantity
-      if (ava_qty && product_prices_min_qty) {
-        if (product_prices_min_qty === this.result.available_quantity) {
-          this.result.is_availability = 1;
-        } else if (product_prices_min_qty > this.result.available_quantity) {
-          this.result.is_availability = 0;
-        } else {
-          this.result.is_availability = 1;
-        }
-      }
+      let ava_qty = parseInt(this.result.available_quantity);
+      let product_prices_min_qty = parseInt(this.result.product_prices[0]?.quantity);
 
+      if (!isNaN(ava_qty) && !isNaN(product_prices_min_qty)) {
+        this.result.is_availability = ava_qty >= product_prices_min_qty ? 1 : 0;
+      }
     },
+
     stockCheck(index = null) {
       this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
       this.compareMethods();
