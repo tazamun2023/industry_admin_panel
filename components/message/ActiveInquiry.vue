@@ -13,6 +13,7 @@ export default {
 
   data() {
     return {
+      inserFile:false,
       is_send_new_offer: false,
       is_send_new_offer_customer: false,
       is_send_new_offer_index: false,
@@ -30,6 +31,9 @@ export default {
   },
 
   methods:{
+    insertFileToggle(){
+      this.inserFile = !this.inserFile
+    },
     sendNewOfferAfterCancel(index) {
       this.is_cancel_new_offer_customer = false
       this.is_send_new_offer_customer = index
@@ -472,6 +476,18 @@ export default {
               <!--        <ValidationProvider class="w-full" name="message" rules="required" v-slot="{ errors }"-->
               <!--                            :custom-messages="{required: `${$t('products.Message')} is Required`}">-->
               <div class="flex gap-4">
+                <div class="relative inline-block text-left">
+                  <div v-if="inserFile" class="absolute  mt-[-185px] w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="py-1" role="none">
+                      <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="Documents" tabindex="-1" id="menu-item-0"><img class="h-5 w-5" src="~/assets/icon/document-g.svg" alt="">Documents <input type="file" hidden name="" id="Documents"></label>
+                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="Photo" tabindex="-1" id="menu-item-1"><img class="h-5 w-5" src="~/assets/icon/gallery.svg" alt=""> Photo & videos <input type="file" hidden name="" id="Photo"></label>
+                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="menuitem" tabindex="-1" id="menu-item-2"><img class="h-5 w-5" src="~/assets/icon/camera.svg" alt=""> Camera</label>
+                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="menuitem" tabindex="-1" id="menu-item-2"><img class="h-5 w-5" src="~/assets/icon/paperclip.svg" alt=""> Links</label>
+                    </div>
+                  </div>
+                  <img @click="insertFileToggle" :class="{ rottet: inserFile }" class="cursor-pointer" id="menu-button" src="~/assets/icon/plus-g.svg" alt="">
+                </div>
                 <input
                   :placeholder="$t('products.Message')"
                   class="w-full rounded-lg px-4"
@@ -507,5 +523,7 @@ export default {
 </template>
 
 <style scoped>
-
+.rottet{
+  transform: rotate(45deg);
+}
 </style>
