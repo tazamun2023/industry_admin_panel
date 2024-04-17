@@ -9,7 +9,9 @@
         <div>
           <ValidationObserver  v-slot="{ invalid }">
             <form @submit.prevent="addressAction">
-              <ValidationProvider name="Address Name" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('address.address_name')}`}">
+              <ValidationProvider name="Address Name" class="w-full" rules="required" v-slot="{ errors }"
+              
+              :custom-messages="{required: `Enter Your ${$t('address.address_name')}`}">
                 <div class="input-wrapper">
                     <label for="">{{ $t('address.address_name') }}*</label>
                     <input type="text" :placeholder="$t('address.address_name')" v-model="addressData.address_name">
