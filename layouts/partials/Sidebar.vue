@@ -75,10 +75,10 @@
             <span>{{ $t('error.log') }}</span>
        </button>
     </div>
-    <button
+    <!-- <button
       class="minimize-btn centered-flex"
       @click.prevent="toggleSidebar"
-    />
+    /> -->
 
     <transition name="fade" mode="out-in">
       <div
