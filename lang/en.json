@@ -507,6 +507,9 @@
     "pending": "pending"
   },
   "order": {
+    "enterTotAmPay":"enter the total amount of payment",
+    "total_amount":"total amount",
+    "isRequired": "{type} is required",
     "allOrders": "All Orders",
     "orderId": "Order Id",
     "statusOrder": "status Order",
