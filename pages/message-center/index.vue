@@ -446,7 +446,20 @@
                               <!-- -------------------message card end--------------- -->
                             </div>
                             <div class="p-4 border-t border-l border-smooth">
-                              <div class="flex gap-4">
+
+                              <div class="flex gap-4 items-center">
+                                <div class="relative inline-block text-left">
+                                  <div v-if="inserFile" class="absolute  mt-[-185px] w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                    <div class="py-1" role="none">
+                                      <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="Documents" tabindex="-1" id="menu-item-0"><img class="h-5 w-5" src="~/assets/icon/document-g.svg" alt="">Documents <input type="file" hidden name="" id="Documents"></label>
+                                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="Photo" tabindex="-1" id="menu-item-1"><img class="h-5 w-5" src="~/assets/icon/gallery.svg" alt=""> Photo & videos <input type="file" hidden name="" id="Photo"></label>
+                                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="menuitem" tabindex="-1" id="menu-item-2"><img class="h-5 w-5" src="~/assets/icon/camera.svg" alt=""> Camera</label>
+                                      <label class="flex items-center  cursor-pointer gap-3 font-bold text-theem px-4 py-2 text-sm" for="menuitem" tabindex="-1" id="menu-item-2"><img class="h-5 w-5" src="~/assets/icon/paperclip.svg" alt=""> Links</label>
+                                    </div>
+                                  </div>
+                                  <img @click="insertFileToggle" :class="{ rottet: inserFile }" class="cursor-pointer" id="menu-button" src="~/assets/icon/plus-g.svg" alt="">
+                                </div>
                                 <input placeholder="Message...." class="w-full rounded-lg px-4" type="text">
                                 <button
                                   class="bg-theem w-[100px] text-center rounded-lg font-bold text-white leading-3 flex gap-2 mx-auto justify-center items-center px-2">
@@ -497,6 +510,7 @@ export default {
   components: {ActiveRFQ, RFQTab, ActiveInquiry, InquiryTab},
   data() {
     return {
+      inserFile:false,
       activeTab: 'inquiry',
       activeInquery: '',
       activeRFQ: '',
@@ -531,6 +545,9 @@ export default {
   },
 
   methods: {
+    insertFileToggle(){
+      this.inserFile = !this.inserFile
+    },
     activeRfqInquiryEvent(event){
 
       this.activeRfqInquiry=event
@@ -571,6 +588,9 @@ export default {
 };
 </script>
 <style>
+.rottet{
+  transform: rotate(45deg);
+}
 .scrolly {
   overflow-y: scroll;
 }

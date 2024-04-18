@@ -210,7 +210,18 @@
           }
         }
       },
-
+      async deleteItemWithModal(id) {
+        try {
+            this.deleting = true
+            await this.deleteData({params: id, api: this.deleteApi })
+            this.emptyAllList(this.emptyStoreVariable)
+            this.$emit('deleted')
+            this.deleting = false
+            await this.fetchingData()
+          }catch (e) {
+            return this.$nuxt.error(e)
+          }
+      },
       async deleteContentItem(id) {
           try {
             this.deleting = true

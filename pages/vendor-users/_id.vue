@@ -1,13 +1,13 @@
 <template>
 
-  <div class="tab-sidebar p-4"   v-if="$can('invite')">
+  <div class="tab-sidebar w-1/2 p-4"   v-if="$can('invite')">
 
     <div class="flex mb-2 justify-between">
       <h3>Add Vendor User</h3>
       <button class="bg-primary border p-2 leading-3 text-white w-[100px]">List</button>
     </div>
     <div>
-      <ValidationObserver v-slot="{ invalid }">
+      <ValidationObserver  class="w-full"  v-slot="{ invalid }">
       <form @submit.prevent="formSubmit">
         <transition
           name="fade"
@@ -41,7 +41,7 @@
           </ul>
         </div>
         <div class="input-wrapper">
-          <ValidationProvider name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+          <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
           <label for="">{{ $t('fSale.email') }}</label>
           <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
             <span class="error">{{ errors[0] }}</span>
@@ -50,9 +50,9 @@
 
         <div class="input-wrapper" v-if="$can('assign_roles')">
 
-          <ValidationProvider name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
+          <ValidationProvider  class="w-full"  name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
           <label class="w-full" for="">{{ $t('user.role') }}</label>
-          <select class="w-50 p-2 border border-smooth rounded" v-model="userInfo.roles">
+          <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
             <option value="">Select role</option>
             <option value="vendor">Vendor</option>
           </select>
