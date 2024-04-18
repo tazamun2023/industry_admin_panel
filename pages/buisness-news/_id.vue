@@ -37,7 +37,7 @@
                           @updateInput="updateInput"></lang-input>
             </div>
             <div class="my-2 input-wrapper">
-              <img :src="result.image" alt="" style="height: 200px; width: 200px">
+              <img v-if="result.image.length > 0" :src="result.image" alt="" style="height: 200px; width: 200px">
               <label for="">Upload Image</label>
               <upload-files @updateInput="saveAttachment"></upload-files>
               <!--          <input type="file" name="" id="">-->

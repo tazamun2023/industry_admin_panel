@@ -7,7 +7,7 @@
     :param="param"
     route-name="video"
     empty-store-variable="VideoGallery"
-    :name="$t('bnews.news')"
+    :name="$t('profile.video')"
     gate="view_content"
     manage_gate="manage_content"
     :order-options="orderOptions"
