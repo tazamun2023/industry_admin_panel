@@ -37,7 +37,7 @@
           <button
 
             v-if="$can('manage_content')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+            @click.prevent="$refs.listPage.deleteContentItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
             v-if="$can('manage_content')"
 
@@ -69,7 +69,7 @@ export default {
       },
       orderOptions: {
         created_at: { title: this.$t('category.date') },
-        id: { title: "id" }
+        url: { title: this.$t('global.url') }
       }
     }
   },
