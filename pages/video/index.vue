@@ -34,10 +34,16 @@
         <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
         <td>{{ value.url }}</td>
         <td>
-          <button
+          <!-- <button
+            v-if="$can('manage_content')"
+            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/>
+          </button> -->
+
+            <button
 
             v-if="$can('manage_content')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+            @click="openDeleteModal(value.id)"
+            class="border-0"><delete-button-icon/></button>
           <button
             v-if="$can('manage_content')"
 
@@ -45,6 +51,24 @@
 
         </td>
       </tr>
+      <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
+              <template v-slot:title>
+                <h4>{{ $t('vendor.deletemessage') }}</h4>
+              </template>
+              <!-- -----------default slot------- -->
+              <!-- -----------default slot------- -->
+              <template v-slot:buttons>
+                <div class="flex gap-4 pt-4 justify-end">
+                  <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 ">
+                    {{ $t('address.cancel') }}
+                  </button>
+                  <button @click="$refs.listPage.deleteItemWithModal(deleteId), deleteModal=false"
+                          class="p-2 border border-smooth bg-primary text-white  rounded leading-3 hover:text-primary">
+                    {{ $t('category.delete') }}
+                  </button>
+                </div>
+              </template>
+            </DeleteModal>
     </template>
   </list-page>
 </template>
@@ -64,6 +88,8 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      deleteModal:false,
+      deleteId: null,
       param: {
         vendor_id: this.$store.getters["admin/profile"].vendor_id
       },
@@ -86,7 +112,15 @@ export default {
       return vendor
     }
   },
-  methods: {},
+  methods: {
+    openDeleteModal(id){
+      this.deleteId = id,
+      this.deleteModal = true
+    },
+    closeModal(){
+      this.deleteModal = false
+    }
+  },
   mounted() {
   }
 }
