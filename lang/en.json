@@ -499,6 +499,12 @@
     "full_payment": "full payment",
     "pending": "pending"
   },
+  "googleMap":{
+    "confirm":"confirm",
+    "cancel":"cancel",
+    "LocateMe":"Locate Me"
+  },
+  
   "order": {
     "enterTotAmPay":"enter the total amount of payment",
     "total_amount":"total amount",

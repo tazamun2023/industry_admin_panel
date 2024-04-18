@@ -989,6 +989,11 @@
     "next": "التالي",
     "back": "رجوع"
   },
+  "googleMap":{
+    "confirm":"تأكيد",
+    "cancel":"إلغاء",
+    "LocateMe":"تحديد موقعي"
+  },
   
   "orderReject": {
     "title": "رفض الطلب",

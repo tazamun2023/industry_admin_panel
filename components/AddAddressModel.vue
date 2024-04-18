@@ -265,6 +265,7 @@ export default{
       this.addressData.country_id = this.address.country_id;
       this.addressData.building_number = this.address.building_number;
       this.addressData.default= this.address.default ? 1 : 0;
+      this.addressData.phone_code= this.address.phone_code
       this.countrySelected(this.address.city_id);
     } else {
       this.addressData.country_id = this.profile.country_id;
