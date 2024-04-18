@@ -324,6 +324,13 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Save": "Save",
+    "Reset": "Reset",
+    "Next": "Next",
+    "CANCEL": "CANCEL",
+    "Add Row": "Add Row",
+    "Edit": "Edit",
+    "Name": "Name",
     "Unit": "Unit",
     "SAR": "SAR",
     "Find and manage your uploaded products here": "Find and manage your uploaded products here",

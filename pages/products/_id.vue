@@ -360,7 +360,7 @@
           <!--            :result="result"-->
           <!--            @basicInfoChild="basicInfoChild"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
             <div class="card-body">
               <div class="input-wrapper mb-10">
@@ -410,7 +410,7 @@
           <!--            :images="result.images"-->
           <!--            :isThumb="isThumb"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
 
             <div class="input-wrapper">
               <label class="pl-4 pt-0 fw-bold">
@@ -523,7 +523,7 @@
           <!--            @ProductIdentifierSection="ProductIdentifierSection"-->
           <!--            :result="result"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
             <p class="text-sm">
               {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
@@ -574,7 +574,7 @@
           <!--            :is_draft="is_draft"-->
           <!--            @ProductInventorySection="ProductInventorySection"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <div class="border-b border-smooth">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
               <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
@@ -606,7 +606,7 @@
           <!--            @PackagingSection="PackagingSection"-->
           <!--          />-->
 
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
             <div class="grid grid-cols-2 gap-4">
               <ValidationProvider name="pk_size" :rules="NotDraftValidationRules" v-slot="{ errors }"
@@ -693,7 +693,7 @@
           <!--            :allWeightUnits="allWeightUnits"-->
           <!--            :allDimensionUnits="allDimensionUnits"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
             <p>
               {{
@@ -810,7 +810,7 @@
           <!--            :allWeightUnits="allWeightUnits"-->
           <!--            :allDimensionUnits="allDimensionUnits"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
             <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
             <ValidationProvider name="pdime_weight" :rules="NotDraftValidationRules" v-slot="{ errors }"
@@ -904,7 +904,7 @@
           <!--            :product_price="product_price"-->
           <!--            @ProductPriceingSection="ProductPriceingSection"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
             <ValidationProvider name="unit_id" :rules="NotDraftValidationRules" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Unit of measure')}) }">
@@ -1004,7 +1004,7 @@
           <!--            :allStorageTemperatures="allStorageTemperatures"-->
           <!--            :allCountries="allCountries"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
             <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
@@ -1090,7 +1090,7 @@
           <!-- ----------------- -->
           <div class="my-10"></div>
           <!-- ------------------------------------- -->
-          <div class="tab-sidebar p-3" v-if="!is_variant ">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <div class="border-b border-smooth mb-10">
               <h4>{{ $t('prod.Additional details') }}</h4>
               <p>{{ $t('prod.Enter the details listed below for better discoverability of the product') }}</p>
@@ -1144,7 +1144,6 @@
       </ValidationObserver>
     </div>
     <div v-if="is_next">
-      <Transition>
         <Variant
           :result="result"
           :selectedLevel1="selectedLevel1"
@@ -1153,7 +1152,6 @@
           :select_attr1="select_attr1"
           :select_attr2="select_attr2"
         ></Variant>
-      </Transition>
     </div>
   </div>
   </div>
@@ -1196,7 +1194,7 @@ import LangInput from "../../components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
-import Variant from "~/components/variant/variant.vue";
+import Variant from "@/components/variant/Variant.vue";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
 import BasicInformationChild from "@/components/product/BasicInformationChild.vue";
@@ -1252,8 +1250,8 @@ export default {
       tableShow: false,
       clone_product: null,
       uploadNewText: false,
-      select_attr1: 0,
-      select_attr2: 0,
+      select_attr1: '',
+      select_attr2: '',
 
       productFormOpen: true,
       showCategories: false,
@@ -1768,12 +1766,12 @@ export default {
       })
     },
     doNext() {
-      if (this.validationKeysIfVariantNext.findIndex((i) => {
-        return (!this.result[i])
-      }) > -1) {
-        this.hasError = true
-        return false
-      }
+      // if (this.validationKeysIfVariantNext.findIndex((i) => {
+      //   return (!this.result[i])
+      // }) > -1) {
+      //   this.hasError = true
+      //   return false
+      // }
       this.is_next = true
 
     },
