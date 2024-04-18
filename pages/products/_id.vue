@@ -14,12 +14,12 @@
 
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
-      <div class="col-md-12 p-4 title">
-        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>
-        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>
-        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
-        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
-      </div>
+<!--      <div class="col-md-12 p-4 title">-->
+<!--        <h4 v-if="is_clone">{{ $t('prod.clone_product') }}</h4>-->
+<!--        <h4 v-if="!id & !is_clone">{{ $t('prod.add_new_product') }}</h4>-->
+<!--        <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>-->
+<!--        <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>-->
+<!--      </div>-->
 
       <div class="input-wrapper p-3" v-if="!id">
         <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
@@ -360,7 +360,7 @@
           <!--            :result="result"-->
           <!--            @basicInfoChild="basicInfoChild"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
             <div class="card-body">
               <div class="input-wrapper mb-10">
@@ -410,7 +410,7 @@
           <!--            :images="result.images"-->
           <!--            :isThumb="isThumb"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
 
             <div class="input-wrapper">
               <label class="pl-4 pt-0 fw-bold">
@@ -523,7 +523,7 @@
           <!--            @ProductIdentifierSection="ProductIdentifierSection"-->
           <!--            :result="result"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
             <p class="text-sm">
               {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
@@ -537,12 +537,17 @@
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
               </div>
+              <ValidationProvider name="barcode" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode')}) }">
               <div class="form-group input-wrapper mt-3 mt-sm-0">
                 <label>{{ $t('prod.Barcode') }}</label>
                 <input type="text" class="form-control" v-model="result.barcode"
                        :placeholder="$t('prod.Barcode')"
+                       @keypress="onlyNumber"
                        :readonly="result.barcode_type===4">
               </div>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
               <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
                 <div class="form-group input-wrapper  mt-3 mt-sm-0">
@@ -569,7 +574,7 @@
           <!--            :is_draft="is_draft"-->
           <!--            @ProductInventorySection="ProductInventorySection"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <div class="border-b border-smooth">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
               <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
@@ -601,7 +606,7 @@
           <!--            @PackagingSection="PackagingSection"-->
           <!--          />-->
 
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
             <div class="grid grid-cols-2 gap-4">
               <ValidationProvider name="pk_size" :rules="NotDraftValidationRules" v-slot="{ errors }"
@@ -688,7 +693,7 @@
           <!--            :allWeightUnits="allWeightUnits"-->
           <!--            :allDimensionUnits="allDimensionUnits"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
             <p>
               {{
@@ -805,7 +810,7 @@
           <!--            :allWeightUnits="allWeightUnits"-->
           <!--            :allDimensionUnits="allDimensionUnits"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
             <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
             <ValidationProvider name="pdime_weight" :rules="NotDraftValidationRules" v-slot="{ errors }"
@@ -899,7 +904,7 @@
           <!--            :product_price="product_price"-->
           <!--            @ProductPriceingSection="ProductPriceingSection"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
             <ValidationProvider name="unit_id" :rules="NotDraftValidationRules" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Unit of measure')}) }">
@@ -999,7 +1004,7 @@
           <!--            :allStorageTemperatures="allStorageTemperatures"-->
           <!--            :allCountries="allCountries"-->
           <!--          />-->
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
             <div class="grid grid-cols-2 gap-4">
               <div class="col-md-6">
@@ -1085,7 +1090,7 @@
           <!-- ----------------- -->
           <div class="my-10"></div>
           <!-- ------------------------------------- -->
-          <div class="tab-sidebar p-3" v-if="!is_variant ">
+          <div class="tab-sidebar p-3" v-if="!is_variant">
             <div class="border-b border-smooth mb-10">
               <h4>{{ $t('prod.Additional details') }}</h4>
               <p>{{ $t('prod.Enter the details listed below for better discoverability of the product') }}</p>
@@ -1139,7 +1144,6 @@
       </ValidationObserver>
     </div>
     <div v-if="is_next">
-      <Transition>
         <Variant
           :result="result"
           :selectedLevel1="selectedLevel1"
@@ -1148,7 +1152,6 @@
           :select_attr1="select_attr1"
           :select_attr2="select_attr2"
         ></Variant>
-      </Transition>
     </div>
   </div>
   </div>
@@ -1191,7 +1194,7 @@ import LangInput from "../../components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
-import Variant from "~/components/variant/variant.vue";
+import Variant from "@/components/variant/Variant.vue";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
 import BasicInformationChild from "@/components/product/BasicInformationChild.vue";
@@ -1247,8 +1250,8 @@ export default {
       tableShow: false,
       clone_product: null,
       uploadNewText: false,
-      select_attr1: 0,
-      select_attr2: 0,
+      select_attr1: '',
+      select_attr2: '',
 
       productFormOpen: true,
       showCategories: false,
@@ -1492,7 +1495,7 @@ export default {
   computed: {
     priceValidationRules() {
       const rules = {
-        numeric: true
+
       };
 
       if (!this.is_draft) {
@@ -1526,35 +1529,33 @@ export default {
     skuRules() {
       const allSKus = this.allSKus;
 
-      return {
-        required: !this.is_draft,
-        numeric: true,
-        uniqueSku: { allSKus }, // Pass allSKus as a parameter to uniqueSku
-      };
+      if (!this.id){
+        return {
+          required: !this.is_draft,
+          uniqueSku: { allSKus }, // Pass allSKus as a parameter to uniqueSku
+        };
+      }
+
     },
     availableQuantityValidationRules() {
       return {
         required: !this.is_draft,
-        numeric: true,
         min_value: 1
       };
     },
     PackagingSizeValidationRules() {
       return {
         required: !this.is_draft || !this.result.pk_size_unit,
-        numeric: true
       };
     },
     NumberOfCartonValidationRules() {
       return {
         required: !this.is_draft,
-        numeric: true
       };
     },
     NotDraftValidationRules() {
       return {
-        required: !this.is_draft,
-        numeric: true
+        required: !this.is_draft
       };
     },
     requiredErrorMessage() {
@@ -1711,19 +1712,14 @@ export default {
       }
     },
     compareMethods() {
-      let ava_qty = this.result.available_quantity;
-      let product_prices_min_qty = this.result.product_prices[0].quantity
-      if (ava_qty && product_prices_min_qty) {
-        if (product_prices_min_qty === this.result.available_quantity) {
-          this.result.is_availability = 1;
-        } else if (product_prices_min_qty > this.result.available_quantity) {
-          this.result.is_availability = 0;
-        } else {
-          this.result.is_availability = 1;
-        }
-      }
+      let ava_qty = parseInt(this.result.available_quantity);
+      let product_prices_min_qty = parseInt(this.result.product_prices[0]?.quantity);
 
+      if (!isNaN(ava_qty) && !isNaN(product_prices_min_qty)) {
+        this.result.is_availability = ava_qty >= product_prices_min_qty ? 1 : 0;
+      }
     },
+
     stockCheck(index = null) {
       this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
       this.compareMethods();
@@ -1770,12 +1766,12 @@ export default {
       })
     },
     doNext() {
-      if (this.validationKeysIfVariantNext.findIndex((i) => {
-        return (!this.result[i])
-      }) > -1) {
-        this.hasError = true
-        return false
-      }
+      // if (this.validationKeysIfVariantNext.findIndex((i) => {
+      //   return (!this.result[i])
+      // }) > -1) {
+      //   this.hasError = true
+      //   return false
+      // }
       this.is_next = true
 
     },
