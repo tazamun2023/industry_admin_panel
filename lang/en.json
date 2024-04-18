@@ -742,7 +742,8 @@
     "question": "Question",
     "answer": "Answer",
     "vendor": "Vendor name",
-    "video_type": "Video Type"
+    "video_type": "Video Type",
+    "organization": "Organization"
   },
 
   "vendor": {

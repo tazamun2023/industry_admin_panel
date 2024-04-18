@@ -95,7 +95,7 @@ export default {
       },
       orderOptions: {
         created_at: { title: this.$t('category.date') },
-        id: { title: "id" }
+        url: { title: this.$t('global.url') }
       }
     }
   },
