@@ -31,7 +31,6 @@ import DataPage from "@/components/partials/DataPage.vue";
 
 export default {
   name: 'BusinessNews',
-
   components: {
     DataPage,
     LangInput,

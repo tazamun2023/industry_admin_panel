@@ -6,11 +6,9 @@
     delete-api="FAQ"
     route-name="FAQ"
     empty-store-variable="FAQ"
-    :name="$t('color.color')"
-
-       gate="view_content"
-      manage_gate="manage_content"
-
+    :name="$t('profile.faq')"
+    gate="view_content"
+    manage_gate="manage_content"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
@@ -41,16 +39,31 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-
             v-if="$can('manage_content')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
+            @click="openDeleteModal(value.id)" class="border-0"><delete-button-icon/></button>
           <button
             v-if="$can('manage_content')"
-
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
-
         </td>
       </tr>
+      <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
+        <template v-slot:title>
+          <h4>{{ $t('vendor.deletemessage') }}</h4>
+        </template>
+        <!-- -----------default slot------- -->
+        <!-- -----------default slot------- -->
+        <template v-slot:buttons>
+          <div class="flex gap-4 pt-4 justify-end">
+            <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 ">
+              {{ $t('address.cancel') }}
+            </button>
+            <button @click="$refs.listPage.deleteItemWithModal(deleteId), deleteModal=false"
+                    class="p-2 border border-smooth bg-primary text-white  rounded leading-3 hover:text-primary">
+              {{ $t('category.delete') }}
+            </button>
+          </div>
+        </template>
+      </DeleteModal>
     </template>
   </list-page>
 </template>
@@ -62,15 +75,23 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+import {mapGetters} from "vuex";
+import vendor from "@/mixin/vendor";
 
 export default {
   name: "brands",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      deleteModal:false,
+      deleteId: null,
+      param: {
+        vendor_id: this.$store.getters["admin/profile"].vendor_id
+      },
       orderOptions: {
         created_at: { title: this.$t('category.date') },
-        id: { title: "id" }
+        questions: { title: this.$t('global.question') },
+        answers: { title: this.$t('global.answer') }
       }
     }
   },
@@ -81,8 +102,21 @@ export default {
     EditButtonIcon
 },
   mixins: [util, bulkDelete],
-  computed: {},
-  methods: {},
+  computed: {
+    ...mapGetters('admin', ['profile']),
+    vendor() {
+      return vendor
+    }
+  },
+  methods: {
+    openDeleteModal(id){
+      this.deleteId = id,
+        this.deleteModal = true
+    },
+    closeModal(){
+      this.deleteModal = false
+    }
+  },
   mounted() {
   }
 }
