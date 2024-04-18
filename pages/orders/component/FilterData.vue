@@ -16,14 +16,14 @@
         </svg>
       </div>
     </div>
-    <select v-if="tap===1" class="p-2 border rounded border-smooth" name="" id="" v-model="search.order_status">
+    <select v-if="tap===1" class="p-2 border capitalize rounded border-smooth" name="" id="" v-model="search.order_status">
       <option value="">{{$t('order.statusOrder')}}</option>
       <option :value="item.value" v-for="(item,i) in orderStatus" :key="i">
         {{ $t(`status.${item?.name}`) }}
       </option>
 
     </select>
-    <select class="p-2 border rounded border-smooth" name="" id=""  v-model="search.invoice_status"  v-if="invoice_status" >
+    <select class="p-2 border rounded capitalize border-smooth" name="" id=""  v-model="search.invoice_status"  v-if="invoice_status" >
       <option value="">{{$t('order.paymentStatus')}}</option>
       <option :value="option.value" v-for="(option,i) in paymentStatuses" :key="i">
         {{ $t(`paymentStatus.${option.value}`) }}
@@ -36,7 +36,7 @@
 <!--          $t(`order.${orderType.label}`)-->
 <!--        }}</option>-->
 <!--    </select>-->
-    <select class="p-2 border rounded border-smooth" name="" id="" v-model="search.sort_by" >
+    <select class="p-2 border capitalize rounded border-smooth" name="" id="" v-model="search.sort_by" >
       <option value="">{{$t('order.sortFilter')}}</option>
       <option v-for="(sortBy,index) in sortOptions" :key="index" :value="sortBy.api">{{
           $t(`order.${sortBy.label}`)
