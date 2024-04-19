@@ -76,6 +76,8 @@ export default {
             // const {data} = await this.getRequest({params: {...this.param}, api: this.getApi });
 
             if (data) {
+              console.log(data)
+              this.$emit('update',data.status)
               this.$emit('close');
             }
           }

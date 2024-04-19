@@ -425,7 +425,6 @@ export default {
       return this.$route?.params?.id
     },
     canSend() {
-
       return (
         (this.result.products.length == this.rfq.products.length) &&
         (this.result.expiry_date != null && this.result.expiry_date != ""
