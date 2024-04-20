@@ -345,7 +345,7 @@ email, mobile, and CR number </p>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
               <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid"><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button @click="submit = true" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid"><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
@@ -416,7 +416,8 @@ export default {
       getLogo:[],
       getLicence:[],
       errors:[],
-      hasError:false
+      hasError:false,
+      submit: false
     }
   },
   watch:{
@@ -495,7 +496,7 @@ export default {
 
  async mounted() {
     if(!this.fromData.id){
-      this.fromData.id = this.profile?.id
+      this.fromData.id = this.profile?.vendor_id
     }
    try {
      await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendorProfile'})
