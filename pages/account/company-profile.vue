@@ -23,7 +23,7 @@
   <div class="card shadow p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
-    <form @submit.prevent="fromSubmit">
+    <form>
       <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
         <div class="w-[250px] h-[710px] shadow sticky top-100px  pl-1 pr-1 bg-white tab-bg  rounded-lg">
           <ul class="">
@@ -92,17 +92,6 @@ email, mobile, and CR number </p>
            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
                   @updateInput="updateInput"></lang-input>
 
-<!--            <div class="input-wrapper mb-2">
-              <ValidationProvider name="details" class="w-full" rules="required|max:1000" v-slot="{ errors }">
-              <label for="">{{ $t('vendor.details') }}</label>
-              <textarea v-model="fromData.details" rows="4" cols="50">
-
-                </textarea>
-                <span  class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>-->
-
-
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
@@ -139,7 +128,7 @@ email, mobile, and CR number </p>
             <ValidationProvider name="CR Number" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.cr_number') }}</label>
-              <input type="text" placeholder="CR Number" v-model="fromData.crNumber" :class="{invalid: errors[0]}">
+              <input type="text" placeholder="CR Number" v-model="fromData.crNumber" :class="{invalid: errors[0]}" readonly>
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
@@ -471,6 +460,10 @@ export default {
       this.fromData.licence = attachments
     },
     toggleTabs: function(tabNumber){
+      if(!this.fromData.name.ar.length > 0){
+        this.hasError = true
+      }
+      if(tabNumber)
       this.openTab = tabNumber
     },
    async countrySelected() {

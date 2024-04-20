@@ -93,19 +93,21 @@
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('admin.sName') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('admin.sName')"
-          v-model="result.site_name"
-          :class="{invalid: !!!result.site_name && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.site_name && hasError"
-        >
-          {{ $t('category.req', { type: $t('admin.sName')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('admin.sName')" :valuesOfLang="result.site_name"
+                    @updateInput="updateInput"></lang-input>
+<!--        <label>{{ $t('admin.sName') }}</label>-->
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('admin.sName')"-->
+<!--          v-model="result.site_name"-->
+<!--          :class="{invalid: !!!result.site_name && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.site_name && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('admin.sName')}) }}-->
+<!--        </span>-->
       </div>
 
       <div class="input-wrapper">
@@ -119,44 +121,50 @@
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('category.mTitle') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('category.mTitle')"
-          v-model="result.meta_title"
-          :class="{invalid: !!!result.meta_title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.meta_title && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mTitle')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="text" :title="$t('category.mTitle')" :valuesOfLang="result.meta_title"
+                    @updateInput="updateInput"></lang-input>
+<!--        <label>{{ $t('category.mTitle') }}</label>-->
+<!--        <input-->
+<!--          type="text"-->
+<!--          :placeholder="$t('category.mTitle')"-->
+<!--          v-model="result.meta_title"-->
+<!--          :class="{invalid: !!!result.meta_title && hasError}"-->
+<!--        >-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.meta_title && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('category.mTitle')}) }}-->
+<!--        </span>-->
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('category.mDesc') }}</label>
-        <textarea
-          :placeholder="$t('category.mDesc')"
-          v-model="result.meta_description"
-          :class="{invalid: !!!result.meta_description && hasError}"
-        />
-        <span
-          class="error"
-          v-if="!!!result.meta_description && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mDesc')}) }}
-        </span>
+        <lang-input :hasError="hasError" type="textarea" :title="$t('category.mDesc')" :valuesOfLang="result.meta_description"
+                    @updateInput="updateInput"></lang-input>
+<!--        <label>{{ $t('category.mDesc') }}</label>-->
+<!--        <textarea-->
+<!--          :placeholder="$t('category.mDesc')"-->
+<!--          v-model="result.meta_description"-->
+<!--          :class="{invalid: !!!result.meta_description && hasError}"-->
+<!--        />-->
+<!--        <span-->
+<!--          class="error"-->
+<!--          v-if="!!!result.meta_description && hasError"-->
+<!--        >-->
+<!--          {{ $t('category.req', { type: $t('category.mDesc')}) }}-->
+<!--        </span>-->
       </div>
 
 
       <div class="input-wrapper">
-        <label>{{ $t('admin.cpyr') }}</label>
-        <input
-          :placeholder="$t('admin.cpyr')"
-          v-model="result.copyright_text"
-          :class="{invalid: !!!result.copyright_text && hasError}"
-        />
+<!--        <label>{{ $t('admin.cpyr') }}</label>-->
+<!--        <input-->
+<!--          :placeholder="$t('admin.cpyr')"-->
+<!--          v-model="result.copyright_text"-->
+<!--          :class="{invalid: !!!result.copyright_text && hasError}"-->
+<!--        />-->
+        <lang-input :hasError="hasError" type="text" :title="$t('admin.cpyr')" :valuesOfLang="result.copyright_text"
+                    @updateInput="updateInput"></lang-input>
       </div>
 
 
@@ -245,6 +253,10 @@
       ...mapGetters(['mediaStorage']),
     },
     methods: {
+
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
 
       async fetchingData() {
         try {
