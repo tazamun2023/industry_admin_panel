@@ -3,7 +3,7 @@ import DataPage from "@/components/partials/DataPage.vue";
 import LangInput from "@/components/langInput.vue";
 
 export default {
-  name: 'BusinessNews',
+  name: 'CreateCertificates',
   components: {
     DataPage,
     LangInput,
@@ -25,17 +25,13 @@ export default {
 
   methods: {
     saveAttachment(images) {
-      console.log(images)
-      // this.result.rfq_attachments = rfq_attachments
       this.result.images = images
-      // this.result.file = images
     },
     updateInput(input, language, value) {
       this.$set(input, language, value);
     },
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {
-        // this.emptyAllList('allCategories')
         this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/certificate'}`})
       }
       this.result = evt
@@ -46,18 +42,10 @@ export default {
       this.is_loading = false
     },
     async checkForm() {
-
-      // this.redirectingEnable(event.submitter.name)
       this.formSubmitting = true
       try {
 
         const data = await this.setById({id: this.id, params: {result: this.result}, api: this.setApi})
-        // if (data) {
-        //
-        //   this.result = Object.assign({}, data)
-        //   // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/' + this.result.id}`})
-        //   this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/'}`})
-        // }
         this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`})
       } catch (e) {
         return this.$nuxt.error(e)
@@ -88,11 +76,9 @@ export default {
     get-api="Certificate"
     method="put"
     route-name="certificate"
-    :name="$t('bnews.news')"
-
+    :name="$t('profile.certificate')"
     gate="manage_content"
     manage_gate="manage_content"
-
     :validation-keys="['title.ar','title.en']"
     :result="result"
     @result="resultData"
@@ -100,33 +86,20 @@ export default {
     <template v-slot:form="{hasError}">
       <div class="tab-sidebar">
         <div class="card">
-<!--          <div class="title p-2 border-b border-smooth flex justify-between">-->
-<!--            <h3>Add Certificate </h3>-->
-<!--            <nuxt-link :to="`/buisness-news`" class="button primary-btn">List</nuxt-link>-->
-<!--          </div>-->
           <form class="p-4" action="">
             <div class="my-2 input-wrapper">
-              <label for="">Certificate Title</label>
-<!--              <input type="text" placeholder="Title here">-->
-              <lang-input :hasError="hasError" type="text" :title="$t('bnews.News Title')" :valuesOfLang="result.title"
+              <lang-input :hasError="hasError" type="text" :title="$t('global.title')" :valuesOfLang="result.title"
                           @updateInput="updateInput"></lang-input>
             </div>
             <div class="my-2 input-wrapper">
-              <label for="">Organization</label>
-<!--              <input type="text" placeholder="Title here">-->
-              <lang-input :hasError="hasError" type="text" :title="$t('bnews.News Title')" :valuesOfLang="result.organization"
+              <lang-input :hasError="hasError" type="text" :title="$t('global.organization')" :valuesOfLang="result.organization"
                           @updateInput="updateInput"></lang-input>
             </div>
             <div class="my-2 input-wrapper">
               <label for="">Upload Certificate</label>
-              <img :src="result.file" style="width: 200px; height: 200px" alt="">
+              <img v-show="result.file.length > 0" :src="result.file" style="width: 200px; height: 200px" alt="">
               <upload-files @updateInput="saveAttachment"></upload-files>
-<!--              <input type="file" name="" id="">-->
             </div>
-
-<!--            <div class="text-end">-->
-<!--              <button class="button primary-btn">Save</button>-->
-<!--            </div>-->
           </form>
         </div>
       </div>
