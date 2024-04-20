@@ -23,7 +23,7 @@
   <div class="card shadow p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
-    <form @submit.prevent="fromSubmit">
+    <form>
       <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
         <div class="w-[250px] h-[710px] shadow sticky top-100px  pl-1 pr-1 bg-white tab-bg  rounded-lg">
           <ul class="">
@@ -89,19 +89,8 @@ email, mobile, and CR number </p>
                   @updateInput="updateInput">
                 </lang-input>
 
-<!--            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
-                  @updateInput="updateInput"></lang-input>-->
-
-            <div class="input-wrapper mb-2">
-              <ValidationProvider name="details" class="w-full" rules="required|max:1000" v-slot="{ errors }">
-              <label for="">{{ $t('vendor.details') }}</label>
-              <textarea v-model="fromData.details" rows="4" cols="50">
-
-                </textarea>
-                <span  class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-
+           <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
+                  @updateInput="updateInput"></lang-input>
 
 
             <div class="input-wrapper mb-2">
@@ -127,7 +116,7 @@ email, mobile, and CR number </p>
               <label for="">{{ $t("vendor.mobile") }}</label>
               <div class="flex">
                 <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:9" v-slot="{ errors }">
                    <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                     <span  class="error">{{ errors[0] }}</span>
                    </ValidationProvider>
@@ -136,15 +125,15 @@ email, mobile, and CR number </p>
 
             </div>
 
-            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="CR Number" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.cr_number') }}</label>
-              <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
+              <input type="text" placeholder="CR Number" v-model="fromData.crNumber" :class="{invalid: errors[0]}" readonly>
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.status') }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
@@ -155,7 +144,7 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="invalid" class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
         </div>
@@ -362,18 +351,8 @@ email, mobile, and CR number </p>
 import vendor from "@/mixin/vendor";
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
-import { extend } from 'vee-validate';
 import Modal from '~/components/Modal.vue';
 import LangInput from "../../components/langInput.vue";
-
-  extend('min', {
-    validate(value, { length }) {
-      return value.length >= length;
-    },
-    params: ['length'],
-    message: 'The {_field_} field must have at least {length} characters'
-  });
-
 
 
 export default {
@@ -391,7 +370,6 @@ export default {
       openTab: 1,
       phoneModal: false,
       emailModal: false,
-
        fromData:{
              id:'',
              name: {'ar':'', 'en':''},
@@ -481,6 +459,10 @@ export default {
       this.fromData.licence = attachments
     },
     toggleTabs: function(tabNumber){
+      if(!this.fromData.name.ar.length > 0){
+        this.hasError = true
+      }
+      if(tabNumber)
       this.openTab = tabNumber
     },
    async countrySelected() {
