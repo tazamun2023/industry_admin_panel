@@ -322,6 +322,7 @@
                         <product-search2
                           ref="productSearch"
                           @product-clicked="addRFQProduct"
+                          :type="tableShow"
                         />
                       </div>
                       <div v-if="uploadNewText"
@@ -380,7 +381,6 @@ import outsideClick from '~/directives/outside-click'
 import ProductSearch from "../../components/partials/ProductSearch.vue";
 import LazyImage from "../../components/LazyImage.vue";
 import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
-import rfq from "./index.vue";
 
 export default {
   name: "RFQDetails",
@@ -403,7 +403,6 @@ export default {
         additional_details: "",
         expiry_date: "",
         is_draft: false,
-
         products: []
       },
       minDate: null,
@@ -563,6 +562,11 @@ export default {
     productTableShow(type) {
       this.tableShow = type;
       this.uploadNewText = false;
+      // if(type == 'select_from_my_catalog') {
+      //   this.select_from_my_catalog = !this.select_from_my_catalog
+      // } 
+      // if(type == 'copy_from_product') this.copy_from_product = true ;
+      // if(type == 'upload_new_product') this.upload_new_product = true ;
     },
     addRFQProduct(product) {
       var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
@@ -632,6 +636,7 @@ export default {
   async mounted() {
     this.minDate = this.getTodayDate();
     await this.fetchingData()
+    this.select_from_my_catalog = true;
 
     if (this.allUnits.length == 0) {
       try {
