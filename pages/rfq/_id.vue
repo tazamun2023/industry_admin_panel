@@ -235,7 +235,7 @@
                 <div class="md:w-1/3 pr-4 pl-4">
                   <div class="mb-4">
                     <label for="">{{ $t('rfq.quote_expired_message') }}</label>
-                    <input v-model="result.expiry_date" type="date" placeholder="Select Date"
+                    <input v-model="result.expiry_date" type="date" :min="minDate" placeholder="Select Date"
                            class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded">
                   </div>
                 </div>
@@ -406,6 +406,7 @@ export default {
 
         products: []
       },
+      minDate: null,
       rfq: null,
       loading: false
     }
@@ -425,7 +426,6 @@ export default {
       return this.$route?.params?.id
     },
     canSend() {
-
       return (
         (this.result.products.length == this.rfq.products.length) &&
         (this.result.expiry_date != null && this.result.expiry_date != ""
@@ -435,7 +435,13 @@ export default {
     ...mapGetters('common', ['allUnits',])
   },
   methods: {
-
+    getTodayDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1; 
+      const day = today.getDate();
+      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    },
 
     toggleCollapse(id = "", save = 0) {
       this.isCollapsed = !this.isCollapsed;
@@ -560,6 +566,7 @@ export default {
     },
     addRFQProduct(product) {
       var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
+      console.log(rfqProduct);
       rfqProduct.qoute.product = product;
       rfqProduct.qoute.product_id = product.id;
       this.$refs.productSearch.autoSuggestionClose()
@@ -623,6 +630,7 @@ export default {
     ...mapActions('common', ['getAllUnits'])
   },
   async mounted() {
+    this.minDate = this.getTodayDate();
     await this.fetchingData()
 
     if (this.allUnits.length == 0) {

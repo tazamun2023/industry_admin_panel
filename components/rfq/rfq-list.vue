@@ -24,9 +24,10 @@
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
 
             <nuxt-link
-              v-if="$store.state.admin.isVendor && openTab === 'relevant_to_me'"
+              v-if="$store.state.admin.isVendor"
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-              v-bind:class="{'text-pink-600 bg-white border-white border-t-4': openTab !== 'relevant_to_me', 'border-t-4 border-primary': openTab === 'relevant_to_me'}"
+              v-bind:class="{'text-pink-600 bg-white border-white border-t-4':
+               openTab !== 'relevant_to_me', 'border-t-4 border-primary': openTab === 'relevant_to_me'}"
               :to="`/rfq`"
               :title="$t('app.Relevant to me')"
             >
@@ -302,6 +303,7 @@
       set-api="setRejectRfq"
       :set-id="rfqId"
       :param="param"
+      @update="updateReject"
       @close="closeRejectModal"
     ></reject-reason>
   </div>
@@ -367,18 +369,26 @@ export default {
     },
     async isApproved(id) {
       this.is_loading = true
-      await this.setById({
+     const data = await this.setById({
         id: id,
         params: {status: 'approved'},
         api: 'setApprovedRfq'
       }).then((res) => {
+        const index = this.itemList.findIndex(item => item.id === id)
+        if(index !== -1) {
+          this.itemList[index].status =  res.status
+        }
         return this.$router.push(`/rfq`)
       })
     },
-
+    updateReject(status) {
+      const index = this.itemList.findIndex(item=> item.id === this.rfqId)
+      if(index !== -1) {
+          this.itemList[index].status =  status
+        }
+        return this.$router.push(`/rfq`)
+    },
     filterChanged(result) {
-
-      console.log(result)
       this.$router.push({
         query: {
           ...this.$route.query,
