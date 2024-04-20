@@ -128,6 +128,7 @@
               <div class="input-wrapper mt-3 mt-sm-0">
                 <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
                 <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                        :class="{ 'has-error': errors[0] }"
                         v-model="result.brand_id">
                   <option value="">{{ $t('prod.Select Brand') }}</option>
                   <option :value="index" v-for="(item, index) in allBrands" :key="index">{{ item.title }}</option>
@@ -341,8 +342,11 @@
               <div class="my-10"></div>
               <div class="tab-sidebar p-3" v-if="is_variant">
                 <div class="flex justify-end gap-4 pt-3">
-                  <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary"
-                          @click.prevent="doNext">
+                  <button
+                    type="button"
+                    class="btn text-white bg-primary w-1/4 hover:text-primary"
+                    :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.result.parent_sku"
+                    @click.prevent="doNext">
                     {{ $t('prod.Next') }}
                   </button>
                 </div>
@@ -505,7 +509,7 @@
               </tbody>
             </table>
             <!--          <img :src="result.images" alt="">-->
-            <upload-files @updateInput="saveAttachment"></upload-files>
+            <upload-files @updateInput="saveAttachment" :hasError="true"></upload-files>
           </div>
           <!--          ProductImages-->
           <!-- ------------------------------------- -->
@@ -526,23 +530,32 @@
             <p class="text-sm">
               {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
             <div class="grid grid-cols-2 gap-4">
-
+              <ValidationProvider name="barcode_type" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode type')}) }">
               <div class="input-wrapper mt-3 mt-sm-0">
                 <label class="w-full">{{ $t('prod.Barcode type') }}</label>
-                <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                <select
+                  class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                  :class="{ 'has-error': errors[0] }"
                         v-model="result.barcode_type">
                   <option value="">{{ $t('prod.Select Barcode') }}</option>
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
               </div>
-              <ValidationProvider name="barcode" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <ValidationProvider name="barcode" :rules="BarcodeValidationRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode')}) }">
-              <div class="form-group input-wrapper mt-3 mt-sm-0">
+              <div class="form-group input-wrapper mt-3 mt-sm-0 ">
                 <label>{{ $t('prod.Barcode') }}</label>
-                <input type="text" class="form-control" v-model="result.barcode"
-                       :placeholder="$t('prod.Barcode')"
-                       @keypress="onlyNumber"
-                       :readonly="result.barcode_type===4">
+                <input
+                  type="text" class="form-control"
+                  v-model="result.barcode"
+                  :placeholder="$t('prod.Barcode')"
+                  @keypress="onlyNumber"
+                  :disabled="result.barcode_type==4"
+                  :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
+                >
               </div>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -552,6 +565,7 @@
                   <label>{{ $t('prod.SKU') }} <strong class="text-error">*</strong></label>
                   <input
                     type="text" class="form-control"
+                    :class="{ 'has-error': errors[0] }"
                     v-model="result.sku"
                     :placeholder="$t('prod.SKU')"
                   >
@@ -585,7 +599,7 @@
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
-                <input type="text" class="form-control" v-model="result.available_quantity" @input="availableQuantity">
+                <input type="text" class="form-control" :class="{ 'has-error': errors[0] }" v-model="result.available_quantity" @input="availableQuantity">
                 <label>{{ $t('prod.Minimum order quantity') }}: {{  result.product_prices[0].quantity }}</label>
               </div>
               <span class="error">{{ errors[0] }}</span>
@@ -613,11 +627,14 @@
                   <label for="">{{ $t('prod.Size') }} ? <strong class="text-error">*</strong></label>
                   <div class="relative flex input-group gap-4 mb-3 w-full">
 
-                    <input type="text" class="form-control pr-12" :placeholder="$t('prod.Size')"
-                           @keypress="onlyNumber"
-                           v-model="result.pk_size">
-
-
+                    <input
+                      type="text"
+                      class="form-control pr-12"
+                      :class="{ 'has-error': errors[0] }"
+                      :placeholder="$t('prod.Size')"
+                      @keypress="onlyNumber"
+                      v-model="result.pk_size"
+                    >
                     <div class="absolute right-0 top-0">
                       <select class="p-2 m-1 float-right border-l border-smooth uppercase"
                               v-model="result.pk_size_unit"
@@ -628,14 +645,6 @@
                           }}
                         </option>
                       </select>
-<!--                      <v-select-->
-<!--                        v-model="result.pk_size_unit"-->
-<!--                        :dir="$t('app.dir')"-->
-<!--                        :options="allPackagingUnits"-->
-<!--                        :placeholder="$t('products.Unit')"-->
-<!--                        :reduce="c => c.id"-->
-<!--                        class="custom-select  unitbox w-100"-->
-<!--                      ></v-select>-->
                     </div>
                   </div>
                 </div>
@@ -647,8 +656,12 @@
                   <label for="">{{ $t('prod.Number of units per carton') }} <strong
                     class="text-error">*</strong></label>
                   <div class=" mb-3">
-                    <input type="text" class="form-control" :placeholder="$t('prod.Number of units per carton')"
-                           @keypress="onlyNumber" v-model="result.pk_number_of_carton">
+                    <input
+                      type="text"
+                      class="form-control"
+                      :class="{ 'has-error': errors[0] }"
+                      :placeholder="$t('prod.Number of units per carton')"
+                      @keypress="onlyNumber" v-model="result.pk_number_of_carton">
                   </div>
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -658,8 +671,13 @@
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label> <strong class="text-error">*</strong>
                   <div class=" mb-3">
-                    <input type="text" class="form-control" :placeholder="$t('prod.Average lead time(Days)')"
-                           @keypress="onlyNumber" v-model="result.pk_average_lead_time">
+                    <input
+                      type="text"
+                      class="form-control"
+                      :class="{ 'has-error': errors[0] }"
+                      :placeholder="$t('prod.Average lead time(Days)')"
+                      @keypress="onlyNumber"
+                      v-model="result.pk_average_lead_time">
                   </div>
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -667,8 +685,9 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Transportation Mode') }}</label>
                 <div class=" mb-3">
-                  <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
-                          v-model="result.pk_transportation_mode"
+                  <select
+                    class="border p-3 w-full border-smooth rounded-lg uppercase"
+                    v-model="result.pk_transportation_mode"
                   >
                     <option :value="index" v-for="(item, index) in allTransportationModes" :key="index">{{
                         item.name
@@ -706,6 +725,7 @@
                     <input
                       type="text"
                       class="form-control pr-12"
+                      :class="{ 'has-error': errors[0] }"
                       :placeholder="$t('prod.Weight')"
                       @keypress="onlyNumber"
                       v-model="result.pc_weight">
@@ -729,10 +749,13 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" :placeholder="$t('prod.Length')"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         v-model="result.pc_length">
+                  <input
+                    type="text"
+                    class="form-control pr-12"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Length')"
+                    @keypress="onlyNumber"
+                    v-model="result.pc_length">
 
                   <div class="absolute right-0 top-0">
                     <select class="p-2 m-1 float-right border-l border-smooth uppercase"
@@ -753,10 +776,12 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" placeholder="Carton Height"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         v-model="result.pc_height">
+                  <input
+                    type="text" class="form-control pr-12"
+                    :class="{ 'has-error': errors[0] }"
+                    placeholder="Carton Height"
+                    @keypress="onlyNumber"
+                    v-model="result.pc_height">
                   <div class="absolute right-0 top-0">
                     <select class="p-2 m-1 float-right border-l border-smooth uppercase"
                             v-model="result.pc_height_unit_id">
@@ -775,10 +800,13 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
                 <div class="relative flex input-group gap-4 mb-3">
-                  <input type="text" class="form-control pr-12" :placeholder="$t('prod.Width')"
-                         aria-label="Recipient's username"
-                         @keypress="onlyNumber"
-                         v-model="result.pc_width">
+                  <input
+                    type="text"
+                    class="form-control pr-12"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Width')"
+                    @keypress="onlyNumber"
+                    v-model="result.pc_width">
 
                   <div class="absolute right-0 top-0">
                     <select class="p-2 m-1 float-right border-l border-smooth uppercase"
@@ -819,6 +847,7 @@
                 <input
                   type="text"
                   class="form-control pr-12"
+                  :class="{ 'has-error': errors[0] }"
                   :placeholder="$t('prod.Weight')"
                   @keypress="onlyNumber"
                   v-model="result.pdime_weight"
@@ -843,9 +872,13 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" :placeholder="$t('prod.Length')"
-                         @keypress="onlyNumber"
-                         v-model="result.pdime_length">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Length')"
+                    @keypress="onlyNumber"
+                    v-model="result.pdime_length">
                 </div>
                 <span class="error">{{ errors[0] }}</span>
               </div>
@@ -856,7 +889,9 @@
                 <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
                 <div class="input-group mb-3">
                   <input
-                    type="text" class="form-control"
+                    type="text"
+                    class="form-control"
+                    :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Height')"
                     @keypress="onlyNumber"
                     v-model="result.pdime_height">
@@ -869,9 +904,14 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" :placeholder="$t('prod.Width')"
-                         @keypress="onlyNumber"
-                         v-model="result.pdime_width">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :placeholder="$t('prod.Width')"
+                    :class="{ 'has-error': errors[0] }"
+                    @keypress="onlyNumber"
+                    v-model="result.pdime_width"
+                  >
                 </div>
                 <span class="error">{{ errors[0] }}</span>
               </div>
@@ -1040,8 +1080,10 @@
               <div class="col-md-6">
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Storage temperature') }} <strong class="text-error">*</strong></label>
-                  <select class="border p-3 w-full border-smooth rounded-lg"
-                          v-model="result.storage_temperature">
+                  <select
+                    class="border p-3 w-full border-smooth rounded-lg"
+                    :class="{ 'has-error': errors[0] }"
+                    v-model="result.storage_temperature">
                     <option value="" disabled>{{ $t('prod.Select Option') }}</option>
                     <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{ item.name }}
                     </option>
@@ -1170,7 +1212,9 @@ select option {
   opacity: 0;
   transform: translateX(30px);
 }
-
+.has-error{
+  border: 1px solid red !important;
+}
 </style>
 <script>
 import {mapGetters, mapActions} from 'vuex'
@@ -1547,9 +1591,9 @@ export default {
         required: !this.is_draft || !this.result.pk_size_unit,
       };
     },
-    NumberOfCartonValidationRules() {
+    BarcodeValidationRules() {
       return {
-        required: !this.is_draft,
+        required: !this.is_draft && this.result.barcode_type!=4,
       };
     },
     NotDraftValidationRules() {
