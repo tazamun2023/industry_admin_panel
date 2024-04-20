@@ -356,7 +356,7 @@ import LangInput from "../../components/langInput.vue";
 
 
 export default {
-
+  middleware: ['common-middleware', 'auth'],
   mixins:[vendor],
   name:"company-profile",
   components:{
