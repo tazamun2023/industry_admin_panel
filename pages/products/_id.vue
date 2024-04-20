@@ -1,6 +1,6 @@
 <template>
 
-  <div   v-if="$can('manage_products')">
+  <div v-if="$can('manage_products')">
 
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
@@ -10,8 +10,6 @@
         <h4 v-if="id">{{ $t('prod.edit_product') }}</h4>
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
-
-
     <!-- ---------------- -->
     <div v-if="!is_next" class="tab-sidebar">
 <!--      <div class="col-md-12 p-4 title">-->
@@ -1143,17 +1141,18 @@
         </form>
       </ValidationObserver>
     </div>
-    <div v-if="is_next">
-        <Variant
-          :result="result"
-          :selectedLevel1="selectedLevel1"
-          :selectedLevel2="selectedLevel2"
-          :selectedLevel3="selectedLevel3"
-          :select_attr1="select_attr1"
-          :select_attr2="select_attr2"
-        ></Variant>
-    </div>
   </div>
+
+    <div v-if="is_next">
+      <Variant
+        :result="result"
+        :selectedLevel1="selectedLevel1"
+        :selectedLevel2="selectedLevel2"
+        :selectedLevel3="selectedLevel3"
+        :select_attr1="select_attr1"
+        :select_attr2="select_attr2"
+      ></Variant>
+    </div>
   </div>
 </template>
 <style scoped>
