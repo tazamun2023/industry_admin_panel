@@ -505,7 +505,10 @@
               </tbody>
             </table>
             <!--          <img :src="result.images" alt="">-->
-            <upload-files @updateInput="saveAttachment"></upload-files>
+            <upload-files  @updateInput="saveAttachment"></upload-files>
+
+            <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :old_images="result.images" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
+
           </div>
           <!--          ProductImages-->
           <!-- ------------------------------------- -->
@@ -1200,6 +1203,7 @@ import BasicInformationChild from "@/components/product/BasicInformationChild.vu
 import PackagingSection from "@/components/product/PackagingSection.vue";
 import CartonDimensionSection from "@/components/product/CartonDimensionSection.vue";
 import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.vue";
+import VueUploadImages from "../../components/product/uploadImages.vue";
 
 extend('min', {
   validate(value, {length}) {
@@ -1461,6 +1465,7 @@ export default {
   },
   mixins: [util],
   components: {
+    VueUploadImages,
     ShippingDetailsSection,
     CartonDimensionSection,
     PackagingSection,
