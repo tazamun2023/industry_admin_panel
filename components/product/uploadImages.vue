@@ -1,10 +1,12 @@
 <script>
 import VueDraggable from "vue-draggable";
 import UploadImageIcon from "../partials/uploadImageIcon.vue";
+import LazyImage from "../LazyImage.vue";
 
 export default {
   name: "VueUploadImages", // vue component name
   components: {
+    LazyImage,
     UploadImageIcon,
     DraggableContainer: VueDraggable,
   },
@@ -56,8 +58,8 @@ export default {
     clearAll: String,
   },
   mounted() {
-    for (var i=0;i<this.old_images.length;i++)
-    this.Imgs.push({id:this.old_images[i].file_name,url:this.old_images[i].url});
+    for (var i = 0; i < this.old_images.length; i++)
+      this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
     this.updateInputEvntData()
   },
   methods: {
@@ -96,7 +98,7 @@ export default {
       this.dropped = 0;
     },
     append() {
-      this.files=[]
+      this.files = []
       this.$refs.uploadInput.click();
     },
     readAsDataURL(file) {
@@ -139,13 +141,13 @@ export default {
         readers.push(this.readAsDataURL(this.files[i]));
       }
 
-     var temp=[];
+      var temp = [];
       Promise.all(readers).then((values) => {
         temp = values;
         console.log("values");
         console.log(values);
         for (let i = 0; i < values.length; i++) {
-          this.Imgs.push({id:"",url:values[i]})
+          this.Imgs.push({id: "", url: values[i]})
         }
       })
 
@@ -157,16 +159,15 @@ export default {
 
 
     },
-    updateInputEvntData()
-    {
+    updateInputEvntData() {
 
-      this.$emit('updateInput',this.Imgs);
+      this.$emit('updateInput', this.Imgs);
       // this.$emit('updateInput', this.attachments.map(obj => obj.file));
     },
     reordered(event, dropped) {
 
-      this.dropped =0
-        console.log(this.Imgs)
+      this.dropped = 0
+      console.log(this.Imgs)
       console.log(event)
       console.log(dropped)
 
@@ -250,7 +251,8 @@ export default {
 
             @reordered="reordered">
             <li class="imageHolder" v-for="(img, i) in Imgs" :data-id="i" :key="i">
-              <img :src="img.url"/>
+              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>
+              <img v-else :src="img.url"/>
               <span class="delete" style="color: white" @click="deleteImg(i)">
           <svg
             class="icon"
