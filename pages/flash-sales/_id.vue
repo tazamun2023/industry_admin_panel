@@ -325,8 +325,8 @@ export default {
     },
 
     settingResult(evt) {
-      evt['start_time'] = moment(moment.utc(evt['start_time'])).local().format('YYYY-MM-DD HH:mm:ss')
-      evt['end_time'] = moment(moment.utc(evt['end_time'])).local().format('YYYY-MM-DD HH:mm:ss')
+      evt['start_time'] = moment(moment.utc(evt['start_time'])).local().format('YYYY-MM-DD')
+      evt['end_time'] = moment(moment.utc(evt['end_time'])).local().format('YYYY-MM-DD')
 
       this.result = {...evt, time_zone: this.timeZone}
     },
