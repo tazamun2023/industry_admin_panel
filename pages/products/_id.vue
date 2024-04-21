@@ -2449,6 +2449,7 @@ export default {
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
   },
   async mounted() {
+    alert('ddddd')
     this.getThumb(this.isThumb)
     // if (this.min_qty === this.result.available_quantity) {
     //   this.result.is_availability = 1;
