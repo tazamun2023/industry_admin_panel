@@ -25,15 +25,16 @@
             </filter>
           </defs>
         </svg>
-        <span> تحديد موقعي </span>
+        <span>  {{ $t('googleMap.LocateMe') }} </span>
       </div>
     </GmapMap>
     <div class="mt-4">
       <button @click="confirmAddress()" class="bg-theem rounded-lg text-white w-[100px]">
-        تأكيد
+        
+        {{ $t('googleMap.confirm') }}
       </button>
       <button @click="$emit('cancel')" class="outline-btn plr-30 plr-sm-15">
-        {{ $t('addressPopup.cancel') }}
+        {{ $t('googleMap.cancel') }}
       </button>
     </div>
 
@@ -66,9 +67,7 @@ export default {
       markerPosition: { lat: 24.7135517, lng: 46.6752957 }
     }
   },
-  mounted() {
-    // this.geolocate();
-  },
+
   methods: {
     setPlace(place) {
       this.currentPlace = place;
@@ -169,6 +168,18 @@ export default {
       this.$emit('confirm', data)
     }
   },
+  mounted() {
+    if (this.dataAddressUpdate.id !== '') {
+      if (this.dataAddressUpdate?.lat !== '') {
+        this.center.lat = parseFloat(this.dataAddressUpdate.lat)
+        this.markerPosition.lat = parseFloat(this.dataAddressUpdate.lat)
+      } if (this.dataAddressUpdate?.lng !== '') {
+        this.center.lng = parseFloat(this.dataAddressUpdate.lng)
+        this.markerPosition.lng = parseFloat(this.dataAddressUpdate.lng)
+      }
+
+    }
+  }
 };
 </script>
 

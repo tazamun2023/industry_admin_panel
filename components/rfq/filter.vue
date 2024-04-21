@@ -74,6 +74,19 @@ export default {
     filterData() {
       this.$emit('filter',this.result);
     },
+    clearFilter() {
+      this.result.subCategory = ""
+      this.result.category_id = ""
+      this.result.country_id = ""
+      this.result.parent = ""
+      this.result.to_date = ""
+      this.result.from_date = ""
+      this.result.parentCategory = ""
+      this.result.multi_products = ""
+      this.result.search = ""
+      this.result.status = ""
+      this.$emit('filter',this.result);
+    },
     ...mapActions('common', ['getCategoriesTree','getAllCountries', 'emptyAllList'])
   },
   async mounted() {
@@ -254,12 +267,16 @@ export default {
           <div class="mb-4">
             <button type="button"
                     @click="filterData"
-                    class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
+                    class="inline-block align-middle text-center select-none border 
+                    font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
               {{ $t("app.Apply Filters") }}
             </button>
-            <a
-              class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"
-              href=""> {{ $t("app.Clear Filter") }} </a>
+            <button
+              @click="clearFilter"
+              class="inline-block align-middle
+               text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 
+               leading-normal no-underline bg-red-600  hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"
+              > {{ $t("app.Clear Filter") }} </button>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ export default {
 
            if(data?.status === 200){
              this.setToastMessage(data.message)
+             this.$emit('close')
 
            } else if(data?.status === 201) {
              this.setToastError(data.data?.form?.join(', '))
@@ -45,6 +46,8 @@ export default {
            this.addressData.type = value.type
            this.addressData.default = value.default
            this.addressData.phone_code = value.phone_code
+           this.addressData.lan = value.lan
+           this.addressData.lng = value.lng
        },
 
          addAddress(){
@@ -63,7 +66,9 @@ export default {
            this.addressData.nearest_landmark = ''
            this.addressData.type = ''
            this.addressData.default = ''
-           this.addressData.phone_code = ''
+           this.addressData.phone_code = '',
+           this.addressData.lan = ''
+           this.addressData.lng = ''
 
          },
 

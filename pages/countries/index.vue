@@ -20,7 +20,7 @@
         <th>{{ $t('global.name') }}</th>
         <th>{{ $t('country.phonecode') }}</th>
         <th>{{ $t('country.currency_code') }}</th>
-        <th>&nbsp;</th>
+        <!-- <th>&nbsp;</th> -->
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">

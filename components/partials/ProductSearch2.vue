@@ -19,6 +19,7 @@
               >
               <button
                 @click.prevent="search"
+                :disabled="searchedString == ''"
                 class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary">
                 <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
