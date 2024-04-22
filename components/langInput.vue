@@ -25,6 +25,7 @@
 
           <WYSIWYGEditor v-else
                          :title="` ${title}  ( ${language} ) `"
+                         @file="editorOverviewFile"
                          :description="valuesOfLang[language]"
                          @change="valuesOfLang[language]= $event"
                          @input="updateInputValue(language, $event.target.value)"
@@ -51,6 +52,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   props: {
     valuesOfLang: {
@@ -90,6 +93,43 @@ export default {
     updateInputValue(language, value) {
       this.$emit('updateInput', this.valuesOfLang, language, value);
     },
+    editorOverviewFile({deleted, file, Editor, cursorLocation, resetUploader}){
+      this.editorFile({deleted, file, Editor, cursorLocation, resetUploader}, "product")
+    },
+
+    async editorFile({deleted, file, Editor, cursorLocation, resetUploader}, type){
+      if(!deleted){
+        this.loading = true
+        try {
+          const fd = new FormData()
+          fd.append('type', type)
+          fd.append('photo', file)
+          fd.append('item_id',0)
+          const data = await this.setWysiwygImage(fd)
+          if(data){
+          //   if (!this.result.id) {
+          //     await this.$router.push({path: `/${this.routeName}/${data.item_id}`})
+          //   } else {
+              Editor.insertEmbed(cursorLocation, "image", data.url);
+              resetUploader();
+            // }
+          }
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+        this.loading = false
+      }else{
+        this.loading = true
+        try {
+          await this.deleteData({params: this.getImageName(file), api: 'deleteWysiwygImage'})
+        }catch (e) {
+          return this.$nuxt.error(e)
+        }
+        this.loading = false
+      }
+    },
+    ...mapActions('common', [ 'setImageById', 'setWysiwygImage', 'deleteData'])
+
   },
 };
 </script>
