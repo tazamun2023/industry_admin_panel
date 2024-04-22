@@ -42,7 +42,7 @@
                   <label class="font-14 bold black">{{ $t("rfq.Shipping country") }}:</label><br>
                   <label><a href=""><img style="width:20px;"
                         src="httlabels://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ae.svg" alt=""> {{
-                      rfq.country.name }}</a></label>
+                          rfq.country.name }}</a></label>
                 </div>
                 <div class="md:w-1/4 pr-4 pl-4  mb-10">
                   <label class="font-14 bold black">{{ $t("rfq.Shipping city") }}</label><br>
@@ -95,7 +95,7 @@
                     </thead>
                     <tbody>
 
-                      <template v-for="(product, k) in rfq.products" >
+                      <template v-for="(product, k) in rfq.products">
                         <tr>
                           <td>{{ k + 1 }}</td>
                           <td>
@@ -127,7 +127,7 @@
                             <button href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
                               :disabled="isDisable"
                               class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
-                              {{ product.qoute !== "" ? $t('rfq.Edit Quote') : $t('rfq.add to quote') }}
+                              {{ product.qoute.product_id !== "" ? $t('rfq.Edit Quote') : $t('rfq.add to quote') }}
                             </button>
                           </td>
                         </tr>
@@ -185,9 +185,9 @@
                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
                                   </div>
                                   <div class="mb-4 text-right flex justify-center">
-                                    <button   v-if="product.qoute !== ''" id="add_form_cancel" @click.prevent="
-                                    deleteProduct(k)
-                                    ,toggleCollapse"
+                                    <button v-if="product.qoute.product_id !== ''" id="add_form_cancel" @click.prevent="
+                                      deleteProduct(k)
+                                      , toggleCollapse('', 1)"
                                       class="inline-block align-middle text-center select-none border
                                        font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
                                       {{ $t('app.Remove') }}
@@ -197,13 +197,12 @@
                                       font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
                                       {{ $t('app.Cancel') }}
                                     </button>
-                                    <button type="button" @click="toggleCollapse('', 1)"
-                                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                    <button type="button" @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
                                        py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
                                         long mt-20">
                                       {{ $t('app.Save') }}
                                     </button>
-                                  
+
                                   </div>
                                 </div>
                               </div>
@@ -234,8 +233,9 @@
                 <div class="md:w-1/3 pr-4 pl-4">
                   <div class="mb-4">
                     <label for="">{{ $t('rfq.quote_expired_message') }}</label>
-                    <input v-model="result.expiry_date" type="date" :min="minDate" placeholder="Select Date"
-                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded">
+                    <datepicker  :type="'date'" v-model="result.expiry_date"  :default-value="new Date()" :format="dateFormat"
+                      :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
+
                   </div>
                 </div>
                 <div class="md:w-full pr-4 pl-4">
@@ -370,12 +370,14 @@ import outsideClick from '~/directives/outside-click'
 import ProductSearch from "../../components/partials/ProductSearch.vue";
 import LazyImage from "../../components/LazyImage.vue";
 import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
-
+import Datepicker from 'vue2-datepicker';
 export default {
+ 
   name: "RFQDetails",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      dateFormat: 'Y-m-d',
       activeProductId: 0,
       isCollapsed: false,
       isDisable: false,
@@ -402,6 +404,7 @@ export default {
   directives: { outsideClick },
   mixins: [util],
   components: {
+    Datepicker,
     ProductSearch2,
     LazyImage,
     ProductSearch,
@@ -409,7 +412,6 @@ export default {
     Spinner
   },
   computed: {
-
     id() {
       return this.$route?.params?.id
     },
@@ -423,19 +425,32 @@ export default {
     ...mapGetters('common', ['allUnits',])
   },
   methods: {
+   formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day;
+    return `${year}-${formattedMonth}-${formattedDay}`;
+},
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const minSelectableDate = new Date(today.getTime() + 3 * 24 * 3600 * 1000);
+      return date < minSelectableDate;
+    },
+
     getTodayDate() {
       const today = new Date();
       const year = today.getFullYear();
       const month = today.getMonth() + 1;
-      const day = today.getDate();
+      const day = today.getDate() + 3;
       return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     },
-    deleteProduct(index) {
-      console.log(this.rfq.products[index].qoute)
-      if (this.rfq.products[index] && this.rfq.products[index].qoute) {
-        delete this.rfq.products[index].qoute;
-        // delete this.rfq.products[index].quotes;
-      }
+    async deleteProduct(index) {
+      this.rfq.products[index].qoute.product.title = '';
+      this.rfq.products[index].qoute.product_id = '';
     },
 
     toggleCollapse(id = "", save = 0) {
@@ -474,9 +489,7 @@ export default {
       // console.log(this.result)
     },
     async addQuote() {
-
-      console.log(this.canSend)
-      console.log(this.result)
+      this.result.expiry_date= this.formatDate(this.result.expiry_date)
       this.save()
       if (this.canSend)
         await this.setById({
@@ -489,9 +502,8 @@ export default {
         })
     },
     async addDraftQuote() {
+      this.result.expiry_date= this.formatDate(this.result.expiry_date)
       this.result.is_draft = true
-      // console.log(this.canSend)
-      // console.log(this.result)
       this.save()
       // if (this.canSend)
       await this.setById({
@@ -618,7 +630,7 @@ export default {
               total_offer_price: 0,
 
             })
-
+          console.log('point', this.rfq.products[i].qoute);
         }
 
 
@@ -665,5 +677,17 @@ export default {
 
 .no-radius {
   border-radius: 0px !important;
+}
+</style>
+<style>
+@import 'vue2-datepicker/index.css';
+.mx-calendar-content .cell {
+  color: black !important;
+}
+.mx-calendar-content .cell.disabled {
+  color: #ccc !important;
+}
+.mx-table-date .cell.not-current-month {
+  color: black !important;
 }
 </style>
