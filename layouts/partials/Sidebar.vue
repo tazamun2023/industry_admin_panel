@@ -58,10 +58,11 @@
               @click.native="clicked(child)"
               :title="child.title"
             >
-              <i
+              <!-- <i
                 class="icon"
                 :class="child.icon"
-              />
+              /> -->
+              <img v-if="child.is_image" class="h-4 w-4" :src="getImgUrl(child.icon)" alt="">
               <span class="">{{ child.title }}</span>
             </nuxt-link>
           </li>
@@ -191,7 +192,8 @@ export default {
             {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
-              icon: 'registered',
+              icon: 'document-text.svg',
+              is_image:true,
               gate: 'view_RFQ'
             },
             {
@@ -235,8 +237,9 @@ export default {
             {
               path: 'buisness-news',
               title: this.$t('profile.news'),
-              icon: 'profile',
-              gate: 'view_content'
+              icon: 'book.svg',
+              gate: 'view_content',
+              is_image:true
             },
             {
               path: 'video',
@@ -253,8 +256,9 @@ export default {
             {
               path: 'faq',
               title: this.$t('profile.faq'),
-              icon: 'faq',
-              gate: 'view_content'
+              icon: 'faq.svg',
+              gate: 'view_content',
+              is_image:true
             }
           ]
         },
