@@ -324,6 +324,8 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Incomplete": "Incomplete",
+    "No variants added": "No variants added!",
     "Add Variant": "Add Variant",
     "Edit Category": "Edit Category",
     "Variants List": "Variants List",

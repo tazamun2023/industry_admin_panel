@@ -222,7 +222,7 @@
                     <div class="form-group">
                       <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
                               @change="isAttr($event, 'color')">
-                        <option value="0">{{ $t('prod.Select attribute 1') }}</option>
+                        <option value="">{{ $t('prod.Select attribute 1') }}</option>
                         <option v-for="(item, index) in product_variant_type" :key="index"
                                 :disabled="item === select_attr2">{{ item }}
                         </option>
@@ -235,7 +235,7 @@
                     <div class="form-group">
                       <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
                               @change="isAttr($event, 'size')">
-                        <option value="0">{{ $t('prod.Select attribute 2') }}</option>
+                        <option value="">{{ $t('prod.Select attribute 2') }}</option>
                         <option v-for="(item, index) in product_variant_type" :key="index"
                                 :disabled="item === select_attr1">{{ item }}
                         </option>
@@ -307,7 +307,7 @@
 
                 <div v-if="!is_variant_save">
                   <div class="col-md-4 pt-4">
-                    <button :disabled="select_attr1===0 && select_attr2===0" type="button"
+                    <button :disabled="select_attr1==='' || select_attr2===''" type="button"
                             @click.prevent="addVariantValueRows()"
                             class="btn mb-10 w-25 btn-outline-secondary">
                       {{ $t('prod.Add Row') }}
@@ -336,12 +336,9 @@
                           v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
                     <span>{{ $t('prod.Reset') }}</span>
                   </button>
-                  <button type="button" class="btn bg-light" v-if="!is_variant_save"
-                          :class="result.product_variants.length===0?'cursor-not-allowed':''">
-                    <nuxt-link :to="`/products/add`"
-                               :class="result.product_variants.length===0?'cursor-not-allowed':''">
-                      {{ $t('prod.CANCEL') }}
-                    </nuxt-link>
+                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
+                          v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                    <span>{{ $t('prod.CANCEL') }}</span>
                   </button>
                 </div>
                 <div class="my-10"></div>
@@ -350,7 +347,7 @@
                     <button
                       type="button"
                       class="btn text-white bg-primary w-1/4 hover:text-primary"
-                      :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.result.parent_sku"
+                      :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
                       @click.prevent="doNext">
                       {{ $t('prod.Next') }}
                     </button>
@@ -799,7 +796,7 @@
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                   <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                         v-model="result.available_quantity" @input="availableQuantity">
+                         v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber">
                   <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -866,7 +863,7 @@
                   </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="pk_average_lead_time" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="average lead time" :rules="AverageLeadValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Average lead time(Days)')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label> <strong
@@ -918,7 +915,7 @@
                   $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the products shipping container")
                 }}.</p>
               <div class="grid grid-cols-2 gap-4">
-                <ValidationProvider name="pc_weight" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="carton weight" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
@@ -945,7 +942,7 @@
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="pc_length" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="carton length" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
@@ -972,7 +969,7 @@
                   </div>
                 </ValidationProvider>
 
-                <ValidationProvider name="pc_height" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="carton height" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
@@ -996,7 +993,7 @@
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="pc_width" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="carton width" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
@@ -1040,7 +1037,7 @@
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
               <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
-              <ValidationProvider name="pdime_weight" :rules="NotDraftValidationRules" v-slot="{ errors }"
+              <ValidationProvider name="product dimention weight" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
@@ -1071,7 +1068,7 @@
               </ValidationProvider>
 
               <div class="grid grid-cols-4 gap-4">
-                <ValidationProvider name="pdime_length" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention length" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
@@ -1087,7 +1084,7 @@
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="pdime_height" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention height" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
@@ -1103,7 +1100,7 @@
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="pdime_width" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention width" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
@@ -1184,8 +1181,8 @@
 
                   <tr v-for="(product_price, index) in result.product_prices" :key="index">
                     <td class="p-2">
-                      <!--                    <ValidationProvider name="quantity" :rules="priceValidationRules" v-slot="{ errors }"-->
-                      <!--                                        :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">-->
+                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"
+                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">
                       <input
                         type="text"
                         class="form-control"
@@ -1194,12 +1191,12 @@
                         v-model="product_price.quantity"
                         @input="availableQuantity"
                       >
-                      <!--                    <span class="error">{{ errors[0] }}</span>-->
-                      <!--                    </ValidationProvider>-->
+                                          <span class="error">{{ errors[0] }}</span>
+                                          </ValidationProvider>
                     </td>
                     <td class="p-2">
-                      <!--                    <ValidationProvider name="unit_price" :rules="PriceValidationRules" v-slot="{ errors }"-->
-                      <!--                                        :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">-->
+                                          <ValidationProvider name="unit price" :rules="PriceValidationRules" v-slot="{ errors }"
+                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
                       <div class="relative flex">
                         <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                         <input type="text" style="padding: 1px 56px;" class="form-control px-20"
@@ -1207,12 +1204,12 @@
                                @keypress="onlyNumber"
                                v-model="product_price.unit_price">
                       </div>
-                      <!--                      <span class="error">{{ errors[0] }}</span>-->
-                      <!--                    </ValidationProvider>-->
+                                            <span class="error">{{ errors[0] }}</span>
+                                          </ValidationProvider>
                     </td>
                     <td class="p-2">
-                      <!--                    <ValidationProvider name="selling_price" :rules="PriceValidationRules" v-slot="{ errors }"-->
-                      <!--                                        :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">-->
+                                          <ValidationProvider name="selling price" :rules="PriceValidationRules" v-slot="{ errors }"
+                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
                       <div class="relative flex">
                         <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
                         <input type="text" style="padding: 1px 56px;" class="form-control px-20"
@@ -1222,7 +1219,8 @@
                                v-model="product_price.selling_price">
                       </div>
                       <span class="error" v-if="checkPricing===index">{{ $t('prod.Selling price must be less then unit price') }}</span>
-                      <!--                    </ValidationProvider>-->
+                                            <span class="error">{{ errors[0] }}</span>
+                                          </ValidationProvider>
                     </td>
                     <td class="p-2">
                       <button type="button" class="btn  btn-outline-secondary"
@@ -1809,11 +1807,10 @@ export default {
       // If all unit prices are less than or equal to selling prices, return true
     },
     PriceValidationRules() {
-      const allPrices = this.result.product_prices;
-
       return {
         required: !this.is_draft,
-        validatePrice: {allPrices}, // Pass allSKus as a parameter to uniqueSku
+        min_value: 1, // Pass allSKus as a parameter to uniqueSku
+        max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
       };
 
     },
@@ -1876,6 +1873,27 @@ export default {
     NotDraftValidationRules() {
       return {
         required: !this.is_draft
+      };
+    },
+    CartonDimensionValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999
+      };
+    },
+    ProductDimensionValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999
+      };
+    },
+    AverageLeadValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99
       };
     },
     requiredErrorMessage() {
@@ -2095,8 +2113,19 @@ export default {
       this.is_next = true
 
     },
-    doVariantReset() {
-
+    async doVariantReset() {
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+      if (confirmation.value) {
+        this.result.product_variants = []
+      }
     },
 
     pvTypeToggle() {
@@ -2105,15 +2134,17 @@ export default {
 
     doVariantSave() {
       if (this.result.product_variants.length === 0) {
-        this.$swal({
-          icon: "error",
-          title: "No variants added!",
-          showConfirmButton: false,
-          timer: 1000
-        });
+        this.setToastMessage(this.$t('prod.No variants added'))
+        // this.$swal({
+        //   icon: "error",
+        //   title: "No variants added!",
+        //   showConfirmButton: false,
+        //   timer: 1000
+        // });
         return false;
+      }else {
+        this.is_variant_save = !this.is_variant_save
       }
-      this.is_variant_save = !this.is_variant_save
     },
 
     doSubmitVariant() {
@@ -2762,7 +2793,8 @@ export default {
         this.loading = false
       }
     },
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree'])
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   async mounted() {
     this.getThumb(this.isThumb)
