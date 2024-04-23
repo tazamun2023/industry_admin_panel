@@ -380,7 +380,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_en"
-                  :options="['sea','air','land']"
+                  :options="[]"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -392,7 +392,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_ar"
-                  :options="['sea','air','land']"
+                  :options="[]"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -403,7 +403,7 @@
           </div>
           <!--          BasicInformationChild-->
           <!-- ------------------------------------- -->
-          <div class="my-10"></div>
+<!--          <div class="my-10"></div>-->
           <!-- ------------------------------------- -->
           <!--          ProductImages-->
           <!--          <product-images-section-->
@@ -414,7 +414,7 @@
           <!--            :images="result.images"-->
           <!--            :isThumb="isThumb"-->
           <!--          />-->
-          <div class="tab-sidebar p-3" v-if="!is_variant">
+<!--          <div class="tab-sidebar p-3" v-if="!is_variant">-->
 
 <!--            <div class="input-wrapper">-->
 <!--              <label class="pl-4 pt-0 fw-bold">-->
@@ -514,7 +514,7 @@
 <!--            <upload-files  @updateInput="saveAttachment"></upload-files>-->
 
 
-          </div>
+<!--          </div>-->
           <!--          ProductImages-->
           <!-- ------------------------------------- -->
 
@@ -1290,7 +1290,7 @@
                     </select>
                   </div>
                 </div>
-                <ValidationProvider name="unit_id" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="storage temperature" :rules="NotDraftValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Storage temperature')}) }">
                   <div class="col-md-6">
                     <div class="input-wrapper">
