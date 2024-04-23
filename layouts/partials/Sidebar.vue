@@ -58,10 +58,11 @@
               @click.native="clicked(child)"
               :title="child.title"
             >
-              <i
+              <!-- <i
                 class="icon"
                 :class="child.icon"
-              />
+              /> -->
+              <img v-if="child.is_image" class="h-4 w-4" :src="getImgUrl(child.icon)" alt="">
               <span class="">{{ child.title }}</span>
             </nuxt-link>
           </li>
@@ -131,7 +132,8 @@ export default {
             {
               path: 'products',
               title: this.$t('error.prod'),
-              icon: 'products',
+              icon: 'box.svg',
+              is_image:true,
               form: ['product', 'ratingReviews'],
               gate: 'view_products'
             },
@@ -191,7 +193,8 @@ export default {
             {
               path: 'rfq',
               title: this.$t('rfq.RFQ'),
-              icon: 'registered',
+              icon: 'document-text.svg',
+              is_image:true,
               gate: 'view_RFQ'
             },
             {
@@ -235,8 +238,9 @@ export default {
             {
               path: 'buisness-news',
               title: this.$t('profile.news'),
-              icon: 'profile',
-              gate: 'view_content'
+              icon: 'book.svg',
+              gate: 'view_content',
+              is_image:true
             },
             {
               path: 'video',
@@ -253,8 +257,9 @@ export default {
             {
               path: 'faq',
               title: this.$t('profile.faq'),
-              icon: 'faq',
-              gate: 'view_content'
+              icon: 'faq.svg',
+              gate: 'view_content',
+              is_image:true
             }
           ]
         },
@@ -276,16 +281,18 @@ export default {
             {
               path: 'subscribers',
               title: this.$t('error.subCrbs'),
-              icon: 'subscribers',
+              icon: 'verify.svg',
               form: ['subscriber'],
-              gate: 'manage_subscriber'
+              gate: 'manage_subscriber',
+              is_image:true,
             },
             {
               path: 'subscription-email-formats',
               title: this.$t('error.ef'),
-              icon: 'subscription-email-formats',
+              icon: 'sms.svg',
               form: ['subscription-email-format'],
-              gate: 'subscription_email_format'
+              gate: 'subscription_email_format',
+              is_image:true,
             },
           ]
         },
@@ -357,7 +364,8 @@ export default {
             {
               path: 'site-setting',
               title: this.$t('admin.site'),
-              icon: 'site-setting',
+              icon: 'setting-2.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
@@ -394,8 +402,9 @@ export default {
             {
               path: 'account/payment',
               title: this.$t('account.payment'),
-              icon: 'dollar',
-              gate: 'view_financial'
+              icon: 'empty-wallet-g.svg',
+              gate: 'view_financial',
+              is_image:true,
             },
             {
               // dont have permission
@@ -474,13 +483,15 @@ export default {
             {
               path: 'countries',
               title: this.$t('setting.countries'),
-              icon: 'flash-sales',
+              icon: 'flag.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
             },
             {
               path: 'cities',
               title: this.$t('setting.cities'),
-              icon: 'flash-sales',
+              icon: 'locationgreen.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
             },
             {
@@ -560,7 +571,8 @@ export default {
             {
               path: 'setting/currency',
               title: 'More Setting',
-              icon: 'setting',
+              icon: 'setting-2.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
             },
 

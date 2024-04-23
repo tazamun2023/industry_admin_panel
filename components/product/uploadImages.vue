@@ -251,8 +251,8 @@ export default {
 
             @reordered="reordered">
             <li class="imageHolder" v-for="(img, i) in Imgs" :data-id="i" :key="i">
-              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>
-              <img v-else :src="img.url"/>
+<!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
+              <img  :src="img.url"/>
               <span class="delete" style="color: white" @click="deleteImg(i)">
           <svg
             class="icon"

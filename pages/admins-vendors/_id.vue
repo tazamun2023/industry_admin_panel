@@ -7,8 +7,8 @@
       </nuxt-link>
 
     </div>
-    <div>
-      <ValidationObserver v-slot="{ invalid }">
+    <div class="w-2/4 mx-auto shadow p-4 border border-smooth rounded">
+      <ValidationObserver  class="w-full" v-slot="{ invalid }">
         <form @submit.prevent="formSubmit">
           <transition
             name="fade"
@@ -42,14 +42,14 @@
             </ul>
           </div>
           <div class="input-wrapper">
-            <ValidationProvider name="Name"  v-slot="{ errors }">
+            <ValidationProvider  class="w-full" name="Name"  v-slot="{ errors }">
               <label for="">{{ $t('fSale.name') }}</label>
               <input type="text" :placeholder="$t('fSale.name')" v-model="userInfo.name">
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
           <div class="input-wrapper">
-            <ValidationProvider name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+            <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
               <label for="">{{ $t('fSale.email') }}</label>
               <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
               <span class="error">{{ errors[0] }}</span>
@@ -58,11 +58,11 @@
 
           <div class="input-wrapper">
             <div class="relative">
-              <ValidationProvider name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+              <ValidationProvider class="w-full" name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
                 <label class="w-full"  for="">{{ $t('user.new_password') }}*</label>
                 <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="userInfo.password" @keyup="checkPassword()">
                 <i
-                  class="icon"
+                  class="icon absolute mt-[7px] ltr:right-1 rtl:left:right-1"
                   :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
                   @click="passwordFieldToggle"
                 />
@@ -80,14 +80,14 @@
 
 
           <div class="relative">
-            <ValidationProvider name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+            <ValidationProvider  class="w-full" name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
               <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
               <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
               <i
-                class="icon"
+                class="icon icon absolute mt-[7px] ltr:right-1 rtl:left:right-1"
                 :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
                 @click="passwordFieldToggle()"
-              />-
+              />
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>

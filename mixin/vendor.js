@@ -11,9 +11,11 @@ export default {
      if(this.submit){
        let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api:'updateVendor'})
        if(status === 200){
+         this.submit = false
          this.errors = null
-       }else if(status === 201){
+       }else if(status > 200){
          this.errors = data.form
+         this.submit = false
        }
      }
     }
