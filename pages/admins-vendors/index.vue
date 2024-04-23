@@ -75,7 +75,7 @@
    <template v-if="openModal">
      <Modal :showModal="openModal"  @closeModal="closeModal">
       <div>
-        <ValidationObserver v-slot="{ invalid }">
+        <ValidationObserver class="w-full" v-slot="{ invalid }">
           <form @submit.prevent="formSubmit">
             <transition
               name="fade"
@@ -109,16 +109,16 @@
               </ul>
             </div>
             <div class="input-wrapper">
-              <ValidationProvider name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+              <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
                 <label for="">{{ $t('fSale.email') }}</label>
                 <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
             <div class="input-wrapper">
-              <ValidationProvider name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
+              <ValidationProvider class="w-full" name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
                 <label class="w-full" for="">{{ $t('user.role') }}</label>
-                <select class="w-50 p-2 border border-smooth rounded" v-model="userInfo.roles">
+                <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
                   <option value="">Select role</option>
                   <option value="superadmin">Admin</option>
                 </select>
