@@ -816,7 +816,8 @@
     "answer": "Address Name",
     "organization": "Organization",
     "image": "Image",
-    "verify": "Verification"
+    "verify": "Verification",
+    "notValidUrl": "The Url Not Valid"
 
   },
   "paymentMethod": {

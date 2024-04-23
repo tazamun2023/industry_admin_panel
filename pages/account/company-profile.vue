@@ -143,7 +143,7 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
         </div>
@@ -316,20 +316,32 @@ email, mobile, and CR number </p>
           </div>
           <div class="form-group">
             <div class="input-wrapper  mb-2">
+              <ValidationProvider class="w-full" name="whatsapp" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.whatsapp') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.whatsapp">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
+              <ValidationProvider class="w-full" name="facebook" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.facebook') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.facebook">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.facebook">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
+              <ValidationProvider class="w-full" name="linkedin" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.linkedin') }} </label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.linkedin">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.linkedin">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper  mb-2">
+              <ValidationProvider class="w-full" name="youtube" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.youtube') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.youtube">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.youtube">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
               <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
