@@ -511,7 +511,7 @@
     "cancel":"cancel",
     "LocateMe":"Locate Me"
   },
-  
+
   "order": {
     "enterTotAmPay":"enter the total amount of payment",
     "total_amount":"total amount",
@@ -807,7 +807,8 @@
     "answer": "Address Name",
     "organization": "Organization",
     "image": "Image",
-    "verify": "Verification"
+    "verify": "Verification",
+    "notValidUrl": "The Url Not Valid"
 
   },
   "paymentMethod": {

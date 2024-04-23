@@ -46,9 +46,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="flex justify-end">
-                <input type="checkbox" name="" id=""> <span>Set as Default</span>
-            </div>
+
             <DeleteModal v-if="deleteModal" @closeModal="closeModal">
               <template v-slot:title>
                 <h4>{{ $t('vendor.deletemessage') }}</h4>
@@ -201,7 +199,7 @@ export default{
     async  getAllVendorBank(){
       await this.getVendorBank({
         params:{
-          "vendor_id" : this.profile.id
+          "vendor_id" : this.profile.vendor_id
         },
         api:"getVendorBank"
       })
@@ -209,15 +207,13 @@ export default{
 
   },
  async mounted() {
-
-    this.bankData.vendor_id = this.profile.id
+    this.bankData.vendor_id = this.profile.vendor_id
 
     try {
       await this.getAllVendorBank()
     }catch (e) {
       return this.$nuxt.error(e)
     }
-
 
   }
 
