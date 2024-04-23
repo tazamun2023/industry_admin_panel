@@ -169,9 +169,15 @@
                         :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
                       >
                         <lazy-image
+                          v-if="value.image"
                           class="mr-20"
-
                           :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title?.en"
+                        />
+                        <lazy-image
+                          v-else
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
 

@@ -324,11 +324,20 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Add Variant": "Add Variant",
+    "Edit Category": "Edit Category",
+    "Variants List": "Variants List",
     "Save": "Save",
+    "required_unit": "required unit",
+    "required_sub_category": "required sub category",
+    "required_main_category": "required main category",
+    "required_child_category": "required child category",
+    "Selling price must be less then unit price": "Selling price must be less then unit price",
     "Reset": "Reset",
     "Next": "Next",
     "CANCEL": "CANCEL",
     "Add Row": "Add Row",
+    "Media list is required": "Media list is required",
     "Edit": "Edit",
     "Name": "Name",
     "Unit": "Unit",
@@ -511,7 +520,7 @@
     "cancel":"cancel",
     "LocateMe":"Locate Me"
   },
-  
+
   "order": {
     "enterTotAmPay":"enter the total amount of payment",
     "total_amount":"total amount",

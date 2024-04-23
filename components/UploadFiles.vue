@@ -1,22 +1,23 @@
 <!-- MultilingualInput.vue -->
 <template>
 
-  <div class="mt-20  ">
-    <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
-    <dropzone id="foo" ref="el" :options="options"
-              @removeUpload="removeFile"
-              v-on:vdropzone-files-added="addImage"
-              v-on:vdropzone-success="showSuccess"
-              v-on:vdropzone-removed-file="removeFile"></dropzone>
+  <div>
+    <div class="mt-20 " :style="hasError && attachments.length===0?'border: 1px solid red':''">
+      <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
+      <dropzone id="foo" ref="el" :options="options"
+                @removeUpload="removeFile"
+                v-on:vdropzone-files-added="addImage"
+                v-on:vdropzone-success="showSuccess"
+                v-on:vdropzone-removed-file="removeFile"></dropzone>
 
-    <!--                <div-->
-    <!--                  class="border border-dotted text-justify-center p-2 px-4 mt-10 rounded border-smooth w-100 lg:w-50">-->
-    <!--                  ({{ $t('rfq.Attach File') }}) <br>-->
-    <!--                  <span class="text-xs">{{ $t('rfq.Attach File Types') }}</span>-->
-    <!--                </div>-->
-    <!--                <p class="text-xs leading-relaxed">{{ $t('rfq.Attach File Note') }}</p>-->
+      <!--                <div-->
+      <!--                  class="border border-dotted text-justify-center p-2 px-4 mt-10 rounded border-smooth w-100 lg:w-50">-->
+      <!--                  ({{ $t('rfq.Attach File') }}) <br>-->
+      <!--                  <span class="text-xs">{{ $t('rfq.Attach File Types') }}</span>-->
+      <!--                </div>-->
+    </div>
+    <span class="error" v-if="hasError && attachments.length===0">{{ $t('prod.Media list is required') }}</span>
   </div>
-
 
 </template>
 
@@ -33,10 +34,10 @@ export default {
     //   type: Object,
     //   required: true,
     // },
-    // hasError: {
-    //   type:Boolean,
-    //   required: true,
-    // },
+    hasError: {
+      type:Boolean,
+      required: false,
+    },
     // title: {
     //   type: String,
     //   required: true,
@@ -49,6 +50,11 @@ export default {
       type: Number,
       default: 10
     },
+  },
+  watch: {
+    errorCheck() {
+      this.hasError = this.attachments.length === 0;
+    }
   },
   data() {
     return {
