@@ -19,7 +19,6 @@
               >
               <button
                 @click.prevent="search"
-                :disabled="searchedString == ''"
                 class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded ml-2 mr-2 py-1 px-3 leading-normal no-underline bg-primary text-white hover:text-primary">
                 <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -143,7 +142,17 @@ export default {
   directives: {
     outsideClick
   },
-  props: {},
+  props: {
+    type: {
+      type: String,
+      default: "select_from_my_catalog"
+    }
+  },
+  watch: {
+    type() {
+      this.fetchingData()
+    }
+  },
   mixins: [util],
   components: {LazyImage, Spinner},
   computed: {
@@ -202,7 +211,8 @@ export default {
             orderby: 'created_at',
             type: 'DESC',
             q: this.searchedString,
-            page_type: 'flash_sale'
+            page_type: 'rfq_search_vendor',
+            type_selected: this.type
           },
           api: 'getProducts'
         })
@@ -215,6 +225,7 @@ export default {
     ...mapActions('common', ['getRequest'])
   },
   mounted() {
+    this.fetchingData()
   }
 }
 </script>
