@@ -105,13 +105,14 @@ import LazyImage from "../LazyImage";
 
 export default {
   name: 'ProductSearch',
+  props:['type'],
   data() {
     return {
       productPage: 1,
       productData: null,
       autoSuggestionOpen: false,
       searchedString: '',
-      fetchingProductList: true
+      fetchingProductList: true,
     }
   },
   watch: {
@@ -185,7 +186,7 @@ export default {
             page: this.productPage,
             orderby: 'created_at',
             type: 'DESC',
-            q: this.searchedString
+            q: this.searchedString,
           },
           api: 'getProducts'
         })

@@ -1,16 +1,9 @@
 <template>
   <check-validity :gate="'submit_quotation'" class="detail-width">
-    <div
-      v-if="loading"
-      class="spinner-wrapper"
-    >
-      <spinner
-        :radius="60"
-        color="primary"
-      />
+    <div v-if="loading" class="spinner-wrapper">
+      <spinner :radius="60" color="primary" />
     </div>
-    <div
-      v-if="rfq">
+    <div v-if="rfq">
       <div class="flex flex-wrap ">
         <div class="md:w-full pr-4 pl-4">
           <div class="relative flex flex-col min-w-0 rounded break-words card  bg-white border-1 ">
@@ -18,10 +11,10 @@
               <h4 class="font-20"> {{ $t("rfq.RFQ details") }}</h4>
               <h4 class="font-20 ">
                 <nuxt-link class="flex" :to="`/rfq`">
-                  <svg class="w-6 h-6 text-gray-800  mr-2 ml-2" aria-hidden="true"
-                       xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                  <svg class="w-6 h-6 text-gray-800  mr-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                      d="M13 5H1m0 0 4 4M1 5l4-4" />
                   </svg>
                   {{ $t("rfq.Submit Quote") }}
                 </nuxt-link>
@@ -48,8 +41,8 @@
                 <div class="md:w-1/4 pr-4 pl-4  mb-10">
                   <label class="font-14 bold black">{{ $t("rfq.Shipping country") }}:</label><br>
                   <label><a href=""><img style="width:20px;"
-                                         src="httlabels://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ae.svg"
-                                         alt=""> {{ rfq.country.name }}</a></label>
+                        src="httlabels://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ae.svg" alt=""> {{
+                          rfq.country.name }}</a></label>
                 </div>
                 <div class="md:w-1/4 pr-4 pl-4  mb-10">
                   <label class="font-14 bold black">{{ $t("rfq.Shipping city") }}</label><br>
@@ -58,9 +51,9 @@
                 <div class="md:w-1/4 pr-4 pl-4  mb-10">
                   <label class="font-14 bold black">{{ $t("rfq.Shipping terms") }}</label><br>
                   <label>
-                    <template v-for="(term,index) in rfq.shipmen_terms">
+                    <template v-for="(term, index) in rfq.shipmen_terms">
                       <span>{{ term.name }}</span>
-                      <span class="mx-2" v-if="index+1<rfq.shipmen_terms.length">,</span>
+                      <span class="mx-2" v-if="index + 1 < rfq.shipmen_terms.length">,</span>
 
                     </template>
                   </label>
@@ -88,130 +81,135 @@
                 <div class="block w-full overflow-auto scrolling-touch">
                   <table id="conditionTable" class="hoverable whitespace-no-wrap">
                     <thead>
-                    <tr>
-                      <th> #</th>
-                      <th> {{ $t('products.Image') }}</th>
-                      <th> {{ $t('products.Products') }}</th>
-                      <th> {{ $t('products.Category') }}</th>
-                      <th> {{ $t('products.Quantity') }}</th>
-                      <th> {{ $t('products.Unit Target Price') }}</th>
-                      <th> {{ $t("products.Total target price") }}</th>
+                      <tr>
+                        <th> #</th>
+                        <th> {{ $t('products.Image') }}</th>
+                        <th> {{ $t('products.Products') }}</th>
+                        <th> {{ $t('products.Category') }}</th>
+                        <th> {{ $t('products.Quantity') }}</th>
+                        <th> {{ $t('products.Unit Target Price') }}</th>
+                        <th> {{ $t("products.Total target price") }}</th>
 
-                      <th>{{ $t('app.Actions') }}</th>
-                    </tr>
+                        <th>{{ $t('app.Actions') }}</th>
+                      </tr>
                     </thead>
                     <tbody>
 
-                    <template v-for="(product,k) in rfq.products">
-                      <tr>
-                        <td>{{ k + 1 }}</td>
-                        <td>
-                          <!--                          <img :src="product.image" alt="">-->
-                          <lazy-image
-                            class="mr-15 img-40x"
-                            :data-src="product.image"
-                            :alt=" product.name"
-                          />
-                        </td>
-                        <td class="w-1/4"> {{ product.name }}</td>
-                        <td>{{ product.category?.title }}</td>
-                        <td>{{ product.quantity }} {{ product.unit.name }}</td>
-                        <td> {{
+                      <template v-for="(product, k) in rfq.products">
+                        <tr>
+                          <td>{{ k + 1 }}</td>
+                          <td>
+                            <!--                          <img :src="product.image" alt="">-->
+                            <lazy-image class="mr-15 img-40x" :data-src="product.image" :alt="product.name" />
+                          </td>
+                          <td class="w-1/4"> {{ product.name }}</td>
+                          <td>{{ product.category?.title }}</td>
+                          <td>{{ product.quantity }} {{ product.unit.name }}</td>
+                          <td> {{
                             product.target_price.toLocaleString($t('app.currency_local'), {
                               style: 'currency',
                               maximumFractionDigits: 0,
                               currency: 'SAR'
                             })
                           }}
-                        </td>
-                        <td> {{
+                          </td>
+                          <td> {{
                             product.total_target_price.toLocaleString($t('app.currency_local'), {
                               style: 'currency',
                               maximumFractionDigits: 0,
                               currency: 'SAR'
                             })
                           }}
-                        </td>
+                          </td>
 
 
-                        <td >
-                          <button  href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
-                                  :disabled="isDisable"
-                                  class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
-                            {{ $t('rfq.add to quote') }}
-                          </button>
-                        </td>
-                      </tr>
-                      <tr v-if="isCollapsed && activeProductId==product.id" id="add_form">
-                        <td colspan="8">
-                          <form action="">
-                            <div class="grid grid-cols-5 gap-4">
-                              <div class="col-span-2">
-                                <label for="">{{ $t('products.name') }}*</label>
-                                <div class="flex border rounded p-1 border-smooth bg-white">
-                                  <button type="button" @click="addProduct"
-                                          class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
-                                          data-toggle="modal" data-target="#staticBackdrop">
-                                    {{ $t('products.add') }}
-                                  </button>
-                                  <span
-                                    class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                              {{ product.qoute.product.title }}
-                                  </span>
+                          <td>
+                            <button href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
+                              :disabled="isDisable"
+                              class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
+                              {{ product.qoute.product_id !== "" ? $t('rfq.Edit Quote') : $t('rfq.add to quote') }}
+                            </button>
+                          </td>
+                        </tr>
+                        <tr v-if="isCollapsed && activeProductId == product.id" id="add_form">
+                          <td colspan="8">
+                            <form action="">
+                              <div class="grid grid-cols-5 gap-4">
+                                <div class="col-span-2">
+                                  <label for="">{{ $t('products.name') }}*</label>
+                                  <div class="flex border rounded p-1 border-smooth bg-white">
+                                    <button type="button" @click="addProduct"
+                                      class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
+                                      data-toggle="modal" data-target="#staticBackdrop">
+                                      {{ $t('products.add') }}
+                                    </button>
+                                    <span
+                                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                      {{ product.qoute.product.title }}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div>
+                                  <label for="">{{ $t('products.Quantity') }}*</label>
+                                  <div class="flex border rounded p-1 border-smooth bg-white">
+                                    <input name="quantity" v-model="rfq.products[k].qoute.quantity" placeholder="qty"
+                                      required="" aria-required="true" type="number"
+                                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                    <select class="border-none w-50" v-model="rfq.products[k].qoute.unit_id" id="">
+                                      <template v-for="unit in allUnits">
+                                        <option :value="unit.id">{{ unit.name }}</option>
+                                      </template>
+
+
+                                    </select>
+                                  </div>
+                                </div>
+                                <div>
+                                  <label for="">{{ $t('rfq.Unit offer price') }}*</label>
+                                  <div class="flex border rounded p-1 border-smooth bg-white">
+                                    <label class="p-3" for="">{{ $t('app.SAR') }}</label>
+                                    <input type="number" v-model="rfq.products[k].qoute.total_offer_price"
+                                      placeholder="0"
+                                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                  </div>
+                                </div>
+                                <div>
+                                  <label for=""> {{ $t('rfq.Total target price') }}*</label>
+                                  <div class="flex border rounded p-1 border-smooth bg-white">
+                                    <label class="p-3" for="">{{ $t('app.SAR') }}</label>
+
+
+                                    <input name="quantity" placeholder="0"
+                                      :value="rfq.products[k].qoute.quantity * rfq.products[k].qoute.total_offer_price"
+                                      disabled
+                                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                  </div>
+                                  <div class="mb-4 text-right flex justify-center">
+                                    <button v-if="product.qoute.product_id !== ''" id="add_form_cancel" @click.prevent="
+                                      deleteProduct(k)
+                                      , toggleCollapse('', 1)"
+                                      class="inline-block align-middle text-center select-none border
+                                       font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
+                                      {{ $t('app.Remove') }}
+                                    </button>
+                                    <button id="add_form_cancel" @click="toggleCollapse"
+                                      class="inline-block align-middle text-center select-none border 
+                                      font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
+                                      {{ $t('app.Cancel') }}
+                                    </button>
+                                    <button type="button" @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                       py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
+                                        long mt-20">
+                                      {{ $t('app.Save') }}
+                                    </button>
+
+                                  </div>
                                 </div>
                               </div>
-                              <div>
-                                <label for="">{{ $t('products.Quantity') }}*</label>
-                                <div class="flex border rounded p-1 border-smooth bg-white">
-                                  <input name="quantity" v-model="rfq.products[k].qoute.quantity " placeholder="qty"
-                                         required="" aria-required="true"
-                                         type="number"
-                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                  <select class="border-none w-50" v-model="rfq.products[k].qoute.unit_id" id="">
-                                    <template v-for="unit in allUnits">
-                                      <option :value="unit.id">{{ unit.name }}</option>
-                                    </template>
-
-
-                                  </select>
-                                </div>
-                              </div>
-                              <div>
-                                <label for="">{{ $t('rfq.Unit offer price') }}*</label>
-                                <div class="flex border rounded p-1 border-smooth bg-white">
-                                  <label class="p-3" for="">{{ $t('app.SAR') }}</label>
-                                  <input type="number" v-model="rfq.products[k].qoute.total_offer_price" placeholder="0"
-                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                </div>
-                              </div>
-                              <div>
-                                <label for=""> {{ $t('rfq.Total target price') }}*</label>
-                                <div class="flex border rounded p-1 border-smooth bg-white">
-                                  <label class="p-3" for="">{{ $t('app.SAR') }}</label>
-
-
-                                  <input name="quantity" placeholder="0"
-                                         :value="rfq.products[k].qoute.quantity*rfq.products[k].qoute.total_offer_price"
-                                         disabled
-                                         class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                </div>
-                                <div class="mb-4 text-right">
-                                  <button id="add_form_cancel" @click="toggleCollapse"
-                                          class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-4 mr-4"
-                                  > {{ $t('app.Cancel') }}
-                                  </button>
-                                  <button type="button"
-                                          @click="toggleCollapse('',1)"
-                                          class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary long mt-20">
-                                    {{ $t('app.Save') }}
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </form>
-                        </td>
-                      </tr>
-                    </template>
+                            </form>
+                          </td>
+                        </tr>
+                      </template>
                     </tbody>
                   </table>
                 </div>
@@ -235,30 +233,27 @@
                 <div class="md:w-1/3 pr-4 pl-4">
                   <div class="mb-4">
                     <label for="">{{ $t('rfq.quote_expired_message') }}</label>
-                    <input v-model="result.expiry_date" type="date" :min="minDate" placeholder="Select Date"
-                           class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded">
+                    <datepicker  :type="'date'" v-model="result.expiry_date"  :default-value="new Date()" :format="dateFormat"
+                      :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
+
                   </div>
                 </div>
                 <div class="md:w-full pr-4 pl-4">
                   <div class="mb-4">
                     <label for=""> {{ $t('rfq.Additional Details') }}</label>
                     <textarea v-model="result.additional_details" class="theme-input-style" id=""
-                              :placeholder="$t('rfq.Additional Details Message')" cols="30"
-                              rows="10"></textarea>
+                      :placeholder="$t('rfq.Additional Details Message')" cols="30" rows="10"></textarea>
                   </div>
                 </div>
                 <div class="md:w-full pr-4 pl-4">
                   <div class="mb-4 text-right">
-                    <button id="add_form_cancel"
-                            @click="addDraftQuote"
-                            class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mb-auto  ml-4 mr-4">
+                    <button id="add_form_cancel" @click="addDraftQuote"
+                      class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mb-auto  ml-4 mr-4">
                       {{ $t('app.Discard Draft') }}
 
                     </button>
-                    <button type="button"
-                            :disabled="!canSend"
-                            @click="addQuote"
-                            class="inline-block align-middle text-center select-none border bg-primary font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white   long lg">
+                    <button type="button" :disabled="!canSend" @click="addQuote"
+                      class="inline-block align-middle text-center select-none border bg-primary font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white   long lg">
                       {{ $t('app.Done') }}
                     </button>
                   </div>
@@ -280,10 +275,10 @@
                 <div class="grid grid-cols-1 gap-4">
                   <div class="flex justify-between items-center">
                     <h4 class="font-14 bold black pb-2  pt-2">{{ $t('rfq.How would you like to add a product') }}</h4>
-                    <svg @click="cancel" class="cursor-pointer w-4 h-4 text-gray-800  font-14"
-                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <svg @click="cancel" class="cursor-pointer w-4 h-4 text-gray-800  font-14" aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                     </svg>
                   </div>
                 </div>
@@ -295,37 +290,34 @@
                       <div class="grid grid-cols-3 gap-4">
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"
-                                 id="productLog" @click="productTableShow('select_from_my_catalog')"
-                                 v-model="select_from_my_catalog">
+                            id="productLog" @click="productTableShow('select_from_my_catalog')"
+                            v-model="select_from_my_catalog">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="productLog">
                             {{ $t("rfq.Select from my catalogue") }}
                           </label>
                         </div>
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"
-                                 id="allproductLog" @click="productTableShow('copy_from_product')"
-                                 v-model="copy_from_product">
+                            id="allproductLog" @click="productTableShow('copy_from_product')"
+                            v-model="copy_from_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="allproductLog">
                             {{ $t("rfq.Copy from website catalogue") }}
                           </label>
                         </div>
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"
-                                 @click="productTableShow('upload_new_product')"
-                                 id="upload_new" value="option3" v-model="upload_new_product">
+                            @click="productTableShow('upload_new_product')" id="upload_new" value="option3"
+                            v-model="upload_new_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="upload_new">
                             {{ $t("rfq.Upload a new product") }}</label>
                         </div>
                       </div>
-                      <div v-if="tableShow!=='upload_new_product'"
-                           class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
-                        <product-search2
-                          ref="productSearch"
-                          @product-clicked="addRFQProduct"
-                        />
+                      <div v-if="tableShow !== 'upload_new_product'"
+                        class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
+                        <product-search2 ref="productSearch" @product-clicked="addRFQProduct" :type="tableShow" />
                       </div>
                       <div v-if="uploadNewText"
-                           class="relative flex flex-col min-w-0 rounded break-words for_upload_message">
+                        class="relative flex flex-col min-w-0 rounded break-words for_upload_message">
                         <p>{{ $t('rfq.selectProductMessage') }}</p>
                       </div>
                     </div>
@@ -333,28 +325,26 @@
                 </div>
               </div>
               <div class="bg-smooth px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <div v-if="tableShow==='upload_new_product'">
-<!--                  return this.$router.push(`/products/add?id=` + rfqProduct.qoute.product.id + `&rfq_product_id=` + this.activeProductId + `&quote=` + res.id)-->
+                <div v-if="tableShow === 'upload_new_product'">
+                  <!--                  return this.$router.push(`/products/add?id=` + rfqProduct.qoute.product.id + `&rfq_product_id=` + this.activeProductId + `&quote=` + res.id)-->
 
-<!--                  <NuxtLink to="/products/quote/add?quote="-->
-<!--                            class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">-->
-<!--                    {{ $t('app.Continue') }}-->
-<!--                  </NuxtLink>-->
+                  <!--                  <NuxtLink to="/products/quote/add?quote="-->
+                  <!--                            class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">-->
+                  <!--                    {{ $t('app.Continue') }}-->
+                  <!--                  </NuxtLink>-->
 
-                  <button type="button"
-                          @click="saveUploadNewProduct"
-                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
+                  <button type="button" @click="saveUploadNewProduct"
+                    class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
                     {{ $t('app.Continue') }}
                   </button>
                 </div>
                 <div v-else>
-                  <button type="button"
-                          @click="saveSelectedProduct"
-                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
+                  <button type="button" @click="saveSelectedProduct"
+                    class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">
                     {{ $t('app.Save') }}
                   </button>
                   <button type="button" @click="cancel"
-                          class="leading-6 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                    class="leading-6 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
                     {{ $t('app.Cancel') }}
                   </button>
                 </div>
@@ -375,18 +365,19 @@
 import AjaxButton from '~/components/AjaxButton'
 import Spinner from '~/components/Spinner'
 import util from '~/mixin/util'
-import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import outsideClick from '~/directives/outside-click'
 import ProductSearch from "../../components/partials/ProductSearch.vue";
 import LazyImage from "../../components/LazyImage.vue";
 import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
-import rfq from "./index.vue";
-
+import Datepicker from 'vue2-datepicker';
 export default {
+ 
   name: "RFQDetails",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      dateFormat: 'Y-m-d',
       activeProductId: 0,
       isCollapsed: false,
       isDisable: false,
@@ -403,7 +394,6 @@ export default {
         additional_details: "",
         expiry_date: "",
         is_draft: false,
-
         products: []
       },
       minDate: null,
@@ -411,9 +401,10 @@ export default {
       loading: false
     }
   },
-  directives: {outsideClick},
+  directives: { outsideClick },
   mixins: [util],
   components: {
+    Datepicker,
     ProductSearch2,
     LazyImage,
     ProductSearch,
@@ -421,7 +412,6 @@ export default {
     Spinner
   },
   computed: {
-
     id() {
       return this.$route?.params?.id
     },
@@ -435,12 +425,32 @@ export default {
     ...mapGetters('common', ['allUnits',])
   },
   methods: {
+   formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedMonth = month < 10 ? `0${month}` : month;
+    const formattedDay = day < 10 ? `0${day}` : day;
+    return `${year}-${formattedMonth}-${formattedDay}`;
+},
+    disabledBeforeTodayAndAfterAWeek(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const minSelectableDate = new Date(today.getTime() + 3 * 24 * 3600 * 1000);
+      return date < minSelectableDate;
+    },
+
     getTodayDate() {
       const today = new Date();
       const year = today.getFullYear();
-      const month = today.getMonth() + 1; 
-      const day = today.getDate();
+      const month = today.getMonth() + 1;
+      const day = today.getDate() + 3;
       return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    },
+    async deleteProduct(index) {
+      this.rfq.products[index].qoute.product.title = '';
+      this.rfq.products[index].qoute.product_id = '';
     },
 
     toggleCollapse(id = "", save = 0) {
@@ -475,13 +485,11 @@ export default {
           })
         }
       }
-      this.result = {...this.result, products: qoutes}
+      this.result = { ...this.result, products: qoutes }
       // console.log(this.result)
     },
     async addQuote() {
-
-      console.log(this.canSend)
-      console.log(this.result)
+      this.result.expiry_date= this.formatDate(this.result.expiry_date)
       this.save()
       if (this.canSend)
         await this.setById({
@@ -494,9 +502,8 @@ export default {
         })
     },
     async addDraftQuote() {
+      this.result.expiry_date= this.formatDate(this.result.expiry_date)
       this.result.is_draft = true
-      // console.log(this.canSend)
-      // console.log(this.result)
       this.save()
       // if (this.canSend)
       await this.setById({
@@ -540,7 +547,14 @@ export default {
           params: this.result,
           api: 'setQuote'
         }).then((res) => {
-          return this.$router.push(`/products/quote/add?rfq_product_id=` + this.activeProductId + `&quote=` + res.id)
+          return this.$router.push({
+            path: '/products/quote/add',
+            query: {
+              rfq_product_id: this.activeProductId,
+              quote: res.id
+            }
+          });
+          //  this.$router.push(`/products/quote/add?rfq_product_id=` + this.activeProductId + `&quote=` + res.id)
         })
       }
 
@@ -563,6 +577,11 @@ export default {
     productTableShow(type) {
       this.tableShow = type;
       this.uploadNewText = false;
+      // if(type == 'select_from_my_catalog') {
+      //   this.select_from_my_catalog = !this.select_from_my_catalog
+      // } 
+      // if(type == 'copy_from_product') this.copy_from_product = true ;
+      // if(type == 'upload_new_product') this.upload_new_product = true ;
     },
     addRFQProduct(product) {
       var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
@@ -578,7 +597,7 @@ export default {
         this.loading = true
         this.rfq = Object.assign({}, await this.getById({
           id: this.id,
-          params: {time_zone: this.timeZone},
+          params: { time_zone: this.timeZone },
           api: 'getRFQ'
         }))
         this.result.products = []
@@ -586,19 +605,19 @@ export default {
         for (var i = 0; i < this.rfq.products.length; i++) {
           // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
 
-          if (this.rfq.quote!=null  && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id)>-1) {
+          if (this.rfq.quote != null && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id) > -1) {
             let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
-              this.rfq.products[i].qoute = ({
-                rfq_product_id: p.rfq_product_id,
-                product: p.product,
-                unit: p.unit,
-                unit_id: p.unit.id,
-                product_id: p.product.id,
-                id: p.id,
-                quantity: p.quantity ?? 1,
-                total_offer_price: p.total_offer_price ?? 0,
+            this.rfq.products[i].qoute = ({
+              rfq_product_id: p.rfq_product_id,
+              product: p.product,
+              unit: p.unit,
+              unit_id: p.unit.id,
+              product_id: p.product.id,
+              id: p.id,
+              quantity: p.quantity ?? 1,
+              total_offer_price: p.total_offer_price ?? 0,
 
-              })
+            })
           } else
             this.rfq.products[i].qoute = ({
               rfq_product_id: this.rfq.products[i].id,
@@ -611,7 +630,7 @@ export default {
               total_offer_price: 0,
 
             })
-
+          console.log('point', this.rfq.products[i].qoute);
         }
 
 
@@ -632,6 +651,7 @@ export default {
   async mounted() {
     this.minDate = this.getTodayDate();
     await this.fetchingData()
+    this.select_from_my_catalog = true;
 
     if (this.allUnits.length == 0) {
       try {
@@ -657,5 +677,17 @@ export default {
 
 .no-radius {
   border-radius: 0px !important;
+}
+</style>
+<style>
+@import 'vue2-datepicker/index.css';
+.mx-calendar-content .cell {
+  color: black !important;
+}
+.mx-calendar-content .cell.disabled {
+  color: #ccc !important;
+}
+.mx-table-date .cell.not-current-month {
+  color: black !important;
 }
 </style>

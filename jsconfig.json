@@ -280,6 +280,7 @@
     "deleteProductMediaImage": "product/media/delete-image",
     "setProductThumbImage": "product/thumb/image",
     "setProductVideo": "product/upload-video",
+    "deleteQoute":"rfq/delete-qoute",
 
 
     "setProductImageAttributes": "product-image-attributes/action",

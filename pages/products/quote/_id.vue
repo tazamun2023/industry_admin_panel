@@ -19,8 +19,14 @@
             <div class="d-flex justify-content-between  align-items-center">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic information') }}</h4>
             </div>
+            <div>
+              <span class="error" v-if="hasErrorLangTitle.bol" >
+                          hasErrorLangTitle message</span>
+            </div>
+           
             <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                         @updateInput="updateInput"></lang-input>
+                      
             <ValidationProvider name="brand" rules="required" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.brand', { type: $t('prod.brand')}) }">
               <div class="form-group input-wrapper mb-10  for-lang ar-lang">
@@ -673,6 +679,10 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      hasErrorLangTitle:{
+        bol: false,
+        message:""
+      },
       is_next: false,
       is_variant_save: false,
       selectedLevel1: null,
@@ -901,6 +911,7 @@ export default {
       redirect: false,
       fileUploading: false,
       videoUploading: false,
+      id: null
     }
   },
   directives: {
@@ -1418,11 +1429,21 @@ export default {
       console.log(url)
     },
     async checkForm() {
-
+      if(this.result.title.ar === "") {
+        hasErrorLangTitle.message = 'message.InValidTitleLangAr'
+         hasErrorLangTitle.bol = true ;
+         return 
+ 
+      }  else if (this.result.title.en === "") {
+        hasErrorLangTitle.bol = true ;
+        hasErrorLangTitle.message = 'message.InValidTitleLangEr'
+         return  
+      }
       // this.redirectingEnable(event.submitter.name)
       this.formSubmitting = true
+    
       try {
-
+    
         delete this.result.created_at
         delete this.result.updated_at
         await this.setById({id: this.id,
