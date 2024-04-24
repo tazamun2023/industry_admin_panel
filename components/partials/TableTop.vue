@@ -37,7 +37,7 @@
           <span v-html="$t('profile.add', { title: title})"></span>
         </nuxt-link>-->
 
-        <button v-html="$t('profile.add', { title: title})" v-if="modalButton" @click="openModal" class="button primary-btn">
+        <button v-html="$t('profile.add', { title: title})" v-if="true" @click="openModal" class="button primary-btn">
         </button>
 
       </slot>
