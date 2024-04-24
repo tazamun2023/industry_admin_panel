@@ -6,9 +6,10 @@
     list-api="getVendorUsers"
     delete-api="deleteVendors"
     route-name="vendor-users"
-    :name="$t('user.name')"
+    :name="$t('user.users')"
     :order-options="orderOptions"
     gate="invite"
+    manage_gate="invite"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
@@ -77,6 +78,95 @@
 
         </td>
       </tr>
+      <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
+        <template v-slot:title>
+          <div class="tab-sidebar w-1/2 p-4">
+
+            <div class="flex mb-2 justify-between">
+              <h3>Add {{ $t('user.users') }}</h3>
+            </div>
+            <div>
+              <ValidationObserver  class="w-full"  v-slot="{ invalid }">
+                <form @submit.prevent="formSubmit">
+                  <transition
+                    name="fade"
+                    mode="out-in"
+                  >
+                    <div
+                      class="spinner-wrapper flex layer-white"
+                      v-if="loading"
+                    >
+                      <spinner
+                        :radius="100"
+                      />
+                    </div>
+                  </transition>
+
+                  <div class="card p-4" v-if="errors?.length">
+                    <ul
+                      class="error-list mb-15"
+                    >
+                      <li
+                        class="mb-10"
+                      >
+                        {{ $t('forgotPassword.errorOccurred') }}
+                      </li>
+                      <li
+                        v-for="(value, index) in errors"
+                        :key="index"
+                      >
+                        {{ value }}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="input-wrapper">
+                    <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+                      <label for="">{{ $t('fSale.email') }}</label>
+                      <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
+                      <span class="error">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+
+                  <div class="input-wrapper" v-if="$can('assign_roles')">
+
+                    <ValidationProvider  class="w-full"  name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
+                      <label class="w-full" for="">{{ $t('user.role') }}</label>
+                      <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
+                        <option value="">Select role</option>
+                        <option value="vendor">Vendor</option>
+                        <option value="vendor_admin">Vendor Admin</option>
+                        <option value="vendor_supervisor">Vendor Supervisor</option>
+                        <option value="vendor_user">Vendor User</option>
+                      </select>
+                      <span class="error">{{ errors[0] }}</span>
+                    </ValidationProvider>
+                  </div>
+                  <div class="input-wrapper">
+                    <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
+                  </div>
+                  <div class="input-wrapper mb-0 text-end">
+                    <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
+                  </div>
+                </form>
+              </ValidationObserver>
+            </div>
+          </div>
+
+        </template>
+        <!-- -----------default slot------- -->
+        <!-- -----------default slot------- -->
+        <template v-slot:buttons>
+          <div class="flex gap-4 pt-4 justify-end">
+            <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 ">
+              {{ $t('address.cancel') }}
+            </button>
+            <button @click="deleteModal=false"
+                    class="p-2 border border-smooth bg-primary text-white  rounded leading-3 hover:text-primary">
+              {{ $t('category.delete') }}
+            </button>
+          </div>
+        </template>
+      </DeleteModal>
     </template>
   </list-page>
 </template>
@@ -86,6 +176,7 @@
   import util from '~/mixin/util'
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
+  import {mapActions, mapGetters} from "vuex";
 
   export default {
     name: "vendor-users",
@@ -100,7 +191,17 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
         },
         vendor_id: {
           vendor_id: 1
-        }
+        },
+        deleteModal:true,
+        userInfo: {
+          email:'',
+          roles: '',
+          isVerified:'',
+          vendor_id: '',
+          type:'admin',
+        },
+        errors:[],
+        loading:false
       }
     },
     components: {
@@ -109,9 +210,40 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     DeleteButtonIcon
 },
     mixins: [util],
-    computed: {},
-    methods: {},
+    computed: {
+      ...mapGetters('admin', ['profile']),
+    },
+    watch:{
+      profile(){
+        this.userInfo.vendor_id = this.profile?.vendor_id
+      }
+    },
+    methods: {
+      ...mapActions('vendor', ['sentInvitation']),
+      ...mapActions('ui', ['setToastMessage', 'setToastError']),
+      async formSubmit(){
+        this.loading  = true
+        const data = await this.sentInvitation({
+          params:{
+            ...this.userInfo
+          },
+          api:"sentInvitation"
+        })
+        this.loading = false
+        if(data.status === 200){
+          this.errors = []
+          this.setToastMessage(data.message)
+        }else{
+          this.errors = data.data.form
+          this.setToastError("", 'Solve the Error')
+        }
+      },
+      closeModal(){
+        this.deleteModal = false
+      }
+    },
     mounted() {
+      this.userInfo.vendor_id = this.profile?.vendor_id
     }
   }
 </script>

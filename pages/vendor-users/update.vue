@@ -3,7 +3,7 @@
   <div class="tab-sidebar w-1/2 p-4"   v-if="$can('invite')">
 
     <div class="flex mb-2 justify-between">
-      <h3>Add {{ $t('user.users') }}</h3>
+      <h3>Update {{ $t('user.users') }}</h3>
     </div>
     <div>
       <ValidationObserver  class="w-full"  v-slot="{ invalid }">
@@ -39,6 +39,24 @@
             </li>
           </ul>
         </div>
+
+        <div class="input-wrapper">
+          <ValidationProvider class="w-full" name="name" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+            <label for="">{{ $t('user.name') }}</label>
+            <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
+            <span class="error">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+
+        <div class="input-wrapper">
+          <ValidationProvider class="w-full" name="username" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
+            <label for="">{{ $t('user.uName') }}</label>
+            <input type="email" :placeholder="$t('fSale.email')" v-model="userInfo.email">
+            <span class="error">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+
+
         <div class="input-wrapper">
           <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
           <label for="">{{ $t('fSale.email') }}</label>
@@ -64,6 +82,10 @@
         <div class="input-wrapper">
           <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
         </div>
+
+        <div class="input-wrapper">
+          <label for="active"><input type="checkbox" v-model="userInfo.isActive"> {{ $t('title.ac') }}</label>
+        </div>
         <div class="input-wrapper mb-0 text-end">
           <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
         </div>
@@ -83,9 +105,12 @@ export default {
   data(){
     return {
         userInfo: {
+          name:'',
+          username:'',
           email:'',
           roles: '',
           isVerified:'',
+          isActive:'',
           vendor_id: '',
           type:'admin',
         },
