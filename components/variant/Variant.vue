@@ -311,7 +311,7 @@
             <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
             <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
-                              :valuesOfLang="result.features"
+                              :valuesOfLang="variants[openTab].result.features"
                               @updateInput="updateInput"></lang-input-multi>
           </div>
 
@@ -353,18 +353,19 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
       <div class="tab-sidebar p-3">
-        <div class="flex pl-4">
-          <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Images and Videos') }}</h4>
-        </div>
-        <div class="input-wrapper">
-          <label class="pl-4 pt-0 fw-bold">
-            {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>
-            {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>
-            {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>
-            {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}
-          </label>
-        </div>
-        <upload-files @updateInput="saveAttachment"></upload-files>
+<!--        <div class="flex pl-4">-->
+<!--          <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Images and Videos') }}</h4>-->
+<!--        </div>-->
+<!--        <div class="input-wrapper">-->
+<!--          <label class="pl-4 pt-0 fw-bold">-->
+<!--            {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>-->
+<!--            {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>-->
+<!--            {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>-->
+<!--            {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}-->
+<!--          </label>-->
+<!--        </div>-->
+<!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
+        <vue-upload-images :old_images="[]" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
       </div>
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
@@ -1663,7 +1664,9 @@ export default {
       this.compareMethods()
     },
     saveAttachment(images) {
-      this.variants[this.openTab].result.product_images = images
+      if (this.openTab!=='parent'){
+        this.variants[this.openTab].result.product_images = images
+      }
     },
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
