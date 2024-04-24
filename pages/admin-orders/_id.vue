@@ -190,19 +190,19 @@
       <div class="col-span-3 px-4 flex justify-between w-full">
         <div>
           <p>Method</p>
-          <p>Credit/Debit Card</p>
-          <p class="pt-4">Name On Card </p>
-          <p>Mohammed Abdullah</p>
+          <p>{{ orderDetails.payment_method }}</p>
+          <p class="pt-4" v-if="orderDetails.payment_method == 'card'">Name On Card </p>
+          <p v-if="orderDetails.payment_method == 'card'">Mohammed Abdullah</p>
         </div>
         <div>
           <p>Pay Date</p>
-          <p>30/12/2024</p>
+          <p>{{ payment[0]?.created_at }}</p>
           <p class="pt-4">Pay Attachment</p>
           <p><img class="h-4 w-4" src="~/assets/icon/file.svg" alt=""></p>
         </div>
         <div class="text-center">
           <p>Payed Amount</p>
-          <p>4000 <span class="text-primary text-xs">sar</span></p>
+          <p>{{payment[0]?.amount}} <span class="text-primary text-xs">sar</span></p>
           <p class="pt-4">remaining Amount</p>
           <p>4000 <span class="text-primary text-xs">sar</span></p>
         </div>
@@ -275,6 +275,7 @@
         </div>
         <div class="flex justify-start gap-3 mt-6">
           <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
+          @click="acceptPayment"
             >{{$t('prod.submit')}}</button>
           <button type="button" class="btn-hove cancel-button border-2 text-black font-bold transition"
             @click="bankModalFun">{{$t('app.Cancel')}}</button>
@@ -300,9 +301,12 @@ export default {
       orderDetails: "",
       invoices: false,
       bankModal: false,
+      payment:"",
       acceptPaymentBank :{
         order_id:0,
-        amount: 0
+        amount: 0,
+        payment_status:'',
+        payment_id:''
       }
     }
   },
@@ -312,7 +316,7 @@ export default {
 
   },
   methods: {
-    ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList']),
+    ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList','setRequest']),
     getTotalSubOrderItemsPrice(subItem) {
       let totalPrice = 0;
       if (subItem && subItem.sub_order_items) {
@@ -326,8 +330,14 @@ export default {
       this.bankModal = !this.bankModal;
     },
     acceptPayment(){
-      alert('ddd')
+      // console.log(this.orderDetails.payment)
       this.acceptPaymentBank.order_id= this.orderDetails.order_id;
+      this.acceptPaymentBank.payment_status = 'approved';
+      this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
+      this.setRequest({
+        params: this.acceptPaymentBank,
+        api: "changePaymentStatus"
+      })
     },
     async fetchingData() {
       try {
@@ -338,6 +348,7 @@ export default {
           },
           api: "mainOrderDetails"
         })
+        this.payment= this.orderDetails.payment
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
