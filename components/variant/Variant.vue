@@ -1535,7 +1535,7 @@ export default {
         // delete this.result.updated_at
         const data = await this.setById({
           id: this.id,
-          params: {result: this.result, variants: this.variants},
+          params: {result: this.variants[this.openTab].result, variants: this.variants},
           api: this.setApi
         })
         // const data = await this.setById({id: this.id, params: {result: this.result, variants: this.variants}, api: this.setApi})
