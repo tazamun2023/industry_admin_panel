@@ -210,10 +210,10 @@
       <div class="text-center">
         <p class="my-1">Action</p>
         <p class="my-1">
-          <button class="border-2 border-primary text-primary font-bold" @click="bankModalFun">Accept</button>
+          <button class="border-2 border-primary text-primary font-bold" @click="bankModal= true">Accept</button>
         </p>
         <p class="my-1">
-          <button class="border-0 font-bold">Reject</button>
+          <button class="border-0 font-bold" @click="rejectModal= true">Reject</button>
         </p>
       </div>
     </div>
@@ -245,8 +245,8 @@
           Back</a>
       </div>
       <div>
-        <button class="font-bold border-0">Reject</button>
-        <button class="font-bold border-2 text-primary">Accept</button>
+        <button class="font-bold border-0" @click="rejectModal = !rejectModal">Reject</button>
+        <button class="font-bold border-2 text-primary" @click="bankModal = !bankModal">Accept</button>
       </div>
     </div>
     <div v-if="bankModal"
@@ -283,6 +283,36 @@
       </ValidationObserver>
       </div>
     </div>
+    <div v-if="rejectModal" class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black opacity-50"></div>
+    <div class="z-50 bg-white p-6 relative rounded-md shadow w-2/6">
+      <svg @click="closeModal" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
+           aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+      <div class="p-2">
+        <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>
+      </div>
+      <div class="card p-4">
+        <div class="py-4">
+          <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
+          <select class="p-4 w-full border border-smooth rounded" v-model="acceptPaymentBank.reject_reasons">
+            <option :value="item.id" v-for="(item, index) in reasonsRejection?.data" :key="index">
+              {{ item.description }}
+            </option>
+          </select>
+        </div>
+        <div class="w-full px-2 py-4 ">
+          <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
+            <button @click="rejectMoalFun" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{ $t('orderReject.cancel') }}
+            </button>
+            <button @click="rejectPayment" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{ $t('orderReject.save') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   </check-validity>
 </template>
@@ -301,22 +331,25 @@ export default {
       orderDetails: "",
       invoices: false,
       bankModal: false,
+      rejectModal: false,
       payment:"",
       acceptPaymentBank :{
         order_id:0,
         amount: 0,
         payment_status:'',
-        payment_id:''
+        payment_id:'',
+        reject_reasons:''
       }
     }
   },
 
   middleware: ['common-middleware', 'auth'],
   computed: {
-
+    ...mapGetters('order', ['reasonsRejection'])
   },
   methods: {
     ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList','setRequest']),
+    ...mapActions('order', ['getReasonsRejection']),
     getTotalSubOrderItemsPrice(subItem) {
       let totalPrice = 0;
       if (subItem && subItem.sub_order_items) {
@@ -329,8 +362,10 @@ export default {
     bankModalFun() {
       this.bankModal = !this.bankModal;
     },
+    rejectMoalFun() {
+      this.rejectModal = !this.rejectModal;
+    },
     acceptPayment(){
-      // console.log(this.orderDetails.payment)
       this.acceptPaymentBank.order_id= this.orderDetails.order_id;
       this.acceptPaymentBank.payment_status = 'approved';
       this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
@@ -338,6 +373,17 @@ export default {
         params: this.acceptPaymentBank,
         api: "changePaymentStatus"
       })
+      this.bankModalFun();
+    },
+     rejectPayment(){
+      this.acceptPaymentBank.order_id= this.orderDetails.order_id;
+      this.acceptPaymentBank.payment_status = 'reject';
+      this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
+      this.setRequest({
+        params: this.acceptPaymentBank,
+        api: "changePaymentStatus"
+      })
+      this.rejectMoalFun();
     },
     async fetchingData() {
       try {
@@ -357,8 +403,8 @@ export default {
   },
   mounted() {
     this.fetchingData();
-    let n = this.getTotalSubOrderItemsPrice(this.orderDetails.sub_orders)
-    console.log(n);
+    this.getReasonsRejection();
+    let n = this.getTotalSubOrderItemsPrice(this.orderDetails.sub_orders);
     // this.getOrderDetails({
     //   id: this.$route.params.id
     // })
