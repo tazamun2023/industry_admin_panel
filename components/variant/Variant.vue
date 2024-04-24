@@ -167,6 +167,8 @@
                     <label for="">{{ $t('prod.name') }}</label>
                     <input type="text" :placeholder="variantName(result.title)" class="cursor-not-allowed" disabled>
                   </div>
+                  <div class="input-wrapper mt-3 mt-sm-0">
+                    <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
                   <select class="form-control w-full rounded border border-smooth p-3" :disabled="openTab !== 'parent'"
                           :readonly="openTab !== 'parent'"
                           :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
@@ -174,6 +176,7 @@
                     <option value="0">Select Brand</option>
                     <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
                   </select>
+                  </div>
                 </form>
               </div>
 
@@ -298,7 +301,7 @@
           <div class="input-wrapper mb-10">
             <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-            <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+            <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
                               :valuesOfLang="result.features"
                               @updateInput="updateInput"></lang-input-multi>
           </div>
@@ -870,61 +873,133 @@
               <div class="grid grid-cols-3 gap-4 pt-4">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select disabled class="w-full rounded border mb-10 border-smooth p-3" name="" id="">
-                      <option value="">Color</option>
-                      <option value="">Size</option>
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
+                            @change="isAttr($event, 'color')">
+                      <option value="">{{ $t('prod.Select attribute 1') }}</option>
+                      <option v-for="(item, index) in product_variant_type" :key="index"
+                              :disabled="item === select_attr2">{{ item }}
+                      </option>
+                    </select>
+
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
+                            @change="isAttr($event, 'size')">
+                      <option value="">{{ $t('prod.Select attribute 2') }}</option>
+                      <option v-for="(item, index) in product_variant_type" :key="index"
+                              :disabled="item === select_attr1">{{ item }}
+                      </option>
                     </select>
                   </div>
-
                 </div>
+<!--                <div class="col-md-4 pt-4">-->
+<!--                  <button type="submit" class="btn mb-10 w-100 btn-outline-secondary">-->
+<!--                    Add Row-->
+<!--                  </button>-->
+<!--                </div>-->
+              </div>
+              <hr class="border-smooth">
+              <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4"
+                   v-for="(variant, index) in result.product_variants" :key="index">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select disabled class="w-full rounded border mb-10 border-smooth p-3" name="" id="">
-                      <option value="">Color</option>
-                      <option value="">Size</option>
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                            @change="setColorName(index, $event)"
+                            v-if="select_attr1 === 'color'">
+                      <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                          item.name
+                        }}
+                      </option>
+                    </select>
+                    <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                           v-if="select_attr1 === 'size'"/>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group" :class="{ invalid: variant.value }">
+                    <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                           v-if="select_attr2 === 'size'"/>
+                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                            v-if="select_attr2 === 'color'">
+                      <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
+                          item.name
+                        }}
+                      </option>
                     </select>
                   </div>
+                </div>
 
+
+                <div class="col-md-4" @click.prevent="removeVariantRows(index)">
+    <span class="p-3 border border-smooth rounded cursor-pointer">
+      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+    </span>
                 </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <input class="form-control  w-100" name="Enter Value" placeholder="Enter Value" type="text"
-                           value="">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <input class="form-control  w-100" name="Enter Value" type="text" placeholder="Enter Value"
-                           value="">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                               <span class="p-3 border border-smooth rounded cursor-pointer"><svg class="w-4 h-4"
-                                                                                                  aria-hidden="true"
-                                                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                                                  fill="none"
-                                                                                                  viewBox="0 0 14 14">
-    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-  </svg></span>
-                </div>
+              </div>
+
+              <div v-if="!is_variant_save">
                 <div class="col-md-4 pt-4">
-                  <button type="submit" class="btn mb-10 w-100 btn-outline-secondary">
-                    Add Row
+                  <button :disabled="select_attr1==='' || select_attr2===''" type="button"
+                          @click.prevent="addVariantValueRows()"
+                          class="btn mb-10 w-25 btn-outline-secondary">
+                    {{ $t('prod.Add Row') }}
                   </button>
                 </div>
               </div>
+
               <hr class="border-smooth">
-              <div class="flex justify-end gap-4 pt-3">
-                <button type="submit" class="btn text-white bg-primary">
-                  SAVE
+              <div class="flex justify-items-start gap-4 pt-3">
+                <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
+                <!--                Send for review-->
+                <!--              </button>-->
+                <button type="button" class="btn text-white bg-primary hover:text-primary"
+                        @click.prevent="doVariantSave"
+                        v-if="!is_variant_save">
+                  {{ $t('prod.Save') }}
                 </button>
 
-                <button @click="varientModal = false" class="btn bg-light">
-                  <span>CANCEL</span>
+                <button type="button" class="btn text-white bg-primary hover:text-primary"
+                        @click.prevent="doVariantSave"
+                        v-else>
+                  {{ $t('prod.Edit') }}
+                </button>
+
+                <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
+                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <span>{{ $t('prod.Reset') }}</span>
+                </button>
+                <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
+                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <span>{{ $t('prod.CANCEL') }}</span>
                 </button>
               </div>
+              <div class="my-10"></div>
+              <div class="tab-sidebar p-3" v-if="is_variant">
+                <div class="flex justify-end gap-4 pt-3">
+                  <button
+                    type="button"
+                    class="btn text-white bg-primary w-1/4 hover:text-primary"
+                    :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
+                    @click.prevent="doNext">
+                    {{ $t('prod.Next') }}
+                  </button>
+                </div>
+              </div>
+<!--              <div class="flex justify-end gap-4 pt-3">-->
+<!--                <button type="submit" class="btn text-white bg-primary">-->
+<!--                  SAVE-->
+<!--                </button>-->
+
+<!--                <button @click="varientModal = false" class="btn bg-light">-->
+<!--                  <span>CANCEL</span>-->
+<!--                </button>-->
+<!--              </div>-->
             </div>
           </div>
           <!-- Close Button -->
@@ -957,6 +1032,7 @@ export default {
       openTab: 'parent',
       uploadModal: false,
       varientModal: false,
+      is_variant_save: false,
       CategorySection: false,
       is_next: true,
       selectedLevel1: null,
@@ -1022,11 +1098,12 @@ export default {
       },
       min_qty: null,
 
-      variants: []
+      variants: [],
 
     }
   },
   computed: {
+
     ...mapGetters(['mediaStorage']),
     ...mapGetters('admin', ['publicKey']),
     ...mapGetters('language', ['currentLanguage']),
@@ -1035,6 +1112,59 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   methods: {
+    async doVariantReset() {
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+      if (confirmation.value) {
+        this.result.product_variants = []
+      }
+    },
+    doNext() {
+      // if (this.validationKeysIfVariantNext.findIndex((i) => {
+      //   return (!this.result[i])
+      // }) > -1) {
+      //   this.hasError = true
+      //   return false
+      // }
+      this.is_next = true
+
+    },
+    addVariantValueRows() {
+      this.result.product_variants.push(Object.assign({}, this.product_variant))
+    },
+    setColorName(index, event) {
+      this.result.product_variants[index].color_name = this.allColors[event.target.value].name
+    },
+    removeVariantRows(index) {
+      console.log(index)
+      if (index != 0) {
+        this.result.product_variants.splice(index, 1);
+
+      }
+    },
+    doVariantSave() {
+      if (this.result.product_variants.length === 0) {
+        this.setToastMessage(this.$t('prod.No variants added'))
+        // this.$swal({
+        //   icon: "error",
+        //   title: "No variants added!",
+        //   showConfirmButton: false,
+        //   timer: 1000
+        // });
+        return false;
+      }else {
+        this.is_variant_save = !this.is_variant_save
+        this.varientModal = false
+        this.variants.push(Object.assign({result: this.result}));
+      }
+    },
     doDraft() {
       this.is_draft = true;
       this.result.is_draft = true;
@@ -1141,6 +1271,7 @@ export default {
     },
     toggleTabs: function (tab) {
       this.openTab = tab
+      // console.log(this.result)
     },
     uploadModalToggle() {
       this.uploadModal = !this.uploadModal
@@ -1199,6 +1330,7 @@ export default {
     },
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   async mounted() {
     this.result.product_variants.forEach((variant) => {

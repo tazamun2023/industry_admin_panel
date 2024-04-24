@@ -31,6 +31,7 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     'vue-select/dist/vue-select.css',
+    'vue2-datepicker/index.css',
 
     '~/assets/css/tailwind.css',
     '~/assets/styles/styles.styl'
@@ -43,6 +44,7 @@ export default {
   plugins: [
     { src: '~/plugins/vue-draggable', ssr: false },
     { src: '~/plugins/vue-select.js', ssr: false },
+    { src: '~/plugins/vue-datepicker.js', ssr: false },
     { src: '@/plugins/i18n.js' },
     { src: '@/plugins/vue-html2pdf', mode: 'client' },
     { src: '@/plugins/google-map.js', mode: 'client' } ,

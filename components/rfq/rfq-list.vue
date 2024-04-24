@@ -195,22 +195,32 @@
                             <div class="text-center">
                               <nuxt-link
 
-                                v-if="$can('view_quotation') && value.is_submit"
+                                v-if="$can('view_quotation') && value.is_submit && value.status_quotes !== 'draft'"
 
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
                                 :to="`/rfq/quotation-details/${value.quotation_id}`"
                               >
                                 {{ $t('rfq.View Quote')}}
                               </nuxt-link>
+                              <!--  {{ value.status_quotes !== 'draft' ?   $t('rfq.View Quote') : $t('rfq.View Draft Quote') }} -->
+                              <nuxt-link
+                                v-else-if="$can('view_quotation') && value.is_submit && value.status_quotes == 'draft'"
+                                class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
+                                :to="`/rfq/${value.id}`"
+                              >
+                                {{ $t('rfq.View Draft Quote')}}
+                              </nuxt-link>
                               <nuxt-link
                                 v-else-if="$can('submit_quotation') && $store.state.admin.isVendor && !value.is_submit"
                                 class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
-                                :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.Submit Quotes") }}
+                                :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i>
+                                 {{ $t("rfq.Submit Quotes") }}
                               </nuxt-link>
                               <nuxt-link
                                 v-else-if="$store.state.admin.isSuperAdmin"
                                 class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
-                                :to="`/rfq/rfq-details/${value.id}`"><i class="icofont-ui-add"></i> {{ $t("rfq.View Details") }}
+                                :to="`/rfq/rfq-details/${value.id}`"><i class="icofont-ui-add"></i> 
+                                {{ $t("rfq.View Details") }}
                               </nuxt-link>
                             </div>
                           </div>

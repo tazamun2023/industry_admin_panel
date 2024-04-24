@@ -132,7 +132,8 @@ export default {
             {
               path: 'products',
               title: this.$t('error.prod'),
-              icon: 'products',
+              icon: 'box.svg',
+              is_image:true,
               form: ['product', 'ratingReviews'],
               gate: 'view_products'
             },
@@ -280,16 +281,18 @@ export default {
             {
               path: 'subscribers',
               title: this.$t('error.subCrbs'),
-              icon: 'subscribers',
+              icon: 'verify.svg',
               form: ['subscriber'],
-              gate: 'manage_subscriber'
+              gate: 'manage_subscriber',
+              is_image:true,
             },
             {
               path: 'subscription-email-formats',
               title: this.$t('error.ef'),
-              icon: 'subscription-email-formats',
+              icon: 'sms.svg',
               form: ['subscription-email-format'],
-              gate: 'subscription_email_format'
+              gate: 'subscription_email_format',
+              is_image:true,
             },
           ]
         },
@@ -361,7 +364,8 @@ export default {
             {
               path: 'site-setting',
               title: this.$t('admin.site'),
-              icon: 'site-setting',
+              icon: 'setting-2.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
@@ -398,8 +402,9 @@ export default {
             {
               path: 'account/payment',
               title: this.$t('account.payment'),
-              icon: 'dollar',
-              gate: 'view_financial'
+              icon: 'empty-wallet-g.svg',
+              gate: 'view_financial',
+              is_image:true,
             },
             {
               // dont have permission
@@ -478,13 +483,15 @@ export default {
             {
               path: 'countries',
               title: this.$t('setting.countries'),
-              icon: 'flash-sales',
+              icon: 'flag.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
             },
             {
               path: 'cities',
               title: this.$t('setting.cities'),
-              icon: 'flash-sales',
+              icon: 'locationgreen.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
             },
             {
@@ -564,7 +571,8 @@ export default {
             {
               path: 'setting/currency',
               title: 'More Setting',
-              icon: 'setting',
+              icon: 'setting-2.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
             },
 

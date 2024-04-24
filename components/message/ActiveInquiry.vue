@@ -513,7 +513,7 @@ export default {
       <spinner
         :radius="60"
         color="primary"
-        class="mr-15"
+        class="mr-15 justify-center"
       />
     </div>
     <div v-else>
