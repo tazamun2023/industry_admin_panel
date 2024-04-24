@@ -540,7 +540,18 @@
   "action": "الإجراء",
   "date": "التاريخ",
     "messageOne": "سوف تقوم Industry بإطلاعك على تاريخ التسليم بمجرد",
-    "messageTow": "استلام الدفعة بنجاح"
+    "messageTow": "استلام الدفعة بنجاح",
+    "PaymentSummery": "ملخص الدفع",
+"Method": "الطريقة",
+"NameOnCard": "الاسم على البطاقة",
+"PayDate": "تاريخ الدفع",
+"PayAttachment": "مرفق الدفع",
+"PayedAmount": "المبلغ المدفوع",
+"remainingAmount": "المبلغ المتبقي",
+"Accept": "قبول",
+"Reject": "رفض",
+"nameEmpty":" الاسم فارغ",
+"reference_number":"الرقم المرجعي"
 
 },
 "validation": {

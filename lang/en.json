@@ -612,7 +612,17 @@
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
-    "messageTow": "payment has been successfully received"
+    "messageTow": "payment has been successfully received",
+    "PaymentSummery":"Payment Summery",
+    "Method":"Method",
+    "NameOnCard":"Name On Card",
+    "PayDate":"Pay Date",
+    "PayAttachment":"PayAttachment",
+    "PayedAmount":"Payed Amount",
+    "remainingAmount":"remaining Amount",
+    "Accept":"Accept",
+    "Reject":"Reject",
+    "nameEmpty":" name is empty"
   },
 
 "fSale": {
@@ -1086,7 +1096,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "next": "Next",
-    "back": "Back"
+    "back": "Back",
+    "reference_number":"reference number"
   },
   "orderReject": {
     "title": "Reject Order",
