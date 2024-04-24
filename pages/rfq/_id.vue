@@ -377,7 +377,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
-      dateFormat: 'Y-m-d',
+      dateFormat: 'Y-M-D',
       activeProductId: 0,
       isCollapsed: false,
       isDisable: false,

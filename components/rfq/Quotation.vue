@@ -42,7 +42,7 @@ export default {
     <!--          no + 1-->
     <!--        }}</span></span></h4>-->
     <div class="my-4 flex items-center gap-4">
-      <h3>Quotation Received </h3>
+      <h3>{{ $t('rfq.QuotationReceived') }} </h3>
       <span class="text-xs text-primary border border-smooth px-2 rounded flex gap-1 items-center"><img class="h-2 w-2"
                                                                                                         src="~/assets/icon/gline.svg"
                                                                                                         alt="">{{
@@ -56,17 +56,17 @@ export default {
           <div class="border border-smooth rounded-lg">
             <div class="border-b border-smooth">
               <div class="p-4 lg:flex justify-between">
-                <p><span class="font-bold">Quote ID</span> <span class="text-primaryn mx-3">{{ quote.id }}</span></p>
-                <p><span class="font-bold">Price Valid Until</span> <span class="text-primary mx-3">{{
+                <p><span class="font-bold">{{ $t('rfq.QuoteID') }}</span> <span class="text-primaryn mx-3">{{ quote.id }}</span></p>
+                <p><span class="font-bold">{{ $t('rfq.PriceValidUntil') }}</span> <span class="text-primary mx-3">{{
                     quote.expiry_date
                   }}</span></p>
-                <p><span class="font-bold bg-graylight p-1 uppercase rounded">Quote Submitted</span></p>
+                <p><span class="font-bold bg-graylight p-1 uppercase rounded">{{ $t('rfq.QuoteSubmitted') }}</span></p>
               </div>
             </div>
             <div class="border-b border-smooth">
               <div class="p-4 lg:flex justify-between">
                 <p><span class="font-bold text-primary">{{ quote.vendor?.local_name }}</span></p>
-                <p><span class="font-bold bg-graylight uppercase p-1 rounded">Verified</span></p>
+                <p><span class="font-bold bg-graylight uppercase p-1 rounded">{{ $t('rfq.Verified') }}</span></p>
                 <p></p>
               </div>
             </div>
@@ -90,7 +90,7 @@ export default {
             <div class="border-b border-smooth">
               <div class="lg:grid grid-cols-2">
                 <div class="ltr:border-r rtl:border-l border-smooth p-4">
-                  <p><span class="font-bold">Total price</span> <span class="text-primary">(Excl. shipping & VAT)</span>
+                  <p><span class="font-bold">{{ $t('rfq.TotalPrice') }}</span> <span class="text-primary">{{ $t('rfq.Exclshipping') }}</span>
                   </p>
                   <p>{{
                       quote.total_target_price.toLocaleString($t('app.currency_local'), {
@@ -103,7 +103,8 @@ export default {
                   </p>
                 </div>
                 <div class="p-4">
-                  <p><span class="font-bold">Total Cost</span> <span class="text-primary">(Excl. shipping & VAT)</span>
+                  <p><span class="font-bold">{{ $t('rfq.TotalCost') }}</span> <span class="text-primary">{{
+                    $t('rfq.Exclshipping') }}</span>
                   </p>
                   <p>{{
                       quote.total_target_price.toLocaleString($t('app.currency_local'), {
@@ -119,7 +120,7 @@ export default {
             </div>
             <div class="gap-4 p-3">
               <div class="flex gap-4 my-3">
-                <h3>Products in quote</h3>
+                <h3>{{ $t('rfq.ProductsQoute') }}</h3>
                 <span class="text-xs text-primary border border-smooth px-2 rounded flex gap-1 items-center"><img
                   class="h-2 w-2" src="~/assets/icon/gline.svg" alt="">{{ quote.products.length }}</span>
               </div>
@@ -137,13 +138,13 @@ export default {
                                  class="text-primary underline w-full">{{ product.product.title }}
                       </nuxt-link>
                       <div class="flex justify-between gap-4">
-                        <p>Quantity</p>
-                        <p>{{ product?.product?.quantity ?? 0 }} <span class="text-primary"> {{
+                        <p>{{ $t('rfq.Quentity') }}:</p>
+                        <p>{{ product?.quantity ?? 0 }} <span class="text-primary"> {{
                             product.unit.name
                           }}</span></p>
                       </div>
                       <div class="flex justify-between gap-4">
-                        <p class="flex justify-between"><strong>Unit cost price : </strong>
+                        <p class="flex justify-between"><strong>{{ $t('rfq.Unitprice') }}: </strong>
                           <span>
                             {{
                               product.target_price.toLocaleString($t('app.currency_local'), {
@@ -154,7 +155,7 @@ export default {
                             }}
                           </span></p>
                       </div>
-                      <p class="flex justify-between"><strong>Shipping Cost & vat:</strong> <span>{{
+                      <p class="flex justify-between"><strong>{{ $t('rfq.ShipingCost') }}:</strong> <span>{{
                           quote.total_target_price.toLocaleString($t('app.currency_local'), {
                             style: 'currency',
                             maximumFractionDigits: 0,
@@ -162,7 +163,7 @@ export default {
                           })
                         }}</span></p>
                       <div class="flex justify-between gap-4">
-                        <p class="flex justify-between"><strong>Total:</strong> <span>{{
+                        <p class="flex justify-between"><strong>{{ $t('rfq.Total') }}:</strong> <span>{{
                             quote.total_target_price.toLocaleString($t('app.currency_local'), {
                               style: 'currency',
                               maximumFractionDigits: 0,
