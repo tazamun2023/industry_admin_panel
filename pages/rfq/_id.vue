@@ -141,7 +141,7 @@
                                     <button type="button" @click="addProduct"
                                       class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
                                       data-toggle="modal" data-target="#staticBackdrop">
-                                      {{ $t('products.add') }}
+                                      {{ product.qoute.product_id !== "" ? $t('rfq.change') : $t('products.add') }}
                                     </button>
                                     <span
                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
