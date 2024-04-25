@@ -311,7 +311,7 @@
             <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
             <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
-                              :valuesOfLang="variants[openTab].result.features"
+                              :valuesOfLang="variants[openTab]?.result.features"
                               @updateInput="updateInput"></lang-input-multi>
           </div>
 
@@ -353,18 +353,6 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
       <div class="tab-sidebar p-3">
-<!--        <div class="flex pl-4">-->
-<!--          <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Images and Videos') }}</h4>-->
-<!--        </div>-->
-<!--        <div class="input-wrapper">-->
-<!--          <label class="pl-4 pt-0 fw-bold">-->
-<!--            {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>-->
-<!--            {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>-->
-<!--            {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>-->
-<!--            {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}-->
-<!--          </label>-->
-<!--        </div>-->
-<!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
         <vue-upload-images :old_images="[]" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
       </div>
       <!-- ------------------------------------- -->
@@ -439,7 +427,7 @@
             v-model="variants[openTab]?.result.available_quantity"
             @keypress="onlyNumber"
             @input="availableQuantity">
-          <label>{{ $t('prod.Minimum order quantity') }}: {{ variants[openTab]?.result.product_prices[0].quantity }}</label>
+          <label>{{ $t('prod.Minimum order quantity') }}: {{ variants[openTab]?.result.product_prices[0]?.quantity }}</label>
         </div>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
@@ -1063,7 +1051,7 @@
               </div>
               <hr class="border-smooth">
               <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4"
-                   v-for="(variant, index) in result.product_variants" :key="index">
+                   v-for="(variant, index) in result[openTab]?.product_variants" :key="index">
                 <div class="col-md-4">
                   <div class="form-group">
                     <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
@@ -1131,11 +1119,11 @@
                 </button>
 
                 <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
-                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.Reset') }}</span>
                 </button>
                 <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
-                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.CANCEL') }}</span>
                 </button>
               </div>
@@ -1320,6 +1308,7 @@ export default {
     }
   },
   computed: {
+
     AverageLeadValidationRules() {
       return {
         required: true,
@@ -1349,21 +1338,23 @@ export default {
 
     },
     checkPricing() {
-      const allPrices = this.result.product_prices;
+      if (this.openTab !== 'parent'){
+        const allPrices = this.variants[this.openTab]?.result.product_prices;
+        if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
+          for (let i = 0; i < allPrices.length; i++) {
+            const unitPrice = parseInt(allPrices[i]?.unit_price);
+            const sellingPrice = parseInt(allPrices[i]?.selling_price);
 
-      if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
-        for (let i = 0; i < allPrices.length; i++) {
-          const unitPrice = parseInt(allPrices[i]?.unit_price);
-          const sellingPrice = parseInt(allPrices[i]?.selling_price);
-
-          if (unitPrice > sellingPrice) {
-            continue; // If any unit price is greater than selling price, return false immediately
-          } else {
-            return i
+            if (unitPrice > sellingPrice) {
+              continue; // If any unit price is greater than selling price, return false immediately
+            } else {
+              return i
+            }
           }
         }
+        return false;
       }
-      return false;
+
       // If all unit prices are less than or equal to selling prices, return true
     },
     PriceValidationRules() {
@@ -1390,54 +1381,56 @@ export default {
     },
 
     BarcodeValidationRules() {
-      let validationRules = {
-        required: this.variants[this.openTab].result.barcode_type !== 4
-      };
+      if (this.openTab !== 'parent'){
+        let validationRules = {
+          required: this.variants[this.openTab]?.result?.barcode_type !== 4
+        };
 
-      const barcodeLength = this.variants[this.openTab].result.barcode?.length || 0;
+        const barcodeLength = this.variants[this.openTab]?.result?.barcode?.length || 0;
 
-      switch (this.variants[this.openTab].result.barcode_type) {
-        case '1':
-          if (barcodeLength <= 8) {
-            validationRules.min = 8;
-          } else if (barcodeLength <= 13) {
-            validationRules.min = 13;
-            validationRules.max = 13;
-          } else {
-            validationRules.max = 13;
-          }
-          break;
+        switch (this.variants[this.openTab]?.result?.barcode_type) {
+          case '1':
+            if (barcodeLength <= 8) {
+              validationRules.min = 8;
+            } else if (barcodeLength <= 13) {
+              validationRules.min = 13;
+              validationRules.max = 13;
+            } else {
+              validationRules.max = 13;
+            }
+            break;
 
-        case '2':
-          if (barcodeLength <= 8) {
-            validationRules.min = 8;
-          } else if (barcodeLength <= 12) {
-            validationRules.min = 12;
-            validationRules.max = 12;
-          } else if (barcodeLength <= 13) {
-            validationRules.min = 13;
-            validationRules.max = 13;
-          } else if (barcodeLength <= 14) {
-            validationRules.min = 14;
-            validationRules.max = 14;
-          } else {
-            validationRules.max = 14;
-          }
-          break;
+          case '2':
+            if (barcodeLength <= 8) {
+              validationRules.min = 8;
+            } else if (barcodeLength <= 12) {
+              validationRules.min = 12;
+              validationRules.max = 12;
+            } else if (barcodeLength <= 13) {
+              validationRules.min = 13;
+              validationRules.max = 13;
+            } else if (barcodeLength <= 14) {
+              validationRules.min = 14;
+              validationRules.max = 14;
+            } else {
+              validationRules.max = 14;
+            }
+            break;
 
-        case '3':
-          if (barcodeLength <= 12) {
-            validationRules.min = 12;
-          } else {
-            validationRules.max = 12;
-          }
-          break;
+          case '3':
+            if (barcodeLength <= 12) {
+              validationRules.min = 12;
+            } else {
+              validationRules.max = 12;
+            }
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+
+        return validationRules;
       }
-
-      return validationRules;
     },
 
     ...mapGetters(['mediaStorage']),
@@ -1611,6 +1604,7 @@ export default {
       this.$set(input, language, value);
     },
     toggleTabs: function (tab) {
+      console.log(tab)
       this.openTab = tab
       // console.log(this.result)
     },
@@ -1677,7 +1671,7 @@ export default {
       this.variants.push(Object.assign({result: this.result}));
     });
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 
       this.loading = true
       try {
