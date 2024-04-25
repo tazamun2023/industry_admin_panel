@@ -3,6 +3,8 @@
     v-if="$can('invite')"
     :param="vendor_id"
     ref="listPage"
+    :addButton="false"
+    :modalButton="true"
     list-api="getVendorUsers"
     delete-api="deleteVendors"
     route-name="vendor-users"
@@ -10,6 +12,7 @@
     :order-options="orderOptions"
     gate="invite"
     manage_gate="invite"
+    @open-modal="openModal"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
@@ -80,8 +83,6 @@
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
         <template v-slot:title>
-          <div class="tab-sidebar w-1/2 p-4">
-
             <div class="flex mb-2 justify-between">
               <h3>Add {{ $t('user.users') }}</h3>
             </div>
@@ -150,22 +151,8 @@
                 </form>
               </ValidationObserver>
             </div>
-          </div>
-
         </template>
         <!-- -----------default slot------- -->
-        <!-- -----------default slot------- -->
-        <template v-slot:buttons>
-          <div class="flex gap-4 pt-4 justify-end">
-            <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 ">
-              {{ $t('address.cancel') }}
-            </button>
-            <button @click="deleteModal=false"
-                    class="p-2 border border-smooth bg-primary text-white  rounded leading-3 hover:text-primary">
-              {{ $t('category.delete') }}
-            </button>
-          </div>
-        </template>
       </DeleteModal>
     </template>
   </list-page>
@@ -177,6 +164,7 @@
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
   import {mapActions, mapGetters} from "vuex";
+  import {ValidationObserver, ValidationProvider} from "vee-validate";
 
   export default {
     name: "vendor-users",
@@ -192,7 +180,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
         vendor_id: {
           vendor_id: 1
         },
-        deleteModal:true,
+        deleteModal:false,
         userInfo: {
           email:'',
           roles: '',
@@ -207,8 +195,10 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     components: {
     ListPage,
     EditButtonIcon,
-    DeleteButtonIcon
-},
+    DeleteButtonIcon,
+      ValidationObserver,
+      ValidationProvider
+   },
     mixins: [util],
     computed: {
       ...mapGetters('admin', ['profile']),
@@ -231,16 +221,28 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
         })
         this.loading = false
         if(data.status === 200){
+          this.deleteModal = false
           this.errors = []
           this.setToastMessage(data.message)
         }else{
           this.errors = data.data.form
-          this.setToastError("", 'Solve the Error')
+          this.setToastError("Solve The Error")
         }
       },
+
+      openModal(){
+        this.deleteModal = true
+      },
+
       closeModal(){
+          this.userInfo.email = ''
+          this.userInfo.roles = ''
+          this.userInfo.isVerified = ''
+          this.userInfo.vendor_id = ''
+         this.errors = []
         this.deleteModal = false
       }
+
     },
     mounted() {
       this.userInfo.vendor_id = this.profile?.vendor_id

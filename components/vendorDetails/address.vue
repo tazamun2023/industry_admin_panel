@@ -15,7 +15,7 @@
       <table>
         <thead>
         <tr>
-          <th>{{ $t("vendor.address_name") }}</th>
+          <th>{{ $t("vendor.name") }}</th>
           <th>{{ $t("vendor.email") }}</th>
           <th>{{ $t("vendor.mobile") }}</th>
           <th>{{ $t("vendor.street") }}</th>
