@@ -200,13 +200,15 @@ export default {
             {
               path: 'rfq/notification',
               title: this.$t('rfq.notification'),
-              icon: 'flash-notification',
+              icon: 'notification-bing.svg',
+              is_image:true,
               gate: 'notification_RFQ'
             },
             {
               path: 'rfq/manage-quotes',
               title: this.$t('rfq.manage_quotations'),
-              icon: 'flash-sales',
+              icon: 'clipboard-text.svg',
+              is_image:true,
               gate: 'view_quotation'
             }
           ]
@@ -245,13 +247,15 @@ export default {
             {
               path: 'video',
               title: this.$t('profile.video'),
-              icon: 'video',
+              icon: 'video.svg',
+              is_image:true,
               gate: 'view_content'
             },
             {
               path: 'certificate',
               title: this.$t('profile.certificate'),
-              icon: 'video',
+              icon: 'certificate.svg',
+              is_image:true,
               gate: 'view_content'
             },
             {
