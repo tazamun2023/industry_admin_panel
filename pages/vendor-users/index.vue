@@ -19,7 +19,7 @@
         <th>{{ $t('user.verified') }}</th>
         <th>{{ $t('title.ac') }}</th>
         <th>{{ $t('category.created') }}</th>
-        <th>&nbsp;</th>
+        <th>{{ $t('title.act') }}</th>
       </tr>
 
       <tr

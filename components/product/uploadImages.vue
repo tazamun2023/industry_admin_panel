@@ -60,7 +60,9 @@ export default {
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
       this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
-    this.updateInputEvntData()
+    if (this.old_images.length>0){
+      this.updateInputEvntData()
+    }
   },
   methods: {
     dragOver() {

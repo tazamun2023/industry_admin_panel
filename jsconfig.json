@@ -439,7 +439,8 @@
     "changeStatusOrder": "main-order/change-status",
     "SubOrderApprove": "sub-order/approve",
     "mainOrderDetails": "sub-order/admin",
-    "mainOrder": "main-order"
+    "mainOrder": "main-order",
+    "changePaymentStatus":"main-order/change-payment-status"
 
   }
 }
