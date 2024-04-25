@@ -46,6 +46,7 @@ const mutations = {
   SET_REASONS_REJECTION(state, reasonsRejection) {
     state.reasonsRejection = reasonsRejection
   },
+  // changePaymentStatus
 }
 
 const actions = {

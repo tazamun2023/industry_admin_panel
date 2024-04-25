@@ -92,6 +92,7 @@ export default {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.post(json.api[api], params)
   },
+  
 
   userAddressAction(params, bearer) {
     apiClient.defaults.headers.common['Authorization'] = bearer
