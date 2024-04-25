@@ -834,8 +834,8 @@
                         @keypress="onlyNumber"
                         v-model="result.pk_size"
                       >
-                      <div class="absolute right-0 top-0">
-                        <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                      <div class="absolute ltr:right-0 rtl:left-0 top-0">
+                        <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                                 v-model="result.pk_size_unit"
                                 :placeholder="$t('prod.Size Unit')"
                         >
@@ -930,8 +930,8 @@
                         @keypress="onlyNumber"
                         v-model="result.pc_weight">
 
-                      <div class="absolute right-0 top-0">
-                        <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                      <div class="absolute ltr:right-0 rtl:left-0 top-0">
+                        <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                                 v-model="result.pc_weight_unit_id">
                           <!--                  <option value="0">Select</option>-->
                           <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
@@ -957,8 +957,8 @@
                         @keypress="onlyNumber"
                         v-model="result.pc_length">
 
-                      <div class="absolute right-0 top-0">
-                        <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                      <div class="absolute ltr:right-0 rtl:left-0 top-0">
+                        <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                                 v-model="result.pc_length_unit_id">
                           <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                               item.name
@@ -982,8 +982,8 @@
                         placeholder="Carton Height"
                         @keypress="onlyNumber"
                         v-model="result.pc_height">
-                      <div class="absolute right-0 top-0">
-                        <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                      <div class="absolute ltr:right-0 rtl:left-0 top-0">
+                        <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                                 v-model="result.pc_height_unit_id">
                           <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                               item.name
@@ -1008,8 +1008,8 @@
                         @keypress="onlyNumber"
                         v-model="result.pc_width">
 
-                      <div class="absolute right-0 top-0">
-                        <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                      <div class="absolute ltr:right-0 rtl:left-0 top-0">
+                        <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                                 v-model="result.pc_width_unit_id">
                           <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                               item.name
@@ -1053,9 +1053,9 @@
                       v-model="result.pdime_weight"
                     >
 
-                    <div class="absolute right-0 top-0">
+                    <div class="absolute ltr:right-0 rtl:left-0 top-0">
                       <select
-                        class="p-2 m-1 float-right border-l border-smooth uppercase"
+                        class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                         v-model="result.pdime_weight_unit_id"
                       >
                         <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
