@@ -28,26 +28,25 @@ export default {
          }
 
        }else{
-         const data = await this.storeVendorBank({
+        const data = await this.storeVendorBank({
            params:{
              ...this.bankData,
            },
            api:"getVendorBank"
          })
-         this.Cardmodal = false
+
 
          if(data?.status === 200){
-           await this.getAllVendorBank()
+           this.$store.commit('bank/SET_VENDOR_BANK_DATA', {...this.bankData})
            this.setToastMessage(data.message)
+           this.Cardmodal = false
 
-         } else if(data?.status === 201) {
+         } else if(data?.status >  200) {
            this.setToastError(data.data?.form?.join(', '))
 
          }
 
        }
-
-
     },
 
 
@@ -60,11 +59,11 @@ export default {
       this.deleteModal = false
 
       if(data?.status === 200){
-        await this.getAllVendorBank()
         this.setToastMessage(data.message)
       }else {
         this.setToastError(data.data.form.join(', '))
       }
+
     },
 
     addPayment(){

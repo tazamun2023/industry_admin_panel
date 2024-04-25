@@ -169,9 +169,15 @@
                         :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
                       >
                         <lazy-image
+                          v-if="value.image"
                           class="mr-20"
-
                           :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title?.en"
+                        />
+                        <lazy-image
+                          v-else
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
 
@@ -197,8 +203,9 @@
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
-                      <input type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber"
+                      <input v-if="$store.state.admin.isVendor" type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber"
                              @change="updateQty(value.id, $event)">
+                      <input v-else type="text" :value="value.available_quantity" disabled>
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:
                         {{ value.minOrderQuantity?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>

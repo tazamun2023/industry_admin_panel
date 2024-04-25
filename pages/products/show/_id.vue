@@ -149,7 +149,7 @@
           <!-- --------------------------- -->
           <div class="my-10"></div>
           <div class="col-md-4"></div>
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" v-if="is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
             <hr>
             <table>
@@ -203,7 +203,7 @@
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
               </div>
@@ -974,7 +974,7 @@ import LangInput from "~/components/langInput.vue";
 import Service from "~/services/service";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
-import Variant from "~/components/variant/variant.vue";
+import Variant from "@/components/variant/Variant.vue";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
 
@@ -1474,8 +1474,7 @@ export default {
     },
 
     cloneProduct(product) {
-      console.log(product)
-      console.log('product', product)
+
       // this.id=product.id
       this.fetchingData(product.id).then(() => {
         this.is_clone = false
@@ -1612,7 +1611,6 @@ export default {
       this.result.brand_id = event.target.value;
     },
     updateSizeUnit(event) {
-      console.log(event.target.value)
       this.result.pk_size_unit = event.target.value;
     },
     addVariantValueRows() {
@@ -1631,7 +1629,6 @@ export default {
       try {
         this.result.product_prices.push(Object.assign({}, this.product_price))
       } catch (e) {
-        console.log(e);
       }
     },
 
@@ -1642,12 +1639,11 @@ export default {
       }
     },
     saveAttachment(images) {
-      console.log(images)
+
       // this.result.rfq_attachments = rfq_attachments
       this.result.product_images = images
     },
     removePriceingRows(index) {
-      console.log(index)
       if (index != 0) {
         // this.result.product_prices.push(Object.assign({}, this.product_price))
         this.result.product_prices.splice(index, 1);
@@ -1674,7 +1670,6 @@ export default {
 
 
     updateVariantColor(attribute, event, index) {
-      console.log(attribute);
 
       // Convert event.target.value to a string to ensure consistency
       const value = String(event.target.value);
@@ -1688,7 +1683,7 @@ export default {
 
 
     removeVariantRows(index) {
-      console.log(index)
+
       if (index != 0) {
         this.result.product_variants.splice(index, 1);
 
@@ -1770,7 +1765,6 @@ export default {
       this.uploadFile(null, evt)
     },
     addTag(tag) {
-      console.log(tag)
       if (!this.result.basic_keyword_en) {
         this.result.basic_keyword_en = ','
       }
@@ -1831,7 +1825,6 @@ export default {
         return this.$nuxt.error(e)
       }
       this.loading = false
-      console.log(url)
     },
     getThumb(url) {
       return url
@@ -1842,14 +1835,12 @@ export default {
         const data = await this.setById({id: this.id, params: {url: url}, api: 'setProductThumbImage'})
         if (data) {
           await this.fetchingData(this.id)
-          console.log(this.result)
           // this.isThumb = result.thumb_image
         }
       } catch (e) {
         return this.$nuxt.error(e)
       }
       this.loading = false
-      console.log(url)
     },
     async checkForm() {
 
@@ -1879,7 +1870,7 @@ export default {
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
-        console.log('res', res)
+
         this.result = {
           title: res.title,
           description: res.description,
@@ -1997,7 +1988,7 @@ export default {
         this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
           return o.category_id.toString()
         }))]
-        console.log(this.result.product_categories)
+
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
@@ -2163,8 +2154,7 @@ export default {
     if (!this.isAdding) {
       await this.fetchingData(this.id)
     }
-    console.log(this.isCloning)
-    console.log(this.id)
+
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 

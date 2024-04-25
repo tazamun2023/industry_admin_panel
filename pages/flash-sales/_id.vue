@@ -48,12 +48,11 @@
             class="input-wrapper mlr-7-5"
           >
             <label>{{ $t('prod.sTime') }}</label>
-            <datetime
-              format="YYYY-MM-DD H:i:s"
-              width="300px"
+            <input
+              type="date"
               v-model="result.start_time"
-              readonly
-            />
+              :min="getTodayFormattedDate()"
+            >
           </div>
           </ValidationProvider>
 
@@ -63,12 +62,17 @@
           >
             <label>{{ $t('prod.eTime') }}</label>
 
-            <datetime
-              format="YYYY-MM-DD H:i:s"
-              width="300px"
+<!--            <datetime-->
+<!--              format="YYYY-MM-DD H:i:s"-->
+<!--              width="300px"-->
+<!--              v-model="result.end_time"-->
+<!--              readonly-->
+<!--            />-->
+            <input
+              type="date"
               v-model="result.end_time"
-              readonly
-            />
+              :min="getTodayFormattedDate()"
+            >
             <span class="error">{{ errors[0] }}</span>
           </div>
           </ValidationProvider>
@@ -312,9 +316,17 @@ export default {
 
   },
   methods: {
+    getTodayFormattedDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
+
     settingResult(evt) {
-      evt['start_time'] = moment(moment.utc(evt['start_time'])).local().format('YYYY-MM-DD HH:mm:ss')
-      evt['end_time'] = moment(moment.utc(evt['end_time'])).local().format('YYYY-MM-DD HH:mm:ss')
+      evt['start_time'] = moment(moment.utc(evt['start_time'])).local().format('YYYY-MM-DD')
+      evt['end_time'] = moment(moment.utc(evt['end_time'])).local().format('YYYY-MM-DD')
 
       this.result = {...evt, time_zone: this.timeZone}
     },

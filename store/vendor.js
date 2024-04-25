@@ -34,13 +34,13 @@ const actions = {
     if (data.status === 200) {
       commit('SET_VENDOR_DATA', data)
       dispatch('ui/setToastMessage', data.message, {root: true})
-      return data.data
+      return data
     } else if (data.status === 201) {
       dispatch('ui/setToastError', data.message, {root: true})
+      return data
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
-    return data;
   },
 
   async getVendorData ({rootState, commit, dispatch}, { params,api}) {

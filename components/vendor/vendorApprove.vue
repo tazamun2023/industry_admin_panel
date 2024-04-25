@@ -79,13 +79,12 @@
                         :to="`${/vendors/}${value.id}`">
                         Edit
                       </nuxt-link>
+                      <a href="#"
+                      @click="approvedModal=true"
+                        class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white">
+                        UnVerified
+                    </a>
                     </ul>
-
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdownDefaultButton" @click="approvedModal=true">
-                     UnVerified
-                    </ul>
-
                   </div>
 
                 </td>

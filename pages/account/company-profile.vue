@@ -84,24 +84,12 @@ email, mobile, and CR number </p>
           </div>
 
           <div class="form-group">
-
             <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
                   @updateInput="updateInput">
                 </lang-input>
 
-<!--            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
-                  @updateInput="updateInput"></lang-input>-->
-
-            <div class="input-wrapper mb-2">
-              <ValidationProvider name="details" class="w-full" rules="required|max:1000" v-slot="{ errors }">
-              <label for="">{{ $t('vendor.details') }}</label>
-              <textarea v-model="fromData.details" rows="4" cols="50">
-
-                </textarea>
-                <span  class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-
+           <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
+                  @updateInput="updateInput"></lang-input>
 
 
             <div class="input-wrapper mb-2">
@@ -127,7 +115,7 @@ email, mobile, and CR number </p>
               <label for="">{{ $t("vendor.mobile") }}</label>
               <div class="flex">
                 <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:9" v-slot="{ errors }">
                    <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                     <span  class="error">{{ errors[0] }}</span>
                    </ValidationProvider>
@@ -136,15 +124,15 @@ email, mobile, and CR number </p>
 
             </div>
 
-            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="CR Number" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.cr_number') }}</label>
-              <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
+              <input type="text" placeholder="CR Number" v-model="fromData.crNumber" :class="{invalid: errors[0]}" readonly>
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="email" class="w-full" rules="numeric|required" v-slot="{ errors }">
+            <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.status') }}</label>
               <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
@@ -155,7 +143,7 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
         </div>
@@ -248,7 +236,7 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between">
               <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
         </div>
@@ -303,7 +291,7 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
 
-            <ValidationProvider class="w-full" name="Building" rules="required" v-slot="{ errors }">
+            <ValidationProvider class="w-full" name="Building" rules="required|numeric" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t('vendor.building') }}</label>
               <input type="text" placeholder="Building name" v-model="fromData.contact_json.building">
@@ -312,7 +300,7 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
               <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
 
           </div>
@@ -328,24 +316,36 @@ email, mobile, and CR number </p>
           </div>
           <div class="form-group">
             <div class="input-wrapper  mb-2">
+              <ValidationProvider class="w-full" name="whatsapp" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.whatsapp') }}</label>
-              <input type="url" placeholder="Whatsapp number" v-model="fromData.links_json.whatsapp">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
+              <ValidationProvider class="w-full" name="facebook" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.facebook') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.facebook">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.facebook">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
+              <ValidationProvider class="w-full" name="linkedin" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.linkedin') }} </label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.linkedin">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.linkedin">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper  mb-2">
+              <ValidationProvider class="w-full" name="youtube" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
               <label for="">{{ $t('vendor.youtube') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.youtube">
+              <input type="text" placeholder="http://" v-model="fromData.links_json.youtube">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
               <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid"><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button @click="submit = true" :disabled="invalid" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
@@ -362,22 +362,12 @@ email, mobile, and CR number </p>
 import vendor from "@/mixin/vendor";
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
-import { extend } from 'vee-validate';
 import Modal from '~/components/Modal.vue';
 import LangInput from "../../components/langInput.vue";
 
-  extend('min', {
-    validate(value, { length }) {
-      return value.length >= length;
-    },
-    params: ['length'],
-    message: 'The {_field_} field must have at least {length} characters'
-  });
-
-
 
 export default {
-
+  middleware: ['common-middleware', 'auth'],
   mixins:[vendor],
   name:"company-profile",
   components:{
@@ -391,7 +381,6 @@ export default {
       openTab: 1,
       phoneModal: false,
       emailModal: false,
-
        fromData:{
              id:'',
              name: {'ar':'', 'en':''},
@@ -427,7 +416,8 @@ export default {
       getLogo:[],
       getLicence:[],
       errors:[],
-      hasError:false
+      hasError:false,
+      submit: false
     }
   },
   watch:{
@@ -467,7 +457,18 @@ export default {
   computed:{
     ...mapGetters('admin', ['profile']),
     ...mapGetters('vendor', ['vendorList']),
-    ...mapGetters('common', ['allCountries', 'allCitiesById'])
+    ...mapGetters('common', ['allCountries', 'allCitiesById']),
+
+    checkNameValue(){
+      if(this.fromData.name.ar.length == 0 || this.fromData.name.en.length == 0 || this.fromData.details.ar.length == 0 || this.fromData.details.en.length == 0){
+        this.hasError = true
+        return true
+      }else{
+        return false
+      }
+
+    },
+
 
   },
   methods:{
@@ -481,6 +482,9 @@ export default {
       this.fromData.licence = attachments
     },
     toggleTabs: function(tabNumber){
+      if(!this.fromData.name.ar.length > 0){
+        this.hasError = true
+      }
       this.openTab = tabNumber
     },
    async countrySelected() {
@@ -506,7 +510,7 @@ export default {
 
  async mounted() {
     if(!this.fromData.id){
-      this.fromData.id = this.profile?.id
+      this.fromData.id = this.profile?.vendor_id
     }
    try {
      await this.getVendorData({  id: this.fromData.id, params:'', api:'getVendorProfile'})

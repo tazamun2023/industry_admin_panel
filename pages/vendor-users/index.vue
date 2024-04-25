@@ -1,8 +1,6 @@
 <template>
-
-<!--  v-if="$can('vendor', 'view')"-->
-
   <list-page
+    v-if="$can('invite')"
     :param="vendor_id"
     ref="listPage"
     list-api="getVendorUsers"
@@ -21,7 +19,7 @@
         <th>{{ $t('user.verified') }}</th>
         <th>{{ $t('title.ac') }}</th>
         <th>{{ $t('category.created') }}</th>
-        <th>&nbsp;</th>
+        <th>{{ $t('title.act') }}</th>
       </tr>
 
       <tr
@@ -39,18 +37,27 @@
         </td>
         <td>{{ value.username }}</td>
         <td>{{ value.email }}</td>
-        <td>
+<!--        <td>
           <span
-            v-for="(i, n) in value.roles"
+            v-for="(i, n) in value.role"
             :key="n"
           >
             {{ i.name }}
           </span>
+        </td>-->
+
+        <td>{{ value.role[0] }}</td>
+
+        <td>
+          <span v-if="value.verified">{{ $t('user.verified') }}</span>
+          <span v-else>{{ $t('user.verified') }}</span>
         </td>
 
-        <td> <span>{{ getVerificationStatus(value.verified) }}</span></td>
+        <td>
+          <span v-if="value.active">{{ $t('prod.yes') }}</span>
+          <span v-else>{{ $t('prod.no') }}</span>
+        </td>
 
-        <td>{{ getBoolean(value.active) }}</td>
         <td>{{ value.created }}</td>
         <td>
           <button
