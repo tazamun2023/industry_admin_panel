@@ -8,10 +8,12 @@
         :selectedLevel3="selectedLevel3"
         :select_attr1="select_attr1"
         :select_attr2="select_attr2"
+        :is_edit="is_edit"
+        :variantsData="variantsData"
       ></Variant>
     </div>
-    <div v-else>
-      Loading....
+    <div class="flex justify-center items-center h-full" v-else>
+      <spinner />
     </div>
   </div>
 </template>
@@ -23,6 +25,7 @@ export default {
   name: "VariantUpdate",
   data() {
     return {
+      is_edit: true,
       result: {
         hts_code: '',
         parent_sku: '',
@@ -179,6 +182,8 @@ export default {
         variantSizeType: 'size',
         variantSize: [],
       },
+
+      variantsData: [],
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
@@ -227,27 +232,14 @@ export default {
         // Initialize an array to store product variants
         let productVariants = [];
 
-// Iterate through the keys of the res object
         for (let key in res) {
-          // Check if the key is a number
           if (!isNaN(key)) {
-            // Construct a product variant object
             let productVariant = {
-              // "name": "",
-              // "color_name": "",
-              // "value": "",
-              // "product_id": ""
               name: res[key].product_variant.name,
               color_name: res[key].product_variant?.color.name?.en,
               value: res[key].product_variant.value,
               product_id: res[key].product_variant.product_id,
-              //
-              // brand_id: res[key].brand_id,
-              // unit_id: res[key].unit_id,
-              // Add other properties as needed
             };
-
-            // Push the product variant object to the productVariants array
             productVariants.push(productVariant);
           }
         }
@@ -350,7 +342,164 @@ export default {
         this.result.category_id = res[0]?.child_category?.id
         this.result.childCategory = res[0]?.child_category?.id
 
-          this.is_fetch = true;
+        for (let key in res) {
+          // Check if the key is a number
+          if (!isNaN(key)) {
+            const variant = {
+              parentCategory: res[key].category?.id,
+              subCategory: res[key].sub_category?.id,
+              childCategory: res[key].child_category?.id,
+              hts_code: res[key].hts_code || '',
+              parent_sku: res[key].parent_sku || '',
+              unit_id: res[key].unit_id || 9,
+              clone_products: [],
+              variants_type: [],
+              product_variant: [],
+              product_variants: [],
+              features: res[key].product_features?.map(item => (item.name)) || [
+                {"ar": "", "en": ""},
+              ],
+
+
+              /*Product Inventory*/
+              available_quantity: res[key].available_quantity || '',
+              /*End Product Inventory*/
+
+
+              /*Additional details*/
+              additional_details_row: res[key].additional_attribute?.map(item => ({name: item.name, value: item.value})) || [
+                {
+                  "name": "",
+                  "value": ""
+                }
+              ],
+              additional_attributes: res[key]?.additional_attribute || [],
+              additional_attributes_value: [],
+              /*Additional details*/
+              /*Shipping details*/
+              is_ready_to_ship: res[key].is_ready_to_ship || 1,
+              is_buy_now: res[key].is_buy_now || 1,
+              is_availability: res[key].is_availability || 0,
+              is_dangerous: res[key].is_dangerous || 0,
+              is_offer_private_label_option: res[key].is_offer_private_label_option || 1,
+              stock_location: res[key].warehouse_id || 1,
+              storage_temperature: res[key].storage_temperature_id || '',
+              country_of_origin: res[key].product_origin_id || 194,
+
+              /*Shipping details*/
+              /*Product Identifiers*/
+              barcode_type: res[key].barcode_id || '',
+              barcode: res[key].barcode_number || '',
+              sku: res[key].sku || '',
+              minimum_order_quantity: res[key].minimum_order_quantity || 0,
+              pp_unit_of_measure_id: res[key].pp_unit_of_measure_id || 0,
+
+
+              /*Product Identifiers*/
+
+              /*product price start*/
+
+
+              pp_quantity: [],
+              pp_unit_price: [],
+              pp_selling_price: [],
+              /*product price end*/
+
+              /*product variant start*/
+              variantTypes: ['color', 'size'],
+              variant_unit_of_measure: 1,
+              variantRows: [
+                {size: 0, color: ""},
+              ],
+              productVariants: {
+                variantTypes: ['color', 'size'],
+                pv_name: [],
+                variantValues: [
+                  [], []
+                ],
+              },
+              /*product variant end*/
+              /*additional attribute start*/
+              add_attribute_name: [],
+              add_attribute_value: [],
+              /*additional attribute end*/
+              /*packaging start*/
+              pk_size: res[key].packaging.size || '',
+              pk_size_unit: res[key].packaging.size_unit || 1,
+              pk_number_of_carton: res[key].packaging.number_of_carton || '',
+              pk_average_lead_time: res[key].packaging.average_lead_time || '', //days
+              pk_transportation_mode: res[key].packaging.transportation_mode || 1,
+              /*packaging end*/
+              /*product dimensions start*/
+              pdime_weight: res[key].product_dimension.weight || '',
+              pdime_weight_unit_id: res[key].product_dimension.weight_unit_id || 17,
+              pdime_height: res[key].product_dimension.height || '',
+              pdime_length: res[key].product_dimension.length || '',
+              pdime_width: res[key].product_dimension.width || '',
+              pdime_unit: this.result.unit_id || '',
+              pdime_dimention_unit: res[key].product_dimension.dimention_unit,
+              /*product dimensions end*/
+              /*product cartons start*/
+              pc_weight: res[key].product_carton.weight || '',
+              pc_weight_unit_id: res[key].product_carton.weight_unit_id || 17,
+              pc_height: res[key].product_carton.height || '',
+              pc_height_unit_id: res[key].product_carton.height_unit_id || 19,
+              pc_length: res[key].product_carton.length || '',
+              pc_length_unit_id: res[key].product_carton.length_unit_id || 19,
+              pc_width: res[key].product_carton.width || '',
+              pc_width_unit_id: res[key].product_carton.width_unit_id || 19,
+              /*end product cartons*/
+              id: res[key].id || '',
+              title: res[key].title || {ar: '', en: ''},
+              tags: res[key].tags || ',',
+              basic_keyword_en: res[key].basic_keyword_en || '',
+              basic_keyword_ar: res[key].basic_keyword_ar || '',
+              overview: res[key].overview || '',
+              description: res[key].description || {ar: '', en: ''},
+              status: res[key].status || '',
+              is_quote: res[key].is_quote || '',
+              brand_id: res[key].brand_id || '',
+              primary_category_id: res[key].primary_category_id || '',
+              category_id: res[key].category_id || '',
+              bundle_deal_id: res[key].bundle_deal_id || '',
+              unit: res[key].unit ||10,
+              badge: res[key].badge || '',
+              subcategory_id: res[key].subcategory_id ||'',
+              tax_rule_id: res[key].tax_rule_id || '',
+              shipping_rule_id: res[key].shipping_rule_id ||'',
+              purchased: res[key].purchased ||'',
+              selling: res[key].selling ||'',
+              offered: res[key].offered ||'',
+              refundable: res[key].refundable ||1,
+              warranty: res[key].warranty ||1,
+              meta_description: res[key].meta_description ||'',
+              flash_sale_product: res[key].flash_sale_product ||'',
+              meta_title: res[key].meta_title ||'',
+              images: res[key].images ||'',
+              slug: res[key].slug ||'',
+              video: res[key].video ||'',
+              product_images: [],
+              product_collections: [],
+              product_categories: [],
+              PriceingRows: this.result.product_prices,
+              product_prices: this.result.product_prices,
+              basicInfoen: [[]],
+              basicInfoEng: [{}],
+              basicInfoAr: [{}],
+              basicInfoar: [[]],
+              variantkey: '',
+              variantColorsType: 'color',
+              variantColors: [],
+              variantSizeType: 'size',
+              variantSize: [],
+            };
+            this.variantsData.push(Object.assign({result: variant}));
+          }
+        }
+
+
+
+        this.is_fetch = true;
         this.is_loading = false
 
       }catch (e) {

@@ -163,10 +163,12 @@
                   <tr v-for="(value, index) in list" :key="index">
                     <td><input type="checkbox" :value="value.id" v-model="cbList"></td>
                     <td>
+<!--                      /products/variant/${value.id}-->
                       <nuxt-link
+                        v-if="$can('manage_products') && value.is_variant && $store.state.admin.isVendor"
                         class="dply-felx j-left link"
                         style="max-width:100px;height:70px;object-fit:cover"
-                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                        :to="`/products/variant/${value.id}`"
                       >
                         <lazy-image
                           v-if="value.image"
@@ -180,7 +182,26 @@
                           :data-src="getThumbImageURL(value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
+                      </nuxt-link>
+                      <nuxt-link
+                        v-else
+                        class="dply-felx j-left link"
+                        style="max-width:100px;height:70px;object-fit:cover"
+                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                      >
 
+                        <lazy-image
+                          v-if="value.image"
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title?.en"
+                        />
+                        <lazy-image
+                          v-else
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.first_thumb_image)"
+                          :alt="value.title?.en"
+                        />
                       </nuxt-link>
                     </td>
                     <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
