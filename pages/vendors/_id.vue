@@ -90,7 +90,6 @@ export default{
   methods:{
         toggleTabs: function(tabNumber){
        this.openTab = tabNumber
-
           this.$router.push({
             query: {
               ...this.$route.query,
