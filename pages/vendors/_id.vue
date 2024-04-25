@@ -28,11 +28,11 @@
             </div>
             <div class="col-span-10 ltr:border-l rtl:border-r border-smooth p-2 right-area">
 
-                <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+<!--                <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
                     <template>
                       <profile :vendor_id="$route.params.id" />
                   </template>
-                </div>
+                </div>-->
                 <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                   <template>
                     <Users  :vendorId="$route.params.id"/>

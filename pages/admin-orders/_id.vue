@@ -3,9 +3,11 @@
     <div class="flex justify-between border-b border-smooth pb-3">
       <div class="flex items-center gap-4">
         <h3 class="font-bold">Order <span>{{ orderDetails.order_id }}</span></h3>
-        <span class="bg-primarylight text-primary px-2 rounded-3xl font-bold text-[13px]"> {{
+        <!-- <span class="bg-primarylight text-primary px-2 rounded-3xl font-bold text-[13px]"> {{
           $t(`status.${orderDetails?.status}`)
-          }}</span>
+          }}</span> -->
+        <ind-status :color="orderDetails.status_data?.color"
+          :background-color="orderDetails.status_data?.background_color" :text="orderDetails.status_data?.name" />
       </div>
       <div>
         <!-- <invoice :order="order" /> -->
@@ -29,8 +31,13 @@
         </div>
         <div>
           <p class="text-smoothlight">{{ $t('order.payment') }}</p>
-          <p class="text-theem"><span class="bg-theemlight  text-[14px]  px-2 rounded-3xl"><strong class="text-theem">
-                {{ $t(`status.${orderDetails?.payment_status}`) }}</strong></span></p>
+          <!-- <p class="text-theem">
+            <span class="bg-theemlight  text-[14px]  px-2 rounded-3xl"><strong class="text-theem">
+                {{ $t(`status.${orderDetails?.payment_status}`) }}</strong></span>
+              </p> -->
+          <ind-status :color="orderDetails.payment_status_data?.color"
+            :background-color="orderDetails.payment_status_data?.background_color"
+            :text="orderDetails.payment_status_data?.name" />
         </div>
       </div>
       <div>
@@ -64,11 +71,15 @@
               <p>{{ $t('orderDetails.ShipmentCost') }} </p>
               <p>{{ subItem.shipping_cost }} <span class="text-primary">{{ $t('app.SAR') }}</span></p>
             </div>
-            <div>
+            <div v-if="subItem.status_data !== null">
               <p>{{ $t('global.status') }}</p>
-              <p><span class="bg-primarylight text-primary px-2 rounded-3xl font-bold text-[13px]">
+              <p>
+                <ind-status :color="subItem.status_data?.color"
+                  :background-color="subItem.status_data?.background_color" :text="subItem.status_data?.name" />
+                <!-- <span class="bg-primarylight text-primary px-2 rounded-3xl font-bold text-[13px]">
                   {{ $t(`status.${subItem?.status}`) }}
-                </span></p>
+                </span> -->
+              </p>
             </div>
           </div>
           <div>
@@ -185,35 +196,44 @@
 
     <div class="grid grid-col-4 p-4 my-4 gap-4">
       <div class="col-span-4 w-full">
-        <h4 class="font-bold">Payment Summery</h4>
+        <h4 class="font-bold">{{ $t('orderDetails.PaymentSummery') }}</h4>
       </div>
       <div class="col-span-3 px-4 flex justify-between w-full">
         <div>
-          <p>Method</p>
-          <p>Credit/Debit Card</p>
-          <p class="pt-4">Name On Card </p>
-          <p>Mohammed Abdullah</p>
+          <p>{{ $t('orderDetails.Method') }}</p>
+          <p>{{ orderDetails.payment_method }}</p>
+          <p class="pt-4" v-if="orderDetails.payment_method == 'card'">{{ $t('orderDetails.NameOnCard') }} </p>
+          <p v-if="orderDetails.payment_method == 'card'">Mohammed Abdullah</p>
+          <p class="pt-4" v-if="orderDetails.payment_method == 'bank'">{{ $t('orderDetails.reference_number') }}</p>
+          <p>{{ payment[0]?.payment_details?.reference_number }} 
+          </p>
         </div>
+     
         <div>
-          <p>Pay Date</p>
-          <p>30/12/2024</p>
-          <p class="pt-4">Pay Attachment</p>
+          <p>{{ $t('orderDetails.PayDate') }}</p>
+          <p>{{ payment[0]?.created_at }}</p>
+          <p class="pt-4">{{ $t('orderDetails.PayAttachment') }}</p>
           <p><img class="h-4 w-4" src="~/assets/icon/file.svg" alt=""></p>
         </div>
         <div class="text-center">
-          <p>Payed Amount</p>
-          <p>4000 <span class="text-primary text-xs">sar</span></p>
-          <p class="pt-4">remaining Amount</p>
-          <p>4000 <span class="text-primary text-xs">sar</span></p>
+          <p>{{ $t('orderDetails.PayedAmount') }}</p>
+          <p>{{ payment[0]?.amount }} <span class="text-primary text-xs">{{ $t('app.SAR') }}</span></p>
+          <p class="pt-4">{{ $t('orderDetails.remainingAmount') }}</p>
+          <p>{{ orderDetails.order_total - payment[0]?.amount }} <span
+              class="text-primary text-xs">{{ $t('app.SAR') }}</span>
+          </p>
         </div>
+       
+        <!--  -->
       </div>
       <div class="text-center">
-        <p class="my-1">Action</p>
+        <p class="my-1">{{ $t('app.Actions') }}</p>
         <p class="my-1">
-          <button class="border-2 border-primary text-primary font-bold" @click="bankModalFun">Accept</button>
+          <button class="border-2 border-primary text-primary font-bold"
+            @click="bankModal = true">{{ $t('orderDetails.Accept') }}</button>
         </p>
         <p class="my-1">
-          <button class="border-0 font-bold">Reject</button>
+          <button class="border-0 font-bold" @click="rejectMoalFun">{{ $t('orderDetails.Reject') }}</button>
         </p>
       </div>
     </div>
@@ -226,7 +246,7 @@
           <td class="text-end">{{ $t('orderDetails.date') }}</td>
         </tr>
         <tr class="bg-light deep" v-for="(timeline, index) in orderDetails.timeline" :key="index">
-          <td class="w-[200px]">{{ timeline.user }}</td>
+          <td class="w-[200px]">{{ timeline.user ?? $t('orderDetails.nameEmpty') }}</td>
           <td>{{ timeline.action }}</td>
           <td class="text-end">{{ timeline.date }}</td>
         </tr>
@@ -236,50 +256,81 @@
 
     <div class="flex justify-between my-4 p-4">
       <div>
-        <a class="flex items-center gap-2" href="">
+        <nuxt-link tag="a" class="flex items-center gap-2" to="/admin-orders">
           <svg class="w-5 h-5 text-primary" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="m15 19-7-7 7-7" />
           </svg>
-          Back</a>
+          {{ $t('approveModal.back') }}</nuxt-link>
       </div>
       <div>
-        <button class="font-bold border-0">Reject</button>
-        <button class="font-bold border-2 text-primary">Accept</button>
+        <button class="font-bold border-0" @click="rejectModal = !rejectModal">{{ $t('orderDetails.Reject') }}</button>
+        <button class="font-bold border-2 text-primary"
+          @click="bankModal = !bankModal">{{ $t('orderDetails.Accept') }}</button>
       </div>
     </div>
     <div v-if="bankModal"
       class="fixed bg-modal border border-gray-200 shadow-md  inset-0 z-50 flex items-center justify-center rounded-lg">
       <div class="absolute inset-0 bg-black opacity-50"></div>
       <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/3 lg:w-1/3 xl:w-2/5">
-       <img  @click="bankModalFun" src="~/assets/images/close.svg" alt="close"     class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" />
-        <h4 class="mb-2 text-lg font-semibold text-gray-900">{{$t('order.enterTotAmPay')}} </h4>
-        <ValidationObserver tag="div"  v-slot="{ invalid }">
-        <div class="mb-4">
-          <div class="max-w-sm ">
-            <form  @submit.prevent="acceptPayment">
-              <ValidationProvider name="total_amount" tag="div"
-               class="w-full" rules="required" v-slot="{ errors }" 
-               :custom-messages="{ required: $t('order.isRequired', { type: $t('order.total_amount') }) }"
-            >
-              <input type="number"
-                v-model="acceptPaymentBank.total_amount"
-                class="form-input w-full p-2 border rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
-                placeholder="100">
-                <span  class="error mt-2 mr-1 ml-1">{{ errors[0] }}</span>
+        <img @click="bankModalFun" src="~/assets/images/close.svg" alt="close"
+          class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" />
+        <h4 class="mb-2 text-lg font-semibold text-gray-900">{{ $t('order.enterTotAmPay') }} </h4>
+        <ValidationObserver tag="div" v-slot="{ invalid }">
+          <div class="mb-4">
+            <div class="max-w-sm ">
+              <form @submit.prevent="acceptPayment">
+                <ValidationProvider name="total_amount" tag="div" class="w-full" rules="required" v-slot="{ errors }"
+                  :custom-messages="{ required: $t('order.isRequired', { type: $t('order.total_amount') }) }">
+                  <input type="number" v-model="acceptPaymentBank.total_amount"
+                    class="form-input w-full p-2 border rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+                    placeholder="100">
+                  <span class="error mt-2 mr-1 ml-1">{{ errors[0] }}</span>
 
                 </ValidationProvider>
-            </form>
+              </form>
+            </div>
+          </div>
+          <div class="flex justify-start gap-3 mt-6">
+            <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
+              @click="acceptPayment">{{ $t('prod.submit') }}</button>
+            <button type="button" class="btn-hove cancel-button border-2 text-black font-bold transition"
+              @click="bankModalFun">{{ $t('app.Cancel') }}</button>
+          </div>
+        </ValidationObserver>
+      </div>
+    </div>
+    <div v-if="rejectModal" class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="z-50 bg-white p-6 relative rounded-md shadow w-2/6">
+        <svg class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+        <div class="p-2">
+          <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>
+        </div>
+        <div class="card p-4">
+          <div class="py-4">
+            <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
+            <select class="p-4 w-full border border-smooth rounded" v-model="acceptPaymentBank.reject_reasons">
+              <option :value="item.id" v-for="(item, index) in reasonsRejection?.data" :key="index">
+                {{ item.description }}
+              </option>
+            </select>
+          </div>
+          <div class="w-full px-2 py-4 ">
+            <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
+              <button @click="rejectMoalFun" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{
+                $t('orderReject.cancel') }}
+              </button>
+              <button @click="rejectPayment" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{
+                $t('orderReject.save') }}</button>
+            </div>
           </div>
         </div>
-        <div class="flex justify-start gap-3 mt-6">
-          <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
-            >{{$t('prod.submit')}}</button>
-          <button type="button" class="btn-hove cancel-button border-2 text-black font-bold transition"
-            @click="bankModalFun">{{$t('app.Cancel')}}</button>
-        </div>
-      </ValidationObserver>
       </div>
     </div>
 
@@ -290,7 +341,7 @@ import { mapGetters, mapActions } from "vuex";
 import LazyImage from "~/components/LazyImage.vue";
 import Modal from "~/components/Modal.vue";
 import Invoice from './components/Invoice.vue';
-import { ValidationProvider, ValidationObserver} from "vee-validate";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 
 export default {
   components: { LazyImage, Invoice, Modal, ValidationProvider, ValidationObserver },
@@ -300,19 +351,25 @@ export default {
       orderDetails: "",
       invoices: false,
       bankModal: false,
-      acceptPaymentBank :{
-        order_id:0,
-        amount: 0
+      rejectModal: false,
+      payment: "",
+      acceptPaymentBank: {
+        order_id: 0,
+        amount: 0,
+        payment_status: '',
+        payment_id: '',
+        reject_reasons: ''
       }
     }
   },
 
   middleware: ['common-middleware', 'auth'],
   computed: {
-
+    ...mapGetters('order', ['reasonsRejection'])
   },
   methods: {
-    ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList']),
+    ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList', 'setRequest']),
+    ...mapActions('order', ['getReasonsRejection']),
     getTotalSubOrderItemsPrice(subItem) {
       let totalPrice = 0;
       if (subItem && subItem.sub_order_items) {
@@ -325,9 +382,28 @@ export default {
     bankModalFun() {
       this.bankModal = !this.bankModal;
     },
-    acceptPayment(){
-      alert('ddd')
-      this.acceptPaymentBank.order_id= this.orderDetails.order_id;
+    rejectMoalFun() {
+      this.rejectModal = !this.rejectModal;
+    },
+    acceptPayment() {
+      this.acceptPaymentBank.order_id = this.orderDetails.order_id;
+      this.acceptPaymentBank.payment_status = 'approved';
+      this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
+      this.setRequest({
+        params: this.acceptPaymentBank,
+        api: "changePaymentStatus"
+      })
+      this.bankModalFun();
+    },
+    rejectPayment() {
+      this.acceptPaymentBank.order_id = this.orderDetails.order_id;
+      this.acceptPaymentBank.payment_status = 'reject';
+      this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
+      this.setRequest({
+        params: this.acceptPaymentBank,
+        api: "changePaymentStatus"
+      })
+      this.rejectMoalFun();
     },
     async fetchingData() {
       try {
@@ -338,6 +414,7 @@ export default {
           },
           api: "mainOrderDetails"
         })
+        this.payment = this.orderDetails.payment
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
@@ -346,8 +423,8 @@ export default {
   },
   mounted() {
     this.fetchingData();
-    let n = this.getTotalSubOrderItemsPrice(this.orderDetails.sub_orders)
-    console.log(n);
+    this.getReasonsRejection();
+    let n = this.getTotalSubOrderItemsPrice(this.orderDetails.sub_orders);
     // this.getOrderDetails({
     //   id: this.$route.params.id
     // })
