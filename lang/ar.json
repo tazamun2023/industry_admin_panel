@@ -109,7 +109,10 @@
     "What type of RFQs would you like to be notified of": "ما نوع طلبات عروض الأسعار التي ترغب بأن يتم إعلامك بها؟",
     "Enable email notification to receive selling opportunities straight to your inbox": "قم بتفعيل إشعار البريد الإلكتروني لتلقي فرص البيع مباشرة إلى صندوق الوارد الخاص بك.",
     "Send me RFQ notifications": "أرسل لي إشعارات طلبات عروض الأسعار",
-    "RFQ Status": "حالة طلب عرض السعر"
+    "RFQ Status": "حالة طلب عرض السعر",
+    "quantityRequired": "الرجاء إدخال الكمية",
+    "UnitpriceRequired": "سعر الوحدة مطلوب",
+    "costPriceGreater1": "يجب أن يكون سعر التكلفة أكبر من 1"
   },
   "products": {
     "Id": "المعرف",

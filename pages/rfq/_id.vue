@@ -133,6 +133,7 @@
                         </tr>
                         <tr v-if="isCollapsed && activeProductId == product.id" id="add_form">
                           <td colspan="8">
+                            <ValidationObserver  v-slot="{ invalid }">
                             <form action="">
                               <div class="grid grid-cols-5 gap-4">
                                 <div class="col-span-2">
@@ -141,7 +142,7 @@
                                     <button type="button" @click="addProduct"
                                       class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
                                       data-toggle="modal" data-target="#staticBackdrop">
-                                      {{ $t('products.add') }}
+                                      {{ product.qoute.product_id !== "" ? $t('rfq.change') : $t('products.add') }}
                                     </button>
                                     <span
                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
@@ -150,35 +151,46 @@
                                   </div>
                                 </div>
                                 <div>
+                                  <ValidationProvider name="type" class="w-full" rules="required"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{ required: $t('rfq.quantityRequired')}">
                                   <label for="">{{ $t('products.Quantity') }}*</label>
                                   <div class="flex border rounded p-1 border-smooth bg-white">
                                     <input name="quantity" v-model="rfq.products[k].qoute.quantity" placeholder="qty"
                                       required="" aria-required="true" type="number"
                                       class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                    <select class="border-none w-50" v-model="rfq.products[k].qoute.unit_id" id="">
+                                    <select class="border-none w-50 bg-unit" v-model="rfq.products[k].qoute.unit_id" id="">
                                       <template v-for="unit in allUnits">
-                                        <option :value="unit.id">{{ unit.name }}</option>
+                                        <option :value="unit.id" >{{ unit.name }}</option>
                                       </template>
-
-
                                     </select>
                                   </div>
+                                  <span  class="error text-error">{{ errors[0] }}</span>
+                                  </ValidationProvider>
                                 </div>
                                 <div>
-                                  <label for="">{{ $t('rfq.Unit offer price') }}*</label>
-                                  <div class="flex border rounded p-1 border-smooth bg-white">
-                                    <label class="p-3" for="">{{ $t('app.SAR') }}</label>
-                                    <input type="number" v-model="rfq.products[k].qoute.total_offer_price"
-                                      placeholder="0"
-                                      class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                  </div>
+                                  <ValidationProvider name="type" class="w-full" rules="required"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{ required: `${$t('rfq.UnitpriceRequired')}` }">
+                                    <label for="">{{ $t('rfq.Unit offer price') }}*</label>
+                                    <div class="flex border rounded p-1 border-smooth bg-white">
+                                      <label class="p-3" for="">{{ $t('app.SAR') }}</label>
+                                      <input type="number" v-model="rfq.products[k].qoute.total_offer_price"
+                                      @blur="validateTotalPrice(k, $event)"
+                                        placeholder="0" 
+                                        class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
+                                    </div>
+                                    <span class="error text-error" v-if="rfq.products[k].qoute.product_id && (rfq.products[k].qoute.total_offer_price == ''
+                                      || rfq.products[k].qoute.total_offer_price == 0)
+                                    ">{{ $t('rfq.costPriceGreater1') }}</span>
+                                    <span v-if="rfq.products[k].qoute.product_id" class="error text-error">{{ errors[0] }}</span>
+                                  </ValidationProvider>
                                 </div>
+
                                 <div>
                                   <label for=""> {{ $t('rfq.Total target price') }}*</label>
                                   <div class="flex border rounded p-1 border-smooth bg-white">
                                     <label class="p-3" for="">{{ $t('app.SAR') }}</label>
-
-
                                     <input name="quantity" placeholder="0"
                                       :value="rfq.products[k].qoute.quantity * rfq.products[k].qoute.total_offer_price"
                                       disabled
@@ -197,7 +209,8 @@
                                       font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
                                       {{ $t('app.Cancel') }}
                                     </button>
-                                    <button type="button" @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                    <button :disabled="rfq.products[k].qoute.disabled" v-if="rfq.products[k].qoute.product_id"
+                                      type="button" @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
                                        py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
                                         long mt-20">
                                       {{ $t('app.Save') }}
@@ -207,6 +220,7 @@
                                 </div>
                               </div>
                             </form>
+                          </ValidationObserver>
                           </td>
                         </tr>
                       </template>
@@ -233,8 +247,8 @@
                 <div class="md:w-1/3 pr-4 pl-4">
                   <div class="mb-4">
                     <label for="">{{ $t('rfq.quote_expired_message') }}</label>
-                    <datepicker  :type="'date'" v-model="result.expiry_date"  :default-value="new Date()" :format="dateFormat"
-                      :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
+                    <datepicker :type="'date'" v-model="result.expiry_date" :default-value="new Date()"
+                      :format="dateFormat" :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
 
                   </div>
                 </div>
@@ -371,8 +385,9 @@ import ProductSearch from "../../components/partials/ProductSearch.vue";
 import LazyImage from "../../components/LazyImage.vue";
 import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 import Datepicker from 'vue2-datepicker';
+import { ValidationObserver, ValidationProvider } from "vee-validate";
 export default {
- 
+
   name: "RFQDetails",
   middleware: ['common-middleware', 'auth'],
   data() {
@@ -382,6 +397,7 @@ export default {
       isCollapsed: false,
       isDisable: false,
       open: false,
+      validPrice: false,
       tableShow: '',
       is_upload: '',
       uploadNewText: false,
@@ -409,12 +425,14 @@ export default {
     LazyImage,
     ProductSearch,
     AjaxButton,
-    Spinner
+    Spinner,
+    ValidationObserver, ValidationProvider
   },
   computed: {
     id() {
       return this.$route?.params?.id
     },
+
     canSend() {
       return (
         (this.result.products.length == this.rfq.products.length) &&
@@ -425,15 +443,28 @@ export default {
     ...mapGetters('common', ['allUnits',])
   },
   methods: {
-   formatDate(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedDay = day < 10 ? `0${day}` : day;
-    return `${year}-${formattedMonth}-${formattedDay}`;
-},
+    validateTotalPrice(k, val) {
+      if (this.rfq.products[k]?.qoute.total_offer_price == "" || this.rfq.products[k]?.qoute.total_offer_price == 0) {
+        this.$set(this.rfq.products[k].qoute, 'disabled', true);
+        if(val.target.value == '') {
+        this.$set(this.rfq.products[k].qoute, 'total_offer_price', 0);
+        }
+      } else {
+        this.$set(this.rfq.products[k].qoute, 'disabled', false);
+        if(val.target.value == '') {
+        this.$set(this.rfq.products[k].qoute, 'total_offer_price', 0);
+        }
+      }
+    },
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const formattedMonth = month < 10 ? `0${month}` : month;
+      const formattedDay = day < 10 ? `0${day}` : day;
+      return `${year}-${formattedMonth}-${formattedDay}`;
+    },
     disabledBeforeTodayAndAfterAWeek(date) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -482,6 +513,7 @@ export default {
             quantity: q.quantity,
             rfq_product_id: q.rfq_product_id,
             total_offer_price: q.total_offer_price,
+            disabled: q.total_offer_price == '' || q.total_offer_price == 0 ? true : false
           })
         }
       }
@@ -489,20 +521,19 @@ export default {
       // console.log(this.result)
     },
     async addQuote() {
-      this.result.expiry_date= this.formatDate(this.result.expiry_date)
+      this.result.expiry_date = this.formatDate(this.result.expiry_date)
       this.save()
       if (this.canSend)
         await this.setById({
           id: this.id,
           params: this.result,
           api: 'setQuote'
-        }).then(() => {
-
-          // alert('saved')
+        }).then((res) => {
+          return this.$router.push(`/rfq/quotation-details/`+res.id)
         })
     },
     async addDraftQuote() {
-      this.result.expiry_date= this.formatDate(this.result.expiry_date)
+      this.result.expiry_date = this.formatDate(this.result.expiry_date)
       this.result.is_draft = true
       this.save()
       // if (this.canSend)
@@ -529,7 +560,7 @@ export default {
           params: this.result,
           api: 'setQuote'
         }).then((res) => {
-          console.log(res)
+          alert('true')
           return this.$router.push(`/products/add?id=` + rfqProduct.qoute.product.id + `&rfq_product_id=` + this.activeProductId + `&quote=` + res.id)
         })
       }
@@ -585,12 +616,12 @@ export default {
     },
     addRFQProduct(product) {
       var rfqProduct = this.rfq.products.find(p => p.qoute.rfq_product_id == this.activeProductId);
-      console.log(rfqProduct);
       rfqProduct.qoute.product = product;
       rfqProduct.qoute.product_id = product.id;
       this.$refs.productSearch.autoSuggestionClose()
-
       this.save()
+      var index = this.rfq.products.findIndex(p => p.product_id === rfqProduct.product_id);
+      this.$set(this.rfq.products[index].qoute, 'unit_id', rfqProduct.unit.id);
     },
     async fetchingData() {
       try {
@@ -616,7 +647,7 @@ export default {
               id: p.id,
               quantity: p.quantity ?? 1,
               total_offer_price: p.total_offer_price ?? 0,
-
+              disabled: q.total_offer_price == '' || q.total_offer_price == 0 ? true : false
             })
           } else
             this.rfq.products[i].qoute = ({
@@ -628,7 +659,7 @@ export default {
               id: "",
               quantity: 1,
               total_offer_price: 0,
-
+              disabled: true
             })
           console.log('point', this.rfq.products[i].qoute);
         }
@@ -681,12 +712,15 @@ export default {
 </style>
 <style>
 @import 'vue2-datepicker/index.css';
+
 .mx-calendar-content .cell {
   color: black !important;
 }
+
 .mx-calendar-content .cell.disabled {
   color: #ccc !important;
 }
+
 .mx-table-date .cell.not-current-month {
   color: black !important;
 }

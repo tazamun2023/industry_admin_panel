@@ -136,7 +136,10 @@
     "sendCounterOffer":"send counter offer",
     "rejectQuote":"reject quote",
     "acceptCheckout":"accept & checkout",
-    "price":"Price"
+    "price":"Price",
+    "quantityRequired":"Enter quantity please",
+    "UnitpriceRequired":"Unit offer price is Required",
+    "costPriceGreater1":"cost price should be greater than 1"
   },
   "products": {
     "Id": "Id",
@@ -341,6 +344,7 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Pending": "Pending",
     "Home": "Home",
     "Images and Videos": "Images and Videos",
     "Incomplete": "Incomplete",

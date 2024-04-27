@@ -1,6 +1,6 @@
 <template>
   <div class="card p-3">
-    <div class="grid border-b-smooth grid-cols-4">
+    <div v-if="vendorId==0" class="grid border-b-smooth grid-cols-4">
       <div>
         <h4>{{ $t('prod.product_list') }}</h4>
         <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
@@ -31,7 +31,7 @@
       </div>
     </div>
     <!-- -------------------------- -->
-    <ul class="flex mb-0 list-none flex-wrap  w-full shadow mt-10 flex-row">
+    <ul v-if="vendorId==0" class="flex mb-0 list-none flex-wrap  w-full shadow mt-10 flex-row">
       <li class="-mb-px mr-2 last:mr-0 cursor-pointer  flex-auto text-center">
         <NuxtLink class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
                   @click="toggleTabs('is_all_products')"
@@ -91,7 +91,7 @@
               :list-api="api"
               delete-api="deleteProduct"
               gate="view_products"
-
+              :param="{vendor_id:vendorId}"
               manage_gate="view_products"
 
               empty-store-variable="allProducts"
@@ -163,10 +163,12 @@
                   <tr v-for="(value, index) in list" :key="index">
                     <td><input type="checkbox" :value="value.id" v-model="cbList"></td>
                     <td>
+<!--                      /products/variant/${value.id}-->
                       <nuxt-link
+                        v-if="$can('manage_products') && value.is_variant && $store.state.admin.isVendor"
                         class="dply-felx j-left link"
                         style="max-width:100px;height:70px;object-fit:cover"
-                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                        :to="`/products/variant/${value.id}`"
                       >
                         <lazy-image
                           v-if="value.image"
@@ -180,30 +182,53 @@
                           :data-src="getThumbImageURL(value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
+                      </nuxt-link>
+                      <nuxt-link
+                        v-else
+                        class="dply-felx j-left link"
+                        style="max-width:100px;height:70px;object-fit:cover"
+                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                      >
 
+                        <lazy-image
+                          v-if="value.image"
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title?.en"
+                        />
+                        <lazy-image
+                          v-else
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.first_thumb_image)"
+                          :alt="value.title?.en"
+                        />
                       </nuxt-link>
                     </td>
                     <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
-                    <td>{{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}</td>
+                    <td>
+                      <span v-if="value.is_variant" class="flex items-center rounded-md bg-primary-light px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 w-[55px] text-primary">Variant</span>
+                      {{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}
+                    </td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td>
-<!--                      <p v-if="value.maxUnitPrice">-->
-<!--                        <del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del>-->
-<!--                      </p>-->
-<!--                      <p v-else>NAN</p>-->
-<!--                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>-->
+                      <!--                      <p v-if="value.maxUnitPrice">-->
+                      <!--                        <del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del>-->
+                      <!--                      </p>-->
+                      <!--                      <p v-else>NAN</p>-->
+                      <!--                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>-->
                       <p>
-                        <del>SAR {{ value.product_prices[0]?.unit_price}}</del>
+                        <del>SAR {{ value.product_prices[0]?.unit_price }}</del>
                       </p>
                       <p>
-                        SAR {{ value.product_prices[0]?.selling_price}}
+                        SAR {{ value.product_prices[0]?.selling_price }}
                       </p>
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
-                      <input v-if="$store.state.admin.isVendor" type="qty" title="Enter to update" :value="value.available_quantity" @keypress="onlyNumber"
+                      <input v-if="$store.state.admin.isVendor" type="qty" title="Enter to update"
+                             :value="value.available_quantity" @keypress="onlyNumber"
                              @change="updateQty(value.id, $event)">
                       <input v-else type="text" :value="value.available_quantity" disabled>
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:
@@ -285,9 +310,15 @@
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
-                            v-if="$can('manage_products')"
+                            v-if="$can('manage_products') && !value.is_variant"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">Edit
+                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                          </nuxt-link>
+                          <nuxt-link
+                            v-if="$can('manage_products') && value.is_variant"
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            :to="`/products/variant/${value.id}`">Edit
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
 
@@ -368,6 +399,10 @@ export default {
       type: String,
       default: "getAllProducts"
     },
+    vendorId: {
+      type: Number,
+      default: 0
+    },
   },
   middleware: ['common-middleware', 'auth'],
   data() {
@@ -447,10 +482,10 @@ export default {
           }).then(() => {
             this.visibleDropdown = null
             // window.location.reload()
-            if (status==='approved'){
+            if (status === 'approved') {
               this.$router.push({path: `/products/approved`})
             }
-            if (status==='archived'){
+            if (status === 'archived') {
               this.$router.push({path: `/products/archived`})
             }
           })
@@ -484,7 +519,7 @@ export default {
           id: id,
           params: {available_quantity: available_quantity},
           api: 'setAvailableQty'
-        }).then(data =>{
+        }).then(data => {
           console.log(data)
         })
       }

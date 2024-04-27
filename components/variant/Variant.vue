@@ -45,17 +45,30 @@
                     <span class="pt-2" v-else-if="colorItem.value">{{ colorItem.value }}</span>
                     <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
                   </span>
-                  <p><span class="bg-smooth rounded-lg text-xs mt-2 p-1">{{ $t('prod.Incomplete') }}</span></p>
+                  <p v-if="is_edit && result.status==='pending'"><span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white">{{ $t('prod.Pending') }}</span></p>
+                  <p v-if="!is_edit"><span class="bg-smooth rounded-lg text-xs mt-2 p-1">{{ $t('prod.Incomplete') }}</span></p>
                 </a>
               </li>
             </ul>
           </div>
           <div class="col-span-3">
             <div class="p-4">
-              <div class="flex justify-between">
+              <div class="flex justify-between" >
                 <h4>{{ $t('prod.Basic information') }}</h4>
-                <p class="cursor-pointer underline font-bold" @click="CategorySection = !CategorySection">
-                  {{ $t('prod.Edit Category') }}</p>
+                <p
+                  v-if="is_edit"
+                  class="cursor-pointer underline font-bold text-disabled"
+                  style="cursor: not-allowed"
+                   >
+                  {{ $t('prod.Edit Category') }}
+                </p>
+                <p
+                  v-else
+                  class="cursor-pointer underline font-bold"
+                  @click="CategorySection = !CategorySection"
+                   >
+                  {{ $t('prod.Edit Category') }}
+                </p>
               </div>
 
 
@@ -165,7 +178,7 @@
                               @updateInput="updateInput"></lang-input>
                   <div class="input-wrapper mb-4" v-else>
                     <label for="">{{ $t('prod.name') }}</label>
-                    <input type="text" :placeholder="variantName(result.title)" class="cursor-not-allowed" disabled>
+                    <input type="text" :placeholder="variantName(variants[openTab].result.title)" class="cursor-not-allowed" disabled>
                   </div>
                   <div class="input-wrapper mt-3 mt-sm-0">
                     <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
@@ -213,7 +226,7 @@
     </div>
     <!-- ------------------------ -->
     <div :class="openTab !== 'parent' ? 'block':'hidden'">
-      <ValidationObserver class="w-full" v-slot="{ handleSubmit }">
+      <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab !== 'parent'">
       <!-- --------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
@@ -311,7 +324,7 @@
             <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
             <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
-                              :valuesOfLang="variants[openTab].result.features"
+                              :valuesOfLang="variants[openTab]?.result.features"
                               @updateInput="updateInput"></lang-input-multi>
           </div>
 
@@ -319,7 +332,7 @@
             <label for="">{{ $t('prod.Keywords - English') }} ?</label>
             <v-select
               :dir="$t('app.dir')"
-              v-model="result.basic_keyword_en"
+              v-model="variants[openTab]?.result.basic_keyword_en"
               :options="['']"
               taggable
               multiple
@@ -331,7 +344,7 @@
             <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
             <v-select
               :dir="$t('app.dir')"
-              v-model="result.basic_keyword_ar"
+              v-model="variants[openTab]?.result.basic_keyword_ar"
               :options="['']"
               taggable
               multiple
@@ -344,27 +357,15 @@
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
-      <div class="tab-sidebar p-3">
+      <div class="tab-sidebar p-3" v-if="openTab !== 'parent'">
         <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
-                    :valuesOfLang="result.description"
+                    :valuesOfLang="variants[openTab]?.result.description"
                     @updateInput="updateInput"></lang-input>
       </div>
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
       <div class="tab-sidebar p-3">
-<!--        <div class="flex pl-4">-->
-<!--          <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Images and Videos') }}</h4>-->
-<!--        </div>-->
-<!--        <div class="input-wrapper">-->
-<!--          <label class="pl-4 pt-0 fw-bold">-->
-<!--            {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>-->
-<!--            {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>-->
-<!--            {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>-->
-<!--            {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}-->
-<!--          </label>-->
-<!--        </div>-->
-<!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
         <vue-upload-images :old_images="[]" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
       </div>
       <!-- ------------------------------------- -->
@@ -439,7 +440,7 @@
             v-model="variants[openTab]?.result.available_quantity"
             @keypress="onlyNumber"
             @input="availableQuantity">
-          <label>{{ $t('prod.Minimum order quantity') }}: {{ variants[openTab]?.result.product_prices[0].quantity }}</label>
+          <label>{{ $t('prod.Minimum order quantity') }}: {{ variants[openTab]?.result.product_prices[0]?.quantity }}</label>
         </div>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
@@ -1005,7 +1006,7 @@
 <!--            <button type="button" class="btn text-primary" @click.prevent="doDraft">-->
 <!--              {{ $t('prod.Save Draft') }}-->
 <!--            </button>-->
-            <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="handleSubmit(doSubmit)">
+            <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="handleSubmit(doSubmitSingle(variants[openTab].result.id))">
               {{ $t('prod.Send for review') }}
             </button>
           </div>
@@ -1033,7 +1034,7 @@
               <div class="grid grid-cols-3 gap-4 pt-4">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
+                    <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr1"
                             @change="isAttr($event, 'color')">
                       <option value="">{{ $t('prod.Select attribute 1') }}</option>
                       <option v-for="(item, index) in product_variant_type" :key="index"
@@ -1046,7 +1047,7 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
+                    <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr2"
                             @change="isAttr($event, 'size')">
                       <option value="">{{ $t('prod.Select attribute 2') }}</option>
                       <option v-for="(item, index) in product_variant_type" :key="index"
@@ -1061,12 +1062,13 @@
 <!--                  </button>-->
 <!--                </div>-->
               </div>
-              <hr class="border-smooth">
-              <div v-if="!is_variant_save" class="grid grid-cols-3 gap-4"
+              <hr class="border-smooth mb-2.5">
+<!--<span>{{ result.product_variants.length }}</span>-->
+              <div class="grid grid-cols-3 gap-4"
                    v-for="(variant, index) in result.product_variants" :key="index">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                    <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                             @change="setColorName(index, $event)"
                             v-if="select_attr1 === 'color'">
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -1082,7 +1084,7 @@
                   <div class="form-group" :class="{ invalid: variant.value }">
                     <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
                            v-if="select_attr2 === 'size'"/>
-                    <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                    <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                             v-if="select_attr2 === 'color'">
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                           item.name
@@ -1131,11 +1133,11 @@
                 </button>
 
                 <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
-                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.Reset') }}</span>
                 </button>
                 <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
-                        v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.CANCEL') }}</span>
                 </button>
               </div>
@@ -1196,6 +1198,7 @@ import ProductInventory from "@/components/partials/ProductInventory.vue";
 import ErrorFormatter from "@/components/ErrorFormatter.vue";
 import Spinner from "@/components/Spinner.vue";
 import LangInput from "@/components/langInput.vue";
+import th from "vue2-datepicker/locale/es/th";
 
 extend('uniqueSku', {
   validate: (value, {allSKus}) => {
@@ -1235,11 +1238,16 @@ export default {
   },
   props: {
     result: Object,
+    variantsData: Object,
     selectedLevel1: Object,
     selectedLevel2: Object,
     selectedLevel3: Object,
     select_attr1: String,
     select_attr2: String,
+    is_edit: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -1320,6 +1328,7 @@ export default {
     }
   },
   computed: {
+
     AverageLeadValidationRules() {
       return {
         required: true,
@@ -1349,21 +1358,23 @@ export default {
 
     },
     checkPricing() {
-      const allPrices = this.result.product_prices;
+      if (this.openTab !== 'parent'){
+        const allPrices = this.variants[this.openTab]?.result.product_prices;
+        if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
+          for (let i = 0; i < allPrices.length; i++) {
+            const unitPrice = parseInt(allPrices[i]?.unit_price);
+            const sellingPrice = parseInt(allPrices[i]?.selling_price);
 
-      if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
-        for (let i = 0; i < allPrices.length; i++) {
-          const unitPrice = parseInt(allPrices[i]?.unit_price);
-          const sellingPrice = parseInt(allPrices[i]?.selling_price);
-
-          if (unitPrice > sellingPrice) {
-            continue; // If any unit price is greater than selling price, return false immediately
-          } else {
-            return i
+            if (unitPrice > sellingPrice) {
+              continue; // If any unit price is greater than selling price, return false immediately
+            } else {
+              return i
+            }
           }
         }
+        return false;
       }
-      return false;
+
       // If all unit prices are less than or equal to selling prices, return true
     },
     PriceValidationRules() {
@@ -1390,54 +1401,56 @@ export default {
     },
 
     BarcodeValidationRules() {
-      let validationRules = {
-        required: this.variants[this.openTab].result.barcode_type !== 4
-      };
+      if (this.openTab !== 'parent'){
+        let validationRules = {
+          required: this.variants[this.openTab]?.result?.barcode_type !== 4
+        };
 
-      const barcodeLength = this.variants[this.openTab].result.barcode?.length || 0;
+        const barcodeLength = this.variants[this.openTab]?.result?.barcode?.length || 0;
 
-      switch (this.variants[this.openTab].result.barcode_type) {
-        case '1':
-          if (barcodeLength <= 8) {
-            validationRules.min = 8;
-          } else if (barcodeLength <= 13) {
-            validationRules.min = 13;
-            validationRules.max = 13;
-          } else {
-            validationRules.max = 13;
-          }
-          break;
+        switch (this.variants[this.openTab]?.result?.barcode_type) {
+          case '1':
+            if (barcodeLength <= 8) {
+              validationRules.min = 8;
+            } else if (barcodeLength <= 13) {
+              validationRules.min = 13;
+              validationRules.max = 13;
+            } else {
+              validationRules.max = 13;
+            }
+            break;
 
-        case '2':
-          if (barcodeLength <= 8) {
-            validationRules.min = 8;
-          } else if (barcodeLength <= 12) {
-            validationRules.min = 12;
-            validationRules.max = 12;
-          } else if (barcodeLength <= 13) {
-            validationRules.min = 13;
-            validationRules.max = 13;
-          } else if (barcodeLength <= 14) {
-            validationRules.min = 14;
-            validationRules.max = 14;
-          } else {
-            validationRules.max = 14;
-          }
-          break;
+          case '2':
+            if (barcodeLength <= 8) {
+              validationRules.min = 8;
+            } else if (barcodeLength <= 12) {
+              validationRules.min = 12;
+              validationRules.max = 12;
+            } else if (barcodeLength <= 13) {
+              validationRules.min = 13;
+              validationRules.max = 13;
+            } else if (barcodeLength <= 14) {
+              validationRules.min = 14;
+              validationRules.max = 14;
+            } else {
+              validationRules.max = 14;
+            }
+            break;
 
-        case '3':
-          if (barcodeLength <= 12) {
-            validationRules.min = 12;
-          } else {
-            validationRules.max = 12;
-          }
-          break;
+          case '3':
+            if (barcodeLength <= 12) {
+              validationRules.min = 12;
+            } else {
+              validationRules.max = 12;
+            }
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+
+        return validationRules;
       }
-
-      return validationRules;
     },
 
     ...mapGetters(['mediaStorage']),
@@ -1540,7 +1553,7 @@ export default {
           api: this.setApi
         })
         // const data = await this.setById({id: this.id, params: {result: this.result, variants: this.variants}, api: this.setApi})
-        console.log(data)
+        // console.log(data)
         // if (data) {
         //
         //   this.result = Object.assign({}, data)
@@ -1587,10 +1600,47 @@ export default {
       this.result.status = 'pending'
       this.checkForm()
     },
+
+    async doSubmitSingle(id) {
+      this.is_draft = false;
+      this.result.is_draft = false;
+
+      if (this.validationKeysIfNotVariant.findIndex((i) => {
+        return (!this.result[i])
+      }) > -1) {
+        this.hasError = true
+        return false
+      }
+      if (this.result.storage_temperature === 0) {
+        this.result.storage_temperature = null
+      }
+      if (this.result.brand_id === 0) {
+        this.result.brand_id = null
+      }
+      if (this.result.barcode_type === 0) {
+        this.result.barcode_type = null
+      }
+      if (this.result.unit_id === 0) {
+        this.result.unit_id = null
+      }
+      this.result.status = 'pending'
+      // this.checkForm()
+
+      await this.setById({
+        id: id,
+        params: {result: this.variants[this.openTab].result, variants: this.variants, single_submit: true},
+        api: this.setApi
+      })
+    },
     variantName(name) {
-      return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
+      if (this.is_edit){
+        return name[this.currentLanguage?.code]
+      }else {
+        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
+      }
     },
     isAttr(event, attributeType) {
+
       const value = String(event.target.value);
       //backend need check
       this.result.variants_type = [
@@ -1611,6 +1661,7 @@ export default {
       this.$set(input, language, value);
     },
     toggleTabs: function (tab) {
+      // console.log(tab)
       this.openTab = tab
       // console.log(this.result)
     },
@@ -1668,16 +1719,45 @@ export default {
         this.variants[this.openTab].result.product_images = images
       }
     },
+    areObjectsEqual(obj1, obj2) {
+      // Check if the objects are equal using JSON.stringify
+      return JSON.stringify(obj1) === JSON.stringify(obj2);
+    },
+
+    variantsChanged(newValue, oldValue) {
+      if (this.openTab!=='parent'){
+        // const new_value = newValue[this.openTab].result;
+        // const old_value = oldValue[this.openTab].result;
+
+        if (newValue !== oldValue) {
+          alert('Value of result has changed');
+          // Perform actions or fetch data here
+        }
+      }
+    },
+
+
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
+  watch: {
+    variants: {
+      handler: 'variantsChanged',
+      deep: true // Enable deep watching
+    }
+  },
   async mounted() {
-    this.result.product_variants.forEach((variant) => {
-      this.variants.push(Object.assign({result: this.result}));
-    });
+    if (this.is_edit){
+      this.variants = this.variantsData
+    }else {
+      this.result.product_variants.forEach((variant) => {
+        this.variants.push(Object.assign({result: this.result}));
+      });
+    }
+
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allPackagingBoxUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 
       this.loading = true
       try {
