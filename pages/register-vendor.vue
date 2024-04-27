@@ -1,12 +1,12 @@
 <template>
-  <ValidationObserver v-slot="{invalid}">
+  <ValidationObserver  class="w-full"  v-slot="{invalid}">
   <form @submit.prevent="userRegister()" class="login-form">
     <transition
       name="fade"
       mode="out-in"
     >
       <div
-        class="spinner-wrapper flex layer-white"
+        class="spinner-wrapper flex justify-center layer-white"
         v-if="loading"
       >
         <spinner
@@ -40,18 +40,18 @@
     </div>
 
     <div class="input-wrapper">
-      <div class="icon-input"><i class="icon email-icon"/>
-        <ValidationProvider name="first_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.first_name')})}">
-          <input type="text" :placeholder="$t('fSale.first_name')" v-model.trim="first_name">
+      <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
+        <ValidationProvider class="w-full" name="first_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.first_name')})}">
+          <input style="padding:0px 35px" type="text" :placeholder="$t('fSale.first_name')" v-model.trim="first_name">
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
     </div>
 
     <div class="input-wrapper">
-      <div class="icon-input"><i class="icon email-icon"/>
-        <ValidationProvider name="last_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.last_name')})}">
-          <input type="text" :placeholder="$t('fSale.last_name')" v-model.trim="last_name">
+      <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
+        <ValidationProvider class="w-full"  name="last_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.last_name')})}">
+          <input style="padding:0px 35px" type="text" :placeholder="$t('fSale.last_name')" v-model.trim="last_name">
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
@@ -59,9 +59,9 @@
 
 
     <div class="input-wrapper">
-      <div class="icon-input"><i class="icon email-icon"/>
-        <ValidationProvider name="Email" rules="required|email" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.email')}), email: $t('user.isValid', { type: $t('fSale.email') })}">
-        <input type="text" :placeholder="$t('fSale.email')" v-model.trim="email" readonly>
+      <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
+        <ValidationProvider class="w-full"  name="Email" rules="required|email" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.email')}), email: $t('user.isValid', { type: $t('fSale.email') })}">
+        <input style="padding:0px 35px"  type="text" :placeholder="$t('fSale.email')" v-model.trim="email" readonly>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
       </div>
@@ -69,9 +69,9 @@
 
 
       <div class="input-wrapper">
-        <div class="icon-input"><i class="icon email-icon"/>
-          <ValidationProvider name="role" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.role')})}">
-          <input type="text" :placeholder="$t('fSale.role')" v-model.trim="roles" readonly>
+        <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
+          <ValidationProvider class="w-full"  name="role" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.role')})}">
+          <input style="padding:0px 35px" type="text" :placeholder="$t('fSale.role')" v-model.trim="roles" readonly>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
         </div>
@@ -80,10 +80,10 @@
 
       <div class="input-wrapper">
         <div class="relative">
-          <ValidationProvider name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+          <ValidationProvider class="w-full"  name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
           <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="password" @keyup="checkPassword()">
          <i
-            class="icon"
+            class="icon absolute mt-[7px] ltr:right-1 rtl:left-1"
             :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
             @click="passwordFieldToggle"
           />
@@ -104,10 +104,10 @@
 
       <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
       <div class="relative">
-        <ValidationProvider name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+        <ValidationProvider  class="w-full"  name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
         <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
        <i
-          class="icon"
+          class="icon  absolute mt-[-35px] ltr:right-1 rtl:left-1"
           :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
           @click="passwordFieldToggle()"
         />-
