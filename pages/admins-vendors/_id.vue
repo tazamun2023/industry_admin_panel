@@ -1,13 +1,14 @@
 <template>
-  <div class="tab-sidebar p-4">
-    <div class="flex mb-2 justify-between">
+  <div>
+
+    <div class="w-1/3 mx-auto shadow p-4 border border-smooth rounded">
+      <div class="flex mb-2 justify-between">
       <h3>{{ $t('app.update_admin') }}</h3>
       <nuxt-link to="/admins-vendors" >
         <button class="bg-primary border p-2 leading-3 text-white w-[100px]">List</button>
       </nuxt-link>
 
     </div>
-    <div class="w-2/4 mx-auto shadow p-4 border border-smooth rounded">
       <ValidationObserver  class="w-full" v-slot="{ invalid }">
         <form @submit.prevent="formSubmit">
           <transition
