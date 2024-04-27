@@ -220,7 +220,7 @@
                 <div class="grid grid-cols-3 gap-4 pt-4" v-if="!is_variant_save">
                   <div class="col-md-4">
                     <div class="form-group">
-                      <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr1"
+                      <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr1"
                               @change="isAttr($event, 'color')">
                         <option value="">{{ $t('prod.Select attribute 1') }}</option>
                         <option v-for="(item, index) in product_variant_type" :key="index"
@@ -233,7 +233,7 @@
 
                   <div class="col-md-4">
                     <div class="form-group">
-                      <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
+                      <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr2"
                               @change="isAttr($event, 'size')">
                         <option value="">{{ $t('prod.Select attribute 2') }}</option>
                         <option v-for="(item, index) in product_variant_type" :key="index"
@@ -268,7 +268,7 @@
                      v-for="(variant, index) in result.product_variants" :key="index">
                   <div class="col-md-4">
                     <div class="form-group">
-                      <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                      <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                               @change="setColorName(index, $event)"
                               v-if="select_attr1 === 'color'">
                         <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -284,7 +284,7 @@
                     <div class="form-group" :class="{ invalid: variant.value }">
                       <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
                              v-if="select_attr2 === 'size'"/>
-                      <select class="w-full rounded border mb-10 border-smooth p-3" v-model="variant.name"
+                      <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                               v-if="select_attr2 === 'color'">
                         <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                             item.name
@@ -1236,6 +1236,7 @@
         :selectedLevel3="selectedLevel3"
         :select_attr1="select_attr1"
         :select_attr2="select_attr2"
+        :variant_uu_id="variant_uu_id"
       ></Variant>
     </div>
   </div>
@@ -1331,6 +1332,7 @@ export default {
   data() {
     return {
       is_next: false,
+      variant_uu_id: '',
       is_variant_save: false,
       selectedLevel1: null,
       selectedLevel2: null,
@@ -1399,6 +1401,7 @@ export default {
       min_qty: null,
       result: {
         hts_code: '',
+        variant_uuid: '',
         parent_sku: '',
         clone_products: [],
         unit_id: 9,
@@ -1935,8 +1938,20 @@ export default {
       //   this.hasError = true
       //   return false
       // }
-      this.is_next = true
+      this.is_next = true;
+      this.variant_uu_id = this.generateUUID();
+    },
+    generateUUID() {
+      // Get current timestamp
+      var timestamp = new Date().getTime();
 
+      // Generate a random number
+      var randomNumber = Math.ceil(Math.random() * 1000000);
+
+      // Combine timestamp and random number
+      var uuid = timestamp.toString() + randomNumber.toString();
+
+      return uuid;
     },
     async doVariantReset() {
       const confirmation = await this.$swal({
@@ -2451,6 +2466,7 @@ export default {
           is_variant: res.product_variant ? true : false,
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res.hts_code,
+          variant_uuid: res.variant_uuid,
 
 
         }

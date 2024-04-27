@@ -283,7 +283,7 @@
                         <!--                          </template>-->
                       </Modal>
                     </td>
-                    <td v-if="value.is_buyable">Online</td>
+                    <td v-if="value.is_buyable===1">Online</td>
                     <td v-else>Offline</td>
                     <td>
 
