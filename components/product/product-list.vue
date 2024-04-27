@@ -163,10 +163,12 @@
                   <tr v-for="(value, index) in list" :key="index">
                     <td><input type="checkbox" :value="value.id" v-model="cbList"></td>
                     <td>
+<!--                      /products/variant/${value.id}-->
                       <nuxt-link
+                        v-if="$can('manage_products') && value.is_variant && $store.state.admin.isVendor"
                         class="dply-felx j-left link"
                         style="max-width:100px;height:70px;object-fit:cover"
-                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                        :to="`/products/variant/${value.id}`"
                       >
                         <lazy-image
                           v-if="value.image"
@@ -180,11 +182,33 @@
                           :data-src="getThumbImageURL(value.first_thumb_image)"
                           :alt="value.title?.en"
                         />
+                      </nuxt-link>
+                      <nuxt-link
+                        v-else
+                        class="dply-felx j-left link"
+                        style="max-width:100px;height:70px;object-fit:cover"
+                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                      >
 
+                        <lazy-image
+                          v-if="value.image"
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.image)"
+                          :alt="value.title?.en"
+                        />
+                        <lazy-image
+                          v-else
+                          class="mr-20"
+                          :data-src="getThumbImageURL(value.first_thumb_image)"
+                          :alt="value.title?.en"
+                        />
                       </nuxt-link>
                     </td>
                     <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
-                    <td>{{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}</td>
+                    <td>
+                      <span v-if="value.is_variant" class="flex items-center rounded-md bg-primary-light px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 w-[55px] text-primary">Variant</span>
+                      {{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}
+                    </td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
@@ -286,9 +310,15 @@
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
-                            v-if="$can('manage_products')"
+                            v-if="$can('manage_products') && !value.is_variant"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">Edit
+                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                          </nuxt-link>
+                          <nuxt-link
+                            v-if="$can('manage_products') && value.is_variant"
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            :to="`/products/variant/${value.id}`">Edit
                             <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
                           </nuxt-link>
 

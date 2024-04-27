@@ -344,6 +344,7 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Pending": "Pending",
     "Home": "Home",
     "Images and Videos": "Images and Videos",
     "Incomplete": "Incomplete",
