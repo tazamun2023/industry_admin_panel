@@ -468,7 +468,8 @@ export default {
             {
               path: 'vendor-users',
               title: this.$t('error.vendor_users'),
-              icon: 'admins-vendors',
+              icon: 'profile.svg',
+              is_image:true,
               form: ['vendor-users'],
               gate: 'invite'
 
