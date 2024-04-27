@@ -471,7 +471,6 @@ export default {
               icon: 'admins-vendors',
               form: ['vendor-users'],
               gate: 'invite'
-
             },
           ]
         },
