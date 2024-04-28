@@ -31,7 +31,7 @@
               </li>
               <li class="-mb-px w-100  mr-2 last:mr-0 cursor-pointer"
                   v-for="(colorItem, index) in result.product_variants" :key="index">
-                <a class="text-xs flex justify-between w-100 font-bold uppercase px-5 py-3    leading-normal"
+                <a class="text-xs flex justify-between w-100 font-bold uppercase px-5 py-3 leading-normal"
                    @click="toggleTabs(index)"
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
@@ -45,8 +45,11 @@
                     <span class="pt-2" v-else-if="colorItem.value">{{ colorItem.value }}</span>
                     <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
                   </span>
-                  <p v-if="is_edit && result.status==='pending'"><span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white">{{ $t('prod.Pending') }}</span></p>
-                  <p v-if="!is_edit"><span class="bg-smooth rounded-lg text-xs mt-2 p-1">{{ $t('prod.Incomplete') }}</span></p>
+                  <p v-for="(variantStatus, index1) in variants" v-if="index1===index">
+                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id">{{ $t('prod.Pending') }}</span>
+                    <span class="bg-smooth rounded-lg text-xs mt-2 p-1" v-if="!variantStatus.result.id">{{ $t('prod.Incomplete') }}</span>
+                  </p>
+
                 </a>
               </li>
             </ul>
@@ -457,6 +460,7 @@
               <input
                 type="text"
                 class="form-control pr-12"
+                :class="{ 'has-error': errors[0] }"
                 :placeholder="$t('prod.Size')"
                 @keypress="onlyNumber"
                 v-model="variants[openTab]?.result.pk_size"
@@ -1063,7 +1067,6 @@
 <!--                </div>-->
               </div>
               <hr class="border-smooth mb-2.5">
-<!--<span>{{ result.product_variants.length }}</span>-->
               <div class="grid grid-cols-3 gap-4"
                    v-for="(variant, index) in result.product_variants" :key="index">
                 <div class="col-md-4">
@@ -1199,6 +1202,7 @@ import ErrorFormatter from "@/components/ErrorFormatter.vue";
 import Spinner from "@/components/Spinner.vue";
 import LangInput from "@/components/langInput.vue";
 import th from "vue2-datepicker/locale/es/th";
+import id from "vue2-datepicker/locale/es/id";
 
 extend('uniqueSku', {
   validate: (value, {allSKus}) => {
@@ -1248,9 +1252,14 @@ export default {
       type: Boolean,
       default: false
     },
+    variant_uu_id: {
+      type: Number,
+      default: null
+    },
   },
   data() {
     return {
+      is_submit:[],
       injectedData: this.exampleData,
       openTab: 'parent',
       uploadModal: false,
@@ -1328,6 +1337,13 @@ export default {
     }
   },
   computed: {
+
+    id() {
+      return !this.isAdding ? this.$route?.params?.id : ''
+    },
+    isAdding() {
+      return isNaN(this.$route?.params?.id)
+    },
 
     AverageLeadValidationRules() {
       return {
@@ -1511,34 +1527,13 @@ export default {
       }else {
         this.is_variant_save = !this.is_variant_save
         this.varientModal = false
-        this.variants.push(Object.assign({result: this.result}));
+        this.variants[0].result.sku = ''
+        this.variants[0].result.status = 'incomplete'
+        this.variants[0].result.is_variant = true
+        this.variants.push({ result: { ...this.variants[0].result, id: '' } });
       }
     },
-    doDraft() {
-      this.is_draft = true;
-      this.result.is_draft = true;
-      this.result.status = 'draft'
-      // if (this.result.storage_temperature === 0) {
-      //   this.result.storage_temperature = null
-      // }
-      // if (this.result.brand_id === 0) {
-      //   this.result.brand_id = null
-      // }
-      // if (this.result.barcode_type === 0) {
-      //   this.result.barcode_type = null
-      // }
-      // if (this.result.unit_id === 0) {
-      //   this.result.unit_id = null
-      // }
-      // if (this.validationKeysIfIsDraft.findIndex((i) => {
-      //   return (!this.result[i])
-      // }) > -1) {
-      //   this.hasError = true
-      //   return false
-      // }
-      this.checkForm()
 
-    },
     async checkForm() {
 
       // this.redirectingEnable(event.submitter.name)
@@ -1552,6 +1547,8 @@ export default {
           params: {result: this.variants[this.openTab].result, variants: this.variants},
           api: this.setApi
         })
+
+
         // const data = await this.setById({id: this.id, params: {result: this.result, variants: this.variants}, api: this.setApi})
         // console.log(data)
         // if (data) {
@@ -1602,6 +1599,12 @@ export default {
     },
 
     async doSubmitSingle(id) {
+      if ((id === null || id === undefined) && (this.variants[this.openTab]?.result?.id === null || this.variants[this.openTab]?.result?.id === undefined)) {
+        id = ''; // Set id to an empty string
+        this.variants[this.openTab].result.variant_uu_id = this.variant_uu_id
+      } else {
+        id = id ? id : this.variants[this.openTab]?.result?.id; // If id is provided, use it, otherwise use this.variants[this.openTab].result.id
+      }
       this.is_draft = false;
       this.result.is_draft = false;
 
@@ -1623,14 +1626,119 @@ export default {
       if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
-      this.result.status = 'pending'
+      this.variants[this.openTab].result.status = 'pending'
+      this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
 
-      await this.setById({
+      const res = await this.setById({
         id: id,
-        params: {result: this.variants[this.openTab].result, variants: this.variants, single_submit: true},
+        params: {result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true},
         api: this.setApi
       })
+
+      if (res) {
+        // Initialize this.variants[this.openTab] if it doesn't exist
+        if (!this.variants[this.openTab]) {
+          this.variants[this.openTab] = {};
+        }
+
+        // Initialize this.variants[this.openTab].result if it doesn't exist
+        if (!this.variants[this.openTab].result) {
+          this.variants[this.openTab].result = {};
+        }
+
+        // Assign properties from res to this.variants[this.openTab].result
+        this.variants[this.openTab].result = {
+          title: res.title,
+          variant_uu_id: res.variant_uu_id,
+          description: res.description,
+          parentCategory: res.category?.id,
+          subCategory: res.sub_category?.id,
+          childCategory: res.child_category?.id,
+          product_prices: res.product_prices,
+          unit_id: res.unit_id,
+          features: res.product_features?.map(item => item.name),
+          unit: res.unit,
+          brand_id: res.brand_id,
+          meta_title: res.meta_title,
+          meta_description: res.meta_description,
+          selling: res.selling,
+          purchased: res.selling, // Should this be res.purchased?
+          offered: res.offered,
+          images: res.images,
+          product_images: res.product_images,
+          video: res.video,
+          status: res.status,
+          parent_sku: res.parent_sku,
+          basic_keyword_en: res.basic_keyword_en,
+          basic_keyword_ar: res.basic_keyword_ar,
+          basicInfoAr: res.title,
+          basicInfoEng: res.title,
+          barcode_type: res.barcode_id,
+          barcode: res.barcode_number,
+          sku: res.sku,
+          available_quantity: res.available_quantity,
+          pk_size: res.packaging?.size,
+          pk_size_unit: res.packaging?.size_unit,
+          pk_number_of_carton: res.packaging?.number_of_carton,
+          pk_average_lead_time: res.packaging?.average_lead_time,
+          pk_transportation_mode: res.packaging?.transportation_mode,
+          pc_weight: res.product_carton?.weight,
+          pc_weight_unit_id: res.product_carton?.weight_unit_id,
+          pc_height: res.product_carton?.height,
+          pc_height_unit_id: res.product_carton?.height_unit_id,
+          pc_length: res.product_carton?.length,
+          pc_length_unit_id: res.product_carton?.length_unit_id,
+          pc_width: res.product_carton?.width,
+          pc_width_unit_id: res.product_carton?.width_unit_id,
+          pdime_weight: res.product_dimension?.weight,
+          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+          pdime_height: res.product_dimension?.height,
+          pdime_length: res.product_dimension?.length,
+          pdime_width: res.product_dimension?.width,
+          pdime_dimention_unit: res.product_dimension?.dimention_unit,
+          pp_quantity: res.product_prices?.map(price => price.quantity),
+          pp_unit_price: res.product_prices?.map(price => price.unit_price),
+          pp_selling_price: res.product_prices?.map(price => price.selling_price),
+          is_ready_to_ship: res.is_ready_to_ship,
+          is_buy_now: res.is_buyable,
+          is_availability: res.is_available,
+          storage_temperature: res.storage_temperature_id,
+          stock_location: res.warehouse_id,
+          country_of_origin: res.product_origin_id,
+          is_dangerous: res.is_dangerous,
+          product_variants: res.product_variant,
+          product_variant: res.product_single_variant ?? [],
+          PriceingRows: res.product_prices,
+          is_variant: !!res.product_variant,
+          additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
+          hts_code: res.hts_code,
+          id: res.id,
+        };
+
+        // Initialize productCollections and productCategories
+        const productCollections = new Set(res.product_collections?.map(o => o.product_collection_id));
+        const productCategories = new Set(res.product_categories?.map(o => o.category_id.toString()));
+
+        // You can uncomment these lines if you want to update product_collections and product_categories
+        // this.variants[this.openTab].result.product_collections = [...productCollections];
+        // this.variants[this.openTab].result.product_categories = [...productCategories];
+
+        // You can uncomment these lines if you want to remove an element from variants array
+        // this.variants?.splice(this.openTab, 1);
+
+        // You can uncomment these lines if you want to push a new object into variants array
+        // this.variants[this.openTab]?.result.push({result: variantData});
+      }
+
+
+
+
+
+      this.is_submit.push({
+        tab: this.openTab
+      });
+
     },
     variantName(name) {
       if (this.is_edit){

@@ -28,6 +28,7 @@ export default {
       is_edit: true,
       result: {
         hts_code: '',
+        variant_uu_id: '',
         parent_sku: '',
         clone_products: [],
         unit_id: 9,
@@ -226,8 +227,6 @@ export default {
       try {
         this.is_loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: 'getVariantProducts'}));
-        console.log('res')
-        console.log(res)
 
         // Initialize an array to store product variants
         let productVariants = [];
@@ -235,10 +234,10 @@ export default {
         for (let key in res) {
           if (!isNaN(key)) {
             let productVariant = {
-              name: res[key].product_variant.name,
-              color_name: res[key].product_variant?.color.name?.en,
-              value: res[key].product_variant.value,
-              product_id: res[key].product_variant.product_id,
+              name: res[key]?.product_variant?.name||'',
+              color_name: res[key]?.product_variant?.color.name?.en||'',
+              value: res[key]?.product_variant?.value||'',
+              product_id: res[key]?.product_variant?.product_id||'',
             };
             productVariants.push(productVariant);
           }
@@ -332,6 +331,7 @@ export default {
           is_variant: res[0]?.product_variant ? true : false,
           additional_details_row: res[0]?.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res[0]?.hts_code,
+          variant_uu_id: res[0]?.variant_uu_id,
         },
         this.select_attr1= 'color';
         this.select_attr2= 'size';
@@ -354,8 +354,9 @@ export default {
               unit_id: res[key].unit_id || 9,
               clone_products: [],
               variants_type: [],
-              product_variant: [],
-              product_variants: [],
+              product_variant: res[key].product_variant,
+              variant_uu_id: res[key]?.variant_uuid,
+              product_variants: res[key].product_variant,
               features: res[key].product_features?.map(item => (item.name)) || [
                 {"ar": "", "en": ""},
               ],
@@ -378,7 +379,7 @@ export default {
               /*Additional details*/
               /*Shipping details*/
               is_ready_to_ship: res[key].is_ready_to_ship || 1,
-              is_buy_now: res[key].is_buy_now || 1,
+              is_buy_now: res[key].is_buyable,
               is_availability: res[key].is_availability || 0,
               is_dangerous: res[key].is_dangerous || 0,
               is_offer_private_label_option: res[key].is_offer_private_label_option || 1,
