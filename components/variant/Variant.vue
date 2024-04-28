@@ -11,7 +11,7 @@
             <div class="flex gap-4 p-2 justify-between">
               <p class="font-bold pt-2">{{ $t('prod.Variants List') }}</p>
               <button @click="varientModal = true" class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M5 12h14m-7 7V5"/>
@@ -223,67 +223,80 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Attributes table') }}</h4>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table class="w-full text-sm text-left border border-smooth rtl:text-right text-gray-500" >
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
-              <th scope="col" class="px-16 py-3">{{ $t('prod.Image') }}</th>
-              <th scope="col" class="px-6 py-3">{{ $t('prod.Attribute') }}</th>
-              <th scope="col" class="px-6 py-3">{{ $t('prod.Status') }}</th>
-              <th scope="col" class="px-6 py-3">{{ $t('prod.Visibility') }}</th>
-              <th scope="col" class="px-6 py-3">{{ $t('prod.Stock') }}</th>
-              <th scope="col" class="px-6 py-3">{{ $t('prod.SKU') }}</th>
-              <th scope="col" class="px-6 py-3" style="width: 35%">{{ $t('prod.Unit Price') }}</th>
+              <th scope="col" class="px-16 py-3 border border-smooth">{{ $t('prod.Image') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth">{{ $t('prod.Attribute') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth">{{ $t('prod.Status') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth">{{ $t('prod.Visibility') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth">{{ $t('prod.Stock') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth">{{ $t('prod.SKU') }}</th>
+              <th scope="col" class="px-6 py-3 border border-smooth" style="width: 35%">{{ $t('prod.Unit Price') }}</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
-              <td class="p-4">
+            <tr class="bg-white border-b  hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
+              <td class="p-4 border border-smooth">
                 <lazy-image
-                  v-if="variant.result.product_images"
+                  v-if="variant.result?.product_images"
                   class="mr-20 w-10 md:w-10 max-w-full max-h-full"
-                  :data-src="variant.result.product_images[0].url"
+                  :data-src="variant.result.product_images[0]?.url"
                   :alt="variant.result.product_variant.color.name.en"
                 />
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td class="px-6 font-semibold text-gray-900">
                 {{ variant.result.product_variant.color.name.en + ',' + variant.result.product_variant.value }}
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='approval'">{{ variant.result.status }}</span>
                 <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='pending'">{{ variant.result.status }}</span>
                 <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='cancel'">{{ variant.result.status }}</span>
                 <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='rejected'">{{ variant.result.status }}</span>
                 <span class="bg-smoothlight rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='archived'">{{ variant.result.status }}</span>
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span v-if="variant.result.is_buy_now">{{ $t('prod.Online') }}</span>
                 <span v-else>{{ $t('prod.Offline') }}</span>
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+              <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <select class="uppercase" v-model="variant.result.is_availability">
                   <option value="1">{{ $t('prod.In Stock') }}</option>
                   <option value="0">{{ $t('prod.Out of Stock') }}</option>
                 </select>
               </td>
 
-              <td class="px-6 py-4">
+              <td class="px-6 border border-smooth">
                 {{ variant.result.sku }}
               </td>
-              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                <div class="flex justify-between">
-                  <div>{{ $t('prod.Min Qty') }}</div>
+              <td class="px-6 font-semibold text-gray-900 border border-smooth">
+                <!-- <div class="flex justify-between">
+                  <div> </div>
                   <div>{{ $t('prod.Price') }}</div>
                   <div>{{ $t('prod.Sale price') }}</div>
-                </div>
+                </div> -->
 
-                <div class="flex justify-between" v-for="(product_price, index) in variant.result.product_prices" :key="index">
-                  <div>
+                <div class="flex justify-between gap-4" v-for="(product_price, index) in variant.result.product_prices" :key="index">
+                  <div class="w-full p-2">
+                    <div class="flex w-full justify-between">
+                        <span>{{ $t('prod.Min Qty') }}</span>
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                    </div>
                     {{product_price.quantity}}
                   </div>
-                  <div>
+                  <div  class="w-full p-2 border-l border-r border-smooth">
+                    <div class="flex w-full justify-between">
+                        <span>{{ $t('prod.Price') }}</span>
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                    </div>
                     {{ product_price.unit_price }}
                   </div>
-                  <div>
+
+                  <div  class="w-full p-2">
+                    <div class="flex w-full justify-between">
+                        <span>{{ $t('prod.Sale price') }}</span>
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                    </div>
                     {{ product_price.selling_price }}
                   </div>
                 </div>
