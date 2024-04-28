@@ -9,9 +9,14 @@ export default {
   name: "rfq-filter",
   middleware: ['common-middleware', 'auth'],
   props: {
-    all: {
-      type: Boolean,
-      default: true,
+
+    page: {
+      type: String,
+      default: 'rfq-list',
+    },
+    tabManage: {
+      type: String,
+      default: 'all',
     }
   },
   data() {
@@ -30,7 +35,8 @@ export default {
         category_id: '',
         multi_products: '',
         status: '',
-        product_name: ''
+        product_name: '',
+        type_filter:''
       }
     }
   },
@@ -41,9 +47,10 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategoriesTree', 'allCountries', 'allWeightUnits',])
+    ...mapGetters('common', ['allCategoriesTree', 'allCountries', 'allWeightUnits','rfqFilterType'])
 
   },
+
   methods: {
     resultData(evt) {
       if (this.$route?.params?.id === 'add') {
@@ -93,16 +100,20 @@ export default {
       this.result.search = ""
       this.result.status = ""
       this.result.product_name = ''
+      this.result.type_filter= ''
       this.$emit('filter', this.result);
     },
     ...mapActions('common', ['getCategoriesTree', 'getAllCountries', 'emptyAllList'])
   },
   async mounted() {
 
-
+    if (this.$route?.query.type_filter) {
+      this.result.type_filter = this.$route?.query.type_filter
+    }
     if (this.$route?.query.search) {
       this.result.search = this.$route?.query.search
     }
+    
     if (this.$route?.query.product_name) {
       this.result.product_name = this.$route?.query.product_name
     }
@@ -160,16 +171,23 @@ export default {
     <div class="md:w-full py-3">
       <div class="flex flex-wrap ">
         <div class="md:w-1/5 pr-4 pl-4">
+          <label for="">{{ $t("rfq.FilterBy") }}</label>
+          <v-select :dir="$t('app.dir')" v-model="result.type_filter" :options="rfqFilterType" label="title"
+            :reduce="rfqtype => rfqtype.value" :placeholder="$t('rfq.selectOption')" 
+            class="custom-select"></v-select>
+        </div>
+        <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
-            <label for="">{{ $t("rfq.RFQ ID") }}</label>
-            <input v-model="result.search" type="text" class="theme-input-style"
-              :placeholder="$t('rfq.Search by RFQ ID or Product')">
+            <label for="">{{ $t("rfq.FilterValue") }}</label>
+            <input v-model="result.search" type="text" class="theme-input-style" :disabled="result.type_filter == ''"
+            >
           </div>
         </div>
-        <div class="md:w-1/5 pr-4 pl-4" v-if="!all">
+        <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'manage-rfq'">
           <div class="mb-4">
             <label for="">{{ $t("rfq.Product Name") }}</label>
-            <input v-model="result.product_name" type="text" class="theme-input-style" :placeholder="$t('rfq.Search by Product')">
+            <input v-model="result.product_name" type="text" class="theme-input-style"
+              :placeholder="$t('rfq.Search by Product')">
           </div>
         </div>
 
@@ -177,7 +195,7 @@ export default {
 
 
         <!-- First Select - Search by Category -->
-        <div class="md:w-1/5 pr-4 pl-4" v-if="all">
+        <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'rfq-list'">
 
           <label for="">{{ $t("rfq.Search by Category") }}</label>
           <v-select :dir="$t('app.dir')" v-model="result.parentCategory" :options="allCategoriesTree" label="title"
@@ -187,7 +205,7 @@ export default {
         </div>
 
         <!-- Second Select - Select Sub Category -->
-        <div class="md:w-1/5 pr-4 pl-4" v-if="all">
+        <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'rfq-list'">
 
           <label for="">{{ $t("rfq.Select Sub Category") }}</label>
           <v-select :dir="$t('app.dir')" v-model="result.subCategory" :options="selectedLevel1?.child" label="title"
@@ -197,7 +215,7 @@ export default {
         </div>
 
         <!-- Third Select - Select Child Category -->
-        <div class="md:w-1/5 pr-4 pl-4" v-if="all">
+        <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'rfq-list'">
 
           <label for="">{{ $t("rfq.Select Child Category") }}</label>
           <v-select :dir="$t('app.dir')" v-model="result.category_id" :options="selectedLevel2?.child"
@@ -240,7 +258,7 @@ export default {
             <input type="date" v-model="result.from_date" class="theme-input-style" placeholder="From (creation)">
           </div>
         </div>
-        <div class="md:w-1/5 pr-4 pl-4">
+        <div class="md:w-1/5 pr-4 pl-4" v-if="tabManage !== 'draft_quotes' && tabManage !== 'order_placed'">
           <div class="mb-4">
             <label for=""> {{ $t("app.to") }} </label>
             <input type="date" v-model="result.to_date" class="theme-input-style" placeholder="To (creation)">
@@ -254,7 +272,7 @@ export default {
             </button>
             <button @click="clearFilter" class="inline-block align-middle
                text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 
-               leading-normal no-underline bg-red-600  hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"> {{ $t("app.Clear Filter") }} </button>
+               leading-normal no-underline bg-red-600  hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"> {{ $t("rfq.ClearFilter") }} </button>
           </div>
         </div>
       </div>

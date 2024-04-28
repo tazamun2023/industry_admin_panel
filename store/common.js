@@ -29,6 +29,11 @@ const state = () => ({
   allTransportationModes: null,
   allWarehouses: null,
   allFlashSale: null,
+  rfqFilterType:[
+    {id:1, title:'RfqID', value: 'rfqId'},
+    {id:2, title:'Qoution Id', value: 'qouId'},
+    {id:3, title:'Inquiry Id', value: 'inqId'},
+  ]
 })
 const getters = {
   allUnits: ({allUnits}) => allUnits,
@@ -59,6 +64,7 @@ const getters = {
   allWeightUnits: ({allWeightUnits}) => allWeightUnits,
   allWarehouses: ({allWarehouses}) => allWarehouses,
   allTransportationModes: ({allTransportationModes}) => allTransportationModes,
+  rfqFilterType: ({rfqFilterType}) => rfqFilterType,
 }
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
