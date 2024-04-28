@@ -178,7 +178,7 @@ export default {
                 <template
                   v-slot:table-top="{orderOptions}"
                 >
-                  <rfq-filter @filter="filterChanged"></rfq-filter>
+                  <rfq-filter @filter="filterChanged" :all="false"></rfq-filter>
                 </template>
                 <template v-slot:table="{list}">
 

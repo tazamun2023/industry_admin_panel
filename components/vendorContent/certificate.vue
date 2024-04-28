@@ -1,5 +1,6 @@
 <template>
   <list-page
+    :filter="false"
     v-if="$can('view_content')"
     ref="listPage"
     list-api="Certificate"

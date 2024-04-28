@@ -46,7 +46,7 @@ export default {
            this.addressData.type = value.type
            this.addressData.default = value.default
            this.addressData.phone_code = value.phone_code
-           this.addressData.lan = value.lan
+           this.addressData.lat = value.lat
            this.addressData.lng = value.lng
        },
 

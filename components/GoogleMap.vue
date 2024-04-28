@@ -25,12 +25,12 @@
             </filter>
           </defs>
         </svg>
-        <span>  {{ $t('googleMap.LocateMe') }} </span>
+        <span> {{ $t('googleMap.LocateMe') }} </span>
       </div>
     </GmapMap>
     <div class="mt-4">
       <button @click="confirmAddress()" class="bg-theem rounded-lg text-white w-[100px]">
-        
+
         {{ $t('googleMap.confirm') }}
       </button>
       <button @click="$emit('cancel')" class="outline-btn plr-30 plr-sm-15">
@@ -90,7 +90,37 @@ export default {
       const map = this.$refs.map.$mapObject;
       const center = map.getCenter();
       const geocoder = new google.maps.Geocoder();
-      const latlng = { lat: center.lat(), lng: center.lng() };
+      const latlng = { lat: center?.lat() ?? 24.7135517, lng: center?.lng() ?? 46.6752957 };
+
+      google.maps.event.addListener(map, 'click', (event) => {
+        this.markerPosition = { lat: event.latLng.lat(), lng: event.latLng.lng() };
+        geocoder.geocode({ location: event.latLng }, (results, status) => {
+          if (status === "OK") {
+            if (results[0]) {
+              const addressComponents = results[0].address_components;
+              this.address.name = results[0].formatted_address;
+              for (const component of addressComponents) {
+                if (component.types.includes("locality")) {
+                  this.address.city = component.long_name;
+                } else if (component.types.includes("country")) {
+                  this.address.country = component.long_name;
+                } else if (component.types.includes("route")) {
+                  this.address.street = component.long_name;
+                }
+              }
+              const inputFields = document.querySelectorAll('.pac-target-input');
+              inputFields.forEach(input => {
+                input.value = results[0].formatted_address;
+              });
+            } else {
+              console.log("no results found");
+            }
+          } else {
+            console.log("failed due to: " + status);
+          }
+        });
+      });
+
       geocoder.geocode({ location: latlng }, (results, status) => {
         if (status === "OK") {
           if (results[0]) {
@@ -105,21 +135,28 @@ export default {
                 this.address.street = component.long_name;
               }
             }
+            const inputFields = document.querySelectorAll('.pac-target-input');
+            inputFields.forEach(input => {
+              input.value = results[0].formatted_address;
+            });
           } else {
+            console.log("no results found");
           }
         } else {
-          console.log("Geocoder failed due to: " + status);
+          console.log("failed due to: " + status);
         }
       });
 
-      this.markerPosition = { lat: center.lat(), lng: center.lng() };
+      this.markerPosition = { lat: center?.lat() ?? 24.7135517, lng: center?.lng() ?? 46.6752957 };
     },
+
+
     handleBoundsChanged() {
       const map = this.$refs.map.$mapObject;
       const center = map.getCenter();
       const geocoder = new google.maps.Geocoder();
-      const latlng = { lat: center.lat(), lng: center.lng() };
-      this.markerPosition = { lat: center.lat(), lng: center.lng() };
+      const latlng = { lat: center?.lat() ?? 24.7135517, lng: center?.lng() ?? 46.6752957 };
+      this.markerPosition = { lat: center?.lat() ?? 24.7135517, lng: center?.lng() ?? 46.6752957 };
     },
     getCurrentLocation() {
       if (navigator.geolocation) {
@@ -169,15 +206,11 @@ export default {
     }
   },
   mounted() {
-    if (this.dataAddressUpdate.id !== '') {
-      if (this.dataAddressUpdate?.lat !== '') {
-        this.center.lat = parseFloat(this.dataAddressUpdate.lat)
-        this.markerPosition.lat = parseFloat(this.dataAddressUpdate.lat)
-      } if (this.dataAddressUpdate?.lng !== '') {
-        this.center.lng = parseFloat(this.dataAddressUpdate.lng)
-        this.markerPosition.lng = parseFloat(this.dataAddressUpdate.lng)
-      }
-
+    if (this.dataAddressUpdate?.id) {
+      this.center.lat = parseFloat(this.dataAddressUpdate?.lat) ?? 24.7135517
+      this.center.lng = parseFloat(this.dataAddressUpdate?.lng) ?? 46.6752957
+      this.markerPosition.lat = parseFloat(this.dataAddressUpdate?.lat) ?? 24.7135517
+      this.markerPosition.lng = parseFloat(this.dataAddressUpdate?.lng) ?? 46.6752957
     }
   }
 };

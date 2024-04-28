@@ -49,12 +49,23 @@ export default {
     data(){
         return{
             openTab: 'profile',
+          openContentTab: 'profile',
         }
     },
     methods:{
         toggleTabs: function(tabNumber){
-       this.openTab = tabNumber
+           this.openTab = tabNumber
+          this.$router.push({
+            query: {
+              ...this.$route.query,
+              tap:this.openTab
+              // filter: this.checkedFilter.join(','),
+            }
+          })
         },
-    }
+    },
+  mounted() {
+    this.openTab=this.$route.query.tap??'profile'
+  },
 }
 </script>

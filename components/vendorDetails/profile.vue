@@ -10,44 +10,11 @@
           </div>
 
           <div class="form-group">
-            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
                   @updateInput="updateInput">
                 </lang-input>
             <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
                   @updateInput="updateInput"></lang-input>
-            <!-- <ValidationProvider class="w-full" name="Name Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
-              <div class="input-wrapper mb-2">
-                <label for="">{{ $t('global.name') }}</label>
-                <input type="text" v-model="fromData.name.ar" >
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider>
-
-            <ValidationProvider class="w-full"  name="Name English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('global.name')})}">
-              <div class="input-wrapper mb-2">
-                <label for="">{{ $t('global.name') }}</label>
-                <input type="text" v-model="fromData.name.en" >
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider> -->
-<!--
-            <ValidationProvider class="w-full"  name="Details English" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
-              <div class="input-wrapper mb-2">
-                <label for="">{{ $t("vendor.details") }}</label>
-                <input type="text" placeholder="Details English" v-model="fromData.details.en">
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider>
-
-
-            <ValidationProvider class="w-full"  name="Details Arabic" rules="max:30|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.details')})}">
-              <div class="input-wrapper mb-2">
-                <label for="">{{ $t("vendor.details") }}</label>
-                <input type="text" placeholder="Details Arabic" v-model="fromData.details.ar">
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider> -->
-
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.subdomain') }}</label>
@@ -56,38 +23,27 @@
 
             <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
               <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.email') }} 1</label>
-                <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider>
-            <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
-              <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.email') }} 2</label>
+                <label for="">{{ $t('vendor.email') }}</label>
                 <input type="text" :placeholder="$t('vendor.email')" v-model="fromData.contact_json.email" >
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
 
+
+
             <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.mobile')})}">
               <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.mobile') }} 1</label>
+                <label for="">{{ $t('vendor.mobile') }}</label>
                 <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
-            <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.mobile')})}">
-              <div class="input-wrapper  mb-2">
-                <label for="">{{ $t('vendor.mobile') }} 2</label>
-                <input type="text" :placeholder="$t('vendor.mobile')" v-model="fromData.contact_json.mobile">
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-            </ValidationProvider>
+
 
             <ValidationProvider class="w-full"  name="email" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.cr_number')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t('vendor.cr_number') }}</label>
-                <input type="text" placeholder="CR Number" v-model="fromData.crNumber">
+                <input type="text" placeholder="CR Number" v-model="fromData.crNumber" readonly>
                 <span  class="error">{{ errors[0] }}</span>
               </div>
             </ValidationProvider>
@@ -155,12 +111,12 @@
             </div>
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.foundation_date') }}</label>
-              <input type="date"  v-model="fromData.founded_date" readonly>
+              <input type="date"  v-model="fromData.founded_date">
 
             </div>
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.production_start') }}</label>
-              <input type="date"  v-model="fromData.production_start_date"  readonly>
+              <input type="date"  v-model="fromData.production_start_date">
             </div>
 
             <ValidationProvider class="w-full"  name="email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.email')})}">
@@ -240,7 +196,7 @@
               </div>
             </ValidationProvider>
 
-            <ValidationProvider class="w-full" name="Building" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.building')})}">
+            <ValidationProvider class="w-full" name="Building" rules="numeric|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('vendor.building')})}">
               <div class="input-wrapper  mb-2">
                 <label for="">{{ $t('vendor.building') }}</label>
                 <input type="text" placeholder="Building name" v-model="fromData.contact_json.building">
@@ -258,23 +214,35 @@
           </div>
           <div class="form-group">
             <div class="input-wrapper  mb-2">
-              <label for="">{{ $t('vendor.whatsapp') }}</label>
-              <input type="url" placeholder="Whatsapp number" v-model="fromData.links_json.whatsapp">
+              <ValidationProvider class="w-full" name="whatsapp" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
+                <label for="">{{ $t('vendor.whatsapp') }}</label>
+                <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
-              <label for="">{{ $t('vendor.facebook') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.facebook">
+              <ValidationProvider class="w-full" name="facebook" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
+                <label for="">{{ $t('vendor.facebook') }}</label>
+                <input type="text" placeholder="http://" v-model="fromData.links_json.facebook">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper mb-2">
-              <label for="">{{ $t('vendor.linkedin') }} </label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.linkedin">
+              <ValidationProvider class="w-full" name="linkedin" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
+                <label for="">{{ $t('vendor.linkedin') }} </label>
+                <input type="text" placeholder="http://" v-model="fromData.links_json.linkedin">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper  mb-2">
-              <label for="">{{ $t('vendor.youtube') }}</label>
-              <input type="url" placeholder="http://" v-model="fromData.links_json.youtube">
+              <ValidationProvider class="w-full" name="youtube" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
+                <label for="">{{ $t('vendor.youtube') }}</label>
+                <input type="text" placeholder="http://" v-model="fromData.links_json.youtube">
+                <span  class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
             <div class="input-wrapper text-end mb-2">
-              <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
+              <button @click="submit = true" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
             </div>
           </div>
         </div>
@@ -329,7 +297,8 @@ export default {
          licence:[]
        },
        errors:[],
-       hasError:false
+       hasError:false,
+       submit: false
      }
    },
   props:{
@@ -376,7 +345,7 @@ export default {
 
   },
   methods:{
-    ...mapActions('vendor', ['submitData', 'getVendorData']),
+    ...mapActions('vendor', ['submitData', 'getAdminVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
 
     async downloadItem({ url, label }) {
@@ -409,7 +378,7 @@ export default {
       this.fromData.id = this.vendor_id
     }
     try {
-      await this.getVendorData({  id: this.vendor_id, params:'', api:'getVendor'})
+      await this.getAdminVendorData({ id: this.vendor_id, params:'', api:'getVendor'})
 
       await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(()=>{
         this.fromData.country_id= this.vendorList.data.country_id

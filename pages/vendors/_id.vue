@@ -28,11 +28,11 @@
             </div>
             <div class="col-span-10 ltr:border-l rtl:border-r border-smooth p-2 right-area">
 
-<!--                <div v-bind:class="{'hidden': openTab !== 'profile', 'block': openTab === 'profile'}">
+               <div v-bind:class="{'hidden': openTab !== 'profile', 'block': openTab === 'profile'}">
                     <template>
                       <profile :vendor_id="$route.params.id" />
                   </template>
-                </div>-->
+                </div>
                 <div  v-if="openTab === 'users'" v-bind:class="{'hidden': openTab !== 'users', 'block': openTab === 'users'}">
                   <template>
                     <Users  :vendorId="$route.params.id"/>
@@ -82,10 +82,7 @@ export default{
         }
     },
   mounted() {
-
     this.openTab=this.$route.query.tap??'profile'
-    console.log("this.$route.params.tap")
-    console.log(this.$route.query.tap)
   },
   methods:{
         toggleTabs: function(tabNumber){
