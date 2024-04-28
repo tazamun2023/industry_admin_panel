@@ -32,9 +32,8 @@
     "tableEmptyData": "This table is currently empty of any data",
 
     "add_admin": "Add admin User",
-    "update_admin": "Update admin User"
-
-
+    "update_admin": "Update admin User",
+    "update_vendor": "Update Vendor User"
 
   },
 
@@ -697,7 +696,8 @@
     "fSale": "flash sale",
     "role": "Role",
     "first_name": "First Name",
-    "last_name": "Last Name"
+    "last_name": "Last Name",
+    "name": "Name"
 
   },
   "user": {

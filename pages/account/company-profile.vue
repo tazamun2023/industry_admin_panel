@@ -84,7 +84,7 @@ email, mobile, and CR number </p>
           </div>
 
           <div class="form-group">
-            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name"
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
                   @updateInput="updateInput">
                 </lang-input>
 

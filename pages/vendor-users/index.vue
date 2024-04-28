@@ -34,7 +34,7 @@
         <td class="">
           <nuxt-link
             class="link"
-            :to="`/admins-vendors/${value.id}`"
+            :to="`/vendor-users/${value.id}`"
           >
             <h5 class="mx-w-300x">{{ value.name }}</h5>
           </nuxt-link>

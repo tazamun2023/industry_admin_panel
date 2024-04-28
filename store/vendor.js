@@ -43,15 +43,24 @@ const actions = {
     }
   },
 
-  async getVendorData ({rootState, commit, dispatch}, { params,api}) {
-    const {data} = await Service.getRequest( params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+  async getAdminVendorData ({rootState, commit, dispatch}, {id, params,api}) {
+    const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       commit('SET_VENDOR_DATA', data)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
-
   },
+
+  async getVendorData ({rootState, commit, dispatch}, {params,api}) {
+    const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    if (data.status === 200) {
+      commit('SET_VENDOR_DATA', data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
   async getVendorProfile ({rootState, commit, dispatch}, {id, params,api}) {
     const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
