@@ -1217,6 +1217,7 @@
                     {{ $t('prod.Save Draft') }}
                   </button>
                   <button type="button" class="btn bg-primary text-white border-secondary"
+                          :disabled="checkPricing!==false"
                           @click.prevent="handleSubmit(doSubmit)">
                     {{ $t('prod.Send for review') }}
                   </button>
@@ -1290,6 +1291,7 @@ import PackagingSection from "@/components/product/PackagingSection.vue";
 import CartonDimensionSection from "@/components/product/CartonDimensionSection.vue";
 import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.vue";
 import VueUploadImages from "../../components/product/uploadImages.vue";
+import error from "@/layouts/error.vue";
 
 
 extend('min', {
@@ -1602,6 +1604,9 @@ export default {
   },
 
   computed: {
+    error() {
+      return error
+    },
 
     skuRules() {
       const allSKus = this.allSKus;
