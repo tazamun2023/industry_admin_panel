@@ -380,7 +380,7 @@ export default {
               /*Shipping details*/
               is_ready_to_ship: res[key].is_ready_to_ship || 1,
               is_buy_now: res[key].is_buyable,
-              is_availability: res[key].is_availability || 0,
+              is_availability: res[key].is_available,
               is_dangerous: res[key].is_dangerous || 0,
               is_offer_private_label_option: res[key].is_offer_private_label_option || 1,
               stock_location: res[key].warehouse_id || 1,
@@ -479,7 +479,7 @@ export default {
               images: res[key].images ||'',
               slug: res[key].slug ||'',
               video: res[key].video ||'',
-              product_images: [],
+              product_images: res[key].images,
               product_collections: [],
               product_categories: [],
               PriceingRows: this.result.product_prices,

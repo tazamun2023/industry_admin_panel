@@ -26,7 +26,7 @@
                    :class="openTab === 'parent'? 'border-b-2 bg-primary border-primary text-white':'bg-white border-white border-b-2'">
                   <span class="flex gap-3"> <img class="w-10 h-10 rounded"
                                                  src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/parentImageIcon.svg"
-                                                 alt=""> <span class="pt-2">Parent view</span></span>
+                                                 alt=""> <span class="pt-2">{{ $t('prod.Parent view') }}</span></span>
                 </a>
               </li>
               <li class="-mb-px w-100  mr-2 last:mr-0 cursor-pointer"
@@ -219,6 +219,85 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
     </div>
+    <div v-bind:class="{'hidden': openTab !== 'parent', 'block': openTab === 'parent'}" v-if="variants.length > 0 && variants[0].result.status!=='incomplete'">
+      <div class="tab-sidebar p-3">
+        <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Attributes table') }}</h4>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400" >
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-16 py-3">{{ $t('prod.Image') }}</th>
+              <th scope="col" class="px-6 py-3">{{ $t('prod.Attribute') }}</th>
+              <th scope="col" class="px-6 py-3">{{ $t('prod.Status') }}</th>
+              <th scope="col" class="px-6 py-3">{{ $t('prod.Visibility') }}</th>
+              <th scope="col" class="px-6 py-3">{{ $t('prod.Stock') }}</th>
+              <th scope="col" class="px-6 py-3">{{ $t('prod.SKU') }}</th>
+              <th scope="col" class="px-6 py-3" style="width: 35%">{{ $t('prod.Unit Price') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
+              <td class="p-4">
+                <lazy-image
+                  v-if="variant.result.product_images"
+                  class="mr-20 w-10 md:w-10 max-w-full max-h-full"
+                  :data-src="variant.result.product_images[0].url"
+                  :alt="variant.result.product_variant.color.name.en"
+                />
+              </td>
+              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                {{ variant.result.product_variant.color.name.en + ',' + variant.result.product_variant.value }}
+              </td>
+              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='approval'">{{ variant.result.status }}</span>
+                <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='pending'">{{ variant.result.status }}</span>
+                <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='cancel'">{{ variant.result.status }}</span>
+                <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='rejected'">{{ variant.result.status }}</span>
+                <span class="bg-smoothlight rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='archived'">{{ variant.result.status }}</span>
+              </td>
+              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                <span v-if="variant.result.is_buy_now">{{ $t('prod.Online') }}</span>
+                <span v-else>{{ $t('prod.Offline') }}</span>
+              </td>
+              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                <select class="uppercase" v-model="variant.result.is_availability">
+                  <option value="1">{{ $t('prod.In Stock') }}</option>
+                  <option value="0">{{ $t('prod.Out of Stock') }}</option>
+                </select>
+              </td>
+
+              <td class="px-6 py-4">
+                {{ variant.result.sku }}
+              </td>
+              <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                <div class="flex justify-between">
+                  <div>{{ $t('prod.Min Qty') }}</div>
+                  <div>{{ $t('prod.Price') }}</div>
+                  <div>{{ $t('prod.Sale price') }}</div>
+                </div>
+
+                <div class="flex justify-between" v-for="(product_price, index) in variant.result.product_prices" :key="index">
+                  <div>
+                    {{product_price.quantity}}
+                  </div>
+                  <div>
+                    {{ product_price.unit_price }}
+                  </div>
+                  <div>
+                    {{ product_price.selling_price }}
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <!-- --------------------------- -->
+      <div class="my-10"></div>
+      <!-- ------------------------------------- -->
+    </div>
 
     <div class="tab-sidebar p-3" v-if="openTab === 'parent'">
       <div class="flex justify-end gap-4 pt-3">
@@ -260,7 +339,7 @@
               <div class="form-group">
                 <select class="w-full rounded border mb-10 border-smooth p-3" v-model="select_attr2"
                         @change="isAttr($event, 'size')" style="cursor: not-allowed" disabled>
-                  <option value="0">Select attribute 2</option>
+                  <option value="0">{{ $t('prod.Select attribute 2') }}</option>
                   <option v-for="(item, index) in product_variant_type" :key="index"
                           :disabled="item === select_attr1">{{ item }}
                   </option>
@@ -369,7 +448,7 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
       <div class="tab-sidebar p-3">
-        <vue-upload-images :old_images="[]" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
+        <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
       </div>
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
@@ -1007,10 +1086,7 @@
         </div>
         <div class="button-group border-t border-smooth mt-20">
           <div class="flex justify-end gap-4 pt-3">
-<!--            <button type="button" class="btn text-primary" @click.prevent="doDraft">-->
-<!--              {{ $t('prod.Save Draft') }}-->
-<!--            </button>-->
-            <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="handleSubmit(doSubmitSingle(variants[openTab].result.id))">
+            <button type="button" class="btn bg-primary text-white border-secondary" @click.prevent="handleSubmit(doSubmitSingle(variants[openTab]?.result.id))">
               {{ $t('prod.Send for review') }}
             </button>
           </div>
@@ -1097,14 +1173,16 @@
                   </div>
                 </div>
 
-
-                <div class="col-md-4" @click.prevent="removeVariantRows(index)">
-    <span class="p-3 border border-smooth rounded cursor-pointer">
-      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-      </svg>
-    </span>
+                <div v-if="variant.product_id">
+                  <p> {{ variant.color_name}}, {{ variant.value}} </p>
+                </div>
+                <div v-else class="col-md-4" @click.prevent="removeVariantRows(index)">
+                  <span class="p-3 border border-smooth rounded cursor-pointer">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                  </span>
                 </div>
               </div>
 
@@ -1120,9 +1198,6 @@
 
               <hr class="border-smooth">
               <div class="flex justify-items-start gap-4 pt-3">
-                <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
-                <!--                Send for review-->
-                <!--              </button>-->
                 <button type="button" class="btn text-white bg-primary hover:text-primary"
                         @click.prevent="doVariantSave"
                         v-if="!is_variant_save">
@@ -1133,11 +1208,6 @@
                         @click.prevent="doVariantSave"
                         v-else>
                   {{ $t('prod.Edit') }}
-                </button>
-
-                <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
-                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
-                  <span>{{ $t('prod.Reset') }}</span>
                 </button>
                 <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
                         v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
@@ -1599,7 +1669,7 @@ export default {
     },
 
     async doSubmitSingle(id) {
-      if ((id === null || id === undefined) && (this.variants[this.openTab]?.result?.id === null || this.variants[this.openTab]?.result?.id === undefined)) {
+      if (!id) {
         id = ''; // Set id to an empty string
         this.variants[this.openTab].result.variant_uu_id = this.variant_uu_id
       } else {
@@ -1747,6 +1817,7 @@ export default {
         return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
       }
     },
+
     isAttr(event, attributeType) {
 
       const value = String(event.target.value);
@@ -1782,6 +1853,12 @@ export default {
         this.result.product_prices.push(Object.assign({}, this.product_price))
       } catch (e) {
         console.log(e);
+      }
+    },
+    removePriceingRows(index) {
+      if (index != 0) {
+        // this.result.product_prices.push(Object.assign({}, this.product_price))
+        this.result.product_prices.splice(index, 1);
       }
     },
     onlyNumber($event) {
@@ -1822,6 +1899,13 @@ export default {
     availableQuantity() {
       this.compareMethods()
     },
+    oldImages(){
+      if (this.openTab!=='parent'){
+        this.variants[this.openTab].result.product_images = this.variants[this.openTab].result.product_images??[]
+      }else {
+        this.variants[this.openTab].result.product_images = []
+      }
+    },
     saveAttachment(images) {
       if (this.openTab!=='parent'){
         this.variants[this.openTab].result.product_images = images
@@ -1850,9 +1934,30 @@ export default {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   watch: {
-    variants: {
-      handler: 'variantsChanged',
-      deep: true // Enable deep watching
+    // variants: {
+    //   handler: 'variantsChanged',
+    //   deep: true // Enable deep watching
+    // }
+    'variants': {
+      handler(newVal, oldVal) {
+        if (this.openTab!=='parent') {
+
+          if (newVal[this.openTab]?.result.length === oldVal[this.openTab]?.result.length) {
+
+            for (let i = 0; i < Object.keys(newVal[this.openTab]?.result).length; i++) {
+              // Compare each colorItem in the new data with the previous data
+              if (JSON.stringify(newVal[this.openTab]?.result[i]) !== JSON.stringify(oldVal[this.openTab]?.result[i])) {
+                console.log(`Change detected in product variant at index ${i}`);
+                // You can perform any necessary actions here
+              }
+            }
+          } else {
+            console.log('Product variants data length changed');
+            // Handle the case where the length of the data arrays is different
+          }
+        }
+      },
+      deep: true
     }
   },
   async mounted() {
