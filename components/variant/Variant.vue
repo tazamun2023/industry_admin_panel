@@ -223,7 +223,7 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Attributes table') }}</h4>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left border border-smooth rtl:text-right text-gray-500" >
+          <table class="w-full text-sm text-left border-smooth rtl:text-right text-gray-500" >
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" class="px-16 py-3 border border-smooth">{{ $t('prod.Image') }}</th>
@@ -236,17 +236,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white border-b  hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
+            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
               <td class="p-4 border border-smooth">
                 <lazy-image
                   v-if="variant.result?.product_images"
                   class="mr-20 w-10 md:w-10 max-w-full max-h-full"
                   :data-src="variant.result.product_images[0]?.url"
-                  :alt="variant.result.product_variant.color.name.en"
+                  :alt="variant.result?.product_variant?.color?.name?.en"
                 />
               </td>
               <td class="px-6 font-semibold text-gray-900">
-                {{ variant.result.product_variant.color.name.en + ',' + variant.result.product_variant.value }}
+                {{ variant.result?.product_variant?.color?.name?.en + ',' + variant.result?.product_variant?.value }}
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='approval'">{{ variant.result.status }}</span>
@@ -1798,29 +1798,14 @@ export default {
           hts_code: res.hts_code,
           id: res.id,
         };
-
-        // Initialize productCollections and productCategories
-        const productCollections = new Set(res.product_collections?.map(o => o.product_collection_id));
-        const productCategories = new Set(res.product_categories?.map(o => o.category_id.toString()));
-
-        // You can uncomment these lines if you want to update product_collections and product_categories
-        // this.variants[this.openTab].result.product_collections = [...productCollections];
-        // this.variants[this.openTab].result.product_categories = [...productCategories];
-
-        // You can uncomment these lines if you want to remove an element from variants array
-        // this.variants?.splice(this.openTab, 1);
-
-        // You can uncomment these lines if you want to push a new object into variants array
-        // this.variants[this.openTab]?.result.push({result: variantData});
+        this.openTab = 'parent'
       }
-
-
-
-
 
       this.is_submit.push({
         tab: this.openTab
       });
+
+
 
     },
     variantName(name) {
@@ -1863,7 +1848,10 @@ export default {
 
     addPriceingRows() {
       try {
-        this.result.product_prices.push(Object.assign({}, this.product_price))
+        if (this.openTab!=='parent'){
+          // this.result.product_prices.push(Object.assign({}, this.product_price))
+          this.variants[this.openTab].result.product_prices.push(Object.assign({}, this.product_price))
+        }
       } catch (e) {
         console.log(e);
       }
@@ -1871,7 +1859,11 @@ export default {
     removePriceingRows(index) {
       if (index != 0) {
         // this.result.product_prices.push(Object.assign({}, this.product_price))
-        this.result.product_prices.splice(index, 1);
+        if (this.openTab!=='parent'){
+          // this.result.product_prices.splice(index, 1);
+          this.variants[this.openTab].result.product_prices.splice(index, 1);
+        }
+
       }
     },
     onlyNumber($event) {

@@ -2,6 +2,7 @@
 import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
 import Pusher from 'pusher-js'
+import da from "vue2-datepicker/locale/es/da";
 export default {
   name: 'ActiveInquiry',
   components: {ReplyNewOffer},
@@ -15,6 +16,9 @@ export default {
     return {
       inserFile:false,
       is_send_new_offer: false,
+      is_accept_offer: false,
+      formSubmitting: false,
+      is_accept_offer_index: '',
       is_send_new_offer_customer: false,
       is_send_new_offer_index: false,
       is_send_new_offer_vendor: false,
@@ -94,6 +98,51 @@ export default {
       } catch (e) {
         return this.$nuxt.error(e)
       }
+    },
+
+    async acceptOffer(index){
+      try {
+        this.formSubmitting = true
+        await this.setRequest({
+          params: {
+            product_id: this.ActiveInquiryData.product?.id,
+            quantity: this.activeInquiries?.offers[index]?.offer?.quantity,
+            visitor_id: this.ActiveInquiryData?.user?.id,
+            price: this.activeInquiries?.offers[index]?.offer?.price * this.activeInquiries?.offers[index]?.offer?.quantity,
+            type: 'inquires',
+          },
+          api: 'acceptInquiriesOffer'
+        }).then(data=>{
+          console.log(data)
+          // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
+          this.is_accept_offer = true
+          // this.is_after_send = true
+          this.is_accept_offer_index = index
+
+          this.setRequest({
+            params: {
+              inquiry_id: this.ActiveInquiryData.id,
+              product_id: this.ActiveInquiryData.product?.id??this.ActiveInquiryData?.inquirable?.id,
+              status: 'approved',
+              is_reply: 1,
+              type: 'offer',
+              price: this.activeInquiries?.offers[index]?.offer?.price * this.activeInquiries?.offers[index]?.offer?.quantity,
+              quantity: this.activeInquiries?.offers[index]?.offer?.quantity
+            },
+            api: 'inquiriesOfferStore'
+          }).then(data=>{
+            // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
+            this.$emit('is_send_new_offer', false);
+            this.$emit('is_send_new_offer_vendor', false);
+            this.is_after_send = false
+          })
+        })
+        this.formSubmitting = false
+      } catch (e) {
+      return this.$nuxt.error(e)
+    }
+
+      // acceptInquiriesOffer
     },
 
     sendNewOffer(ev) {
@@ -257,6 +306,10 @@ export default {
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Cancel Offer') }}
                             </button>
+                            <button @click="acceptOffer(index)"
+                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                              {{ $t('products.Accept Offer') }}
+                            </button>
                             <button @click="sendNewOffer(index)"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
@@ -388,6 +441,10 @@ export default {
                             <button @click="is_cancel_new_offer_customer=activeInquirie.id"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Cancel Offer') }}
+                            </button>
+                            <button @click="acceptOffer(index)"
+                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                              {{ $t('products.Accept Offer') }}
                             </button>
                             <button @click="isSendNewOfferVendor(index)"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">

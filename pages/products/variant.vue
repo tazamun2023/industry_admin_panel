@@ -483,7 +483,7 @@ export default {
               product_collections: [],
               product_categories: [],
               PriceingRows: this.result.product_prices,
-              product_prices: this.result.product_prices,
+              product_prices: res[key].product_prices,
               basicInfoen: [[]],
               basicInfoEng: [{}],
               basicInfoAr: [{}],
