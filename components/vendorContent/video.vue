@@ -1,5 +1,6 @@
 <template>
   <list-page
+    :filter="false"
     v-if="$can('view_content')"
     ref="listPage"
     list-api="VideoGallery"
@@ -16,39 +17,20 @@
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-        <th class="w-50x mx-w-50x">
-          <input type="checkbox" @change="checkAll">
-        </th>
         <th>{{ $t('global.sl') }}</th>
-        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.url') }}</th>
         <th>{{ $t('global.action') }}</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
-        <td class="w-50x mx-w-50x">
-          <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>
-
         <td>{{ index+1 }}</td>
-        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
         <td>{{ value.url }}</td>
         <td>
-          <!-- <button
-            v-if="$can('manage_content')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/>
-          </button> -->
-
           <button
-
             v-if="$can('manage_content')"
             @click="openDeleteModal(value.id)"
-            class="border-0"><delete-button-icon/></button>
-          <button
-            v-if="$can('manage_content')"
-
-            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
-
+            class="border-0"><delete-button-icon/>
+          </button>
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">

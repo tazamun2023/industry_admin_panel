@@ -32,9 +32,8 @@
     "tableEmptyData": "This table is currently empty of any data",
 
     "add_admin": "Add admin User",
-    "update_admin": "Update admin User"
-
-
+    "update_admin": "Update admin User",
+    "update_vendor": "Update Vendor User"
 
   },
 
@@ -111,6 +110,8 @@
     "Search by Category": "Search by Category",
     "Select Sub Category": "Select Sub Category",
     "Select Child Category": "Select Child Category",
+    "Search by Product":"Search by Product",
+    "Product Name":"Product Name",
     "RFQ Type": "RFQ Type",
     "RFQ Status": "RFQ Status",
     "RFQ_Market": "RFQ Market",
@@ -320,6 +321,7 @@
     "Search by City": "Search by City",
     "Search by Status": "Search by Status",
     "Search by Verified": "Search by Verified",
+    "Search by Product":"Search by Product",
     "Save Changes": "Save Changes",
     "Street name": "Street name",
     "Zip Code": "Zip Code",
@@ -694,7 +696,8 @@
     "fSale": "flash sale",
     "role": "Role",
     "first_name": "First Name",
-    "last_name": "Last Name"
+    "last_name": "Last Name",
+    "name": "Name"
 
   },
   "user": {

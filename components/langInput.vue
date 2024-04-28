@@ -14,12 +14,14 @@
       <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 md:col-span-6':(width50 && type=='text')}">
         <div class="input-wrapper">
           <label  v-if="type=='text'">{{ title }} ({{ language }}) <strong class="text-error">*</strong></label>
-          <input v-if="type=='text'"
+          <input
+                 v-if="type=='text'"
                  type="text"
                  :placeholder="title"
                  :value="valuesOfLang[language]"
                  @input="updateInputValue(language, $event.target.value)"
                  :class="{ invalid: !!!valuesOfLang[language] && hasError, 'cursor-not-allowed': isVariant }"
+                 :readonly="IsReadOnly"
           >
 
 
@@ -81,7 +83,12 @@ export default {
     isVariant: {
       type: Boolean,
       default: false
-    }
+    },
+    IsReadOnly: {
+      type: Boolean,
+      default: false
+    },
+
   },
   data() {
     return {

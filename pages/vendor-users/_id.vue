@@ -2,11 +2,10 @@
   <div>
     <div class="w-1/3 mx-auto shadow p-4 border border-smooth rounded">
       <div class="flex mb-2 justify-between">
-      <h3>{{ $t('app.update_admin') }}</h3>
-      <nuxt-link to="/vendor-users" >
+      <h3>{{ $t('app.update_vendor') }}</h3>
+<!--      <nuxt-link to="/vendor-users" >
         <button class="bg-primary border p-2 leading-3 text-white w-[100px]">List</button>
-      </nuxt-link>
-
+      </nuxt-link>-->
     </div>
       <ValidationObserver  class="w-full" v-slot="{ invalid }">
         <form @submit.prevent="formSubmit">
