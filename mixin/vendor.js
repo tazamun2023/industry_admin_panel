@@ -7,7 +7,7 @@ export default {
   methods: {
 
    async fromSubmit(){
-
+     alert('asdfsdfg');
      if(this.submit){
        let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api:'updateVendor'})
        if(status === 200){
