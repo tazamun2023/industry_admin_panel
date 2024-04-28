@@ -64,6 +64,9 @@
     "Search by Category": "البحث حسب الفئة",
     "Select Sub Category": "اختيار الفئة الفرعية",
     "Select Child Category": "اختيار الفئة الفرعية الفرعية",
+    "Search by Product":"الحبث حسب اسم المنتح",
+    "Product Name":"اسم المنتح",
+
     "RFQ Type": "نوع طلب السعر",
     "RFQ_Market": "سوق طلب السعر",
     "Location": "الموقع",
@@ -250,6 +253,7 @@
     "Search by City": "البحث حسب المدينة",
     "Search by Status": "البحث حسب الحالة",
     "Search by Verified": "البحث حسب التحقق",
+    "Search by Product":"الحبث حسب اسم المنتح",
     "Save Changes": "حفظ التغييرات",
     "Street name": "اسم الشارع",
     "Zip Code": "الرمز البريدي",

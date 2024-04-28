@@ -252,11 +252,11 @@
                                   <td>
                                    </td> -->
                                   <td>
-                                    <div class="flex" v-if="product.image">
+                                    <div class="flex" v-if="product?.image">
                                       <lazy-image
                                         class="mr-15 img-40x"
-                                        :data-src="product.image"
-                                        :alt=" product.name"
+                                        :data-src="product?.image"
+                                        :alt=" product?.name"
                                       />
                                       <span class="mt-3">{{ product.name }}</span>
                                     </div>
