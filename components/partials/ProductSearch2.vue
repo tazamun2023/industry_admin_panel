@@ -146,7 +146,11 @@ export default {
     type: {
       type: String,
       default: "select_from_my_catalog"
-    }
+    },
+    // getApi: {
+    //   type: String,
+    //   default: "rfq_search_vendor"
+    // }
   },
   watch: {
     type() {
@@ -210,8 +214,8 @@ export default {
             page: this.productPage,
             orderby: 'created_at',
             type: 'DESC',
-            q: this.searchedString,
-            page_type: 'rfq_search_vendor',
+            search: this.searchedString,
+            page_type: this.type,
             type_selected: this.type
           },
           api: 'getProducts'

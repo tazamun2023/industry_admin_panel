@@ -124,7 +124,7 @@ export default {
   directives: {
     outsideClick
   },
-  props: {},
+
   mixins: [util],
   components: {LazyImage, Spinner},
   computed: {
@@ -186,7 +186,7 @@ export default {
             page: this.productPage,
             orderby: 'created_at',
             type: 'DESC',
-            q: this.searchedString,
+            search: this.searchedString,
           },
           api: 'getProducts'
         })

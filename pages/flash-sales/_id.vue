@@ -220,6 +220,7 @@
               <p>{{ $t('prod.Search or select the product eligible for the promotion from the list below') }}</p>
               <product-search2
                 ref="productSearch"
+                :type="'flash_sale'"
                 @product-clicked="addFlashProduct"
               />
             </div>
