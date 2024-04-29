@@ -128,19 +128,13 @@
                 </ValidationProvider>
               </td>
               <td>
-                <div>
-                  <p
-
-                    class="dply-felx j-left"
-                  >
+                <div class="flex gap-4 items-center">
                     <lazy-image
                       class="mr-20"
                       :data-src="(item.product.image)"
                       :alt="item.product.title"
                     />
-
                     <h5 class="mx-w-400x">{{ item.product.title }}</h5>
-                  </p>
                 </div>
 
               </td>

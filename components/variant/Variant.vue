@@ -35,9 +35,15 @@
                    @click="toggleTabs(index)"
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
-                    <img class="w-10 h-10 rounded"
-                         src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/noImageIcon.svg"
-                         alt="">
+<!--                    <img class="w-10 h-10 rounded"-->
+<!--                         src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/noImageIcon.svg"-->
+<!--                         alt="">-->
+                    <lazy-image
+                      v-if="variants[index]?.result?.product_images"
+                      class="w-10 h-10 rounded"
+                      :data-src="variants[index]?.result?.product_images[0]?.url"
+                      :alt="colorItem.color_name"
+                    />
                            <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
                                colorItem.value
                              }}</span>
@@ -181,7 +187,7 @@
                               @updateInput="updateInput"></lang-input>
                   <div class="input-wrapper mb-4" v-else>
                     <label for="">{{ $t('prod.name') }}</label>
-                    <input type="text" :placeholder="variantName(variants[openTab].result.title)" class="cursor-not-allowed" disabled>
+                    <input type="text" :placeholder="variantNameWithAttr(variants[openTab].result.title)" class="cursor-not-allowed" disabled>
                   </div>
                   <div class="input-wrapper mt-3 mt-sm-0">
                     <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
@@ -189,7 +195,7 @@
                           :readonly="openTab !== 'parent'"
                           :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
                           v-model="result.brand_id">
-                    <option value="0">Select Brand</option>
+                    <option value="0">{{ $t('prod.Select Brand') }}</option>
                     <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                   </div>
@@ -209,7 +215,7 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unit of measure') }}</h4>
         <div class="form-group input-wrapper for-lang ar-lang">
-          <label class="w-full" for="name">Unit of measure</label>
+          <label class="w-full" for="name">{{ $t('prod.Unit of measure')}}</label>
           <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
             <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{ item.name }}</option>
           </select>
@@ -1325,7 +1331,7 @@ export default {
   },
   props: {
     result: Object,
-    variantsData: Object,
+    variantsData: Array,
     selectedLevel1: Object,
     selectedLevel2: Object,
     selectedLevel3: Object,
@@ -1346,6 +1352,7 @@ export default {
       injectedData: this.exampleData,
       openTab: 'parent',
       uploadModal: false,
+      is_change: false,
       hasErrorQty: false,
       varientModal: false,
       is_variant_save: false,
@@ -1447,13 +1454,16 @@ export default {
       };
     },
     skuRules() {
-      const allSKus = this.allSKus;
-      return {
-        required: true,
-        uniqueSku: {allSKus}, // Pass allSKus as a parameter to uniqueSku
-        min: 2,
-        max: 32
-      };
+      if (this.openTab !== 'parent') {
+        const allSKus = this.allSKus;
+        return {
+          required: Boolean(this.variants[this.openTab].result.id),
+          uniqueSku: allSKus, // Pass allSKus directly
+          min: 2,
+          max: 32
+        };
+      }
+
 
     },
     checkPricing() {
@@ -1554,8 +1564,8 @@ export default {
 
     ...mapGetters(['mediaStorage']),
     ...mapGetters('admin', ['publicKey']),
-    ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
+    ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes', 'allSKus',
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
@@ -1815,6 +1825,9 @@ export default {
         return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
       }
     },
+    variantNameWithAttr(name) {
+      return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
+    },
 
     isAttr(event, attributeType) {
 
@@ -1837,10 +1850,29 @@ export default {
     updateInput(input, language, value) {
       this.$set(input, language, value);
     },
-    toggleTabs: function (tab) {
-      // console.log(tab)
-      this.openTab = tab
-      // console.log(this.result)
+    toggleTabs: async function(tab) {
+      if (!this.is_change) {
+        this.openTab = tab;
+      } else {
+        await this.handleUnsavedChanges(tab);
+      }
+    },
+
+    async handleUnsavedChanges(tab) {
+      const confirmation = await this.$swal({
+        title: "Unsaved changes",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Cancel",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+
+      if (confirmation.value) {
+        this.openTab = tab;
+        this.is_change = false
+      }
     },
     uploadModalToggle() {
       this.uploadModal = !this.uploadModal
@@ -1939,30 +1971,19 @@ export default {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   watch: {
-    // variants: {
-    //   handler: 'variantsChanged',
-    //   deep: true // Enable deep watching
-    // }
-    'variants': {
+    variants: {
+      deep: true,
       handler(newVal, oldVal) {
-        if (this.openTab!=='parent') {
-
-          if (newVal[this.openTab]?.result.length === oldVal[this.openTab]?.result.length) {
-
-            for (let i = 0; i < Object.keys(newVal[this.openTab]?.result).length; i++) {
-              // Compare each colorItem in the new data with the previous data
-              if (JSON.stringify(newVal[this.openTab]?.result[i]) !== JSON.stringify(oldVal[this.openTab]?.result[i])) {
-                console.log(`Change detected in product variant at index ${i}`);
-                // You can perform any necessary actions here
-              }
-            }
-          } else {
-            console.log('Product variants data length changed');
-            // Handle the case where the length of the data arrays is different
+        // Iterate through each item in the variants array
+        for (let i = 0; i < newVal.length; i++) {
+          // Compare the result objects of the current and previous values
+          if (JSON.stringify(newVal[i]?.result) === JSON.stringify(oldVal[i]?.result)) {
+            console.log(`Change detected in variant at index ${i}`);
+            this.is_change = true
+            // Perform necessary actions here
           }
         }
-      },
-      deep: true
+      }
     }
   },
   async mounted() {

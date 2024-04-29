@@ -75,7 +75,12 @@ export default {
       const total = this.formData.quantity * this.formData.unit_target_price;
       return isNaN(total) ? 0 : total;
     },
-
+    onlyNumber($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
+        $event.preventDefault();
+      }
+    },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
   }
@@ -104,6 +109,7 @@ export default {
               :placeholder="$t('products.Unit target price')"
               type="text"
               v-model="formData.unit_target_price"
+              @keypress="onlyNumber"
             >
           </div>
           <span class="error">{{ errors[0] }}</span>
