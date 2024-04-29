@@ -82,7 +82,7 @@ export default{
         }
     },
   mounted() {
-    this.openTab=this.$route.query.tap??'profile'
+    this.openTab = this.$route.query.tap??'profile'
   },
   methods:{
         toggleTabs: function(tabNumber){
