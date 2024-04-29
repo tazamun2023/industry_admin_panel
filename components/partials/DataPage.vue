@@ -257,6 +257,13 @@ export default {
 
           await this.$emit('result', Object.assign({}, data))
 
+          if (this.routeName==='flash-sales'){
+            await this.$router.push({
+              path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.flash_sale_id}`,
+              hash: this.hash
+            })
+          }
+
           if (!this.gate || this.$can(this.gate) && this.result?.id) {
             await this.$router.push({
               path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.id}`,
