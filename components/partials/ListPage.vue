@@ -175,7 +175,6 @@
       async fetchingData() {
         try {
           this.settingRouteParam()
-          console.log(this.param,this.$route.query,this.listParams,this.listApi)
           this.loading = true
           this.result = await this.getRequest({
             params: {

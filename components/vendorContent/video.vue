@@ -73,7 +73,7 @@ export default {
       deleteModal:false,
       deleteId: null,
       param: {
-        vendor_id: this.vendorId > 0 ? this.vendorId : this.$store.getters["admin/profile"].vendor_id
+        vendor_id: this.$route?.params?.id
       },
       orderOptions: {
         created_at: { title: this.$t('category.date') },
