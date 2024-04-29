@@ -6,6 +6,7 @@
     list-api="FAQ"
     delete-api="FAQ"
     route-name="FAQ"
+    :param="param"
     empty-store-variable="FAQ"
     :name="$t('profile.faq')"
     gate="view_content"
@@ -16,35 +17,22 @@
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-        <th class="w-50x mx-w-50x">
-          <input type="checkbox" @change="checkAll">
-        </th>
         <th>{{ $t('global.sl') }}</th>
-        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.question') }}</th>
         <th>{{ $t('global.answer') }}</th>
         <th>{{ $t('global.created') }}</th>
-        <th>Action</th>
+        <th>{{ $t('global.action') }}</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
-        <td class="w-50x mx-w-50x">
-          <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>
-
         <td>{{ index+1 }}</td>
-        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
         <td>{{ value.local_questions }}</td>
-        <td>{{ value.local_answers }}</td>
-
+        <td v-html="value.local_answers"></td>
         <td>{{ value.created }}</td>
         <td>
           <button
             v-if="$can('manage_content')"
             @click="openDeleteModal(value.id)" class="border-0"><delete-button-icon/></button>
-          <button
-            v-if="$can('manage_content')"
-            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
@@ -82,19 +70,12 @@ import vendor from "@/mixin/vendor";
 export default {
   name: "VendorFaq",
   middleware: ['common-middleware', 'auth'],
-  props: {
-    vendorId: {
-      type: Number,
-      default: 0
-    },
-  },
   data() {
     return {
       deleteModal:false,
       deleteId: null,
       param: {
-        vendor_id: this.vendorId > 0 ? this.vendorId : this.$store.getters["admin/profile"].vendor_id
-
+        vendor_id: this.$route?.params?.id
       },
       orderOptions: {
         created_at: { title: this.$t('category.date') },
