@@ -1217,7 +1217,7 @@
                     {{ $t('prod.Save Draft') }}
                   </button>
                   <button type="button" class="btn bg-primary text-white border-secondary"
-                          :disabled="checkPricing!==false"
+                          :disabled="checkPricing!==false || !result.product_prices[0].quantity || !result.product_prices[0].unit_price|| !result.product_prices[0].selling_price"
                           @click.prevent="handleSubmit(doSubmit)">
                     {{ $t('prod.Send for review') }}
                   </button>
