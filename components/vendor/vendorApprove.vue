@@ -2,7 +2,6 @@
   <div>
     <div>
       <list-page
-        :filter="false"
         ref="listPage"
         list-api="getApprovalVendor"
         route-name="vendors"
@@ -10,6 +9,12 @@
         :name="$t('title.prod')"
         @list="itemList = $event"
       >
+        <template
+          v-slot:table-top="{orderOptions}"
+        >
+          <vendor-filter @filter="searchFilterData" />
+
+        </template>
         <template v-slot:table="{list}">
           <div class="table-wrapper">
             <table>

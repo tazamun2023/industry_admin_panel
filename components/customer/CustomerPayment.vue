@@ -60,7 +60,6 @@ export default {
         <table>
           <thead>
           <tr>
-<!--            <th>{{ $t('customer.Bank Name / Card Name') }}</th>-->
             <th>{{ $t('customer.Account / Holder name') }}</th>
             <th>{{ $t('customer.A / C / Card Number') }}</th>
            <th>{{ $t('customer.Type') }}</th>
