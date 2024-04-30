@@ -3,11 +3,12 @@ import * as util from "util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapGetters} from "vuex";
 import ListPage from "@/components/partials/ListPage.vue";
+import EditButtonIcon from '../partials/EditButtonIcon.vue';
 
 export default {
   name: 'AllCustomer',
   mixins: [util, bulkDelete],
-  components: {ListPage},
+  components: {ListPage,EditButtonIcon},
 
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
     <list-page
       ref="listPage"
       list-api="getCustomers"
-      route-name="vendors"
+      route-name="customer"
       empty-store-variable="allCustomers"
       :name="$t('title.prod')"
       @list="itemList = $event"
@@ -95,8 +96,15 @@ export default {
             <td class="status" :class="value.verified===1?'active':'text-warning'">
               <span>{{ customerVerified(value.verified) }}</span>
             </td>
-            <td v-if="$can('manage_users')">
-              <button id="dropdownDefaultButton" @click="toggleAction(index)"
+            <td>
+
+          <button
+            v-if="$can('manage_users')"
+            @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+
+
+
+              <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
                       class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                       type="button">{{ $t('prod.action') }}
                 <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -117,7 +125,7 @@ export default {
                     Edit
                   </nuxt-link>
                 </ul>
-              </div>
+              </div> -->
 
             </td>
           </tr>

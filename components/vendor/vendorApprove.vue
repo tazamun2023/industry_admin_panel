@@ -65,7 +65,12 @@
                   <span v-else>{{ $t('util.deactive') }}</span>
                 </td>
                 <td>
-                  <button id="dropdownDefaultButton" @click="toggleAction(index)"
+                  <div class="flex gap-4">
+                    <button
+                   @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+                   <button class="leading-4 text-[12px] w-[93px]" @click="approvedModal=true"> Un-Verified</button>
+                  </div>
+                  <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
                           class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                           type="button">{{ $t('prod.action') }}
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -85,13 +90,9 @@
                         :to="`${/vendors/}${value.id}`">
                         Edit
                       </nuxt-link>
-                      <a href="#"
-                      @click="approvedModal=true"
-                        class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white">
-                        UnVerified
-                    </a>
+
                     </ul>
-                  </div>
+                  </div> -->
 
                 </td>
                 <!-- ------------------approved modal---------------------- -->
@@ -132,10 +133,11 @@ import ListPage from "@/components/partials/ListPage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapActions, mapGetters} from "vuex";
+import EditButtonIcon from '../partials/EditButtonIcon.vue';
 
 export default {
   name : "vendorApprove",
-  components: {ListPage},
+  components: {ListPage,EditButtonIcon},
   mixins: [util, bulkDelete],
   data(){
     return {

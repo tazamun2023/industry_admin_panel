@@ -64,7 +64,9 @@
                   <span v-else>{{ $t('util.deactive') }}</span>
                 </td>
                 <td>
-                  <button id="dropdownDefaultButton" @click="toggleAction(index)"
+                  <button
+                   @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+                  <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
                           class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                           type="button">{{ $t('prod.action') }}
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -85,7 +87,7 @@
                         Edit
                       </nuxt-link>
                     </ul>
-                  </div>
+                  </div> -->
 
                 </td>
               </tr>
@@ -104,10 +106,11 @@ import ListPage from "@/components/partials/ListPage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapGetters} from "vuex";
+import EditButtonIcon from '../partials/EditButtonIcon.vue';
 
 export default {
   name : "vendorAll",
-  components: {ListPage},
+  components: {ListPage,EditButtonIcon},
   mixins: [util, bulkDelete],
   data(){
     return {
