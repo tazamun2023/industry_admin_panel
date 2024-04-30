@@ -63,10 +63,20 @@ export default {
   methods: {
     toggleTabs: function (tab) {
       this.openTab = tab
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          tap:this.openTab
+          // filter: this.checkedFilter.join(','),
+        }
+      })
     },
 
 
     ...mapActions('customer', ['getAllCustomer']),
+  },
+  mounted() {
+    this.openTab = this.$route.query.tap??'all'
   }
 }
 </script>
