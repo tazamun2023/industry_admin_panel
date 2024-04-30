@@ -20,7 +20,6 @@
             <table>
               <thead>
               <tr>
-                <th><input type="checkbox" name="" id=""></th>
                 <th>{{ $t('vendor.sl') }}</th>
                 <th>{{ $t('vendor.logo') }}</th>
                 <th>{{ $t('vendor.company_name') }}</th>
@@ -37,9 +36,7 @@
               </thead>
               <tbody>
               <tr v-for="(value, index) in list" :key="index">
-
-                <td><input type="checkbox" name="" id=""></td>
-                <td>1</td>
+                <td>{{ index+1 }}</td>
                 <td><a class="text-primary" href=""><img src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/960590de34aa9587df59041183754f83.jpg" alt=""></a></td>
                 <td>
                   <a class="text-primary" v-if="langCode === 'ar'"  href="">{{ value.name.ar }}</a>

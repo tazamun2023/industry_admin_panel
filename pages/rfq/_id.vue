@@ -127,7 +127,7 @@
                             <button href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
                               :disabled="isDisable"
                               class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
-                              {{ product.qoute.product_id !== "" ? $t('rfq.Edit Quote') : $t('rfq.add to quote') }}
+                              {{ product.qoute.product_id !== "" ? $t('rfq.EditQuote') : $t('rfq.add to quote') }}
                             </button>
                           </td>
                         </tr>
@@ -202,7 +202,7 @@
                                           , toggleCollapse('', 1)"
                                         class="inline-block align-middle text-center select-none border
                                        font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
-                                        {{ $t('app.Remove') }}
+                                        {{ $t('rfq.Remove') }}
                                       </button>
                                       <button id="add_form_cancel" @click="toggleCollapse"
                                         class="inline-block align-middle text-center select-none border 
@@ -549,7 +549,7 @@ export default {
       let qoutes = [];
       for (var i = 0; i < products.length; i++) {
         let q = products[i].qoute;
-        if (q.product_id >= 0 && q.unit_id > 0) {
+        if (q?.product_id >= 0 && q?.unit_id > 0) {
           qoutes.push({
             product_id: q.product_id,
             unit_id: q.unit_id,
@@ -690,7 +690,7 @@ export default {
               id: p.id,
               quantity: p.quantity ?? 1,
               total_offer_price: p.total_offer_price ?? 0,
-              disabled: q.total_offer_price == '' || q.total_offer_price == 0 ? true : false
+              disabled: p?.total_offer_price == '' || p?.total_offer_price == 0 ? true : false
             })
           } else
             this.rfq.products[i].qoute = ({

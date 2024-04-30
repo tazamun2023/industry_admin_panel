@@ -4,7 +4,7 @@
       :filter="false"
       ref="listPage"
       list-api="getVendorAddress"
-      delete-api="userAddressDelete"
+      delete-api="adminDeleteAddress"
       :param="param"
       route-name="vendors"
       empty-store-variable="allProducts"

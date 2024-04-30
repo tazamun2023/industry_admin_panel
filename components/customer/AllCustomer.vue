@@ -63,7 +63,6 @@ export default {
         <table>
           <thead>
           <tr>
-            <th><input type="checkbox"></th>
             <th>{{ $t('customer.Customer name') }}</th>
             <th>{{ $t('customer.Business Type') }}</th>
             <th>{{ $t('customer.Billing Email') }}</th>
@@ -80,7 +79,6 @@ export default {
           <tbody>
 
           <tr v-for="(value, index) in list" :key="index">
-            <td><input type="checkbox"></td>
             <td>{{ value.company_name }}</td>
             <td>{{ value.business_type }}</td>
             <td>{{ value.billing_email }}</td>

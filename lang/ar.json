@@ -66,7 +66,9 @@
     "Select Child Category": "اختيار الفئة الفرعية الفرعية",
     "Search by Product":"الحبث حسب اسم المنتح",
     "Product Name":"اسم المنتح",
-
+    "FilterBy":"الفلتره حسب",
+    "FilterValue":"الفلتره حسب",
+    "selectOption":"حدد نوع الفلتره",
     "RFQ Type": "نوع طلب السعر",
     "RFQ_Market": "سوق طلب السعر",
     "Location": "الموقع",
@@ -115,7 +117,11 @@
     "RFQ Status": "حالة طلب عرض السعر",
     "quantityRequired": "الرجاء إدخال الكمية",
     "UnitpriceRequired": "سعر الوحدة مطلوب",
-    "costPriceGreater1": "يجب أن يكون سعر التكلفة أكبر من 1"
+    "costPriceGreater1": "يجب أن يكون سعر التكلفة أكبر من 1",
+    "ClearFilter":"مسح الفلتره",
+    "change":"تعديل",
+    "Remove":"حذف",
+    "EditQuote":"تعديل العرض"
   },
   "products": {
     "Id": "المعرف",

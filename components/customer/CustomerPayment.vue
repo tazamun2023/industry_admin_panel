@@ -49,7 +49,7 @@ export default {
       :filter="false"
       ref="listPage"
       list-api="getCustomerPaymentCard"
-      delete-api="DeleteCustomerPaymentCard"
+      delete-api="adminDeleteCard"
       route-name="vendors"
       :param="param"
       empty-store-variable="allCustomerPaymentCard"
@@ -60,10 +60,9 @@ export default {
         <table>
           <thead>
           <tr>
-<!--            <th>{{ $t('customer.Bank Name / Card Name') }}</th>-->
             <th>{{ $t('customer.Account / Holder name') }}</th>
             <th>{{ $t('customer.A / C / Card Number') }}</th>
-<!--            <th>{{ $t('customer.Type') }}</th>-->
+           <th>{{ $t('customer.Type') }}</th>
             <th>{{ $t('global.action') }}</th>
           </tr>
           </thead>
@@ -71,6 +70,7 @@ export default {
           <tr v-for="(value, index) in list" :key="index">
             <td>{{ value.holder_name }}</td>
             <td>{{ value.card_no }}</td>
+            <td>{{ value.card_type }}</td>
               <td>
                 <button
                   v-if="$can('manage_content')"
