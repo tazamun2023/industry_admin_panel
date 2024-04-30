@@ -25,19 +25,19 @@
             </ul>
             </div>
 
-            <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+            <div v-if="openTab === 1" v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
                 <template>
                  <vendor-all/>
                 </template>
 
             </div>
-            <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
+            <div v-if="openTab === 2" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <template>
                     <vendor-approve />
                 </template>
             </div>
 
-            <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+            <div v-if="openTab === 3" v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
                 <template>
                   <vendor-not-verified />
                 </template>
@@ -76,12 +76,20 @@ export default{
         SearchDate(index){
          this.searcBydateInput = index;
         },
+
         toggleTabs: function(tabNumber){
-      this.openTab = tabNumber
+           this.openTab = tabNumber
+            this.$router.push({
+              query: {
+                ...this.$route.query,
+                tap:this.openTab
+                // filter: this.checkedFilter.join(','),
+              }
+            })
+        },
     },
-    },
- /* async mounted() {
-     await this.getAllVendor({params:'', api:'getVendor'})
-   }*/
+   mounted() {
+     this.openTab = this.$route.query.tap??1
+   }
 }
 </script>
