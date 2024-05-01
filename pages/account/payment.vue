@@ -114,7 +114,6 @@
 
             </div>
         </div>
-
         <DeleteModal v-if="deleteModal" @closeModal="closeModal">
               <template v-slot:title>
                 <h4>{{ $t('vendor.deletemessage') }}</h4>
