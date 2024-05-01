@@ -22,7 +22,7 @@
         <th>{{ $t('user.verified') }}</th>
         <th>{{ $t('title.ac') }}</th>
         <th>{{ $t('category.created') }}</th>
-        <th>&nbsp;</th>
+        <th>{{ $t('global.action') }}</th>
       </tr>
 
       <tr
@@ -34,18 +34,23 @@
           <nuxt-link
             class="link"
             :to="`/admins-vendors/${value.id}`"
+            v-if="langCode === 'ar'"
           >
-            <h5 class="mx-w-300x">{{ value.name }}</h5>
+            <h5 class="mx-w-300x">{{ value.name.ar }}</h5>
           </nuxt-link>
-        </td>
-        <td>{{ value.email }}</td>
-        <td>
-          <span
-            v-for="(i, n) in value.roles"
-            :key="n"
+
+          <nuxt-link
+            class="link"
+            :to="`/admins-vendors/${value.id}`"
+            v-else
           >
-            {{ i.name }}
-          </span>
+            <h5 class="mx-w-300x">{{ value.name.en }}</h5>
+          </nuxt-link>
+
+        </td>
+
+        <td>{{ value.email }}</td>
+        <td><span>{{ value.roles }}</span>
         </td>
 
         <td> <span>{{ getVerificationStatus(value.verified) }}</span></td>
@@ -181,6 +186,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     mixins: [util],
     computed: {
       ...mapGetters('admin', ['profile']),
+      ...mapGetters('language', ['langCode'])
     },
     watch:{
       profile(){

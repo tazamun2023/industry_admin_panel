@@ -127,6 +127,7 @@
     "getVendorCertificates": "certificate",
     "DeleteVendorCertificates": "certificate",
     "ChangeVendorApproved": "vendor/approved",
+    "ChangeCustomerApproved": "customer-info/customers/approved",
     "getVendorUser": "vendor/users/get",
     "DeleteVendorUser": "user/delete",
     "getVendorProduct": "vendor/product/get",
