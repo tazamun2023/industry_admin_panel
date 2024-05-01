@@ -165,15 +165,15 @@
                     <div class="w-2/5 ml-auto items-end border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.order_total}}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.sub_total}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.vat') }}:</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} 123343</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.vat}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} 123343</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.total}}</h5></div>
                       </div>
                       <div class="flex my-2 justify-between">
                         <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
@@ -184,7 +184,7 @@
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.vatOnCommission') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.commission_tax}}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.tax_percentage}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.totalCommission') }}</h5></div>
