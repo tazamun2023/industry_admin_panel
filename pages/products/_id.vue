@@ -370,7 +370,7 @@
                 <div class="input-wrapper mb-10">
                   <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.Key features - English')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
               </div>
@@ -1006,8 +1006,10 @@
 
                   <tr v-for="(product_price, index) in result.product_prices" :key="index">
                     <td class="p-2">
-                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"
-                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">
+                      <ValidationProvider :name="'quantity_' + index" :rules="QuantityValidationRules" v-slot="{ errors }"
+                                          :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
+<!--                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"-->
+<!--                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">-->
                       <input
                         type="text"
                         class="form-control"
@@ -1292,6 +1294,7 @@ import CartonDimensionSection from "@/components/product/CartonDimensionSection.
 import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.vue";
 import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
+import tr from "vue2-datepicker/locale/es/tr";
 
 
 extend('min', {
@@ -1326,6 +1329,29 @@ extend('validatePrice', {
   params: ['allPrices'],
   message: 'Selling price must be smaller than or equal to the unit price'
 });
+
+
+// Custom rule for quantity comparison
+extend('quantityComparison', {
+  validate(value, { first, second, third }) {
+    if (!first || !second) {
+      return true; // If any quantity is missing, let required rule handle it
+    }
+
+    if (first > second) {
+      return 'Second quantity must be greater than the first';
+    }
+
+    if (third && second > third) {
+      return 'Third quantity must be greater than the second';
+    }
+
+    return true;
+  },
+  params: ['first', 'second', 'third'],
+  message: 'Invalid quantities comparison'
+});
+
 
 
 export default {
@@ -1646,6 +1672,18 @@ export default {
         max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
       };
 
+    },
+    QuantityValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999,
+        quantityComparison: {
+          first: parseInt(this.result.product_prices[0]?.quantity),
+          second: parseInt(this.result.product_prices[1]?.quantity),
+          third: parseInt(this.result.product_prices[2]?.quantity)
+        }
+      };
     },
     availableQuantityValidationRules() {
       return {
