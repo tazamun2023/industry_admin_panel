@@ -7,6 +7,12 @@
       <i class="icon arrow-left black"></i>
     </li>
     <li
+    :class="{disabled: currentPage - 1 <= 0}"
+      @click.prevent="prevFivePaginate"
+    >
+      <i class="icon arrow-left black"></i>
+    </li>
+    <li
       class="page"
 
       :class="{disabled: currentPage === value}"
@@ -15,6 +21,12 @@
       @click.prevent="paginate(value)"
     >
       <span>{{ value }}</span>
+    </li>
+    <li 
+      :class="{disabled: currentPage + 1 >= totalPage}"
+      @click.prevent="nextFivePaginate()"
+    >
+      <i class="icon arrow-right black"></i>
     </li>
     <li
       :class="{disabled: currentPage === totalPage}"
@@ -55,7 +67,7 @@ export default {
   },
   computed: {
     visiblePages() {
-      const visibleCount = 5;
+      const visibleCount =  this.totalPage <=5  ? this.totalPage : 5;;
       let startPage = Math.max(
         1,
         Math.min(this.currentPage - Math.floor(visibleCount / 2), this.totalPage - visibleCount + 1)
@@ -76,6 +88,24 @@ export default {
         this.$emit("fetching-data");
       }
       this.scrollToTop();
+    },
+    nextFivePaginate() {
+      let m= this.currentPage + 1;
+      if (m >= this.totalPage) {
+        return false
+      } else {
+        this.currentPage = m;
+        this.getDataWithRoute();
+      }
+    },
+    prevFivePaginate() {
+      let m= this.currentPage - 1;
+      if (m <= 0) {
+        return false
+      } else {
+        this.currentPage = m;
+        this.getDataWithRoute();
+      }
     },
     resettingRoute(routeParams = {}) {
       this.clearQuery();

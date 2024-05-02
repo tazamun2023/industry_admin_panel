@@ -193,7 +193,8 @@ export default {
 <!--                            class="w-48 h-full object-cover rounded"-->
 <!--                            :data-src="value.products[0].product.image"-->
 <!--                          />-->
-                                                  <img :src="value.products[0]?.product.image" alt="">
+                         <img  v-if="value.products[0]?.product?.image"
+                          :src="value.products[0]?.product?.image" alt="">
                         </div>
                         <div class="col-span-5 p-3">
                           <div class="">
@@ -313,23 +314,23 @@ export default {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="product in value.products">
+                                <tr v-for="product in value?.products">
                                   <!-- <td>{{ product.id }}</td>
                                   <td>
                                    </td> -->
                                   <td>
                                     <div class="flex">
                                       <lazy-image
-                                        v-if="product.product.image"
+                                        v-if="product.product?.image"
                                         class="mr-15 img-40x"
-                                        :data-src="product.image"
-                                        :alt=" product.name"
+                                        :data-src="product?.product?.image"
+                                        :alt=" product.product?.title"
                                       />
                                       <span class="mt-3">{{ product.product?.title }}</span>
                                     </div>
                                   </td>
                                   <td>{{ product.product.category?.title }}</td>
-                                  <td>{{ product.quantity }} {{ product.unit.name }}</td>
+                                  <td>{{ product?.quantity }} {{ product?.unit.name }}</td>
                                   <td> {{
                                       product.total_offer_price?.toLocaleString($t('app.currency_local'), {
                                         style: 'currency',
