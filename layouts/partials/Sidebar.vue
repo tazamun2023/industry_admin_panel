@@ -448,27 +448,27 @@ export default {
           open: false,
 
           children: [
-            {
-              path: 'registered-users',
-              title: this.$t('profile.registered'),
-              icon: 'registered',
-              gate: 'view_users'
-            },
-            {
-              path: 'guest-users',
-              title: this.$t('profile.guest'),
-              icon: 'guest',
-              gate: 'view_users'
-            },*/
-            {
-              path: 'admins-vendors',
-              title: this.$t('error.av'),
-              icon: 'profile.svg',
-              is_image:true,
-              form: ['admins-vendors'],
-              gate: 'view_users'
+            // {
+            //   path: 'registered-users',
+            //   title: this.$t('profile.registered'),
+            //   icon: 'registered',
+            //   gate: 'view_users'
+            // },
+            // {
+            //   path: 'guest-users',
+            //   title: this.$t('profile.guest'),
+            //   icon: 'guest',
+            //   gate: 'view_users'
+            // },
+            // {
+            //   path: 'admins-vendors',
+            //   title: this.$t('error.av'),
+            //   icon: 'profile.svg',
+            //   is_image:true,
+            //   form: ['admins-vendors'],
+            //   gate: 'view_users'
 
-            },
+            // },
             {
               path: 'roles-permissions',
               title: this.$t('error.rp'),
@@ -480,7 +480,8 @@ export default {
             {
               path: 'admins-vendors',
               title: this.$t('error.av'),
-              icon: 'admins-vendors',
+              icon: 'profile.svg',
+              is_image:true,
               form: ['admins-vendors'],
               gate: 'view_users'
 
