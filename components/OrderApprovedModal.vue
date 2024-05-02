@@ -184,17 +184,23 @@
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.vatOnCommission') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.tax_percentage}}</h5></div>
+                        <div><h5>{{ $t('app.SAR') }} {{order?.commission_on_vat}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.totalCommission') }}</h5></div>
                         <div><h5>{{ $t('app.SAR') }}
-                          {{ (order?.commission || 0) + (order?.commission_tax || 0) }}
+                          {{ order?.commission_total }}
                         </h5></div>
                       </div>
                       <div class="flex border-t border-smooth pt-2 my-1 justify-between">
                         <div><h5 class="font-bold">{{ $t('approveModal.totalPayout') }}</h5></div>
-                        <div><h5 class="font-bold">{{ $t('app.SAR') }} 123343</h5></div>
+                        <div><h5 class="font-bold">{{
+                      order.seller_payout.toLocaleString($t('app.currency_local'), {
+                        style: 'currency',
+                        maximumFractionDigits: 2,
+                        currency: 'SAR'
+                      })
+                    }} </h5></div>
                       </div>
                     </div>
                   </div>
