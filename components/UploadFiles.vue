@@ -2,7 +2,7 @@
 <template>
 
   <div>
-    <div class="mt-20 " :style="hasError && attachments.length===0?'border: 1px solid red':''">
+    <div :style="hasError && attachments.length===0?'border: 1px solid red':''">
       <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
       <dropzone id="foo" ref="el" :options="options"
                 @removeUpload="removeFile"

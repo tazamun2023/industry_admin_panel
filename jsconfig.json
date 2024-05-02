@@ -115,6 +115,8 @@
 
     "getVendorBank": "banks",
     "DeleteVendorBank": "banks",
+    "adminDeleteCard": "user/card/delete",
+
 
     "getVendorNews": "news",
     "DeleteVendorNews": "news",
@@ -142,6 +144,7 @@
     "userAddressAction": "user/address/action",
     "userAddressFind": "user/address/find",
     "userAddressDelete": "user/address/delete",
+    "adminDeleteAddress": "address/delete",
 
     "phoneCode": "user/phoneCode",
 

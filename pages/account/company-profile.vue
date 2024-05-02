@@ -20,53 +20,53 @@
       </div>
     </div>-->
 
-  <div class="card shadow p-3" v-if="$can('edit_company')">
+  <div class="p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
     <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
       <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
-        <div class="w-[250px] h-[710px] shadow sticky top-100px  pl-1 pr-1 bg-white tab-bg  rounded-lg">
+        <div style="border-radius:21px;" class="w-[250px] h-[710px] shadow sticky top-100px border-t border-smooth pl-1 pr-1 bg-white tab-bg">
           <ul class="">
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer block  flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(1)" >
-            <div class="flex gap-2">
-              <span class="rounded-full  w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-primary bg-primary text-white': openTab === 1}">1</span>
-              <div class="text-start">
+        <li class="cursor-pointer block  flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1)" >
+            <div class="flex items-center gap-2">
+              <span  class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]" v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
+              <div class="ltr:text-start rtl:text-end">
                 <span class="block">STEP 1</span>
-              <span class="font-10px" v-bind:class="{'text-black': openTab !== 1, 'text-primary': openTab === 1}">GENERAL INFO</span>
+              <span class="font-10px" v-bind:class="{'text-primary': openTab !== 1, 'text-theem': openTab === 1}">GENERAL INFO</span>
               </div>
             </div>
           </a>
         </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(2)">
-            <div class="flex gap-2">
-              <span class="rounded-full  w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-primary bg-primary text-white': openTab === 2}">2</span>
-              <div class="text-start">
+        <li class="cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(2)">
+            <div class="flex items-center gap-2">
+              <span   class="rounded-full p-[7px] text-[16px] w-[40px] h-[40px]"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
+              <div class="ltr:text-start rtl:text-end">
                 <span class="block">STEP 2</span>
-              <span class="font-10px" v-bind:class="{'text-black': openTab !== 2, 'text-primary': openTab === 2}">PRIMARY INFO</span>
+              <span class="font-10px" v-bind:class="{'text-primary': openTab !== 2, 'text-theem': openTab === 2}">PRIMARY INFO</span>
               </div>
             </div>
           </a>
         </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold  uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(3)">
-            <div class="flex gap-2">
-              <span class="rounded-full w-[30px] h-[30px] p-5" v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-primary bg-primary text-white': openTab === 3}">3</span>
-              <div class="text-start">
+        <li class="cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold  uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(3)">
+            <div class="flex items-center gap-2">
+              <span  class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]" v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
+              <div class="ltr:text-start rtl:text-end">
                 <span class="block">STEP 3</span>
-              <span class="font-10px" v-bind:class="{'text-black': openTab !== 3, 'text-primary': openTab === 3}">LOCATION INFO</span>
+              <span class="font-10px" v-bind:class="{'text-primary': openTab !== 3, 'text-theem': openTab === 3}">LOCATION INFO</span>
               </div>
             </div>
           </a>
         </li>
-        <li class="-mb-px mr-2 w-full last:mr-0 cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-3  block leading-normal" v-on:click="toggleTabs(4)">
-            <div class="flex gap-2">
-              <span class="rounded-full w-[30px] h-[30px] p-5"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-primary bg-primary text-white': openTab === 4}">4</span>
-              <div class="text-start">
+        <li class="cursor-pointer  block flex-auto text-center">
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(4)">
+            <div class="flex items-center gap-2">
+              <span class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
+              <div class="ltr:text-start rtl:text-end">
                 <span class="block">STEP 4</span>
-              <span class="font-10px" v-bind:class="{'text-black': openTab !== 4, 'text-primary': openTab === 4}">SOCIAL INFO</span>
+              <span class="font-10px" v-bind:class="{'text-primary': openTab !== 4, 'text-theem': openTab === 4}">SOCIAL INFO</span>
               </div>
             </div>
           </a>
@@ -79,7 +79,7 @@
               <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">General Information</h4>
-            <p class="text-smooth">Please, provide company name, details, sub domain,
+            <p class="text-normal">Please, provide company name, details, sub domain,
 email, mobile, and CR number </p>
           </div>
 
@@ -153,7 +153,7 @@ email, mobile, and CR number </p>
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Primary Information</h4>
-            <p class="text-smooth">Please, provide company logo, licence, foundation date,
+            <p class="text-normal">Please, provide company logo, licence, foundation date,
               production start date, email, mobile, and facility </p>
           </div>
           <div class="form-group">
@@ -161,7 +161,7 @@ email, mobile, and CR number </p>
               <label for="">Logo Upload</label>
               <div class="flex gap-4">
              <div class="file-wrapper logo-upload upload-block">
-              <div class="file-input mt-20">
+              <div class="file-input">
               <img v-if="getLogo?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
               <img v-else class="w-full h-[181px] !important" :src="getLogo" />
             </div>
@@ -177,7 +177,7 @@ email, mobile, and CR number </p>
              <label for="">Licence Upload</label>
              <div class="flex gap-4">
               <div class="file-wrapper logo-upload upload-block">
-              <div class="file-input mt-20">
+              <div class="file-input">
                 <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
                 <img v-else class="w-full h-[181px] !important" :src="getLicence" />
             </div>
@@ -246,7 +246,7 @@ email, mobile, and CR number </p>
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Location Information</h4>
-            <p class="text-smooth">Please, provide country, city, area,
+            <p class="text-normal">Please, provide country, city, area,
               street, building information</p>
           </div>
           <div class="form-group">
@@ -311,7 +311,7 @@ email, mobile, and CR number </p>
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Social Information</h4>
-            <p class="text-smooth">Please, provide whatsapp, facebook, linkedin,
+            <p class="text-normal">Please, provide whatsapp, facebook, linkedin,
               and youtube</p>
           </div>
           <div class="form-group">
@@ -528,7 +528,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container-c{
     min-width: 650px;
     max-width: 1200px;
@@ -552,4 +552,5 @@ export default {
 /* .top-100px{
   top:400px !important;
 } */
+
 </style>

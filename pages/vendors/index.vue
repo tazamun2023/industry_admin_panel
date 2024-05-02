@@ -7,17 +7,17 @@
             <div class="w-full mb-4">
                 <ul class="lg:flex mb-0 list-none rounded shadow flex-wrap mb-4 flex-row">
                 <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
-                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(1)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 1, 'border-b-2 border-primary': openTab === 1}">
+                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs('all')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'all', 'border-b-2 border-primary': openTab === 'all'}">
                   {{ $t('vendor.all') }}
                 </a>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(2)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 2, 'border-b-2 border-primary': openTab === 2}">
+                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs('verified')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'verified', 'border-b-2 border-primary': openTab === 'verified'}">
                   {{ $t('vendor.verified') }}
                 </a>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs(3)" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 3, 'border-b-2 border-primary': openTab === 3}">
+                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs('not_verified')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'not_verified', 'border-b-2 border-primary': openTab === 'not_verified'}">
                   {{ $t('vendor.not_verified') }}
                 </a>
                 </li>
@@ -25,19 +25,19 @@
             </ul>
             </div>
 
-            <div v-if="openTab === 1" v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+            <div v-if="openTab === 'all'" v-bind:class="{'hidden': openTab !== 'all', 'block': openTab === 'all'}">
                 <template>
                  <vendor-all/>
                 </template>
 
             </div>
-            <div v-if="openTab === 2" v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
+            <div v-if="openTab === 'verified'" v-bind:class="{'hidden': openTab !== 'verified', 'block': openTab === 'verified'}">
                 <template>
                     <vendor-approve />
                 </template>
             </div>
 
-            <div v-if="openTab === 3" v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+            <div v-if="openTab === 'not_verified'" v-bind:class="{'hidden': openTab !== 'not_verified', 'block': openTab === 'not_verified'}">
                 <template>
                   <vendor-not-verified />
                 </template>
@@ -64,7 +64,7 @@ export default{
     data(){
         return {
             searcBydateInput:false,
-            openTab: 1,
+            openTab: 'all',
         }
     },
   computed:{
@@ -89,7 +89,7 @@ export default{
         },
     },
    mounted() {
-     this.openTab = this.$route.query.tap??1
+     this.openTab = this.$route.query.tap??'all'
    }
 }
 </script>

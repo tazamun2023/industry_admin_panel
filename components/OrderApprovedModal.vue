@@ -161,8 +161,8 @@
                     </table>
                   </div>
                   <!-- ----------------- -->
-                  <div class="w-full" >
-                    <div class="w-2/5 ml-auto items-end border border-smooth p-4 rounded">
+                  <div class="w-full mt-2 border-t border-smooth pt-7" >
+                    <div class="w-2/5 ltr:ml-auto rtl:mr-auto ltr:items-end rtl:items-start border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
                         <div><h5>{{ $t('app.SAR') }} {{order?.sub_total}}</h5></div>
@@ -410,7 +410,7 @@ export default {
       this.secondBox = false;
       this.thirdBox = false
     },
-   
+
     closeModelAddAddress() {
       this.addressmodal = ! this.addressmodal
     },

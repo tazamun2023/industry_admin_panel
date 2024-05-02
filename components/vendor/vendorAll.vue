@@ -20,7 +20,6 @@
             <table>
               <thead>
               <tr>
-                <th><input type="checkbox" name="" id=""></th>
                 <th>{{ $t('vendor.sl') }}</th>
                 <th>{{ $t('vendor.logo') }}</th>
                 <th>{{ $t('vendor.company_name') }}</th>
@@ -37,11 +36,12 @@
               </thead>
               <tbody>
               <tr v-for="(value, index) in list" :key="index">
-
-                <td><input type="checkbox" name="" id=""></td>
-                <td>1</td>
-                <td><a class="text-primary" href=""><img src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/960590de34aa9587df59041183754f83.jpg" alt=""></a></td>
-                <td><a class="text-primary"  href="">{{ value.name.ar }}</a></td>
+                <td>{{ index+1 }}</td>
+                <td><a class="text-primary" href=""><img :src="value.logo" alt=""></a></td>
+                <td>
+                  <a class="text-primary" v-if="langCode === 'ar'"  href="">{{ value.name.ar }}</a>
+                  <a class="text-primary" v-else  href="">{{ value.name.en }}</a>
+                </td>
                 <td>{{ value.primary_email }}</td>
                 <td>{{ value.primary_mobile }}</td>
                 <td>{{ value.founded_date }}</td>
@@ -64,7 +64,9 @@
                   <span v-else>{{ $t('util.deactive') }}</span>
                 </td>
                 <td>
-                  <button id="dropdownDefaultButton" @click="toggleAction(index)"
+                  <button
+                   @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+                  <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
                           class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                           type="button">{{ $t('prod.action') }}
                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -85,7 +87,7 @@
                         Edit
                       </nuxt-link>
                     </ul>
-                  </div>
+                  </div> -->
 
                 </td>
               </tr>
@@ -104,10 +106,11 @@ import ListPage from "@/components/partials/ListPage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapGetters} from "vuex";
+import EditButtonIcon from '../partials/EditButtonIcon.vue';
 
 export default {
   name : "vendorAll",
-  components: {ListPage},
+  components: {ListPage,EditButtonIcon},
   mixins: [util, bulkDelete],
   data(){
     return {
