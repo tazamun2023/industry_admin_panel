@@ -455,6 +455,24 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+
+  async deleteBank({rootState, commit, dispatch}, {id, params, api}) {
+    const {data} = await Service.deleteBank(id, this.$auth.strategy.token.get(),  params , api)
+    if (data.status === 200) {
+      dispatch('ui/setToastMessage', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
+      return data.data
+    } else if (data.status > 200) {
+      dispatch('ui/setToastError', data?.message?.trim() === '' ? this.$i18n.t('util.del') : data?.message, {root: true})
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+  },
+
+
+
+
+
+
   async getById({rootState, commit, dispatch}, {id, params, api}) {
     const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {

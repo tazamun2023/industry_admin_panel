@@ -69,29 +69,6 @@
                    @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
                    <button class="leading-4 text-[12px] w-[93px]" @click="approvedModal=true"> Un-Verified</button>
                   </div>
-                  <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
-                          class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
-                          type="button">{{ $t('prod.action') }}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <div id="dropdown"
-                       class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
-                       v-if="visibleAction === index"
-                  >
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdownDefaultButton">
-                      <nuxt-link
-                        class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                        :to="`${/vendors/}${value.id}`">
-                        Edit
-                      </nuxt-link>
-
-                    </ul>
-                  </div> -->
 
                 </td>
                 <!-- ------------------approved modal---------------------- -->

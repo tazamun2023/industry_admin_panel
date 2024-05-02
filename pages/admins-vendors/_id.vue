@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="w-1/3 mx-auto shadow p-4 border border-smooth rounded">
       <div class="flex mb-2 justify-between">
       <h3>{{ $t('app.update_admin') }}</h3>
@@ -42,13 +41,13 @@
               </li>
             </ul>
           </div>
+
           <div class="input-wrapper">
-            <ValidationProvider  class="w-full" name="Name"  v-slot="{ errors }">
-              <label for="">{{ $t('fSale.name') }}</label>
-              <input type="text" :placeholder="$t('fSale.name')" v-model="userInfo.name">
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="userInfo.name"
+                        @updateInput="updateInput">
+            </lang-input>
           </div>
+
           <div class="input-wrapper">
             <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
               <label for="">{{ $t('fSale.email') }}</label>
@@ -93,6 +92,27 @@
             </ValidationProvider>
           </div>
 
+          <div class="input-wrapper">
+            <ValidationProvider class="w-full" name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
+              <label class="w-full" for="">{{ $t('user.role') }}</label>
+              <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
+                <option v-for="ro in databaseRole" :value="ro.name">{{ ro.name }}</option>
+              </select>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+
+          <div class="input-wrapper">
+            <ValidationProvider class="w-full" name="status" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('title.ac')})}">
+              <label class="w-full" for="">{{ $t('title.ac') }}</label>
+              <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.active">
+                <option value="">Select Status</option>
+                <option value="1">{{ $t('util.active') }}</option>
+                <option value="0">{{ $t('util.deactive') }}</option>
+              </select>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
 
 
           <div class="input-wrapper mb-0 text-end">
@@ -114,9 +134,11 @@ export default {
   data(){
     return {
       userInfo: {
-        name:'',
+        name: {'ar':'', 'en':''},
         email:'',
-        password:''
+        password:'',
+        roles: '',
+        active: ''
       },
       confirmation: '',
       passwordFieldType: 'password',
@@ -129,24 +151,27 @@ export default {
       },
       errors:[],
       loading:false,
-      id:''
+      id:'',
+      hasError: false,
+      databaseRole : []
     }
   },
   computed:{
     isPasswordTypePassword(){
       return this.passwordFieldType === 'password'
     },
-    ...mapGetters('admin', ['profile']),
     ...mapGetters('language', [ 'languages', 'currentLanguage']),
   },
   watch:{
-    profile(){
-      this.userInfo.vendor_id = this.profile?.vendor_id
-    }
+
   },
   methods:{
     ...mapActions('vendor', ['getUserById', 'updateUserInformation']),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
+
+    updateInput(input, language, value) {
+      this.$set(input, language, value);
+    },
 
     passwordFieldToggle() {
       if (this.isPasswordTypePassword) {
@@ -164,29 +189,35 @@ export default {
     },
 
     async formSubmit(){
-      try {
-        this.loading = true
-        const data = await this.updateUserInformation({
-          id: this.id,
-          params:{
-            ...this.userInfo
-          },
-          lang: this.currentLanguage.code,
-          api:'updateUserInformation'
-        })
-        this.loading = false
+      if(this.userInfo.name.ar == null || this.userInfo.name.en == null){
+        this.hasError = true
+      }else{
+        try {
+          this.loading = true
+          const data = await this.updateUserInformation({
+            id: this.id,
+            params:{
+              ...this.userInfo
+            },
+            lang: this.currentLanguage.code,
+            api:'updateUserInformation'
+          })
+          this.loading = false
 
-        if(data?.status === 200){
-          this.$router.push('/admins-vendors')
-          this.setToastMessage(data.message)
-          this.errors = []
-        }else{
-          this.errors = data.data.form
-          this.setToastError(data.message)
+          if(data?.status === 200){
+            this.$router.push('/admins-vendors')
+            this.setToastMessage(data.message)
+            this.errors = []
+          }else{
+            this.errors = data.data.form
+            this.setToastError(data.message)
+          }
+        } catch (e) {
+          return this.$nuxt.error(e)
         }
-      } catch (e) {
-        return this.$nuxt.error(e)
       }
+
+
     },
 
    async getVendorUserById(){
@@ -198,8 +229,15 @@ export default {
       })
       this.loading = false
       if(data.status === 200){
-        this.userInfo.name = data.data.name
+        this.userInfo.name.ar = data.data.name.ar
+        this.userInfo.name.en = data.data.name.en
         this.userInfo.email = data.data.email
+        this.databaseRole = data.data.roles
+        if(data.data.active){
+          this.userInfo.active = 1
+        }else{
+          this.userInfo.active = 0
+        }
         this.errors = []
 
       }else{
@@ -213,7 +251,4 @@ export default {
        await this.getVendorUserById()
   }
 }
-
-
-
 </script>

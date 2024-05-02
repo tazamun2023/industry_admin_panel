@@ -105,6 +105,11 @@ export default {
     return apiClient.delete(`${json.api.userAddressDelete}/${id}`, {params: params})
   },
 
+  deleteBank(id, bearer, params = null, api) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.delete(`${json.api[api]}/${id}`, {params: params})
+  },
+
   userAddressUpdate(id, bearer, params = null) {
     apiClient.defaults.headers.common['Authorization'] = bearer
     return apiClient.get(`${json.api.userAddressFind}/${id}`, {params: params})
