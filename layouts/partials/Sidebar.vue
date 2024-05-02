@@ -437,7 +437,7 @@ export default {
           open: false,
 
           children: [
-            {
+           /* {
               path: 'registered-users',
               title: this.$t('profile.registered'),
               icon: 'registered',
@@ -448,14 +448,7 @@ export default {
               title: this.$t('profile.guest'),
               icon: 'guest',
               gate: 'view_users'
-            },
-            {
-              path: 'roles-permissions',
-              title: this.$t('error.rp'),
-              icon: 'roles-permissions',
-              form: ['roles-permissions'],
-              gate: 'manage_roles'
-            },
+            },*/
             {
               path: 'admins-vendors',
               title: this.$t('error.av'),
@@ -464,6 +457,14 @@ export default {
               gate: 'view_users'
 
             },
+            {
+              path: 'roles-permissions',
+              title: this.$t('error.rp'),
+              icon: 'roles-permissions',
+              form: ['roles-permissions'],
+              gate: 'manage_roles'
+            },
+
 
             {
               path: 'vendor-users',

@@ -29,7 +29,6 @@
                 <template>
                  <vendor-all/>
                 </template>
-
             </div>
             <div v-if="openTab === 'verified'" v-bind:class="{'hidden': openTab !== 'verified', 'block': openTab === 'verified'}">
                 <template>

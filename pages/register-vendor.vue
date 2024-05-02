@@ -40,21 +40,9 @@
     </div>
 
     <div class="input-wrapper">
-      <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
-        <ValidationProvider class="w-full" name="first_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.first_name')})}">
-          <input style="padding:0px 35px" type="text" :placeholder="$t('fSale.first_name')" v-model.trim="first_name">
-          <span class="error">{{ errors[0] }}</span>
-        </ValidationProvider>
-      </div>
-    </div>
-
-    <div class="input-wrapper">
-      <div class="relative"><i class="icon absolute mt-[7px] mx-1 email-icon"/>
-        <ValidationProvider class="w-full"  name="last_name" rules="required" v-slot="{errors}" :custom-messages="{required: $t('category.req', { type: $t('fSale.last_name')})}">
-          <input style="padding:0px 35px" type="text" :placeholder="$t('fSale.last_name')" v-model.trim="last_name">
-          <span class="error">{{ errors[0] }}</span>
-        </ValidationProvider>
-      </div>
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="userInfo.name"
+                  @updateInput="updateInput">
+      </lang-input>
     </div>
 
 
@@ -117,15 +105,6 @@
 
 
 
-<!--    <ajax-button
-      :disabled="true"
-      :activate-btn="true"
-      class="mt-20 primary-btn"
-      :fetching-data="formSubmitting"
-      :loading-text="$t('dataPage.logging')"
-      :text="$t('dataPage.sign')"
-    />-->
-
     <button class="mt-20 primary-btn" :disabled="invalid">
       <span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span>
     </button>
@@ -156,8 +135,7 @@
     middleware: ['common-middleware', 'non-logged-in'],
     data() {
       return {
-        first_name: '',
-        last_name: '',
+        name: {'ar':'', 'en':''},
         email: '',
         password: '',
         vendor_id: '',
@@ -197,6 +175,10 @@
     },
     methods: {
 
+      updateInput(input, language, value) {
+        this.$set(input, language, value);
+      },
+
       passwordFieldToggle() {
         if (this.isPasswordTypePassword) {
           this.passwordFieldType = 'text'
@@ -210,8 +192,7 @@
           this.loading = true
           const data = await this.registerUser({
             params:{
-              'first_name': this.first_name,
-              'last_name': this.last_name,
+              'name': this.name,
               'email': this.email,
               'vendor_id': this.vendor_id,
               'roles': this.roles,
