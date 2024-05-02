@@ -150,6 +150,9 @@
     "EditQuote":"Edit Quote"
 
   },
+  "multiSelect":{
+    "orderStatus":"Order Status"
+  },
   "products": {
     "Id": "Id",
     "Image": "Image",
@@ -570,6 +573,23 @@
     "cancel":"cancel",
     "LocateMe":"Locate Me"
   },
+  "statusOrder":{
+    "all":"All",
+  "order placed": "Order Placed",
+  "received": "Received",
+  "partial received": "Partial Received",
+  "delivered": "Delivered",
+  "partial delivered": "Partial Delivered",
+  "pending cancellation": "Pending Cancellation",
+  "cancelled": "Cancelled",
+  "ready to ship": "Ready to Ship",
+  "order picked": "Order Picked",
+  "out for pickup": "Out for Pickup",
+  "out for delivery": "Out for Delivery",
+  "dispute": "Dispute",
+  "in transit": "In Transit",
+  "orderStatus":"Order Status"
+},
 
   "order": {
     "enterTotAmPay":"enter the total amount of payment",

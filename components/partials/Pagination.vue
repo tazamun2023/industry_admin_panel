@@ -65,6 +65,11 @@ export default {
       default: 5,
     },
   },
+  watch :{
+    currentPage(){
+    this.$emit('handCurrentPage',this.currentPage)
+    }
+  },
   computed: {
     visiblePages() {
       const visibleCount =  this.totalPage <=5  ? this.totalPage : 5;;

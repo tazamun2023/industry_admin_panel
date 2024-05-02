@@ -266,6 +266,11 @@
               >{{ $t('category.edit') }}</button>
             </div>
           </div>
+          <div class="flex justify-between ">
+            <pagination :total-page="addressList.last_page" @handCurrentPage="handCurrentPage"></pagination>
+          </div>
+          <div>
+          </div>
         </div>
         <div class="w-full border-t mb-2 p-2 border-smooth">
           <div class="items-end p-1 text-end absolute ltr:right-[40px] rtl:left-[40px]">
@@ -353,9 +358,10 @@
 import LazyImage from "./LazyImage.vue";
 import {mapGetters, mapActions} from "vuex";
 import AddAddressModel from "./AddAddressModel.vue";
+import Pagination from './partials/Pagination.vue';
 
 export default {
-  components: {AddAddressModel, LazyImage},
+  components: {AddAddressModel, LazyImage, Pagination},
   computed :{
     ...mapGetters('order',['orders','selectedOrdersall']),
     ...mapGetters('address',['addressList']),
@@ -369,6 +375,10 @@ export default {
       rejectionReason: '',
       orders: "",
       addressmodal:false,
+      // addressList:[],
+      param:{
+        page:""
+      },
       subItemSelected: {
         order: "",
         availabilityStatus: "",
@@ -380,8 +390,28 @@ export default {
   },
   methods: {
     ...mapActions('address',['getVendorAddress']),
+    ...mapActions('common', ['getRequest']),
     updateAddreess() {
 
+    },
+    handCurrentPage(e) {
+     this.fetchingData()
+    },
+    async fetchingData() {
+      try {
+        const data = await this.getRequest({
+          params: {
+            ...this.param,
+            ...this.$route.query,
+            ...{ time_zone: this.timeZone }
+          },
+          api: "getVendorAddress"
+        })
+        console.log('data',data);
+        this.$store.commit('address/SET_VENDOR_ADDRESS',data)
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
     },
     closeModal() {
       this.$emit('close');
@@ -473,7 +503,13 @@ export default {
   },
   mounted() {
     this.orders = this.selectedOrders;
-    this.getVendorAddress();
+    this.fetchingData();
+    this.$router.beforeEach((to, from, next) => {
+    if (to.query.page !== undefined) {
+      this.param.page = to.query.page; 
+      this.fetchingData(); 
+    }
+  });
   },
   props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders', 'reasonsRejection']
 };

@@ -187,6 +187,9 @@
     "cat": "فئة",
     "countryName": "اسم الدولة"
   },
+  "multiSelect":{
+    "orderStatus":"حالة الطلب"
+  },
   "brand": {
     "buyCount": "عدد الشراء ",
     "buy": "شراء ",
@@ -459,6 +462,23 @@
     "create_update": "تم الإنشاء / التحديث",
     "sku": "رمز SKU",
     "parent_sku": "الرمز الرئيسي (Parent SKU)"
+  },
+  "statusOrder":{
+      "all":"الكل ",
+      "order placed": "تم الطلب",
+      "received": "تم الاستلام",
+      "partial received": "تم استلام جزئي",
+      "delivered": "تم التوصيل",
+      "partial delivered": "تم التوصيل جزئياً",
+      "pending cancellation": "في انتظار الإلغاء",
+      "cancelled": "تم الإلغاء",
+      "ready to ship": "جاهز للشحن",
+      "order picked": "تم اختيار الطلب",
+      "out for pickup": "خرج للاستلام",
+      "out for delivery": "خرج للتوصيل",
+      "dispute": "نزاع",
+      "in transit": "قيد الانتقال",
+      "orderStatus": "حالة الطلب"
   },
   "order": {
     "enterTotAmPay":"أدخل المبلغ الإجمالي للدفع",

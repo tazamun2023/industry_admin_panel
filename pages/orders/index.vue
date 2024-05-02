@@ -85,7 +85,7 @@
                       <div>
                         <p>{{ $t('order.total') }}:</p>
                         <p><strong>
-                            {{ order?.order_total }}
+                            {{ order?.total }}
                           </strong> <span>{{ $t('app.SAR') }}</span></p>
                       </div>
                       <div>
@@ -194,7 +194,7 @@
                       <div>
                         <p>{{ $t('order.total') }}:</p>
                         <p><strong>
-                            {{ order?.order_total }}
+                            {{ order?.total }}
                           </strong> <span>{{ $t('app.SAR') }}</span></p>
                       </div>
                       <div>
