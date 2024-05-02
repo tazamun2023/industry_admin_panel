@@ -17,7 +17,13 @@
     <template v-slot:form="{hasError}">
 
       <div class="input-wrapper">
-        <label>{{ $t('index.image') }}</label>
+<!--        <label>{{ $t('prod.Image') }}</label>-->
+        <lazy-image
+          v-if="result.image"
+          class="mr-20 w-1/6 mb-2 rounded"
+          :data-src="result.image"
+          :alt="result.title"
+        />
         <upload-files @updateInput="saveAttachment" :max-files="1"></upload-files>
         <span
           class="error"
@@ -73,7 +79,7 @@
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">
+          <span class="mr-15 w-[100px]">
             {{ $t('category.featured') }}
           </span>
 
@@ -88,7 +94,7 @@
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">
+          <span class="mr-15 w-[100px]">
             {{ $t('category.status') }}
           </span>
 
@@ -152,8 +158,6 @@ export default {
       this.result.status = data.key
     },
     saveAttachment(image) {
-      console.log(image)
-      // this.result.rfq_attachments = rfq_attachments
       this.result.file = image
     },
 

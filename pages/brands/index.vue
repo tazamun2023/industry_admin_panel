@@ -12,6 +12,7 @@
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
+    :addButton="$store.state.admin.isVendor"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
