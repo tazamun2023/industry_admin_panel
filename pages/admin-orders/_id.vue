@@ -273,17 +273,17 @@
     <div v-if="bankModal"
       class="fixed bg-modal border border-gray-200 shadow-md  inset-0 z-50 flex items-center justify-center rounded-lg">
       <div class="absolute inset-0 bg-black opacity-50"></div>
-      <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/3 lg:w-1/3 xl:w-2/5">
+      <div class="z-50 bg-white p-6 relative rounded-md shadow  md:w-15/12 lg:w-15/12 ">
         <img @click="bankModalFun" src="~/assets/images/close.svg" alt="close"
           class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" />
         <h4 class="mb-2 text-lg font-semibold text-gray-900">{{ $t('order.enterTotAmPay') }} </h4>
-        <ValidationObserver tag="div" v-slot="{ invalid }">
+        <ValidationObserver tag="div" class=" flex flex-col justify-items-center " v-slot="{ invalid }">
           <div class="mb-4">
             <div class="max-w-sm ">
               <form @submit.prevent="acceptPayment">
-                <ValidationProvider name="total_amount" tag="div" class="w-full" rules="required" v-slot="{ errors }"
+                <ValidationProvider name="amount" tag="div" class="w-full" rules="required" v-slot="{ errors }"
                   :custom-messages="{ required: $t('order.isRequired', { type: $t('order.total_amount') }) }">
-                  <input type="number" v-model="acceptPaymentBank.total_amount"
+                  <input type="number" v-model="acceptPaymentBank.amount"
                     class="form-input w-full p-2 border rounded-md focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                     placeholder="100">
                   <span class="error mt-2 mr-1 ml-1">{{ errors[0] }}</span>
@@ -293,8 +293,18 @@
             </div>
           </div>
           <div class="flex justify-start gap-3 mt-6">
-            <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
-              @click="acceptPayment">{{ $t('prod.submit') }}</button>
+            <!-- <button class="btn-hove border-2  bg-theem text-white font-bold transitio " :disabled="invalid"
+              @click="acceptPayment">{{ $t('prod.submit') }}</button> -->
+              <ajax-button
+              class="btn-hove border-2  bg-theem text-white font-bold transitio " 
+      :class="`${btnType}-btn`"
+      type="button"
+      color="primary"
+      :text="$t('prod.submit')"
+      :disabled="invalid"
+      :fetching-data="loading"
+      @clicked="acceptPayment"
+    />
             <button type="button" class="btn-hove cancel-button border-2 text-black font-bold transition"
               @click="bankModalFun">{{ $t('app.Cancel') }}</button>
           </div>
@@ -385,15 +395,20 @@ export default {
     rejectMoalFun() {
       this.rejectModal = !this.rejectModal;
     },
-    acceptPayment() {
+     async acceptPayment() {
+      this.loading= true;
       this.acceptPaymentBank.order_id = this.orderDetails.order_id;
       this.acceptPaymentBank.payment_status = 'approved';
       this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
-      this.setRequest({
+      const data= await this.setRequest({
         params: this.acceptPaymentBank,
         api: "changePaymentStatus"
       })
-      this.bankModalFun();
+      if(data) {
+        this.acceptPaymentBank.amount = 0;
+        this.bankModalFun();
+      }
+      this.loading= false;
     },
     rejectPayment() {
       this.acceptPaymentBank.order_id = this.orderDetails.order_id;

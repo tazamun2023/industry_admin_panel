@@ -134,7 +134,7 @@ export default {
     list-style: none;
     max-height: 250px;
     overflow: auto;
-    /* z-index: 1000; */
+    z-index: 1000;
 }
 
 .overselect {

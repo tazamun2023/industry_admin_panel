@@ -119,11 +119,11 @@
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.vat') }}:</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission }}</h5></div>
+            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.vat }}</h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.items_subtotal') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.order_total }} </h5></div>
+            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.sub_total }} </h5></div>
           </div>
           <div class="flex my-2 justify-between">
             <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
@@ -134,15 +134,23 @@
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.vat_on_commission') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission_tax }}</h5></div>
+            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission_on_vat }}</h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.total_commission') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission }}</h5></div>
+            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission_total }}</h5></div>
           </div>
           <div class="flex border-t border-smooth pt-2 my-1 justify-between">
             <div><h5 class="font-bold">{{ $t('orderDetails.total_payout') }}</h5></div>
-            <div><h5 class="font-bold">{{ $t('app.SAR') }} {{ orderDetails.order_total }}</h5></div>
+            <div><h5 class="font-bold">
+              {{
+                      orderDetails?.seller_payout.toLocaleString($t('app.currency_local'), {
+                        style: 'currency',
+                        maximumFractionDigits: 2,
+                        currency: 'SAR'
+                      })
+                    }} 
+                    </h5></div>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@
         </div>
         <div>
           <p  class="text-smoothlight">{{ $t('setting.od') }}</p>
-          <p class="font-bold  text-[14px]">28 Feb 2024, 08:28 PM</p>
+          <p class="font-bold  text-[14px]">{{ order?.created_at }}</p>
         </div>
         <div>
           <p  class="text-smoothlight">{{ $t('order.paymentMethod') }}</p>
@@ -27,7 +27,7 @@
       <div class="flex gap-4">
         <div>
           <p>{{ $t('order.total') }}</p>
-          <p><strong class="text-[14px]">   {{ order?.order_total }}</strong> <span class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
+          <p><strong class="text-[14px]">   {{ order?.total }}</strong> <span class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
         </div>
       </div>
     </div>

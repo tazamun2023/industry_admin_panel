@@ -147,13 +147,21 @@
                     class="text-primary">{{ $t('app.SAR') }}</span></span>
               </div>
               <div class="flex justify-between">
-                <span class="text-intext  py-2">{{ $t('invoice.vat') }}({{ order.commission_tax }} %)</span>
-                <span><span class="font-bold">{{ order.commission }}</span> <span
+                <span class="text-intext  py-2">{{ $t('invoice.vat') }}({{ order.commission_on_vat }} %)</span>
+                <span><span class="font-bold">{{ order.vat }}</span> <span
                     class="text-primary">{{ $t('app.SAR') }}</span></span>
               </div>
               <div class="flex justify-between border-t border-b  py-2 border-smooth">
                 <span class="font-bold text-[18px]">{{ $t('invoice.total') }}</span>
-                <span><span class="font-bold text-[18px]">{{ order.order_total }}</span> <span
+                <span><span class="font-bold text-[18px]">
+                  {{
+                      order?.seller_payout.toLocaleString($t('app.currency_local'), {
+                        style: 'currency',
+                        maximumFractionDigits: 2,
+                        currency: 'SAR'
+                      })
+                    }} 
+                </span> <span
                     class="text-primary text-[18px]">{{ $t('app.SAR') }}</span></span>
               </div>
             </div>
