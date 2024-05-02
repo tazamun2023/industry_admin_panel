@@ -21,7 +21,7 @@
           </div>
           <div>
             <p>{{ $t('orderReject.orderPlaced') }}</p>
-            <p class="text-xs">03 Aug 23</p>
+            <p class="text-xs">{{ selectedOrders[0]?.order_placed }}</p>
           </div>
         </div>
         <div class="py-4">

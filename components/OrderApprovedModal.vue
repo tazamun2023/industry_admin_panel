@@ -508,6 +508,8 @@ export default {
     if (to.query.page !== undefined) {
       this.param.page = to.query.page; 
       this.fetchingData(); 
+    } else {
+      next();
     }
   });
   },
