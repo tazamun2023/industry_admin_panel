@@ -160,15 +160,15 @@ email, mobile, and CR number </p>
             <div  class="input-wrapper   mb-2">
               <label for="">Logo Upload</label>
               <div class="flex gap-4">
-             <div class="file-wrapper logo-upload upload-block">
-              <div class="file-input">
-              <img v-if="getLogo?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-              <img v-else class="w-full h-[181px] !important" :src="getLogo" />
+             <div class="file-wrapper w-1/4 h-[232px]   upload-block">
+              <div class="border-dashed border border-smooth h-[232px]">
+              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+              <img v-else class="w-full h-[232px] !important" :src="getLogo" />
             </div>
              </div>
 
 
-          <upload-files class="w-full  border border-dashed border-smooth h-[182px]"  @updateInput="saveLogoAttachment"></upload-files>
+          <upload-files custom-id="h230" class="w-full  border border-dashed border-smooth h-[232px]"  @updateInput="saveLogoAttachment"></upload-files>
 
           </div>
             </div>
@@ -176,13 +176,13 @@ email, mobile, and CR number </p>
              <!-- component -->
              <label for="">Licence Upload</label>
              <div class="flex gap-4">
-              <div class="file-wrapper logo-upload upload-block">
-              <div class="file-input">
-                <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-                <img v-else class="w-full h-[181px] !important" :src="getLicence" />
+              <div class="file-wrapper h-[232px] w-1/4 upload-block">
+              <div class="border-dashed border-smooth border h-[232px]">
+                <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-else class="w-full h-[232px] !important" :src="getLicence" />
             </div>
              </div>
-              <upload-files class="w-full border border-dashed border-smooth h-[182px]"  @updateInput="saveLicenceAttachment"></upload-files>
+              <upload-files custom-id="h230" class="w-full border border-dashed border-smooth h-[232px]"  @updateInput="saveLicenceAttachment"></upload-files>
              </div>
 
             </div>
@@ -537,7 +537,7 @@ export default {
   width: 100%;
 }
 .file-wrapper .file-input img{
-  height: 178px;
+  /* height: 178px; */
   width:100%;
 }
 .tab-bg{

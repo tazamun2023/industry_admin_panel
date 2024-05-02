@@ -4,7 +4,7 @@
   <div>
     <div :style="hasError && attachments.length===0?'border: 1px solid red':''">
       <!--    <label class="w-full" for="">({{ $t('rfq.Attachments') }}) ({{ $t('rfq.Optional') }})</label>-->
-      <dropzone id="foo" ref="el" :options="options"
+      <dropzone   :id="customId" ref="el" :options="options"
                 @removeUpload="removeFile"
                 v-on:vdropzone-files-added="addImage"
                 v-on:vdropzone-success="showSuccess"
@@ -50,6 +50,10 @@ export default {
       type: Number,
       default: 10
     },
+    customId:{
+      type:String,
+      required: false
+    }
   },
   watch: {
     errorCheck() {
@@ -151,3 +155,8 @@ export default {
   },
 };
 </script>
+<style>
+#h230{
+  height: 230px;
+}
+</style>

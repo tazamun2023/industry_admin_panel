@@ -233,7 +233,28 @@
             return this.$nuxt.error(e)
           }
       },
-      ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList'] )
+
+      async deleteBankItem(id, params) {
+
+        alert("sdfdf")
+
+        try {
+          this.deleting = true
+          await this.deleteBank({
+            id: id,
+            params: {...params},
+            api: 'DeleteVendorBank'
+          })
+          this.emptyAllList(this.emptyStoreVariable)
+          this.$emit('deleted')
+          this.deleting = false
+          await this.fetchingData()
+        }catch (e) {
+          return this.$nuxt.error(e)
+        }
+      },
+
+      ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList', 'deleteBank'] )
     },
     mounted() {
       if(!this.gate || this.$can(this.gate)){

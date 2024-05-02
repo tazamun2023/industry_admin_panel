@@ -119,14 +119,16 @@ export default {
             {
               path: 'brands',
               title: this.$t('error.brands'),
-              icon: 'brands',
+              icon: 'brands.svg',
+              is_image:true,
               gate: 'view_brands'
 
             },
             {
               path: 'categories',
               title: this.$t('error.cat'),
-              icon: 'categories',
+              icon: 'categories.svg',
+              is_image:true,
               gate: 'manage_categories'
             },
             {
@@ -310,13 +312,15 @@ export default {
             {
               path: 'withdrawal-requests',
               title: this.$t('error.req'),
-              icon: 'withdrawal-requests',
+              icon: 'requests.svg',
+              is_image:true,
               gate: 'withdrawal_request'
             },
             {
               path: 'withdrawal-accounts',
               title: this.$t('error.acc'),
-              icon: 'withdrawal-accounts',
+              icon: 'accounts.svg',
+              is_image:true,
               gate: 'withdrawal_account'
             }
           ]
@@ -331,38 +335,44 @@ export default {
             {
               path: 'pages',
               title: this.$t('error.pages'),
-              icon: 'pages',
+              icon: 'pages.svg',
+              is_image:true,
               form: ['customPage'],
               gate: 'view_ui_settings'
             },
             {
               path: 'home-slider',
               title: this.$t('admin.hSlid'),
-              icon: 'home-slider',
+              icon: 'homeslider.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
               path: 'banners',
               title: this.$t('admin.banners'),
-              icon: 'banners',
+              icon: 'banner.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
               path: 'footer-links',
               title: this.$t('error.fl'),
-              icon: 'footer',
+              icon: 'links.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
               path: 'header-links',
               title: this.$t('dataPage.hl'),
-              icon: 'header-links',
+              icon: 'links.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
               path: 'site-features',
               title: this.$t('title.sf'),
-              icon: 'site-features',
+              icon: 'featurs.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
             {
@@ -375,7 +385,8 @@ export default {
             {
               path: 'custom-scripts',
               title: this.$t('title.cs'),
-              icon: 'custom-scripts',
+              icon: 'scripts.svg',
+              is_image:true,
               gate: 'view_ui_settings'
             },
           ]
@@ -437,29 +448,58 @@ export default {
           open: false,
 
           children: [
-            {
-              path: 'registered-users',
-              title: this.$t('profile.registered'),
-              icon: 'registered',
-              gate: 'view_users'
-            },
-            {
-              path: 'guest-users',
-              title: this.$t('profile.guest'),
-              icon: 'guest',
-              gate: 'view_users'
-            },
+            // {
+            //   path: 'registered-users',
+            //   title: this.$t('profile.registered'),
+            //   icon: 'registered',
+            //   gate: 'view_users'
+            // },
+            // {
+            //   path: 'guest-users',
+            //   title: this.$t('profile.guest'),
+            //   icon: 'guest',
+            //   gate: 'view_users'
+            // },
+            // {
+            //   path: 'admins-vendors',
+            //   title: this.$t('error.av'),
+            //   icon: 'profile.svg',
+            //   is_image:true,
+            //   form: ['admins-vendors'],
+            //   gate: 'view_users'
+
+            // },
             {
               path: 'roles-permissions',
               title: this.$t('error.rp'),
-              icon: 'roles-permissions',
+              icon: 'permissions.svg',
+              is_image:true,
               form: ['roles-permissions'],
               gate: 'manage_roles'
             },
             {
               path: 'admins-vendors',
               title: this.$t('error.av'),
-              icon: 'admins-vendors',
+              icon: 'profile.svg',
+              is_image:true,
+              form: ['admins-vendors'],
+              gate: 'view_users'
+
+            },
+            {
+              path: 'roles-permissions',
+              title: this.$t('error.rp'),
+              icon: 'permissions.svg',
+              is_image:true,
+              form: ['roles-permissions'],
+              gate: 'manage_roles'
+            },
+
+            {
+              path: 'admins-vendors',
+              title: this.$t('error.av'),
+              icon: 'profile.svg',
+              is_image:true,
               form: ['admins-vendors'],
               gate: 'view_users'
 
@@ -508,7 +548,8 @@ export default {
             {
               path: 'colors',
               title: this.$t('setting.colors'),
-              icon: 'flash-sales',
+              icon: 'colors.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
 
             },
@@ -516,7 +557,8 @@ export default {
             {
               path: 'shipping-rules',
               title: this.$t('brand.shipRules'),
-              icon: 'shipping-rules',
+              icon: 'SHipping.svg',
+              is_image:true,
               gate: 'manage_shipment_setting'
             },
             {
@@ -543,7 +585,8 @@ export default {
             {
               path: 'barcodes',
               title: this.$t('setting.barcodes'),
-              icon: 'flash-sales',
+              icon: 'bracode.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
             },
             {
