@@ -4,8 +4,8 @@
       <div class="p-2">
         <h4>{{ $t('customer.All Customer Information') }}</h4>
       </div>
-      <div class="w-full">
-        <div class="w-50 mb-4">
+      <div class="w-full mb-4">
+        <div>
           <ul class="lg:flex mb-0 list-none rounded shadow flex-wrap mb-4 flex-row">
             <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
               <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" @click="toggleTabs('all')"
@@ -63,10 +63,20 @@ export default {
   methods: {
     toggleTabs: function (tab) {
       this.openTab = tab
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          tap:this.openTab
+          // filter: this.checkedFilter.join(','),
+        }
+      })
     },
 
 
     ...mapActions('customer', ['getAllCustomer']),
+  },
+  mounted() {
+    this.openTab = this.$route.query.tap??'all'
   }
 }
 </script>
