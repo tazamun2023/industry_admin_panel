@@ -162,13 +162,13 @@
                   </div>
                   <!-- ----------------- -->
                   <div class="w-full mt-2 border-t border-smooth pt-7" >
-                    <div class="w-2/5 ltr:ml-auto rtl:mr-auto ltr:items-end rtl:items-start border border-smooth p-4 rounded">
+                    <div class="w-3/5 ltr:ml-auto rtl:mr-auto ltr:items-end rtl:items-start border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
                         <div><h5>{{ $t('app.SAR') }} {{order?.sub_total}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>{{ $t('approveModal.vat') }}:</h5></div>
+                        <div><h5>{{ $t('approveModal.vat') }} ({{ order?.vat_percent }}%):</h5></div>
                         <div><h5>{{ $t('app.SAR') }} {{order?.vat}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
@@ -183,7 +183,7 @@
                         <div><h5>{{ $t('app.SAR') }} {{order?.commission}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
-                        <div><h5>{{ $t('approveModal.vatOnCommission') }}</h5></div>
+                        <div><h5>{{ $t('approveModal.vatOnCommission') }} ({{order?.commission_on_vat_percent}}%)</h5></div>
                         <div><h5>{{ $t('app.SAR') }} {{order?.commission_on_vat}}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
@@ -195,7 +195,7 @@
                       <div class="flex border-t border-smooth pt-2 my-1 justify-between">
                         <div><h5 class="font-bold">{{ $t('approveModal.totalPayout') }}</h5></div>
                         <div><h5 class="font-bold">{{
-                      order.seller_payout.toLocaleString($t('app.currency_local'), {
+                      order?.seller_payout.toLocaleString($t('app.currency_local'), {
                         style: 'currency',
                         maximumFractionDigits: 2,
                         currency: 'SAR'
@@ -506,8 +506,8 @@ export default {
     this.fetchingData();
     this.$router.beforeEach((to, from, next) => {
     if (to.query.page !== undefined) {
-      this.param.page = to.query.page; 
-      this.fetchingData(); 
+      this.param.page = to.query.page;
+      this.fetchingData();
     } else {
       next();
     }
