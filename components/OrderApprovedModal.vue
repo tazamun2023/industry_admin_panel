@@ -94,7 +94,7 @@
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                  <div class="overflow-y-scroll h-[250px] scroll-thin">
+                  <div class="overflow-y-scroll max-h-[250px] scroll-thin">
                     <table class="min-w-full  text-left text-sm font-light">
                       <thead class=" font-medium ">
                       <tr>
