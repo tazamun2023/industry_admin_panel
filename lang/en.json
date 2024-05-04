@@ -360,6 +360,8 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Keywords": "Keywords",
+    "Brand": "Brand",
     "Image": "Image",
     "Attribute": "Attribute",
     "Status": "Status",
