@@ -159,4 +159,9 @@ export default {
 #h230{
   height: 230px;
 }
+.dropzone .dz-preview.dz-image-preview {
+    background: white;
+    max-height: 175px !important;
+    height: 171px;
+}
 </style>
