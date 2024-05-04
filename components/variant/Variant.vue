@@ -10,13 +10,13 @@
           <div class="p-4">
             <div class="flex gap-4 p-2 justify-between">
               <p class="font-bold pt-2">{{ $t('prod.Variants List') }}</p>
-              <button @click="varientModal = true" class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
+              <button @click="varientModal = true, is_variant_save=true" class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
                 <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M5 12h14m-7 7V5"/>
                 </svg>
-                <span class="pt-2">{{ $t('prod.Add Variant') }}</span></button>
+                <span class="pt-2 font-bold">{{ $t('prod.Add Variant') }}</span></button>
             </div>
             <!--            :class="{'bg-white border-white border-b-2': openTab !== 'parent', 'border-b-2 bg-primary border-primary text-white': openTab === parent}"-->
             <ul class="mb-0 list-none shadow mt-10" v-if="result.product_variants">
@@ -190,12 +190,12 @@
                     <input type="text" :placeholder="variantNameWithAttr(variants[openTab].result.title)" class="cursor-not-allowed" disabled>
                   </div>
                   <div class="input-wrapper mt-3 mt-sm-0">
-                    <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
+                    <label class="w-full">{{ $t('prod.Brand') }} <strong class="text-error">*</strong></label>
                   <select class="form-control w-full rounded border border-smooth p-3" :disabled="openTab !== 'parent'"
                           :readonly="openTab !== 'parent'"
                           :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
                           v-model="result.brand_id">
-                    <option value="0">{{ $t('prod.Select Brand') }}</option>
+                    <option value="0">{{ $t('prod.Brand') }}</option>
                     <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
                   </select>
                   </div>
@@ -225,7 +225,7 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
     </div>
-    <div v-bind:class="{'hidden': openTab !== 'parent', 'block': openTab === 'parent'}" v-if="variants.length > 0 && variants[0].result.status!=='incomplete'">
+    <div v-bind:class="{'hidden': openTab !== 'parent', 'block': openTab === 'parent'}" v-if="variants.length > 0 && variants[0].result.status!=='incomplete' && variants[0].result.status!=='draft'">
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Attributes table') }}</h4>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -242,7 +242,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete'">
+            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete' && variant.result.id">
               <td class="p-4 border border-smooth">
                 <lazy-image
                   v-if="variant.result?.product_images"
@@ -252,7 +252,7 @@
                 />
               </td>
               <td class="px-6 font-semibold text-gray-900">
-                {{ variant.result?.product_variant?.color?.name?.en + ',' + variant.result?.product_variant?.value }}
+                {{ attrAndValue(variant.result?.product_variant, index)}}
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='approval'">{{ variant.result.status }}</span>
@@ -434,7 +434,7 @@
             <v-select
               :dir="$t('app.dir')"
               v-model="variants[openTab]?.result.basic_keyword_en"
-              :options="['']"
+              :options="allKeywords"
               taggable
               multiple
               :placeholder="$t('title.select_type')"
@@ -446,7 +446,7 @@
             <v-select
               :dir="$t('app.dir')"
               v-model="variants[openTab]?.result.basic_keyword_ar"
-              :options="['']"
+              :options="allKeywords"
               taggable
               multiple
               :placeholder="$t('title.select_type')"
@@ -881,7 +881,7 @@
 <!--              <option value="0">{{ $t('prod.Unit') }}</option>-->
 <!--              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>-->
 <!--            </select>-->
-            <select class="border p-3 border-smooth rounded-lg uppercase"
+            <select class="border p-3 border-smooth rounded-lg uppercase" disabled
                     v-model="variants[openTab]?.result.unit_id">
               <option value="">{{ $t('prod.Unit') }}</option>
               <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
@@ -1205,7 +1205,7 @@
                 </div>
               </div>
 
-              <div v-if="!is_variant_save">
+              <div v-if="is_variant_save">
                 <div class="col-md-4 pt-4">
                   <button :disabled="select_attr1==='' || select_attr2===''" type="button"
                           @click.prevent="addVariantValueRows()"
@@ -1219,17 +1219,16 @@
               <div class="flex justify-items-start gap-4 pt-3">
                 <button type="button" class="btn text-white bg-primary hover:text-primary"
                         @click.prevent="doVariantSave"
-                        v-if="!is_variant_save">
+                        v-if="is_variant_save">
                   {{ $t('prod.Save') }}
                 </button>
 
-                <button type="button" class="btn text-white bg-primary hover:text-primary"
-                        @click.prevent="doVariantSave"
-                        v-else>
-                  {{ $t('prod.Edit') }}
-                </button>
-                <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
-                        v-if="!is_variant_save" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
+<!--                <button type="button" class="btn text-white bg-primary hover:text-primary"-->
+<!--                        @click.prevent="doVariantSave"-->
+<!--                        v-else>-->
+<!--                  {{ $t('prod.Edit') }}-->
+<!--                </button>-->
+                <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave" :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.CANCEL') }}</span>
                 </button>
               </div>
@@ -1349,9 +1348,11 @@ export default {
   data() {
     return {
       is_submit:[],
+      allKeywords:[],
       injectedData: this.exampleData,
       openTab: 'parent',
       uploadModal: false,
+      variant_uuid_global: '',
       is_change: false,
       hasErrorQty: false,
       varientModal: false,
@@ -1512,7 +1513,7 @@ export default {
     BarcodeValidationRules() {
       if (this.openTab !== 'parent'){
         let validationRules = {
-          required: this.variants[this.openTab]?.result?.barcode_type !== 4
+          required: this.variants[this.openTab]?.result?.barcode_type != 4
         };
 
         const barcodeLength = this.variants[this.openTab]?.result?.barcode?.length || 0;
@@ -1623,7 +1624,7 @@ export default {
         this.variants[0].result.sku = ''
         this.variants[0].result.status = 'incomplete'
         this.variants[0].result.is_variant = true
-        this.variants.push({ result: { ...this.variants[0].result, id: '' } });
+        this.variants.push({ result: { ...this.variants[0].result, id: '', product_images: [] } });
       }
     },
 
@@ -1720,7 +1721,12 @@ export default {
         this.result.unit_id = null
       }
       this.variants[this.openTab].result.status = 'pending'
-      this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
+      if (this.variant_uuid_global){
+        this.variants[this.openTab].result.variant_uu_id = this.variant_uuid_global
+      }else {
+        this.variants[this.openTab].result.variant_uu_id = null
+      }
+      // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
 
       const res = await this.setById({
@@ -1739,6 +1745,7 @@ export default {
         if (!this.variants[this.openTab].result) {
           this.variants[this.openTab].result = {};
         }
+        this.variant_uuid_global = res.variant_uuid
 
         // Assign properties from res to this.variants[this.openTab].result
         this.variants[this.openTab].result = {
@@ -1965,6 +1972,20 @@ export default {
       }
     },
 
+    attrAndValue(variant, index){
+      // console.log(variant)
+      // {{ variant.result?.product_variant?.color?.name?.en + ',' + variant.result?.product_variant?.value }}
+      if (variant.color && Object.keys(variant.color).length > 0){
+        return variant?.color?.name?.en + ',' + variant?.value;
+      }else {
+        return this.result.product_variants[index]?.color_name + ',' + this.result.product_variants[index]?.value;
+      }
+    },
+    async findKeyword() {
+      let res = await this.getById({ id: 1, params: { keyword: '' }, api: 'findRfqKeyword' });
+      this.allKeywords = res;
+    },
+
 
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
@@ -1991,10 +2012,13 @@ export default {
       this.variants = this.variantsData
     }else {
       this.result.product_variants.forEach((variant) => {
+        this.result.sku = ''
         this.variants.push(Object.assign({result: this.result}));
       });
     }
-
+    if (this.allKeywords.length===0){
+      await this.findKeyword()
+    }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
 
