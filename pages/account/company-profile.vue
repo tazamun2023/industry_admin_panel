@@ -22,11 +22,9 @@
 
   <div class="p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
-    <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
-      <div class="flex gap-4 border border-graylight p-3 rounded-xl shadow">
-        <div style="border-radius:21px;" class="w-[250px] h-[710px] shadow sticky top-100px border-t border-smooth pl-1 pr-1 bg-white tab-bg">
-          <ul class="">
+
+<!--          <ul class="">
         <li class="cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1)" >
             <div class="flex items-center gap-2">
@@ -71,8 +69,10 @@
             </div>
           </a>
         </li>
-      </ul>
-    </div>
+      </ul>-->
+
+
+
       <div class="w-full">
         <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
@@ -82,7 +82,7 @@
             <p class="text-normal">Please, provide company name, details, sub domain,
 email, mobile, and CR number </p>
           </div>
-
+                <ValidationObserver class="w-full" v-slot="{ invalid }">
           <div class="form-group">
             <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
                   @updateInput="updateInput">
@@ -146,11 +146,14 @@ email, mobile, and CR number </p>
               <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
+                </ValidationObserver>
         </div>
+
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <div class="p-4">
+                  <ValidationObserver class="w-full" v-slot="{ invalid }">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Primary Information</h4>
             <p class="text-normal">Please, provide company logo, licence, foundation date,
@@ -168,7 +171,7 @@ email, mobile, and CR number </p>
              </div>
 
 
-          <upload-files class="w-full  border border-dashed border-smooth h-[182px]"  @updateInput="saveLogoAttachment"></upload-files>
+          <upload-files class="w-full  border border-dashed border-smooth h-[182px]" accept="image/*"  @updateInput="saveLogoAttachment"></upload-files>
 
           </div>
             </div>
@@ -179,21 +182,22 @@ email, mobile, and CR number </p>
               <div class="file-wrapper logo-upload upload-block">
               <div class="file-input">
                 <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-else-if="fileExt === 'pdf'" class="w-full h-[181px] !important" src="@/assets/images/pdf.jpg" />
                 <img v-else class="w-full h-[181px] !important" :src="getLicence" />
             </div>
              </div>
-              <upload-files class="w-full border border-dashed border-smooth h-[182px]"  @updateInput="saveLicenceAttachment"></upload-files>
+              <upload-files class="w-full border border-dashed border-smooth h-[182px]" accept=".pdf,image/*"  @updateInput="saveLicenceAttachment"></upload-files>
              </div>
 
             </div>
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.foundation_date') }}</label>
-              <input type="date"  v-model="fromData.founded_date" readonly>
+              <input type="date"  v-model="fromData.founded_date">
 
             </div>
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.production_start') }}</label>
-              <input type="date"  v-model="fromData.production_start_date"  readonly>
+              <input type="date"  v-model="fromData.production_start_date">
             </div>
 
             <div class="input-wrapper  mb-2">
@@ -208,8 +212,6 @@ email, mobile, and CR number </p>
                 </div>
             </div>
 
-
-
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.primary_mobile") }}</label>
                 <div class="w-full">
@@ -221,8 +223,6 @@ email, mobile, and CR number </p>
                    </ValidationProvider>
                 </div>
             </div>
-
-
 
             <ValidationProvider class="w-full" name="Facility" rules="required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
@@ -239,10 +239,12 @@ email, mobile, and CR number </p>
               <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
+                  </ValidationObserver>
         </div>
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
+                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Location Information</h4>
@@ -304,10 +306,13 @@ email, mobile, and CR number </p>
             </div>
 
           </div>
+
                   </div>
-        <!-- --------------- -->
+                </ValidationObserver>
+                <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
+                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Social Information</h4>
@@ -349,12 +354,12 @@ email, mobile, and CR number </p>
             </div>
           </div>
         </div>
+                </ValidationObserver>
               </div>
           </div>
       </div>
-      </div>
     </form>
-    </ValidationObserver>
+
   </div>
 
 </template>
@@ -417,7 +422,8 @@ export default {
       getLicence:[],
       errors:[],
       hasError:false,
-      submit: false
+      submit: false,
+      fileExt:''
     }
   },
   watch:{
@@ -439,6 +445,10 @@ export default {
 
       this.getLogo = this.vendorList.data.logo
       this.getLicence = this.vendorList.data.licence
+
+      //getExtension name
+      this.fileExt = this.getLicence.split('.').pop();
+
 
       this.fromData.contact_json.area = this.vendorList.data.contact_json.area
       this.fromData.contact_json.street = this.vendorList.data.contact_json.street
@@ -468,6 +478,9 @@ export default {
       }
 
     },
+
+
+
 
 
   },
