@@ -80,8 +80,9 @@
               v-if="$can('approve_orders')"
                 @click="approvedModalShow(order)">{{ $t('order.approveOrder') }}</button>
             </CartOrder>
-            <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page" :page="orders?.current_page"
-              v-if="!loading" />
+            <div class="flex justify-center" v-if="!loading">
+            <pagination :total-page="orders?.last_page"  />
+            </div>
             <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
           </div>
           <div v-bind:class="{ 'hidden': openTab !== 2, 'block': openTab === 2 }">
@@ -93,8 +94,9 @@
               v-if="$can('approve_orders')"
                 @click="approvedModalShow(order)"> {{ $t('order.approveOrder') }}</button>
             </CartOrder>
-            <Pagination :total-page="orders?.last_page" :page-per="orders?.per_page" :page="orders?.current_page"
-              v-if="!loading" />
+            <div class="flex justify-center" v-if="!loading">
+              <pagination :total-page="orders?.last_page"  />
+            </div>
             <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }} </div>
           </div>
           <div v-bind:class="{ 'hidden': openTab !== 3, 'block': openTab === 3 }">
