@@ -332,12 +332,10 @@
                     {{ $t('prod.Edit') }}
                   </button>
 
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
-                          v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" :class="!is_variant_save?'cursor-not-allowed':''">
                     <span>{{ $t('prod.Reset') }}</span>
                   </button>
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
-                          v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave" :class="!is_variant_save?'cursor-not-allowed':''">
                     <span>{{ $t('prod.CANCEL') }}</span>
                   </button>
                 </div>
@@ -380,7 +378,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_en"
-                  :options="[]"
+                  :options="allKeywords"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -392,7 +390,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_ar"
-                  :options="[]"
+                  :options="allKeywords"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -1295,6 +1293,7 @@ import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.
 import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
 import tr from "vue2-datepicker/locale/es/tr";
+import th from "vue2-datepicker/locale/es/th";
 
 
 extend('min', {
@@ -1366,6 +1365,7 @@ export default {
       selectedLevel2: null,
       selectedLevel3: null,
       isThumb: null,
+      allKeywords: [],
       isFirstThumb: null,
       openTab: 1,
       uploadModal: false,
@@ -1997,17 +1997,19 @@ export default {
       return uuid;
     },
     async doVariantReset() {
-      const confirmation = await this.$swal({
-        title: "Are you sure?",
-        icon: "question",
-        iconHtml: "؟",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Noا",
-        showCancelButton: true,
-        showCloseButton: true,
-      });
-      if (confirmation.value) {
-        this.result.product_variants = []
+      if (this.is_variant_save){
+        const confirmation = await this.$swal({
+          title: "Are you sure?",
+          icon: "question",
+          iconHtml: "؟",
+          confirmButtonText: "Yes",
+          cancelButtonText: "Noا",
+          showCancelButton: true,
+          showCloseButton: true,
+        });
+        if (confirmation.value) {
+          this.result.product_variants = []
+        }
       }
     },
 
@@ -2016,17 +2018,19 @@ export default {
     },
 
     doVariantSave() {
-      if (this.result.product_variants.length === 0) {
-        this.setToastMessage(this.$t('prod.No variants added'))
-        // this.$swal({
-        //   icon: "error",
-        //   title: "No variants added!",
-        //   showConfirmButton: false,
-        //   timer: 1000
-        // });
-        return false;
-      }else {
-        this.is_variant_save = !this.is_variant_save
+      if (this.is_variant_save){
+        if (this.result.product_variants.length === 0) {
+          this.setToastMessage(this.$t('prod.No variants added'))
+          // this.$swal({
+          //   icon: "error",
+          //   title: "No variants added!",
+          //   showConfirmButton: false,
+          //   timer: 1000
+          // });
+          return false;
+        }else {
+          this.is_variant_save = !this.is_variant_save
+        }
       }
     },
 
@@ -2676,10 +2680,16 @@ export default {
         this.loading = false
       }
     },
+    async findKeyword() {
+      let res = await this.getById({ id: 1, params: { keyword: '' }, api: 'findRfqKeyword' });
+      this.allKeywords = res;
+    },
+
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   async mounted() {
+
     this.getThumb(this.isThumb)
     // if (this.min_qty === this.result.available_quantity) {
     //   this.result.is_availability = 1;
@@ -2714,6 +2724,9 @@ export default {
       this.fetchingData(this.$route.query?.id).then(() => {
         this.result.id = ""
       })
+    }
+    if (this.allKeywords.length===0){
+      await this.findKeyword()
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {
 
