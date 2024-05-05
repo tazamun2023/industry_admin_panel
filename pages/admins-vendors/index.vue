@@ -36,7 +36,8 @@
             class="link"
             :to="`/admins-vendors/${value.id}`"
           >
-            <h5 class="mx-w-300x">{{ value.name }}</h5>
+          <h5 class="mx-w-300x">{{ value.name[currentLanguage.code] }}</h5>
+
           </nuxt-link>
 
         </td>
@@ -58,15 +59,17 @@
 
         <td>{{ value.created }}</td>
         <td>
-<!--          v-if="$can('admin', 'delete')"-->
           <button
+            v-if="$can('view_users')"
+            v-show="value.role[0] !== 'superadmin'"
             @click.prevent="$refs.listPage.deleteItem(value.id)"
             class="border-0"
           >
             <DeleteButtonIcon/>
           </button>
-<!--          v-if="$can('admin', 'edit')"-->
           <button
+            v-if="$can('view_users')"
+            v-show="value.role[0] !== 'superadmin'"
             @click.prevent="$refs.listPage.editItem(value.id)"
             class="border-0"
           >
@@ -170,8 +173,7 @@
                 <label class="w-full" for="">{{ $t('user.role') }}</label>
                 <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
                   <option value="">Select Role</option>
-                  <option value="superadmin">Supper Admin</option>
-                  <option value="vendor">Vendor</option>
+                  <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
                 </select>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -258,7 +260,8 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     mixins: [util],
     computed: {
       ...mapGetters('admin', ['profile']),
-      ...mapGetters('language', ['langCode']),
+      ...mapGetters('language', ['langCode', 'currentLanguage']),
+      ...mapGetters('vendor', [ 'AllRole']),
       isPasswordTypePassword(){
         return this.passwordFieldType === 'password'
       },
@@ -284,7 +287,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
         this.userInfo.password = ''
         this.openModal = false
       },
-      ...mapActions('vendor', ['registerUser']),
+      ...mapActions('vendor', ['registerUser', 'getAllRoles']),
       ...mapActions('ui', ['setToastMessage', 'setToastError']),
       passwordFieldToggle() {
         if (this.isPasswordTypePassword) {
@@ -333,7 +336,16 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
     },
     mounted() {
+       try {
+         let data =  this.getAllRoles({
+            params:{
+              "type": "admin"
+            },
+            api:"getRoleByType"
+          })
+       }catch (e) {
 
+       }
     }
   }
 </script>

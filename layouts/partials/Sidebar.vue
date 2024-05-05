@@ -487,25 +487,6 @@ export default {
 
             },
             {
-              path: 'roles-permissions',
-              title: this.$t('error.rp'),
-              icon: 'permissions.svg',
-              is_image:true,
-              form: ['roles-permissions'],
-              gate: 'manage_roles'
-            },
-
-            {
-              path: 'admins-vendors',
-              title: this.$t('error.av'),
-              icon: 'profile.svg',
-              is_image:true,
-              form: ['admins-vendors'],
-              gate: 'view_users'
-
-            },
-
-            {
               path: 'vendor-users',
               title: this.$t('error.vendor_users'),
               icon: 'profile.svg',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="w-1/3 mx-auto shadow p-4 border border-smooth rounded">
+    <div class="w-1/3 mx-auto shadow p-4 border border-smooth rounded" v-show="this.userInfo.roles !== 'superadmin'">
       <div class="flex mb-2 justify-between">
       <h3>{{ $t('app.update_admin') }}</h3>
       <nuxt-link to="/admins-vendors" >
@@ -96,7 +96,7 @@
             <ValidationProvider class="w-full" name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
               <label class="w-full" for="">{{ $t('user.role') }}</label>
               <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
-                <option v-for="ro in databaseRole" :value="ro.name">{{ ro.name }}</option>
+                <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
               </select>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
@@ -153,7 +153,6 @@ export default {
       loading:false,
       id:'',
       hasError: false,
-      databaseRole : []
     }
   },
   computed:{
@@ -161,12 +160,13 @@ export default {
       return this.passwordFieldType === 'password'
     },
     ...mapGetters('language', [ 'languages', 'currentLanguage']),
+    ...mapGetters('vendor', [ 'AllRole']),
   },
   watch:{
 
   },
   methods:{
-    ...mapActions('vendor', ['getUserById', 'updateUserInformation']),
+    ...mapActions('vendor', ['getUserById', 'updateUserInformation', 'getAllRoles']),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
 
     updateInput(input, language, value) {
@@ -232,7 +232,7 @@ export default {
         this.userInfo.name.ar = data.data.name.ar
         this.userInfo.name.en = data.data.name.en
         this.userInfo.email = data.data.email
-        this.databaseRole = data.data.roles
+        this.userInfo.roles = data.data.role[0]
         if(data.data.active){
           this.userInfo.active = 1
         }else{
@@ -248,7 +248,19 @@ export default {
 
   },
   async mounted() {
-       await this.getVendorUserById()
+    try {
+      await this.getVendorUserById()
+      let data =  this.getAllRoles({
+        params:{
+          "type": ""
+        },
+        api:"getRoleByType"
+      })
+    }catch (e) {
+
+    }
+
+
   }
 }
 </script>
