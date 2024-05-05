@@ -29,3 +29,7 @@ input[type="number"] {
 .text-orange-500 {
   color: rgb(251 100 30 / 1);
 }
+
+.border-red {
+  border-color: red;
+}

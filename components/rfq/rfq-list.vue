@@ -155,12 +155,14 @@
                             <div>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                 @click.prevent="isRejected(value.id)"
-                                class="bg-error rounded-lg uppercase leading-3 text-white px-4 w-full p-3 mt-2 border-primary border-2">
+                                class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2"
+                              >
                                 Rejected
                               </button>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                 @click.prevent="isApproved(value.id)"
-                                class="bg-primary rounded-lg uppercase leading-3 text-white px-4 mt-2 w-full p-3 border-primary border-2">
+                                class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2"
+                                >
                                 Approved
                               </button>
                             </div>
