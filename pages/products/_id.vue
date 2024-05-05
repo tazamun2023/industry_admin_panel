@@ -327,17 +327,15 @@
                   </button>
 
                   <button type="button" class="btn text-white bg-primary hover:text-primary"
-                          @click.prevent="doVariantSave"
-                          v-else>
+                          @click.prevent="is_variant_save=false"
+                          v-if="is_variant_save">
                     {{ $t('prod.Edit') }}
                   </button>
 
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset"
-                          v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" :class="!is_variant_save?'cursor-not-allowed':''">
                     <span>{{ $t('prod.Reset') }}</span>
                   </button>
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
-                          v-if="!is_variant_save" :class="result.product_variants.length===0?'cursor-not-allowed':''">
+                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave" :class="!is_variant_save?'cursor-not-allowed':''">
                     <span>{{ $t('prod.CANCEL') }}</span>
                   </button>
                 </div>
@@ -370,7 +368,7 @@
                 <div class="input-wrapper mb-10">
                   <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('city.name')"
+                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.Key features - English')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
               </div>
@@ -380,7 +378,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_en"
-                  :options="[]"
+                  :options="allKeywords"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -392,7 +390,7 @@
                 <v-select
                   :dir="$t('app.dir')"
                   v-model="result.basic_keyword_ar"
-                  :options="[]"
+                  :options="allKeywords"
                   taggable
                   multiple
                   :placeholder="$t('title.select_type')"
@@ -1006,8 +1004,10 @@
 
                   <tr v-for="(product_price, index) in result.product_prices" :key="index">
                     <td class="p-2">
-                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"
-                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">
+                      <ValidationProvider :name="'quantity_' + index" :rules="QuantityValidationRules" v-slot="{ errors }"
+                                          :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
+<!--                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"-->
+<!--                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">-->
                       <input
                         type="text"
                         class="form-control"
@@ -1292,6 +1292,8 @@ import CartonDimensionSection from "@/components/product/CartonDimensionSection.
 import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.vue";
 import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
+import tr from "vue2-datepicker/locale/es/tr";
+import th from "vue2-datepicker/locale/es/th";
 
 
 extend('min', {
@@ -1328,6 +1330,29 @@ extend('validatePrice', {
 });
 
 
+// Custom rule for quantity comparison
+extend('quantityComparison', {
+  validate(value, { first, second, third }) {
+    if (!first || !second) {
+      return true; // If any quantity is missing, let required rule handle it
+    }
+
+    if (first > second) {
+      return 'Second quantity must be greater than the first';
+    }
+
+    if (third && second > third) {
+      return 'Third quantity must be greater than the second';
+    }
+
+    return true;
+  },
+  params: ['first', 'second', 'third'],
+  message: 'Invalid quantities comparison'
+});
+
+
+
 export default {
   name: "pink-tabs",
   middleware: ['common-middleware', 'auth'],
@@ -1340,6 +1365,7 @@ export default {
       selectedLevel2: null,
       selectedLevel3: null,
       isThumb: null,
+      allKeywords: [],
       isFirstThumb: null,
       openTab: 1,
       uploadModal: false,
@@ -1646,6 +1672,18 @@ export default {
         max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
       };
 
+    },
+    QuantityValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999,
+        quantityComparison: {
+          first: parseInt(this.result.product_prices[0]?.quantity),
+          second: parseInt(this.result.product_prices[1]?.quantity),
+          third: parseInt(this.result.product_prices[2]?.quantity)
+        }
+      };
     },
     availableQuantityValidationRules() {
       return {
@@ -1959,17 +1997,19 @@ export default {
       return uuid;
     },
     async doVariantReset() {
-      const confirmation = await this.$swal({
-        title: "Are you sure?",
-        icon: "question",
-        iconHtml: "؟",
-        confirmButtonText: "Yes",
-        cancelButtonText: "Noا",
-        showCancelButton: true,
-        showCloseButton: true,
-      });
-      if (confirmation.value) {
-        this.result.product_variants = []
+      if (this.is_variant_save){
+        const confirmation = await this.$swal({
+          title: "Are you sure?",
+          icon: "question",
+          iconHtml: "؟",
+          confirmButtonText: "Yes",
+          cancelButtonText: "Noا",
+          showCancelButton: true,
+          showCloseButton: true,
+        });
+        if (confirmation.value) {
+          this.result.product_variants = []
+        }
       }
     },
 
@@ -1978,17 +2018,19 @@ export default {
     },
 
     doVariantSave() {
-      if (this.result.product_variants.length === 0) {
-        this.setToastMessage(this.$t('prod.No variants added'))
-        // this.$swal({
-        //   icon: "error",
-        //   title: "No variants added!",
-        //   showConfirmButton: false,
-        //   timer: 1000
-        // });
-        return false;
-      }else {
-        this.is_variant_save = !this.is_variant_save
+      if (this.is_variant_save){
+        if (this.result.product_variants.length === 0) {
+          this.setToastMessage(this.$t('prod.No variants added'))
+          // this.$swal({
+          //   icon: "error",
+          //   title: "No variants added!",
+          //   showConfirmButton: false,
+          //   timer: 1000
+          // });
+          return false;
+        }else {
+          this.is_variant_save = !this.is_variant_save
+        }
       }
     },
 
@@ -2638,10 +2680,16 @@ export default {
         this.loading = false
       }
     },
+    async findKeyword() {
+      let res = await this.getById({ id: 1, params: { keyword: '' }, api: 'findRfqKeyword' });
+      this.allKeywords = res;
+    },
+
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   async mounted() {
+
     this.getThumb(this.isThumb)
     // if (this.min_qty === this.result.available_quantity) {
     //   this.result.is_availability = 1;
@@ -2676,6 +2724,9 @@ export default {
       this.fetchingData(this.$route.query?.id).then(() => {
         this.result.id = ""
       })
+    }
+    if (this.allKeywords.length===0){
+      await this.findKeyword()
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {
 

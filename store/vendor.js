@@ -4,12 +4,14 @@ const state = () => ({
   vendorList: null,
   addressList: null,
   vendorProfile: null,
-  userInfo:null
+  userInfo:null,
+  AllRole: null
 })
 const getters = {
   vendorList: ({ vendorList }) => vendorList,
   addressList: ({ addressList }) => addressList,
   userInfo: ({ userInfo }) => userInfo,
+  AllRole: ({ AllRole }) => AllRole,
 }
 const mutations = {
 
@@ -23,6 +25,10 @@ const mutations = {
 
   SET_USERS_DATA(state, data){
     state.userInfo = data
+  },
+
+  SET_ROLE(state, data){
+    state.AllRole = data
   },
 
 
@@ -131,8 +137,22 @@ const actions = {
 
   async registerUser ({rootState, commit , dispatch}, {params,api, lang}) {
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, lang)
+    if (data.status === 200) {
+      commit('SET_USERS_DATA', data.data)
+    }else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
     return data
+  },
 
+  async getAllRoles ({rootState, commit , dispatch}, {params,api, lang}) {
+    const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, lang)
+    if (data.status === 200) {
+      commit('SET_ROLE', data.data)
+    }else {
+      return Promise.reject({statusCode: data.status, message: data.message})
+    }
+    return data
   },
 
   async sentInvitation ({rootState, commit , dispatch}, {params,api, lang}) {
