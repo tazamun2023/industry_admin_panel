@@ -116,6 +116,7 @@
     "getVendorBank": "banks",
     "DeleteVendorBank": "banks",
     "adminDeleteCard": "user/card/delete",
+    "getRoleByType": "role/all-roles",
 
 
     "getVendorNews": "news",
