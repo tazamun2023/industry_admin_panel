@@ -480,6 +480,16 @@
       "in transit": "قيد الانتقال",
       "orderStatus": "حالة الطلب"
   },
+  "approvedModal":{
+    "sure": "هل أنت متأكد",
+    "revert": "لن تتمكن من التراجع عن هذا",
+    "confirmBtn": "نعم",
+    "cancel": "إلغاء",
+    "approvedAction": "تم الموافقة",
+    "success": "تمت الموافقة على الطلب",
+    "Cancelled":"الغاء",
+    "cancellMes":"تم الغاء العملية "
+  },
   "order": {
     "enterTotAmPay":"أدخل المبلغ الإجمالي للدفع",
     "total_amount":"مبلغ الدفع",
