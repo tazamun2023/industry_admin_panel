@@ -327,107 +327,75 @@ export default {
     },
 
     isRejected(id) {
-
       this.is_reject_modal = !this.is_reject_modal;
       this.rfqId = id
     },
-    // async isApproved(id) {
-    //   this.is_loading = true
-    //   const app = await this.swetAlertFire({
-    //     params:{
-    //       title: this.$i18n.t('approvedModal.sure'),
-    //       text:this.$i18n.t('approvedModal.revert'),
-    //     }
-    //   })
-    //   if (app) {
-    //     const data = await this.setById({
-    //       id: id,
-    //       params: { status: 'approved' },
-    //       api: 'setApprovedRfq'
-    //     }).then((res) => {
-    //       const index = this.itemList.findIndex(item => item.id === id)
-    //       if (index !== -1) {
-    //         this.itemList[index].status = res.status
-    //       }
-    //     } );
-    //   } else {
-    //     return false
-    //   }
-   
-    
-    // },
     async isApproved(id) {
-  this.is_loading = true;
-  
-  try {
-    const app = await this.swetAlertFire({
-      params: {
-        title: this.$i18n.t('approvedModal.sure'),
-        text: this.$i18n.t('approvedModal.revert'),
-      }
-    });
-    alert(app)
+      this.is_loading = true;
 
-    if (app) {
-      const data = await this.setById({
-        id: id,
-        params: { status: 'approved' },
-        api: 'setApprovedRfq'
+      const app = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
       });
 
-      const index = this.itemList.findIndex(item => item.id === id);
+      if (app) {
+        const data = await this.setById({
+          id: id,
+          params: { status: 'approved' },
+          api: 'setApprovedRfq'
+        });
+
+        const index = this.itemList.findIndex(item => item.id === id);
+        if (index !== -1) {
+          this.itemList[index].status = data.status;
+        }
+        this.is_loading = false;
+        return true;
+      } else {
+        this.is_loading = false;
+        return false;
+      }
+    },
+
+    updateReject(status) {
+      const index = this.itemList.findIndex(item => item.id === this.rfqId)
       if (index !== -1) {
-        this.itemList[index].status = data.status;
+        this.itemList[index].status = status
       }
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.error('Error in isApproved:', error);
-    return false;
-  } finally {
-    this.is_loading = false;
+      return this.$router.push(`/rfq`)
+    },
+    filterChanged(result) {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          page: 1,
+          orderBy: 'created_at',
+          orderByType: 'desc',
+          ...result
+          // filter: this.checkedFilter.join(','),
+        }
+      })
+    },
+    toggleCollapse(index) {
+      this.activeIndex = this.activeIndex === index ? null : index;
+      this.isCollapsed = !this.isCollapsed;
+      if (index == this.collapsedId)
+        this.collapsedId = 0;
+      else
+        this.collapsedId = index;
+    },
+    dateFormat(dataTime) {
+      return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
+    },
+
+
+    ...mapActions('common', ['setRequest', 'getById', 'setById', 'swetAlertFire']),
+  },
+  mounted() {
+
   }
-},
- 
-  updateReject(status) {
-    const index = this.itemList.findIndex(item => item.id === this.rfqId)
-    if (index !== -1) {
-      this.itemList[index].status = status
-    }
-    return this.$router.push(`/rfq`)
-  },
-  filterChanged(result) {
-    this.$router.push({
-      query: {
-        ...this.$route.query,
-        page: 1,
-        orderBy: 'created_at',
-        orderByType: 'desc',
-        ...result
-        // filter: this.checkedFilter.join(','),
-      }
-    })
-  },
-  toggleCollapse(index) {
-    this.activeIndex = this.activeIndex === index ? null : index;
-    this.isCollapsed = !this.isCollapsed;
-    if (index == this.collapsedId)
-      this.collapsedId = 0;
-    else
-      this.collapsedId = index;
-  },
-  dateFormat(dataTime) {
-    return moment(moment.utc(dataTime)).local().format('D MMMM YYYY')
-  },
-
-
-  ...mapActions('common', ['setRequest', 'getById', 'setById','swetAlertFire']),
-},
-mounted() {
-
-}
 }
 </script>
 <style scoped>
