@@ -886,9 +886,9 @@
         </form>
         <reject-reason
           v-if="is_reject_modal"
-          get-api="RejectReasons"
-          set-api="setRejectProduct"
-          :set-id="$route?.params?.id"
+          :get-api="'RejectReasonsProduct'"
+          :set-api="'setRejectProduct'"
+          :set-id="parseInt(id)"
           :param="param"
           @close="closeRejectModal"
         ></reject-reason>

@@ -550,7 +550,7 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
         <div class="grid grid-cols-2 gap-4">
-          <ValidationProvider name="pk_size" :rules="NotDraftValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Size') }} ?</label>
@@ -578,7 +578,7 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="pk_number_of_carton" :rules="NotDraftValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Number of units per carton" :rules="PackagingValidationRules" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Number of units per carton') }}</label>
@@ -1487,11 +1487,18 @@ export default {
 
       // If all unit prices are less than or equal to selling prices, return true
     },
+    PackagingValidationRules(){
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999,
+      };
+    },
     PriceValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1, // Pass allSKus as a parameter to uniqueSku
-        max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
+        min_value: 1,
+        max_value: 99999999,
       };
 
     },

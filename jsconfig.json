@@ -314,6 +314,7 @@
     "findRfqKeyword": "rfq/notification/find-keyword",
     "allRfqRejectReason": "rfq/reject-reason/all",
     "RejectReasons": "reject-reason/all",
+    "RejectReasonsProduct": "/rfq/reject-reason/all",
     "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
     "updateOrderStatus": "order/update-status",
