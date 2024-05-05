@@ -327,8 +327,8 @@
                   </button>
 
                   <button type="button" class="btn text-white bg-primary hover:text-primary"
-                          @click.prevent="doVariantSave"
-                          v-else>
+                          @click.prevent="is_variant_save=false"
+                          v-if="is_variant_save">
                     {{ $t('prod.Edit') }}
                   </button>
 
