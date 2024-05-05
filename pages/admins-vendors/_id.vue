@@ -250,7 +250,7 @@ export default {
   async mounted() {
     try {
       await this.getVendorUserById()
-      let data =  this.getAllRoles({
+      await this.getAllRoles({
         params:{
           "type": ""
         },
