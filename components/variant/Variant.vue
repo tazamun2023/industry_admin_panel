@@ -1738,7 +1738,7 @@ export default {
 
       const res = await this.setById({
         id: id,
-        params: {result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true},
+        params: {result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true, tab: this.openTab},
         api: this.setApi
       })
 
@@ -2017,6 +2017,7 @@ export default {
   async mounted() {
     if (this.is_edit){
       this.variants = this.variantsData
+      this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     }else {
       this.result.product_variants.forEach((variant) => {
         this.result.sku = ''
