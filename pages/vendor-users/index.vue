@@ -36,20 +36,11 @@
             class="link"
             :to="`/vendor-users/${value.id}`"
           >
-            <h5 class="mx-w-300x">{{ value.name }}</h5>
+            <h5 class="mx-w-300x">{{ value.name[currentLanguage.code] }}</h5>
           </nuxt-link>
         </td>
         <td>{{ value.username }}</td>
         <td>{{ value.email }}</td>
-<!--        <td>
-          <span
-            v-for="(i, n) in value.role"
-            :key="n"
-          >
-            {{ i.name }}
-          </span>
-        </td>-->
-
         <td>{{ value.role[0] }}</td>
 
         <td>
@@ -129,19 +120,17 @@
                   </div>
 
                   <div class="input-wrapper" v-if="$can('assign_roles')">
-
                     <ValidationProvider  class="w-full"  name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
                       <label class="w-full" for="">{{ $t('user.role') }}</label>
                       <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
                         <option value="">Select role</option>
                         <option value="vendor">Vendor</option>
-                        <option value="vendor_admin">Vendor Admin</option>
-                        <option value="vendor_supervisor">Vendor Supervisor</option>
-                        <option value="vendor_user">Vendor User</option>
+                        <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
                       </select>
                       <span class="error">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
+
                   <div class="input-wrapper">
                     <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
                   </div>
@@ -186,7 +175,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
           roles: '',
           isVerified:'',
           vendor_id: '',
-          type:'admin',
+          type:'vendor',
         },
         errors:[],
         loading:false
@@ -202,6 +191,8 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     mixins: [util],
     computed: {
       ...mapGetters('admin', ['profile']),
+      ...mapGetters('vendor', [ 'AllRole']),
+      ...mapGetters('language', ['currentLanguage']),
     },
     watch:{
       profile(){
@@ -209,7 +200,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
       }
     },
     methods: {
-      ...mapActions('vendor', ['sentInvitation']),
+      ...mapActions('vendor', ['sentInvitation', 'getAllRoles']),
       ...mapActions('ui', ['setToastMessage', 'setToastError']),
       async formSubmit(){
         this.loading  = true
@@ -244,8 +235,19 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
       }
 
     },
-    mounted() {
+  async  mounted() {
       this.userInfo.vendor_id = this.profile?.vendor_id
+      try {
+        await this.getAllRoles({
+          params:{
+            "type": "vendor"
+          },
+          api:"getRoleByType"
+        })
+      }catch (e) {
+        return this.$nuxt.error(e)
+      }
+
     }
   }
 </script>
