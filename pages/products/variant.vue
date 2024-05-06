@@ -243,6 +243,7 @@ export default {
           }
         }
 
+
         // Object.keys(res).length
         this.result = {
           parentCategory: res[0]?.category?.id,
@@ -342,6 +343,21 @@ export default {
         this.result.category_id = res[0]?.child_category?.id
         this.result.childCategory = res[0]?.child_category?.id
 
+
+        let productVariants1 = [];
+
+        for (let key in res) {
+          if (!isNaN(key)) {
+            let productVariant = {
+              name: res[key]?.product_variant?.name||'',
+              color_name: res[key]?.product_variant?.color.name?.en||'',
+              value: res[key]?.product_variant?.value||'',
+              product_id: res[key]?.product_variant?.product_id||'',
+            };
+            productVariants1.push(productVariant);
+          }
+        }
+
         for (let key in res) {
           // Check if the key is a number
           if (!isNaN(key)) {
@@ -356,7 +372,7 @@ export default {
               variants_type: [],
               product_variant: res[key].product_variant,
               variant_uu_id: res[key]?.variant_uuid,
-              product_variants: res[key].product_variant,
+              product_variants: productVariants1,
               features: res[key].product_features?.map(item => (item.name)) || [
                 {"ar": "", "en": ""},
               ],

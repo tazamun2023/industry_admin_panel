@@ -512,16 +512,35 @@ export default {
       }
     },
 
+    // async updateQty(id, event) {
+    //   let available_quantity = event.target.value;
+    //
+    //   if (available_quantity !== '') {
+    //     await this.setById({
+    //       id: id,
+    //       params: {available_quantity: available_quantity},
+    //       api: 'setAvailableQty'
+    //     }).then(data => {
+    //       console.log(data)
+    //     })
+    //   }
+    // },
     async updateQty(id, event) {
       let available_quantity = event.target.value;
-      if (available_quantity !== '') {
+
+      // Validate if input is a valid number and within the specified range
+      if (/^\d+$/.test(available_quantity) && available_quantity >= 0 && available_quantity <= 99999999) {
         await this.setById({
           id: id,
-          params: {available_quantity: available_quantity},
+          params: { available_quantity: available_quantity },
           api: 'setAvailableQty'
         }).then(data => {
-          console.log(data)
-        })
+          console.log(data);
+        });
+      } else {
+        // If input is not a valid number or out of range, reset input value to empty string
+        event.target.value = '';
+        this.setToastError(this.$t('prod.Input value must be a number between 0 and 99999999'));
       }
     },
     // checkInput(index) {
@@ -586,8 +605,8 @@ export default {
         this.$router.go()
       }
     },
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setRequest'])
-
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setRequest']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   mounted() {
 

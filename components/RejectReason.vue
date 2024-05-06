@@ -34,6 +34,7 @@ export default {
   data() {
     return {
       setRejectApi: 'setRejectProduct',
+      loading: false,
       allRejectReasons: [],
       rejected: {
         status: 'rejected',
@@ -103,12 +104,13 @@ export default {
 
     async fetchingData() {
       try {
-        this.loading = true
-        const {data} = await this.getRequest({params: {...this.param}, api: this.getApi });
-        this.allRejectReasons = data;
-        this.loading = false
-      } catch (e) {
-        return this.$nuxt.error(e)
+        this.loading = true;
+        let data = await this.getRequest({ params: { ...this.param }, api: this.getApi });
+        this.allRejectReasons = data.all_reject_reasons;
+      } catch (error) {
+        this.$nuxt.error(error);
+      } finally {
+        this.loading = false;
       }
     },
 
@@ -153,6 +155,9 @@ export default {
               ></textarea>
 
             </div>
+          </div>
+          <div class="flex justify-center items-center h-full" v-if="loading">
+            <spinner />
           </div>
         </div>
         <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2"

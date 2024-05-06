@@ -320,24 +320,25 @@
                   <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
                   <!--                Send for review-->
                   <!--              </button>-->
-                  <button type="button" class="btn text-white bg-primary hover:text-primary"
-                          @click.prevent="doVariantSave"
-                          v-if="!is_variant_save">
+                  <button v-if="!is_variant_save && !is_variant_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
                     {{ $t('prod.Save') }}
                   </button>
 
-                  <button type="button" class="btn text-white bg-primary hover:text-primary"
-                          @click.prevent="is_variant_save=false"
-                          v-if="is_variant_save">
+                  <button v-if="is_variant_edit && !is_variant_save_after_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantEdit">
                     {{ $t('prod.Edit') }}
                   </button>
 
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantReset" :class="!is_variant_save?'cursor-not-allowed':''">
+                  <button v-if="is_variant_save_after_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
+                    {{ $t('prod.Save') }}
+                  </button>
+                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary" @click.prevent="doVariantReset">
                     <span>{{ $t('prod.Reset') }}</span>
                   </button>
-                  <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave" :class="!is_variant_save?'cursor-not-allowed':''">
-                    <span>{{ $t('prod.CANCEL') }}</span>
+
+                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary" @click.prevent="doVariantCancel">
+                    <span>{{ $t('prod.Cancel') }}</span>
                   </button>
+
                 </div>
                 <div class="my-10"></div>
                 <div class="tab-sidebar p-3" v-if="is_variant">
@@ -520,15 +521,17 @@
           <div class="my-10"></div>
             <!--          BasicInformationChild-->
             <!-- ------------------------------------- -->
-            <div class="my-10"></div>
             <!-- ------------------------------------- -->
             <!--          ProductImages-->
-
-            <div class="tab-sidebar p-3" v-if="!is_variant">
+            <ValidationProvider name="Image" :rules="ProductImageValidationRules" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
+            <div class="tab-sidebar p-3" v-if="!is_variant" :class="{ 'has-error': errors[0] }">
 
               <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :old_images="result.images" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
 
             </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
             <!--          ProductImages-->
             <!-- ------------------------------------- -->
 
@@ -548,7 +551,7 @@
               <p class="text-sm">
                 {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
               <div class="grid grid-cols-2 gap-4">
-                <ValidationProvider name="barcode_type" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Barcode type" :rules="NotDraftValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode type')}) }">
                   <div class="input-wrapper mt-3 mt-sm-0">
                     <label class="w-full">{{ $t('prod.Barcode type') }}</label>
@@ -613,7 +616,7 @@
                 <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
                 <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
               </div>
-              <ValidationProvider name="available_quantity" :rules="availableQuantityValidationRules"
+              <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
                                   v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
                 <div class="input-wrapper">
@@ -1006,8 +1009,6 @@
                     <td class="p-2">
                       <ValidationProvider :name="'quantity_' + index" :rules="QuantityValidationRules" v-slot="{ errors }"
                                           :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
-<!--                                          <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"-->
-<!--                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">-->
                       <input
                         type="text"
                         class="form-control"
@@ -1029,23 +1030,23 @@
                                @keypress="onlyNumber"
                                v-model="product_price.unit_price">
                       </div>
-                                            <span class="error">{{ errors[0] }}</span>
+<!--                                            <span class="error">{{ errors[0] }}</span>-->
                                           </ValidationProvider>
                     </td>
                     <td class="p-2">
-                                          <ValidationProvider name="selling price" :rules="PriceValidationRules" v-slot="{ errors }"
-                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
-                      <div class="relative flex">
-                        <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
-                        <input type="text" style="padding: 1px 56px;" class="form-control px-20"
-                               :class="{ 'has-error': checkPricing===index }"
-                               :placeholder="$t('prod.Sale price')"
-                               @keypress="onlyNumber"
-                               v-model="product_price.selling_price">
-                      </div>
-                      <span class="error" v-if="checkPricing===index">{{ $t('prod.Selling price must be less then unit price') }}</span>
-                                            <span class="error">{{ errors[0] }}</span>
-                                          </ValidationProvider>
+                      <ValidationProvider :name="`Sale price ${index}`" :rules="PriceValidationRules" v-slot="{ errors }"
+                                          :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
+                        <div class="relative flex">
+                          <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
+                          <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                                 :class="{ 'has-error': errors[0] }"
+                                 :placeholder="$t('prod.Sale price')"
+                                 @keypress="onlyNumber"
+                                 v-model="product_price.selling_price">
+                        </div>
+                        <span class="error" >{{ errors[0] }}</span>
+                      </ValidationProvider>
+
                     </td>
                     <td class="p-2">
                       <button type="button" class="btn  btn-outline-secondary"
@@ -1217,7 +1218,6 @@
                     {{ $t('prod.Save Draft') }}
                   </button>
                   <button type="button" class="btn bg-primary text-white border-secondary"
-                          :disabled="checkPricing!==false || !result.product_prices[0].quantity || !result.product_prices[0].unit_price|| !result.product_prices[0].selling_price"
                           @click.prevent="handleSubmit(doSubmit)">
                     {{ $t('prod.Send for review') }}
                   </button>
@@ -1350,6 +1350,20 @@ extend('quantityComparison', {
   params: ['first', 'second', 'third'],
   message: 'Invalid quantities comparison'
 });
+// Custom rule for quantity comparison
+extend('priceComparison', {
+  validate(value, { unit_prices, selling_prices }) {
+    for (let i = 0; i < unit_prices.length; i++) {
+      if (selling_prices[i] > unit_prices[i]) {
+        return 'The selling price must be smaller than the unit price!';
+      }
+    }
+    return true;
+  },
+  params: ['unit_prices', 'selling_prices'],
+  message: 'Invalid price comparison'
+});
+
 
 
 
@@ -1361,6 +1375,8 @@ export default {
       is_next: false,
       variant_uu_id: '',
       is_variant_save: false,
+      is_variant_edit: false,
+      is_variant_save_after_edit: false,
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
@@ -1652,8 +1668,8 @@ export default {
 
       if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
         for (let i = 0; i < allPrices.length; i++) {
-          const unitPrice = parseInt(allPrices[i]?.unit_price);
-          const sellingPrice = parseInt(allPrices[i]?.selling_price);
+          const unitPrice = parseFloat(allPrices[i]?.unit_price);
+          const sellingPrice = parseFloat(allPrices[i]?.selling_price);
 
           if (unitPrice > sellingPrice) {
             continue; // If any unit price is greater than selling price, return false immediately
@@ -1666,13 +1682,25 @@ export default {
       // If all unit prices are less than or equal to selling prices, return true
     },
     PriceValidationRules() {
+      const unit_prices = [];
+      const selling_prices = [];
+
+      this.result.product_prices.forEach(price => {
+        // Check if selling price is not null before pushing into arrays
+        if (price?.selling_price !== null) {
+          unit_prices.push(parseInt(price?.unit_price));
+          selling_prices.push(parseInt(price?.selling_price));
+        }
+      });
+
       return {
         required: !this.is_draft,
         min_value: 1, // Pass allSKus as a parameter to uniqueSku
         max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
+        priceComparison: { unit_prices, selling_prices }
       };
-
     },
+
     QuantityValidationRules() {
       return {
         required: !this.is_draft,
@@ -1688,12 +1716,13 @@ export default {
     availableQuantityValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1
+        min_value: 0,
+        max_value: 99999999,
       };
     },
     BarcodeValidationRules() {
       let validationRules = {
-        required: !this.is_draft && this.result.barcode_type !== 4
+        required: !this.is_draft && this.result.barcode_type != 4
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1744,6 +1773,11 @@ export default {
     NotDraftValidationRules() {
       return {
         required: !this.is_draft
+      };
+    },
+    ProductImageValidationRules() {
+      return {
+        required: this.result.product_images.length===0
       };
     },
     CartonDimensionValidationRules() {
@@ -1997,19 +2031,17 @@ export default {
       return uuid;
     },
     async doVariantReset() {
-      if (this.is_variant_save){
-        const confirmation = await this.$swal({
-          title: "Are you sure?",
-          icon: "question",
-          iconHtml: "؟",
-          confirmButtonText: "Yes",
-          cancelButtonText: "Noا",
-          showCancelButton: true,
-          showCloseButton: true,
-        });
-        if (confirmation.value) {
-          this.result.product_variants = []
-        }
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+      if (confirmation.value) {
+        this.result.product_variants = []
       }
     },
 
@@ -2017,20 +2049,36 @@ export default {
       this.pv_type = !this.pv_type;
     },
 
+    doVariantCancel() {
+      this.is_variant_save = true; // Assuming canceling resets to Save mode
+      this.is_variant_edit = true;
+      this.is_variant_save_after_edit = false;
+    },
+    doVariantEdit() {
+      this.is_variant_save = false;
+      this.is_variant_edit = true;
+      this.is_variant_save_after_edit = true;
+    },
+
     doVariantSave() {
-      if (this.is_variant_save){
-        if (this.result.product_variants.length === 0) {
-          this.setToastMessage(this.$t('prod.No variants added'))
-          // this.$swal({
-          //   icon: "error",
-          //   title: "No variants added!",
-          //   showConfirmButton: false,
-          //   timer: 1000
-          // });
-          return false;
-        }else {
-          this.is_variant_save = !this.is_variant_save
+      // Check if product_variants is not empty
+      if (this.result.product_variants.length !== 0) {
+        // Iterate through each variant
+        for (let i = 0; i < this.result.product_variants.length; i++) {
+          // Check if any variant has missing name or value
+          if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+            // Show error message and exit loop early
+            this.setToastError(this.$t('prod.Color or value cant empty value'));
+            return;
+          }
         }
+        // If all variants have name and value, toggle save and edit flags
+        this.is_variant_save = true;
+        this.is_variant_edit = true;
+        this.is_variant_save_after_edit = false;
+      } else {
+        // If there are no variants, show error message
+        this.setToastError(this.$t('prod.Color or value cant empty value'));
       }
     },
 
