@@ -12,7 +12,7 @@
         </svg>
       </div>
     </div>
-      <multi-select  :disabled="tap !== 1" :options="orderStatus" @checked="onCheck" selected-all="true" label="name" 
+      <multi-select  :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name" 
       :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
     <select class="p-2 border rounded capitalize border-smooth" name="" id="" v-model="search.invoice_status"
       v-if="invoice_status">
@@ -60,20 +60,29 @@ export default {
       },
       orderStatus: [
         { id: 1, name: "all", value: "all" },
-        { id: 2, name: "order placed", value: "pending" },
+        { id: 2, name: "order placed", value: "placed" },
         { id: 3, name: "received", value: "received" },
         { id: 4, name: "partial received", value: "partial_received" },
         { id: 5, name: "delivered", value: "delivered" },
         { id: 6, name: "partial delivered", value: "partial_delivered" },
         { id: 7, name: "pending cancellation", value: "pending_cancellation" },
         { id: 8, name: "cancelled", value: "cancelled" },
-        { id: 9, name: "ready to ship", value: "approved" },
+        { id: 9, name: "ready to ship", value: "ready_to_ship" },
         { id: 10, name: "order picked", value: "order_picked" },
         { id: 11, name: "out for pickup", value: "out_for_pickup" },
         { id: 12, name: "out for delivery", value: "out_for_delivery" },
         { id: 13, name: "out for delivery", value: "out_for_delivery" },
         { id: 14, name: "dispute", value: "dispute" },
         { id: 15, name: "in transit", value: "in_transit" },
+      ],
+      orderStatusAdmin: [
+        { id: 1, name: "all", value: "all" },
+        { id: 2, name: "order placed", value: "placed" },
+        { id: 3, name: "pending", value: "pending" },
+        { id: 4, name: "in progress", value: "in_progress" },
+        { id: 5, name: "delivered", value: "delivered" },
+        { id: 8, name: "reject", value: "reject" },
+        { id: 9, name: "approved", value: "approved" },
       ],
       paymentStatuses: [
         { value: 'pending', label: 'pending' },
