@@ -40,7 +40,7 @@
     </div>
 
     <div class="input-wrapper">
-      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="userInfo.name"
+      <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="name"
                   @updateInput="updateInput">
       </lang-input>
     </div>
