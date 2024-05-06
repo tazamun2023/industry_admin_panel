@@ -391,6 +391,7 @@
     "Selling price must be less then unit price": "Selling price must be less then unit price",
     "Reset": "Reset",
     "Next": "Next",
+    "CANCEL": "CANCEL",
     "Cancel": "Cancel",
     "Input value must be a number between 0 and 99999999": "Input value must be a number between 0 and 99999999",
     "Add Row": "Add Row",
