@@ -242,10 +242,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete' && variant.result.id">
+            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.id">
               <td class="p-4 border border-smooth">
                 <lazy-image
-                  v-if="variant.result?.product_images"
                   class="mr-20 w-10 md:w-10 max-w-full max-h-full"
                   :data-src="variant.result.product_images[0]?.url"
                   :alt="variant.result?.product_variant?.color?.name?.en"
@@ -276,11 +275,6 @@
                 {{ variant.result.sku }}
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
-                <!-- <div class="flex justify-between">
-                  <div> </div>
-                  <div>{{ $t('prod.Price') }}</div>
-                  <div>{{ $t('prod.Sale price') }}</div>
-                </div> -->
 
                 <div class="flex justify-between gap-4" v-for="(product_price, index) in variant.result.product_prices" :key="index">
                   <div class="w-full p-2">
@@ -466,17 +460,21 @@
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
+        <ValidationProvider name="Image" rules="required" v-slot="{ errors }"
+                            :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
       <div class="tab-sidebar p-3">
-        <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
+        <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
+        <span class="error">{{ errors[0] }}</span>
       </div>
+        </ValidationProvider>
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
       <div class="tab-sidebar p-3" v-if="openTab !== 'parent'">
-        <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
+        <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }} </h4>
         <p class="text-sm">
           {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
         <div class="grid grid-cols-2 gap-4">
-          <ValidationProvider name="barcode_type" :rules="NotDraftValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="barcode_type" :rules="{required: true}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode type')}) }">
           <div class="input-wrapper mt-3 mt-sm-0">
             <label class="w-full">{{ $t('prod.Barcode type') }}</label>
@@ -488,7 +486,7 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="barcode" :rules="BarcodeValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="barcode" :rules="BarcodeValidationRules " v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode')}) }">
           <div class="form-group input-wrapper mt-3 mt-sm-0">
             <label>{{ $t('prod.Barcode') }}</label>
@@ -529,7 +527,7 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
           <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
         </div>
-        <ValidationProvider name="available_quantity" :rules="availableQuantityValidationRules"
+        <ValidationProvider name="available_quantity" :rules="{required: true, min_value: 1}"
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
         <div class="input-wrapper" v-if="openTab !== 'parent'">
@@ -550,7 +548,7 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
         <div class="grid grid-cols-2 gap-4">
-          <ValidationProvider name="pk_size" :rules="NotDraftValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Size') }} ?</label>
@@ -578,7 +576,7 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="pk_number_of_carton" :rules="NotDraftValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Number of units per carton" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Number of units per carton') }}</label>
@@ -594,7 +592,7 @@
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
 
-          <ValidationProvider name="average lead time" :rules="AverageLeadValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="average lead time" :rules="{required: true, min_value: 1, max_value: 99}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Average lead time(Days)')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label>
@@ -635,16 +633,11 @@
         <p>
           {{ $t("prod.Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the products shipping container") }}.</p>
         <div class="grid grid-cols-2 gap-4">
-          <ValidationProvider name="carton weight" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Carton weight" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Weight') }} ?</label>
             <div class="relative flex input-group gap-4 mb-3">
-<!--              <input type="text" class="form-control pr-12" placeholder="Carton Weight"-->
-<!--                     aria-label="Recipient's username"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     :class="{invalid: !is_draft && (result.pc_weight===null) && hasError}"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pc_weight">-->
               <input
                 type="text"
                 class="form-control pr-12"
@@ -666,16 +659,11 @@
             <span class="error">{{ errors[0] }}</span>
           </div>
           </ValidationProvider>
-          <ValidationProvider name="carton length" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="carton length" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Length') }} ?</label>
             <div class="relative flex input-group gap-4 mb-3">
-<!--              <input type="text" class="form-control pr-12" placeholder="Carton Length"-->
-<!--                     aria-label="Recipient's username"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     :class="{invalid: !is_draft && (result.pc_length===null) && hasError}"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pc_length">-->
               <input
                 type="text"
                 class="form-control pr-12"
@@ -697,16 +685,11 @@
             <span class="error">{{ errors[0] }}</span>
           </div>
           </ValidationProvider>
-          <ValidationProvider name="carton height" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Carton height" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Height') }} ?</label>
             <div class="relative flex input-group gap-4 mb-3">
-<!--              <input type="text" class="form-control pr-12" placeholder="Carton Height"-->
-<!--                     aria-label="Recipient's username"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     :class="{invalid: !is_draft && (result.pc_height===null) && hasError}"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pc_height">-->
               <input
                 type="text" class="form-control pr-12"
                 :class="{ 'has-error': errors[0] }"
@@ -727,16 +710,11 @@
           </div>
           </ValidationProvider>
 
-          <ValidationProvider name="carton width" :rules="CartonDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="Carton width" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Width') }} ?</label>
             <div class="relative flex input-group gap-4 mb-3">
-<!--              <input type="text" class="form-control pr-12" placeholder="Carton Width"-->
-<!--                     aria-label="Recipient's username"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     :class="{invalid: !is_draft && (result.pc_width===null) && hasError}"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pc_width">-->
               <input
                 type="text"
                 class="form-control pr-12"
@@ -767,7 +745,7 @@
       <div class="tab-sidebar p-3">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
         <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
-        <ValidationProvider name="product dimention weight" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+        <ValidationProvider name="product dimention weight" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
@@ -797,7 +775,7 @@
           </div>
         </ValidationProvider>
         <div class="grid grid-cols-4 gap-4">
-          <ValidationProvider name="product dimention length" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="product dimention length" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Length') }} ?</label>
@@ -813,15 +791,11 @@
             <span class="error">{{ errors[0] }}</span>
           </div>
           </ValidationProvider>
-          <ValidationProvider name="product dimention height" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="product dimention height" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Height') }} ?</label>
             <div class="input-group mb-3">
-<!--              <input type="text" class="form-control" placeholder="Enter Height" aria-label="Recipient's username"-->
-<!--                     :class="{invalid: !is_draft && (result.pdime_height === null) && hasError}"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pdime_height">-->
               <input
                 type="text"
                 class="form-control"
@@ -833,15 +807,11 @@
             <span class="error">{{ errors[0] }}</span>
           </div>
           </ValidationProvider>
-          <ValidationProvider name="product dimention width" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+          <ValidationProvider name="product dimention width" :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Width') }} ?</label>
             <div class="input-group mb-3">
-<!--              <input type="text" class="form-control" placeholder="Enter Width" aria-label="Recipient's username"-->
-<!--                     :class="{invalid: !is_draft && (result.pdime_width===null) && hasError}"-->
-<!--                     @keypress="onlyNumber"-->
-<!--                     aria-describedby="button-addon2" v-model="result.pdime_width">-->
               <input
                 type="text"
                 class="form-control"
@@ -873,14 +843,6 @@
         <div class="input-wrapper">
           <label for="">{{ $t('prod.Unit of measure') }} ?</label>
           <div class="input-group mb-3">
-<!--            <select -->
-<!--              class="border p-3 w-50 border-smooth rounded-lg uppercase"-->
-<!--                    disabled-->
-<!--                    :class="{invalid: !is_draft && result.unit_id === 0  && hasError}"-->
-<!--                    v-model="variants[openTab].result.unit_id">-->
-<!--              <option value="0">{{ $t('prod.Unit') }}</option>-->
-<!--              <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{ item.name }}</option>-->
-<!--            </select>-->
             <select class="border p-3 border-smooth rounded-lg uppercase" disabled
                     v-model="variants[openTab]?.result.unit_id">
               <option value="">{{ $t('prod.Unit') }}</option>
@@ -908,17 +870,8 @@
 
             <tr v-for="(product_price, index) in variants[openTab].result.product_prices" :key="index">
               <td class="p-2">
-                <ValidationProvider name="quantity" :rules="PriceValidationRules" v-slot="{ errors }"
-                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Minimum order quantity')}) }">
-<!--                <input-->
-<!--                  type="text"-->
-<!--                  class="form-control"-->
-<!--                  placeholder="Enter Quantity"-->
-<!--                  @keypress="onlyNumber"-->
-<!--                  v-model="product_price.quantity"-->
-<!--                  @input="stockCheck(index)"-->
-<!--                  :class="{invalid: hasErrorQty}"-->
-<!--                >-->
+                <ValidationProvider name="quantity" :rules="QuantityValidationRules" v-slot="{ errors }"
+                                    :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
                   <input
                     type="text"
                     class="form-control"
@@ -931,7 +884,7 @@
                 </ValidationProvider>
               </td>
               <td class="p-2">
-                <ValidationProvider name="unit price" :rules="PriceValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
                 <div class="relative flex">
                   <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
@@ -943,16 +896,17 @@
                 </ValidationProvider>
               </td>
               <td class="p-2">
-                <ValidationProvider name="selling price" :rules="PriceValidationRules" v-slot="{ errors }"
+                <ValidationProvider :name="`Sale price`" :rules="PriceValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
-                <div class="relative flex">
-                  <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
-                  <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
-                         @keypress="onlyNumber"
-                         v-model="product_price.selling_price">
-                </div>
-                  <span class="error" v-if="checkPricing===index">{{ $t('prod.Selling price must be less then unit price') }}</span>
-                  <span class="error">{{ errors[0] }}</span>
+                  <div class="relative flex">
+                    <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
+                    <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                           :class="{ 'has-error': errors[0] }"
+                           :placeholder="$t('prod.Sale price')"
+                           @keypress="onlyNumber"
+                           v-model="product_price.selling_price">
+                  </div>
+                  <span class="error" >{{ errors[0] }}</span>
                 </ValidationProvider>
               </td>
               <td class="p-2">
@@ -1012,7 +966,7 @@
           </div>
 
           <div class="col-md-6">
-            <ValidationProvider name="storage temperature" :rules="NotDraftValidationRules" v-slot="{ errors }"
+            <ValidationProvider name="storage temperature" :rules="{required: true}" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Storage temperature')}) }">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Storage temperature') }}</label>
@@ -1244,15 +1198,6 @@
                   </button>
                 </div>
               </div>
-<!--              <div class="flex justify-end gap-4 pt-3">-->
-<!--                <button type="submit" class="btn text-white bg-primary">-->
-<!--                  SAVE-->
-<!--                </button>-->
-
-<!--                <button @click="varientModal = false" class="btn bg-light">-->
-<!--                  <span>CANCEL</span>-->
-<!--                </button>-->
-<!--              </div>-->
             </div>
           </div>
           <!-- Close Button -->
@@ -1300,6 +1245,43 @@ extend('uniqueSku', {
   params: ['allSKus'], // Define the parameter name as allSKus
   message: 'SKU must be unique'
 });
+
+// Custom rule for quantity comparison
+extend('quantityComparison', {
+  validate(value, { first, second, third }) {
+    if (!first || !second) {
+      return true; // If any quantity is missing, let required rule handle it
+    }
+
+    if (first > second) {
+      return 'Second quantity must be greater than the first';
+    }
+
+    if (third && second > third) {
+      return 'Third quantity must be greater than the second';
+    }
+
+    return true;
+  },
+  params: ['first', 'second', 'third'],
+  message: 'Invalid quantities comparison'
+});
+// Custom rule for quantity comparison
+extend('priceComparison', {
+  validate(value, { unit_prices, selling_prices }) {
+    for (let i = 0; i < unit_prices.length; i++) {
+      if (selling_prices[i] > unit_prices[i]) {
+        return 'The selling price must be smaller than the unit price!';
+      }
+    }
+    return true;
+  },
+  params: ['unit_prices', 'selling_prices'],
+  message: 'Invalid price comparison'
+});
+
+
+
 export default {
   name: "Variant",
   inject: [],
@@ -1436,78 +1418,64 @@ export default {
       return isNaN(this.$route?.params?.id)
     },
 
-    AverageLeadValidationRules() {
-      return {
-        required: true,
-        min_value: 1,
-        max_value: 99
-      };
-    },
-    NotDraftValidationRules() {
-      return {
-        required: true
-      };
-    },
-    availableQuantityValidationRules() {
-      return {
-        required: true,
-        min_value: 1
-      };
-    },
     skuRules() {
       if (this.openTab !== 'parent') {
         const allSKus = this.allSKus;
         return {
-          required: Boolean(this.variants[this.openTab].result.id),
+          required: !this.variants[this.openTab].result.id,
           uniqueSku: allSKus, // Pass allSKus directly
           min: 2,
           max: 32
         };
       }
-
-
     },
-    checkPricing() {
-      if (this.openTab !== 'parent'){
-        const allPrices = this.variants[this.openTab]?.result.product_prices;
-        if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
-          for (let i = 0; i < allPrices.length; i++) {
-            const unitPrice = parseInt(allPrices[i]?.unit_price);
-            const sellingPrice = parseInt(allPrices[i]?.selling_price);
 
-            if (unitPrice > sellingPrice) {
-              continue; // If any unit price is greater than selling price, return false immediately
-            } else {
-              return i
-            }
-          }
-        }
-        return false;
-      }
-
-      // If all unit prices are less than or equal to selling prices, return true
-    },
-    PriceValidationRules() {
+    PackagingValidationRules(){
       return {
         required: !this.is_draft,
-        min_value: 1, // Pass allSKus as a parameter to uniqueSku
-        max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
+        min_value: 1,
+        max_value: 99999999,
       };
+    },
+    PriceValidationRules() {
+      const unit_prices = [];
+      const selling_prices = [];
 
+      this.variants[this.openTab]?.result.product_prices.forEach(price => {
+        // Check if selling price is not null before pushing into arrays
+        if (price?.unit_price !== null && price?.selling_price !== null) {
+          unit_prices.push(parseFloat(price?.unit_price));
+          selling_prices.push(parseFloat(price?.selling_price));
+        }
+      });
+
+      return {
+        min_value: 1,
+        max_value: 99999999,
+        regex: /^(?:\d*\.\d{1,2}|\d+)$/,
+        priceComparison: { unit_prices, selling_prices }
+      };
     },
-    ProductDimensionValidationRules() {
+    QuantityValidationRules() {
       return {
         required: true,
         min_value: 1,
-        max_value: 99999999
+        max_value: 99999999,
+        regex: /^\d+$/,
+        quantityComparison: {
+          first: parseInt(this.variants[this.openTab]?.result.product_prices[0]?.quantity),
+          second: parseInt(this.variants[this.openTab]?.result.product_prices[1]?.quantity),
+          third: parseInt(this.variants[this.openTab]?.result.product_prices[2]?.quantity)
+        }
       };
     },
-    CartonDimensionValidationRules() {
-      return {
+    UnitPriceValidationRules(){
+      return{
         required: true,
         min_value: 1,
-        max_value: 99999999
-      };
+        max_value: 99999999,
+        regex: /^(?:\d*\.\d{1,2}|\d+)$/
+      }
     },
 
     BarcodeValidationRules() {
@@ -1619,12 +1587,11 @@ export default {
         // });
         return false;
       }else {
-        this.is_variant_save = !this.is_variant_save
-        this.varientModal = false
-        this.variants[0].result.sku = ''
-        this.variants[0].result.status = 'incomplete'
-        this.variants[0].result.is_variant = true
-        this.variants.push({ result: { ...this.variants[0].result, id: '', product_images: [] } });
+        this.is_variant_save = !this.is_variant_save;
+        this.varientModal = false;
+        const newVariant = { result: { ...this.variants[0].result, id: '', product_images: [], sku: '', status:'incomplete', is_variant: true } };
+        this.variants.splice(this.variants.length, 0, newVariant);
+
       }
     },
 
@@ -1702,24 +1669,6 @@ export default {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      if (this.validationKeysIfNotVariant.findIndex((i) => {
-        return (!this.result[i])
-      }) > -1) {
-        this.hasError = true
-        return false
-      }
-      if (this.result.storage_temperature === 0) {
-        this.result.storage_temperature = null
-      }
-      if (this.result.brand_id === 0) {
-        this.result.brand_id = null
-      }
-      if (this.result.barcode_type === 0) {
-        this.result.barcode_type = null
-      }
-      if (this.result.unit_id === 0) {
-        this.result.unit_id = null
-      }
       this.variants[this.openTab].result.status = 'pending'
       if (this.variant_uuid_global){
         this.variants[this.openTab].result.variant_uu_id = this.variant_uuid_global
@@ -1729,98 +1678,98 @@ export default {
       // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
 
-      const res = await this.setById({
-        id: id,
-        params: {result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true},
-        api: this.setApi
-      })
+      try {
+        const res = await this.setById({
+          id: id,
+          params: { result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true, tab: this.openTab },
+          api: this.setApi
+        });
+        if (res) {
+          // Initialize this.variants[this.openTab] if it doesn't exist
+          if (!this.variants[this.openTab]) {
+            this.variants[this.openTab] = {};
+          }
 
-      if (res) {
-        // Initialize this.variants[this.openTab] if it doesn't exist
-        if (!this.variants[this.openTab]) {
-          this.variants[this.openTab] = {};
+          // Initialize this.variants[this.openTab].result if it doesn't exist
+          if (!this.variants[this.openTab].result) {
+            this.variants[this.openTab].result = {};
+          }
+          this.variant_uuid_global = res.variant_uuid
+
+          // Assign properties from res to this.variants[this.openTab].result
+          this.variants[this.openTab].result = {
+            title: res.title,
+            variant_uu_id: res.variant_uu_id,
+            description: res.description,
+            parentCategory: res.category?.id,
+            subCategory: res.sub_category?.id,
+            childCategory: res.child_category?.id,
+            product_prices: res.product_prices,
+            unit_id: res.unit_id,
+            features: res.product_features?.map(item => item.name),
+            unit: res.unit,
+            brand_id: res.brand_id,
+            meta_title: res.meta_title,
+            meta_description: res.meta_description,
+            selling: res.selling,
+            purchased: res.selling, // Should this be res.purchased?
+            offered: res.offered,
+            images: res.images,
+            product_images: res.images,
+            video: res.video,
+            status: res.status,
+            parent_sku: res.parent_sku,
+            basic_keyword_en: res.basic_keyword_en,
+            basic_keyword_ar: res.basic_keyword_ar,
+            basicInfoAr: res.title,
+            basicInfoEng: res.title,
+            barcode_type: res.barcode_id,
+            barcode: res.barcode_number,
+            sku: res.sku,
+            available_quantity: res.available_quantity,
+            pk_size: res.packaging?.size,
+            pk_size_unit: res.packaging?.size_unit,
+            pk_number_of_carton: res.packaging?.number_of_carton,
+            pk_average_lead_time: res.packaging?.average_lead_time,
+            pk_transportation_mode: res.packaging?.transportation_mode,
+            pc_weight: res.product_carton?.weight,
+            pc_weight_unit_id: res.product_carton?.weight_unit_id,
+            pc_height: res.product_carton?.height,
+            pc_height_unit_id: res.product_carton?.height_unit_id,
+            pc_length: res.product_carton?.length,
+            pc_length_unit_id: res.product_carton?.length_unit_id,
+            pc_width: res.product_carton?.width,
+            pc_width_unit_id: res.product_carton?.width_unit_id,
+            pdime_weight: res.product_dimension?.weight,
+            pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+            pdime_height: res.product_dimension?.height,
+            pdime_length: res.product_dimension?.length,
+            pdime_width: res.product_dimension?.width,
+            pdime_dimention_unit: res.product_dimension?.dimention_unit,
+            pp_quantity: res.product_prices?.map(price => price.quantity),
+            pp_unit_price: res.product_prices?.map(price => price.unit_price),
+            pp_selling_price: res.product_prices?.map(price => price.selling_price),
+            is_ready_to_ship: res.is_ready_to_ship,
+            is_buy_now: res.is_buyable,
+            is_availability: res.is_available,
+            storage_temperature: res.storage_temperature_id,
+            stock_location: res.warehouse_id,
+            country_of_origin: res.product_origin_id,
+            is_dangerous: res.is_dangerous,
+            product_variants: res.product_variant,
+            product_variant: res.product_single_variant ?? [],
+            PriceingRows: res.product_prices,
+            is_variant: !!res.product_variant,
+            additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
+            hts_code: res.hts_code,
+            id: res.id,
+          };
+
+          this.openTab = 'parent'
         }
-
-        // Initialize this.variants[this.openTab].result if it doesn't exist
-        if (!this.variants[this.openTab].result) {
-          this.variants[this.openTab].result = {};
-        }
-        this.variant_uuid_global = res.variant_uuid
-
-        // Assign properties from res to this.variants[this.openTab].result
-        this.variants[this.openTab].result = {
-          title: res.title,
-          variant_uu_id: res.variant_uu_id,
-          description: res.description,
-          parentCategory: res.category?.id,
-          subCategory: res.sub_category?.id,
-          childCategory: res.child_category?.id,
-          product_prices: res.product_prices,
-          unit_id: res.unit_id,
-          features: res.product_features?.map(item => item.name),
-          unit: res.unit,
-          brand_id: res.brand_id,
-          meta_title: res.meta_title,
-          meta_description: res.meta_description,
-          selling: res.selling,
-          purchased: res.selling, // Should this be res.purchased?
-          offered: res.offered,
-          images: res.images,
-          product_images: res.product_images,
-          video: res.video,
-          status: res.status,
-          parent_sku: res.parent_sku,
-          basic_keyword_en: res.basic_keyword_en,
-          basic_keyword_ar: res.basic_keyword_ar,
-          basicInfoAr: res.title,
-          basicInfoEng: res.title,
-          barcode_type: res.barcode_id,
-          barcode: res.barcode_number,
-          sku: res.sku,
-          available_quantity: res.available_quantity,
-          pk_size: res.packaging?.size,
-          pk_size_unit: res.packaging?.size_unit,
-          pk_number_of_carton: res.packaging?.number_of_carton,
-          pk_average_lead_time: res.packaging?.average_lead_time,
-          pk_transportation_mode: res.packaging?.transportation_mode,
-          pc_weight: res.product_carton?.weight,
-          pc_weight_unit_id: res.product_carton?.weight_unit_id,
-          pc_height: res.product_carton?.height,
-          pc_height_unit_id: res.product_carton?.height_unit_id,
-          pc_length: res.product_carton?.length,
-          pc_length_unit_id: res.product_carton?.length_unit_id,
-          pc_width: res.product_carton?.width,
-          pc_width_unit_id: res.product_carton?.width_unit_id,
-          pdime_weight: res.product_dimension?.weight,
-          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
-          pdime_height: res.product_dimension?.height,
-          pdime_length: res.product_dimension?.length,
-          pdime_width: res.product_dimension?.width,
-          pdime_dimention_unit: res.product_dimension?.dimention_unit,
-          pp_quantity: res.product_prices?.map(price => price.quantity),
-          pp_unit_price: res.product_prices?.map(price => price.unit_price),
-          pp_selling_price: res.product_prices?.map(price => price.selling_price),
-          is_ready_to_ship: res.is_ready_to_ship,
-          is_buy_now: res.is_buyable,
-          is_availability: res.is_available,
-          storage_temperature: res.storage_temperature_id,
-          stock_location: res.warehouse_id,
-          country_of_origin: res.product_origin_id,
-          is_dangerous: res.is_dangerous,
-          product_variants: res.product_variant,
-          product_variant: res.product_single_variant ?? [],
-          PriceingRows: res.product_prices,
-          is_variant: !!res.product_variant,
-          additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
-          hts_code: res.hts_code,
-          id: res.id,
-        };
-        this.openTab = 'parent'
+      } catch (error) {
+        console.error('Error occurred while fetching data:', error);
       }
-
-      this.is_submit.push({
-        tab: this.openTab
-      });
 
 
 
@@ -2010,6 +1959,7 @@ export default {
   async mounted() {
     if (this.is_edit){
       this.variants = this.variantsData
+      this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     }else {
       this.result.product_variants.forEach((variant) => {
         this.result.sku = ''

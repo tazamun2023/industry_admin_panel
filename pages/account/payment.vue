@@ -101,7 +101,7 @@
               <div>
                   <p class="text-primary  text-[14px]">SET AS DEFAULT</p>
                   <div class="text-center">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" :checked="value.is_default">
                   </div>
                 </div>
              </div>
@@ -109,24 +109,25 @@
             <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3" @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
                 <button class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0" @click="deleteModal=true" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
           </div>
+                <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+                  <template v-slot:title>
+                    <h4>{{ $t('vendor.deletemessage') }}</h4>
+                  </template>
+                  <!-- -----------default slot------- -->
+                  <!-- -----------default slot------- -->
+                  <template v-slot:buttons>
+                    <div class="flex gap-4 justify-end">
+                      <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
+                      <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
+                    </div>
+                  </template>
+                </DeleteModal>
       </div>
 
 
             </div>
         </div>
-        <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-              <template v-slot:title>
-                <h4>{{ $t('vendor.deletemessage') }}</h4>
-              </template>
-              <!-- -----------default slot------- -->
-              <!-- -----------default slot------- -->
-              <template v-slot:buttons>
-                <div class="flex gap-4 justify-end">
-                  <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-                  <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
-                </div>
-              </template>
-            </DeleteModal>
+
 <!-- ---------------------------------------------------------------------------------------------- -->
 <!-- <div class="lg:grid lg:grid-cols-3    my-2 gap-4">
           <div class="card p-4" v-for="(value, index) in bankList" :key="index">

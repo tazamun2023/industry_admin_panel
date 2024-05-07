@@ -335,16 +335,16 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
       },
 
     },
-    mounted() {
+   async mounted() {
        try {
-         let data =  this.getAllRoles({
+         await  this.getAllRoles({
             params:{
               "type": "admin"
             },
             api:"getRoleByType"
           })
        }catch (e) {
-
+         return this.$nuxt.error(e)
        }
     }
   }

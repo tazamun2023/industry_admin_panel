@@ -58,23 +58,32 @@ const actions = {
   async nuxtClientInit({commit, state, dispatch}, context) {
     const cookies = document.cookie
 
-    const token = cookies && cookies.includes('admin-panel__token.local=Bearer%20')
-      ? cookies.split('admin-panel__token.local=Bearer%20')[1].split(';')[0] : null
+    var token = cookies && cookies.includes('frontend__token.local=Bearer%20')
+      ? cookies.split('frontend__token.local=Bearer%20')[1].split(';')[0] : null
+
 
     if (token) {
       try {
         const {data} = await Service.getRequest({}, 'Bearer ' + token, 'profile', null)
-        dispatch('admin/setProfile', data.data)
-        dispatch('settingSiteData', data.data)
 
-        if (data.data.languages.length) {
-          await dispatch('language/getLangData', {
-            i18n: context.app.i18n,
-            token: 'Bearer ' + token
-          })
+        console.log('data.status')
+        console.log(data.status)
+        if (data.status == 204) {
+          window.location.replace(process.env.frontBase)
 
-          if (state.language?.currentLanguage?.code) {
-            context.app.i18n.locale = state.language?.currentLanguage?.code
+        } else {
+          dispatch('admin/setProfile', data.data)
+          dispatch('settingSiteData', data.data)
+
+          if (data.data.languages.length) {
+            await dispatch('language/getLangData', {
+              i18n: context.app.i18n,
+              token: 'Bearer ' + token
+            })
+
+            if (state.language?.currentLanguage?.code) {
+              context.app.i18n.locale = state.language?.currentLanguage?.code
+            }
           }
         }
 

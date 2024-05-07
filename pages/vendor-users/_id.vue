@@ -40,13 +40,14 @@
               </li>
             </ul>
           </div>
+
+
           <div class="input-wrapper">
-            <ValidationProvider  class="w-full" name="Name"  v-slot="{ errors }">
-              <label for="">{{ $t('fSale.name') }}</label>
-              <input type="text" :placeholder="$t('fSale.name')" v-model="userInfo.name">
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
+            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="userInfo.name"
+                        @updateInput="updateInput">
+            </lang-input>
           </div>
+
           <div class="input-wrapper">
             <ValidationProvider class="w-full" name="email" rules="required|email" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('fSale.email')})}">
               <label for="">{{ $t('fSale.email') }}</label>
@@ -57,7 +58,7 @@
 
           <div class="input-wrapper">
             <div class="relative">
-              <ValidationProvider class="w-full" name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+              <ValidationProvider class="w-full" name="password" rules="nullable|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
                 <label class="w-full"  for="">{{ $t('user.new_password') }}*</label>
                 <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="userInfo.password" @keyup="checkPassword()">
                 <i
@@ -79,7 +80,7 @@
 
 
           <div class="relative">
-            <ValidationProvider  class="w-full" name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+            <ValidationProvider  class="w-full" name="Confirm_password" rules="nullable" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
               <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
               <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
               <i
@@ -87,6 +88,31 @@
                 :class="!isPasswordTypePassword ? 'eye-icon' : 'eye-close-icon'"
                 @click="passwordFieldToggle()"
               />
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+
+          <div class="input-wrapper">
+            <ValidationProvider  class="w-full"  name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
+              <label class="w-full" for="">{{ $t('user.role') }}</label>
+              <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
+                <option value="">Select role</option>
+                <option value="vendor">Vendor</option>
+                <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
+              </select>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+
+
+          <div class="input-wrapper">
+            <ValidationProvider class="w-full" name="status" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('title.ac')})}">
+              <label class="w-full" for="">{{ $t('title.ac') }}</label>
+              <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.active">
+                <option value="">Select Status</option>
+                <option value="1">{{ $t('util.active') }}</option>
+                <option value="0">{{ $t('util.deactive') }}</option>
+              </select>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
@@ -112,9 +138,11 @@ export default {
   data(){
     return {
       userInfo: {
-        name:'',
+        name:{'ar':'', 'en':''},
+        roles:'',
         email:'',
-        password:''
+        password:'',
+        status:''
       },
       confirmation: '',
       passwordFieldType: 'password',
@@ -127,7 +155,8 @@ export default {
       },
       errors:[],
       loading:false,
-      id:''
+      id:'',
+      hasError: false
     }
   },
   computed:{
@@ -136,6 +165,7 @@ export default {
     },
     ...mapGetters('admin', ['profile']),
     ...mapGetters('language', [ 'languages', 'currentLanguage']),
+    ...mapGetters('vendor', [ 'AllRole']),
   },
   watch:{
     profile(){
@@ -143,8 +173,13 @@ export default {
     }
   },
   methods:{
-    ...mapActions('vendor', ['getUserById', 'updateUserInformation']),
+    ...mapActions('vendor', ['getUserById', 'updateUserInformation', "getAllRoles"]),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
+
+    updateInput(input, language, value) {
+      this.$set(input, language, value);
+    },
+
 
     passwordFieldToggle() {
       if (this.isPasswordTypePassword) {
@@ -175,7 +210,6 @@ export default {
         this.loading = false
 
         if(data?.status === 200){
-          this.$router.push('/admins-vendors')
           this.setToastMessage(data.message)
           this.errors = []
         }else{
@@ -197,7 +231,13 @@ export default {
       this.loading = false
       if(data.status === 200){
         this.userInfo.name = data.data.name
+        this.userInfo.roles = data.data.role[0]
         this.userInfo.email = data.data.email
+        if(data.data.active){
+          this.userInfo.active = 1
+        }else{
+          this.userInfo.active = 0
+        }
         this.errors = []
 
       }else{
@@ -208,7 +248,17 @@ export default {
 
   },
   async mounted() {
-    await this.getVendorUserById()
+    try {
+      await this.getVendorUserById()
+      await this.getAllRoles({
+        params:{
+          "type": "vendor"
+        },
+        api:"getRoleByType"
+      })
+    }catch (e) {
+      return this.$nuxt.error(e)
+    }
   }
 }
 

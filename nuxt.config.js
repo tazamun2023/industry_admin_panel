@@ -1,6 +1,7 @@
 const configJson = require('./jsconfig.json')
 
 const isDemo = process.env.IS_DEMO === 'true'
+const domain = process.env.domain
 let apiBase = !process.env.API_BASE.trim() ? '/' : process.env.API_BASE
 apiBase += configJson.api.url
 
@@ -38,6 +39,7 @@ export default {
   ],
   env: {
     apiBase: process.env.API_BASE,
+    frontBase: process.env.Front_BASE,
     isDemo: isDemo
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -84,15 +86,24 @@ export default {
       home: false,
     },
     cookie:{
+      domain: domain,
+      options: {
+
+        expires: new Date(new Date().getTime() + 20000000000).getTime(), //thats today + a year
+        maxAge: 31622400
+      },
+
       //options: {
         //maxAge: 31622400
      // },
-      prefix: 'admin-panel_'
+      prefix: 'frontend_',
+
     },
     localStorage: false,
     strategies: {
       local: {
         token: {
+          global: true,
           property: 'data.token',
           //maxAge: 60 * 60 * 4, // 4 hours
           // required: true,
