@@ -58,7 +58,7 @@
 
           <div class="input-wrapper">
             <div class="relative">
-              <ValidationProvider class="w-full" name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+              <ValidationProvider class="w-full" name="password" rules="min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
                 <label class="w-full"  for="">{{ $t('user.new_password') }}*</label>
                 <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="userInfo.password" @keyup="checkPassword()">
                 <i
@@ -80,7 +80,7 @@
 
 
           <div class="relative">
-            <ValidationProvider  class="w-full" name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+            <ValidationProvider  class="w-full" name="Confirm_password" rules="" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
               <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
               <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
               <i
@@ -96,7 +96,7 @@
             <ValidationProvider class="w-full" name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
               <label class="w-full" for="">{{ $t('user.role') }}</label>
               <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
-                <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
+                <option v-for="ro in OurRoles" :value="ro.name">{{ ro.name }}</option>
               </select>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
@@ -153,6 +153,7 @@ export default {
       loading:false,
       id:'',
       hasError: false,
+      OurRoles:{}
     }
   },
   computed:{
@@ -250,12 +251,21 @@ export default {
   async mounted() {
     try {
       await this.getVendorUserById()
+
       await this.getAllRoles({
         params:{
           "type": ""
         },
         api:"getRoleByType"
       })
+
+      const result = this.AllRole.filter(function (role) {
+        if(role.type == 'admin'){
+          return role.name;
+        }
+      })
+      this.OurRoles = result
+
     }catch (e) {
 
     }
