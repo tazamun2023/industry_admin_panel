@@ -1685,93 +1685,96 @@ export default {
       // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
 
-      const res = await this.setById({
-        id: id,
-        params: {result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true, tab: this.openTab},
-        api: this.setApi
-      })
+      try {
+        const res = await this.setById({
+          id: id,
+          params: { result: this.variants[this.openTab].result, variant: this.result.product_variants[this.openTab], single_submit: true, tab: this.openTab },
+          api: this.setApi
+        });
+        if (res) {
+          // Initialize this.variants[this.openTab] if it doesn't exist
+          if (!this.variants[this.openTab]) {
+            this.variants[this.openTab] = {};
+          }
 
-      if (res) {
-        // Initialize this.variants[this.openTab] if it doesn't exist
-        if (!this.variants[this.openTab]) {
-          this.variants[this.openTab] = {};
+          // Initialize this.variants[this.openTab].result if it doesn't exist
+          if (!this.variants[this.openTab].result) {
+            this.variants[this.openTab].result = {};
+          }
+          this.variant_uuid_global = res.variant_uuid
+
+          // Assign properties from res to this.variants[this.openTab].result
+          this.variants[this.openTab].result = {
+            title: res.title,
+            variant_uu_id: res.variant_uu_id,
+            description: res.description,
+            parentCategory: res.category?.id,
+            subCategory: res.sub_category?.id,
+            childCategory: res.child_category?.id,
+            product_prices: res.product_prices,
+            unit_id: res.unit_id,
+            features: res.product_features?.map(item => item.name),
+            unit: res.unit,
+            brand_id: res.brand_id,
+            meta_title: res.meta_title,
+            meta_description: res.meta_description,
+            selling: res.selling,
+            purchased: res.selling, // Should this be res.purchased?
+            offered: res.offered,
+            images: res.images,
+            product_images: res.product_images,
+            video: res.video,
+            status: res.status,
+            parent_sku: res.parent_sku,
+            basic_keyword_en: res.basic_keyword_en,
+            basic_keyword_ar: res.basic_keyword_ar,
+            basicInfoAr: res.title,
+            basicInfoEng: res.title,
+            barcode_type: res.barcode_id,
+            barcode: res.barcode_number,
+            sku: res.sku,
+            available_quantity: res.available_quantity,
+            pk_size: res.packaging?.size,
+            pk_size_unit: res.packaging?.size_unit,
+            pk_number_of_carton: res.packaging?.number_of_carton,
+            pk_average_lead_time: res.packaging?.average_lead_time,
+            pk_transportation_mode: res.packaging?.transportation_mode,
+            pc_weight: res.product_carton?.weight,
+            pc_weight_unit_id: res.product_carton?.weight_unit_id,
+            pc_height: res.product_carton?.height,
+            pc_height_unit_id: res.product_carton?.height_unit_id,
+            pc_length: res.product_carton?.length,
+            pc_length_unit_id: res.product_carton?.length_unit_id,
+            pc_width: res.product_carton?.width,
+            pc_width_unit_id: res.product_carton?.width_unit_id,
+            pdime_weight: res.product_dimension?.weight,
+            pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+            pdime_height: res.product_dimension?.height,
+            pdime_length: res.product_dimension?.length,
+            pdime_width: res.product_dimension?.width,
+            pdime_dimention_unit: res.product_dimension?.dimention_unit,
+            pp_quantity: res.product_prices?.map(price => price.quantity),
+            pp_unit_price: res.product_prices?.map(price => price.unit_price),
+            pp_selling_price: res.product_prices?.map(price => price.selling_price),
+            is_ready_to_ship: res.is_ready_to_ship,
+            is_buy_now: res.is_buyable,
+            is_availability: res.is_available,
+            storage_temperature: res.storage_temperature_id,
+            stock_location: res.warehouse_id,
+            country_of_origin: res.product_origin_id,
+            is_dangerous: res.is_dangerous,
+            product_variants: res.product_variant,
+            product_variant: res.product_single_variant ?? [],
+            PriceingRows: res.product_prices,
+            is_variant: !!res.product_variant,
+            additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
+            hts_code: res.hts_code,
+            id: res.id,
+          };
+          this.openTab = 'parent'
         }
-
-        // Initialize this.variants[this.openTab].result if it doesn't exist
-        if (!this.variants[this.openTab].result) {
-          this.variants[this.openTab].result = {};
-        }
-        this.variant_uuid_global = res.variant_uuid
-
-        // Assign properties from res to this.variants[this.openTab].result
-        this.variants[this.openTab].result = {
-          title: res.title,
-          variant_uu_id: res.variant_uu_id,
-          description: res.description,
-          parentCategory: res.category?.id,
-          subCategory: res.sub_category?.id,
-          childCategory: res.child_category?.id,
-          product_prices: res.product_prices,
-          unit_id: res.unit_id,
-          features: res.product_features?.map(item => item.name),
-          unit: res.unit,
-          brand_id: res.brand_id,
-          meta_title: res.meta_title,
-          meta_description: res.meta_description,
-          selling: res.selling,
-          purchased: res.selling, // Should this be res.purchased?
-          offered: res.offered,
-          images: res.images,
-          product_images: res.product_images,
-          video: res.video,
-          status: res.status,
-          parent_sku: res.parent_sku,
-          basic_keyword_en: res.basic_keyword_en,
-          basic_keyword_ar: res.basic_keyword_ar,
-          basicInfoAr: res.title,
-          basicInfoEng: res.title,
-          barcode_type: res.barcode_id,
-          barcode: res.barcode_number,
-          sku: res.sku,
-          available_quantity: res.available_quantity,
-          pk_size: res.packaging?.size,
-          pk_size_unit: res.packaging?.size_unit,
-          pk_number_of_carton: res.packaging?.number_of_carton,
-          pk_average_lead_time: res.packaging?.average_lead_time,
-          pk_transportation_mode: res.packaging?.transportation_mode,
-          pc_weight: res.product_carton?.weight,
-          pc_weight_unit_id: res.product_carton?.weight_unit_id,
-          pc_height: res.product_carton?.height,
-          pc_height_unit_id: res.product_carton?.height_unit_id,
-          pc_length: res.product_carton?.length,
-          pc_length_unit_id: res.product_carton?.length_unit_id,
-          pc_width: res.product_carton?.width,
-          pc_width_unit_id: res.product_carton?.width_unit_id,
-          pdime_weight: res.product_dimension?.weight,
-          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
-          pdime_height: res.product_dimension?.height,
-          pdime_length: res.product_dimension?.length,
-          pdime_width: res.product_dimension?.width,
-          pdime_dimention_unit: res.product_dimension?.dimention_unit,
-          pp_quantity: res.product_prices?.map(price => price.quantity),
-          pp_unit_price: res.product_prices?.map(price => price.unit_price),
-          pp_selling_price: res.product_prices?.map(price => price.selling_price),
-          is_ready_to_ship: res.is_ready_to_ship,
-          is_buy_now: res.is_buyable,
-          is_availability: res.is_available,
-          storage_temperature: res.storage_temperature_id,
-          stock_location: res.warehouse_id,
-          country_of_origin: res.product_origin_id,
-          is_dangerous: res.is_dangerous,
-          product_variants: res.product_variant,
-          product_variant: res.product_single_variant ?? [],
-          PriceingRows: res.product_prices,
-          is_variant: !!res.product_variant,
-          additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
-          hts_code: res.hts_code,
-          id: res.id,
-        };
-        // this.openTab = 'parent'
+      } catch (error) {
+        console.error('Error occurred while fetching data:', error);
       }
 
 
