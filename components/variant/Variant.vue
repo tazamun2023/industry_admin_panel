@@ -242,10 +242,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.status!=='incomplete' && variant.result.id">
+            <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index" v-if="variant.result.id">
               <td class="p-4 border border-smooth">
                 <lazy-image
-                  v-if="variant.result?.product_images"
                   class="mr-20 w-10 md:w-10 max-w-full max-h-full"
                   :data-src="variant.result.product_images[0]?.url"
                   :alt="variant.result?.product_variant?.color?.name?.en"
@@ -276,11 +275,6 @@
                 {{ variant.result.sku }}
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
-                <!-- <div class="flex justify-between">
-                  <div> </div>
-                  <div>{{ $t('prod.Price') }}</div>
-                  <div>{{ $t('prod.Sale price') }}</div>
-                </div> -->
 
                 <div class="flex justify-between gap-4" v-for="(product_price, index) in variant.result.product_prices" :key="index">
                   <div class="w-full p-2">
@@ -507,7 +501,7 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="sku" :rules="!variants[openTab].result.id??skuRules" v-slot="{ errors }"
+          <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
           <div class="form-group input-wrapper  mt-3 mt-sm-0">
             <label>{{ $t('prod.SKU') }}</label>
@@ -1593,12 +1587,11 @@ export default {
         // });
         return false;
       }else {
-        this.is_variant_save = !this.is_variant_save
-        this.varientModal = false
-        this.variants[0].result.sku = ''
-        this.variants[0].result.status = 'incomplete'
-        this.variants[0].result.is_variant = true
-        this.variants.push({ result: { ...this.variants[0].result, id: '', product_images: [] } });
+        this.is_variant_save = !this.is_variant_save;
+        this.varientModal = false;
+        const newVariant = { result: { ...this.variants[0].result, id: '', product_images: [], sku: '', status:'incomplete', is_variant: true } };
+        this.variants.splice(this.variants.length, 0, newVariant);
+
       }
     },
 
@@ -1722,7 +1715,7 @@ export default {
             purchased: res.selling, // Should this be res.purchased?
             offered: res.offered,
             images: res.images,
-            product_images: res.product_images,
+            product_images: res.images,
             video: res.video,
             status: res.status,
             parent_sku: res.parent_sku,
@@ -1771,6 +1764,7 @@ export default {
             hts_code: res.hts_code,
             id: res.id,
           };
+
           this.openTab = 'parent'
         }
       } catch (error) {
