@@ -501,7 +501,7 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="sku" :rules="!variants[openTab].result.id??skuRules" v-slot="{ errors }"
+          <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
           <div class="form-group input-wrapper  mt-3 mt-sm-0">
             <label>{{ $t('prod.SKU') }}</label>
