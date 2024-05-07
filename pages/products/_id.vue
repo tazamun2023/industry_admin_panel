@@ -644,7 +644,7 @@
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
               <div class="grid grid-cols-2 gap-4">
-                <ValidationProvider name="pk_size" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Size') }} ? <strong class="text-error">*</strong></label>
@@ -673,7 +673,7 @@
                   </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="pk_number_of_carton" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Number of units per carton" :rules="PackagingValidationRules" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Number of units per carton') }} <strong
@@ -1007,7 +1007,7 @@
 
                   <tr v-for="(product_price, index) in result.product_prices" :key="index">
                     <td class="p-2">
-                      <ValidationProvider :name="'quantity_' + index" :rules="QuantityValidationRules" v-slot="{ errors }"
+                      <ValidationProvider name="quantity" :rules="QuantityValidationRules" v-slot="{ errors }"
                                           :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
                       <input
                         type="text"
@@ -1021,7 +1021,7 @@
                                           </ValidationProvider>
                     </td>
                     <td class="p-2">
-                                          <ValidationProvider name="unit price" :rules="PriceValidationRules" v-slot="{ errors }"
+                                          <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
                                                               :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
                       <div class="relative flex">
                         <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
@@ -1030,11 +1030,11 @@
                                @keypress="onlyNumber"
                                v-model="product_price.unit_price">
                       </div>
-<!--                                            <span class="error">{{ errors[0] }}</span>-->
+                                            <span class="error">{{ errors[0] }}</span>
                                           </ValidationProvider>
                     </td>
                     <td class="p-2">
-                      <ValidationProvider :name="`Sale price ${index}`" :rules="PriceValidationRules" v-slot="{ errors }"
+                      <ValidationProvider :name="`Sale price`" :rules="PriceValidationRules" v-slot="{ errors }"
                                           :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
                         <div class="relative flex">
                           <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
@@ -1681,6 +1681,14 @@ export default {
       return false;
       // If all unit prices are less than or equal to selling prices, return true
     },
+    UnitPriceValidationRules(){
+      return{
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999,
+        regex: /^(?:\d*\.\d{1,2}|\d+)$/
+      }
+    },
     PriceValidationRules() {
       const unit_prices = [];
       const selling_prices = [];
@@ -1694,9 +1702,9 @@ export default {
       });
 
       return {
-        required: !this.is_draft,
-        min_value: 1, // Pass allSKus as a parameter to uniqueSku
-        max_value: 99999999, // Pass allSKus as a parameter to uniqueSku
+        min_value: 1,
+        max_value: 99999999,
+        regex: /^(?:\d*\.\d{1,2}|\d+)$/,
         priceComparison: { unit_prices, selling_prices }
       };
     },
@@ -1706,6 +1714,7 @@ export default {
         required: !this.is_draft,
         min_value: 1,
         max_value: 99999999,
+        regex: /^\d+$/,
         quantityComparison: {
           first: parseInt(this.result.product_prices[0]?.quantity),
           second: parseInt(this.result.product_prices[1]?.quantity),
@@ -1770,9 +1779,16 @@ export default {
 
       return validationRules;
     },
+    PackagingValidationRules() {
+      return {
+        required: !this.is_draft,
+        min_value: 1,
+        max_value: 99999999
+      };
+    },
     NotDraftValidationRules() {
       return {
-        required: !this.is_draft
+        required: !this.is_draft,
       };
     },
     ProductImageValidationRules() {
