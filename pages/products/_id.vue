@@ -1696,8 +1696,8 @@ export default {
       this.result.product_prices.forEach(price => {
         // Check if selling price is not null before pushing into arrays
         if (price?.selling_price !== null) {
-          unit_prices.push(parseInt(price?.unit_price));
-          selling_prices.push(parseInt(price?.selling_price));
+          unit_prices.push(parseFloat(price?.unit_price));
+          selling_prices.push(parseFloat(price?.selling_price));
         }
       });
 
