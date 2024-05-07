@@ -1067,7 +1067,7 @@
   "approvedModal":{
     "sure":"Are you sure",
     "revert":"You wont be able to revert this",
-    "confirmBtn":"Yes, delete it!",
+    "confirmBtn":"Yes",
     "cancel":"Cancel",
     "approvedAction":"Approved",
     "success":"the rfq has been approved",
