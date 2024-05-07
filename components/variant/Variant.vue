@@ -1892,12 +1892,8 @@ export default {
     availableQuantity() {
       this.compareMethods()
     },
-    oldImages(){
-      if (this.openTab!=='parent'){
-        this.variants[this.openTab].result.product_images = this.variants[this.openTab].result.product_images??[]
-      }else {
-        this.variants[this.openTab].result.product_images = []
-      }
+    oldImages() {
+      this.variants[this.openTab].result.product_images = this.openTab !== 'parent' ? this.variants[this.openTab].result.product_images ?? [] : [];
     },
     saveAttachment(images) {
       if (this.openTab!=='parent'){
@@ -1965,6 +1961,7 @@ export default {
         this.result.sku = ''
         this.variants.push(Object.assign({result: this.result}));
       });
+      console.log('mounted...')
     }
     if (this.allKeywords.length===0){
       await this.findKeyword()
