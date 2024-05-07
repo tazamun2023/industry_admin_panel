@@ -360,6 +360,12 @@
     },
   "prod": {
     "Submit": "Submit",
+    "Large screen": "Large screen",
+    "Large screen english": "Large screen english",
+    "Small screen english": "Small screen english",
+    "Small screen": "Small screen",
+    "Large screen arabic": "Large screen arabic",
+    "Small screen arabic": "Small screen arabic",
     "Keywords": "Keywords",
     "Brand": "Brand",
     "Color or value cant empty value": "Color or value can't empty value!",

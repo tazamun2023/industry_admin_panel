@@ -71,7 +71,7 @@
             <input
               type="date"
               v-model="result.end_time"
-              :min="getTodayFormattedDate()"
+              :min="getEndFormattedDate(result.start_time)"
             >
             <span class="error">{{ errors[0] }}</span>
           </div>
@@ -258,6 +258,7 @@ extend('min', {
   params: ['length'],
   message: 'The {_field_} field must have at least {length} characters'
 });
+
 export default {
   name: "flash-sale",
   middleware: ['common-middleware', 'auth'],
@@ -317,6 +318,17 @@ export default {
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
       return `${year}-${month}-${day}`;
+    },
+
+    getEndFormattedDate(startTime) {
+      if (startTime){
+        const endDate = new Date(startTime); // Convert start time to Date object
+        endDate.setDate(endDate.getDate() + 1); // Add one day to the start time
+        const year = endDate.getFullYear();
+        const month = String(endDate.getMonth() + 1).padStart(2, '0');
+        const day = String(endDate.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
     },
 
     settingResult(evt) {

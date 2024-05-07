@@ -17,11 +17,53 @@
         <label>{{ $t('profile.ui') }}: </label><b>{{ bannerUsed[result.type] }}</b>
       </div>
 
-      <div class="input-wrapper">
-        <img :src="result.image" alt="" class="w-1/2">
-        <label>{{ $t('index.banner') }}</label>
-        <upload-files @updateInput="saveAttachment"></upload-files>
-      </div>
+     <div class="grid grid-cols-2 gap-4">
+       <div>
+         <label class="font-bold">{{ $t('prod.Large screen english') }}</label>
+         <div>
+           <img :src="result.large_image_en" alt="" class="w-full h-[220px]">
+         </div>
+         <div class="mt-2">
+           <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>
+         </div>
+       </div>
+       <div>
+         <label class="font-bold">{{ $t('prod.Small screen english') }}</label>
+         <div>
+           <img :src="result.small_image_en" alt="" class="w-full h-[220px]">
+         </div>
+         <div class="mt-2">
+           <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>
+         </div>
+       </div>
+     </div>
+
+     <div class="grid grid-cols-2 gap-4 pt-4">
+       <div>
+         <label class="font-bold">{{ $t('prod.Large screen arabic') }}</label>
+         <div>
+           <img :src="result.large_image_ar" alt="" class="w-full h-[220px]">
+         </div>
+         <div class="mt-2">
+           <upload-files @updateInput="saveAttachmentLargeAr"></upload-files>
+         </div>
+       </div>
+       <div>
+         <label class="font-bold">{{ $t('prod.Small screen arabic') }}</label>
+         <div>
+           <img :src="result.small_image_ar" alt="" class="w-full h-[220px]">
+         </div>
+         <div class="mt-2">
+           <upload-files @updateInput="saveAttachmentSmallAr"></upload-files>
+         </div>
+       </div>
+     </div>
+
+<!--      <div class="input-wrapper">-->
+<!--        <img :src="result.image" alt="" class="w-1/2">-->
+<!--        <label>{{ $t('index.banner') }}</label>-->
+<!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
+<!--      </div>-->
 
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
@@ -180,6 +222,14 @@
           source_categories: [],
           source_sub_categories: [],
           image: '',
+          large_image_en: '',
+          small_image_en: '',
+          large_image_ar: '',
+          small_image_ar: '',
+          large_file_en: '',
+          small_file_en: '',
+          large_file_ar: '',
+          small_file_ar: '',
           file: '',
           source_type: 1,
           tags: '',
@@ -222,6 +272,18 @@
       },
       saveAttachment(images) {
         this.result.file = images
+      },
+      saveAttachmentLargeEn(images) {
+        this.result.large_file_en = images
+      },
+      saveAttachmentSmallEn(images) {
+        this.result.small_file_en = images
+      },
+      saveAttachmentLargeAr(images) {
+        this.result.large_file_ar = images
+      },
+      saveAttachmentSmallAr(images) {
+        this.result.small_file_ar = images
       },
       undoDelete(index){
         const v =  {
