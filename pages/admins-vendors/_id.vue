@@ -58,7 +58,7 @@
 
           <div class="input-wrapper">
             <div class="relative">
-              <ValidationProvider class="w-full" name="password" rules="required|min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
+              <ValidationProvider class="w-full" name="password" rules="min:8|confirmed:confirmation" v-slot="{ errors }" :custom-messages="{required:  `${$t('user.new_password')} is required` }">
                 <label class="w-full"  for="">{{ $t('user.new_password') }}*</label>
                 <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.new_password')" v-model="userInfo.password" @keyup="checkPassword()">
                 <i
@@ -80,7 +80,7 @@
 
 
           <div class="relative">
-            <ValidationProvider  class="w-full" name="Confirm_password" rules="required" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
+            <ValidationProvider  class="w-full" name="Confirm_password" rules="" v-slot="{ errors }" vid="confirmation" :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
               <label class="w-full"  for="">{{ $t('user.confirm_password') }}*</label>
               <input :type="passwordFieldType" class="rounded w-full px-2" :placeholder="$t('user.confirm_password')" v-model="confirmation">
               <i
@@ -229,6 +229,14 @@ export default {
       })
       this.loading = false
       if(data.status === 200){
+
+        await this.getAllRoles({
+          params:{
+            "type": data.data.type
+          },
+          api:"getRoleByType"
+        })
+
         this.userInfo.name.ar = data.data.name.ar
         this.userInfo.name.en = data.data.name.en
         this.userInfo.email = data.data.email
@@ -249,13 +257,7 @@ export default {
   },
   async mounted() {
     try {
-      await this.getVendorUserById()
-      await this.getAllRoles({
-        params:{
-          "type": ""
-        },
-        api:"getRoleByType"
-      })
+       await this.getVendorUserById()
     }catch (e) {
 
     }
