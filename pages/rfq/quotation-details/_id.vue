@@ -128,7 +128,7 @@ export default {
                 </table>
               </div>
               <div class="text-end">
-                <p class="capitalize">{{ $t('rfq.total_quoted_price_ex_vat') }}: <span class="text-primary">SAR {{ quotation.total_target_price }}</span></p>
+                <p class="capitalize">{{ $t('rfq.total_quoted_price_ex_vat') }}: <span class="text-primary">SAR {{ quotation?.total_target_price }}</span></p>
               </div>
             </div>
           </div>
