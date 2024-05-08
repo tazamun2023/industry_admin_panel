@@ -240,6 +240,9 @@
     "setCustomScript": "custom-script/action",
 
 
+    "getSaShipping": "shipping/getSaudiCites",
+    "storeSaFreeShipping": "shipping/storeSaFreeShipping",
+
     "getAllShippingRules": "shipping-rule/all-shipping-rules",
     "getShippingRules": "shipping-rule/all",
     "deleteShippingRule": "shipping-rule/delete",

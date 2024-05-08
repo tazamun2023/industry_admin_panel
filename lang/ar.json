@@ -31,6 +31,14 @@
     "Select on Status": "اختر الحالة",
     "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً"
   },
+  "shipping": {
+   "free_shipping": " توفر شحن مجاني ",
+
+    "est_days": "ايام",
+    "est": "مدة التوصيل المتوقعة  هي مدة الشحن ولاتشمل مدة تجهيز المنتج",
+    "est_hours": "ساعات"
+  },
+
   "rfq": {
     "Select from my catalogue": "اختر من الكتالوج الخاص بي",
     "Copy from website catalogue": "انسخ المنتج من كتالوج المنصة",
@@ -1048,7 +1056,7 @@
     "cancel":"إلغاء",
     "LocateMe":"تحديد موقعي"
   },
-  
+
   "orderReject": {
     "title": "رفض الطلب",
     "confirmation": "أنت على وشك رفض الطلب التالي. يرجى تحديد سبب الرفض.",
