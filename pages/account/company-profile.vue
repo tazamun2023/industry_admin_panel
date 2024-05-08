@@ -21,10 +21,11 @@
     </div>-->
 
   <div class="p-3" v-if="$can('edit_company')">
-    <h3 class="py-2">Company Profiles</h3>
-    <form @submit.prevent="fromSubmit">
-
-<!--          <ul class="">
+    <h3 class="py-2 text-[35px] text-black uppercase semi-bold">Company Profiles</h3>
+    <ValidationObserver class="w-full card p-4" v-slot="{ invalid }">
+    <form class="grid grid-cols-12 gap-6" @submit.prevent="fromSubmit">
+         <div class="col-span-2">
+          <ul class="px-3 py-4 tab-bg w-[251px] h-[726px] border-t border-smooth rounded-t-3xl">
         <li class="cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1)" >
             <div class="flex items-center gap-2">
@@ -69,20 +70,19 @@
             </div>
           </a>
         </li>
-      </ul>-->
+      </ul>
 
-
-
-      <div class="w-full">
+         </div>
+      <div class="w-full col-span-10 px-[40px]">
         <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
               <div class="p-4">
-          <div class="title">
-            <h4 class="uppercase text-primary font-bold">General Information</h4>
+          <div class="title pb-4">
+            <h4 class="uppercase text-primary text-[30px] font-bold">General Information</h4>
             <p class="text-normal">Please, provide company name, details, sub domain,
 email, mobile, and CR number </p>
           </div>
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
+
           <div class="form-group">
             <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
                   @updateInput="updateInput">
@@ -93,7 +93,7 @@ email, mobile, and CR number </p>
 
 
             <div class="input-wrapper mb-2">
-              <label for="">{{ $t('vendor.subdomain') }}</label>
+              <label class="semi-bold" for="">{{ $t('vendor.subdomain') }}</label>
               <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
             </div>
 
@@ -143,19 +143,18 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
-                </ValidationObserver>
+
         </div>
 
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <div class="p-4">
-                  <ValidationObserver class="w-full" v-slot="{ invalid }">
-          <div class="title">
-            <h4 class="uppercase text-primary font-bold">Primary Information</h4>
+          <div class="title pb-4">
+            <h4 class="uppercase text-primary text-[30px] font-bold">Primary Information</h4>
             <p class="text-normal">Please, provide company logo, licence, foundation date,
               production start date, email, mobile, and facility </p>
           </div>
@@ -164,14 +163,14 @@ email, mobile, and CR number </p>
               <label for="">Logo Upload</label>
               <div class="flex gap-4">
              <div class="file-wrapper w-1/4 h-[232px]   upload-block">
-              <div class="border-dashed border border-smooth h-[232px]">
-              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-              <img v-else class="w-full h-[232px] !important" :src="getLogo" />
+              <div class="border-dashed border border-smooth rounded h-[232px]">
+              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+              <img v-else class="w-full h-[232px] !important rounded" :src="getLogo" />
             </div>
              </div>
 
 
-          <upload-files class="w-full  border border-dashed border-smooth h-[182px]" accept="image/*"  @updateInput="saveLogoAttachment"></upload-files>
+          <upload-files class="w-full" accept="image/*"  @updateInput="saveLogoAttachment"></upload-files>
 
           </div>
             </div>
@@ -179,14 +178,14 @@ email, mobile, and CR number </p>
              <!-- component -->
              <label for="">Licence Upload</label>
              <div class="flex gap-4">
-              <div class="file-wrapper logo-upload upload-block">
-              <div class="file-input">
-                <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-                <img v-else-if="fileExt === 'pdf'" class="w-full h-[181px] !important" src="@/assets/images/pdf.jpg" />
-                <img v-else class="w-full h-[181px] !important" :src="getLicence" />
+              <div class="file-wrapper  w-1/4 h-[232px] upload-block">
+              <div class="border-dashed border border-smooth rounded h-[232px]">
+                <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded" src="@/assets/images/pdf.jpg" />
+                <img v-else class="w-full h-[232px] !important" :src="getLicence" />
             </div>
              </div>
-              <upload-files class="w-full border border-dashed border-smooth h-[182px]" accept=".pdf,image/*"  @updateInput="saveLicenceAttachment"></upload-files>
+              <upload-files class="w-full" accept=".pdf,image/*"  @updateInput="saveLicenceAttachment"></upload-files>
              </div>
 
             </div>
@@ -236,18 +235,17 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between">
               <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
-                  </ValidationObserver>
+
         </div>
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
-          <div class="title">
-            <h4 class="uppercase text-primary font-bold">Location Information</h4>
+          <div class="title pb-4">
+            <h4 class="uppercase text-primary  text-[30px] font-bold">Location Information</h4>
             <p class="text-normal">Please, provide country, city, area,
               street, building information</p>
           </div>
@@ -302,20 +300,18 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
               <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
 
           </div>
 
                   </div>
-                </ValidationObserver>
                 <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
-          <div class="title">
-            <h4 class="uppercase text-primary font-bold">Social Information</h4>
+          <div class="title pb-4">
+            <h4 class="uppercase text-primary text-[30px] font-bold">Social Information</h4>
             <p class="text-normal">Please, provide whatsapp, facebook, linkedin,
               and youtube</p>
           </div>
@@ -354,11 +350,12 @@ email, mobile, and CR number </p>
             </div>
           </div>
         </div>
-                </ValidationObserver>
+
               </div>
           </div>
       </div>
     </form>
+    </ValidationObserver>
 
   </div>
 
@@ -469,20 +466,6 @@ export default {
     ...mapGetters('vendor', ['vendorList']),
     ...mapGetters('common', ['allCountries', 'allCitiesById']),
 
-    checkNameValue(){
-      if(this.fromData.name.ar.length == 0 || this.fromData.name.en.length == 0 || this.fromData.details.ar.length == 0 || this.fromData.details.en.length == 0){
-        this.hasError = true
-        return true
-      }else{
-        return false
-      }
-
-    },
-
-
-
-
-
   },
   methods:{
     ...mapActions('vendor', ['submitData', 'getVendorData']),
@@ -565,5 +548,7 @@ export default {
 /* .top-100px{
   top:400px !important;
 } */
-
+label{
+  font-weight: 600;
+}
 </style>

@@ -13,7 +13,7 @@
 
       <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 md:col-span-6':(width50 && type=='text')}">
         <div class="input-wrapper">
-          <label  v-if="type=='text'">{{ title }} ({{ language }}) <strong class="text-error">*</strong></label>
+          <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) <strong class="text-error">*</strong></label>
           <input
                  v-if="type=='text'"
                  type="text"

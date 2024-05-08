@@ -17,7 +17,6 @@
     <template v-slot:table="{list}">
       <tr class="lite-bold">
         <th>{{ $t('user.name') }}</th>
-        <th>{{ $t('user.uName') }}</th>
         <th>{{ $t('fSale.email') }}</th>
         <th>{{ $t('user.role') }}</th>
         <th>{{ $t('user.verified') }}</th>
@@ -39,7 +38,6 @@
             <h5 class="mx-w-300x">{{ value.name[currentLanguage.code] }}</h5>
           </nuxt-link>
         </td>
-        <td>{{ value.username }}</td>
         <td>{{ value.email }}</td>
         <td>{{ value.role[0] }}</td>
 
@@ -49,8 +47,8 @@
         </td>
 
         <td>
-          <span v-if="value.active">{{ $t('prod.yes') }}</span>
-          <span v-else>{{ $t('prod.no') }}</span>
+          <span v-if="value.active">{{ $t('util.active') }}</span>
+          <span v-else>{{ $t('util.deactive') }}</span>
         </td>
 
         <td>{{ value.created }}</td>

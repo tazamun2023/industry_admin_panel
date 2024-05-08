@@ -105,6 +105,19 @@
           </div>
 
 
+          <div class="input-wrapper">
+            <ValidationProvider class="w-full" name="status" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('title.ac')})}">
+              <label class="w-full" for="">{{ $t('title.ac') }}</label>
+              <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.active">
+                <option value="">Select Status</option>
+                <option value="1">{{ $t('util.active') }}</option>
+                <option value="0">{{ $t('util.deactive') }}</option>
+              </select>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
+
+
 
           <div class="input-wrapper mb-0 text-end">
             <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
@@ -128,7 +141,8 @@ export default {
         name:{'ar':'', 'en':''},
         roles:'',
         email:'',
-        password:''
+        password:'',
+        status:''
       },
       confirmation: '',
       passwordFieldType: 'password',
@@ -196,7 +210,6 @@ export default {
         this.loading = false
 
         if(data?.status === 200){
-          this.$router.push('/admins-vendors')
           this.setToastMessage(data.message)
           this.errors = []
         }else{
@@ -220,6 +233,11 @@ export default {
         this.userInfo.name = data.data.name
         this.userInfo.roles = data.data.role[0]
         this.userInfo.email = data.data.email
+        if(data.data.active){
+          this.userInfo.active = 1
+        }else{
+          this.userInfo.active = 0
+        }
         this.errors = []
 
       }else{
