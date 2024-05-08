@@ -131,7 +131,8 @@
     mixins: [util],
     methods: {
       imageURL(obj) {
-        return this.getImageURL(obj.image ? obj.image : this.defaultImage)
+        const image = obj.image || obj.large_image || this.defaultImage;
+        return this.getImageURL(image);
       },
       sliderInit() {
         this.glide = new Glide('.glide', {

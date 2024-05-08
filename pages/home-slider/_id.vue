@@ -13,9 +13,37 @@
     @result="onSuccess"
   >
     <template v-slot:form="{hasError}">
-      <div class="input-wrapper">
-        <img :src="result.image" alt="">
-        <upload-files @updateInput="sliderImage"></upload-files>
+<!--      <div class="input-wrapper">-->
+<!--        <img :src="result.image" alt="">-->
+<!--        <upload-files @updateInput="sliderImage"></upload-files>-->
+<!--      </div>-->
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-bold">{{ $t('prod.Large screen') }}</label>
+          <div>
+            <lazy-image
+              v-if="result.large_image"
+              class="w-full h-[220px]"
+              :data-src="getThumbImageURL(result.large_image)"
+            />
+          </div>
+          <div class="mt-2">
+            <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>
+          </div>
+        </div>
+        <div>
+          <label class="font-bold">{{ $t('prod.Small screen') }}</label>
+          <div>
+            <lazy-image
+              v-if="result.small_image"
+              class="w-full h-[220px]"
+              :data-src="getThumbImageURL(result.small_image)"
+            />
+          </div>
+          <div class="mt-2">
+            <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>
+          </div>
+        </div>
       </div>
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
@@ -161,6 +189,10 @@
           source_products: [],
           image: '',
           file: '',
+          large_file: '',
+          small_file: '',
+          large_image: '',
+          small_image: '',
           source_type: 1,
           tags: '',
           url: '',
@@ -197,6 +229,12 @@
       },
       sliderImage(images) {
         this.result.file = images
+      },
+      saveAttachmentLargeEn(images) {
+        this.result.large_file = images
+      },
+      saveAttachmentSmallEn(images) {
+        this.result.small_file = images
       },
       dropdownStatusSelected(data) {
         this.result.status = data.key
