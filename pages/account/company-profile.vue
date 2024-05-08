@@ -163,9 +163,9 @@ email, mobile, and CR number </p>
               <label for="">Logo Upload</label>
               <div class="flex gap-4">
              <div class="file-wrapper w-1/4 h-[232px]   upload-block">
-              <div class="border-dashed border border-smooth h-[232px]">
-              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-              <img v-else class="w-full h-[232px] !important" :src="getLogo" />
+              <div class="border-dashed border border-smooth rounded h-[232px]">
+              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+              <img v-else class="w-full h-[232px] !important rounded" :src="getLogo" />
             </div>
              </div>
 
@@ -179,9 +179,9 @@ email, mobile, and CR number </p>
              <label for="">Licence Upload</label>
              <div class="flex gap-4">
               <div class="file-wrapper  w-1/4 h-[232px] upload-block">
-              <div class="border-dashed border border-smooth h-[232px]">
-                <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-                <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important" src="@/assets/images/pdf.jpg" />
+              <div class="border-dashed border border-smooth rounded h-[232px]">
+                <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded" src="@/assets/images/pdf.jpg" />
                 <img v-else class="w-full h-[232px] !important" :src="getLicence" />
             </div>
              </div>
