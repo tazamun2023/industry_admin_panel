@@ -265,7 +265,7 @@
                 <span v-else>{{ $t('prod.Offline') }}</span>
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
-                <select class="uppercase" v-model="variant.result.is_availability">
+                <select class="uppercase" v-model="variant.result.is_availability" disabled>
                   <option value="1">{{ $t('prod.In Stock') }}</option>
                   <option value="0">{{ $t('prod.Out of Stock') }}</option>
                 </select>
@@ -280,14 +280,14 @@
                   <div class="w-full p-2">
                     <div class="flex w-full justify-between">
                         <span>{{ $t('prod.Min Qty') }}</span>
-                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="" @click="attrModalOpen(product_price, index)">
                     </div>
                     {{product_price.quantity}}
                   </div>
                   <div  class="w-full p-2 border-l border-r border-smooth">
                     <div class="flex w-full justify-between">
                         <span>{{ $t('prod.Price') }}</span>
-                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="" @click="attrModalOpen(product_price, index)">
                     </div>
                     {{ product_price.unit_price }}
                   </div>
@@ -295,7 +295,7 @@
                   <div  class="w-full p-2">
                     <div class="flex w-full justify-between">
                         <span>{{ $t('prod.Sale price') }}</span>
-                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="">
+                        <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt="" @click="attrModalOpen(product_price, index)">
                     </div>
                     {{ product_price.selling_price }}
                   </div>
@@ -501,19 +501,36 @@
           </div>
             <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
-          <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
-                              :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
-          <div class="form-group input-wrapper  mt-3 mt-sm-0">
-            <label>{{ $t('prod.SKU') }}</label>
-            <input
-              type="text" class="form-control"
-              :class="{ 'has-error': errors[0] }"
-              v-model="variants[openTab]?.result.sku"
-              :placeholder="$t('prod.SKU')"
-            >
+          <div v-if="variants[openTab].result.id">
+            <ValidationProvider name="sku" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
+              <div class="form-group input-wrapper  mt-3 mt-sm-0">
+                <label>{{ $t('prod.SKU') }}</label>
+                <input
+                  type="text" class="form-control"
+                  :class="{ 'has-error': errors[0] }"
+                  v-model="variants[openTab]?.result.sku"
+                  :placeholder="$t('prod.SKU')"
+                >
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
           </div>
-            <span class="error">{{ errors[0] }}</span>
-          </ValidationProvider>
+          <div v-else>
+            <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
+              <div class="form-group input-wrapper  mt-3 mt-sm-0">
+                <label>{{ $t('prod.SKU') }}</label>
+                <input
+                  type="text" class="form-control"
+                  :class="{ 'has-error': errors[0] }"
+                  v-model="variants[openTab]?.result.sku"
+                  :placeholder="$t('prod.SKU')"
+                >
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+          </div>
         </div>
       </div>
       <div class="my-10"></div>
@@ -1206,6 +1223,99 @@
         </div>
       </div>
     </template>
+    <template v-if="is_attributes_modal!==false">
+      <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-2/5">
+          <svg @click="is_attributes_modal = false"
+               class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
+               aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+          </svg>
+          <!-- Modal Content -->
+          <div class="mb-4 border-b border-smooth pb-2">
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">Unite price </h4>
+          </div>
+          <div>
+            <div class="card-body mt-10">
+                <div class="table-responsive">
+                  <table class="table table-bordered mb-0">
+                    <thead>
+                    <tr>
+                      <th scope="col">{{ $t('prod.Minimum order quantity') }}</th>
+                      <th scope="col">{{ $t('prod.Unit price') }}</th>
+                      <th scope="col">{{ $t('prod.Sale price') }} ? ({{ $t('prod.optional') }})</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-if="attributes_modal_price">
+                      <td class="p-2">
+                        <ValidationProvider name="quantity" :rules="QuantityValidationRules" v-slot="{ errors }"
+                                            :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
+                          <input
+                            type="text"
+                            class="form-control"
+                            :placeholder="$t('prod.Minimum order quantity')"
+                            @keypress="onlyNumber"
+                            v-model="attributes_modal_price.quantity"
+                            @input="availableQuantity"
+                          >
+                          <span class="error">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                      </td>
+                      <td class="p-2">
+                        <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
+                                            :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
+                          <div class="relative flex">
+                            <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
+                            <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
+                                   @keypress="onlyNumber"
+                                   v-model="attributes_modal_price.unit_price">
+                          </div>
+                          <span class="error">{{ errors[0] }}</span>
+                        </ValidationProvider>
+                      </td>
+                      <td class="p-2">
+                        <ValidationProvider :name="`Sale price`" :rules="PriceValidationRules" v-slot="{ errors }"
+                                            :custom-messages="{required: $t('global.req', { type: $t('prod.Sale price')}) }">
+                          <div class="relative flex">
+                            <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
+                            <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                                   :class="{ 'has-error': errors[0] }"
+                                   :placeholder="$t('prod.Sale price')"
+                                   @keypress="onlyNumber"
+                                   v-model="attributes_modal_price.selling_price">
+                          </div>
+                          <span class="error" >{{ errors[0] }}</span>
+                        </ValidationProvider>
+                      </td>
+                      <td class="p-2">
+                      </td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
+
+              <hr class="border-smooth">
+              <div class="flex justify-end gap-4 pt-3 text-end w-full">
+                <button type="button" class="btn border-primary " @click.prevent="singlePriceUpdate(attributes_modal_price, is_attributes_modal)" :class="result[0]?.product_variants.length===0?'cursor-not-allowed':''">
+                  <span>{{ $t('prod.Save') }}</span>
+                </button>
+              </div>
+              <div class="my-10"></div>
+
+            </div>
+          </div>
+          <!-- Close Button -->
+
+
+        </div>
+      </div>
+    </template>
   </div>
 
 </template>
@@ -1270,7 +1380,7 @@ extend('quantityComparison', {
 extend('priceComparison', {
   validate(value, { unit_prices, selling_prices }) {
     for (let i = 0; i < unit_prices.length; i++) {
-      if (selling_prices[i] > unit_prices[i]) {
+      if (selling_prices[i] >= unit_prices[i]) {
         return 'The selling price must be smaller than the unit price!';
       }
     }
@@ -1338,6 +1448,8 @@ export default {
       is_change: false,
       hasErrorQty: false,
       varientModal: false,
+      is_attributes_modal: false,
+      attributes_modal_price: '',
       is_variant_save: false,
       CategorySection: false,
       is_next: true,
@@ -1576,6 +1688,9 @@ export default {
 
       }
     },
+    singlePriceUpdate(price, index){
+
+    },
     doVariantSave() {
       if (this.result.product_variants.length === 0) {
         this.setToastMessage(this.$t('prod.No variants added'))
@@ -1633,30 +1748,111 @@ export default {
       }
     },
 
-    doSubmit() {
+    async doSubmit() {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      if (this.validationKeysIfNotVariant.findIndex((i) => {
-        return (!this.result[i])
-      }) > -1) {
-        this.hasError = true
-        return false
+      this.variants[0].result.status = 'pending'
+      if (this.variant_uuid_global){
+        this.variants[0].result.variant_uu_id = this.variant_uuid_global
+      }else {
+        this.variants[0].result.variant_uu_id = null
       }
-      if (this.result.storage_temperature === 0) {
-        this.result.storage_temperature = null
+      // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
+      // this.checkForm()
+
+      try {
+        const res = await this.setById({
+          id: this.variants[0]?.result.id,
+          params: { result: this.variants[0].result, variant: this.result.product_variants[0], single_submit: true, tab: 0 },
+          api: this.setApi
+        });
+        if (res) {
+          // Initialize this.variants[this.openTab] if it doesn't exist
+          if (!this.variants[0]) {
+            this.variants[0] = {};
+          }
+
+          // Initialize this.variants[this.openTab].result if it doesn't exist
+          if (!this.variants[0].result) {
+            this.variants[0].result = {};
+          }
+          this.variant_uuid_global = res.variant_uuid
+
+          // Assign properties from res to this.variants[this.openTab].result
+          this.variants[0].result = {
+            title: res.title,
+            variant_uu_id: res.variant_uu_id,
+            description: res.description,
+            parentCategory: res.category?.id,
+            subCategory: res.sub_category?.id,
+            childCategory: res.child_category?.id,
+            product_prices: res.product_prices,
+            unit_id: res.unit_id,
+            features: res.product_features?.map(item => item.name),
+            unit: res.unit,
+            brand_id: res.brand_id,
+            meta_title: res.meta_title,
+            meta_description: res.meta_description,
+            selling: res.selling,
+            purchased: res.selling, // Should this be res.purchased?
+            offered: res.offered,
+            images: res.images,
+            product_images: res.images,
+            video: res.video,
+            status: res.status,
+            parent_sku: res.parent_sku,
+            basic_keyword_en: res.basic_keyword_en,
+            basic_keyword_ar: res.basic_keyword_ar,
+            basicInfoAr: res.title,
+            basicInfoEng: res.title,
+            barcode_type: res.barcode_id,
+            barcode: res.barcode_number,
+            sku: res.sku,
+            available_quantity: res.available_quantity,
+            pk_size: res.packaging?.size,
+            pk_size_unit: res.packaging?.size_unit,
+            pk_number_of_carton: res.packaging?.number_of_carton,
+            pk_average_lead_time: res.packaging?.average_lead_time,
+            pk_transportation_mode: res.packaging?.transportation_mode,
+            pc_weight: res.product_carton?.weight,
+            pc_weight_unit_id: res.product_carton?.weight_unit_id,
+            pc_height: res.product_carton?.height,
+            pc_height_unit_id: res.product_carton?.height_unit_id,
+            pc_length: res.product_carton?.length,
+            pc_length_unit_id: res.product_carton?.length_unit_id,
+            pc_width: res.product_carton?.width,
+            pc_width_unit_id: res.product_carton?.width_unit_id,
+            pdime_weight: res.product_dimension?.weight,
+            pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
+            pdime_height: res.product_dimension?.height,
+            pdime_length: res.product_dimension?.length,
+            pdime_width: res.product_dimension?.width,
+            pdime_dimention_unit: res.product_dimension?.dimention_unit,
+            pp_quantity: res.product_prices?.map(price => price.quantity),
+            pp_unit_price: res.product_prices?.map(price => price.unit_price),
+            pp_selling_price: res.product_prices?.map(price => price.selling_price),
+            is_ready_to_ship: res.is_ready_to_ship,
+            is_buy_now: res.is_buyable,
+            is_availability: res.is_available,
+            storage_temperature: res.storage_temperature_id,
+            stock_location: res.warehouse_id,
+            country_of_origin: res.product_origin_id,
+            is_dangerous: res.is_dangerous,
+            product_variants: res.product_variant,
+            product_variant: res.product_single_variant ?? [],
+            PriceingRows: res.product_prices,
+            is_variant: !!res.product_variant,
+            additional_details_row: res.additional_attribute?.map(item => ({ name: item.name, value: item.value })),
+            hts_code: res.hts_code,
+            id: res.id,
+          };
+
+          this.openTab = 'parent'
+        }
+      } catch (error) {
+        this.setToastError('Error! at last complete one variant')
       }
-      if (this.result.brand_id === 0) {
-        this.result.brand_id = null
-      }
-      if (this.result.barcode_type === 0) {
-        this.result.barcode_type = null
-      }
-      if (this.result.unit_id === 0) {
-        this.result.unit_id = null
-      }
-      this.result.status = 'pending'
-      this.checkForm()
     },
 
     async doSubmitSingle(id) {
@@ -1765,10 +1961,11 @@ export default {
             id: res.id,
           };
 
-          this.openTab = 'parent'
+          // this.openTab = 'parent'
         }
       } catch (error) {
-        console.error('Error occurred while fetching data:', error);
+        this.setToastError('Error! at last complete one variant')
+        // console.error('Error occurred while fetching data:', error);
       }
 
 
@@ -1812,6 +2009,11 @@ export default {
       } else {
         await this.handleUnsavedChanges(tab);
       }
+    },
+
+    attrModalOpen(price, index){
+      this.is_attributes_modal = index
+      this.attributes_modal_price = price
     },
 
     async handleUnsavedChanges(tab) {

@@ -559,7 +559,7 @@
                       class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                       :class="{ 'has-error': errors[0] }"
                       v-model="result.barcode_type">
-                      <option value="">{{ $t('prod.Select Barcode') }}</option>
+                      <option value="" disabled>{{ $t('prod.Select Barcode') }}</option>
                       <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                     </select>
                   </div>
@@ -1354,7 +1354,7 @@ extend('quantityComparison', {
 extend('priceComparison', {
   validate(value, { unit_prices, selling_prices }) {
     for (let i = 0; i < unit_prices.length; i++) {
-      if (selling_prices[i] > unit_prices[i]) {
+      if (selling_prices[i] >= unit_prices[i]) {
         return 'The selling price must be smaller than the unit price!';
       }
     }

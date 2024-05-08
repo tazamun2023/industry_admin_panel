@@ -212,17 +212,17 @@
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
-                    <td>
-                      <!--                      <p v-if="value.maxUnitPrice">-->
-                      <!--                        <del>SAR {{ value.maxUnitPrice?.max_unit_price }}</del>-->
-                      <!--                      </p>-->
-                      <!--                      <p v-else>NAN</p>-->
-                      <!--                      <p v-if="value.minSellingPrice">SAR {{ value.minSellingPrice?.min_selling_price }}</p>-->
+                    <td v-if="value.product_prices[0]?.selling_price">
                       <p>
                         <del>SAR {{ value.product_prices[0]?.unit_price }}</del>
                       </p>
                       <p>
                         SAR {{ value.product_prices[0]?.selling_price }}
+                      </p>
+                    </td>
+                    <td v-else>
+                      <p>
+                        SAR {{ value.product_prices[0]?.unit_price }}
                       </p>
                     </td>
                     <td>
@@ -255,7 +255,7 @@
                       <br>
                       <span class="text-error cursor-pointer underline" @click="openModal(index)"
                             v-if="value.status==='rejected'">
-                        show
+                        {{ $t('prod.show') }}
                       </span>
                       <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index"
                              @closeModal="closeModal" v-if="value.reject_reasons">
@@ -277,10 +277,6 @@
                             </div>
                           </slot>
                         </div>
-                        <!--                          <template v-slot:buttons>-->
-                        <!--                            <button @click="closeModal" class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2">Close Modal</button>-->
-                        <!--                            &lt;!&ndash; Your Submit button or other buttons go here &ndash;&gt;-->
-                        <!--                          </template>-->
                       </Modal>
                     </td>
                     <td v-if="value.is_buyable===1">Online</td>
@@ -305,43 +301,28 @@
                           <nuxt-link
                             v-if="$can('approve_products')"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/show/${value.id}`">Show
-                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                            :to="`/products/show/${value.id}`">
+                            {{ $t('prod.Show')}}
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
                             v-if="$can('manage_products') && !value.is_variant"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/${value.id}`">Edit
-                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                            :to="`/products/${value.id}`">
+                            {{ $t('prod.Edit')}}
                           </nuxt-link>
                           <nuxt-link
                             v-if="$can('manage_products') && value.is_variant"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/variant/${value.id}`">Edit
-                            <!--                            <span v-if="$store.state.admin.isVendor">yes</span>-->
+                            :to="`/products/variant/${value.id}`">
+                            {{ $t('prod.Edit')}}
                           </nuxt-link>
-
-                          <!--                          <li-->
-                          <!--                            v-if="openTab !== 'is_archived'"-->
-                          <!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
-                          <!--                            @click.prevent="stockUpdate(value.id, 0)">Set out of stock</li>-->
-                          <!--                          <li-->
-                          <!--                            v-if="openTab !== 'is_archived' || openTab !== 'is_approved'"-->
-                          <!--                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"-->
-                          <!--                            @click="stockUpdate(value.id, 1)"-->
-                          <!--                          >Set in stock</li>-->
-                          <!--                          <li
-                                                      class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                                                       @click="statusUpdate(value.id, 'archived')"
-                                                      v-if="openTab === 'archived'"
-                                                    >Archive</li>-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click="statusUpdate(value.id, 'archived')"
                             v-if="openTab === 'is_approved' && $store.state.admin.isVendor"
                           >
-                            Archive
+                            {{ $t('prod.Archive')}}
                           </li>
 
                           <li
@@ -351,13 +332,12 @@
                           >
                             {{ $t('prod.back_to_approved') }}
                           </li>
-
-                          <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
                             v-if="$store.state.admin.isVendor"
-                          >Delete
+                          >
+                            {{ $t('prod.Delete')}}
                           </li>
                         </ul>
                       </div>
