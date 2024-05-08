@@ -362,6 +362,10 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Show": "Show",
+    "Archive": "Archive",
+    "Delete": "Delete",
+    "show": "show",
     "Large screen": "Large screen",
     "Large screen english": "Large screen english",
     "Small screen english": "Small screen english",
