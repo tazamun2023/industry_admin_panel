@@ -22,9 +22,9 @@
 
   <div class="p-3" v-if="$can('edit_company')">
     <h3 class="py-2">Company Profiles</h3>
+    <ValidationObserver class="w-full" v-slot="{ invalid }">
     <form @submit.prevent="fromSubmit">
-
-<!--          <ul class="">
+         <ul class="">
         <li class="cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1)" >
             <div class="flex items-center gap-2">
@@ -69,9 +69,7 @@
             </div>
           </a>
         </li>
-      </ul>-->
-
-
+      </ul>
 
       <div class="w-full">
         <div class="tab-content input-wrapper tab-space">
@@ -82,7 +80,7 @@
             <p class="text-normal">Please, provide company name, details, sub domain,
 email, mobile, and CR number </p>
           </div>
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
+
           <div class="form-group">
             <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
                   @updateInput="updateInput">
@@ -146,14 +144,13 @@ email, mobile, and CR number </p>
               <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-2 bg-primary rounded leading-3 w-[70px] text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
-                </ValidationObserver>
+
         </div>
 
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                 <div class="p-4">
-                  <ValidationObserver class="w-full" v-slot="{ invalid }">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Primary Information</h4>
             <p class="text-normal">Please, provide company logo, licence, foundation date,
@@ -239,12 +236,11 @@ email, mobile, and CR number </p>
               <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-2 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
-                  </ValidationObserver>
+
         </div>
         <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Location Information</h4>
@@ -308,11 +304,9 @@ email, mobile, and CR number </p>
           </div>
 
                   </div>
-                </ValidationObserver>
                 <!-- --------------- -->
               </div>
               <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
-                <ValidationObserver class="w-full" v-slot="{ invalid }">
                 <div class="p-4">
           <div class="title">
             <h4 class="uppercase text-primary font-bold">Social Information</h4>
@@ -354,11 +348,12 @@ email, mobile, and CR number </p>
             </div>
           </div>
         </div>
-                </ValidationObserver>
+
               </div>
           </div>
       </div>
     </form>
+    </ValidationObserver>
 
   </div>
 
@@ -468,20 +463,6 @@ export default {
     ...mapGetters('admin', ['profile']),
     ...mapGetters('vendor', ['vendorList']),
     ...mapGetters('common', ['allCountries', 'allCitiesById']),
-
-    checkNameValue(){
-      if(this.fromData.name.ar.length == 0 || this.fromData.name.en.length == 0 || this.fromData.details.ar.length == 0 || this.fromData.details.en.length == 0){
-        this.hasError = true
-        return true
-      }else{
-        return false
-      }
-
-    },
-
-
-
-
 
   },
   methods:{
