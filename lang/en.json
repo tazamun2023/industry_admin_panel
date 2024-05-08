@@ -1046,15 +1046,16 @@
     "temperatures": "Storage Temperatures",
     "barcodes": "Barcodes"
   },
+
   "approvedModal": {
-    "sure": "Are you sure",
-    "revert": "You wont be able to revert this",
-    "confirmBtn": "Yes, delete it!",
-    "cancel": "Cancel",
-    "approvedAction": "Approved",
-    "success": "the rfq has been approved",
-    "Cancelled": "Cancelled",
-    "cancellMes": "The operation was canceled "
+    "sure":"Are you sure",
+    "revert":"You wont be able to revert this",
+    "confirmBtn":"Yes",
+    "cancel":"Cancel",
+    "approvedAction":"Approved",
+    "success":"the rfq has been approved",
+    "Cancelled":"Cancelled",
+    "cancellMes":"The operation was canceled "
   },
   "list": {
     "show": "Showing {from} to {to} of {total} results",
