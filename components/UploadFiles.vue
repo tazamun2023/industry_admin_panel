@@ -69,12 +69,16 @@ export default {
         maxFiles: this.maxFiles,
         // accept:this.accept,
         url: !process.env.apiBase.trim() ? window.location.origin + '/' : process.env.apiBase + "api/images/dz_upload",
-        dictDefaultMessage: "" + this.$t('prod.Drag & Drop images here to upload') + " <br> <span class=\"text-xs\">" + "<svg class=\"w-6 h-6 mx-auto text-gray-800 \" aria-hidden=\"true\"\n" +
-          "                       xmlns=\"http://www.w3.org/2000/svg\" fill=\"currentColor\" viewBox=\"0 0 20 18\">\n" +
-          "                    <path\n" +
-          "                      d=\"M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z\"/>\n" +
-          "                  </svg>" + "</span>",
-        // dictDefaultMessage: "<i class='fa fa-cloud-upload'></i>UPLOAD ME",
+        dictDefaultMessage : this.$t('Drag & Drop images or click here to upload') +
+        `<br><span class="text-xs my-2">
+          <svg class="mx-auto" width="44" height="43" viewBox="0 0 44 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.79321 35.569L13.2914 28.8709C14.8134 27.7984 17.0098 27.9198 18.3777 29.1542L19.0134 29.741C20.5162 31.0968 22.9437 31.0968 24.4465 29.741L32.4612 22.5169C33.9639 21.161 36.3915 21.161 37.8942 22.5169L41.0346 25.3499" stroke="#01A781" stroke-width="3" stroke-linecap="square" stroke-linejoin="round"/>
+              <path d="M16 17.5C18.2091 17.5 20 15.7091 20 13.5C20 11.2909 18.2091 9.5 16 9.5C13.7909 9.5 12 11.2909 12 13.5C12 15.7091 13.7909 17.5 16 17.5Z" stroke="#01A781" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M24 1.5H16C6 1.5 2 5.5 2 15.5V27.5C2 37.5 6 41.5 16 41.5H28C38 41.5 42 37.5 42 27.5V17.5" stroke="#292D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M34 1.5V13.5L38 9.5" stroke="#01A781" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M34 13.5L30 9.5" stroke="#01A781" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+          </span>`,
         addRemoveLinks: true,
         autoProcessQueue: false,
 
@@ -163,5 +167,12 @@ export default {
     background: white;
     max-height: 175px !important;
     height: 171px;
+}
+.vue-dropzone{
+  padding:14px !important;
+  border:2px dashed #C4CDD5;
+  background:#f2f3f5;
+  border-radius: 10px;
+  height:235px;
 }
 </style>
