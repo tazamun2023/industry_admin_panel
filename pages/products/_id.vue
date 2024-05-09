@@ -1443,6 +1443,7 @@ export default {
         "value": "",
       },
       min_qty: null,
+      variant_copy: [],
       result: {
         hts_code: '',
         variant_uuid: '',
@@ -2069,8 +2070,14 @@ export default {
       this.is_variant_save = true; // Assuming canceling resets to Save mode
       this.is_variant_edit = true;
       this.is_variant_save_after_edit = false;
+
+      if (this.variant_copy){
+        this.result.product_variants = this.variant_copy
+      }
+
     },
     doVariantEdit() {
+      this.variant_copy = [...this.result.product_variants];
       this.is_variant_save = false;
       this.is_variant_edit = true;
       this.is_variant_save_after_edit = true;
@@ -2092,6 +2099,7 @@ export default {
         this.is_variant_save = true;
         this.is_variant_edit = true;
         this.is_variant_save_after_edit = false;
+        this.variant_copy = null
       } else {
         // If there are no variants, show error message
         this.setToastError(this.$t('prod.Color or value cant empty value'));
@@ -2210,7 +2218,7 @@ export default {
       this.result.pk_size_unit = event.target.value;
     },
     addVariantValueRows() {
-      this.result.product_variants.push(Object.assign({}, this.product_variant))
+      this.result.product_variants.push({ ...this.product_variant });
     },
 
     setColorName(index, event) {
