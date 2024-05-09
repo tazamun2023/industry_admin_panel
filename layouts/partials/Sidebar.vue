@@ -545,21 +545,23 @@ export default {
             {
               path: 'transportation-modes',
               title: this.$t('setting.transportation'),
-              icon: 'flash-sales',
-
+              icon: 'SHipping.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
             },
 
             {
               path: 'units',
               title: this.$t('setting.units'),
-              icon: 'flash-sales',
+              icon: 'Units.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
             },
             {
               path: 'storage-temperatures',
               title: this.$t('setting.temperatures'),
-              icon: 'flash-sales',
+              icon: 'StorageTempriture.svg',
+              is_image:true,
               gate: 'manage_initial_setting',
             },
 
@@ -573,14 +575,16 @@ export default {
             {
               path: 'tax-rules',
               title: this.$t('error.tr'),
-              icon: 'tax-rules',
+              icon: 'Taxrule.svg',
+              is_image:true,
               gate: 'manage_shipment_setting'
 
             },
             {
               path: 'product-collections',
               title: this.$t('error.col'),
-              icon: 'product-collections',
+              icon: 'collections.svg',
+              is_image:true,
               gate: 'manage_initial_setting'
             },
             {
@@ -592,7 +596,8 @@ export default {
             {
               path: 'attributes',
               title: this.$t('list.attr'),
-              icon: 'attributes',
+              icon: 'Attributes.svg',
+              is_image:true,
               gate: 'manage_initial_setting'
             },
 
