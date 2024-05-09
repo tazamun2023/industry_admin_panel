@@ -103,7 +103,7 @@
               <template
                 v-slot:table-top="{orderOptions}"
               >
-                <product-filter @filter="filterChanged"></product-filter>
+                  <product-filter @filter="filterChanged"></product-filter>
               </template>
               <template v-slot:table="{list}">
                 <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
