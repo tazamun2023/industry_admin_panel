@@ -27,7 +27,7 @@
          <div class="col-span-2">
           <ul class="px-3 py-4 tab-bg w-[251px] h-[726px] border-t border-smooth rounded-t-3xl">
         <li class="cursor-pointer block  flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1)" >
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1, invalid)" >
             <div class="flex items-center gap-2">
               <span  class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]" v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
               <div class="ltr:text-start rtl:text-end">
@@ -38,7 +38,7 @@
           </a>
         </li>
         <li class="cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(2)">
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(2, invalid)">
             <div class="flex items-center gap-2">
               <span   class="rounded-full p-[7px] text-[16px] w-[40px] h-[40px]"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
               <div class="ltr:text-start rtl:text-end">
@@ -48,8 +48,8 @@
             </div>
           </a>
         </li>
-        <li class="cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold  uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(3)">
+        <li class="cursor-pointer  block flex-auto text-center" >
+          <a class="text-xs font-bold  uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(3, invalid)">
             <div class="flex items-center gap-2">
               <span  class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]" v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
               <div class="ltr:text-start rtl:text-end">
@@ -59,8 +59,9 @@
             </div>
           </a>
         </li>
+
         <li class="cursor-pointer  block flex-auto text-center">
-          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(4)">
+          <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(4, invalid)">
             <div class="flex items-center gap-2">
               <span class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]"  v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
               <div class="ltr:text-start rtl:text-end">
@@ -70,11 +71,13 @@
             </div>
           </a>
         </li>
+
       </ul>
 
          </div>
       <div class="w-full col-span-10 px-[40px]">
         <div class="tab-content input-wrapper tab-space">
+
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
               <div class="p-4">
           <div class="title pb-4">
@@ -115,7 +118,7 @@ email, mobile, and CR number </p>
               <label for="">{{ $t("vendor.mobile") }}</label>
               <div class="flex">
                 <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:9" v-slot="{ errors }">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:11" v-slot="{ errors }">
                    <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                     <span  class="error">{{ errors[0] }}</span>
                    </ValidationProvider>
@@ -143,7 +146,7 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="invalid || checkNameValue"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -158,6 +161,11 @@ email, mobile, and CR number </p>
             <p class="text-normal">Please, provide company logo, licence, foundation date,
               production start date, email, mobile, and facility </p>
           </div>
+
+
+
+
+
           <div class="form-group">
             <div  class="input-wrapper   mb-2">
               <label for="">Logo Upload</label>
@@ -235,7 +243,7 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between">
               <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -300,7 +308,7 @@ email, mobile, and CR number </p>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
               <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
 
           </div>
@@ -308,6 +316,7 @@ email, mobile, and CR number </p>
                   </div>
                 <!-- --------------- -->
               </div>
+
               <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
                 <div class="p-4">
           <div class="title pb-4">
@@ -350,8 +359,8 @@ email, mobile, and CR number </p>
             </div>
           </div>
         </div>
-
               </div>
+
           </div>
       </div>
     </form>
@@ -465,6 +474,14 @@ export default {
     ...mapGetters('admin', ['profile']),
     ...mapGetters('vendor', ['vendorList']),
     ...mapGetters('common', ['allCountries', 'allCitiesById']),
+    checkNameValue(){
+      if(this.fromData.name.ar.length == 0 || this.fromData.name.en.length == 0 || this.fromData.details.ar.length == 0 || this.fromData.details.en.length == 0){
+        this.hasError = true
+        return true
+      }else{
+        return false
+      }
+    },
 
   },
   methods:{
@@ -477,11 +494,13 @@ export default {
     saveLicenceAttachment(attachments) {
       this.fromData.licence = attachments
     },
-    toggleTabs: function(tabNumber){
+    toggleTabs: function(tabNumber, invalid){
       if(!this.fromData.name.ar.length > 0){
         this.hasError = true
       }
-      this.openTab = tabNumber
+        this.openTab = tabNumber
+
+
     },
    async countrySelected() {
       let countryId = this.fromData.country_id;
