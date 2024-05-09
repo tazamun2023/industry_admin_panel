@@ -9,23 +9,10 @@
         <span class="text-black" v-if="address.name">{{ address.name }}</span>
       </div>
       <div class="map-button flex gap-2" @click="getCurrentLocation">
-        <svg width="24px" height="24px" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" role="img">
-          <g filter="url(#location-pin_svg__a)">
-            <path d="M17 21.5c0 .276-2.239.5-5 .5s-5-.224-5-.5 2.239-.5 5-.5 5 .224 5 .5Z" fill="currentColor"></path>
-          </g>
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M13 16.93A7.001 7.001 0 0 0 12 3a7 7 0 0 0-1 13.93V21a1 1 0 1 0 2 0v-4.07ZM15 10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-            fill="currentColor"></path>
-          <defs>
-            <filter id="location-pin_svg__a" x="4" y="18" width="16" height="7" filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB">
-              <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-              <feGaussianBlur stdDeviation="1.5" result="effect1_foregroundBlur_4521_253"></feGaussianBlur>
-            </filter>
-          </defs>
-        </svg>
-        <span> {{ $t('googleMap.LocateMe') }} </span>
+        <button class="map-button flex gap-2 bg-white  border-theem" @click="getCurrentLocation">
+        <img src="~/assets/icon/location.svg" alt="location" style="width: 30px; height: 30px" />
+        <span> {{ $t('googleMap.myLocation') }} </span>
+      </button>
       </div>
     </GmapMap>
     <div class="mt-4">
@@ -194,10 +181,10 @@ export default {
         name: this.dataAddressUpdate?.name,
         zip: this.dataAddressUpdate?.zip,
         country_id: this.dataAddressUpdate?.country_id,
-        address_name: this.address.name,
-        street: this.address.street,
+        address_name: this.dataAddressUpdate.address_name,
+        street: this.dataAddressUpdate.street,
         city_id: this.dataAddressUpdate?.city_id,
-        is_default: this.dataAddressUpdate?.default,
+        default: this.dataAddressUpdate?.default === 1 ? true  : false,
         building_number: this.dataAddressUpdate?.building_number,
         type: this.dataAddressUpdate?.type,
         nearest_landmark: this.dataAddressUpdate?.nearest_landmark ? this.dataAddressUpdate?.nearest_landmark : null,
@@ -223,14 +210,19 @@ export default {
 
 .map-button {
   position: absolute;
-  bottom: 20px;
-  left: 70%;
+  bottom: 7px;
+  right: 55%;
   transform: translateX(-50%);
   background-color: #ffffff;
-  border: 1px solid #cccccc;
-  padding: 10px;
+  border: 1px solid;
+  width: fit-content;
+  padding: 5px;
   border-radius: 5px;
   cursor: pointer;
   z-index: 1000;
 }
+.bottom-134 {
+  bottom: 134px;
+}
+
 </style>

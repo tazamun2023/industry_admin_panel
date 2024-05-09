@@ -11,6 +11,7 @@ export default {
          if(this.addressData.type){
            const data = await this.userAddressAction({
              ...this.addressData,
+             default: this.addressData.is_default
            })
 
            this.addressmodal = false
@@ -44,6 +45,7 @@ export default {
            this.addressData.building_number = value.building_number
            this.addressData.nearest_landmark = value.nearest_landmark
            this.addressData.type = value.type
+           this.addressData.is_default = value.default
            this.addressData.default = value.default
            this.addressData.phone_code = value.phone_code
            this.addressData.lat = value.lat
@@ -65,7 +67,7 @@ export default {
            this.addressData.building_number = ''
            this.addressData.nearest_landmark = ''
            this.addressData.type = ''
-           this.addressData.default = ''
+           this.addressData.is_default = ''
            this.addressData.phone_code = '',
            this.addressData.lan = ''
            this.addressData.lng = ''

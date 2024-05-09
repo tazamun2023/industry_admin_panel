@@ -4,8 +4,9 @@
            <div class="flex justify-between">
 
                 <div>
-                    <h4 class="font-bold">My address</h4>
-                    <p>Provide information on your billing address and where you would like your items to be picked up from. <br> We need your stock pickup location details in order to calculate accurate shipping rates.</p>
+                    <h4 class="font-bold">{{ $t('address.My address') }}</h4>
+                    <p>{{ $t('address.Provide_information') }} <br>
+                       {{ $t('address.Weneed') }}</p>
                 </div>
                 <div>
                     <button  v-if="$can('edit_addresses')" @click="addAddress" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
@@ -21,7 +22,8 @@
            </div>
             <div class="d-flex gap-2">
             <!-- <span v-show="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span> -->
-            <span class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">{{ value.type }}</span>
+            <span class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">
+              {{ value.type }}</span>
           </div>
           </div>
           <div class="flex gap-4 justify-between  p-3">
@@ -55,16 +57,20 @@
                   <p class="font-bold capitalize text-primary">{{value?.nearest_landmark}}</p>
                 </div>
               </div>
-              <!-- <div v-show="!value.is_default">
+              <div v-show="!parseInt(value.default)">
                   <p class="text-primary">SET AS DEFAULT</p>
                   <div class="text-center">
                     <input type="checkbox" name="" id="">
                   </div>
-                </div> -->
+                </div>
           </div>
           <div class="flex gap-4  p-3">
-                        <button class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error" @click="deleteModal=true" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Remove</button>
-                    <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
+                        <button class="p-2 leading-3 rounded hover:border hover:border-smooth 
+                         hover:text-warning flex items-center gap-3 text-error" @click="deleteModal=true" >
+                         <img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> {{ $t('address.Remove')}}</button>
+                    <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white
+                     hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" 
+                     src="~/assets/icon/edit.svg" alt=""> {{ $t('address.Edit')}}</button>
           </div>
       </div>
                 <!-- <div class="flex gap-4 py-2 justify-between">
@@ -109,8 +115,11 @@
                 <!-- -----------default slot------- -->
                 <template v-slot:buttons>
                   <div class="flex gap-4 justify-end">
-                    <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-                    <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
+                    <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
+                      {{ $t('address.Quit')}}</button>
+                    <button @click.prevent="deleting(value)" 
+                    class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
+                    {{ $t('address.Agree')}}</button>
                   </div>
                 </template>
               </DeleteModal>
@@ -129,7 +138,7 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                       </svg>
         <div class="mb-4">
-            <h4>Add Address</h4>
+            <h4>{{ $t('address.Add Address')}}</h4>
           <div>
             <google-map v-if="addressmodal" @cancel="addressmodal = !addressmodal" :dataAddressUpdate="addressData"
             @confirm="confirmAddressAdd" />
@@ -175,7 +184,8 @@ export default{
             building_number:'',
               nearest_landmark:'',
               type:'',
-              default:false,
+              is_default:false,
+
               phone_code:'',
               lat:'',
               lng:''

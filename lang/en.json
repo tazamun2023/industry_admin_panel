@@ -955,7 +955,22 @@
     "phone_code": "Phone Code",
     "invalidLength": "Mobile Number Not Valid",
     "near" : "Nearest landmark",
-    "set_default" : "Set as Default address"
+    "set_default" : "Set as Default address",
+    "Add Address": "Add Address",
+    "Shipping": "Shipping",
+    "Billing": "Billing",
+    "Both": "Both",
+    "Select Country": "Select Country",
+    "Select City": "Select City",
+    "Cancel": "Cancel",
+    "Save Change": "Save Change",
+    "My address":"My address",
+    "Provide_information": "Provide information on your billing address and where you would like your items to be picked up from.",
+  "Weneed": "We need your stock pickup location details in order to calculate accurate shipping rates.",
+  "Remove": "Remove",
+  "Edit": "Edit",
+  "Quit": "Quit",
+  "Agree": "Agree"
   },
 
 
