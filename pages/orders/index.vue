@@ -114,7 +114,7 @@
                                 <td class="whitespace-nowrap p-2 font-medium">{{ index + 1 }}</td>
                                 <td class="whitespace-nowrap p-2">
                                   <div class="flex gap-4">
-                                    <LazyImage :data-src="subItem.product.image" :title="subItem.product.title"
+                                    <LazyImage :data-src="subItem.product?.image" :title="subItem.product.title"
                                       :alt="subItem.product.title" class="w-10 h-10" />
                                     <div>
                                       <a href="">{{ subItem.product.title.slice(0, 30) }}</a>
