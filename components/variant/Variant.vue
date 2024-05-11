@@ -1277,7 +1277,7 @@
           </svg>
           <!-- Modal Content -->
           <div class="mb-4 border-b border-smooth pb-2">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variants[is_attributes_modal_price_index]?.color_name }}, {{ variants[is_attributes_modal_index]?.result.product_variants[is_attributes_modal_price_index]?.value}})</h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }}, {{ variants[is_attributes_modal_index]?.result.product_variant?.value}})</h4>
           </div>
           <div>
             <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab === 'parent'">
