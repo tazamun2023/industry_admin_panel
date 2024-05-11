@@ -2023,6 +2023,10 @@ export default {
       this.fetchingData(product.id).then(() => {
         this.is_clone = false
         this.result.id = ""
+        this.result.is_variant_save = false
+        this.result.variant_uuid = ""
+        this.result.product_variants = []
+        this.result.product_variant = []
       })
     },
     doNext() {
