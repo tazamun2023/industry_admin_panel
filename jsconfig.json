@@ -195,9 +195,7 @@
     "updateStock": "product/update-stock",
     "updateStatus": "product/update-status",
     "findSku": "product/find-sku",
-
-
-
+    "updateSinglePrice":"product/update-single-price",
 
     "getQuote": "quotes/find",
     "setQuote": "quotes/action",
