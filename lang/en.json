@@ -1,16 +1,16 @@
 {
   "app": {
-    "dir":"ltr",
+    "dir": "ltr",
     "lang": "lang",
-    "Save":"Save",
-    "Add":"Add",
-    "Done":"Done",
+    "Save": "Save",
+    "Add": "Add",
+    "Done": "Done",
     "of": "of",
-    "SAR":"SAR",
-    "Discard Draft":"Discard Draft",
-    "Cancel":"Cancel",
-    "is_open_1":"Yes",
-    "is_open_2":"No",
+    "SAR": "SAR",
+    "Discard Draft": "Discard Draft",
+    "Cancel": "Cancel",
+    "is_open_1": "Yes",
+    "is_open_2": "No",
     "All": "All",
     "Actions": "Actions",
     "My List": "My List",
@@ -30,13 +30,16 @@
     "Select on Option": "Select on Option",
     "Select on Status": "Select on Status",
     "tableEmptyData": "This table is currently empty of any data",
-
     "add_admin": "Add admin User",
     "update_admin": "Update admin User",
     "update_vendor": "Update Vendor User"
-
   },
-
+  "shipping": {
+    "free_shipping": "Free Shipping",
+    "est": "The estimate  duration  is the shipping period and does not include the product delivery period",
+    "est_days": "days",
+    "est_hours": "hours"
+  },
   "rfq": {
     "Shipping details": "Shipping details",
     "Total Quote Price": "Total Quote Price",
@@ -110,48 +113,47 @@
     "Search by Category": "Search by Category",
     "Select Sub Category": "Select Sub Category",
     "Select Child Category": "Select Child Category",
-    "Search by Product":"Search by Product",
-    "Product Name":"Product Name",
+    "Search by Product": "Search by Product",
+    "Product Name": "Product Name",
     "RFQ Type": "RFQ Type",
     "RFQ Status": "RFQ Status",
     "RFQ_Market": "RFQ Market",
     "Location": "Location",
     "RFQ": "RFQ List",
-    "FilterBy":"Filter By",
-    "FilterValue":"Filter Value",
-    "selectOption":"select Option",
+    "FilterBy": "Filter By",
+    "FilterValue": "Filter Value",
+    "selectOption": "select Option",
     "notification": "RFQ Notification",
     "manage_quotations": "Manage Quotations",
     "RFQ Marketplace": "RFQ Marketplace",
     "RFQ Marketplace Description": "Explore and bid on Requests For Quotations of verified wholesale buyers from around the world.",
-    "Quentity":"Quentity",
-    "Unitprice":"Unit cost price",
-    "ShipingCost":"Shiping Cost & vat:",
-    "ProductsQoute":"Products in qoute",
-    "Exclshipping":"(Excl. shipping & VAT)",
-    "TotalCost":"Total Cost",
-    "TotalPrice":"Total price",
+    "Quentity": "Quentity",
+    "Unitprice": "Unit cost price",
+    "ShipingCost": "Shiping Cost & vat:",
+    "ProductsQoute": "Products in qoute",
+    "Exclshipping": "(Excl. shipping & VAT)",
+    "TotalCost": "Total Cost",
+    "TotalPrice": "Total price",
     "QuotationReceived": "Quotation Received",
-    "QuoteID":"Quote ID",
-    "PriceValidUntil":"Price Valid Until",
-    "QuoteSubmitted":"Quote Submitted",
-    "Verified":"Verified",
-    "viewQuote":"view quote",
-    "sendCounterOffer":"send counter offer",
-    "rejectQuote":"reject quote",
-    "acceptCheckout":"accept & checkout",
-    "price":"Price",
-    "quantityRequired":"Enter quantity please",
-    "UnitpriceRequired":"Unit offer price is Required",
-    "costPriceGreater1":"cost price should be greater than 1",
-    "ClearFilter":"Clear Filter",
-    "change":"CHANGE",
-    "Remove":"remove",
-    "EditQuote":"Edit Quote"
-
+    "QuoteID": "Quote ID",
+    "PriceValidUntil": "Price Valid Until",
+    "QuoteSubmitted": "Quote Submitted",
+    "Verified": "Verified",
+    "viewQuote": "view quote",
+    "sendCounterOffer": "send counter offer",
+    "rejectQuote": "reject quote",
+    "acceptCheckout": "accept & checkout",
+    "price": "Price",
+    "quantityRequired": "Enter quantity please",
+    "UnitpriceRequired": "Unit offer price is Required",
+    "costPriceGreater1": "cost price should be greater than 1",
+    "ClearFilter": "Clear Filter",
+    "change": "CHANGE",
+    "Remove": "remove",
+    "EditQuote": "Edit Quote"
   },
-  "multiSelect":{
-    "orderStatus":"Order Status"
+  "multiSelect": {
+    "orderStatus": "Order Status"
   },
   "products": {
     "Id": "Id",
@@ -237,7 +239,7 @@
     "ly": "Last year",
     "tSells": "Total sells",
     "cityName": "City Name",
-    "name" : "Name"
+    "name": "Name"
   },
   "bnews": {
     "news": "Business News",
@@ -261,7 +263,7 @@
     "catUp": "Category",
     "sor": "SORRY",
     "cat": "category",
-    "countryName" : "Country Name"
+    "countryName": "Country Name"
   },
   "brand": {
     "buyCount": "Buy count",
@@ -335,7 +337,7 @@
     "Search by City": "Search by City",
     "Search by Status": "Search by Status",
     "Search by Verified": "Search by Verified",
-    "Search by Product":"Search by Product",
+    "Search by Product": "Search by Product",
     "Save Changes": "Save Changes",
     "Street name": "Street name",
     "Zip Code": "Zip Code",
@@ -354,10 +356,10 @@
     "All": "All"
   },
   "validation": {
-    "number":"Enter Number",
-    "required":"This required",
-    "email":"Required is Email Yype"
-    },
+    "number": "Enter Number",
+    "required": "This required",
+    "email": "Required is Email Yype"
+  },
   "prod": {
     "Submit": "Submit",
     "Show": "Show",
@@ -584,32 +586,31 @@
     "full_payment": "full payment",
     "pending": "pending"
   },
-  "googleMap":{
-    "confirm":"confirm",
-    "cancel":"cancel",
-    "LocateMe":"Locate Me"
+  "googleMap": {
+    "confirm": "confirm",
+    "cancel": "cancel",
+    "LocateMe": "Locate Me"
   },
-  "statusOrder":{
-    "all":"All",
-  "order placed": "Order Placed",
-  "received": "Received",
-  "partial received": "Partial Received",
-  "delivered": "Delivered",
-  "partial delivered": "Partial Delivered",
-  "pending cancellation": "Pending Cancellation",
-  "cancelled": "Cancelled",
-  "ready to ship": "Ready to Ship",
-  "order picked": "Order Picked",
-  "out for pickup": "Out for Pickup",
-  "out for delivery": "Out for Delivery",
-  "dispute": "Dispute",
-  "in transit": "In Transit",
-  "orderStatus":"Order Status"
-},
-
+  "statusOrder": {
+    "all": "All",
+    "order placed": "Order Placed",
+    "received": "Received",
+    "partial received": "Partial Received",
+    "delivered": "Delivered",
+    "partial delivered": "Partial Delivered",
+    "pending cancellation": "Pending Cancellation",
+    "cancelled": "Cancelled",
+    "ready to ship": "Ready to Ship",
+    "order picked": "Order Picked",
+    "out for pickup": "Out for Pickup",
+    "out for delivery": "Out for Delivery",
+    "dispute": "Dispute",
+    "in transit": "In Transit",
+    "orderStatus": "Order Status"
+  },
   "order": {
-    "enterTotAmPay":"enter the total amount of payment",
-    "total_amount":"total amount",
+    "enterTotAmPay": "enter the total amount of payment",
+    "total_amount": "total amount",
     "isRequired": "{type} is required",
     "allOrders": "All Orders",
     "orderId": "Order Id",
@@ -698,19 +699,18 @@
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
     "messageTow": "payment has been successfully received",
-    "PaymentSummery":"Payment Summery",
-    "Method":"Method",
-    "NameOnCard":"Name On Card",
-    "PayDate":"Pay Date",
-    "PayAttachment":"PayAttachment",
-    "PayedAmount":"Payed Amount",
-    "remainingAmount":"remaining Amount",
-    "Accept":"Accept",
-    "Reject":"Reject",
-    "nameEmpty":" name is empty"
+    "PaymentSummery": "Payment Summery",
+    "Method": "Method",
+    "NameOnCard": "Name On Card",
+    "PayDate": "Pay Date",
+    "PayAttachment": "PayAttachment",
+    "PayedAmount": "Payed Amount",
+    "remainingAmount": "remaining Amount",
+    "Accept": "Accept",
+    "Reject": "Reject",
+    "nameEmpty": " name is empty"
   },
-
-"fSale": {
+  "fSale": {
     "sProd": "Selected products",
     "sPrice": "Sale price",
     "undo": "Undo",
@@ -757,7 +757,6 @@
     "first_name": "First Name",
     "last_name": "Last Name",
     "name": "Name"
-
   },
   "user": {
     "users": "users",
@@ -788,13 +787,13 @@
     "inPass": "Invalid password length",
     "nMatch": "Two password didn't match",
     "name": "Name",
-    "new_password" : "New Password",
-    "password" : "password",
-    "one_numeric" : "Contain at least one numeric character",
-    "alphabetic_uppercase" : "Contain at least one alphabetic Uppercase character",
-    "alphabetic _lowercase" : "Contain at least one alphabetic Lowercase character",
+    "new_password": "New Password",
+    "password": "password",
+    "one_numeric": "Contain at least one numeric character",
+    "alphabetic_uppercase": "Contain at least one alphabetic Uppercase character",
+    "alphabetic _lowercase": "Contain at least one alphabetic Lowercase character",
     "one_special": "Contain at least one Special character",
-    "confirm_password" : "Confirm New Password"
+    "confirm_password": "Confirm New Password"
   },
   "admin": {
     "default": "Default",
@@ -834,7 +833,6 @@
     "dltMsg": "Do you really want to delete?",
     "wAcc": "withdrawal account"
   },
-
   "global": {
     "name": "Name",
     "title": "Title",
@@ -857,7 +855,6 @@
     "video_type": "Video Type",
     "organization": "Organization"
   },
-
   "vendor": {
     "name": "Name",
     "status": "Status",
@@ -883,7 +880,7 @@
     "area": "Area",
     "street": "Street",
     "building": "Building Number",
-    "whatsapp" : "Whatsapp",
+    "whatsapp": "Whatsapp",
     "linkedin": "Linkedin",
     "facebook": "Facebook",
     "youtube": "Youtube",
@@ -915,7 +912,6 @@
     "image": "Image",
     "verify": "Verification",
     "notValidUrl": "The Url Not Valid"
-
   },
   "paymentMethod": {
     "bank": "bank",
@@ -933,11 +929,10 @@
     "bank_name": "Bank Name",
     "bank_location": "Where is your bank located",
     "iban": "IBAN",
-    "account_number" : "Bank account number",
-    "holder_name" : "Bank account holder's name",
-    "swift_code" : "Swift/BIC code"
+    "account_number": "Bank account number",
+    "holder_name": "Bank account holder's name",
+    "swift_code": "Swift/BIC code"
   },
-
   "address": {
     "country": "Country",
     "order": "Order",
@@ -962,21 +957,18 @@
     "street": "Street",
     "building_no": "Building Number",
     "address_name": "Address Name",
-    "type" : "Address Type",
+    "type": "Address Type",
     "phone_code": "Phone Code",
     "invalidLength": "Mobile Number Not Valid",
-    "near" : "Nearest landmark",
-    "set_default" : "Set as Default address"
+    "near": "Nearest landmark",
+    "set_default": "Set as Default address"
   },
-
-
   "country": {
     "iso": "Iso",
     "iso3": "Iso3",
     "phonecode": "Phone Code",
     "currency_code": "Currency Code"
   },
-
   "city": {
     "city": "City",
     "country": "Country"
@@ -989,13 +981,11 @@
     "color_code": "Code",
     "select_color": "Select Color"
   },
-
   "transportation_mode": {
     "transportation_mode": "Transportation Mode",
     "color_code": "Code",
     "select_color": "Select Color"
   },
-
   "warehouse": {
     "warehouses": "Warehouses",
     "manager_number": "Manager Number",
@@ -1004,30 +994,21 @@
     "is_open_friday": "Is Open Friday",
     "is_open_saturday": "Is Open Saturday"
   },
-
   "unit": {
     "unit": "Unit",
     "code": "Code",
     "unit_code": "Unit Code",
     "select_color": "Select Color"
   },
-
   "port": {
     "port": "Port",
     "type": "Type",
     "country": "Country",
     "city": "City"
   },
-
   "storagetem": {
     "storagetem": "Storage Temperature"
-
   },
-
-
-
-
-
   "setting": {
     "cLogo": "Change logo",
     "imp": "Important",
@@ -1066,7 +1047,6 @@
     "adr": "Address line",
     "sName": "Store name",
     "sLogo": "Store logo",
-
     "store": "Store form",
     "countries": "Countries",
     "cities": "Cities",
@@ -1076,12 +1056,12 @@
     "units": "Units",
     "temperatures": "Storage Temperatures",
     "barcodes": "Barcodes"
-
   },
-  "approvedModal":{
+
+  "approvedModal": {
     "sure":"Are you sure",
     "revert":"You wont be able to revert this",
-    "confirmBtn":"Yes, delete it!",
+    "confirmBtn":"Yes",
     "cancel":"Cancel",
     "approvedAction":"Approved",
     "success":"the rfq has been approved",
@@ -1167,11 +1147,10 @@
     "message": "Message",
     "access": "Access Management",
     "vendor_users": "Vendor Users"
-
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
-    "titleModel":"Are you sure you want to approve this request?",
+    "titleModel": "Are you sure you want to approve this request?",
     "ordersItems": "Orders Items",
     "pickupAddress": "Pickup Address",
     "Add Address": "Add Address",
@@ -1195,7 +1174,7 @@
     "cancel": "Cancel",
     "next": "Next",
     "back": "Back",
-    "reference_number":"reference number"
+    "reference_number": "reference number"
   },
   "orderReject": {
     "title": "Reject Order",
@@ -1206,7 +1185,7 @@
     "cancel": "Cancel",
     "save": "Save"
   },
-"util": {
+  "util": {
     "tod": "Top of daily discover",
     "bfb": "Beside featured brands",
     "bod": "Bottom of daily discover",
@@ -1236,12 +1215,11 @@
     "saved": "Updated successfully!!!",
     "del": "Deleted successfully!!!",
     "appr": "Approved",
-    "active" : "Active",
-    "deactive" : "DeActive",
-    "notApproval" : "Not Approval",
-    "verify" : "Verified",
-    "notVerify" : "Not Verified"
-
+    "active": "Active",
+    "deactive": "DeActive",
+    "notApproval": "Not Approval",
+    "verify": "Verified",
+    "notVerify": "Not Verified"
   },
   "profile": {
     "sendCode": "We are going to send you an email containing a code",
@@ -1289,12 +1267,12 @@
     "dleDeal": "Bundle deal",
     "fSale": "Flash sale",
     "id": "ID",
-    "buisness-news":"Buisness News",
-    "news":"News",
-    "video":"Video",
-    "certificate":"Certificate",
-    "faq":"FAQ",
-    "content":"Content"
+    "buisness-news": "Buisness News",
+    "news": "News",
+    "video": "Video",
+    "certificate": "Certificate",
+    "faq": "FAQ",
+    "content": "Content"
   },
   "dataPage": {
     "fImgs": "Footer images",
@@ -1435,21 +1413,21 @@
     "ai": "Add Image",
     "trans": "Translate attached PDF in email"
   },
-  "account":{
-    "account":"Account",
-    "company-profile":"Company Profile",
-    "sellers":"Sellers",
-    "vendors":"Vendors",
-    "customers":"Customers",
-    "address":"Address",
-    "payment":"Payment"
+  "account": {
+    "account": "Account",
+    "company-profile": "Company Profile",
+    "sellers": "Sellers",
+    "vendors": "Vendors",
+    "customers": "Customers",
+    "address": "Address",
+    "payment": "Payment"
   },
   "content": {
     "faq": "FAQ",
     "Questions": "Questions",
     "Answers": "Answers"
   },
-  "invoice" : {
+  "invoice": {
     "invoice": "Invoice",
     "invoiceNo": "Invoice No.",
     "invoiceDate": "Invoice Date",
@@ -1472,7 +1450,5 @@
     "terms_and_conditions": "Terms and Conditions",
     "pay_within_15_days": "Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.",
     "quote_invoice_number": "Please quote invoice number when remitting funds."
-
   }
-
 }

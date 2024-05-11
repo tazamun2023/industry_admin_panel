@@ -454,7 +454,7 @@ const actions = {
       params,
       this.$auth.strategy.token.get(),
       api,
-      rootState.language.langCode
+      rootState.language.currentLanguage.code
     );
 
     if (data.status === 200) {

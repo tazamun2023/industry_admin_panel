@@ -26,10 +26,11 @@
             </button>
             <div class="related w-full">
               <img src="~/assets/icon/search-normal.svg" alt="" class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] mt-[13px]">
-                 <input type="text" placeholder="Search" class="w-full px-34px">
+                 <input type="text" placeholder="Search" class="w-full px-34px" v-model="search" @change="searchBank">
             </div>
             <div class="w-[300px] flex gap-4 items-center">
-              <img class="w-7 h-7" src="~/assets/icon/frame.svg" alt="">
+              <img v-if="orderbyType == 'asc'"  @click="orderbyType='desc', searchBank()" class="w-7 h-7" src="~/assets/icon/frame.svg" alt="">
+             <img v-if="orderbyType == 'desc'"  @click="orderbyType='asc', searchBank()" class="w-7 h-7 rotate-180" src="~/assets/icon/frame.svg" alt="">
               <div class="relative inline-block text-left">
                 <div>
                   <button @click="shortDropdown" type="button" class="inline-flex w-full justify-center items-center gap-4 rounded-md bg-white p-1  text-sm font-semibold text-primary shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -44,9 +45,9 @@
                 <div v-if="dropDown" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                   <div class="py-1" role="none">
                     <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Lorem</a>
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Lorem</a>
-                    <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Lorem</a>
+                     <span @click="orderBy='name', searchBank()"  class="text-gray-700 block px-4 py-2 text-sm w-full border-b border-smooth" role="menuitem" tabindex="-1" id="menu-item-0">Name</span>
+                    <span @click="orderBy='bank_name', searchBank()"  class="text-gray-700 block px-4 py-2 text-sm border-b border-smooth" role="menuitem" tabindex="-1" id="menu-item-1">Bank Name</span>
+                    <span  @click="orderBy='holder_name', searchBank()" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Holder Name</span>
                   </div>
                 </div>
               </div>
@@ -282,9 +283,20 @@ export default{
               account_number:'',
               iban_number:'',
               swift_code:'',
-              is_default:false
+              is_default:false,
             },
-          deleteModal:false
+          deleteModal:false,
+          orderOptions: {
+            name: { title: this.$t('user.name') },
+            email: { title: this.$t('fSale.email') },
+            username: { title: this.$t('user.uName') },
+            created_at: { title: this.$t('category.date') },
+          },
+          search:'',
+          orderBy:'',
+          orderbyType:'asc'
+
+
         }
     },
   computed:{
@@ -303,6 +315,21 @@ export default{
       this.deleteModal = false
 
     },
+
+    async searchBank(){
+         let search = this.search
+          await this.getVendorBank({
+            params:{
+              "vendor_id" : this.profile.vendor_id,
+              "search" : search,
+              "orderby" : this.orderBy,
+              "orderbyType" : this.orderbyType,
+            },
+            api:"getVendorBank"
+          })
+
+    },
+
     async  getAllVendorBank(){
       await this.getVendorBank({
         params:{

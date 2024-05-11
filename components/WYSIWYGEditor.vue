@@ -4,7 +4,7 @@
     :class="[{'full-screen': fullScreen}, {'focused': focused}]"
   >
     <div class="dply-felx mb-15">
-      <label class="mb-0">{{title}}</label>
+      <label class="mb-0 font-bold">{{title}}</label>
       <div class="custom-toolbar">
         <button
           class="outline-btn"
