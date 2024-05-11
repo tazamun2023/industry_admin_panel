@@ -57,16 +57,16 @@
                   <p class="font-bold capitalize text-primary">{{value?.nearest_landmark}}</p>
                 </div>
               </div>
-              <div v-show="!parseInt(value.default)">
+              <!-- <div v-show="!parseInt(value.default)">
                   <p class="text-primary">SET AS DEFAULT</p>
                   <div class="text-center">
                     <input type="checkbox" name="" id="">
                   </div>
-                </div>
+                </div> -->
           </div>
           <div class="flex gap-4  p-3">
                         <button class="p-2 leading-3 rounded hover:border hover:border-smooth 
-                         hover:text-warning flex items-center gap-3 text-error" @click="deleteModal=true" >
+                         hover:text-warning flex items-center gap-3 text-error" @click="deleting(value)" >
                          <img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> {{ $t('address.Remove')}}</button>
                     <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white
                      hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" 
@@ -207,8 +207,9 @@ export default{
  methods:{
    ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
    ...mapActions('ui', ["setToastMessage", "setToastError"]),
-   ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode']),
+   ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode','swetAlertFire']),
 
+   
    countrySelected() {
      this.addressData.city_id = ""
      try {
@@ -225,7 +226,7 @@ export default{
    async getAllAddress(){
      await this.getVendorAddress({params:{'vendor_id': this.profile.id}, api:'getVendorAddress'})
    },
-
+   
    closeAddressModel() {
       this.addressmodal = false
       this.confirmAddAddress = false

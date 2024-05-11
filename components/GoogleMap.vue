@@ -5,7 +5,7 @@
       <GmapAutocomplete @place_changed="setPlace" class="absolute w-50 top-0 eft-1/1  mt-8">
       </GmapAutocomplete>
       <GmapMarker :position="markerPosition" :clickable="true" @click="handleMarkerClick" />
-      <div class="absolute bottom-16 left-0 w-full h-10 bg-white bg-opacity-50 flex items-center justify-center">
+      <div class="absolute bottom-134 left-0 w-full h-10 bg-white  flex items-center justify-center">
         <span class="text-black" v-if="address.name">{{ address.name }}</span>
       </div>
       <div class="map-button flex gap-2" @click="getCurrentLocation">
@@ -213,8 +213,8 @@ export default {
   bottom: 7px;
   right: 55%;
   transform: translateX(-50%);
-  background-color: #ffffff;
-  border: 1px solid;
+  /* background-color: #ffffff; */
+  /* border: 1px solid; */
   width: fit-content;
   padding: 5px;
   border-radius: 5px;
