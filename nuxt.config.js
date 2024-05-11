@@ -81,7 +81,7 @@ export default {
   auth: {
     namespace: 'admin_panel',
     redirect: {
-      logout: '/login',
+      logout: false,
       callback: false,
       home: false,
     },
