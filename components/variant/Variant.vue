@@ -25,9 +25,15 @@
                 <a class="text-xs w-100 font-bold uppercase px-5 py-3 leading-normal"
                    @click="toggleTabs('parent')"
                    :class="openTab === 'parent'? 'border-b-2 bg-primary border-primary text-white':'bg-white border-white border-b-2'">
-                  <span class="flex gap-3"> <img class="w-10 h-10 rounded"
-                                                 src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/parentImageIcon.svg"
-                                                 alt=""> <span class="pt-2">{{ $t('prod.Parent view') }}</span></span>
+                  <span class="flex gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="19" class="w-10 h-10 rounded" viewBox="0 0 23 19" fill="none"><script xmlns=""/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.99023 2C4.99023 0.89543 5.88566 0 6.99023 0H16.9902C18.0948 0 18.9902 0.895431 18.9902 2V5C18.9902 6.10457 18.0948 7 16.9902 7H12.4902V9.25H16.9902C17.9567 9.25 18.7402 10.0335 18.7402 11V13H20.9902C22.0948 13 22.9902 13.8954 22.9902 15V17C22.9902 18.1046 22.0948 19 20.9902 19H14.9902C13.8857 19 12.9902 18.1046 12.9902 17V15C12.9902 13.8954 13.8857 13 14.9902 13H17.2402V11C17.2402 10.8619 17.1283 10.75 16.9902 10.75H6.99023C6.85216 10.75 6.74023 10.8619 6.74023 11V13H8.99023C10.0948 13 10.9902 13.8954 10.9902 15V17C10.9902 18.1046 10.0948 19 8.99023 19H2.99023C1.88566 19 0.990234 18.1046 0.990234 17V15C0.990234 13.8954 1.88566 13 2.99023 13H5.24023V11C5.24023 10.0335 6.02374 9.25 6.99023 9.25H10.9902V7H6.99023C5.88566 7 4.99023 6.10457 4.99023 5V2ZM6.99023 1.5H16.9902C17.2664 1.5 17.4902 1.72386 17.4902 2V5C17.4902 5.27614 17.2664 5.5 16.9902 5.5H6.99023C6.71409 5.5 6.49023 5.27614 6.49023 5V2C6.49023 1.72386 6.71409 1.5 6.99023 1.5ZM2.99023 14.5H8.99023C9.26638 14.5 9.49023 14.7239 9.49023 15V17C9.49023 17.2761 9.26638 17.5 8.99023 17.5H2.99023C2.71409 17.5 2.49023 17.2761 2.49023 17V15C2.49023 14.7239 2.71409 14.5 2.99023 14.5ZM20.9902 14.5H14.9902C14.7141 14.5 14.4902 14.7239 14.4902 15V17C14.4902 17.2761 14.7141 17.5 14.9902 17.5H20.9902C21.2664 17.5 21.4902 17.2761 21.4902 17V15C21.4902 14.7239 21.2664 14.5 20.9902 14.5Z" fill="#404040"/>
+                      <script xmlns=""/>
+                    </svg>
+<!--                    <img class="w-10 h-10 rounded"-->
+<!--                                                 src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/parentImageIcon.svg"-->
+<!--                                                 alt="">-->
+                    <span class="pt-2">{{ $t('prod.Parent view') }}</span></span>
                 </a>
               </li>
               <li class="-mb-px w-100  mr-2 last:mr-0 cursor-pointer"
@@ -512,7 +518,7 @@
                   type="text" class="form-control"
                   v-model="variants[openTab]?.result.barcode"
                   :placeholder="$t('prod.Barcode')"
-                  @keypress="onlyNumber"
+                  @keypress="onlyNumber" min="0" maxlength="8"
                   :disabled="variants[openTab]?.result.barcode_type==4"
                   :class="{ 'has-error': errors[0], 'cursor-not-allowed': variants[openTab].result.barcode_type == 4 }"
                 >
@@ -572,7 +578,7 @@
                 class="form-control"
                 :class="{ 'has-error': errors[0] }"
                 v-model="variants[openTab]?.result.available_quantity"
-                @keypress="onlyNumber"
+                @keypress="onlyNumber" min="0" maxlength="8"
                 @input="availableQuantity">
               <label>{{ $t('prod.Minimum order quantity') }}: {{
                   variants[openTab]?.result.product_prices[0]?.quantity
@@ -595,7 +601,7 @@
                     class="form-control pr-12"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Size')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pk_size"
                   >
                   <div class="absolute right-0 top-0">
@@ -624,7 +630,7 @@
                     class="form-control"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Number of units per carton')"
-                    @keypress="onlyNumber" v-model="variants[openTab]?.result.pk_number_of_carton">
+                    @keypress="onlyNumber" min="0" maxlength="8" v-model="variants[openTab]?.result.pk_number_of_carton">
                 </div>
               </div>
               <span class="error">{{ errors[0] }}</span>
@@ -641,7 +647,7 @@
                     class="form-control"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Average lead time(Days)')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="2"
                     v-model="variants[openTab]?.result.pk_average_lead_time">
                 </div>
               </div>
@@ -685,7 +691,7 @@
                     class="form-control pr-12"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Weight')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pc_weight">
                   <div class="absolute right-0 top-0">
                     <select class="p-2 m-1 float-right border-l border-smooth uppercase"
@@ -712,7 +718,7 @@
                     class="form-control pr-12"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Length')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pc_length">
                   <div class="absolute right-0 top-0">
                     <select
@@ -738,7 +744,7 @@
                     type="text" class="form-control pr-12"
                     :class="{ 'has-error': errors[0] }"
                     placeholder="Carton Height"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pc_height">
                   <div class="absolute right-0 top-0">
                     <select class="p-2 m-1 float-right border-l border-smooth uppercase"
@@ -765,7 +771,7 @@
                     class="form-control pr-12"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Width')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pc_width">
                   <div class="absolute right-0 top-0">
                     <select data-plugin="customselect" class="p-2 m-1 float-right border-l border-smooth uppercase"
@@ -801,7 +807,7 @@
                   class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
                   :placeholder="$t('prod.Weight')"
-                  @keypress="onlyNumber"
+                  @keypress="onlyNumber" min="0" maxlength="8"
                   v-model="variants[openTab]?.result.pdime_weight"
                 >
 
@@ -832,7 +838,7 @@
                     class="form-control"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Length')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pdime_length">
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -849,7 +855,7 @@
                     class="form-control"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Height')"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pdime_height">
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -866,7 +872,7 @@
                     class="form-control"
                     :placeholder="$t('prod.Width')"
                     :class="{ 'has-error': errors[0] }"
-                    @keypress="onlyNumber"
+                    @keypress="onlyNumber" min="0" maxlength="8"
                     v-model="variants[openTab]?.result.pdime_width"
                   >
                 </div>
@@ -927,7 +933,7 @@
                       type="text"
                       class="form-control"
                       :placeholder="$t('prod.Minimum order quantity')"
-                      @keypress="onlyNumber"
+                      @keypress="onlyNumber" min="0" maxlength="8"
                       v-model="product_price.quantity"
                       @input="availableQuantity"
                     >
@@ -940,7 +946,7 @@
                     <div class="relative flex">
                       <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                       <input type="text" style="padding: 1px 56px;" class="form-control px-20" placeholder="Enter Price"
-                             @keypress="onlyNumber"
+                             @keypress="onlyNumber" min="0" maxlength="8"
                              v-model="product_price.unit_price">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
@@ -954,7 +960,7 @@
                       <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                              :class="{ 'has-error': errors[0] }"
                              :placeholder="$t('prod.Sale price')"
-                             @keypress="onlyNumber"
+                             @keypress="onlyNumber" min="0" maxlength="8"
                              v-model="product_price.selling_price">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
@@ -1301,7 +1307,7 @@
                             type="text"
                             class="form-control"
                             :placeholder="$t('prod.Minimum order quantity')"
-                            @keypress="onlyNumber"
+                            @keypress="onlyNumber" min="0" maxlength="8"
                             v-model="attributes_modal_price.quantity"
                             @input="availableQuantity"
                           >
@@ -1315,7 +1321,7 @@
                             <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                             <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                    placeholder="Enter Price"
-                                   @keypress="onlyNumber"
+                                   @keypress="onlyNumber" min="0" maxlength="8"
                                    v-model="attributes_modal_price.unit_price">
                           </div>
                           <span class="error">{{ errors[0] }}</span>
@@ -1329,7 +1335,7 @@
                             <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                    :class="{ 'has-error': errors[0] }"
                                    :placeholder="$t('prod.Sale price')"
-                                   @keypress="onlyNumber"
+                                   @keypress="onlyNumber" min="0" maxlength="8"
                                    v-model="attributes_modal_price.selling_price">
                           </div>
                           <span class="error">{{ errors[0] }}</span>
@@ -1390,6 +1396,7 @@ import Spinner from "@/components/Spinner.vue";
 import LangInput from "@/components/langInput.vue";
 import th from "vue2-datepicker/locale/es/th";
 import id from "vue2-datepicker/locale/es/id";
+import util from "@/mixin/util";
 
 extend('uniqueSku', {
   validate: (value, {allSKus}) => {
@@ -1437,6 +1444,7 @@ extend('priceComparison', {
 
 export default {
   name: "Variant",
+  mixins: [util],
   inject: [],
   components: {
     VueUploadImages,
@@ -2060,6 +2068,16 @@ export default {
             id: res.id,
           };
 
+
+          for (let i = 0; i < this.variants.length; i++) {
+            const variantResult = this.variants[i].result;
+            if (!variantResult.id) {
+              variantResult.sku = null;
+              variantResult.product_images = [];
+            }
+          }
+
+
           this.openTab = 'parent'
         }
       } catch (error) {
@@ -2205,33 +2223,6 @@ export default {
         }
 
       }
-    },
-    onlyNumber($event) {
-      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
-        $event.preventDefault();
-      }
-    },
-    stockCheck(index = null) {
-      this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
-      this.compareMethods();
-
-      const firstQty = parseInt(this.result.product_prices[0]?.quantity);
-      const secondQty = parseInt(this.result.product_prices[1]?.quantity);
-      const thirdQty = parseInt(this.result.product_prices[2]?.quantity);
-
-      if (firstQty && secondQty) {
-        if (firstQty > secondQty) {
-          this.hasErrorQty = index
-        }
-      }
-
-      if (secondQty && thirdQty) {
-        if (secondQty > firstQty && thirdQty > secondQty) {
-          this.hasError = true
-        }
-      }
-
     },
     compareMethods() {
       if (this.is_attributes_modal_index !== false) {

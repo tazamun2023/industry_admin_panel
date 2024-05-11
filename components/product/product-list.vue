@@ -229,6 +229,9 @@
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
                       <input v-if="$store.state.admin.isVendor" type="qty" title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"
+                             min="0"
+                             maxlength="8"
+                             @input="handleInput"
                              @change="updateQty(value.id, $event)">
                       <input v-else type="text" :value="value.available_quantity" disabled>
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:
