@@ -346,7 +346,7 @@
                     <button
                       type="button"
                       class="btn text-white bg-primary w-1/4 hover:text-primary"
-                      :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
+                      :disabled="!result.product_variants[0]?.color_name && !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
                       @click.prevent="doNext">
                       {{ $t('prod.Next') }}
                     </button>
@@ -2088,11 +2088,20 @@ export default {
       // Check if product_variants is not empty
       if (this.result.product_variants.length !== 0) {
         // Iterate through each variant
+        // for (let i = 0; i < this.result.product_variants.length; i++) {
+        //   // Check if any variant has missing name or value
+        //   if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+        //     // Show error message and exit loop early
+        //     this.setToastError(this.$t('prod.Color or value cant empty value'));
+        //     return;
+        //   }
+        // }
         for (let i = 0; i < this.result.product_variants.length; i++) {
+          const variant = this.result.product_variants[i];
           // Check if any variant has missing name or value
-          if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+          if (!variant.name && !variant.value) {
             // Show error message and exit loop early
-            this.setToastError(this.$t('prod.Color or value cant empty value'));
+            this.setToastError(this.$t('prod.Color or value cannot be empty'));
             return;
           }
         }

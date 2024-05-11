@@ -60,8 +60,10 @@
                     <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
                   </span>
                   <p v-for="(variantStatus, index1) in variants" v-if="index1===index">
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id">{{ $t('prod.Pending') }}</span>
+                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'pending'">{{ $t('prod.Pending') }}</span>
+                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'archived'">{{ $t('prod.archived') }}</span>
+                    <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'approved'">{{ $t('prod.approved') }}</span>
+                    <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'rejected'">{{ $t('prod.rejected') }}</span>
                     <span class="bg-smooth rounded-lg text-xs mt-2 p-1"
                           v-if="!variantStatus.result.id">{{ $t('prod.Incomplete') }}</span>
                   </p>
@@ -269,7 +271,7 @@
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white"
-                      v-if="variant.result.status==='approval'">{{ variant.result.status }}</span>
+                      v-if="variant.result.status==='approved'">{{ variant.result.status }}</span>
                 <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
                       v-if="variant.result.status==='pending'">{{ variant.result.status }}</span>
                 <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white"
@@ -1784,7 +1786,7 @@ export default {
       } else {
         for (let i = 0; i < this.result.product_variants.length; i++) {
           // Check if any variant has missing name or value
-          if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+          if (!this.result.product_variants[i].name && !this.result.product_variants[i].value) {
             // Show error message and exit loop early
             this.setToastError(this.$t('prod.Color or value cant empty value'));
             return;
@@ -2095,7 +2097,13 @@ export default {
       }
     },
     variantNameWithAttr(name) {
-      return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
+      if (this.result.product_variants[this.openTab].color_name && this.result.product_variants[this.openTab].value){
+        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
+      }else if (this.result.product_variants[this.openTab].color_name) {
+        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name;
+      }else {
+        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].value;
+      }
     },
 
     closeVariantModal(){
