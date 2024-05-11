@@ -100,32 +100,37 @@ email, mobile, and CR number </p>
               <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
             </div>
 
-            <div class="input-wrapper  mb-2">
-              <label for="">{{ $t("vendor.email") }}</label>
-              <div class="flex">
-                <div class="w-full">
-                  <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
-                  <input type="text" placeholder="Email" v-model="fromData.contact_json.email">
-                    <span  class="error">{{ errors[0] }}</span>
-                </ValidationProvider>
-                </div>
-              </div>
 
+            <div  class="input-wrapper   mb-2">
+              <label for="">Logo Upload</label>
+              <div class="flex gap-4">
+                <div class="file-wrapper w-1/4 h-[232px]   upload-block">
+                  <div class="border-dashed border border-smooth rounded h-[232px]">
+                    <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                    <img v-else class="w-full h-[232px] !important rounded" :src="getLogo" />
+                  </div>
+                </div>
+                <upload-files class="w-full" accept="image/*"  @updateInput="saveLogoAttachment"></upload-files>
+              </div>
             </div>
 
 
-            <div class="input-wrapper  mb-2">
-              <label for="">{{ $t("vendor.mobile") }}</label>
-              <div class="flex">
-                <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:11" v-slot="{ errors }">
-                   <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
-                    <span  class="error">{{ errors[0] }}</span>
-                   </ValidationProvider>
-                </div>
-              </div>
 
+            <div  class="input-wrapper mb-2">
+              <!-- component -->
+              <label for="">Licence Upload</label>
+              <div class="flex gap-4">
+                <div class="file-wrapper  w-1/4 h-[232px] upload-block">
+                  <div class="border-dashed border border-smooth rounded h-[232px]">
+                    <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
+                    <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded" src="@/assets/images/pdf.jpg" />
+                    <img v-else class="w-full h-[232px] !important" :src="getLicence" />
+                  </div>
+                </div>
+                <upload-files class="w-full" accept=".pdf,image/*"  @updateInput="saveLicenceAttachment"></upload-files>
+              </div>
             </div>
+
 
             <ValidationProvider name="CR Number" class="w-full" rules="numeric|required" v-slot="{ errors }">
             <div class="input-wrapper  mb-2">
@@ -135,18 +140,9 @@ email, mobile, and CR number </p>
             </div>
             </ValidationProvider>
 
-            <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
-            <div class="input-wrapper  mb-2">
-              <label for="">{{ $t('vendor.status') }}</label>
-              <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
-                <option value="1" :selected="fromData.status">Enable</option>
-                <option value="0" :selected="fromData.status === 0">Disable</option>
-              </select>
-              <span  class="error">{{ errors[0] }}</span>
-            </div>
-            </ValidationProvider>
+
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="invalid"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -161,42 +157,36 @@ email, mobile, and CR number </p>
             <p class="text-normal">Please, provide company logo, licence, foundation date,
               production start date, email, mobile, and facility </p>
           </div>
-
-
-
-
-
           <div class="form-group">
-            <div  class="input-wrapper   mb-2">
-              <label for="">Logo Upload</label>
-              <div class="flex gap-4">
-             <div class="file-wrapper w-1/4 h-[232px]   upload-block">
-              <div class="border-dashed border border-smooth rounded h-[232px]">
-              <img v-if="getLogo?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-              <img v-else class="w-full h-[232px] !important rounded" :src="getLogo" />
-            </div>
-             </div>
-
-
-          <upload-files class="w-full" accept="image/*"  @updateInput="saveLogoAttachment"></upload-files>
-
-          </div>
-            </div>
-            <div  class="input-wrapper mb-2">
-             <!-- component -->
-             <label for="">Licence Upload</label>
-             <div class="flex gap-4">
-              <div class="file-wrapper  w-1/4 h-[232px] upload-block">
-              <div class="border-dashed border border-smooth rounded h-[232px]">
-                <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-                <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded" src="@/assets/images/pdf.jpg" />
-                <img v-else class="w-full h-[232px] !important" :src="getLicence" />
-            </div>
-             </div>
-              <upload-files class="w-full" accept=".pdf,image/*"  @updateInput="saveLicenceAttachment"></upload-files>
-             </div>
+            <div class="input-wrapper  mb-2">
+              <label for="">{{ $t("vendor.email") }}</label>
+              <div class="flex">
+                <div class="w-full">
+                  <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
+                    <input type="text" placeholder="Email" v-model="fromData.contact_json.email">
+                    <span  class="error">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </div>
 
             </div>
+
+
+            <div class="input-wrapper  mb-2">
+              <label for="">{{ $t("vendor.mobile") }}</label>
+              <div class="flex">
+                <div class="w-full">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:11" v-slot="{ errors }">
+                    <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
+                    <span  class="error">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
+              </div>
+
+            </div>
+
+
+
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.foundation_date') }}</label>
               <input type="date"  v-model="fromData.founded_date">
@@ -241,6 +231,18 @@ email, mobile, and CR number </p>
               <span  class="error">{{ errors[0] }}</span>
             </div>
             </ValidationProvider>
+
+            <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
+              <div class="input-wrapper  mb-2">
+                <label for="">{{ $t('vendor.status') }}</label>
+                <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
+                  <option value="1" :selected="fromData.status">Enable</option>
+                  <option value="0" :selected="fromData.status === 0">Disable</option>
+                </select>
+                <span  class="error">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
+
             <div class="flex justify-between">
               <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
               <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
@@ -326,7 +328,7 @@ email, mobile, and CR number </p>
           </div>
           <div class="form-group">
             <div class="input-wrapper  mb-2">
-              <ValidationProvider class="w-full" name="whatsapp" :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }" v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
+              <ValidationProvider class="w-full" name="whatsapp"  v-slot="{ errors }" >
               <label for="">{{ $t('vendor.whatsapp') }}</label>
               <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
                 <span  class="error">{{ errors[0] }}</span>
@@ -487,6 +489,7 @@ export default {
   methods:{
     ...mapActions('vendor', ['submitData', 'getVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
+    ...mapActions('ui', ['setToastMessage', 'getCitiesById']),
 
     saveLogoAttachment(logo) {
       this.fromData.logo = logo
@@ -494,14 +497,19 @@ export default {
     saveLicenceAttachment(attachments) {
       this.fromData.licence = attachments
     },
+
     toggleTabs: function(tabNumber, invalid){
       if(!this.fromData.name.ar.length > 0){
         this.hasError = true
-      }
+      }else if(this.checkNameValue){
+          this.setToastMessage('Solve the Error Field')
+      }else if(invalid){
+        this.setToastMessage('Solve the Error Field')
+      }else{
         this.openTab = tabNumber
-
-
+      }
     },
+
    async countrySelected() {
       let countryId = this.fromData.country_id;
       if(countryId){
