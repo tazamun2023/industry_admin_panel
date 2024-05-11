@@ -187,6 +187,8 @@ export default {
             orderby: 'created_at',
             type: 'DESC',
             search: this.searchedString,
+            page_type: this.type,
+            type_selected: this.type
           },
           api: 'getProducts'
         })
