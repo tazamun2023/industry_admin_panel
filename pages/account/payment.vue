@@ -323,7 +323,7 @@ export default{
               "vendor_id" : this.profile.vendor_id,
               "search" : search,
               "orderby" : this.orderBy,
-              "orderbyType" : this.orderbyType,
+              "type" : this.orderbyType,
             },
             api:"getVendorBank"
           })
