@@ -71,7 +71,6 @@
             </div>
           </a>
         </li>
-
       </ul>
 
          </div>
@@ -83,7 +82,7 @@
           <div class="title pb-4">
             <h4 class="uppercase text-primary text-[30px] font-bold">General Information</h4>
             <p class="text-normal">Please, provide company name, details, sub domain,
-email, mobile, and CR number </p>
+              email, mobile, and CR number </p>
           </div>
 
           <div class="form-group">
@@ -168,9 +167,7 @@ email, mobile, and CR number </p>
                   </ValidationProvider>
                 </div>
               </div>
-
             </div>
-
 
             <div class="input-wrapper  mb-2">
               <label for="">{{ $t("vendor.mobile") }}</label>
@@ -182,10 +179,7 @@ email, mobile, and CR number </p>
                   </ValidationProvider>
                 </div>
               </div>
-
             </div>
-
-
 
             <div class="input-wrapper mb-2">
               <label for="">{{ $t('vendor.foundation_date') }}</label>
@@ -312,7 +306,6 @@ email, mobile, and CR number </p>
               <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
               <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
-
           </div>
 
                   </div>

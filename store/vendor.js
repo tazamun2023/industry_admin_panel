@@ -52,7 +52,7 @@ const actions = {
   async getAdminVendorData ({rootState, commit, dispatch}, {id, params,api}) {
     const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
-      commit('SET_VENDOR_DATA', data)
+      commit('SET_VENDOR_DATA', data.data)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
