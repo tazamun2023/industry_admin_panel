@@ -1,4 +1,4 @@
-
+import {mapActions} from "vuex";
 export default {
      data(){
        return {
@@ -11,6 +11,7 @@ export default {
          if(this.addressData.type){
            const data = await this.userAddressAction({
              ...this.addressData,
+             default: this.addressData.is_default
            })
 
            this.addressmodal = false
@@ -44,6 +45,7 @@ export default {
            this.addressData.building_number = value.building_number
            this.addressData.nearest_landmark = value.nearest_landmark
            this.addressData.type = value.type
+           this.addressData.is_default = value.default
            this.addressData.default = value.default
            this.addressData.phone_code = value.phone_code
            this.addressData.lat = value.lat
@@ -65,25 +67,49 @@ export default {
            this.addressData.building_number = ''
            this.addressData.nearest_landmark = ''
            this.addressData.type = ''
-           this.addressData.default = ''
+           this.addressData.is_default = ''
            this.addressData.phone_code = '',
            this.addressData.lan = ''
            this.addressData.lng = ''
 
          },
 
+      //  async deleting(address) {
+      //      const data = await this.userAddressDelete({
+      //        id: address.id,
+      //      })
+      //       this.deleteModal = false
+      //      if(data?.status === 200){
+      //        this.setToastMessage(data.message)
+      //        await this.getAllAddress()
+      //      }else {
+      //        this.setToastError(data.data.form.join(', '))
+      //      }
+      //  },
+   ...mapActions('common', ['swetAlertFire']),
+   ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
        async deleting(address) {
-           const data = await this.userAddressDelete({
-             id: address.id,
-           })
-            this.deleteModal = false
-           if(data?.status === 200){
-             this.setToastMessage(data.message)
-             await this.getAllAddress()
-           }else {
-             this.setToastError(data.data.form.join(', '))
-           }
-       },
+        const res = await this.swetAlertFire({
+          params :{
+            title: this.$i18n.t('approvedModal.sure'),
+            text: this.$i18n.t('approvedModal.revert'),
+          }
+          })
+          if(res) {
+            const data = await this.userAddressDelete({
+              id: address.id,
+            })
+            if(data?.status === 200){
+              this.setToastMessage(data.message)
+              await this.getAllAddress()
+            }else {
+              this.setToastError(data.data.form.join(', '))
+            }
+          } else {
+            return false;
+          }
+      },
+  
 
        shipping(){
          this.addressData.type = "shipping"

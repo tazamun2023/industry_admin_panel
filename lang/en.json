@@ -960,7 +960,22 @@
     "phone_code": "Phone Code",
     "invalidLength": "Mobile Number Not Valid",
     "near": "Nearest landmark",
-    "set_default": "Set as Default address"
+    "set_default": "Set as Default address",
+    "Add Address": "Add Address",
+    "Shipping": "Shipping",
+    "Billing": "Billing",
+    "Both": "Both",
+    "Select Country": "Select Country",
+    "Select City": "Select City",
+    "Cancel": "Cancel",
+    "Save Change": "Save Change",
+    "My address": "My address",
+    "Provide_information": "Provide information on your billing address and where you would like your items to be picked up from.",
+    "Weneed": "We need your stock pickup location details in order to calculate accurate shipping rates.",
+    "Remove": "Remove",
+    "Edit": "Edit",
+    "Quit": "Quit",
+    "Agree": "Agree"
   },
   "country": {
     "iso": "Iso",
@@ -1056,16 +1071,15 @@
     "temperatures": "Storage Temperatures",
     "barcodes": "Barcodes"
   },
-
   "approvedModal": {
-    "sure":"Are you sure",
-    "revert":"You wont be able to revert this",
-    "confirmBtn":"Yes",
-    "cancel":"Cancel",
-    "approvedAction":"Approved",
-    "success":"the rfq has been approved",
-    "Cancelled":"Cancelled",
-    "cancellMes":"The operation was canceled "
+    "sure": "Are you sure",
+    "revert": "You wont be able to revert this",
+    "confirmBtn": "Yes",
+    "cancel": "Cancel",
+    "approvedAction": "Approved",
+    "success": "the rfq has been approved",
+    "Cancelled": "Cancelled",
+    "cancellMes": "The operation was canceled "
   },
   "list": {
     "show": "Showing {from} to {to} of {total} results",
