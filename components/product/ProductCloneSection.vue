@@ -41,6 +41,8 @@ export default {
         class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">
         <product-search
           ref="productSearch"
+          type="copy_from_product"
+
           @input="ProductCloneSection"
           @product-clicked="cloneProduct"
         />

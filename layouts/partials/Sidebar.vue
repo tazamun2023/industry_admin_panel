@@ -728,6 +728,7 @@ export default {
           await this.$auth.logout()
           // window.location.reload()
           this.settingDashboardNotice(false)
+          location.replace(process.env.frontBase)
         } catch (e) {
           return this.$nuxt.error(e)
         }

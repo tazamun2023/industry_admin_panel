@@ -105,102 +105,47 @@ export default {
 
 <template>
   <div>
-    <template>
-      <ValidationObserver v-slot="{ invalid }">
-      <div class="card p-4">
-        <form @submit.prevent="fromSubmit">
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Company name') }}:</label>
-            <lang-input :hasError="hasError" type="text" :title="$t('customer.Company name')"
-                        :valuesOfLang="fromData.company_name"
-                        @updateInput="updateInput"></lang-input>
-          </div>
-          <ValidationProvider class="w-full"  name="billing_email" rules="email|required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Billing email address')})}">
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Billing email address') }}:</label>
-            <input type="email" :placeholder="$t('customer.Billing email address')" v-model="fromData.billing_email">
-            <span  class="error">{{ errors[0] }}</span>
-          </div>
-          </ValidationProvider>
-          <ValidationProvider class="w-full"  name="business_type" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Choose Business Type')})}">
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Business type') }}:</label>
-            <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.business_type">
-              <option value="">{{ $t('customer.Choose Business Type') }}</option>
-              <option value="individual">{{ $t('customer.individual') }}</option>
-              <option value="establishment">{{ $t('customer.establishment')}}</option>
-            </select>
-            <span  class="error">{{ errors[0] }}</span>
-          </div>
-          </ValidationProvider>
-          <ValidationProvider class="w-full"  name="building_number" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Building number or name')})}">
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Building number or name') }}:</label>
-            <input type="text" :placeholder="$t('customer.Building number or name')" v-model="fromData.building_number">
-          </div>
-            <span  class="error">{{ errors[0] }}</span>
-          </ValidationProvider>
-          <ValidationProvider class="w-full"  name="street_name" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Street name')})}">
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Street name') }}:</label>
-            <input type="text" :placeholder="$t('customer.Street name')" v-model="fromData.street_name">
-          </div>
-          </ValidationProvider>
-          <div class="input-wrapper mb-2">
-            <label for="">{{ $t('customer.Zip Code') }}:</label>
-            <input type="text" :placeholder="$t('customer.Zip Code')" v-model="fromData.post_box">
-          </div>
-          <div class="input-wrapper mb-2">
-            <div class="flex w-full gap-4">
-              <ValidationProvider class="w-full"  name="country_id" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Country')})}">
-              <div class="input-wrapper w-full">
-                <label class="w-full" for="">{{ $t('customer.Country') }}</label>
-                <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.country_id" :disabled="true">
-                  <option value="">{{ $t('customer.Choose Country') }}</option>
-                  <option :value="countryList.id" v-for="countryList in allCountries"
-                          :selected="countryList.id === fromData.country_id">{{ countryList.name }}
-                  </option>
-                </select>
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-              </ValidationProvider>
-              <ValidationProvider class="w-full"  name="city_id" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Choose City')})}">
-              <div class="input-wrapper w-full">
-                <label class="w-full" for="">{{ $t('vendor.city') }}</label>
-                <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.city_id">
-                  <option value="">{{ $t('customer.Choose City') }}</option>
-                  <option :value="cityList.id" v-for="cityList in allCitiesById"
-                          :selected="cityList.id === fromData.city_id">{{ cityList.name }}
-                  </option>
-                </select>
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-              </ValidationProvider>
-              <ValidationProvider class="w-full"  name="is_import" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('customer.Import')})}">
-              <div class="input-wrapper w-full">
-                <label class="w-full" for="">{{ $t('vendor.city') }}</label>
-                <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.is_import">
-                  <option value="">{{ $t('customer.Import') }}</option>
-                  <option value="1"> {{ $t('customer.Yes')}}</option>
-                  <option value="0"> {{ $t('customer.No')}}</option>
-                </select>
-                <span  class="error">{{ errors[0] }}</span>
-              </div>
-              </ValidationProvider>
+    <div class="grid gap-6 grid-cols-5">
+                <div class="flex col-span-3 gap-4">
+                    <div class="w-[200px]">
+<!--                      <img class="w-[100px] h-[100px] mt-2 rounded-lg mx-auto" :src="vendorInfo.vendor?.image" alt="">-->
+                      <img class="mt-2 rounded-lg mx-auto" src="~/assets/icon/blogo.svg" alt="">
+                      <!-- <lazy-image
+                        class="w-[100px] h-[100px] mt-2 rounded-lg mx-auto"
+                        :data-src="image"
+                        :alt="tt"
+                      /> -->
+                    </div>
+                    <div>
+                      <h3 class="font-bold py-2 flex gap-4"><span> Company Name  </span> <img class="w-6 h-6" src="~/assets/icon/SVG.svg" alt=""></h3>
+                      <span class="p-1 bg-smooth text-theem rounded-lg">subDomain Name</span>
+                      <p class="font-16px pb-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore </p>
+                      <span class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] mt-[50px]"><img class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> Show Licence</span>
+                    </div>
+                </div>
+                <div class="col-span-2">
+                  <p><span class="text-primary">CR No.</span> <span>123456789</span></p>
+                  <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/smsgreen.svg" alt=""> <span> example@email.com </span></p>
+                  <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/callgreen.svg" alt=""> <span> +966 55555555 </span></p>
+                  <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/locationgreen.svg" alt=""> <span> jeddah,Soudi Arabia</span></p>
+                  <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/calendar-g.svg" alt=""> <span>Foundation Date</span> <span class="text-theem">29 Fab 2024</span></p>
+                  <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/calendar-g.svg" alt=""> <span>Production Start Date</span> <span class="text-theem">29 Fab 2024</span></p>
+                <div class="flex gap-6 py-3">
+                  <div>
+                    <img class="" src="~/assets/icon/FaceBook-g.svg" alt="">
+                  </div>
+                  <div>
+                    <img class="" src="~/assets/icon/YouTube-g.svg" alt="">
+                  </div>
+                  <div>
+                    <img class="" src="~/assets/icon/Linkeding.svg" alt="">
+                  </div>
+                  <div>
+                    <img class="" src="~/assets/icon/Whatsupg.svg" alt="">
+                  </div>
+                </div>
+                </div>
             </div>
-          </div>
-          <div class="input-wrapper text-end mb-2">
-            <button
-              :disabled="invalid"
-              class="bg-primary p-2 border border-smooth rounded leading-3 text-white hover:text-primary"
-            >
-              {{ $t('customer.Save Changes') }}
-            </button>
-          </div>
-        </form>
-      </div>
-      </ValidationObserver>
-    </template>
   </div>
 </template>
 

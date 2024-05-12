@@ -346,7 +346,7 @@
                     <button
                       type="button"
                       class="btn text-white bg-primary w-1/4 hover:text-primary"
-                      :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
+                      :disabled="!result.product_variants[0]?.color_name && !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
                       @click.prevent="doNext">
                       {{ $t('prod.Next') }}
                     </button>
@@ -573,7 +573,7 @@
                       type="text" class="form-control"
                       v-model="result.barcode"
                       :placeholder="$t('prod.Barcode')"
-                      @keypress="onlyNumber"
+                      @keypress="onlyNumber"  min="0" maxlength="8"
                       :disabled="result.barcode_type==4"
                       :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
                     >
@@ -622,7 +622,7 @@
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                   <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                         v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber">
+                         v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
                   <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                 </div>
                 <span class="error">{{ errors[0] }}</span>
@@ -655,7 +655,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Size')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pk_size"
                       >
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -684,7 +684,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Number of units per carton')"
-                        @keypress="onlyNumber" v-model="result.pk_number_of_carton">
+                        @keypress="onlyNumber"  min="0" maxlength="8" v-model="result.pk_number_of_carton">
                     </div>
                   </div>
                   <span class="error">{{ errors[0] }}</span>
@@ -700,7 +700,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Average lead time(Days)')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="2"
                         v-model="result.pk_average_lead_time">
                     </div>
                   </div>
@@ -751,7 +751,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Weight')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pc_weight">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -778,7 +778,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Length')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pc_length">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -804,7 +804,7 @@
                         type="text" class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         placeholder="Carton Height"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pc_height">
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
                         <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
@@ -829,7 +829,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Width')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pc_width">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -873,7 +873,7 @@
                       class="form-control pr-12"
                       :class="{ 'has-error': errors[0] }"
                       :placeholder="$t('prod.Weight')"
-                      @keypress="onlyNumber"
+                      @keypress="onlyNumber"  min="0" maxlength="8"
                       v-model="result.pdime_weight"
                     >
 
@@ -904,7 +904,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Length')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pdime_length">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
@@ -920,7 +920,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Height')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pdime_height">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
@@ -936,7 +936,7 @@
                         class="form-control"
                         :placeholder="$t('prod.Width')"
                         :class="{ 'has-error': errors[0] }"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="result.pdime_width"
                       >
                     </div>
@@ -1013,7 +1013,7 @@
                         type="text"
                         class="form-control"
                         :placeholder="$t('prod.Minimum order quantity')"
-                        @keypress="onlyNumber"
+                        @keypress="onlyNumber"  min="0" maxlength="8"
                         v-model="product_price.quantity"
                         @input="availableQuantity"
                       >
@@ -1027,7 +1027,7 @@
                         <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                         <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                :placeholder="$t('prod.Unit price')"
-                               @keypress="onlyNumber"
+                               @keypress="onlyNumber"  min="0" maxlength="8"
                                v-model="product_price.unit_price">
                       </div>
                                             <span class="error">{{ errors[0] }}</span>
@@ -1041,7 +1041,7 @@
                           <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                  :class="{ 'has-error': errors[0] }"
                                  :placeholder="$t('prod.Sale price')"
-                                 @keypress="onlyNumber"
+                                 @keypress="onlyNumber"  min="0" maxlength="8"
                                  v-model="product_price.selling_price">
                         </div>
                         <span class="error" >{{ errors[0] }}</span>
@@ -2023,6 +2023,10 @@ export default {
       this.fetchingData(product.id).then(() => {
         this.is_clone = false
         this.result.id = ""
+        this.result.is_variant_save = false
+        this.result.variant_uuid = ""
+        this.result.product_variants = []
+        this.result.product_variant = []
       })
     },
     doNext() {
@@ -2078,6 +2082,7 @@ export default {
     },
     doVariantEdit() {
       this.variant_copy = [...this.result.product_variants];
+      this.variant_copy = JSON.parse(JSON.stringify(this.result.product_variants));
       this.is_variant_save = false;
       this.is_variant_edit = true;
       this.is_variant_save_after_edit = true;
@@ -2087,11 +2092,20 @@ export default {
       // Check if product_variants is not empty
       if (this.result.product_variants.length !== 0) {
         // Iterate through each variant
+        // for (let i = 0; i < this.result.product_variants.length; i++) {
+        //   // Check if any variant has missing name or value
+        //   if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+        //     // Show error message and exit loop early
+        //     this.setToastError(this.$t('prod.Color or value cant empty value'));
+        //     return;
+        //   }
+        // }
         for (let i = 0; i < this.result.product_variants.length; i++) {
+          const variant = this.result.product_variants[i];
           // Check if any variant has missing name or value
-          if (!this.result.product_variants[i].name || !this.result.product_variants[i].value) {
+          if (!variant.name && !variant.value) {
             // Show error message and exit loop early
-            this.setToastError(this.$t('prod.Color or value cant empty value'));
+            this.setToastError(this.$t('prod.Color or value cannot be empty'));
             return;
           }
         }
@@ -2207,6 +2221,7 @@ export default {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
         $event.preventDefault();
+        this.handleInput($event)
       }
     },
 

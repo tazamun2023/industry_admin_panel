@@ -5,24 +5,24 @@
         <h4>{{ $t('prod.product_list') }}</h4>
         <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
       </div>
-      <div class="flex gap-4 col-span-2 justify-center">
-        <button class="flex gap-1  hover:text-primary">
-          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-               viewBox="0 0 20 19">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-          </svg>
-          {{ $t('prod.download_rejection_reasons') }}
-        </button>
-        <button class="flex gap-1 hover:text-primary">
-          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-               viewBox="0 0 20 19">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>
-          </svg>
-          {{ $t('prod.download_rejection_products') }}
-        </button>
-      </div>
+<!--      <div class="flex gap-4 col-span-2 justify-center">-->
+<!--        <button class="flex gap-1  hover:text-primary">-->
+<!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
+<!--               viewBox="0 0 20 19">-->
+<!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
+<!--          </svg>-->
+<!--          {{ $t('prod.download_rejection_reasons') }}-->
+<!--        </button>-->
+<!--        <button class="flex gap-1 hover:text-primary">-->
+<!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
+<!--               viewBox="0 0 20 19">-->
+<!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
+<!--          </svg>-->
+<!--          {{ $t('prod.download_rejection_products') }}-->
+<!--        </button>-->
+<!--      </div>-->
       <div class="text-end" v-if="$store.state.admin.isVendor">
         <Nuxt-link :to="`/products/add`"
                    class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
@@ -229,6 +229,9 @@
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
                       <input v-if="$store.state.admin.isVendor" type="qty" title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"
+                             min="0"
+                             maxlength="8"
+                             @input="handleInput"
                              @change="updateQty(value.id, $event)">
                       <input v-else type="text" :value="value.available_quantity" disabled>
                       <p class="text-xs" v-if="value.minOrderQuantity">Min. Order Qty:

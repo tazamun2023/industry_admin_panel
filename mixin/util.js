@@ -331,6 +331,14 @@ export default {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
       if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) { // 46 is dot
         $event.preventDefault();
+        this.handleInput($event)
+      }
+    },
+    handleInput(event) {
+      const inputValue = event.target.value;
+      const maxValue = 99999999;
+      if (inputValue > maxValue) {
+        event.target.value = maxValue; // Set input value to max value if exceeded
       }
     },
 

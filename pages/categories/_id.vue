@@ -14,6 +14,12 @@
   >
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
+        <label class="w-full" for="mainCategory">{{ $t("prod.Icon") }}</label>
+        <img v-if="result.icon_image" :src="result.icon_image" alt="" class="w-2/5">
+        <upload-files @updateInput="saveAttachmentIcon" :max-files="1"></upload-files>
+      </div>
+      <div class="input-wrapper">
+        <label class="w-full" for="mainCategory">{{ $t("prod.Image") }}</label>
         <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
         <upload-files @updateInput="saveAttachment"></upload-files>
       </div>
@@ -163,9 +169,11 @@
           in_footer: 2,
           meta_title: {ar: '', en: ''},
           image: '',
+          icon_image: '',
           category_id: '',
           subcategory_id: '',
-          file: ''
+          file: '',
+          icon_file: '',
         }
       }
     },
@@ -190,6 +198,9 @@
       },
       saveAttachment(image) {
         this.result.file = image
+      },
+      saveAttachmentIcon(image) {
+        this.result.icon_file = image
       },
       resultData(evt){
         if(this.$route?.params?.id === 'add'){
