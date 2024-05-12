@@ -6,7 +6,9 @@
                 <div class="flex col-span-3 gap-4">
                     <div class="w-[200px]">
 <!--                      <img class="w-[100px] h-[100px] mt-2 rounded-lg mx-auto" :src="vendorInfo.vendor?.image" alt="">-->
-                      <img class="mt-2 rounded-lg mx-auto" src="~/assets/icon/blogo.svg" alt="">
+                      <img v-if="vendorList?.logo" class="mt-2 rounded-lg mx-auto" :src="vendorList?.logo" alt="">
+                      <img v-else class="mt-2 rounded-lg mx-auto" src="~/assets/uploads/default-image.webp" alt="">
+<!--                      <embed src="~/assets/pdf/my.pdf" width="1440px" height="900px" />-->
                       <!-- <lazy-image
                         class="w-[100px] h-[100px] mt-2 rounded-lg mx-auto"
                         :data-src="image"
@@ -30,16 +32,27 @@
                   <p  class="font-16px flex gap-4 py-2"><img class="w-5 h-5" src="~/assets/icon/calendar-g.svg" alt=""> <span>Production Start Date</span> <span class="text-theem">{{ vendorList?.production_start_date }}</span></p>
                 <div class="flex gap-6 py-3">
                   <div>
-                    <img class="" src="~/assets/icon/FaceBook-g.svg" alt="">
+                    <a :href="vendorList?.links_json['facebook']">
+                      <img class="" src="~/assets/icon/FaceBook-g.svg" alt="">
+                    </a>
                   </div>
                   <div>
-                    <img class="" src="~/assets/icon/YouTube-g.svg" alt="">
+                    <a :href="vendorList?.links_json['youtube']">
+                      <img class="" src="~/assets/icon/YouTube-g.svg" alt="">
+                    </a>
+
                   </div>
                   <div>
-                    <img class="" src="~/assets/icon/Linkeding.svg" alt="">
+                    <a :href="vendorList?.links_json['linkedin']">
+                      <img class="" src="~/assets/icon/Linkeding.svg" alt="">
+                    </a>
+
                   </div>
                   <div>
-                    <img class="" src="~/assets/icon/Whatsupg.svg" alt="">
+                    <a :href="vendorList?.links_json['whatsapp']">
+                      <img class="" src="~/assets/icon/Whatsupg.svg" alt="">
+                    </a>
+
                   </div>
                 </div>
                 </div>
