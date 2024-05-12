@@ -116,18 +116,27 @@
                      v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
             </div>
 
-            <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+            <lang-input :hasError="hasError" type="text" :IsReadOnly="true" :title="$t('prod.name')" :valuesOfLang="result.title"
                         @updateInput="updateInput"></lang-input>
 
-            <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
-                        :valuesOfLang="result.description"
-                        @updateInput="updateInput"></lang-input>
+            <div class="input-wrapper">
+              <label class="font-bold">{{ $t('prod.title') }} (EN) <strong class="text-error">*</strong></label>
+            <div v-dompurify-html="result.description.en"></div>
+            </div>
+            <div class="input-wrapper">
+              <label class="font-bold">{{ $t('prod.description') }} (AR) <strong class="text-error">*</strong></label>
+            <div v-dompurify-html="result.description.ar"></div>
+            </div>
+<!--            <lang-input v-if="!is_variant" :hasError="hasError" :IsReadOnly="true" type="textarea" :title="$t('prod.desc')"-->
+<!--                        :valuesOfLang="result.description"-->
+<!--                        @updateInput="updateInput"></lang-input>-->
 
             <div class="form-group input-wrapper mb-10  for-lang ar-lang">
               <label class="w-full" for="name">{{ $t("prod.brand") }}</label>
 
               <select class="form-control w-full rounded border border-smooth p-3" @change="updateBrand($event)"
                       :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
+                      disabled
                       v-model="result.brand_id">
                 <option value="0">Select Brand</option>
                 <option v-for="(item, index) in allBrands" :key="index" :value="item.id">{{ item.title }}</option>
@@ -203,7 +212,7 @@
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
+                <lang-input-multi  :hasError="hasError" type="text" :IsReadOnly="true" :title="$t('prod.key_features')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
               </div>
@@ -250,10 +259,7 @@
             <!--          </div>-->
             <div class="input-wrapper">
               <label class="pl-4 pt-0 fw-bold">
-                {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>
-                {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>
-                {{ $t('prod.Allowed file extensions are (png, bmp, jpeg, and jpg)') }} <br>
-                {{ $t('prod.and allowed video extensions are(mp4, mpeg and webp)') }}
+                {{ $t('prod.Product Images') }}. <br>
               </label>
             </div>
             <table class="table mb-0">
@@ -281,22 +287,6 @@
                 <td class="text-xs">
                   <button disabled type="button" class="btn bg-primary text-white">{{ $t('prod.Thumbnail') }}</button>
                 </td>
-                <td><span class="text-xs"></span></td>
-                <td>
-                  <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer"
-                       data-testid="price-tier-remove-cta-0">
-                    <path
-                      d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
-                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                      stroke-linejoin="round"></path>
-                    <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                          stroke-linejoin="round"></path>
-                    <path
-                      d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
-                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                      stroke-linejoin="round"></path>
-                  </svg>
-                </td>
               </tr>
               <tr v-for="(image, index) in result.images" :key="index">
                 <td style="width:20px">
@@ -317,28 +307,7 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-xs">
-                  <input type="radio" class="custom-control-input" id="customCheck2"
-                         @click.prevent="setThumb(image.url)">
-                  <!--                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>-->
-                </td>
                 <td><span class="text-xs">{{ image.upload_time }}</span></td>
-                <td>
-                  <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21"
-                       focusable="false"
-                       class="cursor-pointer" data-testid="price-tier-remove-cta-0">
-                    <path
-                      d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"
-                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                      stroke-linejoin="round"></path>
-                    <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                          stroke-linejoin="round"></path>
-                    <path
-                      d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"
-                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                      stroke-linejoin="round"></path>
-                  </svg>
-                </td>
               </tr>
               </tbody>
             </table>
@@ -375,7 +344,7 @@
               <div class="form-group input-wrapper  mt-3 mt-sm-0">
                 <label>{{ $t('prod.SKU') }}</label>
                 <input type="text" class="form-control" v-model="result.sku" placeholder="sku"
-                       :readonly="result.barcode_type==0"
+                       disabled
                        :class="{invalid: !is_draft && result.sku===null && hasError}"
                 >
               </div>
@@ -849,7 +818,7 @@
               <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
                 <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
                        v-model="item.name" :disabled="is_show">
-                <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
+                <input class="form-control" disabled placeholder="Text to display" type="text" v-model="item.value">
                 <!--                <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"-->
                 <!--                        v-if="index!=0"-->
                 <!--                        class="btn ml-2 mr-2 btn-danger">-->
@@ -874,11 +843,11 @@
               <div class="flex justify-end gap-4 pt-3">
                 <button type="button" @click.prevent="doApproved()"
                         class="btn mb-10 w-25 bg-primary">
-                  Approved
+                  {{ $t('prod.Approved') }}
                 </button>
                 <button type="button" @click.prevent="isRejected()"
                         class="btn mb-10 w-25 bg-error">
-                  Rejected
+                  {{ $t('prod.Rejected')}}
                 </button>
               </div>
             </div>
@@ -977,6 +946,7 @@ import ProductSearch from "~/components/partials/ProductSearch.vue";
 import Variant from "@/components/variant/Variant.vue";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
+import VueUploadImages from "@/components/product/uploadImages.vue";
 
 extend('min', {
   validate(value, {length}) {
@@ -1241,6 +1211,7 @@ export default {
   },
   mixins: [util],
   components: {
+    VueUploadImages,
     ProductSearch2,
     ProductSearch,
     VideoInput,

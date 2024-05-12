@@ -97,7 +97,11 @@
         <!--        @product-clicked="addFlashProduct"-->
         <!--      />-->
 
-        <h4>{{ $t('fSale.sProd') }}</h4>
+        <div class="flex justify-between items-center">
+          <h4>{{ $t('fSale.sProd') }}</h4>
+          <span @click="ShowProductSearch" class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">{{ $t('prod.Add product')}}</span>
+        </div>
+
         <div class="table-wrapper mb-20 mb-sm-15">
           <table class="mn-w-600x">
             <tr class="lite-bold">
@@ -187,9 +191,7 @@
             <tfoot>
             <tr>
               <td></td>
-              <td colspan="3"><span
-                @click="ShowProductSearch"
-                class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">{{ $t('prod.Add product')}}</span></td>
+              <td colspan="3"></td>
             </tr>
             </tfoot>
 

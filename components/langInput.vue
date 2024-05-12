@@ -30,6 +30,7 @@
                          @file="editorOverviewFile"
                          :description="valuesOfLang[language]"
                          @change="valuesOfLang[language]= $event"
+                         :disabled="IsReadOnly"
                          @input="updateInputValue(language, $event.target.value)"
           />
           <span class="error" v-if="!!!valuesOfLang[language] && hasError">
