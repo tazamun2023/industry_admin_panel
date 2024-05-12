@@ -521,7 +521,7 @@
                   v-model="variants[openTab]?.result.barcode"
                   :placeholder="$t('prod.Barcode')"
                   @keypress="onlyNumber" min="0" maxlength="8"
-                  :disabled="variants[openTab]?.result.barcode_type==4"
+                  :disabled="variants[openTab]?.result.barcode_type==4 || variants[openTab]?.result.barcode_type==='' "
                   :class="{ 'has-error': errors[0], 'cursor-not-allowed': variants[openTab].result.barcode_type == 4 }"
                 >
               </div>
@@ -2297,6 +2297,15 @@ export default {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   watch: {
+    // 'variants[openTab].result.barcode_type'(newValue, oldValue) {
+    //   console.log('newValue')
+    //   console.log(newValue)
+    //   if (newValue == 4) {
+    //     this.variants[this.openTab].result.barcode = '';
+    //   } else {
+    //     this.variants[this.openTab].result.barcode = this.variants[this.openTab].result.barcode;
+    //   }
+    // },
     variants: {
       deep: true,
       handler(newVal, oldVal) {

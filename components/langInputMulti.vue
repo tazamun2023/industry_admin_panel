@@ -24,6 +24,7 @@
           <input class="form-control" :placeholder="$t('prod.features_placeholder')"
                  v-model="valuesOfLang[index][language]"
                  @input="updateInputValue(language, $event.target.value)"
+                 :readonly="IsReadOnly"
                  :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"
           >
           <button type="button" class="btn ml-2 mr-2 btn-danger" v-if="index !== 0" @click.prevent="removeRow(index)">
@@ -68,6 +69,10 @@ export default {
       type: String,
       required: true,
       default: "text"
+    },
+    IsReadOnly: {
+      type: Boolean,
+      default: false
     },
   },
   data() {

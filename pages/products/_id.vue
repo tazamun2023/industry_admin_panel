@@ -573,8 +573,8 @@
                       type="text" class="form-control"
                       v-model="result.barcode"
                       :placeholder="$t('prod.Barcode')"
-                      @keypress="onlyNumber"  min="0" maxlength="8"
-                      :disabled="result.barcode_type==4"
+                      @keypress="onlyNumber"  min="0" maxlength="15"
+                      :disabled="result.barcode_type==4 || result.barcode_type===''"
                       :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
                     >
                   </div>
@@ -1732,7 +1732,7 @@ export default {
     },
     BarcodeValidationRules() {
       let validationRules = {
-        required: !this.is_draft && this.result.barcode_type != 4
+        required: !this.is_draft && this.result.barcode_type != 4 && this.result.barcode_type!==''
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1898,6 +1898,13 @@ export default {
     selectedColor(newIndex) {
 
     },
+    'result.barcode_type'(newValue, oldValue) {
+      console.log('newValue')
+      console.log(newValue)
+      if (newValue == 4) {
+        this.result.barcode = '';
+      }
+    }
   },
 
   methods: {
