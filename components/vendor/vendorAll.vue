@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div>
       <list-page
         ref="listPage"
@@ -99,7 +98,6 @@
 
       </list-page>
     </div>
-  </div>
 </template>
 <script >
 import ListPage from "@/components/partials/ListPage.vue";
