@@ -142,8 +142,9 @@ export default {
             {
               path: 'bulk-upload',
               title: this.$t('title.bu'),
-              icon: 'bulk-upload',
+              icon: 'Bilkupload.svg',
               form: ['bulk-upload'],
+              is_image:true,
               gate: 'manage_products'
             },
 
@@ -410,7 +411,7 @@ export default {
             {
               path: 'account/address',
               title: this.$t('account.address'),
-              icon: 'location.svg',
+              icon: 'locationgreen.svg',
               is_image:true,
               gate: 'view_addresses'
             },
@@ -522,7 +523,8 @@ export default {
             {
               path: 'ports',
               title: this.$t('setting.ports'),
-              icon: 'flash-sales',
+              icon: 'Ports.svg',
+              is_image:true,
               gate: 'manage_shipment_setting',
 
             },
@@ -590,7 +592,8 @@ export default {
             {
               path: 'bundle-deals',
               title: this.$t('error.bd'),
-              icon: 'bundle-deals',
+              icon: 'BundleDeals.svg',
+              is_image:true,
               gate: 'manage_initial_setting'
             },
             {
