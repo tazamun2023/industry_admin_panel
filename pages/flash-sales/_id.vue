@@ -14,27 +14,28 @@
   >
     <template v-slot:form="{hasError}">
       <ValidationObserver class="w-full" v-slot="{ invalid }">
-        <ValidationProvider name="flash_sale_id" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.title')}) }">
-        <div class="input-group mb-3">
-          <label class="w-full" for="mainCategory">{{ $t('index.title') }}</label>
-          <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
-                      @updateInput="updateInput"></lang-input>
-<!--          <select class="border p-3 w-50 border-smooth rounded-lg uppercase" v-model="result.flash_sale_id">-->
-<!--            <option v-for="(item, index) in allFlashSale" :value="item.id">{{ item.title }}</option>-->
-<!--          </select>-->
-          <!--        <input-->
-          <!--          type="text"-->
-          <!--          :placeholder="$t('index.title')"-->
-          <!--          v-model="result.title"-->
-          <!--          :class="{invalid: !!!result.title && hasError}"-->
-          <!--        >-->
-          <!--        <span-->
-          <!--          class="error"-->
-          <!--          v-if="!!!result.title && hasError"-->
-          <!--        >-->
-          <!--          {{ $t('category.req', {type: $t('index.title')}) }}-->
-          <!--        </span>-->
-        </div>
+        <ValidationProvider name="flash_sale_id" rules="required" v-slot="{ errors }"
+                            :custom-messages="{required: $t('global.req', { type: $t('prod.title')}) }">
+          <div class="input-group mb-3">
+            <label class="w-full" for="mainCategory">{{ $t('index.title') }}</label>
+            <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+                        @updateInput="updateInput"></lang-input>
+            <!--          <select class="border p-3 w-50 border-smooth rounded-lg uppercase" v-model="result.flash_sale_id">-->
+            <!--            <option v-for="(item, index) in allFlashSale" :value="item.id">{{ item.title }}</option>-->
+            <!--          </select>-->
+            <!--        <input-->
+            <!--          type="text"-->
+            <!--          :placeholder="$t('index.title')"-->
+            <!--          v-model="result.title"-->
+            <!--          :class="{invalid: !!!result.title && hasError}"-->
+            <!--        >-->
+            <!--        <span-->
+            <!--          class="error"-->
+            <!--          v-if="!!!result.title && hasError"-->
+            <!--        >-->
+            <!--          {{ $t('category.req', {type: $t('index.title')}) }}-->
+            <!--        </span>-->
+          </div>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
 
@@ -42,39 +43,41 @@
           class="dply-felx block-xs mlr--7-5 inputs align-start j-left"
           :class="{'red-border': !!!result.start_time && hasError}"
         >
-          <ValidationProvider name="start_time" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.eTime')}) }">
+          <ValidationProvider name="start_time" rules="required" v-slot="{ errors }"
+                              :custom-messages="{required: $t('global.req', { type: $t('prod.eTime')}) }">
 
-          <div
-            class="input-wrapper mlr-7-5"
-          >
-            <label>{{ $t('prod.sTime') }}</label>
-            <input
-              type="date"
-              v-model="result.start_time"
-              :min="getTodayFormattedDate()"
+            <div
+              class="input-wrapper mlr-7-5"
             >
-          </div>
+              <label>{{ $t('prod.sTime') }}</label>
+              <input
+                type="date"
+                v-model="result.start_time"
+                :min="getTodayFormattedDate()"
+              >
+            </div>
           </ValidationProvider>
 
-          <ValidationProvider name="end_time" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.eTime')}) }">
-          <div
-            class="input-wrapper mlr-7-5"
-          >
-            <label>{{ $t('prod.eTime') }}</label>
-
-<!--            <datetime-->
-<!--              format="YYYY-MM-DD H:i:s"-->
-<!--              width="300px"-->
-<!--              v-model="result.end_time"-->
-<!--              readonly-->
-<!--            />-->
-            <input
-              type="date"
-              v-model="result.end_time"
-              :min="getEndFormattedDate(result.start_time)"
+          <ValidationProvider name="end_time" rules="required" v-slot="{ errors }"
+                              :custom-messages="{required: $t('global.req', { type: $t('prod.eTime')}) }">
+            <div
+              class="input-wrapper mlr-7-5"
             >
-            <span class="error">{{ errors[0] }}</span>
-          </div>
+              <label>{{ $t('prod.eTime') }}</label>
+
+              <!--            <datetime-->
+              <!--              format="YYYY-MM-DD H:i:s"-->
+              <!--              width="300px"-->
+              <!--              v-model="result.end_time"-->
+              <!--              readonly-->
+              <!--            />-->
+              <input
+                type="date"
+                v-model="result.end_time"
+                :min="getEndFormattedDate(result.start_time)"
+              >
+              <span class="error">{{ errors[0] }}</span>
+            </div>
           </ValidationProvider>
 
           <div
@@ -99,16 +102,17 @@
 
         <div class="flex justify-between items-center">
           <h4>{{ $t('fSale.sProd') }}</h4>
-          <span @click="ShowProductSearch" class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">{{ $t('prod.Add product')}}</span>
+          <span @click="ShowProductSearch"
+                class="p-4 bg-primary text-white leading-3 cursor-pointer rounded">{{ $t('prod.Add product') }}</span>
         </div>
 
         <div class="table-wrapper mb-20 mb-sm-15">
           <table class="mn-w-600x">
             <tr class="lite-bold">
-              <th>{{ $t('index.qty') }}</th>
-              <th>{{ $t('index.title') }}</th>
-              <th>{{ $t('fSale.sPrice') }}({{ currencyIcon }})</th>
+              <th>{{ $t('products.min_order_qty') }}</th>
+              <th>{{ $t('products.name') }}</th>
               <th>{{ $t('prod.offered') }}({{ percentIcon }})</th>
+              <th class="min-w-[200px]">{{ $t('fSale.sPrice') }}({{ currencyIcon }})</th>
               <th/>
             </tr>
 
@@ -119,35 +123,42 @@
               :class="{deleted: item.deleted}"
             >
               <td class="mx-w-130x">
-                <ValidationProvider name="offered" rules="required|min_value:1|max_value:100" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.offered')}) }">
-                  <input
-                    :disabled="item.deleted"
-                    type="number"
-                    step="any"
-                    v-model="item.product.quantity"
-                    :placeholder="$t('index.qty')"
-                    @change="valueChangedQty(index)"
-                  />
-                  <span class="error">{{ errors[0] }}</span>
-                </ValidationProvider>
+                <!--                <ValidationProvider name="offered" rules="required|min_value:1|max_value:100" v-slot="{ errors }"-->
+                <!--                                    :custom-messages="{required: $t('global.req', { type: $t('prod.offered')}) }">-->
+                <!--                  <input-->
+                <!--                    :disabled="item.deleted"-->
+                <!--                    type="number"-->
+                <!--                    step="any"-->
+                <!--                    v-model="item.product.quantity"-->
+                <!--                    :placeholder="$t('index.qty')"-->
+                <!--                    @change="valueChangedQty(index)"-->
+                <!--                  />-->
+                <div class="input-group mb-3">
+                <select @change="valueChangedQty(index)" v-model="item.product.quantity">
+                  <template v-for="price in item.pricing ">
+                    <option :value="price.quantity">{{ price.quantity }} {{$t('products.Or More')}}</option>
+
+                  </template>
+                  <option v-if="!item.quantity_in_range" :value="item.product.min_quantity">
+                    ({{ item.product.min_quantity }})   {{$t('products.invalid Quantity')}}
+                  </option>
+                </select>
+                </div>
+                <!--                  <span class="error">{{ errors[0] }}</span>-->
+                <!--                </ValidationProvider>-->
               </td>
               <td>
                 <div class="flex gap-4 items-center">
-                    <lazy-image
-                      class="mr-20"
-                      :data-src="(item.product.image)"
-                      :alt="item.product.title"
-                    />
-                    <h5 class="mx-w-400x">{{ item.product.title }}</h5>
+                  <lazy-image
+                    class="mr-20"
+                    :data-src="(item.product.image)"
+                    :alt="item.product.title"
+                  />
+                  <h5 class="mx-w-400x">{{ item.product.title }}</h5>
                 </div>
 
               </td>
-              <td>
-                <!--              <price-format-->
-                <!--                :price="item.product.selling"-->
-                <!--              />-->
-                <span>{{ item.product.selling }}</span>
-              </td>
+
               <!--            <td>-->
               <!--              <price-format-->
               <!--                :price="item.product.offered"-->
@@ -155,19 +166,49 @@
               <!--            </td>-->
 
               <td class="mx-w-130x">
-                <ValidationProvider name="offered" rules="required|min_value:1|max_value:100" v-slot="{ errors }" :custom-messages="{required: $t('global.req', { type: $t('prod.offered')}) }">
-                <input
-                  :disabled="item.deleted"
-                  type="number"
-                  step="any"
-                  v-model="item.product.offered"
-                  :placeholder="$t('prod.offered')"
-                  @change="valueChanged(index)"
-                />
+                <ValidationProvider name="offered" rules="required|min_value:1|max_value:100" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.offered')}) }">
+                  <input
+                    :disabled="item.deleted"
+                    type="number"
+                    step="any"
+                    v-model="item.product.offered"
+                    :placeholder="$t('prod.offered')"
+                    @change="valueChanged(index)"
+                  />
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
               </td>
+              <td>
+                <!--                "quantity": 5,-->
+                <!--                "unit_price": "55.00",-->
+                <!--                "selling_price": "52.00"-->
+                <div class="flex flex-col">
+                  <div v-for="(price,index) in item.pricing ">
+                    <div class="flex flex-row flex-nowrap "
+                         :class="[{'text-primary':price.quantity>=item.product.quantity},{'text-error':price.quantity<item.product.quantity}]">
+                      <span>{{ price.quantity }}</span>
+                      <span
+                        v-if="item.pricing.length==(index+1) ||(item.pricing.length>(index+1)  && (item.pricing[index + 1]?.quantity-1 > price.quantity)) ">
+                               {{ (item.pricing[index + 1]) ? (" - " + (item.pricing[index + 1]?.quantity - 1)) : "+" }}
+                          </span> :
+                      <span v-if="price.quantity>=item.product.quantity" class="mx-2">
+                        (
+                        <del class="mx-2"> {{ price.selling_price }}</del>
 
+                        {{ Number(price.selling_price-(price.selling_price*item.product.offered/100) ).toFixed(2)}}
+                        )
+                      </span>
+                      <span v-else class="mx-2">({{ price.selling_price }})</span>
+                    </div>
+                    <!--                    <span>{{ item.product.selling }}</span>-->
+                  </div>
+                </div>
+                <!--              <price-format-->
+                <!--                :price="item.product.selling"-->
+                <!--              />-->
+
+              </td>
               <td
                 class="undo-container"
               >
@@ -323,7 +364,7 @@ export default {
     },
 
     getEndFormattedDate(startTime) {
-      if (startTime){
+      if (startTime) {
         const endDate = new Date(startTime); // Convert start time to Date object
         endDate.setDate(endDate.getDate() + 1); // Add one day to the start time
         const year = endDate.getFullYear();
@@ -363,11 +404,14 @@ export default {
           product: {
             id: product.id,
             title: product.title,
-            image: product.image??'',
-            offered: product.offered,
-            quantity: product.minOrderQuantity?.min_quantity??0,
-            selling: product.minSellingPrice?.min_selling_price??0
-          }
+            image: product.image ?? '',
+            offered: product.offered??1,
+
+            quantity: product.minOrderQuantity?.min_quantity ?? 0,
+            selling: product.minSellingPrice?.min_selling_price ?? 0
+          },
+          pricing: product.pricing,
+          quantity_in_range: true,
         })
       }
       this.$refs.productSearch.autoSuggestionClose()

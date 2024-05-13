@@ -32,13 +32,11 @@
     "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً"
   },
   "shipping": {
-   "free_shipping": " توفر شحن مجاني ",
-
+    "free_shipping": " توفر شحن مجاني ",
     "est_days": "ايام",
     "est": "مدة التوصيل المتوقعة  هي مدة الشحن ولاتشمل مدة تجهيز المنتج",
     "est_hours": "ساعات"
   },
-
   "rfq": {
     "Select from my catalogue": "اختر من الكتالوج الخاص بي",
     "Copy from website catalogue": "انسخ المنتج من كتالوج المنصة",
@@ -72,11 +70,11 @@
     "Search by Category": "البحث حسب الفئة",
     "Select Sub Category": "اختيار الفئة الفرعية",
     "Select Child Category": "اختيار الفئة الفرعية الفرعية",
-    "Search by Product":"الحبث حسب اسم المنتح",
-    "Product Name":"اسم المنتح",
-    "FilterBy":"الفلتره حسب",
-    "FilterValue":"الفلتره حسب",
-    "selectOption":"حدد نوع الفلتره",
+    "Search by Product": "الحبث حسب اسم المنتح",
+    "Product Name": "اسم المنتح",
+    "FilterBy": "الفلتره حسب",
+    "FilterValue": "الفلتره حسب",
+    "selectOption": "حدد نوع الفلتره",
     "RFQ Type": "نوع طلب السعر",
     "RFQ_Market": "سوق طلب السعر",
     "Location": "الموقع",
@@ -101,10 +99,10 @@
     "Unit Offer Price": "سعر الوحدة ",
     "Total Offer Price": "اجمالي سعر العرض",
     "Shipping City": "مدينة الشحن",
-    "Shipping Terms":"شروط الشحن",
-    "Shipping Country":  "بلد الشحن",
+    "Shipping Terms": "شروط الشحن",
+    "Shipping Country": "بلد الشحن",
     "RFQ Id": "معرف طلب السعر",
-    "RFQ Details":"  تفاصيل طلب عرض السعر ",
+    "RFQ Details": "  تفاصيل طلب عرض السعر ",
     "Price Valid Until": " الأسعار  صالحة حتى",
     "Quotes Submitted": "عروض الأسعار المستلمة",
     "Status": "الحالة",
@@ -126,14 +124,16 @@
     "quantityRequired": "الرجاء إدخال الكمية",
     "UnitpriceRequired": "سعر الوحدة مطلوب",
     "costPriceGreater1": "يجب أن يكون سعر التكلفة أكبر من 1",
-    "ClearFilter":"مسح الفلتره",
-    "change":"تعديل",
-    "Remove":"حذف",
-    "EditQuote":"تعديل العرض"
+    "ClearFilter": "مسح الفلتره",
+    "change": "تعديل",
+    "Remove": "حذف",
+    "EditQuote": "تعديل العرض"
   },
   "products": {
     "Id": "المعرف",
     "name": "اسم المنتج",
+    "Or More": " او اكثر ",
+    "invalid Quantity": "كمية غير صحيحة  ",
     "add": "اضافة منتج",
     "Image": "الصورة",
     "Products": "المنتجات",
@@ -195,8 +195,8 @@
     "cat": "فئة",
     "countryName": "اسم الدولة"
   },
-  "multiSelect":{
-    "orderStatus":"حالة الطلب"
+  "multiSelect": {
+    "orderStatus": "حالة الطلب"
   },
   "brand": {
     "buyCount": "عدد الشراء ",
@@ -270,7 +270,7 @@
     "Search by City": "البحث حسب المدينة",
     "Search by Status": "البحث حسب الحالة",
     "Search by Verified": "البحث حسب التحقق",
-    "Search by Product":"الحبث حسب اسم المنتح",
+    "Search by Product": "الحبث حسب اسم المنتح",
     "Save Changes": "حفظ التغييرات",
     "Street name": "اسم الشارع",
     "Zip Code": "الرمز البريدي",
@@ -288,7 +288,7 @@
     "Not Verified": "غير محقق",
     "All": "الكل"
   },
-  "invoice" : {
+  "invoice": {
     "invoice": "الفاتورة",
     "invoiceNo": "رقم الفاتورة",
     "invoiceDate": "تاريخ الفاتورة",
@@ -311,7 +311,7 @@
     "terms_and_conditions": "البنود والشروط",
     "pay_within_15_days": "الرجاء الدفع خلال 15 يومًا من تاريخ الفاتورة، سيتم فرض فوائد بنسبة 14٪ على المدفوعات المتأخرة.",
     "quote_invoice_number": "الرجاء ذكر رقم الفاتورة عند تحويل الأموال."
-    },
+  },
   "prod": {
     "greater": "يجب أن يكون وقت الانتهاء أكبر من وقت البدء.",
     "eTime": "وقت الانتهاء",
@@ -471,36 +471,36 @@
     "sku": "رمز SKU",
     "parent_sku": "الرمز الرئيسي (Parent SKU)"
   },
-  "statusOrder":{
-      "all":"الكل ",
-      "order placed": "تم الطلب",
-      "received": "تم الاستلام",
-      "partial received": "تم استلام جزئي",
-      "delivered": "تم التوصيل",
-      "partial delivered": "تم التوصيل جزئياً",
-      "pending cancellation": "في انتظار الإلغاء",
-      "cancelled": "تم الإلغاء",
-      "ready to ship": "جاهز للشحن",
-      "order picked": "تم اختيار الطلب",
-      "out for pickup": "خرج للاستلام",
-      "out for delivery": "خرج للتوصيل",
-      "dispute": "نزاع",
-      "in transit": "قيد الانتقال",
-      "orderStatus": "حالة الطلب"
+  "statusOrder": {
+    "all": "الكل ",
+    "order placed": "تم الطلب",
+    "received": "تم الاستلام",
+    "partial received": "تم استلام جزئي",
+    "delivered": "تم التوصيل",
+    "partial delivered": "تم التوصيل جزئياً",
+    "pending cancellation": "في انتظار الإلغاء",
+    "cancelled": "تم الإلغاء",
+    "ready to ship": "جاهز للشحن",
+    "order picked": "تم اختيار الطلب",
+    "out for pickup": "خرج للاستلام",
+    "out for delivery": "خرج للتوصيل",
+    "dispute": "نزاع",
+    "in transit": "قيد الانتقال",
+    "orderStatus": "حالة الطلب"
   },
-  "approvedModal":{
+  "approvedModal": {
     "sure": "هل أنت متأكد",
     "revert": "لن تتمكن من التراجع عن هذا",
     "confirmBtn": "نعم",
     "cancel": "إلغاء",
     "approvedAction": "تم الموافقة",
     "success": "تمت الموافقة على الطلب",
-    "Cancelled":"الغاء",
-    "cancellMes":"تم الغاء العملية "
+    "Cancelled": "الغاء",
+    "cancellMes": "تم الغاء العملية "
   },
   "order": {
-    "enterTotAmPay":"أدخل المبلغ الإجمالي للدفع",
-    "total_amount":"مبلغ الدفع",
+    "enterTotAmPay": "أدخل المبلغ الإجمالي للدفع",
+    "total_amount": "مبلغ الدفع",
     "isRequired": "{type} يجب كتابته",
     "allOrders": "جميع الطلبات",
     "orderId": "رقم الطلب",
@@ -543,7 +543,7 @@
     "pending": "قيد الانتظار"
   },
   "orderDetails": {
-  "title": "الطلبات الخاصة بي",
+    "title": "الطلبات الخاصة بي",
     "ItemPrice": "سعر المتتج",
     "ItemStatus": "حالة المنتج ",
     "TotalPrice": "السعر الكلي",
@@ -554,62 +554,61 @@
     "BillingAddress": "عنوان الفاتوره",
     "ShipmentMethod": "طريقة الشحن",
     "ShipmentCost": "تكلفة الشحن",
-  "next_step": "الخطوة التالية لهذا الطلب",
-  "content": "بمجرد تسليم الطلب، يرجى وضع الحالة كتم تم التسليم وتحميل دليل التسليم الخاص بك.",
-  "order_number": "رقم الطلب:",
-  "order_id": "12 نوفمبر 24 4:44 م",
-  "delivery_method": "طريقة التسليم:",
+    "next_step": "الخطوة التالية لهذا الطلب",
+    "content": "بمجرد تسليم الطلب، يرجى وضع الحالة كتم تم التسليم وتحميل دليل التسليم الخاص بك.",
+    "order_number": "رقم الطلب:",
+    "order_id": "12 نوفمبر 24 4:44 م",
+    "delivery_method": "طريقة التسليم:",
     "InitialDate": "التاريخ الأولي",
     "count_items_subtotal": "عدد العناصر الفرعيه",
-  "ex_works": "أعمال إضافية",
-  "order_status": "حالة الطلب",
-  "invoice_status": "حالة الفاتورة",
-  "pickup_date": "تاريخ الاستلام",
-  "pickup_location": "موقع الاستلام",
-  "orders_overview": "نظرة عامة على الطلبات",
-  "product": "المنتج",
-  "agreed_price": "السعر المتفق عليه",
-  "quantity": "الكمية",
-  "item_status": "حالة العنصر",
-  "subtotal": "المجموع الفرعي",
-  "commission_percentage": "نسبة العمولة",
-  "commission_subtotal": "مجموع العمولة",
-  "items_subtotal": "مجموع العناصر الفرعية",
-  "vat": "ضريبة القيمة المضافة (%):",
-  "item_total": "مجموع العناصر",
-  "industry_fee": "رسوم الصناعة",
-  "commission": "العمولة",
-  "vat_on_commission": "ضريبة القيمة المضافة على العمولة (5%)",
-  "total_commission": "مجموع العمولة",
-  "total_payout": "الدفع الكلي",
-  "payment_shipping_dimension": "الدفع الشحن والبعد",
-  "payment_method": "طريقة الدفع:",
-  "shipping_method": "طريقة الشحن:",
-  "shipping_cost": "تكلفة الشحن:",
-  "timeline": "الجدول الزمني",
-  "user": "المستخدم",
-  "action": "الإجراء",
-  "date": "التاريخ",
+    "ex_works": "أعمال إضافية",
+    "order_status": "حالة الطلب",
+    "invoice_status": "حالة الفاتورة",
+    "pickup_date": "تاريخ الاستلام",
+    "pickup_location": "موقع الاستلام",
+    "orders_overview": "نظرة عامة على الطلبات",
+    "product": "المنتج",
+    "agreed_price": "السعر المتفق عليه",
+    "quantity": "الكمية",
+    "item_status": "حالة العنصر",
+    "subtotal": "المجموع الفرعي",
+    "commission_percentage": "نسبة العمولة",
+    "commission_subtotal": "مجموع العمولة",
+    "items_subtotal": "مجموع العناصر الفرعية",
+    "vat": "ضريبة القيمة المضافة (%):",
+    "item_total": "مجموع العناصر",
+    "industry_fee": "رسوم الصناعة",
+    "commission": "العمولة",
+    "vat_on_commission": "ضريبة القيمة المضافة على العمولة (5%)",
+    "total_commission": "مجموع العمولة",
+    "total_payout": "الدفع الكلي",
+    "payment_shipping_dimension": "الدفع الشحن والبعد",
+    "payment_method": "طريقة الدفع:",
+    "shipping_method": "طريقة الشحن:",
+    "shipping_cost": "تكلفة الشحن:",
+    "timeline": "الجدول الزمني",
+    "user": "المستخدم",
+    "action": "الإجراء",
+    "date": "التاريخ",
     "messageOne": "سوف تقوم Industry بإطلاعك على تاريخ التسليم بمجرد",
     "messageTow": "استلام الدفعة بنجاح",
     "PaymentSummery": "ملخص الدفع",
-"Method": "الطريقة",
-"NameOnCard": "الاسم على البطاقة",
-"PayDate": "تاريخ الدفع",
-"PayAttachment": "مرفق الدفع",
-"PayedAmount": "المبلغ المدفوع",
-"remainingAmount": "المبلغ المتبقي",
-"Accept": "قبول",
-"Reject": "رفض",
-"nameEmpty":" الاسم فارغ",
-"reference_number":"الرقم المرجعي"
-
-},
-"validation": {
-"number":"يجب ان يكون ارقام",
-"required":"يجب ان تكتب",
-"email":"يجب ان يكون بريد الكتروني"
-},
+    "Method": "الطريقة",
+    "NameOnCard": "الاسم على البطاقة",
+    "PayDate": "تاريخ الدفع",
+    "PayAttachment": "مرفق الدفع",
+    "PayedAmount": "المبلغ المدفوع",
+    "remainingAmount": "المبلغ المتبقي",
+    "Accept": "قبول",
+    "Reject": "رفض",
+    "nameEmpty": " الاسم فارغ",
+    "reference_number": "الرقم المرجعي"
+  },
+  "validation": {
+    "number": "يجب ان يكون ارقام",
+    "required": "يجب ان تكتب",
+    "email": "يجب ان يكون بريد الكتروني"
+  },
   "paymentMethod": {
     "bank": "بنك",
     "cred_Card": ""
@@ -621,9 +620,8 @@
     "reject": "مرفوض",
     "available": "متاح",
     "not-available": "غير متاح"
-
   },
-"fSale": {
+  "fSale": {
     "sProd": "المنتجات المحددة ",
     "sPrice": "سعر البيع ",
     "undo": "تراجع ",
@@ -858,14 +856,13 @@
     "Select City": "اختر المدينة",
     "Cancel": "إلغاء",
     "Save Change": "حفظ التغيير",
-    "My address":"عنوايني",
+    "My address": "عنوايني",
     "Provide_information": "قدم معلومات عن عنوان الفوترة الخاص بك ومكان رغبتك في استلام العناصر منه.",
     "Weneed": "نحتاج إلى تفاصيل موقع استلام المخزون الخاص بك لحساب أسعار الشحن الدقيقة.",
     "Remove": "إزالة",
     "Edit": "تحرير",
     "Quit": "إنهاء",
     "Agree": "موافق"
-
   },
   "country": {
     "iso": "رمز ISO",
@@ -887,7 +884,6 @@
   },
   "transportation_mode": {
     "transportation_mode": "وسيلة النقل"
-
   },
   "warehouse": {
     "warehouses": "المستودعات",
@@ -898,10 +894,8 @@
     "is_open_saturday": "مفتوح يوم السبت"
   },
   "unit": {
-
-  "unit": "الوحدة",
-  "unit_code": "رمز الوحدة"
-
+    "unit": "الوحدة",
+    "unit_code": "رمز الوحدة"
   },
   "port": {
     "port": "الميناء",
@@ -911,7 +905,6 @@
   },
   "storagetem": {
     "storagetem": "درجة حرارة التخزين"
-
   },
   "setting": {
     "cLogo": "تغيير الشعار ",
@@ -1042,7 +1035,7 @@
   },
   "approveModal": {
     "approvedOrder": "تمت الموافقة على الطلب",
-    "titleModel":"هل انت متأكد من انك تريد الموافقة على هذا الطلب",
+    "titleModel": "هل انت متأكد من انك تريد الموافقة على هذا الطلب",
     "ordersItems": "العناصر المطلوبة",
     "pickupAddress": "عنوان الاستلام",
     "Add Address": "Add Address",
@@ -1067,12 +1060,11 @@
     "next": "التالي",
     "back": "رجوع"
   },
-  "googleMap":{
-    "confirm":"تأكيد",
-    "cancel":"إلغاء",
-    "LocateMe":"تحديد موقعي"
+  "googleMap": {
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "LocateMe": "تحديد موقعي"
   },
-
   "orderReject": {
     "title": "رفض الطلب",
     "confirmation": "أنت على وشك رفض الطلب التالي. يرجى تحديد سبب الرفض.",
@@ -1082,7 +1074,7 @@
     "cancel": "إلغاء",
     "save": "حفظ"
   },
-"util": {
+  "util": {
     "tod": "أهم الاكتشافات اليومية ",
     "bfb": "بجانب العلامات التجارية المميزة ",
     "bod": "الجزء السفلي من الاكتشاف اليومي ",
@@ -1313,28 +1305,28 @@
     "address": "العنوان",
     "payment": "الدفع"
   },
-  "invoice" : {
-  "invoice": "الفاتورة",
-  "invoiceNo": "رقم الفاتورة ",
-  "invoiceDate": "تاريخ الفاتورة ",
-  "dueDate": "تاريخ الاستحقاق ",
-  "moveMap": "قم بتحريك الخريطة للعثور على عنوانك",
-  "billedBy": "المُفوتر من قبل",
-  "billedTo": "المُفوتر إلى",
-  "bankAccountDetails": "تفاصيل الحساب البنكي",
-  "bankName": "اسم البنك",
-  "accountHolderName": "اسم صاحب الحساب",
-  "accountNumber": "رقم الحساب",
-  "ifsc": "الرمز الدولي لتحديد الفرع",
-  "accountType": "نوع الحساب",
-  "termsAndConditions": "الشروط والأحكام",
-  "subTotal": "الإجمالي الفرعي",
-  "discount": "الخصم",
-  "shipping": "الشحن",
-  "vat": "ضريبة القيمة المضافة",
-  "total": "المجموع",
-  "terms_and_conditions": "البنود والشروط",
-  "pay_within_15_days": "يرجى الدفع خلال 15 يومًا من تاريخ الفاتورة، سيتم فرض فوائد بنسبة 14٪ على المدفوعات المتأخرة.",
-  "quote_invoice_number": "يرجى ذكر رقم الفاتورة عند تحويل الأموال."
+  "invoice": {
+    "invoice": "الفاتورة",
+    "invoiceNo": "رقم الفاتورة ",
+    "invoiceDate": "تاريخ الفاتورة ",
+    "dueDate": "تاريخ الاستحقاق ",
+    "moveMap": "قم بتحريك الخريطة للعثور على عنوانك",
+    "billedBy": "المُفوتر من قبل",
+    "billedTo": "المُفوتر إلى",
+    "bankAccountDetails": "تفاصيل الحساب البنكي",
+    "bankName": "اسم البنك",
+    "accountHolderName": "اسم صاحب الحساب",
+    "accountNumber": "رقم الحساب",
+    "ifsc": "الرمز الدولي لتحديد الفرع",
+    "accountType": "نوع الحساب",
+    "termsAndConditions": "الشروط والأحكام",
+    "subTotal": "الإجمالي الفرعي",
+    "discount": "الخصم",
+    "shipping": "الشحن",
+    "vat": "ضريبة القيمة المضافة",
+    "total": "المجموع",
+    "terms_and_conditions": "البنود والشروط",
+    "pay_within_15_days": "يرجى الدفع خلال 15 يومًا من تاريخ الفاتورة، سيتم فرض فوائد بنسبة 14٪ على المدفوعات المتأخرة.",
+    "quote_invoice_number": "يرجى ذكر رقم الفاتورة عند تحويل الأموال."
   }
 }
