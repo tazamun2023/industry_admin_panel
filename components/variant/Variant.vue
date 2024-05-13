@@ -347,7 +347,7 @@
     </div>
     <!-- ------------------------ -->
     <div :class="openTab !== 'parent' ? 'block':'hidden'">
-      <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab !== 'parent'">
+      <ValidationObserver class="w-full" v-slot="{ invalid }" v-if="openTab !== 'parent'">
         <!-- --------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
@@ -486,7 +486,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <ValidationProvider name="Image" rules="required" v-slot="{ errors }"
+        <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3">
             <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
@@ -1122,11 +1122,12 @@
             </div>
           </div>
           <div class="button-group border-t border-smooth mt-20">
-            <div class="flex justify-end gap-4 pt-3">
+            <div class="flex justify-end gap-4 pt-3 items-center">
               <button type="button" class="btn bg-primary text-white border-secondary"
-                      @click.prevent="handleSubmit(doSubmitSingle(variants[openTab]?.result.id))">
+                      @click.prevent="doSubmitSingle(variants[openTab]?.result.id)">
                 {{ $t('prod.Send for review') }}
               </button>
+              <span class="font-semibold text-error" v-if="invalid">{{ 'Validation error' }}</span>
             </div>
           </div>
         </div>
@@ -1288,7 +1289,7 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }}, {{ variants[is_attributes_modal_index]?.result.product_variant?.value}})</h4>
           </div>
           <div>
-            <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab === 'parent'">
+            <ValidationObserver class="w-full" v-slot="{ invalid }" v-if="openTab === 'parent'">
               <div class="card-body mt-10">
                 <div class="table-responsive">
                   <table class="table table-bordered mb-0">
@@ -1353,7 +1354,7 @@
 
                 <hr class="border-smooth">
                 <div class="flex justify-end gap-4 pt-3 text-end w-full">
-                  <button type="button" class="btn border-primary " @click.prevent="handleSubmit(singlePriceUpdate)">
+                  <button type="button" class="btn border-primary " @click.prevent="invalid(singlePriceUpdate)">
                     <span>{{ $t('prod.Save') }}</span>
                   </button>
                 </div>
@@ -1497,6 +1498,7 @@ export default {
       allKeywords: [],
       injectedData: this.exampleData,
       openTab: 'parent',
+      isErrorMessage: '',
       uploadModal: false,
       variant_uuid_global: '',
       is_change: false,
@@ -1579,6 +1581,9 @@ export default {
   },
   computed: {
 
+    hasError() {
+      return this.form.errors.length > 0;
+    },
     id() {
       return !this.isAdding ? this.$route?.params?.id : ''
     },
@@ -2079,11 +2084,29 @@ export default {
             }
           }
 
-
+          this.isErrorMessage = null;
           this.openTab = 'parent'
         }
       } catch (error) {
-        this.setToastError('Error! at last complete one variant')
+        if (error.response.status === 422) {
+          // Validation error
+          const errorMessage = error.response.data.message;
+          const errors = error.response.data.errors;
+          // console.log(errors)
+          // console.log(errorMessage)
+          // Show error message to the user
+          this.isErrorMessage = errorMessage;
+          this.setToastError(errorMessage)
+          // this.setToastError(errors)
+        } else {
+          // Other types of errors
+          console.error('An error occurred:', error.message);
+          // Show a generic error message to the user
+          this.setToastError('An error occurred. Please try again later.\'')
+        }
+        // console.log('error')
+        // console.log(error)
+        // this.setToastError('Error! at last complete one variant')
         // console.error('Error occurred while fetching data:', error);
       }
 

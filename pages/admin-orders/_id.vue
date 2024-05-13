@@ -508,7 +508,7 @@ import LazyImage from "~/components/LazyImage.vue";
 import Modal from "~/components/Modal.vue";
 import Invoice from './components/Invoice.vue';
 import {ValidationProvider, ValidationObserver} from "vee-validate";
-import {getters as itemOrder} from "../../../frontend/store/detail";
+import {getters as itemOrder} from "../../../industry_frontend/store/detail";
 import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 import PaymentMethod from "../../components/paymentMethod.vue";
 
