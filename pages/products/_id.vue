@@ -35,7 +35,7 @@
       </div>
 
       <div v-if="!is_next && !is_clone">
-        <ValidationObserver class="w-full" v-slot="{ handleSubmit, invalid }">
+        <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
           <form @submit.prevent="handleSubmit(doSubmit)">
             <!-- --------------------------- -->
             <div class="my-10"></div>
@@ -116,14 +116,16 @@
                        type="text"
                        v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
               </div>
-
-              <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+<!--              <ValidationProvider name="Title" :rules="{required: true}" v-slot="{ errors }"-->
+<!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">-->
+              <lang-input :hasError="true" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                           @updateInput="updateInput"></lang-input>
-
-              <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
+<!--                <span class="error">{{ errors[0] }}</span>-->
+<!--              </ValidationProvider>-->
+              <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
                           :valuesOfLang="result.description"
                           @updateInput="updateInput"></lang-input>
-              <ValidationProvider name="brand" :rules="{ required_if: !is_draft }" v-slot="{ errors }"
+              <ValidationProvider name="Brand" :rules="{ required: !is_draft && !result.brand_id }" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
                 <div class="input-wrapper mt-3 mt-sm-0">
@@ -361,14 +363,19 @@
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
               <div class="card-body">
                 <div class="input-wrapper mb-10">
+                  <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
                   <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
                 <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.Key features - English')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
+                  <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
               </div>
-<!--                <ValidationProvider name="English keyword " :rules="{required: !is_draft}" v-slot="{ errors }"-->
-<!--                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">-->
+
+                <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">
 
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Keywords - English') }} ?</label>
@@ -382,8 +389,10 @@
                   class="custom-select"
                 ></v-select>
               </div>
-<!--                  <span class="error">{{ errors[0] }}</span>-->
-<!--                </ValidationProvider>-->
+                  <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
+                <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !result.basic_keyword_ar}" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
                 <v-select
@@ -396,6 +405,8 @@
                   class="custom-select"
                 ></v-select>
               </div>
+                <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
             </div>
           </div>
           <!--          BasicInformationChild-->
