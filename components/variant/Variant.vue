@@ -1127,7 +1127,7 @@
                       @click.prevent="doSubmitSingle(variants[openTab]?.result.id)">
                 {{ $t('prod.Send for review') }}
               </button>
-              <span class="font-semibold text-error" v-if="invalid">{{ 'Validation error' }}</span>
+              <span class="font-semibold text-error" v-if="invalid && is_submit_data">{{ $t('prod.Check the errors') }}</span>
             </div>
           </div>
         </div>
@@ -1493,6 +1493,7 @@ export default {
   },
   data() {
     return {
+      is_submit_data : false,
       variant_copy: [],
       is_submit: [],
       allKeywords: [],
@@ -1973,7 +1974,7 @@ export default {
       }
       this.is_draft = false;
       this.result.is_draft = false;
-
+      this.is_submit_data = true;
       this.variants[this.openTab].result.status = 'pending'
       if (this.variant_uuid_global) {
         this.variants[this.openTab].result.variant_uu_id = this.variant_uuid_global
