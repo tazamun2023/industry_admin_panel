@@ -201,6 +201,7 @@
     "setQuote": "quotes/action",
 
 
+    "sendOffer": "message-center/inquires",
     "getAllInquiries": "message-center/inquiries/all",
     "activeInquiries": "message-center/inquiries/active",
     "acceptInquiriesOffer": "message-center/inquiries/offer/accept-offer",

@@ -544,7 +544,7 @@
                   </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="Number of units per carton" :rules="PackagingValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Number of units per carton" :rules="{required: !is_draft, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Number of units per carton') }} <strong
@@ -989,7 +989,7 @@
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
                     <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
-                      <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
+                      <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
                           item.name
                         }}
                       </option>
@@ -1336,7 +1336,7 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: '',
         stock_location: 1,
-        country_of_origin: 193,
+        country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
         barcode_type: '',
@@ -1623,7 +1623,7 @@ export default {
     PackagingValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
@@ -1640,14 +1640,14 @@ export default {
     CartonDimensionValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
     ProductDimensionValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
