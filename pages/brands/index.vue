@@ -23,7 +23,8 @@
         <th>{{ $t('category.slug') }}</th>
         <th>{{ $t('prod.vendor_name') }}</th>
         <th>{{ $t('category.featured') }}</th>
-        <th>{{ $t('category.status') }}</th>
+        <th>{{ $t('prod.show') }}</th>
+        <th>{{ $t('prod.status') }}</th>
         <th>{{ $t('category.created') }}</th>
         <th>&nbsp;</th>
       </tr>
@@ -67,6 +68,12 @@
         >
           <span>{{ getStatus(value.status) }}</span>
         </td>
+        <td
+          class="status"
+          :class="{active: value.approved_status.name === 'Approved' }"
+        >
+          <span>{{ value.approved_status.name }}</span>
+        </td>
         <td>{{ value.created }}</td>
         <td>
           <button
@@ -77,6 +84,8 @@
           class="border-0"
             v-if="$can('manage_brands')"
             @click.prevent="$refs.listPage.editItem(value.id)"><edit-button-icon/></button>
+          <button class="border-0" v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" @click.prevent="changeStatus(value.id, 'approved')">Approved</button>
+          <button class="border-0" v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin" @click.prevent="changeStatus(value.id, 'reject')">Reject</button>
         </td>
       </tr>
     </template>
@@ -90,6 +99,7 @@
   import bulkDelete from "~/mixin/bulkDelete";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+  import {mapActions} from "vuex";
 
   export default {
     name: "brands",
@@ -112,7 +122,26 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 },
     mixins: [util, bulkDelete],
     computed: {},
-    methods: {},
+    methods: {
+      async changeStatus(id, status) {
+        try {
+          this.setById({ id: id, params: { status: status }, api: 'doApprovedBrand' })
+            .then(() => {
+              this.$refs.listPage.fetchingData();
+            })
+            .catch(error => {
+              // Handle errors
+              console.error("Error:", error);
+            });
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      },
+
+
+      ...mapActions('common', ['setById']),
+      ...mapActions('ui', ["setToastMessage", "setToastError"]),
+    },
     mounted() {
     }
   }
