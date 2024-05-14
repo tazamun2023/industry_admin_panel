@@ -367,7 +367,7 @@
                                       :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
                   <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.Key features - English')"
+                <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
                   <span class="error">{{ errors[0] }}</span>

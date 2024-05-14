@@ -69,6 +69,7 @@
     "getBrand": "brand/find",
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
+    "doApprovedBrand": "brand/change-status",
 
     "getAllCountries": "city/all-countries",
     "getCitys": "city/all",
