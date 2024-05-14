@@ -75,17 +75,18 @@ export default {
       // cancelOffer
       try {
         this.is_loading = true
-        const data = await this.postRequest({
-          params: {
-            user_token: await this.getUserToken(),
-            inquiry_id: this.ActiveInquiryData.id,
-            status: '',
-            type: 'message',
-            message: this.message
-          },
-          api: 'sendOffer',
-          requiredToken: true
-        })
+        // const data = await this.postRequest({
+        //   params: {
+        //     user_token: await this.getUserToken(),
+        //     inquiry_id: this.ActiveInquiryData.id,
+        //     status: '',
+        //     type: 'message',
+        //     message: this.message
+        //   },
+        //   api: 'sendOffer',
+        //   requiredToken: true
+        // })
+        const data = setRequest
         if (data?.status === 200) {
           // this.setToastMessage(this.$t('products.Message Sent'))
           this.message = ''
