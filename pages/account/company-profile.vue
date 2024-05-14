@@ -173,7 +173,7 @@
               <label for="">{{ $t("vendor.mobile") }}</label>
               <div class="flex">
                 <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:11" v-slot="{ errors }">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
                     <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                     <span  class="error">{{ errors[0] }}</span>
                   </ValidationProvider>
@@ -350,7 +350,7 @@
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
               <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button @click="submit = true" :disabled="invalid" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
@@ -494,10 +494,6 @@ export default {
     toggleTabs: function(tabNumber, invalid){
       if(!this.fromData.name.ar.length > 0){
         this.hasError = true
-      }else if(this.checkNameValue){
-          this.setToastMessage('Solve the Error Field')
-      }else if(invalid){
-        this.setToastMessage('Solve the Error Field')
       }else{
         this.openTab = tabNumber
       }
