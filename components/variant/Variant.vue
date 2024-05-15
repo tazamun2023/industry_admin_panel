@@ -1300,7 +1300,7 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }}, {{ variants[is_attributes_modal_index]?.result.product_variant?.value}})</h4>
           </div>
           <div>
-            <ValidationObserver class="w-full" v-slot="{ invalid }" v-if="openTab === 'parent'">
+            <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }" v-if="openTab === 'parent'">
               <div class="card-body mt-10">
                 <div class="table-responsive">
                   <table class="table table-bordered mb-0">
@@ -1365,7 +1365,7 @@
 
                 <hr class="border-smooth">
                 <div class="flex justify-end gap-4 pt-3 text-end w-full">
-                  <button type="button" class="btn border-primary " @click.prevent="invalid(singlePriceUpdate)">
+                  <button type="button" class="btn border-primary " @click.prevent="handleSubmit(singlePriceUpdate)">
                     <span>{{ $t('prod.Save') }}</span>
                   </button>
                 </div>
@@ -1622,6 +1622,82 @@ export default {
         max_value: 99999999,
       };
     },
+
+    QuantityValidationRules() {
+      if (this.is_attributes_modal_index !== false) {
+        return {
+          required: true,
+          min_value: 1,
+          max_value: 99999999,
+          regex: /^\d+$/,
+          quantityComparison: {
+            first: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[0]?.quantity),
+            second: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[1]?.quantity),
+            third: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[2]?.quantity)
+          }
+        };
+      } else {
+        return {
+          required: true,
+          min_value: 1,
+          max_value: 99999999,
+          regex: /^\d+$/,
+          quantityComparison: {
+            first: parseInt(this.variants[this.openTab]?.result.product_prices[0]?.quantity),
+            second: parseInt(this.variants[this.openTab]?.result.product_prices[1]?.quantity),
+            third: parseInt(this.variants[this.openTab]?.result.product_prices[2]?.quantity)
+          }
+        };
+      }
+    },
+    UnitPriceValidationRules() {
+      // this.PriceValidationRules
+      // return {
+      //   required: true,
+      //   min_value: 1,
+      //   max_value: 99999999,
+      //   regex: /^(?:\d*\.\d{1,2}|\d+)$/
+      // }
+      if (this.is_attributes_modal_index !== false) {
+        const unit_prices = [];
+        const selling_prices = [];
+
+        this.variants[this.is_attributes_modal_index]?.result.product_prices.forEach(price => {
+          // Check if selling price is not null before pushing into arrays
+          if (price?.unit_price !== null && price?.selling_price !== null) {
+            unit_prices.push(parseFloat(price?.unit_price));
+            selling_prices.push(parseFloat(price?.selling_price));
+          }
+        });
+
+        return {
+          min_value: 1,
+          required: true,
+          max_value: 99999999,
+          regex: /^(?:\d*\.\d{1,2}|\d+)$/,
+          priceComparison: {unit_prices, selling_prices}
+        };
+      } else {
+        const unit_prices = [];
+        const selling_prices = [];
+
+        this.variants[this.openTab]?.result.product_prices.forEach(price => {
+          // Check if selling price is not null before pushing into arrays
+          if (price?.unit_price !== null && price?.selling_price !== null) {
+            unit_prices.push(parseFloat(price?.unit_price));
+            selling_prices.push(parseFloat(price?.selling_price));
+          }
+        });
+
+        return {
+          min_value: 1,
+          required: true,
+          max_value: 99999999,
+          regex: /^(?:\d*\.\d{1,2}|\d+)$/,
+          priceComparison: {unit_prices, selling_prices}
+        };
+      }
+    },
     PriceValidationRules() {
       if (this.is_attributes_modal_index !== false) {
         const unit_prices = [];
@@ -1659,41 +1735,6 @@ export default {
           regex: /^(?:\d*\.\d{1,2}|\d+)$/,
           priceComparison: {unit_prices, selling_prices}
         };
-      }
-    },
-    QuantityValidationRules() {
-      if (this.is_attributes_modal_index !== false) {
-        return {
-          required: true,
-          min_value: 1,
-          max_value: 99999999,
-          regex: /^\d+$/,
-          quantityComparison: {
-            first: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[0]?.quantity),
-            second: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[1]?.quantity),
-            third: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[2]?.quantity)
-          }
-        };
-      } else {
-        return {
-          required: true,
-          min_value: 1,
-          max_value: 99999999,
-          regex: /^\d+$/,
-          quantityComparison: {
-            first: parseInt(this.variants[this.openTab]?.result.product_prices[0]?.quantity),
-            second: parseInt(this.variants[this.openTab]?.result.product_prices[1]?.quantity),
-            third: parseInt(this.variants[this.openTab]?.result.product_prices[2]?.quantity)
-          }
-        };
-      }
-    },
-    UnitPriceValidationRules() {
-      return {
-        required: true,
-        min_value: 1,
-        max_value: 99999999,
-        regex: /^(?:\d*\.\d{1,2}|\d+)$/
       }
     },
 
