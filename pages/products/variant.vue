@@ -12,7 +12,7 @@
         :variantsData="variantsData"
       ></Variant>
     </div>
-    <div class="flex justify-center items-center h-full" v-else>
+    <div class="flex justify-center items-center h-full" v-if="is_loading">
       <spinner />
     </div>
   </div>
