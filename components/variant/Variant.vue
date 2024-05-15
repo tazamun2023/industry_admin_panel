@@ -1056,7 +1056,7 @@
                 <label for="">{{ $t('prod.Country of origin') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg"
                         v-model="variants[openTab]?.result.country_of_origin">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
+                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
                       item.name
                     }}
                   </option>
