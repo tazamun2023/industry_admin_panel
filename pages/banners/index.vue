@@ -48,7 +48,7 @@
         <td>{{ productSourceObj[value.source_type].title }}</td>
         <td>
           <button
-            v-if="$can('banner', 'edit')"
+            v-if="$can('manage_ui_settings')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"> <EditButtonIcon/></button>
         </td>
       </tr>

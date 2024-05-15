@@ -2,6 +2,8 @@
   "app": {
     "dir": "ltr",
     "lang": "lang",
+    "ar": "Arabic",
+    "en": "English",
     "Save": "Save",
     "Add": "Add",
     "Done": "Done",

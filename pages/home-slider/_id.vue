@@ -51,6 +51,34 @@
                     :valuesOfLang="result.title"
                     @updateInput="updateInput"></lang-input>
       </div>
+      <div class="grid grid-cols-12 gap-1 md:gap-2">
+        <div class=" col-span-12 md:col-span-6">
+          <span class="w-full">
+            <div class="input-wrapper">
+              <label class=" block"> {{ $t('category.status') }}</label>
+         <dropdown
+           :selectedKey="`${result.status}`"
+           :options="statusObj"
+           @clicked="dropdownStatusSelected"
+         />
+
+        </div>
+          </span>
+        </div>
+        <div class=" col-span-12 md:col-span-6">
+          <span class="w-full">
+            <div class="input-wrapper">
+              <label class=" block"> {{ $t('app.lang') }}</label>
+         <dropdown
+           :selectedKey="`${result.local}`"
+           :options="{'ar': {title: $t('app.ar')},'en': {title: $t('app.en')}}"
+           @clicked="dropdownLangSelected"
+         />
+
+        </div>
+          </span>
+        </div>
+      </div>
 
 
       <div class="input-wrapper">
@@ -145,19 +173,6 @@
         >
       </div>
 
-      <div
-        class="input-wrapper mlr-7-5"
-      >
-        <label class="block">
-          {{ $t('category.status') }}
-        </label>
-
-        <dropdown
-          :selectedKey="`${result.status}`"
-          :options="statusObj"
-          @clicked="dropdownStatusSelected"
-        />
-      </div>
 
     </template>
   </data-page>
@@ -189,6 +204,7 @@
           source_products: [],
           image: '',
           file: '',
+          local: 'ar',
           large_file: '',
           small_file: '',
           large_image: '',
@@ -238,6 +254,9 @@
       },
       dropdownStatusSelected(data) {
         this.result.status = data.key
+      },
+      dropdownLangSelected(data) {
+        this.result.local = data.key
       },
       undoDelete(index){
         const v =  {
