@@ -66,9 +66,10 @@ const actions = {
       try {
         const {data} = await Service.getRequest({}, 'Bearer ' + token, 'profile', null)
 
+        console.log(data.status )
         console.log('data.status')
         console.log(data.status)
-        if (data.status == 204) {
+      if (data.status != 200 ) {
           window.location.replace(process.env.frontBase)
 
         } else {
@@ -88,12 +89,17 @@ const actions = {
         }
 
       } catch (e) {
+        // window.location.replace(process.env.frontBase)
+
         return context.error({
           message: e.message
         })
       }
     } else {
 
+        // window.location.replace(process.env.frontBase)
+
+       // this.$router.push('/login')
       try {
         const {data} = await Service.getRequest({}, null, 'languages', null)
         dispatch('settingSiteData', data.data)
@@ -115,6 +121,9 @@ const actions = {
         return context.error({
           message: e.message
         })
+      } finally {
+
+        await this.$router.push('/login')
       }
     }
   }

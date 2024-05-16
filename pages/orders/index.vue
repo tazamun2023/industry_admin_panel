@@ -61,14 +61,13 @@
                       </div>
                       <div>
                         <p>{{ $t('order.paymentMethod') }}:</p>
-                        <p class="font-bold">
-                          {{ $t(`paymentMethod.${order?.payment_method}`) }}
-                        </p>
+                        <payment-method :payment_method="order?.payment_method"></payment-method>
+
                       </div>
                       <div>
                         <p>{{ $t('order.payment') }}:</p>
                         <p class="font-bold"><span class="bg-primarylight px-2 text-primary rounded-3xl text-[12px]">
-                            {{ $t(`status.${order?.payment_status}`) }}
+                            {{ order.payment_status_data.name }}
 
                           </span>
                         </p>
@@ -84,9 +83,8 @@
                     <div class="flex gap-4">
                       <div>
                         <p>{{ $t('order.total') }}:</p>
-                        <p><strong>
-                            {{ order?.total }}
-                          </strong> <span>{{ $t('app.SAR') }}</span></p>
+
+                        <price-with-curency-format :price="order?.sub_total" ></price-with-curency-format>
                       </div>
                       <div>
                         <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
@@ -124,10 +122,12 @@
 
                                 </td>
                                 <td class="whitespace-nowrap p-2">{{ subItem?.quantity }}</td>
-                                <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.price }} /
-                                  {{ $t('brand.price') }}
+                                <td class="whitespace-nowrap p-2">
+                                  <price-with-curency-format :price="subItem?.price " ></price-with-curency-format>
+
                                 </td>
-                                <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.total_price }}</td>
+                                <td class="whitespace-nowrap p-2">
+                                  <price-with-curency-format :price="subItem?.total_price " ></price-with-curency-format></td>
                                 <td class="whitespace-nowrap p-2">
                                   <select class="p-3 border border-smooth rounded" name="" id="">
                                     <option value="">{{ $t('order.available') }}</option>
@@ -193,9 +193,8 @@
                     <div class="flex gap-4">
                       <div>
                         <p>{{ $t('order.total') }}:</p>
-                        <p><strong>
-                            {{ order?.total }}
-                          </strong> <span>{{ $t('app.SAR') }}</span></p>
+                        <price-with-curency-format :price="order?.sub_total" ></price-with-curency-format>
+
                       </div>
                       <div>
                         <button @click="rejectModalShow(order)"
@@ -227,9 +226,13 @@
 
                         </td>
                         <td class="whitespace-nowrap p-2">{{ subItem?.quantity }}</td>
-                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.price }} / {{
-                          $t('brand.price') }}</td>
-                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{ subItem?.total_price }}</td>
+                        <td class="whitespace-nowrap p-2">
+                          <price-with-curency-format :price="subItem?.price " ></price-with-curency-format>
+
+                        </td>
+                        <td class="whitespace-nowrap p-2">
+                          <price-with-curency-format :price="subItem?.total_price " ></price-with-curency-format>
+                        </td>
                         <td class="whitespace-nowrap p-2">
                           <select class="p-3 border border-smooth rounded" name="" id="">
                             <option value="">{{ $t('order.available') }}</option>
@@ -315,9 +318,13 @@ import FilterData from "./component/FilterData.vue";
 import Pagination from "../../components/partials/Pagination.vue";
 import CardTab from "./component/CardTab.vue";
 import TrSubItems from "./component/TrSubItem.vue";
+import PaymentMethod from "../../components/paymentMethod.vue";
+import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 
 export default {
-  components: { TrSubItems, CardTab, Pagination, FilterData, TablePending, Spinner, LazyImage },
+  components: {
+    PriceWithCurencyFormat,
+    PaymentMethod, TrSubItems, CardTab, Pagination, FilterData, TablePending, Spinner, LazyImage },
   data() {
     return {
       openTab: 1,

@@ -1867,7 +1867,7 @@ export default {
     cloneProduct(product) {
 
       // this.id=product.id
-      this.fetchingData(product.id).then(() => {
+      this.fetchingData(product.id,'cloneProduct').then(() => {
         this.is_clone = false
         this.result.id = ""
         this.result.sku = ""
@@ -2361,10 +2361,11 @@ export default {
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
-    async fetchingData(id) {
+    async fetchingData(id,api='getProduct') {
+
       try {
         this.loading = true
-        var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
+        var res = Object.assign({}, await this.getById({id: id, params: {}, api: api}))
         // console.log('res', res)
         this.result = {
           title: res.title,

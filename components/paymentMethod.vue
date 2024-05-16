@@ -1,6 +1,6 @@
 <template>
   <p class="flex gap-4 items-center  text-[14px]">
-    <strong class="text-smoothlight">{{ reference_number ?? payment_method }}</strong>
+    <strong class="text-smoothlight">{{ reference_number ?? $t(`paymentMethod.${payment_method}`)  }}</strong>
     <img v-if="payment_method=='bank'"  class="w-5 h-5 mt-1" src="~/assets/icon/bank-g.svg" alt="">
     <img v-else class="w-5 h-5 mt-1" src="~/assets/icon/card.svg" alt="">
 

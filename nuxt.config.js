@@ -81,7 +81,7 @@ export default {
   auth: {
     namespace: 'admin_panel',
     redirect: {
-      logout: false,
+      logout: '/login',
       callback: false,
       home: false,
     },
@@ -110,14 +110,14 @@ export default {
           // type: 'Bearer'
         },
         user: {
-          // property: 'data',
-          autoFetch: true
+          property: 'data',
+          // autoFetch: true
         },
         endpoints: {
           login: {url: apiBase + configJson.api.login, method: 'post'},
           logout: {url: apiBase + configJson.api.logout, method: 'get'},
-          user: false
-           //user: {url: apiBase + configJson.api.profile, method: 'get'}
+          // user: false
+           user: {url: apiBase + configJson.api.profile, method: 'get'}
         }
       }
     }

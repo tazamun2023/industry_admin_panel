@@ -42,8 +42,8 @@
       <div>
         <div class="text-end">
           <p class="text-smoothlight">{{ $t('order.total') }}</p>
-          <p><strong class="text-[14px]"> {{ orderDetails?.order_total }}</strong> <span
-            class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="orderDetails?.order_total " ></price-with-curency-format>
+
           <a class="border-b border-smooth" href="">Show breakdown</a>
         </div>
       </div>
@@ -68,7 +68,7 @@
             </div>
             <div>
               <p>{{ $t('orderDetails.ShipmentCost') }} </p>
-              <p>{{ subItem.shipping_cost }} <span class="text-primary">{{ $t('app.SAR') }}</span></p>
+              <price-with-curency-format :price="subItem.shipping_cost  " ></price-with-curency-format>
             </div>
             <div v-if="subItem.status_data !== null">
               <p>{{ $t('global.status') }}</p>
@@ -85,7 +85,7 @@
           <div>
             <div class="text-end">
               <p>{{ $t('order.total') }}</p>
-              <p>{{ getTotalSubOrderItemsPrice(subItem) }} <span class="text-primary">{{ $t('app.SAR') }}</span> </p>
+              <price-with-curency-format :price=" getTotalSubOrderItemsPrice(subItem)  " ></price-with-curency-format>
             </div>
           </div>
         </div>
@@ -125,23 +125,15 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">{{ item.quantity }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                      <div class="flex items-center gap-4">
-                        <span>{{ $t('app.SAR') }} / {{ item.price }}</span>
-                      </div>
+                      <price-with-curency-format :price="item.price" ></price-with-curency-format>
+
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm"><span
                       class="bg-theemlight text-theem px-2 rounded-3xl">{{ $t(`status.${item.status}`) }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $t('prod.sku') }}:{{ item.product.sku }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                      <div class="flex items-center gap-4">
-                          <span>
-                            <template v-for="char in $t('app.SAR').split('')">
-                              <br>{{ char }}
-                            </template>
-                          </span>
-                        <span>{{ item.total_price }}/ {{ $t('orderDetails.TotalPrice') }}</span>
-                      </div>
+                      <price-with-curency-format :price="item.total_price" ></price-with-curency-format>
                     </td>
                   </tr>
 
@@ -159,22 +151,21 @@
       <div>
         <div class="flex justify-between">
           <p>{{ $t('orderDetails.subtotal') }}</p>
-          <p>{{ orderDetails.order_total }}<span class="text-primary text-xs">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="orderDetails.order_total" ></price-with-curency-format>
         </div>
         <div class="flex justify-between">
           <p>{{ $t('orderDetails.subtotal') }}</p>
-          <p>{{ orderDetails.total_shipping_cost }}<span class="text-primary text-xs">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="orderDetails?.total_shipping_cost " ></price-with-curency-format>
         </div>
         <div class="flex justify-between">
           <p>{{ $t('orderDetails.vat') }}</p>
-          <p> {{ orderDetails.tax_amount }} <span class="text-primary text-xs">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="orderDetails?.tax_amount " ></price-with-curency-format>
         </div>
         <div class="flex justify-between border-t border-smooth py-3 my-2">
           <h4 class="font-bold">{{ $t('orderDetails.OrderTotal') }}</h4>
-          <h4 class="font-bold">{{
-              orderDetails.order_total + orderDetails.total_shipping_cost + orderDetails.tax_amount
-            }}
-            <span class="text-primary text-xs">{{ $t('app.SAR') }}</span>
+          <h4 class="font-bold">
+            <price-with-curency-format :price="( orderDetails?.order_total + orderDetails?.total_shipping_cost + orderDetails?.tax_amount) " ></price-with-curency-format>
+
           </h4>
         </div>
       </div>

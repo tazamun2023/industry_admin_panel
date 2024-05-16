@@ -90,13 +90,17 @@
                     </div>
                   </div>
                 </td>
-                <td class="py-4 px-6">{{ $t('app.SAR') }} {{ item.price }}</td>
+                <td class="py-4 px-6">
+                  <price-with-curency-format :price="item?.price " ></price-with-curency-format>
+                </td>
                 <td class="py-4 px-6">{{ item.quantity }}</td>
                 <td class="py-4 px-6"><span class="bg-smooth text-warning p-2 rounded">{{
                     $t(`status.${item.status}`)
                   }}</span></td>
                 <td class="py-4 px-6">
-                  <del>>>{{ $t('app.SAR') }} {{ item.total_price }}</del>
+                  <del>
+                    <price-with-curency-format :price="item?.total_price " ></price-with-curency-format>
+                  </del>
                 </td>
                 <td class="py-4 px-6">{{ orderDetails.commission_tax }} %</td>
                 <td class="py-4 px-6">
@@ -119,37 +123,41 @@
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.vat') }}:</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.vat }}</h5></div>
+            <div><h5>
+              <price-with-curency-format :price="orderDetails?.vat " ></price-with-curency-format>
+            </h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.items_subtotal') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.sub_total }} </h5></div>
+            <div><h5>
+              <price-with-curency-format :price="orderDetails?.sub_total " ></price-with-curency-format>
+            </h5></div>
           </div>
           <div class="flex my-2 justify-between">
             <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.commission') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission }}</h5></div>
+            <div><h5>
+              <price-with-curency-format :price="orderDetails?.commission " ></price-with-curency-format>
+            </h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.vat_on_commission') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission_on_vat }}</h5></div>
+            <div><h5>
+              <price-with-curency-format :price="orderDetails?.commission_on_vat " ></price-with-curency-format>
+            </h5></div>
           </div>
           <div class="flex my-1 justify-between">
             <div><h5>{{ $t('orderDetails.total_commission') }}</h5></div>
-            <div><h5>{{ $t('app.SAR') }} {{ orderDetails.commission_total }}</h5></div>
+            <div><h5><price-with-curency-format :price="orderDetails?.commission_total " ></price-with-curency-format>
+
+            </h5></div>
           </div>
           <div class="flex border-t border-smooth pt-2 my-1 justify-between">
             <div><h5 class="font-bold">{{ $t('orderDetails.total_payout') }}</h5></div>
             <div><h5 class="font-bold">
-              {{
-                      orderDetails?.seller_payout.toLocaleString($t('app.currency_local'), {
-                        style: 'currency',
-                        maximumFractionDigits: 2,
-                        currency: 'SAR'
-                      })
-                    }} 
+              <price-with-curency-format :price="orderDetails?.seller_payout " ></price-with-curency-format>
                     </h5></div>
           </div>
         </div>
@@ -212,8 +220,9 @@
 import {mapGetters, mapActions} from "vuex";
 import LazyImage from "@/components/LazyImage.vue";
 import Invoice from "./component/Invoice.vue"
+import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 export default {
-  components: {LazyImage,Invoice},
+  components: {PriceWithCurencyFormat, LazyImage,Invoice},
   computed: {
     ...mapGetters('order', ['orderDetails'])
   },
@@ -228,8 +237,8 @@ export default {
       window.print();
       document.body.innerHTML = originalContent; // Restore original content after printing
     },
-  
-    
+
+
 
   },
   mounted() {

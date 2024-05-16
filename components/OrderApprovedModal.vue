@@ -3,7 +3,7 @@
   <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
     <div class="absolute inset-0 bg-black opacity-50"></div>
 
-    <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-3/5">
+    <div class="z-50 bg-white  p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-3/5">
       <svg @click="closeModal" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -52,7 +52,8 @@
           </div>
         </div>
       </div>
-      <div v-if="firstBox" class="firstStep">
+      <div class="overflow-hidden">
+      <div v-if="firstBox" class="firstStep overflow-y-scroll max-h-[500px] h-[500px] scroll-thin">
         <div class="my-2 p-4 border border-smooth rounded" v-for="(order,i) in selectedOrders" :key="i">
 
           <div class="flex gap-4 justify-between" >
@@ -125,8 +126,11 @@
 
                         </td>
                         <td class="whitespace-nowrap p-2">{{subItem?.quantity}}</td>
-                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{subItem?.price}} / {{ $t('brand.price') }}</td>
-                        <td class="whitespace-nowrap p-2">{{ $t('app.SAR') }} {{subItem?.total_price}}</td>
+                        <td class="whitespace-nowrap p-2">
+                          <price-with-curency-format :price="subItem?.price " ></price-with-curency-format></td>
+                        <td class="whitespace-nowrap p-2">
+                          <price-with-curency-format :price="subItem?.total_price " ></price-with-curency-format>
+                        </td>
                         <td class="whitespace-nowrap p-2">
                           <select @change="handleSelectChange($event,subItem)"
                                   class="p-3 border border-smooth rounded">
@@ -165,42 +169,47 @@
                     <div class="w-3/5 ltr:ml-auto rtl:mr-auto ltr:items-end rtl:items-start border border-smooth p-4 rounded">
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.sub_total}}</h5></div>
+                        <div><h5>
+                          <price-with-curency-format :price="order?.sub_total " ></price-with-curency-format></h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.vat') }} ({{ order?.vat_percent }}%):</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.vat}}</h5></div>
+                        <div><h5>
+                          <price-with-curency-format :price="order?.vat " ></price-with-curency-format>
+                        </h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.itemTotal') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.total}}</h5></div>
+                        <div><h5>
+
+                          <price-with-curency-format :price="order?.total " ></price-with-curency-format>
+                        </h5></div>
                       </div>
                       <div class="flex my-2 justify-between">
                         <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.commission') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.commission}}</h5></div>
+                        <div><h5>
+                          <price-with-curency-format :price="order?.commission " ></price-with-curency-format>
+                        </h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.vatOnCommission') }} ({{order?.commission_on_vat_percent}}%)</h5></div>
-                        <div><h5>{{ $t('app.SAR') }} {{order?.commission_on_vat}}</h5></div>
+                        <div><h5>
+                          <price-with-curency-format :price="order?.commission_on_vat " ></price-with-curency-format>
+                        </h5></div>
                       </div>
                       <div class="flex my-1 justify-between">
                         <div><h5>{{ $t('approveModal.totalCommission') }}</h5></div>
-                        <div><h5>{{ $t('app.SAR') }}
-                          {{ order?.commission_total }}
+                        <div><h5>
+                          <price-with-curency-format :price="order?.commission_total " ></price-with-curency-format>
                         </h5></div>
                       </div>
                       <div class="flex border-t border-smooth pt-2 my-1 justify-between">
                         <div><h5 class="font-bold">{{ $t('approveModal.totalPayout') }}</h5></div>
-                        <div><h5 class="font-bold">{{
-                      order?.seller_payout.toLocaleString($t('app.currency_local'), {
-                        style: 'currency',
-                        maximumFractionDigits: 2,
-                        currency: 'SAR'
-                      })
-                    }} </h5></div>
+                        <div><h5 class="font-bold">
+                          <price-with-curency-format :price="order?.seller_payout " ></price-with-curency-format></h5></div>
                       </div>
                     </div>
                   </div>
@@ -218,6 +227,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
       <!-- -------------1st step end--------- -->
@@ -359,9 +369,10 @@ import LazyImage from "./LazyImage.vue";
 import {mapGetters, mapActions} from "vuex";
 import AddAddressModel from "./AddAddressModel.vue";
 import Pagination from './partials/Pagination.vue';
+import PriceWithCurencyFormat from "./priceWithCurencyFormat.vue";
 
 export default {
-  components: {AddAddressModel, LazyImage, Pagination},
+  components: {PriceWithCurencyFormat, AddAddressModel, LazyImage, Pagination},
   computed :{
     ...mapGetters('order',['orders','selectedOrdersall']),
     ...mapGetters('address',['addressList']),
@@ -449,6 +460,7 @@ export default {
       this.closeModelAddAddress();
     },
     handleSelectChange(event, subItem) {
+      console.log("event.target.value, subItem")
       console.log(event.target.value, subItem)
       if(event.target.value == 0) {
         this.subItemSelected.availabilityStatus = event.target.value;
@@ -461,6 +473,8 @@ export default {
 
     },
     saveProductUnAvaliable(product_id) {
+      console.log(product_id)
+      console.log(this.subItemSelected)
       this.$store.commit('order/CHANGE_ORDER_SELECTED',{
         payload:{
           product_id:product_id,

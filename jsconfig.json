@@ -276,6 +276,7 @@
     "getProducts": "product/all",
     "deleteProduct": "product/delete",
     "getProduct": "product/find",
+    "cloneProduct": "product/clone",
     "getVariantProducts": "product/find-variant-products",
     "getProductBySku": "product/sku",
     "setProduct": "product/action",

@@ -27,7 +27,7 @@
       <div class="flex gap-4">
         <div>
           <p>{{ $t('order.total') }}</p>
-          <p><strong class="text-[14px]">   {{ order?.total }}</strong> <span class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="order?.total" ></price-with-curency-format>
         </div>
       </div>
     </div>
