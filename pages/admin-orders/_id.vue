@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <div class="bg-smooth p-4 rounded-3xl">
+    <div class="bg-obg p-4 rounded-3xl">
       <div class="card my-4 p-4 rounded-3xl" v-for="(subItem, index) in orderDetails.sub_orders" :key="index">
         <div class="border-b border-smooth pb-2">
           <p><strong>{{ subItem.order_id }}</strong></p>

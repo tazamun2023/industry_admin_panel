@@ -936,7 +936,9 @@
     "rejected": "rejected",
     "reject": "reject",
     "available": "available",
-    "not-available": "not-available"
+    "not-available": "not-available",
+    "Check_payment":"Check payment",
+    "Full_payment":"Full payment"
   },
   "bank": {
     "bank_name": "Bank Name",
