@@ -1,11 +1,11 @@
 <template>
-  <p dir="ltr">
+  <p :dir="$t('app.dir')">
     {{price?
       price.toLocaleString($t('app.currency_local'), {
         style: 'currency',
         maximumFractionDigits: maximumFractionDigits,
         currency: currency,
-        currencyDisplay: 'code' // or 'code' or 'name' depending on your preference
+        // currencyDisplay: 'code' // or 'code' or 'name' depending on your preference
 
       }):"0"
     }}
