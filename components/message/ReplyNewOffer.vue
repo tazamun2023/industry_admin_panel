@@ -29,6 +29,9 @@ export default {
   created() {
     this.initializeQuantity();
   },
+  mounted() {
+    this.formData.quantity = this.ActiveInquiryData?.offer?.quantity
+  },
   methods:{
     initializeQuantity() {
       const inquiryOffers = this.ActiveInquiryData?.inquiryOffers;
