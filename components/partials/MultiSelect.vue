@@ -1,8 +1,8 @@
 <template id="MultiSelect">
     <div>
         <div class="dropdown" @click="showDropdown">
-            <div class="overselect"></div>
-            <select class="custom-select c-form-input p-2 border capitalize rounded border-smooth" :disabled="disabled">
+            <div class="overselect h-[44px] rounded-[10px]"></div>
+            <select class="custom-select h-[44px] rounded-[10px] c-form-input p-2 border capitalize rounded border-smooth" :disabled="disabled">
                 <option value="">{{ title }} <strong>{{ lengthSeleted }}</strong></option>
             </select>
         </div>

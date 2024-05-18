@@ -53,7 +53,7 @@
       <div class="card my-4 p-4 rounded-3xl" v-for="(subItem, index) in orderDetails.sub_orders" :key="index">
         <div class="border-b border-smooth pb-2">
           <p><strong>{{ subItem.order_id }}</strong></p>
-          <span> {{ index + 1 }}
+          <span>{{ $t('orderDetails.Shipment') }} {{ index + 1 }}
             {{ $t('app.of') }}
             {{ orderDetails.sub_orders.length }} </span>
         </div>
@@ -93,25 +93,25 @@
         <div class="flex flex-col my-3">
           <div class="-m-1.5 overflow-x-auto">
             <div class="p-1.5 min-w-full inline-block align-middle">
-              <div class="rounded-lg overflow-hidden border border-smooth">
-                <table class="min-w-full divide-y  divide-smooth">
+              <div class="rounded-lg overflow-hidden">
+                <table class="min-w-full divide-y orderdetails divide-smooth">
                   <thead>
                   <tr>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium   uppercase">
-                      >{{ $t('orderDetails.product') }}
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium bg-none  uppercase">
+                      {{ $t('orderDetails.product') }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase">
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  bg-none uppercase">
                       {{ $t('orderDetails.quantity') }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase">
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium bg-none  uppercase">
                       {{ $t('orderDetails.ItemPrice') }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase">
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  bg-none uppercase">
                       {{ $t('orderDetails.ItemStatus') }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase">{{ $t('prod.sku') }}
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium bg-none uppercase">{{ $t('prod.sku') }}
                     </th>
-                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  uppercase"></th>
+                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium  bg-none uppercase"></th>
                   </tr>
                   </thead>
                   <tbody class="divide-y divide-smooth">
@@ -132,7 +132,7 @@
                       class="bg-theemlight text-theem px-2 rounded-3xl">{{ $t(`status.${item.status}`) }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $t('prod.sku') }}:{{ item.product.sku }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <td class="px-6 py-4 whitespace-nowrap ltr:text-end rtl:text-start text-sm">
                       <price-with-curency-format :price="item.total_price" ></price-with-curency-format>
                     </td>
                   </tr>
@@ -161,9 +161,9 @@
           <p>{{ $t('orderDetails.vat') }}</p>
           <price-with-curency-format :price="orderDetails?.tax_amount " ></price-with-curency-format>
         </div>
-        <div class="flex justify-between border-t border-smooth py-3 my-2">
+        <div class="flex justify-between py-3 my-2">
           <h4 class="font-bold">{{ $t('orderDetails.OrderTotal') }}</h4>
-          <h4 class="font-bold">
+          <h4 class="font-bold w-50 ltr:text-end rtl:text-start  border-t border-smooth">
             <price-with-curency-format :price="( orderDetails?.order_total + orderDetails?.total_shipping_cost + orderDetails?.tax_amount) " ></price-with-curency-format>
 
           </h4>
@@ -619,5 +619,8 @@ export default {
   height: calc(20% - 10px);
   border-top: 5px solid #27436f;
   border-left: 5px solid #27436f;
+}
+.orderdetails th{
+  background: none !important;
 }
 </style>

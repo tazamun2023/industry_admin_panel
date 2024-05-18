@@ -12,9 +12,9 @@
         </svg>
       </div>
     </div>
-      <multi-select  :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name" 
+      <multi-select   :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
       :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
-    <select class="p-2 border rounded capitalize border-smooth" name="" id="" v-model="search.invoice_status"
+    <select class="p-2 border rounded-[10px] capitalize border-smooth" name="" id="" v-model="search.invoice_status"
       v-if="invoice_status">
       <option value="">{{ $t('order.paymentStatus') }}</option>
       <option :value="option.value" v-for="(option, i) in paymentStatuses" :key="i">
@@ -28,16 +28,16 @@
     <!--          $t(`order.${orderType.label}`)-->
     <!--        }}</option>-->
     <!--    </select>-->
-    <select class="p-2 border capitalize rounded border-smooth" name="" id="" v-model="search.sort_by">
+    <select class="p-2 border capitalize rounded-[10px] border-smooth" name="" id="" v-model="search.sort_by">
       <option value="">{{ $t('order.sortFilter') }}</option>
       <option v-for="(sortBy, index) in sortOptions" :key="index" :value="sortBy.api">{{
         $t(`order.${sortBy.label}`)
       }}</option>
     </select>
     <div class="flex col-span-2">
-      <a class="inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+      <a class="inline-block align-middle cursor-pointer text-center select-none border border-smooth h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3 no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
         @click.prevent="FilterOrder"> {{ $t("app.Apply Filters") }} </a>
-      <a class="inline-block align-middle cursor-pointer text-center select-none border font-normal whitespace-no-wrap rounded py-2 px-3 leading-normal no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+      <a class="inline-block align-middle cursor-pointer text-center select-none border border-smooth h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3  no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
         @click.prevent="clearFilterData"> {{ $t("prod.clear_filter") }} </a>
     </div>
   </div>
@@ -122,7 +122,7 @@ export default {
       if (this.search.order_id !== '' || this.search.order_status !== '' || this.search.invoice_status !== '' || this.search.sort_by !== '') {
         this.search.tap = this.tap === 1 ? 'all' : this.tap === 2 ? 'pending' : this.tap === 3 ? 'approved' : this.tap === 4 ? 'rejected' : '';
           this.search.tap = this.isTap;
-        
+
         this.$emit('filter-update', this.search)
       } else {
         return false;
@@ -148,7 +148,7 @@ export default {
     } else {
       this.search.order_status='all'
     }
-    
+
     }
   },
   mounted () {
