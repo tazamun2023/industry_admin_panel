@@ -171,20 +171,20 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-4 my-4">
       <div class="relative">
-        <div class="p-4 bg-theemlight shodow rounded-lg border border-smooth">
-          <h4 class="font-bold text-theem">{{ $t('orderDetails.ShippingAddress') }}</h4>
-          <p>{{ orderDetails.shipping_address?.name }}</p>
+        <div class="p-4 bg-whitelight shodow rounded-[16px] border border-theemlight">
+          <h4 class="font-bold text-[18px] text-theem">{{ $t('orderDetails.ShippingAddress') }}</h4>
+          <p class="text-[14px] font-bold capitalize">{{ orderDetails.shipping_address?.name }}</p>
           <p class="flex items-center gap-4"><img class="h-4 w-4" src="~/assets/icon/phone.svg" alt="">{{
               orderDetails.shipping_address?.address_phone
             }}</p>
         </div>
       </div>
       <div class="relative">
-        <div class="p-4 bg-theemlight shodow rounded-lg border border-smooth">
-          <h4 class="font-bold text-theem">{{ $t('orderDetails.BillingAddress') }}</h4>
-          <p>{{ orderDetails.billing_address?.name }}</p>
+        <div class="p-4 bg-whitelight shodow rounded-[16px] border border-theemlight">
+          <h4 class="font-bold text-[18px] text-theem">{{ $t('orderDetails.BillingAddress') }}</h4>
+          <p class="text-[14px] font-bold capitalize">{{ orderDetails.billing_address?.name }}</p>
           <p class="flex items-center gap-4"><img class="h-4 w-4" src="~/assets/icon/phone.svg" alt="">{{
               orderDetails.billing_address?.address_phone
             }}</p>
@@ -293,24 +293,24 @@
             <table class="min-w-full leading-normal">
               <thead>
               <tr>
-                <td class="px-5 py-3 text-darksmooth tracking-wider">{{ $t('orderDetails.Method') }}</td>
-                <td class="px-5 py-3 min-w-[170px] text-darksmooth tracking-wider">{{ $t('orderDetails.reference_number') }}</td>
-                <td class="px-5 py-3 min-w-[170px]   text-darksmooth tracking-wider">{{ $t('orderDetails.PayDate') }}</td>
-                <td class="px-5 py-3 text-darksmooth tracking-wider">{{ $t('index.amount') }}</td>
-                <td class="px-5 py-3 text-darksmooth tracking-wider">{{ $t('app.Actions') }}</td>
+                <td class="px-5 py-3 text-darksmooth capitalize tracking-wider">{{ $t('orderDetails.Method') }}</td>
+                <td class="px-5 py-3 min-w-[170px] capitalize text-darksmooth tracking-wider">{{ $t('orderDetails.reference_number') }}</td>
+                <td class="px-5 py-3 min-w-[170px] capitalize  text-darksmooth tracking-wider">{{ $t('orderDetails.PayDate') }}</td>
+                <td class="px-5 py-3 text-darksmooth capitalize tracking-wider">{{ $t('index.amount') }}</td>
+                <td class="px-5 py-3 text-darksmooth  capitalize tracking-wider">{{ $t('app.Actions') }}</td>
                 <!--                <td class="px-5 py-3 text-darksmooth tracking-wider">{{ $t('detailOrder.sku') }}</td>-->
-                <td class="px-5 py-3 text-darksmooth tracking-wider"></td>
+                <td class="px-5 py-3 text-darksmooth capitalize tracking-wider"></td>
               </tr>
               </thead>
               <tbody>
-              <tr class="border border-smooth py-2" v-for="(sub, index) in   payment"
+              <tr class="border border-smooth  py-2" v-for="(sub, index) in   payment"
                   :key="index">
-                <td class="px-5 py-2 text-sm">
+                <td class="px-5 py-2 capitalize  text-sm">
                   <payment-method :payment_method="sub?.payment_method"
                                   :reference_number="sub?.payment_details?.reference_number??sub?.payment_details?.card?.brand "></payment-method>
 
                 </td>
-                <td class="px-5 py-2 text-sm">
+                <td class="px-5 capitalize py-2 text-sm">
                   <p v-if="sub?.payment_method=='bank'">
                     <a v-if="sub?.recept" target="_blank" :href="sub.recept" class="flex items-center justify-start flex-row" >
                       <img class="h-4 w-4" src="~/assets/icon/file.svg" alt="">
@@ -322,25 +322,25 @@
                     {{ sub?.payment_details?.card?.paymentInfo}}
                   </p>
                 </td>
-                <td class="px-5 py-2 text-sm">
+                <td class="px-5 py-2 capitalize text-sm">
                   <p class="text-gray-900 text-nowrap">{{ sub?.created_at }}</p>
                 </td>
-                <td class="px-5 py-2 text-sm">
+                <td class="px-5 capitalize py-2 text-sm">
 
                   <price-with-curency-format :class="[sub.status_data.class]" :price="sub?.amount "></price-with-curency-format>
 
                 </td>
-                <td class="px-5 py-2 text-sm">
+                <td class="px-5 capitalize py-2 text-sm">
                   <div v-if="sub.status=='pending'&& sub?.payment_method=='bank'"  class="flex flex-row flex-nowrap">
                     <p class="my-1">
-                      <button class="border-2 border-primary text-primary font-bold"
+                      <button class="border-2 border-primary rounded-[10px] px-4 text-primary font-bold"
                               @click="()=>{bankModal = true;acceptPaymentBank.payment_id=sub.id }">{{
                           $t('orderDetails.Accept')
                         }}
                       </button>
                     </p>
                     <p class="my-1">
-                      <button class="border-2 font-bold  border-red text-error" @click="()=>{acceptPaymentBank.payment_id=sub.id ;rejectMoalFun()}">
+                      <button class="border-2 font-bold  rounded-[10px] px-4  border-red text-error" @click="()=>{acceptPaymentBank.payment_id=sub.id ;rejectMoalFun()}">
                         {{ $t('orderDetails.Reject') }}
                       </button>
                     </p>
@@ -363,11 +363,11 @@
                 <td colspan="2">
 
                 </td>
-                <td>
+                <td class="capitalize">
                     <p>{{ $t('orderDetails.remainingAmount') }}</p>
                 </td>
                 <td colspan="3">
-                  <price-with-curency-format class="text-warning" :price="orderDetails?.total_due "></price-with-curency-format>
+                  <price-with-curency-format class="text-warning capitalize" :price="orderDetails?.total_due "></price-with-curency-format>
                 </td>
               </tr>
 
@@ -407,8 +407,8 @@
         </nuxt-link>
       </div>
       <div>
-        <button class="font-bold border-0" @click="rejectModal = !rejectModal">{{ $t('orderDetails.Reject') }}</button>
-        <button class="font-bold border-2 text-primary"
+        <button class="font-bold  h-[35px] rounded-[10px] px-4 border-0" @click="rejectModal = !rejectModal">{{ $t('orderDetails.Reject') }}</button>
+        <button class="font-bold leading-3  border-2  border-primary h-[35px] rounded-[10px] px-4 text-primary"
                 @click="bankModal = !bankModal">{{ $t('orderDetails.Accept') }}
         </button>
       </div>
