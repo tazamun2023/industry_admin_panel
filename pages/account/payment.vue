@@ -99,30 +99,30 @@
                         <p class="capitalize text-primary semi-bold  text-[14px]">{{ value.bank_name }}</p>
                       </div>
                     </div>
-              <div>
+              <div v-if="!value.is_default" >
                   <p class="text-primary  text-[14px]">SET AS DEFAULT</p>
-                  <div class="text-center">
-                    <input type="checkbox" :checked="value.is_default">
+                  <div class="text-center" >
+                    <input type="checkbox"  @change="SetDefaultBanks(value.id,$event)" :checked="value.is_default">
                   </div>
                 </div>
              </div>
           <div class="flex justify-between gap-4  p-4">
-            <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3" @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
-                <button class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0" @click="deleteModal=true" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
+            <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3"
+             @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
+                <button v-if="!value.is_default" class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0" 
+                @click="deleting(value)" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
           </div>
-                <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+                <!-- <DeleteModal v-if="deleteModal" @closeModal="closeModal">
                   <template v-slot:title>
                     <h4>{{ $t('vendor.deletemessage') }}</h4>
                   </template>
-                  <!-- -----------default slot------- -->
-                  <!-- -----------default slot------- -->
                   <template v-slot:buttons>
                     <div class="flex gap-4 justify-end">
                       <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
                       <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
                     </div>
                   </template>
-                </DeleteModal>
+                </DeleteModal> -->
       </div>
 
 
@@ -225,22 +225,24 @@
                   </ValidationProvider>
                 </div>
                 <div class="flex gap-4">
-                  <ValidationProvider name="Swift" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('bank.swift_code')}`}">
+                  <ValidationProvider name="Swift" class="w-full" rules="required" v-slot="{ errors }"
+                   :custom-messages="{required: `Enter Your ${$t('bank.swift_code')}`}">
                     <div class="input-wrapper w-full">
                         <label for="">{{ $t('bank.swift_code') }}*</label>
-                        <input type="text" placeholder="Swift/BIC code*" v-model="bankData.swift_code">
+                        <input type="text" placeholder="Swift/BIC code*" v-model="bankData.swift_code" >
                       <span  class="error">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                 </div>
                 <div class="input-wrapper w-full">
                     <div class="flex gap-1">
-                    <input type="checkbox" v-model="bankData.is_default">
+                    <input type="checkbox"  v-model="bankData.is_default"   :disabled="disabled" >
                     <label for="">Set bank details as default</label>
                    </div>
                 </div>
                 <div class="flex justify-end gap-4">
-                    <button  @click="Cardmodal=false" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
+                    <button  @click="Cardmodal=false"
+                     class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
                     <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
                 </div>
             </form>
@@ -310,12 +312,33 @@ export default{
 
   methods:{
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
-    ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank']),
+    ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank','SetDefaultBank']),
+   ...mapActions('common', ['swetAlertFire']),
+
     closeModal(){
       this.deleteModal = false
 
     },
+    async SetDefaultBanks(id,e) {
+      const res = await this.swetAlertFire({
+      params :{
+        title: this.$i18n.t('approvedModal.sure'),
+        text: this.$i18n.t('approvedModal.revert'),
+      }
+      })
+      if(res) {
+        this.SetDefaultBank({
+          params:{
+            bank_id: id,
+            is_default: e.target.checked,
+          },
+          
+        })
+         this.getAllVendorBank();
+      } else {
 
+      }
+    },
     async searchBank(){
          let search = this.search
           await this.getVendorBank({
@@ -348,6 +371,7 @@ export default{
 
     try {
       await this.getAllVendorBank()
+      
     }catch (e) {
       return this.$nuxt.error(e)
     }
