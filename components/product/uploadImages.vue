@@ -57,6 +57,12 @@ export default {
     fileError: String,
     clearAll: String,
   },
+  computed: {
+    mergedArray() {
+      // You can use any of the merging methods mentioned above
+      return [...this.old_images, ...this.Imgs];
+    },
+  },
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
       this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
@@ -64,11 +70,18 @@ export default {
       this.updateInputEvntData()
     }
   },
+  watch: {
+    old_images: 'updateDependentVariable',
+  },
+
   methods: {
     dragOver() {
       this.dropped = 2;
     },
     dragLeave() {
+    },
+    updateDependentVariable() {
+      // this.dependentVariable = [...this.propA, ...this.propB];
     },
     drop(e) {
       let status = true;

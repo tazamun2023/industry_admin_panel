@@ -1914,6 +1914,9 @@ export default {
       this.result.is_draft = false;
 
       this.variants[0].result.status = 'pending'
+      this.variants[0].result.brand_id = this.result.brand_id
+      this.variants[0].result.unit_id = this.result.unit_id
+      this.variants[0].result.status = 'pending'
       if (this.variant_uuid_global) {
         this.variants[0].result.variant_uu_id = this.variant_uuid_global
       } else {
