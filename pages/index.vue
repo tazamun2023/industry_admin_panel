@@ -3,10 +3,10 @@
 
     <div class="card-wrapper">
       <div class="dashboard-card">
-        <div class="card-inner card">
-          <i
+        <div class="card rounded-[12px] p-4">
+          <!-- <i
             class="icon products"
-          />
+          /> -->
           <p class="f-1-2">
             {{ $t('index.tProduct') }}
           </p>
@@ -14,10 +14,10 @@
         </div>
       </div>
       <div v-if="$store.state.admin.isSuperAdmin" class="dashboard-card">
-        <div class="card-inner card">
-          <i
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
             class="icon users"
-          />
+          /> -->
           <p class="f-1-2">
             {{ $t('index.tUsers') }}
           </p>
@@ -25,10 +25,10 @@
         </div>
       </div>
       <div class="dashboard-card">
-        <div class="card-inner card">
-          <i
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
             class="icon orders"
-          />
+          /> -->
           <p class="f-1-2">
             {{ $t('index.tOrders') }}
           </p>
@@ -36,10 +36,10 @@
         </div>
       </div>
       <div class="dashboard-card">
-        <div class="card-inner card">
-          <i
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
             class="icon withdrawal"
-          />
+          /> -->
           <p class="f-1-2">
             {{ $t('index.tSells') }}
           </p>
@@ -159,4 +159,7 @@
 
 <style lang="stylus">
   @import "~/assets/styles/dashboard.styl";
+  .rounded-\[12px\] {
+    border-radius: 12px !important;
+}
 </style>
