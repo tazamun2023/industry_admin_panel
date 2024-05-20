@@ -709,6 +709,7 @@
     "shipping_cost": "Shipping Cost:",
     "timeline": "Timeline",
     "user": "User",
+    "invitation": "Invitation",
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
@@ -1176,7 +1177,8 @@
     "feo": "Following error occurred",
     "message": "Message",
     "access": "Access Management",
-    "vendor_users": "Vendor Users"
+    "vendor_users": "Vendor Users",
+    "invite_users": "Invite Users"
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
