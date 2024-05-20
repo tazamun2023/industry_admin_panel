@@ -40,7 +40,8 @@ module.exports = {
       intext:'#737982',
       tabbg:'#F1F1F3',
       obg:'#F8F8F8',
-      whitelight:'#FAFAFA'
+      whitelight:'#FAFAFA',
+      cardb:'#C4CDD5'
     },
 
     screens: {
