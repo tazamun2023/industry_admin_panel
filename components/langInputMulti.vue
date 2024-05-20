@@ -11,7 +11,7 @@
     </ul>
 
     <!-- Input fields for each language -->
-
+    <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
     <div v-for="(language, key) in languages" :key="key" v-show="currentTab === key">
       <label>{{ $t('prod.key_features') }} ({{ language }})</label>
       <template v-for="(row,index) in  valuesOfLang">
@@ -21,11 +21,15 @@
 <!--                 @input="updateInputValue(language, $event.target.value)"-->
 <!--                 :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"-->
 <!--          >-->
+          <ValidationProvider name="features" :rules="{required: hasError}" v-slot="{ errors }"
+                              :custom-messages="{required: $t('global.req', { type: $t('prod.features_placeholder')}) }" class="w-full">
           <input class="form-control" :placeholder="$t('prod.features_placeholder')"
                  v-model="valuesOfLang[index][language]"
                  @input="updateInputValue(language, $event.target.value)"
-                 :class="{ invalid: !!!valuesOfLang[index][language] && hasError }"
+                 :readonly="IsReadOnly"
           >
+            <span class="error" v-if="errors[0]">{{ $t('category.req', {type: language}) }}</span>
+          </ValidationProvider>
           <button type="button" class="btn ml-2 mr-2 btn-danger" v-if="index !== 0" @click.prevent="removeRow(index)">
             <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                  fill="none" viewBox="0 0 18 2">
@@ -44,12 +48,13 @@
         </div>
       </template>
     </div>
-
+    </ValidationObserver>
 
   </div>
 </template>
 
 <script>
+import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
 export default {
   props: {
     valuesOfLang: {
@@ -69,6 +74,14 @@ export default {
       required: true,
       default: "text"
     },
+    IsReadOnly: {
+      type: Boolean,
+      default: false
+    },
+  },
+  components:{
+    ValidationProvider,
+    ValidationObserver
   },
   data() {
     return {

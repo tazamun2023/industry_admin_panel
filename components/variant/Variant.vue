@@ -347,7 +347,7 @@
     </div>
     <!-- ------------------------ -->
     <div :class="openTab !== 'parent' ? 'block':'hidden'">
-      <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab !== 'parent'">
+      <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }" v-if="openTab !== 'parent'">
         <!-- --------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
@@ -442,13 +442,18 @@
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
           <div class="card-body">
             <div class="input-wrapper mb-10">
+              <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
               <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-              <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.key_features')"
+              <lang-input-multi :hasError="true" type="text" :title="$t('prod.key_features')"
                                 :valuesOfLang="variants[openTab]?.result.features"
                                 @updateInput="updateInput"></lang-input-multi>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
             </div>
-
+            <ValidationProvider name="English keyword " :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_en}" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">
             <div class="input-wrapper mb-10">
               <label for="">{{ $t('prod.Keywords - English') }} ?</label>
               <v-select
@@ -461,6 +466,10 @@
                 class="custom-select"
               ></v-select>
             </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+            <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_ar}" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
             <div class="input-wrapper mb-10">
               <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
               <v-select
@@ -473,6 +482,8 @@
                 class="custom-select"
               ></v-select>
             </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
           </div>
         </div>
         <!-- ------------------------------------- -->
@@ -486,7 +497,7 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <ValidationProvider name="Image" rules="required" v-slot="{ errors }"
+        <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3">
             <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
@@ -521,7 +532,7 @@
                   v-model="variants[openTab]?.result.barcode"
                   :placeholder="$t('prod.Barcode')"
                   @keypress="onlyNumber" min="0" maxlength="8"
-                  :disabled="variants[openTab]?.result.barcode_type==4"
+                  :disabled="variants[openTab]?.result.barcode_type==4 || variants[openTab]?.result.barcode_type==='' "
                   :class="{ 'has-error': errors[0], 'cursor-not-allowed': variants[openTab].result.barcode_type == 4 }"
                 >
               </div>
@@ -1056,7 +1067,7 @@
                 <label for="">{{ $t('prod.Country of origin') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg"
                         v-model="variants[openTab]?.result.country_of_origin">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
+                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
                       item.name
                     }}
                   </option>
@@ -1122,11 +1133,12 @@
             </div>
           </div>
           <div class="button-group border-t border-smooth mt-20">
-            <div class="flex justify-end gap-4 pt-3">
+            <div class="flex justify-end gap-4 pt-3 items-center">
               <button type="button" class="btn bg-primary text-white border-secondary"
                       @click.prevent="handleSubmit(doSubmitSingle(variants[openTab]?.result.id))">
                 {{ $t('prod.Send for review') }}
               </button>
+              <span class="font-semibold text-error" v-if="invalid && is_submit_data">{{ $t('prod.Check the errors') }}</span>
             </div>
           </div>
         </div>
@@ -1288,7 +1300,7 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }}, {{ variants[is_attributes_modal_index]?.result.product_variant?.value}})</h4>
           </div>
           <div>
-            <ValidationObserver class="w-full" v-slot="{ handleSubmit }" v-if="openTab === 'parent'">
+            <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }" v-if="openTab === 'parent'">
               <div class="card-body mt-10">
                 <div class="table-responsive">
                   <table class="table table-bordered mb-0">
@@ -1492,11 +1504,13 @@ export default {
   },
   data() {
     return {
+      is_submit_data : false,
       variant_copy: [],
       is_submit: [],
       allKeywords: [],
       injectedData: this.exampleData,
       openTab: 'parent',
+      isErrorMessage: '',
       uploadModal: false,
       variant_uuid_global: '',
       is_change: false,
@@ -1579,6 +1593,9 @@ export default {
   },
   computed: {
 
+    hasError() {
+      return this.form.errors.length > 0;
+    },
     id() {
       return !this.isAdding ? this.$route?.params?.id : ''
     },
@@ -1604,6 +1621,82 @@ export default {
         min_value: 1,
         max_value: 99999999,
       };
+    },
+
+    QuantityValidationRules() {
+      if (this.is_attributes_modal_index !== false) {
+        return {
+          required: true,
+          min_value: 1,
+          max_value: 99999999,
+          regex: /^\d+$/,
+          quantityComparison: {
+            first: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[0]?.quantity),
+            second: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[1]?.quantity),
+            third: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[2]?.quantity)
+          }
+        };
+      } else {
+        return {
+          required: true,
+          min_value: 1,
+          max_value: 99999999,
+          regex: /^\d+$/,
+          quantityComparison: {
+            first: parseInt(this.variants[this.openTab]?.result.product_prices[0]?.quantity),
+            second: parseInt(this.variants[this.openTab]?.result.product_prices[1]?.quantity),
+            third: parseInt(this.variants[this.openTab]?.result.product_prices[2]?.quantity)
+          }
+        };
+      }
+    },
+    UnitPriceValidationRules() {
+      // this.PriceValidationRules
+      // return {
+      //   required: true,
+      //   min_value: 1,
+      //   max_value: 99999999,
+      //   regex: /^(?:\d*\.\d{1,2}|\d+)$/
+      // }
+      if (this.is_attributes_modal_index !== false) {
+        const unit_prices = [];
+        const selling_prices = [];
+
+        this.variants[this.is_attributes_modal_index]?.result.product_prices.forEach(price => {
+          // Check if selling price is not null before pushing into arrays
+          if (price?.unit_price !== null && price?.selling_price !== null) {
+            unit_prices.push(parseFloat(price?.unit_price));
+            selling_prices.push(parseFloat(price?.selling_price));
+          }
+        });
+
+        return {
+          min_value: 1,
+          required: true,
+          max_value: 99999999,
+          regex: /^(?:\d*\.\d{1,2}|\d+)$/,
+          priceComparison: {unit_prices, selling_prices}
+        };
+      } else {
+        const unit_prices = [];
+        const selling_prices = [];
+
+        this.variants[this.openTab]?.result.product_prices.forEach(price => {
+          // Check if selling price is not null before pushing into arrays
+          if (price?.unit_price !== null && price?.selling_price !== null) {
+            unit_prices.push(parseFloat(price?.unit_price));
+            selling_prices.push(parseFloat(price?.selling_price));
+          }
+        });
+
+        return {
+          min_value: 1,
+          required: true,
+          max_value: 99999999,
+          regex: /^(?:\d*\.\d{1,2}|\d+)$/,
+          priceComparison: {unit_prices, selling_prices}
+        };
+      }
     },
     PriceValidationRules() {
       if (this.is_attributes_modal_index !== false) {
@@ -1642,41 +1735,6 @@ export default {
           regex: /^(?:\d*\.\d{1,2}|\d+)$/,
           priceComparison: {unit_prices, selling_prices}
         };
-      }
-    },
-    QuantityValidationRules() {
-      if (this.is_attributes_modal_index !== false) {
-        return {
-          required: true,
-          min_value: 1,
-          max_value: 99999999,
-          regex: /^\d+$/,
-          quantityComparison: {
-            first: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[0]?.quantity),
-            second: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[1]?.quantity),
-            third: parseInt(this.variants[this.is_attributes_modal_index]?.result.product_prices[2]?.quantity)
-          }
-        };
-      } else {
-        return {
-          required: true,
-          min_value: 1,
-          max_value: 99999999,
-          regex: /^\d+$/,
-          quantityComparison: {
-            first: parseInt(this.variants[this.openTab]?.result.product_prices[0]?.quantity),
-            second: parseInt(this.variants[this.openTab]?.result.product_prices[1]?.quantity),
-            third: parseInt(this.variants[this.openTab]?.result.product_prices[2]?.quantity)
-          }
-        };
-      }
-    },
-    UnitPriceValidationRules() {
-      return {
-        required: true,
-        min_value: 1,
-        max_value: 99999999,
-        regex: /^(?:\d*\.\d{1,2}|\d+)$/
       }
     },
 
@@ -1968,7 +2026,7 @@ export default {
       }
       this.is_draft = false;
       this.result.is_draft = false;
-
+      this.is_submit_data = true;
       this.variants[this.openTab].result.status = 'pending'
       if (this.variant_uuid_global) {
         this.variants[this.openTab].result.variant_uu_id = this.variant_uuid_global
@@ -2079,11 +2137,29 @@ export default {
             }
           }
 
-
+          this.isErrorMessage = null;
           this.openTab = 'parent'
         }
       } catch (error) {
-        this.setToastError('Error! at last complete one variant')
+        if (error.response.status === 422) {
+          // Validation error
+          const errorMessage = error.response.data.message;
+          const errors = error.response.data.errors;
+          // console.log(errors)
+          // console.log(errorMessage)
+          // Show error message to the user
+          this.isErrorMessage = errorMessage;
+          this.setToastError(errorMessage)
+          // this.setToastError(errors)
+        } else {
+          // Other types of errors
+          console.error('An error occurred:', error.message);
+          // Show a generic error message to the user
+          this.setToastError('An error occurred. Please try again later.\'')
+        }
+        // console.log('error')
+        // console.log(error)
+        // this.setToastError('Error! at last complete one variant')
         // console.error('Error occurred while fetching data:', error);
       }
 
@@ -2297,6 +2373,15 @@ export default {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   watch: {
+    // 'variants[openTab].result.barcode_type'(newValue, oldValue) {
+    //   console.log('newValue')
+    //   console.log(newValue)
+    //   if (newValue == 4) {
+    //     this.variants[this.openTab].result.barcode = '';
+    //   } else {
+    //     this.variants[this.openTab].result.barcode = this.variants[this.openTab].result.barcode;
+    //   }
+    // },
     variants: {
       deep: true,
       handler(newVal, oldVal) {

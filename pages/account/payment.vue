@@ -33,7 +33,7 @@
              <img v-if="orderbyType == 'desc'"  @click="orderbyType='asc', searchBank()" class="w-7 h-7 rotate-180" src="~/assets/icon/frame.svg" alt="">
               <div class="relative inline-block text-left">
                 <div>
-                  <button @click="shortDropdown" type="button" class="inline-flex w-full justify-center items-center gap-4 rounded-md bg-white p-1  text-sm font-semibold text-primary shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                  <button @click="shortDropdown" type="button" class="inline-flex w-full justify-center items-center gap-6 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                     <img style="background: #01A78133;" class="w-8 h-8 bg-primary p-2 rounded" src="~/assets/icon/setting-5.svg" alt="">
                     Name
                     <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

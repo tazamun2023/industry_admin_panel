@@ -37,7 +37,10 @@ module.exports = {
       lightdeep:'#F9FAFB',
       warninglight:'#FFD9D9',
       inbg:'#FBFCFE',
-      intext:'#737982'
+      intext:'#737982',
+      tabbg:'#F1F1F3',
+      obg:'#F8F8F8',
+      whitelight:'#FAFAFA'
     },
 
     screens: {

@@ -1,86 +1,15 @@
 <template>
-  <list-page
-    v-if="$can('view_brands')"
-    ref="listPage"
-    list-api="getBrands"
-    delete-api="deleteBrand"
-    route-name="brands"
-    empty-store-variable="allBrands"
-    :name="$t('brand.brand')"
-    gate="view_brands"
-    manage_gate="manage_brands"
-    :order-options="orderOptions"
-    @delete-bulk="deleteBulk"
-    @list="itemList = $event"
-    :addButton="$store.state.admin.isVendor"
-  >
-    <template v-slot:table="{list}">
-      <tr class="lite-bold">
-        <th class="w-50x mx-w-50x">
-          <input type="checkbox" @change="checkAll">
-        </th>
-        <th>{{ $t('index.title') }}</th>
-        <th>{{ $t('category.slug') }}</th>
-        <th>{{ $t('prod.vendor_name') }}</th>
-        <th>{{ $t('category.featured') }}</th>
-        <th>{{ $t('category.status') }}</th>
-        <th>{{ $t('category.created') }}</th>
-        <th>&nbsp;</th>
-      </tr>
-
-      <tr v-for="(value, index) in list" :key="index">
-        <td class="w-50x mx-w-50x">
-          <input type="checkbox" :value="value.id" v-model="cbList">
-        </td>
-        <td class="">
-          <nuxt-link
-            :to="`/brands/${value.id}`"
-            class="dply-felx j-left link"
-          >
-            <lazy-image
-              class="mr-20"
-              :data-src="(value.image)"
-              :alt="value.title"
-            />
-            <h5 class="mx-w-300x">{{ value.title }}</h5>
-          </nuxt-link>
-
-        </td>
-
-        <td>
-          {{ value.slug }}
-        </td>
-
-        <td>
-          {{ value.vendor_name }}
-        </td>
-
-        <td
-          class="status"
-          :class="{active: value.featured == 1 }"
-        >
-          <span>{{ getFeatured(value.featured) }}</span>
-        </td>
-        <td
-          class="status"
-          :class="{active: value.status == 1 }"
-        >
-          <span>{{ getStatus(value.status) }}</span>
-        </td>
-        <td>{{ value.created }}</td>
-        <td>
-          <button
-          class="border-0"
-            v-if="$can('manage_brands')"
-            @click.prevent="$refs.listPage.deleteItem(value.id)"><delete-button-icon/></button>
-          <button
-          class="border-0"
-            v-if="$can('manage_brands')"
-            @click.prevent="$refs.listPage.editItem(value.id)"><edit-button-icon/></button>
-        </td>
-      </tr>
-    </template>
-  </list-page>
+  <div>
+    <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
+      <div class="flex-auto ">
+        <div class="tab-content input-wrapper tab-space">
+          <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
+            <all-brand :api="`getBrands`" :param="`all`" :open-tab="1"></all-brand>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -90,12 +19,15 @@
   import bulkDelete from "~/mixin/bulkDelete";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
+  import {mapActions} from "vuex";
+  import AllBrand from "@/components/brand/AllBrand.vue";
 
   export default {
     name: "brands",
     middleware: ['common-middleware', 'auth'],
     data() {
       return {
+        openTab: 1,
         orderOptions: {
           title: { title: this.$t('index.title') },
           featured: { title: this.$t('category.featured') },
@@ -105,6 +37,7 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
       }
     },
     components: {
+      AllBrand,
     LazyImage,
     ListPage,
     DeleteButtonIcon,
@@ -112,7 +45,29 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 },
     mixins: [util, bulkDelete],
     computed: {},
-    methods: {},
+    methods: {
+      toggleTabs: function (tabNumber) {
+        this.openTab = tabNumber
+      },
+      async changeStatus(id, status) {
+        try {
+          this.setById({ id: id, params: { status: status }, api: 'doApprovedBrand' })
+            .then(() => {
+              this.$refs.listPage.fetchingData();
+            })
+            .catch(error => {
+              // Handle errors
+              console.error("Error:", error);
+            });
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      },
+
+
+      ...mapActions('common', ['setById']),
+      ...mapActions('ui', ["setToastMessage", "setToastError"]),
+    },
     mounted() {
     }
   }

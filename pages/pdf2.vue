@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PdfViewer from '~/components/PdfViewer.vue';
+import PdfViewer from '~/components/PdfViewer.vue'
 
 export default {
   components: {
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       pdfUrl: 'https://back.industry.com.sa/storage/363/1fd92904-0eb0-4307-83c6-d808989cbaea.pdf' // Replace with your PDF URL
-    };
+    }
   }
 }
 </script>

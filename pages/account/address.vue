@@ -36,7 +36,7 @@
               </div>
               <div>
                   <p>{{ $t('address.city') }}</p>
-                  <p class="font-bold capitalize text-primary">{{value?.street}}  {{ value?.district }}  {{ value?.zip }}</p>
+                  <p class="font-bold capitalize text-primary">{{value?.city}} </p>
                 </div>
           </div>
           <div class="flex gap-4 justify-between  p-3">
@@ -57,16 +57,18 @@
                   <p class="font-bold capitalize text-primary">{{value?.nearest_landmark}}</p>
                 </div>
               </div>
-              <!-- <div v-show="!parseInt(value.default)">
+              <div v-show="!parseInt(value.default)">
                   <p class="text-primary">SET AS DEFAULT</p>
                   <div class="text-center">
-                    <input type="checkbox" name="" id="">
+                    <input type="checkbox" @change="setDeaultAddress(value,$event)" name="" id="">
                   </div>
-                </div> -->
+                </div>
           </div>
           <div class="flex gap-4  p-3">
                         <button class="p-2 leading-3 rounded hover:border hover:border-smooth 
-                         hover:text-warning flex items-center gap-3 text-error" @click="deleting(value)" >
+                         hover:text-warning flex items-center gap-3 text-error"
+                         v-show="value.default == 0"
+                         @click="deleting(value)" >
                          <img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> {{ $t('address.Remove')}}</button>
                     <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white
                      hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" 
@@ -207,7 +209,7 @@ export default{
  methods:{
    ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
    ...mapActions('ui', ["setToastMessage", "setToastError"]),
-   ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode','swetAlertFire']),
+   ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode','swetAlertFire','setAddressDefault']),
 
    
    countrySelected() {
@@ -231,6 +233,42 @@ export default{
       this.addressmodal = false
       this.confirmAddAddress = false
       this.addressData = {}
+    },
+    async setDeaultAddress(v,e) {
+     const res = await this.swetAlertFire({
+      params :{
+        title: this.$i18n.t('approvedModal.sure'),
+        text: this.$i18n.t('approvedModal.revert'),
+      }
+      })
+      if(res) {
+        this.setAddressDefault({
+        params:{
+          id: v.id,
+          name:v.name,
+          street:v?.street,
+          district:v?.district,
+          phone:v?.phone,
+          address_name:v?.address_name,
+          default:v?.default,
+          email:v?.email,
+          zip:v?.zip,
+          country_id:v?.country_id,
+          lat:v?.lat,
+          lng:v?.lng,
+          city_id:v?.city_id,
+          is_default: e.target.checked,
+          street:v?.street,
+          building_number:v?.building_number,
+          type:v?.type,
+          nearest_landmark:v?.nearest_landmark,
+          phone_code:v?.phone_code,
+          district:v?.district
+        }
+      })
+      } else {
+        return false
+      }
     },
 
    confirmAddressAdd(data) {

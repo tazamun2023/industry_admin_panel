@@ -9,9 +9,11 @@
     <!--      </li>-->
     <!--    </ul>-->
     <!-- Input fields for each language -->
+    <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
     <div class="grid grid-cols-12 gap-1 md:gap-2">
-
       <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 md:col-span-6':(width50 && type=='text')}">
+        <ValidationProvider name="Title" :rules="{required: hasError}" v-slot="{ errors }"
+                            :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
         <div class="input-wrapper">
           <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) <strong class="text-error">*</strong></label>
           <input
@@ -30,13 +32,16 @@
                          @file="editorOverviewFile"
                          :description="valuesOfLang[language]"
                          @change="valuesOfLang[language]= $event"
+                         :disabled="IsReadOnly"
                          @input="updateInputValue(language, $event.target.value)"
           />
-          <span class="error" v-if="!!!valuesOfLang[language] && hasError">
-          {{ $t('category.req', {type: title}) }}
-        </span>
+          <span class="error" v-if="errors[0]">{{ $t('category.req', {type: title}) }}</span>
+<!--          <span class="error" v-if="!!!valuesOfLang[language] && hasError">-->
+<!--          {{ $t('category.req', {type: title}) }}-->
+<!--        </span>-->
 
         </div>
+        </ValidationProvider>
       </div>
       <!--      <div class="h-10 w-10 md:w-16 self-center mt-3 ">-->
       <!--        <select v-model="currentTab"-->
@@ -48,14 +53,15 @@
       <!--         {{$t('app.lang')}}-->
       <!--        </label>-->
       <!--      </div>-->
-    </div>
 
+    </div>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
-
+import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
 export default {
   props: {
     valuesOfLang: {
@@ -89,6 +95,10 @@ export default {
       default: false
     },
 
+  },
+  components:{
+    ValidationProvider,
+    ValidationObserver
   },
   data() {
     return {

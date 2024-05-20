@@ -23,9 +23,9 @@
   <div class="p-3" v-if="$can('edit_company')">
     <h3 class="py-2 text-[35px] text-black uppercase semi-bold">Company Profiles</h3>
     <ValidationObserver class="w-full card p-4" v-slot="{ invalid }">
-    <form class="grid grid-cols-12 gap-6" @submit.prevent="fromSubmit">
-         <div class="col-span-2">
-          <ul class="px-3 py-4 tab-bg w-[251px] h-[726px] border-t border-smooth rounded-t-3xl">
+    <form class="grid grid-cols-6 gap-6" @submit.prevent="fromSubmit">
+         <div class="">
+          <ul class="px-3 py-4 tab-bg xs:w-[251px] h-[726px] border  border-smooth rounded-3xl">
         <li class="cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1, invalid)" >
             <div class="flex items-center gap-2">
@@ -74,7 +74,7 @@
       </ul>
 
          </div>
-      <div class="w-full col-span-10 px-[40px]">
+      <div class="w-full col-span-5 px-4">
         <div class="tab-content input-wrapper tab-space">
 
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
@@ -141,7 +141,7 @@
 
 
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -173,7 +173,7 @@
               <label for="">{{ $t("vendor.mobile") }}</label>
               <div class="flex">
                 <div class="w-full">
-                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required|min:11" v-slot="{ errors }">
+                  <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
                     <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                     <span  class="error">{{ errors[0] }}</span>
                   </ValidationProvider>
@@ -238,8 +238,8 @@
             </ValidationProvider>
 
             <div class="flex justify-between">
-              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -303,8 +303,8 @@
             </div>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
-              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -349,8 +349,8 @@
               </ValidationProvider>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
-              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button @click="submit = true" :disabled="invalid" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
@@ -494,10 +494,6 @@ export default {
     toggleTabs: function(tabNumber, invalid){
       if(!this.fromData.name.ar.length > 0){
         this.hasError = true
-      }else if(this.checkNameValue){
-          this.setToastMessage('Solve the Error Field')
-      }else if(invalid){
-        this.setToastMessage('Solve the Error Field')
       }else{
         this.openTab = tabNumber
       }

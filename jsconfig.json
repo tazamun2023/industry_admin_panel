@@ -69,6 +69,7 @@
     "getBrand": "brand/find",
     "setBrand": "brand/action",
     "setBrandImage": "brand/upload",
+    "doApprovedBrand": "brand/change-status",
 
     "getAllCountries": "city/all-countries",
     "getCitys": "city/all",
@@ -201,6 +202,7 @@
     "setQuote": "quotes/action",
 
 
+    "sendOffer": "message-center/inquires",
     "getAllInquiries": "message-center/inquiries/all",
     "activeInquiries": "message-center/inquiries/active",
     "acceptInquiriesOffer": "message-center/inquiries/offer/accept-offer",
@@ -274,6 +276,7 @@
     "getProducts": "product/all",
     "deleteProduct": "product/delete",
     "getProduct": "product/find",
+    "cloneProduct": "product/clone",
     "getVariantProducts": "product/find-variant-products",
     "getProductBySku": "product/sku",
     "setProduct": "product/action",

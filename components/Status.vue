@@ -1,9 +1,9 @@
 <template>
     <span :class="`bg-${backgroundColor} text-${color} px-2 rounded-3xl font-bold text-[13px]`">
-      {{ $t(`status.${text}`) }}
+      {{ $t(`${text}`) }}
     </span>
   </template>
-  
+
   <script>
   export default {
     props: {
@@ -22,6 +22,6 @@
     }
   }
   </script>
-  
+
   <style scoped>
   </style>

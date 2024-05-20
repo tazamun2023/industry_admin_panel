@@ -35,8 +35,8 @@
       </div>
 
       <div v-if="!is_next && !is_clone">
-        <ValidationObserver class="w-full" v-slot="{ handleSubmit }">
-          <form>
+        <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
+          <form @submit.prevent="handleSubmit(doSubmit)">
             <!-- --------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
@@ -48,7 +48,7 @@
 
               <div class="grid grid-cols-3 gap-4">
                 <!-- Main Category Dropdown -->
-                <ValidationProvider name="parentCategory" rules="required" v-slot="{ errors }"
+                <ValidationProvider name="parentCategory" :rules="{required: true}" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('rfq.Search by Category')}) }">
                   <div class="form-group input-wrapper for-lang ar-lang">
                     <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }} <strong
@@ -116,14 +116,16 @@
                        type="text"
                        v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
               </div>
-
-              <lang-input :hasError="hasError" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+<!--              <ValidationProvider name="Title" :rules="{required: true}" v-slot="{ errors }"-->
+<!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">-->
+              <lang-input :hasError="true" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                           @updateInput="updateInput"></lang-input>
-
-              <lang-input v-if="!is_variant" :hasError="hasError" type="textarea" :title="$t('prod.desc')"
+<!--                <span class="error">{{ errors[0] }}</span>-->
+<!--              </ValidationProvider>-->
+              <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
                           :valuesOfLang="result.description"
                           @updateInput="updateInput"></lang-input>
-              <ValidationProvider name="brand" :rules="{ required_if: !is_draft }" v-slot="{ errors }"
+              <ValidationProvider name="Brand" :rules="{ required: !is_draft && !result.brand_id }" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
                 <div class="input-wrapper mt-3 mt-sm-0">
@@ -357,22 +359,23 @@
             <!-- ------------------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          BasicInformationChild-->
-            <!--          <basic-information-child-->
-            <!--            v-if="!is_variant "-->
-            <!--            :result="result"-->
-            <!--            @basicInfoChild="basicInfoChild"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
               <div class="card-body">
                 <div class="input-wrapper mb-10">
+                  <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
                   <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="hasError" type="text" :title="$t('prod.Key features - English')"
+                <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput"></lang-input-multi>
+                  <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
               </div>
+
+                <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">
 
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Keywords - English') }} ?</label>
@@ -386,6 +389,10 @@
                   class="custom-select"
                 ></v-select>
               </div>
+                  <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
+                <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !result.basic_keyword_ar}" v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
               <div class="input-wrapper mb-10">
                 <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
                 <v-select
@@ -398,129 +405,16 @@
                   class="custom-select"
                 ></v-select>
               </div>
+                <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
             </div>
           </div>
           <!--          BasicInformationChild-->
-          <!-- ------------------------------------- -->
-<!--          <div class="my-10"></div>-->
-          <!-- ------------------------------------- -->
-          <!--          ProductImages-->
-          <!--          <product-images-section-->
-          <!--            v-if="!is_variant"-->
-          <!--            :id="id"-->
-          <!--            @productImagesSection="productImagesSection"-->
-          <!--            :setById="setById"-->
-          <!--            :images="result.images"-->
-          <!--            :isThumb="isThumb"-->
-          <!--          />-->
-<!--          <div class="tab-sidebar p-3" v-if="!is_variant">-->
 
-<!--            <div class="input-wrapper">-->
-<!--              <label class="pl-4 pt-0 fw-bold">-->
-<!--                {{ $t('prod.Add images and videos of your product to engage customers') }}. <br>-->
-<!--                {{ $t('prod.Images should be square with minimum allowed dimensions to be 500x500 pixels') }}. <br>-->
-<!--                {{ $t('prod.Allowed file extensions are') }} (png, bmp, jpeg, and jpg)<br>-->
-<!--                {{ $t('prod.and allowed video extensions are') }} (mp4, mpeg and webp)-->
-<!--              </label>-->
-<!--            </div>-->
-<!--            <table class="table mb-0">-->
-<!--              <tbody>-->
-<!--              <tr v-if="isThumb">-->
-<!--                <td style="width:20px">-->
-<!--                  <div class="custom-control custom-checkbox">-->
-<!--                    <input type="radio" checked class="custom-control-input" id="customCheck2">-->
-<!--                    <label class="custom-control-label" for="customCheck2"></label>-->
-<!--                  </div>-->
-<!--                </td>-->
-<!--                <td style="width:60%">-->
-<!--                  <div class="media" style="width: 100px;">-->
-<!--                    <lazy-image-->
-<!--                      class="mr-20"-->
-<!--                      :data-src="getThumb(isThumb)"-->
-<!--                      :alt="isThumb"-->
-<!--                    />-->
-<!--                    <div class="media-body">-->
-<!--                      <h6 class="mt-0 mb-0  text-xs">{{ $t('prod.Thumbnail') }}</h6>-->
-<!--                      <span class="text-muted  text-xs">Image</span>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </td>-->
-<!--                <td class="text-xs">-->
-<!--                  <button disabled type="button" class="btn bg-primary text-white">{{ $t('prod.Thumbnail') }}</button>-->
-<!--                </td>-->
-<!--                <td><span class="text-xs"></span></td>-->
-<!--                <td>-->
-<!--                  <svg style="height: 20px;" viewBox="0 0 20 21" focusable="false" class="cursor-pointer"-->
-<!--                       data-testid="price-tier-remove-cta-0">-->
-<!--                    <path-->
-<!--                      d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"-->
-<!--                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                      stroke-linejoin="round"></path>-->
-<!--                    <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                          stroke-linejoin="round"></path>-->
-<!--                    <path-->
-<!--                      d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"-->
-<!--                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                      stroke-linejoin="round"></path>-->
-<!--                  </svg>-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--              <tr v-for="(image, index) in result.images" :key="index">-->
-<!--                <td style="width:20px">-->
-<!--                  <div class="custom-control custom-checkbox">-->
-<!--                    <label class="custom-control-label" for="customCheck2"></label>-->
-<!--                  </div>-->
-<!--                </td>-->
-<!--                <td>-->
-<!--                  <div class="media" style="width: 100px">-->
-<!--                    <lazy-image-->
-<!--                      class="mr-20"-->
-<!--                      :data-src="image.image"-->
-<!--                      :alt="image.file_name"-->
-<!--                    />-->
-<!--                    <div class="media-body">-->
-<!--                      &lt;!&ndash;              <h6 class="mt-0 mb-0  text-xs">{{ image.file_name }}</h6>&ndash;&gt;-->
-<!--                      &lt;!&ndash;              <span class="text-muted  text-xs">Image</span>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </td>-->
-<!--                <td class="text-xs">-->
-<!--                  <input type="radio" class="custom-control-input" id="customCheck2"-->
-<!--                         @click.prevent="setThumb(image.url)">-->
-<!--                  &lt;!&ndash;                <button type="button" class="btn bg-primary text-white" @click.prevent="setThumb(image.url)">Set Thumbnail</button>&ndash;&gt;-->
-<!--                </td>-->
-<!--                <td><span class="text-xs">{{ image.upload_time }}</span></td>-->
-<!--                <td>-->
-<!--                  <svg style="height: 20px;" @click.prevent="deleteImage(image.url)" viewBox="0 0 20 21"-->
-<!--                       focusable="false"-->
-<!--                       class="cursor-pointer" data-testid="price-tier-remove-cta-0">-->
-<!--                    <path-->
-<!--                      d="M17 8L16.2414 18.4074C16.2099 18.8399 16.0124 19.2447 15.6885 19.5402C15.3646 19.8357 14.9384 20 14.4958 20H5.50425C5.06162 20 4.63543 19.8357 4.31152 19.5402C3.98762 19.2447 3.79005 18.8399 3.75863 18.4074L3 8"-->
-<!--                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                      stroke-linejoin="round"></path>-->
-<!--                    <path d="M1 5H19" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                          stroke-linejoin="round"></path>-->
-<!--                    <path-->
-<!--                      d="M6 5V2C6 1.73478 6.10536 1.48043 6.29289 1.29289C6.48043 1.10536 6.73478 1 7 1H13C13.2652 1 13.5196 1.10536 13.7071 1.29289C13.8946 1.48043 14 1.73478 14 2V5"-->
-<!--                      stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"-->
-<!--                      stroke-linejoin="round"></path>-->
-<!--                  </svg>-->
-<!--                </td>-->
-<!--              </tr>-->
-<!--              </tbody>-->
-<!--            </table>-->
-<!--            &lt;!&ndash;          <img :src="result.images" alt="">&ndash;&gt;-->
-<!--            <upload-files  @updateInput="saveAttachment"></upload-files>-->
-
-
-<!--          </div>-->
-          <!--          ProductImages-->
-          <!-- ------------------------------------- -->
 
           <!-- ------------------------------------- -->
           <div class="my-10"></div>
             <!--          BasicInformationChild-->
-            <!-- ------------------------------------- -->
             <!-- ------------------------------------- -->
             <!--          ProductImages-->
             <ValidationProvider name="Image" :rules="ProductImageValidationRules" v-slot="{ errors }"
@@ -538,14 +432,6 @@
             <!-- ------------------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          ProductIdentifierSection-->
-            <!--          <product-identifier-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            :allBarcodes="allBarcodes"-->
-            <!--            @ProductIdentifierSection="ProductIdentifierSection"-->
-            <!--            :result="result"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1">{{ $t('prod.Product Identifiers') }}</h4>
               <p class="text-sm">
@@ -573,8 +459,8 @@
                       type="text" class="form-control"
                       v-model="result.barcode"
                       :placeholder="$t('prod.Barcode')"
-                      @keypress="onlyNumber"  min="0" maxlength="8"
-                      :disabled="result.barcode_type==4"
+                      @keypress="onlyNumber"  min="0" maxlength="15"
+                      :disabled="result.barcode_type==4 || result.barcode_type===''"
                       :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
                     >
                   </div>
@@ -600,13 +486,6 @@
             <!-- ------------------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          ProductInventorySection-->
-            <!--          <product-inventory-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            @ProductInventorySection="ProductInventorySection"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <div class="border-b border-smooth">
                 <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
@@ -632,14 +511,6 @@
 
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          <packaging-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            :allPackagingUnits="allPackagingUnits"-->
-            <!--            :allTransportationModes="allTransportationModes"-->
-            <!--            @PackagingSection="PackagingSection"-->
-            <!--          />-->
 
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
@@ -673,7 +544,7 @@
                   </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="Number of units per carton" :rules="PackagingValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Number of units per carton" :rules="{required: !is_draft, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Number of units per carton') }} <strong
@@ -726,14 +597,6 @@
             <!-- ----------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          <carton-dimension-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            @CartonDimensionSection="CartonDimensionSection"-->
-            <!--            :allWeightUnits="allWeightUnits"-->
-            <!--            :allDimensionUnits="allDimensionUnits"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Carton Dimensions & Weight') }}</h4>
               <p>
@@ -852,14 +715,6 @@
             <!-- ----------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          <product-dimensions-and-weight-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            @ProductDimensionsAndWeightSection="ProductDimensionsAndWeightSection"-->
-            <!--            :allWeightUnits="allWeightUnits"-->
-            <!--            :allDimensionUnits="allDimensionUnits"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
               <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
@@ -961,14 +816,6 @@
             <!-- ----------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          <product-priceing-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            :is_draft="is_draft"-->
-            <!--            :allPackagingUnits="allPackagingUnits"-->
-            <!--            :product_price="product_price"-->
-            <!--            @ProductPriceingSection="ProductPriceingSection"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Pricing') }}</h4>
               <ValidationProvider name="unit_id" :rules="NotDraftValidationRules" v-slot="{ errors }"
@@ -1072,14 +919,6 @@
             <!-- ----------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <!--          <shipping-details-section-->
-            <!--            v-if="!is_variant"-->
-            <!--            :result="result"-->
-            <!--            @ShippingDetailsSection="ShippingDetailsSection"-->
-            <!--            :allWarehouses="allWarehouses"-->
-            <!--            :allStorageTemperatures="allStorageTemperatures"-->
-            <!--            :allCountries="allCountries"-->
-            <!--          />-->
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
               <div class="grid grid-cols-2 gap-4">
@@ -1150,7 +989,7 @@
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
                     <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
-                      <option v-for="(item, index) in allCountries" :key="index" :value="index" disabled>{{
+                      <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
                           item.name
                         }}
                       </option>
@@ -1214,13 +1053,13 @@
               </div>
               <div class="button-group border-t border-smooth mt-20">
                 <div class="flex justify-end gap-4 pt-3">
-                  <button type="button" class="btn text-primary" @click.prevent="handleSubmit(doDraft)">
+                  <button type="button" class="btn text-primary" @click.prevent="doDraft">
                     {{ $t('prod.Save Draft') }}
                   </button>
-                  <button type="button" class="btn bg-primary text-white border-secondary"
-                          @click.prevent="handleSubmit(doSubmit)">
+                  <button type="submit" class="btn bg-primary text-white border-secondary">
                     {{ $t('prod.Send for review') }}
                   </button>
+                  <span class="font-semibold text-error" v-if="invalid & is_submit">{{  $t('prod.Check the errors') }}</span>
                 </div>
               </div>
             </div>
@@ -1443,6 +1282,7 @@ export default {
         "value": "",
       },
       min_qty: null,
+      is_submit: false,
       variant_copy: [],
       result: {
         hts_code: '',
@@ -1496,7 +1336,7 @@ export default {
         is_offer_private_label_option: 1,
         storage_temperature: '',
         stock_location: 1,
-        country_of_origin: 193,
+        country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
         barcode_type: '',
@@ -1732,7 +1572,7 @@ export default {
     },
     BarcodeValidationRules() {
       let validationRules = {
-        required: !this.is_draft && this.result.barcode_type != 4
+        required: !this.is_draft && this.result.barcode_type != 4 && this.result.barcode_type!==''
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1783,7 +1623,7 @@ export default {
     PackagingValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
@@ -1800,14 +1640,14 @@ export default {
     CartonDimensionValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
     ProductDimensionValidationRules() {
       return {
         required: !this.is_draft,
-        min_value: 1,
+        min_value: 0.000001,
         max_value: 99999999
       };
     },
@@ -1898,6 +1738,13 @@ export default {
     selectedColor(newIndex) {
 
     },
+    'result.barcode_type'(newValue, oldValue) {
+      console.log('newValue')
+      console.log(newValue)
+      if (newValue == 4) {
+        this.result.barcode = '';
+      }
+    }
   },
 
   methods: {
@@ -2020,13 +1867,17 @@ export default {
     cloneProduct(product) {
 
       // this.id=product.id
-      this.fetchingData(product.id).then(() => {
+      this.fetchingData(product.id,'cloneProduct').then(() => {
         this.is_clone = false
         this.result.id = ""
+        this.result.sku = ""
+        this.result.is_variant = false
         this.result.is_variant_save = false
         this.result.variant_uuid = ""
         this.result.product_variants = []
         this.result.product_variant = []
+        this.result.images = []
+        this.result.product_images = []
       })
     },
     doNext() {
@@ -2178,7 +2029,7 @@ export default {
     doSubmit() {
       this.is_draft = false;
       this.result.is_draft = false;
-
+      this.is_submit = true
 
       if (this.validationKeysIfNotVariant.findIndex((i) => {
         return (!this.result[i])
@@ -2510,10 +2361,11 @@ export default {
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
-    async fetchingData(id) {
+    async fetchingData(id,api='getProduct') {
+
       try {
         this.loading = true
-        var res = Object.assign({}, await this.getById({id: id, params: {}, api: this.getApi}))
+        var res = Object.assign({}, await this.getById({id: id, params: {}, api: api}))
         // console.log('res', res)
         this.result = {
           title: res.title,

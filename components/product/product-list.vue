@@ -1,10 +1,19 @@
 <template>
   <div class="card p-3">
-    <div v-if="vendorId==0" class="grid border-b-smooth grid-cols-4">
-      <div>
-        <h4>{{ $t('prod.product_list') }}</h4>
-        <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
+    <div v-if="vendorId==0" class="border-b-smooth ">
+      <div class="justify-between flex w-full">
+        <div>
+          <h4>{{ $t('prod.product_list') }}</h4>
+          <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
+        </div>
+        <div class="text-end" v-if="$store.state.admin.isVendor">
+          <Nuxt-link :to="`/products/add`"
+                     class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
+            {{ $t('prod.add_new_product') }}
+          </Nuxt-link>
+        </div>
       </div>
+
 <!--      <div class="flex gap-4 col-span-2 justify-center">-->
 <!--        <button class="flex gap-1  hover:text-primary">-->
 <!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
@@ -23,12 +32,7 @@
 <!--          {{ $t('prod.download_rejection_products') }}-->
 <!--        </button>-->
 <!--      </div>-->
-      <div class="text-end" v-if="$store.state.admin.isVendor">
-        <Nuxt-link :to="`/products/add`"
-                   class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
-          {{ $t('prod.add_new_product') }}
-        </Nuxt-link>
-      </div>
+
     </div>
     <!-- -------------------------- -->
     <ul v-if="vendorId==0" class="flex mb-0 list-none flex-wrap  w-full shadow mt-10 flex-row">
@@ -238,7 +242,7 @@
                         {{ value.minOrderQuantity?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>
                     </td>
-                    <td>{{ value.created }}<br>
+                    <td class="text-nowrap">{{ value.created }}<br>
                       {{ value.updated }}
                     </td>
                     <td>

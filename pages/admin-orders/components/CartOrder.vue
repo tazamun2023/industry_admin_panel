@@ -1,33 +1,33 @@
 <template>
-  <div class="my-2 card p-4">
+  <div class="my-4 card p-4">
     <div class="flex gap-4 justify-between">
       <div class="flex gap-4 w-3/4 justify-between">
         <div>
           <p class="text-smoothlight">{{ $t('address.order') }}</p>
-          <p class="font-bold text-[14px]">{{ order?.order_id }}</p>
+          <p class="font-medium text-[14px]">{{ order?.order_id }}</p>
         </div>
         <div>
           <p  class="text-smoothlight">{{ $t('setting.od') }}</p>
-          <p class="font-bold  text-[14px]">{{ order?.created_at }}</p>
+          <p class="font-medium  text-[14px]">{{ order?.created_at }}</p>
         </div>
         <div>
           <p  class="text-smoothlight">{{ $t('order.paymentMethod') }}</p>
-          <p class="font-bold flex gap-4 items-center  text-[14px]"><img class="h-5 w-5" src="~/assets/icon/bank.svg">
+          <p class="font-medium flex gap-4 items-center capitalize text-[14px]"><img class="h-5 w-5" src="~/assets/icon/bank.svg">
             {{$t(`paymentMethod.${order?.payment_method}`)}}</p>
         </div>
         <div>
           <p class="text-smoothlight">{{ $t('order.status') }}</p>
-          <p class="font-bold text-primary"><span class="bg-primarylight  text-[14px]  px-2 rounded-3xl">  {{$t(`status.${order?.status}`)}}</span></p>
+          <p class="font-medium text-primary"><span class="bg-primarylight  text-[14px] capitalize  px-2 rounded-3xl"> {{ order?.status }}</span></p>
         </div>
         <div>
           <p class="text-smoothlight">{{ $t('order.payment') }}</p>
-          <p class="font-bold text-theem"><span class="bg-theemlight  text-[14px]  px-2 rounded-3xl">{{$t(`status.${order?.payment_status}`)}}</span></p>
+          <p class="font-medium text-theem"><span class="bg-theemlight  text-[14px] capitalize px-2 rounded-3xl">{{order?.payment_status}}</span></p>
         </div>
       </div>
       <div class="flex gap-4">
         <div>
           <p>{{ $t('order.total') }}</p>
-          <p><strong class="text-[14px]">   {{ order?.total }}</strong> <span class="text-primary  text-[14px]">{{ $t('app.SAR') }}</span></p>
+          <price-with-curency-format :price="order?.total" ></price-with-curency-format>
         </div>
       </div>
     </div>
