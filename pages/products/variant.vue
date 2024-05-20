@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="is_fetch">
+    <div class="flex justify-center items-center h-full" v-if="is_loading">
+      <spinner />
+    </div>
+    <div v-else>
       <Variant
         :result="result"
         :selectedLevel1="selectedLevel1"
@@ -12,9 +15,7 @@
         :variantsData="variantsData"
       ></Variant>
     </div>
-    <div class="flex justify-center items-center h-full" v-if="is_loading">
-      <spinner />
-    </div>
+
   </div>
 </template>
 <script>
@@ -190,7 +191,7 @@ export default {
       selectedLevel3: null,
       select_attr1: '',
       select_attr2: '',
-      is_loading: false,
+      is_loading: true,
       is_fetch: false
 
     }
