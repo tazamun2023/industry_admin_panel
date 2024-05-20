@@ -163,9 +163,9 @@
       >
         {{ $t('index.nf') }}
       </p>
-      <div v-else class="table-wrapper">
+      <div v-else class="table-wrapper border border-cardb rounded-[12px]">
         <table
-          class="mn-w-800x mb-10 mt-0 tr-border"
+          class="mn-w-800x mb-10 mt-0"
         >
           <tr class="lite-bold">
             <th>{{ $t('index.title') }}</th>
