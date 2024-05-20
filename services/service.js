@@ -251,4 +251,8 @@ export default {
     const response = await apiClient.post(`${json.api.SubOrderApprove}/${params.order_id}`,params)
     return response;
   },
+  setAddressDefault(params, bearer) {
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    return apiClient.post(`${json.api.userAddressAction}/${params.params.id}`, params.params)
+  },
 }
