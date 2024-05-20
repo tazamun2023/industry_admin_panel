@@ -111,10 +111,10 @@ export default {
         this.formSubmitting = true
         await this.setRequest({
           params: {
-            product_id: this.ActiveInquiryData.product?.id,
-            quantity: this.activeInquiries?.offers[index]?.offer?.quantity,
+            product_id: this.ActiveInquiryData.inquirable?.id,
+            quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
             visitor_id: this.ActiveInquiryData?.user?.id,
-            price: this.activeInquiries?.offers[index]?.offer?.price * this.activeInquiries?.offers[index]?.offer?.quantity,
+            price: this.activeInquiries?.inquiryOffers[index]?.offer?.price * this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
             type: 'inquires',
           },
           api: 'acceptInquiriesOffer'
@@ -132,8 +132,8 @@ export default {
               status: 'approved',
               is_reply: 1,
               type: 'offer',
-              price: this.activeInquiries?.offers[index]?.offer?.price * this.activeInquiries?.offers[index]?.offer?.quantity,
-              quantity: this.activeInquiries?.offers[index]?.offer?.quantity
+              price: this.activeInquiries?.inquiryOffers[index]?.offer?.price * this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
+              quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity
             },
             api: 'inquiriesOfferStore'
           }).then(data=>{

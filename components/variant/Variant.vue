@@ -46,11 +46,15 @@
                     <!--                         src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/noImageIcon.svg"-->
                     <!--                         alt="">-->
                     <lazy-image
-                      v-if="variants[index]?.result?.product_images"
+                      v-if="variants[index]?.result?.product_images[0]"
                       class="w-10 h-10 rounded"
                       :data-src="variants[index]?.result?.product_images[0]?.url"
                       :alt="colorItem.color_name"
                     />
+                     <img class="w-10 h-10 rounded"
+                          v-else
+                          :src="variants[index]?.result?.product_images[0]?.url"
+                          alt="">
                            <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
                                colorItem.value
                              }}
@@ -500,7 +504,7 @@
         <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3">
-            <vue-upload-images :old_images="oldImages" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
+            <vue-upload-images :old_images="variants[openTab].result.product_images" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
             <span class="error">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
