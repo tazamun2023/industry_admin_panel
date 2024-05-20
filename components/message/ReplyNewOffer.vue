@@ -42,8 +42,8 @@ export default {
         this.formSubmitting = true
         await this.setRequest({
           params: {
-            inquiry_id: this.ActiveInquiryData.id,
-            product_id: this.ActiveInquiryData.product?.id??this.ActiveInquiryData?.inquirable?.id,
+            inquiry_id: this.ActiveInquiryData.inquiry_id,
+            inquiry_offer_id: this.ActiveInquiryData.id,
             status: 'pending_response',
             is_reply: 1,
             type: this.formData.type,
