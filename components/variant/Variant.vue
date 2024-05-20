@@ -26,13 +26,16 @@
                    @click="toggleTabs('parent')"
                    :class="openTab === 'parent'? 'border-b-2 bg-primary border-primary text-white':'bg-white border-white border-b-2'">
                   <span class="flex gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="19" class="w-10 h-10 rounded" viewBox="0 0 23 19" fill="none"><script xmlns=""/>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M4.99023 2C4.99023 0.89543 5.88566 0 6.99023 0H16.9902C18.0948 0 18.9902 0.895431 18.9902 2V5C18.9902 6.10457 18.0948 7 16.9902 7H12.4902V9.25H16.9902C17.9567 9.25 18.7402 10.0335 18.7402 11V13H20.9902C22.0948 13 22.9902 13.8954 22.9902 15V17C22.9902 18.1046 22.0948 19 20.9902 19H14.9902C13.8857 19 12.9902 18.1046 12.9902 17V15C12.9902 13.8954 13.8857 13 14.9902 13H17.2402V11C17.2402 10.8619 17.1283 10.75 16.9902 10.75H6.99023C6.85216 10.75 6.74023 10.8619 6.74023 11V13H8.99023C10.0948 13 10.9902 13.8954 10.9902 15V17C10.9902 18.1046 10.0948 19 8.99023 19H2.99023C1.88566 19 0.990234 18.1046 0.990234 17V15C0.990234 13.8954 1.88566 13 2.99023 13H5.24023V11C5.24023 10.0335 6.02374 9.25 6.99023 9.25H10.9902V7H6.99023C5.88566 7 4.99023 6.10457 4.99023 5V2ZM6.99023 1.5H16.9902C17.2664 1.5 17.4902 1.72386 17.4902 2V5C17.4902 5.27614 17.2664 5.5 16.9902 5.5H6.99023C6.71409 5.5 6.49023 5.27614 6.49023 5V2C6.49023 1.72386 6.71409 1.5 6.99023 1.5ZM2.99023 14.5H8.99023C9.26638 14.5 9.49023 14.7239 9.49023 15V17C9.49023 17.2761 9.26638 17.5 8.99023 17.5H2.99023C2.71409 17.5 2.49023 17.2761 2.49023 17V15C2.49023 14.7239 2.71409 14.5 2.99023 14.5ZM20.9902 14.5H14.9902C14.7141 14.5 14.4902 14.7239 14.4902 15V17C14.4902 17.2761 14.7141 17.5 14.9902 17.5H20.9902C21.2664 17.5 21.4902 17.2761 21.4902 17V15C21.4902 14.7239 21.2664 14.5 20.9902 14.5Z" fill="#404040"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="23" height="19" class="w-10 h-10 rounded"
+                         viewBox="0 0 23 19" fill="none"><script xmlns=""/>
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M4.99023 2C4.99023 0.89543 5.88566 0 6.99023 0H16.9902C18.0948 0 18.9902 0.895431 18.9902 2V5C18.9902 6.10457 18.0948 7 16.9902 7H12.4902V9.25H16.9902C17.9567 9.25 18.7402 10.0335 18.7402 11V13H20.9902C22.0948 13 22.9902 13.8954 22.9902 15V17C22.9902 18.1046 22.0948 19 20.9902 19H14.9902C13.8857 19 12.9902 18.1046 12.9902 17V15C12.9902 13.8954 13.8857 13 14.9902 13H17.2402V11C17.2402 10.8619 17.1283 10.75 16.9902 10.75H6.99023C6.85216 10.75 6.74023 10.8619 6.74023 11V13H8.99023C10.0948 13 10.9902 13.8954 10.9902 15V17C10.9902 18.1046 10.0948 19 8.99023 19H2.99023C1.88566 19 0.990234 18.1046 0.990234 17V15C0.990234 13.8954 1.88566 13 2.99023 13H5.24023V11C5.24023 10.0335 6.02374 9.25 6.99023 9.25H10.9902V7H6.99023C5.88566 7 4.99023 6.10457 4.99023 5V2ZM6.99023 1.5H16.9902C17.2664 1.5 17.4902 1.72386 17.4902 2V5C17.4902 5.27614 17.2664 5.5 16.9902 5.5H6.99023C6.71409 5.5 6.49023 5.27614 6.49023 5V2C6.49023 1.72386 6.71409 1.5 6.99023 1.5ZM2.99023 14.5H8.99023C9.26638 14.5 9.49023 14.7239 9.49023 15V17C9.49023 17.2761 9.26638 17.5 8.99023 17.5H2.99023C2.71409 17.5 2.49023 17.2761 2.49023 17V15C2.49023 14.7239 2.71409 14.5 2.99023 14.5ZM20.9902 14.5H14.9902C14.7141 14.5 14.4902 14.7239 14.4902 15V17C14.4902 17.2761 14.7141 17.5 14.9902 17.5H20.9902C21.2664 17.5 21.4902 17.2761 21.4902 17V15C21.4902 14.7239 21.2664 14.5 20.9902 14.5Z"
+                            fill="#404040"/>
                       <script xmlns=""/>
                     </svg>
-<!--                    <img class="w-10 h-10 rounded"-->
-<!--                                                 src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/parentImageIcon.svg"-->
-<!--                                                 alt="">-->
+                    <!--                    <img class="w-10 h-10 rounded"-->
+                    <!--                                                 src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/parentImageIcon.svg"-->
+                    <!--                                                 alt="">-->
                     <span class="pt-2">{{ $t('prod.Parent view') }}</span></span>
                 </a>
               </li>
@@ -64,10 +67,22 @@
                     <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
                   </span>
                   <p v-for="(variantStatus, index1) in variants" v-if="index1===index">
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'pending'">{{ $t('prod.Pending') }}</span>
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'archived'">{{ $t('prod.archived') }}</span>
-                    <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'approved'">{{ $t('prod.approved') }}</span>
-                    <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variantStatus.result.id && variantStatus.result.status === 'rejected'">{{ $t('prod.rejected') }}</span>
+                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
+                          v-if="variantStatus.result.id && variantStatus.result.status === 'pending'">{{
+                        $t('prod.Pending')
+                      }}</span>
+                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
+                          v-if="variantStatus.result.id && variantStatus.result.status === 'archived'">{{
+                        $t('prod.archived')
+                      }}</span>
+                    <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white"
+                          v-if="variantStatus.result.id && variantStatus.result.status === 'approved'">{{
+                        $t('prod.approved')
+                      }}</span>
+                    <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white"
+                          v-if="variantStatus.result.id && variantStatus.result.status === 'rejected'">{{
+                        $t('prod.rejected')
+                      }}</span>
                     <span class="bg-smooth rounded-lg text-xs mt-2 p-1"
                           v-if="!variantStatus.result.id">{{ $t('prod.Incomplete') }}</span>
                   </p>
@@ -447,45 +462,52 @@
           <div class="card-body">
             <div class="input-wrapper mb-10">
               <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
-                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
-              <label for="">{{ $t('prod.Key features - English') }} ?</label>
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
+                                  class="w-full">
+                <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-              <lang-input-multi :hasError="true" type="text" :title="$t('prod.key_features')"
-                                :valuesOfLang="variants[openTab]?.result.features"
-                                @updateInput="updateInput"></lang-input-multi>
+                <lang-input-multi :hasError="true" type="text" :title="$t('prod.key_features')"
+                                  :valuesOfLang="variants[openTab]?.result.features"
+                                  @updateInput="updateInput"></lang-input-multi>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
-            <ValidationProvider name="English keyword " :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_en}" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">
-            <div class="input-wrapper mb-10">
-              <label for="">{{ $t('prod.Keywords - English') }} ?</label>
-              <v-select
-                :dir="$t('app.dir')"
-                v-model="variants[openTab]?.result.basic_keyword_en"
-                :options="allKeywords"
-                taggable
-                multiple
-                :placeholder="$t('title.select_type')"
-                class="custom-select"
-              ></v-select>
-            </div>
+            <ValidationProvider name="English keyword "
+                                :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_en}"
+                                v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }"
+                                class="w-full">
+              <div class="input-wrapper mb-10">
+                <label for="">{{ $t('prod.Keywords - English') }} ?</label>
+                <v-select
+                  :dir="$t('app.dir')"
+                  v-model="variants[openTab]?.result.basic_keyword_en"
+                  :options="allKeywords"
+                  taggable
+                  multiple
+                  :placeholder="$t('title.select_type')"
+                  class="custom-select"
+                ></v-select>
+              </div>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
-            <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_ar}" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
-            <div class="input-wrapper mb-10">
-              <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
-              <v-select
-                :dir="$t('app.dir')"
-                v-model="variants[openTab]?.result.basic_keyword_ar"
-                :options="allKeywords"
-                taggable
-                multiple
-                :placeholder="$t('title.select_type')"
-                class="custom-select"
-              ></v-select>
-            </div>
+            <ValidationProvider name="Arabic keyword"
+                                :rules="{required: !is_draft & !variants[openTab]?.result.basic_keyword_ar}"
+                                v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
+                                class="w-full">
+              <div class="input-wrapper mb-10">
+                <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
+                <v-select
+                  :dir="$t('app.dir')"
+                  v-model="variants[openTab]?.result.basic_keyword_ar"
+                  :options="allKeywords"
+                  taggable
+                  multiple
+                  :placeholder="$t('title.select_type')"
+                  class="custom-select"
+                ></v-select>
+              </div>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
           </div>
@@ -501,10 +523,12 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}" v-slot="{ errors }"
+        <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}"
+                            v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3">
-            <vue-upload-images :old_images="variants[openTab].result.product_images" :max-files="5" @updateInput="saveAttachment"></vue-upload-images>
+            <vue-upload-images :old_images="variants[openTab].result.product_images" :max-files="5"
+                               @updateInput="saveAttachment"></vue-upload-images>
             <span class="error">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
@@ -647,7 +671,8 @@
                     class="form-control"
                     :class="{ 'has-error': errors[0] }"
                     :placeholder="$t('prod.Number of units per carton')"
-                    @keypress="onlyNumber" min="0" maxlength="8" v-model="variants[openTab]?.result.pk_number_of_carton">
+                    @keypress="onlyNumber" min="0" maxlength="8"
+                    v-model="variants[openTab]?.result.pk_number_of_carton">
                 </div>
               </div>
               <span class="error">{{ errors[0] }}</span>
@@ -1071,7 +1096,8 @@
                 <label for="">{{ $t('prod.Country of origin') }}</label>
                 <select class="border p-3 w-full border-smooth rounded-lg"
                         v-model="variants[openTab]?.result.country_of_origin">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
+                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled
+                          v-if="item.id===194">{{
                       item.name
                     }}
                   </option>
@@ -1142,7 +1168,9 @@
                       @click.prevent="handleSubmit(doSubmitSingle(variants[openTab]?.result.id))">
                 {{ $t('prod.Send for review') }}
               </button>
-              <span class="font-semibold text-error" v-if="invalid && is_submit_data">{{ $t('prod.Check the errors') }}</span>
+              <span class="font-semibold text-error" v-if="invalid && is_submit_data">{{
+                  $t('prod.Check the errors')
+                }}</span>
             </div>
           </div>
         </div>
@@ -1301,7 +1329,9 @@
           </svg>
           <!-- Modal Content -->
           <div class="mb-4 border-b border-smooth pb-2">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }} ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }}, {{ variants[is_attributes_modal_index]?.result.product_variant?.value}})</h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }}
+              ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }},
+              {{ variants[is_attributes_modal_index]?.result.product_variant?.value }})</h4>
           </div>
           <div>
             <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }" v-if="openTab === 'parent'">
@@ -1508,7 +1538,7 @@ export default {
   },
   data() {
     return {
-      is_submit_data : false,
+      is_submit_data: false,
       variant_copy: [],
       is_submit: [],
       allKeywords: [],
@@ -1913,10 +1943,10 @@ export default {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      this.variants[0].result.status = 'pending'
       this.variants[0].result.brand_id = this.result.brand_id
       this.variants[0].result.unit_id = this.result.unit_id
-      this.variants[0].result.status = 'pending'
+      // this.variants[0].result.status = 'pending'
+      // this.variants[0].result.from_parent = true
       if (this.variant_uuid_global) {
         this.variants[0].result.variant_uu_id = this.variant_uuid_global
       } else {
@@ -1929,7 +1959,7 @@ export default {
         const res = await this.setById({
           id: this.variants[0]?.result.id,
           params: {
-            result: this.variants[0].result,
+            result: {from_parent: true, ...this.variants[0].result},
             variant: this.result.product_variants[0],
             single_submit: true,
             tab: 0
@@ -2180,24 +2210,24 @@ export default {
       }
     },
     variantNameWithAttr(name) {
-      if (this.result.product_variants[this.openTab].color_name && this.result.product_variants[this.openTab].value){
+      if (this.result.product_variants[this.openTab].color_name && this.result.product_variants[this.openTab].value) {
         return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
-      }else if (this.result.product_variants[this.openTab].color_name) {
+      } else if (this.result.product_variants[this.openTab].color_name) {
         return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name;
-      }else {
+      } else {
         return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].value;
       }
     },
 
-    closeVariantModal(){
+    closeVariantModal() {
       this.varientModal = false;
-      if (this.variant_copy){
+      if (this.variant_copy) {
         this.result.product_variants = this.variant_copy
       }
     },
-    openVariantModal(){
+    openVariantModal() {
       this.varientModal = true
-      this.is_variant_save=true
+      this.is_variant_save = true
       this.variant_copy = [...this.result.product_variants];
     },
 
@@ -2234,10 +2264,10 @@ export default {
       this.is_attributes_modal_price_index = p_index
       this.is_attributes_modal_index = index
       this.attributes_modal_price = price
-      this.attributes_modal_price_copy = { ...this.attributes_modal_price };
+      this.attributes_modal_price_copy = {...this.attributes_modal_price};
     },
     closeAttrModal() {
-      this.variants[this.is_attributes_modal_index].result.product_prices[this.is_attributes_modal_price_index]=this.attributes_modal_price_copy
+      this.variants[this.is_attributes_modal_index].result.product_prices[this.is_attributes_modal_price_index] = this.attributes_modal_price_copy
       // this.attributes_modal_price_copy = { ...this.attributes_modal_price };
       this.is_attributes_modal_price_index = false
       this.is_attributes_modal_index = false
@@ -2245,15 +2275,15 @@ export default {
     },
     saveChanges() {
       // Update the original data with the copy
-      this.attributes_modal_price = { ...this.attributes_modal_price_copy };
+      this.attributes_modal_price = {...this.attributes_modal_price_copy};
       // Close modal or perform other actions
     },
     async singlePriceUpdate() {
       try {
-        const { id, quantity, unit_price, selling_price } = this.attributes_modal_price;
+        const {id, quantity, unit_price, selling_price} = this.attributes_modal_price;
         const updatedPrice = {
           id,
-          params: { quantity, unit_price, selling_price, price_index: this.is_attributes_modal_price_index },
+          params: {quantity, unit_price, selling_price, price_index: this.is_attributes_modal_price_index},
           api: 'updateSinglePrice'
         };
         const response = await this.setById(updatedPrice);
