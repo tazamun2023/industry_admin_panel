@@ -116,6 +116,7 @@
 
     "getVendorBank": "banks",
     "DeleteVendorBank": "banks",
+    "SetDefaultBank":"banks/make/default",
     "adminDeleteCard": "user/card/delete",
     "getRoleByType": "role/all-roles",
 
