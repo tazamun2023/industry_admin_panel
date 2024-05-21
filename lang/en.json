@@ -723,7 +723,8 @@
     "remainingAmount": "remaining Amount",
     "Accept": "Accept",
     "Reject": "Reject",
-    "nameEmpty": " name is empty"
+    "nameEmpty": " name is empty",
+    "Search by orderId":"Search by orderId"
   },
   "fSale": {
     "sProd": "Selected products",

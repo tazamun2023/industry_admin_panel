@@ -55,127 +55,8 @@
             </div>
         </div>
         </div>
-        <!-- -----------------------------------------new table design 5-21-2024------------------ -->
-        <div style="box-shadow: 0px 1px 2px 0px #1018280D;"  class="table-wrapper border border-pb rounded-[12px]">
-        <table
-          class="mn-w-800x mb-10 mt-0"
-        >
-          <tr class="lite-bold">
-            <th class="bg-lightdeep">
-              <div class="flex gap-4 items-center">
-                <input type="checkbox">
-                Name
-              </div>
-            </th>
-            <th  class="bg-lightdeep">
-              IBAN
-            </th>
-            <th  class="bg-lightdeep">Swift code</th>
-            <th  class="bg-lightdeep">Bank Holder</th>
-            <th  class="bg-lightdeep">Bank</th>
-            <th  class="bg-lightdeep"> <div class="flex gap-4 items-center">
-                <input type="checkbox">
-                Set as Default
-              </div></th>
-              <th class="bg-lightdeep"></th>
-          </tr>
-          <tr class="border-t border-pb"  v-for="(value, index) in bankList" :key="index">
-            <td>
-              <div class="flex font-bold capitalize gap-4 items-center">
-                <input type="checkbox">
-                {{ value.name }}
-              </div>
-            </td>
-            <td class="text-primary">
-              {{ value.iban_number }}
-            </td>
-            <td  class="text-primary">
-              {{ value.swift_code }}
-            </td>
-            <td class="font-bold capitalize">{{ value.holder_name }}</td>
-            <td>{{ value.bank_name }}</td>
-            <td> <input type="checkbox" :checked="value.is_default"></td>
-            <td>
-              <div class="flex gap-4">
-                <img @click="editing(value)" v-if="$can('update_financial')" class="action_img cursor-pointer" src="~/assets/icon/edit-g.svg">
-                <img @click="deleteModal=true" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
-              </div>
-            </td>
-          </tr>
-        </table>
-        <div class="flex border-t border-pb p-4 items-center justify-between gap-4">
-  <button disabled
-    class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-    type="button">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M9 5L6 8L9 11" stroke="#01A781" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-    Previous
-  </button>
-  <div class="flex items-center gap-2">
-    <button
-      class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg bg-gray-900 text-center align-middle font-sans text-xs font-medium uppercase text-white bg-primary shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        1
-      </span>
-    </button>
-    <button
-      class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        2
-      </span>
-    </button>
-    <button
-      class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        3
-      </span>
-    </button>
-    <button
-      class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        4
-      </span>
-    </button>
-    <button
-      class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-      type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        5
-      </span>
-    </button>
-  </div>
-  <button
-    class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-    type="button">
-    Next
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M8.75 13.75L12.5 10L8.75 6.25" stroke="#01A781" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-  </button>
-</div>
-      </div>
-      <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-        <template v-slot:title>
-          <h4>{{ $t('vendor.deletemessage') }}</h4>
-        </template>
-        <template v-slot:buttons>
-          <div class="flex gap-4 justify-end">
-            <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-            <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
-          </div>
-        </template>
-      </DeleteModal>
-        <!-- -----------------------------------------new table design end------------------ -->
 <!-- ---------------------------------------------------------------------------------------------- -->
-
-           <!-- <div class="grid grid-cols-4 my-2 gap-8 py-4">
+           <div class="grid grid-cols-4 my-2 gap-8 py-4">
             <div v-for="(value, index) in bankList" :key="index" class="card rounded-3xl my-2">
               <div>
                 <div class="bg-theem p-3 py-6 rounded-t-3xl flex  items-center justify-between">
@@ -183,7 +64,7 @@
                     <h4 class="text-white font-bold truncate capitalize">{{ value.name }}</h4>
                   </div>
                     <div class="d-flex gap-2">
-
+                    <!-- <span v-show="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span> -->
                     <span v-if="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span>
                   </div>
                 </div>
@@ -218,35 +99,35 @@
                         <p class="capitalize text-primary semi-bold  text-[14px]">{{ value.bank_name }}</p>
                       </div>
                     </div>
-              <div v-if="!value.is_default" >
+              <div>
                   <p class="text-primary  text-[14px]">SET AS DEFAULT</p>
-                  <div class="text-center" >
-                    <input type="checkbox"  @change="SetDefaultBanks(value.id,$event)" :checked="value.is_default">
+                  <div class="text-center">
+                    <input type="checkbox" :checked="value.is_default">
                   </div>
                 </div>
              </div>
           <div class="flex justify-between gap-4  p-4">
-            <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3"
-             @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
-                <button v-if="!value.is_default" class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0" 
-                @click="deleting(value)" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
+            <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3" @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
+                <button class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0" @click="deleteModal=true" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
           </div>
-                <!-- <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+                <DeleteModal v-if="deleteModal" @closeModal="closeModal">
                   <template v-slot:title>
                     <h4>{{ $t('vendor.deletemessage') }}</h4>
                   </template>
+                  <!-- -----------default slot------- -->
+                  <!-- -----------default slot------- -->
                   <template v-slot:buttons>
                     <div class="flex gap-4 justify-end">
                       <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
                       <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
                     </div>
                   </template>
-                </DeleteModal> -->
+                </DeleteModal>
       </div>
 
 
             </div>
-        </div> -->
+        </div>
 
 <!-- ---------------------------------------------------------------------------------------------- -->
 <!-- <div class="lg:grid lg:grid-cols-3    my-2 gap-4">
@@ -344,24 +225,22 @@
                   </ValidationProvider>
                 </div>
                 <div class="flex gap-4">
-                  <ValidationProvider name="Swift" class="w-full" rules="required" v-slot="{ errors }"
-                   :custom-messages="{required: `Enter Your ${$t('bank.swift_code')}`}">
+                  <ValidationProvider name="Swift" class="w-full" rules="required" v-slot="{ errors }" :custom-messages="{required: `Enter Your ${$t('bank.swift_code')}`}">
                     <div class="input-wrapper w-full">
                         <label for="">{{ $t('bank.swift_code') }}*</label>
-                        <input type="text" placeholder="Swift/BIC code*" v-model="bankData.swift_code" >
+                        <input type="text" placeholder="Swift/BIC code*" v-model="bankData.swift_code">
                       <span  class="error">{{ errors[0] }}</span>
                     </div>
                   </ValidationProvider>
                 </div>
                 <div class="input-wrapper w-full">
                     <div class="flex gap-1">
-                    <input type="checkbox"  v-model="bankData.is_default"   :disabled="disabled" >
+                    <input type="checkbox" v-model="bankData.is_default">
                     <label for="">Set bank details as default</label>
                    </div>
                 </div>
                 <div class="flex justify-end gap-4">
-                    <button  @click="Cardmodal=false"
-                     class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
+                    <button  @click="Cardmodal=false" class="btn bg-smooth hover:text-primary  border-secondary mt-20">Cancel</button>
                     <button class="btn bg-primary hover:text-primary text-white border-secondary mt-20" :disabled="invalid">Save Change</button>
                 </div>
             </form>
@@ -431,33 +310,12 @@ export default{
 
   methods:{
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
-    ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank','SetDefaultBank']),
-   ...mapActions('common', ['swetAlertFire']),
-
+    ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank']),
     closeModal(){
       this.deleteModal = false
 
     },
-    async SetDefaultBanks(id,e) {
-      const res = await this.swetAlertFire({
-      params :{
-        title: this.$i18n.t('approvedModal.sure'),
-        text: this.$i18n.t('approvedModal.revert'),
-      }
-      })
-      if(res) {
-        this.SetDefaultBank({
-          params:{
-            bank_id: id,
-            is_default: e.target.checked,
-          },
-          
-        })
-         this.getAllVendorBank();
-      } else {
 
-      }
-    },
     async searchBank(){
          let search = this.search
           await this.getVendorBank({
@@ -490,7 +348,6 @@ export default{
 
     try {
       await this.getAllVendorBank()
-      
     }catch (e) {
       return this.$nuxt.error(e)
     }

@@ -1,9 +1,9 @@
 <template>
-  <div class="flex gap-4 my-10">
+  <div class="flex gap-4 my-4">
     <div class="relative">
-      <input type="text" v-model="search.order_id" :placeholder="$t('order.orderId')"
-        class="pl-10 pr-4 py-2 border rounded-lg w-full focus:outline-none focus:border-primary" />
-      <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+      <input type="text" v-model="search.order_id" :placeholder="$t('orderDetails.Search by orderId')"
+        class="ltr:pl-8 rtl:pr-8 py-2 border border-cardb rounded-lg w-full focus:outline-none focus:border-primary" />
+      <div class="absolute inset-y-0 ltr:left-1  rtl:right-1  flex items-center pointer-events-none">
         <!-- Search Icon -->
         <svg class="w-6 h-6 text-smooth" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
           viewBox="0 0 24 24">
@@ -12,32 +12,37 @@
         </svg>
       </div>
     </div>
+    <div class="relative">
       <multi-select   :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
       :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
-    <select class="p-2 border rounded-[10px] capitalize border-smooth" name="" id="" v-model="search.invoice_status"
+      <select class="p-2 border rounded-[10px] capitalize border-cardb" name="" id="status" v-model="search.invoice_status"
       v-if="invoice_status">
       <option value="">{{ $t('order.paymentStatus') }}</option>
       <option :value="option.value" v-for="(option, i) in paymentStatuses" :key="i">
         {{ $t(`paymentStatus.${option.value}`) }}
       </option>
-
     </select>
-    <!--    <select class="p-2 border rounded border-smooth"  v-model="search.orderType" @change="FilterOrder">-->
+    <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
+    </div>
+    <!--    <select class="p-2 border rounded border-cardb"  v-model="search.orderType" @change="FilterOrder">-->
     <!--      <option value="">{{$t('order.paymentMthodType')}}</option>-->
     <!--      <option v-for="orderType in orderTypes" :key="orderType.value" :value="orderType.value">{{-->
     <!--          $t(`order.${orderType.label}`)-->
     <!--        }}</option>-->
     <!--    </select>-->
-    <select class="p-2 border capitalize rounded-[10px] border-smooth" name="" id="" v-model="search.sort_by">
+    <div class="relative">
+      <select class="p-2 border h-[44px] capitalize rounded-[10px] border-cardb" name="" id="" v-model="search.sort_by">
       <option value="">{{ $t('order.sortFilter') }}</option>
       <option v-for="(sortBy, index) in sortOptions" :key="index" :value="sortBy.api">{{
         $t(`order.${sortBy.label}`)
       }}</option>
     </select>
+    <label class="absolute ltr:right-1 rtl:left-1 mt-[15px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
+    </div>
     <div class="flex col-span-2">
-      <a class="inline-block align-middle cursor-pointer text-center select-none border border-smooth h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3 no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+      <a class="inline-block align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3 no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
         @click.prevent="FilterOrder"> {{ $t("app.Apply Filters") }} </a>
-      <a class="inline-block align-middle cursor-pointer text-center select-none border border-smooth h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3  no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+      <a class="inline-block align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3  no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
         @click.prevent="clearFilterData"> {{ $t("prod.clear_filter") }} </a>
     </div>
   </div>
@@ -161,4 +166,21 @@ export default {
 .custom-select {
   min-width: 260px;
 }
+.ltr\:pl-8:where([dir="ltr"], [dir="ltr"] *) {
+    padding-left: 2rem !important;
+}
+.rtl\:pr-8:where([dir="rtl"], [dir="rtl"] *) {
+    padding-right: 2rem !important;
+}
+.border-cardb {
+    --tw-border-opacity: 1;
+    border-color: rgb(196, 205, 213) !important;
+}
+/* Hide the default appearance of the select box */
+select {
+    appearance: none; /* For modern browsers */
+    -webkit-appearance: none; /* For Safari and Chrome */
+    -moz-appearance: none; /* For Firefox */
+}
+
 </style>
