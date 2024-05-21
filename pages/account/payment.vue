@@ -97,8 +97,8 @@
             <td> <input type="checkbox" :checked="value.is_default"></td>
             <td>
               <div class="flex gap-4">
-                <img @click="editing(value)" v-if="$can('update_financial')" class="action_img" src="~/assets/icon/edit-g.svg">
-                <img @click="deleteModal=true" class="action_img" src="~/assets/icon/delete.svg">
+                <img @click="editing(value)" v-if="$can('update_financial')" class="action_img cursor-pointer" src="~/assets/icon/edit-g.svg">
+                <img @click="deleteModal=true" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
               </div>
             </td>
           </tr>
