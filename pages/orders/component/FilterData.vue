@@ -14,7 +14,7 @@
     </div>
     <div class="flex gap-4">
       <div class="relative">
-        <multi-select   :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
+        <multi-select :old_selected="search.order_status" :disabled="tap !== 'all'"  :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
       :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
       <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
       </div>
