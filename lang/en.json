@@ -633,6 +633,7 @@
     "paymentMthodType": "payment Mthods Type",
     "sortFilter": "sort By Filter",
     "pendingApproval": "Pending approval",
+    "pendingCustomerApproval": "Pending Customer Approval",
     "readyForPickup": "Ready for pickup",
     "rejected": "Rejected",
     "orderPlaced": "Order Placed",
@@ -663,6 +664,7 @@
     "ViewOrder": "View Order"
   },
   "orderDetails": {
+    "type": "النوع",
     "title": "My Orders",
     "next_step": "Next step for this order",
     "ItemPrice": "Item Price",
@@ -930,8 +932,8 @@
     "notValidUrl": "The Url Not Valid"
   },
   "paymentMethod": {
-    "bank": "bank",
-    "cred_Card": ""
+    "bank": "Bank",
+    "card": "Card"
   },
   "status": {
     "pending": "pending",

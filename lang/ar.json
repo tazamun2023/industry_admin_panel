@@ -512,9 +512,10 @@
     "paymentMthodType": "نوع طريقة الدفع",
     "sortFilter": "الفلتره حسب",
     "pendingApproval": "في انتظار الموافقة",
+    "pendingCustomerApproval": "في انتظار موافقة العميل",
     "readyForPickup": "جاهز للاستلام",
     "rejected": "مرفوض",
-    "orderPlaced": "تاريخ وصول الطلب",
+    "orderPlaced": "تاريخ  الطلب",
     "paymentMethod": "طريقة الدفع",
     "payment": "الدفع",
     "status": "الحالة",
@@ -548,6 +549,7 @@
     "title": "الطلبات الخاصة بي",
     "ItemPrice": "سعر المتتج",
     "ItemStatus": "حالة المنتج ",
+    "type": "النوع",
     "TotalPrice": "السعر الكلي",
     "OrderTotal": "اجمالي سعر الطلب",
     "CreateDate": "تاريخ الانشاء",
@@ -613,7 +615,7 @@
   },
   "paymentMethod": {
     "bank": "بنك",
-    "cred_Card": ""
+    "card": "بطاقة"
   },
   "status": {
     "pending": "قيد الانتظار",
