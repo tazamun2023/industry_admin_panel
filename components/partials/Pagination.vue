@@ -22,7 +22,7 @@
     >
       <span>{{ value }}</span>
     </li>
-    <li 
+    <li
       :class="{disabled: currentPage + 1 >= totalPage}"
       @click.prevent="nextFivePaginate()"
     >
@@ -45,7 +45,7 @@ export default {
       sortByType: this.$route.query.orderByType || "desc",
       sortBy: this.$route.query.orderBy || "created_at",
       currentPage: Number(this.$route.query.page) || this.page,
-      search: this.$route.query.q || null,
+      search: this.$route.query.search || null,
     };
   },
   props: {
@@ -121,7 +121,7 @@ export default {
             orderBy: this.orderBy,
             orderByType: this.orderByType,
             page: this.currentPage,
-            q: this.search,
+            search: this.search,
           },
         },
       });
@@ -147,7 +147,7 @@ export default {
             orderBy: this.orderBy,
             orderByType: this.orderByType,
             page: this.currentPage,
-            q: this.search,
+            search: this.search,
           },
         },
       });
@@ -179,7 +179,7 @@ export default {
         orderBy: this.orderBy,
         orderByType: this.orderByType,
         page: this.currentPage,
-        q: this.q,
+        search: this.search,
       });
     },
     navigate(param) {
