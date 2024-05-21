@@ -12,17 +12,22 @@
         </svg>
       </div>
     </div>
-    <div class="relative">
-      <multi-select   :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
+    <div class="flex gap-4">
+      <div class="relative">
+        <multi-select   :disabled="tap !== 1" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
       :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
-      <select class="p-2 border rounded-[10px] capitalize border-cardb" name="" id="status" v-model="search.invoice_status"
+      <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
+      </div>
+      <div class="relative">
+        <select class="p-2 px-4 w-[180px] border rounded-[10px] capitalize border-cardb" name="" id="status" v-model="search.invoice_status"
       v-if="invoice_status">
       <option value="">{{ $t('order.paymentStatus') }}</option>
       <option :value="option.value" v-for="(option, i) in paymentStatuses" :key="i">
         {{ $t(`paymentStatus.${option.value}`) }}
       </option>
     </select>
-    <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
+    <label class="absolute ltr:right-1 rtl:left-1 mt-[15px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
+      </div>
     </div>
     <!--    <select class="p-2 border rounded border-cardb"  v-model="search.orderType" @change="FilterOrder">-->
     <!--      <option value="">{{$t('order.paymentMthodType')}}</option>-->
