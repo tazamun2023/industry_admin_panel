@@ -22,6 +22,7 @@ export default {
         type: 'offer',
         unit_target_price: '',
         total_tax: 0,
+        expired_at: '',
         quantity: ''
       }
     }
@@ -48,7 +49,8 @@ export default {
             is_reply: 1,
             type: this.formData.type,
             price: this.formData.unit_target_price * this.formData.quantity + this.formData.total_tax,
-            quantity: this.formData.quantity
+            quantity: this.formData.quantity,
+            expired_at: this.formData.expired_at
           },
           api: 'inquiriesOfferStore'
         }).then(data=>{
@@ -77,6 +79,13 @@ export default {
     calculateTotalPrice() {
       const total = this.formData.quantity * this.formData.unit_target_price;
       return isNaN(total) ? 0 : total;
+    },
+    getTodayFormattedDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
     onlyNumber($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -117,6 +126,20 @@ export default {
           </div>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
+        <ValidationProvider name="expired date" rules="required" v-slot="{ errors }"
+                            :custom-messages="{required: `${$t('prod.Validate until')} is Required`}">
+          <div class="flex justify-between gap-4 pt-4">
+            <p class="w-50">{{ $t('prod.Validate until') }}</p>
+            <input
+              class="p-2 rounded"
+              :placeholder="$t('prod.Validate until')"
+              type="date"
+              :min="getTodayFormattedDate()"
+              v-model="formData.expired_at"
+            >
+          </div>
+          <span class="error">{{ errors[0] }}</span>
+        </ValidationProvider>
 
       </div>
     </ValidationObserver>
@@ -130,6 +153,7 @@ export default {
         {{ $t('products.Cancel') }}
       </button>
       <button
+        :disabled="!formData.expired_at"
         @click="Confirm"
         class="border-2 border-primary px-2 h-[34px] leading-3 bg-primary text-white font-bold">
         {{ $t('products.Confirm') }}

@@ -366,6 +366,9 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Validate until": "Validate until",
+    "Offer sent": "Offer sent valid until",
+    "Canceled by Buyer": "Canceled by Buyer",
     "Show": "Show",
     "Check the errors": "Check the errors",
     "Archive": "Archive",
