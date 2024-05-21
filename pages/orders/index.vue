@@ -29,15 +29,45 @@
             <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
               <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
                  v-on:click.prevent="toggleTabs( 'approved')"
-                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='approved', 'border-b-2    border-primary text-primary': openTab ==='approved' }">
-                {{ $t('order.readyForPickup') }}
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='approved', 'border-b-2  border-primary text-primary': openTab ==='approved' }">
+                {{ $t('status.approved') }}
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
+                 v-on:click.prevent="toggleTabs( 'ready_to_ship')"
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='ready_to_ship', 'border-b-2    border-primary text-primary': openTab ==='ready_to_ship' }">
+                {{ $t('status.readyToShip') }}
+              </a>
+            </li>
+
+            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
+                 v-on:click.prevent="toggleTabs( 'out_for_delivery')"
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='out_for_delivery', 'border-b-2    border-primary text-primary': openTab ==='out_for_delivery' }">
+                {{ $t('status.outForDelivery') }}
+              </a>
+            </li>
+
+            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
+                 v-on:click.prevent="toggleTabs( 'delivered')"
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='delivered', 'border-b-2    border-primary text-primary': openTab ==='delivered' }">
+                {{ $t('status.delivered') }}
               </a>
             </li>
             <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
               <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
                  v-on:click.prevent="toggleTabs( 'rejected')"
                  v-bind:class="{ 'bg-white border-white border-b': openTab !=='rejected', 'border-b-2   border-primary text-primary': openTab ==='rejected' }">
-                {{ $t('order.rejected') }}
+                {{ $t('status.rejected') }}
+              </a>
+            </li>
+            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
+                 v-on:click.prevent="toggleTabs( 'cancelled')"
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='cancelled', 'border-b-2   border-primary text-primary': openTab ==='cancelled' }">
+                {{ $t('status.cancelled') }}
               </a>
             </li>
           </ul>
@@ -51,32 +81,28 @@
                 <div class="text-center flex justify-center">
                   <spinner :radius="100" v-if="loading"/>
                 </div>
-                <div v-if="openTab =='approved' || openTab =='rejected' ">
-                  <div @click="productTableShow(index)"
-                       class="card cursor-pointer my-2 p-4"
+                <div>
+                  <div class="card cursor-pointer my-2 p-4"
                        v-for="(order, index) in orders?.data" :key="index" v-if="!loading">
-                    <CardTab :order="order"/>
-                    <TablePending v-if="index === indexTabel" :action="false">
-                      <tr-sub-items :subItems="order.sub_order_items"/>
-                    </TablePending>
-
-                  </div>
-                </div>
-                <div v-else>
-                  <div class="card my-2 p-4" v-for="(order, index) in orders?.data" :key="index" v-if="!loading">
                     <div class="flex gap-4 justify-between">
-                      <div class="flex-none p-2 w-5">
-                        <input type="checkbox" @change="setSelectedOrder(order, $event.target.checked)">
-                      </div>
-                      <div class="flex-1   flex gap-4 max-w-[40rem] justify-between">
-
+                      <div class="flex-1   flex gap-4 max-w-[46rem] justify-between">
+                        <div v-if="closeable" @click="productTableShow(index)" class="p-2">
+                          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                               xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="m19 9-7 7-7-7"/>
+                          </svg>
+                        </div>
+                        <!--                        <div class="flex-none p-2 w-5">-->
+                        <!--                          <input type="checkbox" @change="setSelectedOrder(order, $event.target.checked)">-->
+                        <!--                        </div>-->
                         <div>
                           <p>{{ $t('order.orderId') }}: </p>
                           <p class="font-bold">{{ order?.order_id }}</p>
                         </div>
                         <div>
                           <p>{{ $t('order.orderPlaced') }}:</p>
-                          <p class="font-bold">{{ order?.order_placed }}</p>
+                          <p class="font-bold text-nowrap">{{ order?.order_placed }}</p>
                         </div>
                         <div>
                           <p>{{ $t('orderDetails.type') }}</p>
@@ -91,7 +117,8 @@
                         </div>
                         <div>
                           <p>{{ $t('order.payment') }}:</p>
-                          <p class="font-bold"><span class="bg-primarylight px-2 text-primary rounded-3xl text-[12px]">
+                          <p class="font-bold"><span
+                            class="bg-primarylight px-2 text-nowrap text-primary rounded-3xl text-[12px]">
                             {{ order.payment_status_data.name }}
 
                           </span>
@@ -100,27 +127,65 @@
                         <div>
                           <p>{{ $t('order.status') }}:</p>
                           <p class="font-bold"><span class="bg-theemlight
+                          text-nowrap
                                     px-2 text-theem rounded-3xl text-[12px]">
                             {{ order?.status_data.name }}
                           </span></p>
                         </div>
+                        <div v-if="order?.pickup_date">
+                          <p>{{ $t('orderDetails.pickup_date') }}</p>
+                          <p class="font-bold text-nowrap">{{ order?.pickup_date }}</p>
+                        </div>
+                        <div class="tooltip" v-if="order?.pickup_location">
+                          <p>{{ $t('orderDetails.pickup_location') }}</p>
+                          <p class="font-bold text-primary flex" @mouseover="showTooltip = true"
+                             @mouseleave="showTooltip = false">
+                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
+                            </svg>
+                            <span>{{ order.billing_address.name }}</span>
+                            <div class="tooltip-content" v-show="showTooltip">{{ order?.pickup_location }}</div>
+                          </p>
+                        </div>
+
+
                       </div>
+
                       <div class="flex-initial w-96  justify-self-start flex gap-4">
                         <div>
                           <p>{{ $t('order.total') }}:</p>
 
                           <price-with-curency-format :price="order?.sub_total"></price-with-curency-format>
                         </div>
-                        <div>
+                        <div v-if="order?.status=='pending'">
                           <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
                                   class="border-2 mt-1 border-warning text-warning uppercase font-bold p-2 rounded leading-3">
                             {{ $t('order.rejectOrder') }}
                           </button>
-                        </div>
-                        <div>
                           <button @click="approvedModalShow(order)" v-if="$can('fulfil_orders')"
                                   class="border mt-1 border-primary font-bold p-2 uppercase rounded bg-primary text-white hover:text-primary leading-3">
                             {{ $t('order.approveOrder') }}
+                          </button>
+                        </div>
+                        <div
+                          v-else-if="['approved','ready_to_ship','out_for_delivery'].includes(order?.status)">
+                          <button @click="changeStatusModalShow(order)" v-if="$can('fulfil_orders')"
+                                  class="border-2 mt-1 border-info text-info uppercase font-bold p-2 rounded leading-3">
+                          <span>
+                            {{ $t('changeStatus.from_status.'+order?.status) }}
+                          </span>
+
+                          </button>
+                        </div>
+                        <div v-else>
+                          <button @click="$router.push('orders/'+order.order_id)"
+                                  class="border-2 font-bold mt-1 border-primary p-2 uppercase  rounded text-primary hover:text-primary leading-3">
+                            {{ $t('order.ViewOrder') }}
                           </button>
                         </div>
                       </div>
@@ -129,7 +194,7 @@
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                           <div class="overflow-hidden">
-                            <TablePending>
+                            <TablePending v-if="!(closeable && index !== indexTabel)">
                               <tr-sub-items :subItems="order.sub_order_items"/>
                             </TablePending>
                           </div>
@@ -137,6 +202,7 @@
                         </div>
                       </div>
                     </div>
+
                   </div>
                 </div>
                 <div class="flex justify-center mb-15" v-if="!loading && orders.data?.length > 0">
@@ -153,6 +219,9 @@
                             @close="handleModalClose"/>
         <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
                      :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
+
+        <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
+                        :saveSata="saveSata"    :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
       </div>
     </div>
   </check-validity>
@@ -171,9 +240,15 @@ import PaymentMethod from "../../components/paymentMethod.vue";
 import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 import util from '~/mixin/util'
 import routeParamHelper from "~/mixin/routeParamHelper"
+import OrderChangeStatus from "../../components/OrderChangeStatus.vue";
+import OrderReject from "../../components/OrderReject.vue";
+import OrderApprovedModal from "../../components/OrderApprovedModal.vue";
 
 export default {
   components: {
+    OrderApprovedModal,
+    OrderReject,
+    OrderChangeStatus,
     PriceWithCurencyFormat,
     PaymentMethod, TrSubItems, CardTab, Pagination, FilterData, TablePending, Spinner, LazyImage
   },
@@ -182,8 +257,10 @@ export default {
       openTab: 'all',
       loading: true,
       approvedModal: false,
+      saveSata: false,
       selectedOrders: [],
       rejectModal: false,
+      changeStatusModal: false,
       indexTabel: null,
       status: 'pending',
       RejectionOrder: "",
@@ -195,12 +272,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('order', ['reasonsRejection'])
+    ...mapGetters('order', ['reasonsRejection']),
+    closeable() {
+      return !['all', 'pending'].includes(this.openTab)
+    },
   },
   middleware: ['common-middleware', 'auth'],
   mixins: [util, routeParamHelper],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'subOrderReject', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
+    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'subOrderReject','subOrderChangeStatus', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
     ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList']),
     async filterUpdate(result) {
       console.log('filter update')
@@ -252,7 +332,15 @@ export default {
         this.rejectModal = !this.rejectModal
       }
     },
+    changeStatusModalShow(order) {
+
+        this.selectedOrders=[];
+        this.selectedOrders.push(order);
+        this.changeStatusModal = !this.changeStatusModal
+
+    },
     async saveReject(data) {
+      this.saveSata = true
       const response = await this.subOrderReject({
         payload: {
           status: data.status,
@@ -262,10 +350,28 @@ export default {
       })
       const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
       if (index !== -1) {
-        this.orders.data[index].status = response.status;
+        this.orders.data[index] = response;
       }
       // this.fetchingData()
+      this.saveSata = false
       this.rejectModalClose();
+    },
+    async saveChangeStatusModal(data) {
+      this.saveSata = true
+      const response = await this.subOrderChangeStatus({
+        payload: {
+          status: data.status,
+          order_id: data.order_id,
+          reject_reason_id: data.reject_reasons
+        }
+      })
+      this.saveSata = false
+      const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
+      if (index !== -1) {
+        this.orders.data[index] = response;
+      }
+      // this.fetchingData()
+      this.changeStatusModalClose();
     },
     saveRejectProduct(data) {
       this.loading = true;
@@ -297,6 +403,10 @@ export default {
     rejectModalClose() {
       this.selectedOrders = [];
       this.rejectModal = false;
+    },
+    changeStatusModalClose() {
+      this.selectedOrders = [];
+      this.changeStatusModal = false;
     },
     setSelectedOrder(order, checked) {
       if (checked) {
@@ -343,3 +453,26 @@ export default {
 
 }
 </script>
+<style>
+.tooltip {
+  position: relative;
+}
+
+.tooltip .tooltip-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.tooltip:hover .tooltip-content {
+  display: block;
+}
+</style>
+

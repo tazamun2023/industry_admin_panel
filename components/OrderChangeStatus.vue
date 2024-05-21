@@ -1,5 +1,5 @@
 <template>
-  <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+  <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
     <div class="absolute inset-0 bg-black opacity-50"></div>
     <toast-message v-if="hasError" :is-error="hasError"
                    :message="$t('error.has error sorry please select data reject')"/>
@@ -10,11 +10,12 @@
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
       </svg>
       <div class="p-2">
-        <h4 class="font-bold">{{ $t('orderReject.title') }} #{{ selectedOrders[0]?.order_id }}</h4>
-        <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>
+        <h4 class="font-bold">{{ $t('changeStatus.title') }}
+          {{ $t('changeStatus.from_status.' + selectedOrders[0]?.status) }}</h4>
+        <p class="text-xs">{{ $t('changeStatus.confirmation') }}</p>
       </div>
       <div class="card p-4">
-        <div class="flex border-b pb-4 border-smooth gap-4">
+        <div class="flex justify-between border-b pb-4 border-smooth gap-4">
           <div>
             <p>{{ $t('orderReject.order') }}</p>
             <p class="text-xs">{{ selectedOrders[0]?.order_id }}</p>
@@ -24,17 +25,11 @@
             <p class="text-xs">{{ selectedOrders[0]?.order_placed }}</p>
           </div>
         </div>
-        <div class="py-4">
-          <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
-          <select class="p-4 w-full border border-smooth rounded" v-model="RejectionSelected">
-            <option :value="item.id" v-for="(item, index) in reasonsRejection" :key="index">
-              {{ item.description }}
-            </option>
-          </select>
-        </div>
+
         <div class="w-full px-2 py-4 ">
-          <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
-            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{ $t('orderReject.cancel') }}
+          <div class="flex justify-between gap-4 items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
+            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">
+              {{ $t('orderReject.cancel') }}
             </button>
             <ajax-button
               name="save"
@@ -45,6 +40,10 @@
               @clicked="save"
               :fetching-data="saveSata"
             />
+
+            <!--            <button  class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">-->
+            <!--              {{ $t('orderReject.save') }}-->
+            <!--            </button>-->
           </div>
         </div>
       </div>
@@ -57,11 +56,9 @@ import AjaxButton from "./AjaxButton.vue";
 
 export default {
   components: {AjaxButton, ToastMessage},
-  props: ['selectedOrders','reasonsRejection','saveSata'],
+  props: ['selectedOrders', 'saveSata'],
   data() {
     return {
-      RejectionSelected: "",
-
       hasError: false,
     }
   },
@@ -70,19 +67,26 @@ export default {
       this.$emit('close');
     },
     save() {
-      if (this.RejectionSelected === "") {
-        this.hasError = true;
-      } else {
-        this.hasError= false;
-        let data = {
-          status: "reject",
-          order_id: this.selectedOrders[0]?.order_id,
-          reject_reasons: this.RejectionSelected
-        }
-        this.$emit('save', data)
-      }
 
+      this.saveSata = true
+      let current_status = this.selectedOrders[0].status;
+      let status = "";
+
+
+      if (current_status === "approved")
+        status = "ready_to_ship"
+      else if (current_status === "ready_to_ship")
+        status = "out_for_delivery"
+      else if (current_status === "out_for_delivery")
+        status = "delivered"
+      let data = {
+        status: status,
+        order_id: this.selectedOrders[0]?.order_id,
+      }
+      this.$emit('save', data)
     }
+
+
   }
 }
 </script>

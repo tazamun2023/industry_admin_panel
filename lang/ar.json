@@ -618,12 +618,27 @@
     "card": "بطاقة"
   },
   "status": {
-    "pending": "قيد الانتظار",
-    "approved": "تمة الموافقة",
     "rejected": "مرفوض",
-    "reject": "مرفوض",
     "available": "متاح",
-    "not-available": "غير متاح"
+    "not-available": "غير متاح",
+    "placed": "تم الطلب",
+    "received": "تم الاستلام",
+    "partialReceived": "تم استلام جزئي",
+    "delivered": "تم التوصيل",
+    "partialDelivered": "تم التوصيل جزئيًا",
+    "pendingCancellation": "في انتظار الإلغاء",
+    "cancelled": "تم الإلغاء",
+    "readyToShip": "جاهز للشحن",
+    "orderPicked": "تم اختيار الطلب",
+    "outForPickup": "خارج للاستلام",
+    "outForDelivery": "خارج للتوصيل",
+    "dispute": "نزاع",
+    "inTransit": "قيد الانتقال",
+    "pending": "معلق",
+    "approved": "تمت الموافقة",
+    "pending_approved": "انتظار موافقة العميل",
+    "reject": "مرفوض",
+    "inProgress": "قيد التنفيذ"
   },
   "fSale": {
     "sProd": "المنتجات المحددة ",
@@ -1073,10 +1088,19 @@
     "title": "رفض الطلب",
     "confirmation": "أنت على وشك رفض الطلب التالي. يرجى تحديد سبب الرفض.",
     "order": "الطلب",
-    "orderPlaced": "تاريخ وصول الطلب",
+    "orderPlaced": "تاريخ انشاء  الطلب",
     "selectRejectionReason": "اختر سبب الرفض",
     "cancel": "إلغاء",
     "save": "حفظ"
+  },
+  "changeStatus": {
+    "title": "تغيير حالة  الطلب الى : ",
+    "confirmation": "أنت على وشك تغيير حالة الطلب التالي. بمجرد الضغط على زرار الحفظ لا تتمكن من التراجع ",
+    "from_status": {
+      "approved": "جاهز للشحن",
+      "ready_to_ship": "خارج للتوصيل",
+      "out_for_delivery": "تم التوصيل"
+    }
   },
   "util": {
     "tod": "أهم الاكتشافات اليومية ",

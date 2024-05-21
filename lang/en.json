@@ -726,7 +726,7 @@
     "Accept": "Accept",
     "Reject": "Reject",
     "nameEmpty": " name is empty",
-    "Search by orderId":"Search by orderId"
+    "Search by orderId": "Search by orderId"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -942,8 +942,23 @@
     "reject": "reject",
     "available": "available",
     "not-available": "not-available",
-    "Check_payment":"Check payment",
-    "Full_payment":"Full payment"
+    "Check_payment": "Check payment",
+    "Full_payment": "Full payment",
+    "placed": "Placed",
+    "received": "Received",
+    "partialReceived": "Partial Received",
+    "delivered": "Delivered",
+    "partialDelivered": "Partial Delivered",
+    "pendingCancellation": "Pending Cancellation",
+    "cancelled": "Cancelled",
+    "readyToShip": "Ready to Ship",
+    "orderPicked": "Order Picked",
+    "outForPickup": "Out for Pickup",
+    "outForDelivery": "Out for Delivery",
+    "dispute": "Dispute",
+    "inTransit": "In Transit",
+    "inProgress": "In Progress",
+    "pending_approved": "ًWait Customer Approved"
   },
   "bank": {
     "bank_name": "Bank Name",
@@ -1219,6 +1234,10 @@
     "selectRejectionReason": "Select rejection reason",
     "cancel": "Cancel",
     "save": "Save"
+  },
+  "changeStatus": {
+    "title": "   Change Order Status To : ",
+    "confirmation": "You are about to change the status of the following order. Once you press the save button, you cannot undo this action."
   },
   "util": {
     "tod": "Top of daily discover",

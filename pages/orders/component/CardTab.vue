@@ -36,8 +36,7 @@
         <p>{{$t('orderDetails.pickup_date')}}</p>
         <p class="font-bold">{{ order?.pickup_date }}</p>
       </div>
-
-      <div class="tooltip" v-if="order?.pickup_location">
+<div class="tooltip" v-if="order?.pickup_location">
   <p>{{$t('orderDetails.pickup_location')}}</p>
   <p class="font-bold text-primary flex" @mouseover="showTooltip = true" @mouseleave="showTooltip = false">
     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -48,6 +47,7 @@
     <div class="tooltip-content" v-show="showTooltip">{{ order?.pickup_location }}</div>
   </p>
 </div>
+
 
     </div>
     <div class="flex gap-4">

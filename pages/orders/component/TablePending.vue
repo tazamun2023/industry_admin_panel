@@ -11,7 +11,7 @@
       <th scope="col" class="p-2">{{$t('orderDetails.quantity')}}</th>
       <th scope="col" class="p-2">{{$t('orderDetails.agreed_price')}}</th>
       <th scope="col" class="p-2">{{$t('orderDetails.subtotal')}}</th>
-      <th scope="col" class="p-2" v-if="action">{{$t('global.action')}}</th>
+      <th scope="col" class="p-2" >{{$t('global.status')}}</th>
     </tr>
     </thead>
 <!--    <tbody>-->

@@ -22,11 +22,14 @@
       <price-with-curency-format :price="item?.total_price "></price-with-curency-format>
     </td>
     <td class="whitespace-nowrap p-2">
-      <select class="p-3 border border-smooth rounded" name="" id="">
-        <option value="">{{ $t('order.available') }}</option>
-        <option value="">{{ $t('order.noAvailable') }}</option>
-      </select>
+{{item?.status ? $t('order.available') : $t('order.noAvailable')  }}
     </td>
+<!--    <td class="whitespace-nowrap p-2">-->
+<!--      <select class="p-3 border border-smooth rounded" name="" id="">-->
+<!--        <option value="">{{ $t('order.available') }}</option>-->
+<!--        <option value="">{{ $t('order.noAvailable') }}</option>-->
+<!--      </select>-->
+<!--    </td>-->
   </tr>
   </tbody>
 </template>
