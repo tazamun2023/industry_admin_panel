@@ -11,6 +11,7 @@
         class="mr-15"
       />
     </div>
+    <slot name="tab-access-managment"></slot>
     <div v-if="filter">
     <slot
       name="table-top"
@@ -209,6 +210,23 @@
           }
         }
       },
+      async deleteItemInv(id,api) {
+      const res = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      })
+      if (res) {
+        this.deleting = true
+            await this.deleteData({params: id, api: api })
+            this.emptyAllList(this.emptyStoreVariable)
+            this.$emit('deleted')
+            this.deleting = false
+            await this.fetchingData()
+      }
+    },
+
       async deleteItemWithModal(id) {
         try {
             this.deleting = true
@@ -254,7 +272,7 @@
         }
       },
 
-      ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList', 'deleteBank'] )
+      ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList', 'deleteBank','swetAlertFire'] )
     },
     mounted() {
       if(!this.gate || this.$can(this.gate)){

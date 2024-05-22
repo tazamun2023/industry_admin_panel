@@ -7,7 +7,8 @@
             <div class="w-full mb-4">
                 <ul class="lg:flex mb-0 list-none rounded shadow flex-wrap mb-4 flex-row">
                 <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
-                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" v-on:click="toggleTabs('all')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'all', 'border-b-2 border-primary': openTab === 'all'}">
+                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" 
+                v-on:click="toggleTabs('all')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'all', 'border-b-2 border-primary': openTab === 'all'}">
                   {{ $t('vendor.all') }}
                 </a>
                 </li>

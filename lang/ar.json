@@ -811,7 +811,9 @@
     "answer": "اسم العنوان",
     "organization": "المؤسسة",
     "image": "الصورة",
-    "verify": "التحقق"
+    "verify": "التحقق",
+    "all_users":"جميع المستخدمين",
+    "invite_users":"دعوات المستخدمين"
   },
   "bank": {
     "bank_name": "اسم البنك",

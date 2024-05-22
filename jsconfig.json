@@ -417,6 +417,7 @@
     "getUser": "vendor-users/find",
     "deleteVendors": "vendor-users/delete",
     "sentInvitation": "vendor-users/SentInvitation",
+    "deleteInvitations":"vendor-users/delete/invitations",
 
     "setAdmin": "admin-data/action",
     "getUserInfo": "user-register/getUserByEmail",
