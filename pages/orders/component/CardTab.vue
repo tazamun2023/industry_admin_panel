@@ -52,7 +52,7 @@
                 stroke-width="2"
                 d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
         </svg>
-        <span>{{ order.billing_address.name }}</span>
+        <span>{{ order?.billing_address?.name }}</span>
         <div class="tooltip-content" v-show="showTooltip">{{ order?.pickup_location }}</div>
       </p>
     </div>

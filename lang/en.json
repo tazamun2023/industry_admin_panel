@@ -933,11 +933,11 @@
     "image": "Image",
     "verify": "Verification",
     "notValidUrl": "The Url Not Valid",
-    "all_users":"all users",
-    "invite_users":"User invitations",
-    "Awesome":"Awesome",
-    "Company Profile Saved Succesfully":"Company Profile Saved Successfully",
-    "Ok":"Ok"
+    "all_users": "all users",
+    "invite_users": "User invitations",
+    "Awesome": "Awesome",
+    "Company Profile Saved Succesfully": "Company Profile Saved Successfully",
+    "Ok": "Ok"
   },
   "paymentMethod": {
     "bank": "Bank",
@@ -1245,7 +1245,12 @@
   },
   "changeStatus": {
     "title": "   Change Order Status To : ",
-    "confirmation": "You are about to change the status of the following order. Once you press the save button, you cannot undo this action."
+    "confirmation": "You are about to change the status of the following order. Once you press the save button, you cannot undo this action.",
+    "from_status": {
+      "approved": " Ready to Ship",
+      "ready_to_ship": "Out for Delivery ",
+      "out_for_delivery": " Delivered"
+    }
   },
   "util": {
     "tod": "Top of daily discover",

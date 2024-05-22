@@ -20,20 +20,24 @@
      <div class="grid grid-cols-2 gap-4">
        <div>
          <label class="font-bold">{{ $t('prod.Large screen english') }}</label>
-         <div>
-           <img :src="result.large_image_en" alt="" class="w-full h-[220px]">
-         </div>
+<!--         <div>-->
+<!--           <img :src="result.large_image_en" alt="" class="w-full h-[220px]">-->
+<!--         </div>-->
          <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>
+<!--           <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>-->
+           <vue-upload-images v-if="(result)"  :old_images="[result.large_image_en]"  @updateInput="saveAttachmentLargeEn">></vue-upload-images>
+
          </div>
        </div>
        <div>
          <label class="font-bold">{{ $t('prod.Small screen english') }}</label>
-         <div>
-           <img :src="result.small_image_en" alt="" class="w-full h-[220px]">
-         </div>
+<!--         <div>-->
+<!--           <img :src="result.small_image_en" alt="" class="w-full h-[220px]">-->
+<!--         </div>-->
          <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>
+<!--           <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>-->
+           <vue-upload-images v-if="(result)"  :old_images="[result.small_image_en]"  @updateInput="saveAttachmentSmallEn">></vue-upload-images>
+
          </div>
        </div>
      </div>
@@ -41,20 +45,24 @@
      <div class="grid grid-cols-2 gap-4 pt-4">
        <div>
          <label class="font-bold">{{ $t('prod.Large screen arabic') }}</label>
-         <div>
-           <img :src="result.large_image_ar" alt="" class="w-full h-[220px]">
-         </div>
+<!--         <div>-->
+<!--           <img :src="result.large_image_ar" alt="" class="w-full h-[220px]">-->
+<!--         </div>-->
          <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentLargeAr"></upload-files>
+<!--           <upload-files @updateInput="saveAttachmentLargeAr"></upload-files>-->
+           <vue-upload-images v-if="(result)"  :old_images="[result.large_image_ar]"  @updateInput="saveAttachmentLargeAr">></vue-upload-images>
+
          </div>
        </div>
        <div>
          <label class="font-bold">{{ $t('prod.Small screen arabic') }}</label>
-         <div>
-           <img :src="result.small_image_ar" alt="" class="w-full h-[220px]">
-         </div>
+<!--         <div>-->
+<!--           <img :src="result.small_image_ar" alt="" class="w-full h-[220px]">-->
+<!--         </div>-->
          <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentSmallAr"></upload-files>
+           <vue-upload-images v-if="(result)"  :old_images="[result.small_image_ar]"  @updateInput="saveAttachmentSmallAr">></vue-upload-images>
+
+<!--           <upload-files @updateInput="saveAttachmentSmallAr"></upload-files>-->
          </div>
        </div>
      </div>
@@ -208,6 +216,7 @@
   import Spinner from "~/components/Spinner"
   import SourceTypeProducts from "~/components/partials/SourceTypeProducts"
   import ProductSource from "~/components/partials/ProductSource"
+  import VueUploadImages from "../../components/product/uploadImages.vue";
 
   export default {
     name: "banner",
@@ -244,6 +253,7 @@
     },
     mixins: [util],
     components: {
+      VueUploadImages,
       ProductSource,
       SourceTypeProducts,
       Spinner,
@@ -277,6 +287,8 @@
         this.result.large_file_en = images
       },
       saveAttachmentSmallEn(images) {
+        console.log("ddd")
+        console.log(images)
         this.result.small_file_en = images
       },
       saveAttachmentLargeAr(images) {

@@ -421,7 +421,7 @@
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
             <div class="tab-sidebar p-3" v-if="!is_variant" :class="{ 'has-error': errors[0] }">
 
-              <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :old_images="result.images" :max-files="5" @updateInput="saveAttachment">></vue-upload-images>
+              <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="false" :old_images="result.images" :max-files="8" @updateInput="saveAttachment">></vue-upload-images>
 
             </div>
               <span class="error">{{ errors[0] }}</span>

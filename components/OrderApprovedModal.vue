@@ -388,14 +388,14 @@ export default {
     this.orders = this.selectedOrders;
     if (!this.addressList)
       this.fetchingData();
-    this.$router.beforeEach((to, from, next) => {
-      if (to.query.page !== undefined) {
-        this.param.page = to.query.page;
-        this.fetchingData();
-      } else {
-        next();
-      }
-    });
+    // this.$router.beforeEach((to, from, next) => {
+    //   if (to.query.page !== undefined) {
+    //     this.param.page = to.query.page;
+    //     this.fetchingData();
+    //   } else {
+    //     next();
+    //   }
+    // });
   },
   props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders', 'reasonsRejection']
 };

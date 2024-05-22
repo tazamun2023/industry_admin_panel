@@ -50,6 +50,14 @@ export default {
       type: Number,
       default: 1
     },
+    returnDataJust: {
+      type: Number,
+      default: 1
+    },
+    minFiles: {
+      type: Number,
+      default: 1
+    },
     old_images: [],
 
     uploadMsg: String,
@@ -67,7 +75,10 @@ export default {
 
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
-      this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+      if (this.returnDataJust)
+        this.Imgs.push({id: "old_url", url: this.old_images[i]});
+      else
+        this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
     if (this.old_images.length > 0) {
       this.updateInputEvntData()
     }
@@ -76,8 +87,12 @@ export default {
     old_images: {
       handler(newValue) {
         this.Imgs = [];
-        for (var i = 0; i < this.old_images.length; i++)
-          this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+        for (var i = 0; i < this.old_images.length; i++) {
+          if (this.returnDataJust)
+            this.Imgs.push({id: "old_url", url: this.old_images[i]});
+          else
+            this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+        }
         if (this.old_images.length > 0) {
           this.updateInputEvntData()
         }
@@ -175,19 +190,29 @@ export default {
         for (let i = 0; i < values.length; i++) {
           this.Imgs.push({id: "", url: values[i]})
         }
+      }).then(()=>{
+        this.updateInputEvntData()
       })
 
       console.log(readers);
 
       console.log(this.Imgs)
 
-      this.updateInputEvntData()
+
 
 
     },
     updateInputEvntData() {
 
-      this.$emit('updateInput', this.Imgs);
+
+        console.log("be")
+        console.log(this.Imgs)
+      let dataJust=this.Imgs.map(item => item.url);
+        console.log(dataJust)
+      if (this.returnDataJust)
+        this.$emit('updateInput', this.Imgs.map(item => item.url));
+      else
+        this.$emit('updateInput', this.Imgs);
       // this.$emit('updateInput', this.attachments.map(obj => obj.file));
     },
     reordered(event, dropped) {
@@ -260,7 +285,7 @@ export default {
           :accept="accept"
           ref="uploadInput"
           @change="previewImgs"
-          multiple
+          :multiple="maxFiles>1"
         />
         <div class="text-center"></div>
         <upload-image-icon></upload-image-icon>
@@ -268,17 +293,17 @@ export default {
           {{ uploadMsg ? uploadMsg : "Click to upload or drop your images here" }}
         </p>
       </div>
-      <div class="imgsPreview" v-show="Imgs.length > 0">
-        <button type="button" class="clearButton" @click="reset">
+      <div class="imgsPreview" v-show="Imgs.length > 0 ">
+        <button v-if=" maxFiles>1" type="button" class="clearButton" @click="reset">
           {{ clearAll ? clearAll : "clear All" }}
         </button>
         <div v-drag-and-drop:options="dragOptions">
           <ul
 
             @reordered="reordered">
-            <li class="imageHolder" v-for="(img, i) in Imgs" :data-id="i" :key="i">
+            <li class="imageHolder " :class="{'singleImageHolder':maxFiles===1 }" v-for="(img, i) in Imgs" :data-id="i" :key="i">
               <!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
-              <img :src="img.url"/>
+              <img style="" :src="img.url"/>
               <span class="delete" style="color: white" @click="deleteImg(i)">
           <svg
             class="icon"
@@ -298,7 +323,7 @@ export default {
 
             </li>
 
-            <li class="absolute bottom-[4rem] ms-5" :data-id="-1">
+            <li class="absolute bottom-[4rem] ms-5" v-if="Imgs.length<maxFiles" :data-id="-1">
               <div class="plus" @click="append">
                 <upload-image-icon></upload-image-icon>
               </div>
@@ -319,6 +344,7 @@ export default {
 .container {
   width: 100%;
   height: 100%;
+  min-height: 220px;
   background: #f7fafc;
   border: 0.5px solid #a3a8b1;
   border-radius: 10px;
@@ -377,11 +403,26 @@ export default {
   margin: 5px 5px;
   display: inline-block;
 }
+.imgsPreview .singleImageHolder {
+  width: auto !important;
+  height: auto !important;
+  background: #fff;
+  position: relative;
+  border-radius: 10px;
+  margin: 5px 5px;
+  display: inline-block;
+}
 
 .imgsPreview .imageHolder img {
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+.imgsPreview .singleImageHolder img {
+  object-fit: cover;
+  width: auto;
+  height:auto;
+  max-height: 150px;
 }
 
 .imgsPreview .imageHolder .delete {
