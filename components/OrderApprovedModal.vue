@@ -1,9 +1,11 @@
 <!-- components/Modal.vue -->
 <template v-if="$can('fulfil_orders')">
-  <custome-modal :title="` ${$t('approveModal.approvedOrder') }  ${selectedOrders[0]?.order_id }`"
-                 :show-modal="showModal"
-                 @close="closeModal" size="xl">
+  <custome-modal
+    :title="` ${$t('approveModal.approvedOrder') }  ${selectedOrders[0]?.order_id }`"
+     :show-modal="showModal"
+    @close="closeModal"    size="xl">
 
+    <!--    //todo: header2 slot if you want add another fixed header like stepers  here is main content -->
     <template v-slot:header2>
       <div class="flex px-2 py-3 gap-2 justify-between max-w-screen-sm ">
         <div class="w-full">
@@ -48,6 +50,7 @@
       </div>
     </template>
 
+<!--    //todo: here is main content -->
 
     <div v-if="firstBox" class="firstStep">
       <div class="my-2 p-4 border border-smooth rounded" v-for="(order,i) in selectedOrders" :key="i">
@@ -80,8 +83,6 @@
         </div>
       </div>
     </div>
-
-
     <!-- -------------1st step end--------- -->
     <div v-if="secondBox" class="secondStep p-4">
       <div class="card p-4">
@@ -142,7 +143,6 @@
         </div>
       </div>
     </div>
-
     <div v-if="thirdBox" class="thirdStep p-4">
       <div>
         <h4>{{ $t('approveModal.pickupItems') }}</h4>
@@ -191,6 +191,7 @@
 
     </div>
 
+    <!--    //todo: buttons  slot if you want add another buttoms  -->
 
     <template v-slot:buttons>
       <button v-if="firstBox" @click="firstStep"

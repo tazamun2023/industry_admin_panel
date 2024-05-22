@@ -108,7 +108,12 @@
                         <div>
                           <p>{{ $t('order.total') }}:</p>
 
+
+
                           <price-with-curency-format :price="order?.sub_total"></price-with-curency-format>
+
+
+
                         </div>
                         <div v-if="order?.status=='pending'">
                           <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
