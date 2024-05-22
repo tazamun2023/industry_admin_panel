@@ -5,43 +5,40 @@
                  @close="closeModal" size="lg">
 
     <template v-slot:header2>
-      <div class="flex px-20 ">
+      <div class="flex px-2 py-3 gap-2 justify-between max-w-screen-sm ">
         <div class="w-full">
-          <div class="flex items-center w-full">
-            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full">
-              <span class="text-base text-white font-bold">1</span>
+          <div class="flex flex-row  items-center w-full">
+            <div class="w-5  h-5 shrink-0 mx-[-1px] bg-primary p-1.5  flex items-center justify-center rounded-full">
+              <span class="text-base text-sx text-white ">1</span>
             </div>
-            <div class="w-full h-1 mx-4 rounded-lg bg-primary"></div>
-          </div>
-          <div class="mt-2 mr-4">
-            <h6 class="text-base font-bold text-blue-500">{{ $t('approveModal.ordersItems') }}</h6>
+            <span class="flex-1 mx-1  text-nowrap text-sm text-primary">{{ $t('approveModal.ordersItems') }}</span>
+            <div class="flex-1 w-5 h-1  rounded-lg bg-primary"></div>
           </div>
         </div>
         <div class="w-full">
-          <div class="flex items-center w-full">
-            <div :class="{'w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full':secondBox || thirdBox,
-            'w-8 h-8 shrink-0 mx-[-1px] bg-smooth p-1.5 flex items-center justify-center rounded-full': !thirdBox && !secondBox,
-            }">
-              <span class="text-base text-white font-bold">2</span>
+          <div class="flex flex-row  items-center w-full">
+            <div class="w-5 h-5  shrink-0 mx-[-1px]  p-1.5 flex items-center justify-center rounded-full "
+                 :class="{'bg-primary ':secondBox || thirdBox,'bg-smooth ': !thirdBox && !secondBox }">
+              <span class="text-base text-sx text-white ">2</span>
             </div>
-            <div
-              :class="{'w-full h-1 mx-4 rounded-lg bg-primary': secondBox || thirdBox ,'w-full h-1 mx-4 rounded-lg bg-smooth':!thirdBox && !secondBox}"></div>
+            <span class="flex-1 mx-4  text-nowrap text-sm "
+                  :class="{'text-primary ':secondBox || thirdBox,'text-disabled ': !thirdBox && !secondBox }">{{ $t('approveModal.pickupAddress') }}</span>
+            <div class="flex-1 w-5 h-1  rounded-lg "
+                 :class="{' bg-primary': secondBox || thirdBox ,' bg-smooth':!thirdBox && !secondBox}">
+            </div>
           </div>
-          <div class="mt-2 mr-4">
-            <h6 class="text-base font-bold text-blue-500">{{ $t('approveModal.pickupAddress') }}</h6>
-          </div>
+
         </div>
         <div>
-          <div class="flex items-center">
-            <div :class="{'w-8 h-8 shrink-0 mx-[-1px] bg-primary p-1.5 flex items-center justify-center rounded-full':thirdBox,
-            'w-8 h-8 shrink-0 mx-[-1px] bg-smooth p-1.5 flex items-center justify-center rounded-full': !thirdBox,
+          <div class="flex flex-row  items-center w-full">
+            <div class="w-5 h-5  shrink-0 mx-[-1px]  p-1.5 flex items-center justify-center rounded-full " :class="{'  bg-primary ':secondBox || thirdBox,
+            '  bg-smooth ': !thirdBox,
             }">
-              <span class="text-base text-white font-bold">3</span>
+              <span class="text-base text-sx text-white ">3</span>
             </div>
-          </div>
-          <div class="mt-2">
-            <h6 :class="{'text-base text-primary font-bold': thirdBox,'text-base text-smooth font-bold': !thirdBox}">
-              {{ $t('approveModal.confirmation') }}</h6>
+            <span class="flex-1 mx-4  text-nowrap text-sm "
+                  :class="{'text-primary ': thirdBox,'text-disabled ': !thirdBox }">{{ $t('approveModal.confirmation') }}</span>
+
           </div>
         </div>
       </div>
@@ -292,6 +289,9 @@ export default {
       }
     },
     closeModal() {
+      this.firstBox = true;
+      this.secondBox = false;
+      this.thirdBox = false;
       this.$emit('close');
     },
     focusAddress(item) {
