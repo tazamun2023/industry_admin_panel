@@ -63,15 +63,28 @@ export default {
       return [...this.old_images, ...this.Imgs];
     },
   },
+
+
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
       this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
-    if (this.old_images.length>0){
+    if (this.old_images.length > 0) {
       this.updateInputEvntData()
     }
   },
   watch: {
-    old_images: 'updateDependentVariable',
+    old_images: {
+      handler(newValue) {
+        this.Imgs = [];
+        for (var i = 0; i < this.old_images.length; i++)
+          this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+        if (this.old_images.length > 0) {
+          this.updateInputEvntData()
+        }
+      },
+      deep: true
+    }
+
   },
 
   methods: {
@@ -80,9 +93,7 @@ export default {
     },
     dragLeave() {
     },
-    updateDependentVariable() {
-      // this.dependentVariable = [...this.propA, ...this.propB];
-    },
+
     drop(e) {
       let status = true;
       let files = Array.from(e.dataTransfer.files)
@@ -266,8 +277,8 @@ export default {
 
             @reordered="reordered">
             <li class="imageHolder" v-for="(img, i) in Imgs" :data-id="i" :key="i">
-<!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
-              <img  :src="img.url"/>
+              <!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
+              <img :src="img.url"/>
               <span class="delete" style="color: white" @click="deleteImg(i)">
           <svg
             class="icon"
