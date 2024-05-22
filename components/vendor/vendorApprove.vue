@@ -67,7 +67,7 @@
                   <div class="flex gap-4">
                     <button
                    @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
-                   <button class="leading-4 text-[12px] w-[93px]" @click="approvedModal=true"> Un-Verified</button>
+                   <button class="leading-4 text-[12px] w-[93px]" @click="approval(value.id)" > Un-Verified</button>
                   </div>
 
                 </td>
@@ -127,14 +127,25 @@ export default {
   methods:{
     ...mapActions('vendor', ['changeVendorStatus']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
-    async  approval(val){
-      this.approvedModal = false
-      const data =  await this.changeVendorStatus({params:{'vendor_id': val, 'verified': 0}, api:"ChangeVendorApproved"})
+    ...mapActions('common', ['swetAlertFire']),
+    async  approval(id){
+      // this.approvedModal = false
+      const app = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      });
+
+      if (app) {
+        const data =  await this.changeVendorStatus({params:{'vendor_id': id, 'verified': 0}, api:"ChangeVendorApproved"})
       if (data.status == 200){
         this.setToastMessage(data.message)
       }else{
         this.setToastError(data.data.form.join(', '))
       }
+      }
+     
       this.$router.go(0)
     },
     searchFilterData(search){

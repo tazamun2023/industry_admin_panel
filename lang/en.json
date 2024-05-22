@@ -929,7 +929,9 @@
     "organization": "Organization",
     "image": "Image",
     "verify": "Verification",
-    "notValidUrl": "The Url Not Valid"
+    "notValidUrl": "The Url Not Valid",
+    "all_users":"all users",
+    "invite_users":"User invitations"
   },
   "paymentMethod": {
     "bank": "Bank",
