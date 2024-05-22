@@ -371,9 +371,9 @@
         <!-- Modal Content -->
         <div class="mb-4 text-center">
           <img class="w-[72px] h-[72px] mx-auto" src="~/assets/icon/like-shapes.svg" alt="">
-          <h3 class="text-[24px] leading-5 text-primary capitalize font-medium tracking-wider">Awesome</h3>
-          <p class="text-[12px] leading-5 capitalize tracking-wider"> Company Profile Saved Succesfully</p>
-          <button @click="closePopup" tyle="box-shadow: -7px 7px 20px -3px #01A78180;" class="leading-3  rounded-[12px] bg-primary text-white mt-[20px] w-[91px] h-[36px] uppercase">Ok</button>
+          <h3 class="text-[24px] leading-5 text-primary capitalize font-medium tracking-wider">{{ $t('vendor.Awesome') }}</h3>
+          <p class="text-[12px] leading-5 capitalize tracking-wider"> {{ $t('vendor.Company Profile Saved Succesfully') }}</p>
+          <button @click="closePopup" tyle="box-shadow: -7px 7px 20px -3px #01A78180;" class="leading-3  rounded-[12px] bg-primary text-white mt-[20px] w-[91px] h-[36px] uppercase">{{ $t('vendor.Ok') }}</button>
         </div>
         <!-- Close Button -->
 
