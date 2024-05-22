@@ -79,7 +79,8 @@ export default {
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px 15px 10px 15px;
+  padding: 2px 5px 0px 4px;
+
   flex-grow: 1;
 }
 
@@ -93,7 +94,7 @@ export default {
 
 
 .vm-btn-close {
-
+  height: 32px;
   html:lang(ar) & {
     float: left !important;
   }
@@ -104,6 +105,10 @@ export default {
 
 .modal {
   min-width: 300px;
+}
+.vm-titlebar {
+  padding: 10px 10px 0px;
+  overflow: auto;
 }
 
 @media (min-width: 480px) {
@@ -124,7 +129,6 @@ export default {
     max-width: 1140px;
   }
 }
-
 
 
 

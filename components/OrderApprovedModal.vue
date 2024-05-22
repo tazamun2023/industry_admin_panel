@@ -2,7 +2,7 @@
 <template v-if="$can('fulfil_orders')">
   <custome-modal :title="` ${$t('approveModal.approvedOrder') }  ${selectedOrders[0]?.order_id }`"
                  :show-modal="showModal"
-                 @close="closeModal" size="lg">
+                 @close="closeModal" size="xl">
 
     <template v-slot:header2>
       <div class="flex px-2 py-3 gap-2 justify-between max-w-screen-sm ">
@@ -22,7 +22,9 @@
               <span class="text-base text-sx text-white ">2</span>
             </div>
             <span class="flex-1 mx-4  text-nowrap text-sm "
-                  :class="{'text-primary ':secondBox || thirdBox,'text-disabled ': !thirdBox && !secondBox }">{{ $t('approveModal.pickupAddress') }}</span>
+                  :class="{'text-primary ':secondBox || thirdBox,'text-disabled ': !thirdBox && !secondBox }">{{
+                $t('approveModal.pickupAddress')
+              }}</span>
             <div class="flex-1 w-5 h-1  rounded-lg "
                  :class="{' bg-primary': secondBox || thirdBox ,' bg-smooth':!thirdBox && !secondBox}">
             </div>
@@ -37,7 +39,9 @@
               <span class="text-base text-sx text-white ">3</span>
             </div>
             <span class="flex-1 mx-4  text-nowrap text-sm "
-                  :class="{'text-primary ': thirdBox,'text-disabled ': !thirdBox }">{{ $t('approveModal.confirmation') }}</span>
+                  :class="{'text-primary ': thirdBox,'text-disabled ': !thirdBox }">{{
+                $t('approveModal.confirmation')
+              }}</span>
 
           </div>
         </div>
@@ -50,7 +54,7 @@
 
         <div class="flex gap-4 justify-between">
           <card-tab :order="order" class="flex-1"></card-tab>
-          <div class="flex gap-4 flex-none w-16">
+          <div class="flex mx-5 flex-none w-16">
             <div>
               <p>{{ $t('approveModal.total') }}</p>
               <price-with-curency-format :price="order?.sub_total"></price-with-curency-format>
@@ -60,20 +64,18 @@
           </div>
         </div>
         <div class="flex flex-col">
-          <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <order-items :order="order"
-                           :show_taxes="false"
-                           :change_status="true"
-                           @save="saveProductUnAvaliable"
-                           :selectedOrdersall="selectedOrdersall"
-                           @selectChange="handleSelectChange"
-                           :sub-item-selected="subItemSelected"
-                           :reasons-rejection="reasonsRejection">
+          <div class="inline-block min-w-full py-2 px-2 ">
+            <order-items :order="order"
+                         :show_taxes="false"
+                         :change_status="true"
+                         @save="saveProductUnAvaliable"
+                         :selectedOrdersall="selectedOrdersall"
+                         @selectChange="handleSelectChange"
+                         :sub-item-selected="subItemSelected"
+                         :reasons-rejection="reasonsRejection">
 
-              </order-items>
-              <order-summary :order="order"></order-summary>
-            </div>
+            </order-items>
+            <order-summary width="" :order="order"></order-summary>
           </div>
         </div>
       </div>
