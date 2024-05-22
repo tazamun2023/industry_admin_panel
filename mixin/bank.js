@@ -2,11 +2,20 @@
 export default {
   data(){
     return {
-
+      disabled: false
     }
   },
 
   methods:{
+  //  ...mapActions('common', ['swetAlertFire']),
+    async  getAllVendorBank(){
+      await this.getVendorBank({
+        params:{
+          "vendor_id" : this.profile.vendor_id
+        },
+        api:"getVendorBank"
+      })
+    },
     async BankAction() {
 
        if(this.bankData.id){
@@ -21,10 +30,9 @@ export default {
 
          if(data?.status === 200){
            this.setToastMessage(data.message)
-
+           this.getAllVendorBank()
          } else if(data?.status === 201) {
            this.setToastError(data.data?.form?.join(', '))
-
          }
 
        }else{
@@ -37,11 +45,13 @@ export default {
 
 
          if(data?.status === 200){
-           this.$store.commit('bank/SET_VENDOR_BANK_DATA', {...this.bankData})
+          //  this.$store.commit('bank/SET_VENDOR_BANK_DATA', {...this.bankData})
+          this.getAllVendorBank()
            this.setToastMessage(data.message)
            this.Cardmodal = false
 
          } else if(data?.status >  200) {
+          this.getAllVendorBank()
            this.setToastError(data.data?.form?.join(', '))
 
          }
@@ -51,18 +61,25 @@ export default {
 
 
     async deleting(value) {
-      const data = await this.vendorBankDelete({
-        params: value.id,
-        api: "DeleteVendorBank",
-      })
-
-      this.deleteModal = false
-
-      if(data?.status === 200){
-        this.setToastMessage(data.message)
-      }else {
-        this.setToastError(data.data.form.join(', '))
-      }
+      const res = await this.swetAlertFire({
+        params :{
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+        })
+        if(res) { 
+          const data = await this.vendorBankDelete({
+            params: value.id,
+            api: "DeleteVendorBank",
+          })
+          if(data?.status === 200){
+            this.setToastMessage(data.message)
+          //  this.getAllVendorBank()
+          }else {
+            this.setToastError(data.data.form.join(', '))
+          //  this.getAllVendorBank()
+          }
+        } 
 
     },
 
@@ -76,7 +93,13 @@ export default {
       this.bankData.iban_number = ''
       this.bankData.swift_code = ''
       this.bankData.is_default = ''
-
+      if(this.bankList.length < 1) {
+        this.bankData.is_default= true;
+        this.disabled = true;
+      } else {
+        this.bankData.is_default= false;
+        this.disabled = false;
+      }
 
     },
     editing(value) {
@@ -88,6 +111,14 @@ export default {
         this.bankData.account_number = value.account_number
         this.bankData.iban_number = value.iban_number
         this.bankData.swift_code = value.swift_code
+        this.bankData.is_default = value.is_default
+        if(this.bankList.length <= 1) {
+          this.bankData.is_default= true;
+          this.disabled = true;
+        } else {
+          this.bankData.is_default= false;
+          this.disabled = false;
+        }
     },
 
 
