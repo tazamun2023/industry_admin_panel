@@ -38,8 +38,9 @@
                 <td>{{ index+1 }}</td>
                 <td><a class="text-primary" href=""><img :src="value.logo" alt=""></a></td>
                 <td>
-                  <a class="text-primary" v-if="langCode === 'ar'"  href="">{{ value.name.ar }}</a>
-                  <a class="text-primary" v-else  href="">{{ value.name.en }}</a>
+                  <!-- <a class="text-primary" v-if="langCode === 'ar'"  href="">{{ value.name.ar }}</a> -->
+                  <!-- <a class="text-primary" v-else  href="">{{ value.name.en }}</a> -->
+                  {{ value.subdomain }}
                 </td>
                 <td>{{ value.primary_email }}</td>
                 <td>{{ value.primary_mobile }}</td>

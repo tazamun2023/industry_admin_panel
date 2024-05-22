@@ -830,7 +830,8 @@
     "image": "الصورة",
     "verify": "التحقق",
     "all_users":"جميع المستخدمين",
-    "invite_users":"دعوات المستخدمين"
+    "invite_users":"دعوات المستخدمين",
+    "componyName":"اسم الشركة"
   },
   "bank": {
     "bank_name": "اسم البنك",
