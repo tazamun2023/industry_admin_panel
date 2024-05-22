@@ -1055,7 +1055,7 @@
     "access": "إدارة الوصول"
   },
   "approveModal": {
-    "approvedOrder": "تمت الموافقة على الطلب",
+    "approvedOrder": " الموافقة على الطلب",
     "titleModel": "هل انت متأكد من انك تريد الموافقة على هذا الطلب",
     "ordersItems": "العناصر المطلوبة",
     "pickupAddress": "عنوان الاستلام",
