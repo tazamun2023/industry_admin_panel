@@ -929,7 +929,10 @@
     "organization": "Organization",
     "image": "Image",
     "verify": "Verification",
-    "notValidUrl": "The Url Not Valid"
+    "notValidUrl": "The Url Not Valid",
+    "Awesome":"Awesome",
+    "Company Profile Saved Succesfully":"Company Profile Saved Successfully",
+    "Ok":"Ok"
   },
   "paymentMethod": {
     "bank": "Bank",
