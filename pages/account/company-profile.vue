@@ -86,9 +86,13 @@
           </div>
 
           <div class="form-group">
-            <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.name" :IsReadOnly="true"
+            <!-- <lang-input :hasError="hasError" type="text" :title="$t('global.name')" :valuesOfLang="fromData.subdomain" :IsReadOnly="true"
                   @updateInput="updateInput">
-                </lang-input>
+                </lang-input> -->
+                <div class="input-wrapper mb-2">
+                <label class="semi-bold" for="">{{ $t('vendor.componyName') }}</label>
+              <input type="text" placeholder="Slug" v-model="fromData.subdomain" readonly>
+              </div>
 
            <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')" :valuesOfLang="fromData.details"
                   @updateInput="updateInput"></lang-input>
