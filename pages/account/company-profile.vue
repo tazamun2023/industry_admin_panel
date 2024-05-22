@@ -360,7 +360,27 @@
       </div>
     </form>
     </ValidationObserver>
+<!-- --------------------successfull modal---------- -->
+<template v-if="successModal">
+    <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="z-50 bg-white popbg p-6 relative rounded-md shadow w-[396px] h-[220px]">
+        <!-- <svg @click="closeModal" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg> -->
+        <!-- Modal Content -->
+        <div class="mb-4 text-center">
+          <img class="w-[72px] h-[72px] mx-auto" src="~/assets/icon/like-shapes.svg" alt="">
+          <h3 class="text-[24px] leading-5 text-primary capitalize font-medium tracking-wider">{{ $t('vendor.Awesome') }}</h3>
+          <p class="text-[12px] leading-5 capitalize tracking-wider"> {{ $t('vendor.Company Profile Saved Succesfully') }}</p>
+          <button @click="closePopup" tyle="box-shadow: -7px 7px 20px -3px #01A78180;" class="leading-3  rounded-[12px] bg-primary text-white mt-[20px] w-[91px] h-[36px] uppercase">{{ $t('vendor.Ok') }}</button>
+        </div>
+        <!-- Close Button -->
 
+
+      </div>
+    </div>
+  </template>
   </div>
 
 </template>
@@ -424,7 +444,8 @@ export default {
       errors:[],
       hasError:false,
       submit: false,
-      fileExt:''
+      fileExt:'',
+      // successModal:false
     }
   },
   watch:{
@@ -477,7 +498,9 @@ export default {
         return false
       }
     },
-
+    successModal(){
+      return this.$store.state.vendor.SuccessModal;
+  }
   },
   methods:{
     ...mapActions('vendor', ['submitData', 'getVendorData']),
@@ -514,7 +537,9 @@ export default {
       this.emailModal = false;
       this.phoneModal = false;
     },
-
+    closePopup() {
+     this.successModal = this.$store.commit('vendor/SET_SUCCESS_MODAL', false)
+  },
     updateInput(input, language, value) {
        this.$set(input, language, value);
      },
@@ -531,6 +556,7 @@ export default {
        this.fromData.country_id= this.vendorList.data.country_id
        this.countrySelected()
      })
+
    } catch (e) {
      return this.$nuxt.error(e)
    }
@@ -557,6 +583,13 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 100%;
+}
+.popbg{
+  background-image: url('~/assets/images/popbg.svg');
+    background-size: 108%;
+    background-repeat: no-repeat;
+    background-position: 95% 25%;
+    border-radius: 16px;
 }
 .font-10px{
   font-size: 10px;

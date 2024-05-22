@@ -934,7 +934,10 @@
     "verify": "Verification",
     "notValidUrl": "The Url Not Valid",
     "all_users":"all users",
-    "invite_users":"User invitations"
+    "invite_users":"User invitations",
+    "Awesome":"Awesome",
+    "Company Profile Saved Succesfully":"Company Profile Saved Successfully",
+    "Ok":"Ok"
   },
   "paymentMethod": {
     "bank": "Bank",
