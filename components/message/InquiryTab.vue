@@ -86,13 +86,13 @@ export default {
         <!--             alt="">-->
         <lazy-image
           class="h-10 w-10 object-cover rounded"
-          :data-src="inquirie?.product?.image"
-          :alt="inquirie?.product?.title"
+          :data-src="inquirie?.inquirable?.image"
+          :alt="inquirie?.inquirable?.title"
         />
         <div>
           <div class="flex justify-between">
             <span class="font-bold  font-13px" :class="{ 'text-theem': activeInquiry === index }">
-               {{ inquirie?.product?.title }}
+               {{ inquirie?.inquirable?.title }}
             </span>
             <span class="text-smooth">{{ inquirie.last_time}}</span>
           </div>
