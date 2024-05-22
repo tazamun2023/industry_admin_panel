@@ -23,9 +23,9 @@
   <div class="p-3" v-if="$can('edit_company')">
     <h3 class="py-2 text-[35px] text-black uppercase semi-bold">Company Profiles</h3>
     <ValidationObserver class="w-full card p-4" v-slot="{ invalid }">
-    <form class="grid grid-cols-12 gap-6" @submit.prevent="fromSubmit">
-         <div class="col-span-2">
-          <ul class="px-3 py-4 tab-bg w-[251px] h-[726px] border-t border-smooth rounded-t-3xl">
+    <form class="grid grid-cols-6 gap-6" @submit.prevent="fromSubmit">
+         <div class="">
+          <ul class="px-3 py-4 tab-bg xs:w-[251px] h-[726px] border  border-smooth rounded-3xl">
         <li class="cursor-pointer block  flex-auto text-center">
           <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal" v-on:click="toggleTabs(1, invalid)" >
             <div class="flex items-center gap-2">
@@ -74,7 +74,7 @@
       </ul>
 
          </div>
-      <div class="w-full col-span-10 px-[40px]">
+      <div class="w-full col-span-5 px-4">
         <div class="tab-content input-wrapper tab-space">
 
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
@@ -145,7 +145,7 @@
 
 
             <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -242,8 +242,8 @@
             </ValidationProvider>
 
             <div class="flex justify-between">
-              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -307,8 +307,8 @@
             </div>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
-              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -353,7 +353,7 @@
               </ValidationProvider>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
-              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
               <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
@@ -364,7 +364,27 @@
       </div>
     </form>
     </ValidationObserver>
+<!-- --------------------successfull modal---------- -->
+<template v-if="successModal">
+    <div  class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+      <div class="absolute inset-0 bg-black opacity-50"></div>
+      <div class="z-50 bg-white popbg p-6 relative rounded-md shadow w-[396px] h-[220px]">
+        <!-- <svg @click="closeModal" class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg> -->
+        <!-- Modal Content -->
+        <div class="mb-4 text-center">
+          <img class="w-[72px] h-[72px] mx-auto" src="~/assets/icon/like-shapes.svg" alt="">
+          <h3 class="text-[24px] leading-5 text-primary capitalize font-medium tracking-wider">{{ $t('vendor.Awesome') }}</h3>
+          <p class="text-[12px] leading-5 capitalize tracking-wider"> {{ $t('vendor.Company Profile Saved Succesfully') }}</p>
+          <button @click="closePopup" tyle="box-shadow: -7px 7px 20px -3px #01A78180;" class="leading-3  rounded-[12px] bg-primary text-white mt-[20px] w-[91px] h-[36px] uppercase">{{ $t('vendor.Ok') }}</button>
+        </div>
+        <!-- Close Button -->
 
+
+      </div>
+    </div>
+  </template>
   </div>
 
 </template>
@@ -428,7 +448,8 @@ export default {
       errors:[],
       hasError:false,
       submit: false,
-      fileExt:''
+      fileExt:'',
+      // successModal:false
     }
   },
   watch:{
@@ -481,7 +502,9 @@ export default {
         return false
       }
     },
-
+    successModal(){
+      return this.$store.state.vendor.SuccessModal;
+  }
   },
   methods:{
     ...mapActions('vendor', ['submitData', 'getVendorData']),
@@ -518,7 +541,9 @@ export default {
       this.emailModal = false;
       this.phoneModal = false;
     },
-
+    closePopup() {
+     this.successModal = this.$store.commit('vendor/SET_SUCCESS_MODAL', false)
+  },
     updateInput(input, language, value) {
        this.$set(input, language, value);
      },
@@ -535,6 +560,7 @@ export default {
        this.fromData.country_id= this.vendorList.data.country_id
        this.countrySelected()
      })
+
    } catch (e) {
      return this.$nuxt.error(e)
    }
@@ -561,6 +587,13 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 100% 100%;
+}
+.popbg{
+  background-image: url('~/assets/images/popbg.svg');
+    background-size: 108%;
+    background-repeat: no-repeat;
+    background-position: 95% 25%;
+    border-radius: 16px;
 }
 .font-10px{
   font-size: 10px;

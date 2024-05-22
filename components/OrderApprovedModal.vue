@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="overflow-hidden">
-      <div v-if="firstBox" class="firstStep overflow-y-scroll max-h-[500px] h-[500px] scroll-thin">
+      <div v-if="firstBox" class="firstStep">
         <div class="my-2 p-4 border border-smooth rounded" v-for="(order,i) in selectedOrders" :key="i">
 
           <div class="flex gap-4 justify-between" >
@@ -95,7 +95,7 @@
             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                  <div class="overflow-y-scroll max-h-[250px] scroll-thin">
+                  <div class="overflow-y-scroll h-[100px] scroll-thin">
                     <table class="min-w-full  text-left text-sm font-light">
                       <thead class=" font-medium ">
                       <tr>
@@ -239,7 +239,8 @@
               {{ $t('approveModal.pickupAddress') }}</a>
           </div>
 
-          <div  v-for="(address,d) in  addressList.data" :key="d"
+          <div class="p-1 overflow-y-scroll h-[300px] scroll-thin">
+            <div  v-for="(address,d) in  addressList.data" :key="d"
                @click="focusAddress(address)"
                :class="{
     'card gap-4 my-4 p-2 flex border border-primary cursor-pointer':
@@ -275,6 +276,7 @@
               v-if="$can('edit_addresses')"
               >{{ $t('category.edit') }}</button>
             </div>
+          </div>
           </div>
           <div class="flex justify-between ">
             <pagination :total-page="addressList.last_page" @handCurrentPage="handCurrentPage"></pagination>

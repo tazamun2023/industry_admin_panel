@@ -242,7 +242,7 @@
                         {{ value.minOrderQuantity?.min_quantity }}</p>
                       <p class="text-xs" v-else>NAN</p>
                     </td>
-                    <td>{{ value.created }}<br>
+                    <td class="text-nowrap">{{ value.created }}<br>
                       {{ value.updated }}
                     </td>
                     <td>

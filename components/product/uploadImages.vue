@@ -57,19 +57,43 @@ export default {
     fileError: String,
     clearAll: String,
   },
+  computed: {
+    mergedArray() {
+      // You can use any of the merging methods mentioned above
+      return [...this.old_images, ...this.Imgs];
+    },
+  },
+
+
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
       this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
-    if (this.old_images.length>0){
+    if (this.old_images.length > 0) {
       this.updateInputEvntData()
     }
   },
+  watch: {
+    old_images: {
+      handler(newValue) {
+        this.Imgs = [];
+        for (var i = 0; i < this.old_images.length; i++)
+          this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+        if (this.old_images.length > 0) {
+          this.updateInputEvntData()
+        }
+      },
+      deep: true
+    }
+
+  },
+
   methods: {
     dragOver() {
       this.dropped = 2;
     },
     dragLeave() {
     },
+
     drop(e) {
       let status = true;
       let files = Array.from(e.dataTransfer.files)
@@ -253,8 +277,8 @@ export default {
 
             @reordered="reordered">
             <li class="imageHolder" v-for="(img, i) in Imgs" :data-id="i" :key="i">
-<!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
-              <img  :src="img.url"/>
+              <!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
+              <img :src="img.url"/>
               <span class="delete" style="color: white" @click="deleteImg(i)">
           <svg
             class="icon"

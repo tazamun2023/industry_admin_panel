@@ -366,6 +366,9 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Validate until": "Validate until",
+    "Offer sent": "Offer sent valid until",
+    "Canceled by Buyer": "Canceled by Buyer",
     "Show": "Show",
     "Check the errors": "Check the errors",
     "Archive": "Archive",
@@ -633,6 +636,7 @@
     "paymentMthodType": "payment Mthods Type",
     "sortFilter": "sort By Filter",
     "pendingApproval": "Pending approval",
+    "pendingCustomerApproval": "Pending Customer Approval",
     "readyForPickup": "Ready for pickup",
     "rejected": "Rejected",
     "orderPlaced": "Order Placed",
@@ -663,6 +667,7 @@
     "ViewOrder": "View Order"
   },
   "orderDetails": {
+    "type": "النوع",
     "title": "My Orders",
     "next_step": "Next step for this order",
     "ItemPrice": "Item Price",
@@ -692,6 +697,7 @@
     "item_status": "Item Status",
     "subtotal": "Subtotal",
     "Shipping": "Shipping",
+    "Shipment": "Shipment",
     "commission_percentage": "Commission ",
     "commission_subtotal": "Commission Subtotal",
     "items_subtotal": "Item(S) Subtotal",
@@ -708,6 +714,7 @@
     "shipping_cost": "Shipping Cost:",
     "timeline": "Timeline",
     "user": "User",
+    "invitation": "Invitation",
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
@@ -721,7 +728,8 @@
     "remainingAmount": "remaining Amount",
     "Accept": "Accept",
     "Reject": "Reject",
-    "nameEmpty": " name is empty"
+    "nameEmpty": " name is empty",
+    "Search by orderId": "Search by orderId"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -927,11 +935,14 @@
     "notValidUrl": "The Url Not Valid",
     "all_users":"all users",
     "invite_users":"User invitations",
-    "componyName":"compony Name"
+    "componyName":"compony Name",
+    "Awesome":"Awesome",
+    "Company Profile Saved Succesfully":"Company Profile Saved Successfully",
+    "Ok":"Ok"
   },
   "paymentMethod": {
-    "bank": "bank",
-    "cred_Card": ""
+    "bank": "Bank",
+    "card": "Card"
   },
   "status": {
     "pending": "pending",
@@ -940,8 +951,23 @@
     "reject": "reject",
     "available": "available",
     "not-available": "not-available",
-    "Check_payment":"Check payment",
-    "Full_payment":"Full payment"
+    "Check_payment": "Check payment",
+    "Full_payment": "Full payment",
+    "placed": "Placed",
+    "received": "Received",
+    "partialReceived": "Partial Received",
+    "delivered": "Delivered",
+    "partialDelivered": "Partial Delivered",
+    "pendingCancellation": "Pending Cancellation",
+    "cancelled": "Cancelled",
+    "readyToShip": "Ready to Ship",
+    "orderPicked": "Order Picked",
+    "outForPickup": "Out for Pickup",
+    "outForDelivery": "Out for Delivery",
+    "dispute": "Dispute",
+    "inTransit": "In Transit",
+    "inProgress": "In Progress",
+    "pending_approved": "ًWait Customer Approved"
   },
   "bank": {
     "bank_name": "Bank Name",
@@ -1178,7 +1204,8 @@
     "feo": "Following error occurred",
     "message": "Message",
     "access": "Access Management",
-    "vendor_users": "Vendor Users"
+    "vendor_users": "Vendor Users",
+    "invite_users": "Invite Users"
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
@@ -1216,6 +1243,10 @@
     "selectRejectionReason": "Select rejection reason",
     "cancel": "Cancel",
     "save": "Save"
+  },
+  "changeStatus": {
+    "title": "   Change Order Status To : ",
+    "confirmation": "You are about to change the status of the following order. Once you press the save button, you cannot undo this action."
   },
   "util": {
     "tod": "Top of daily discover",

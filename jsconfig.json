@@ -451,6 +451,7 @@
     "subOrderApproved": "sub-order/approved",
     "subOrderRejected": "sub-order/rejected",
     "subOrderReject":"sub-order/reject",
+    "subOrderChangeStatus":"sub-order/change-status",
     "reasonsRejection": "reject-reason",
     "changeStatusOrder": "main-order/change-status",
     "SubOrderApprove": "sub-order/approve",
