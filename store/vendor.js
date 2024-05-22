@@ -5,7 +5,8 @@ const state = () => ({
   addressList: null,
   vendorProfile: null,
   userInfo:null,
-  AllRole: null
+  AllRole: null,
+  SuccessModal: false
 })
 const getters = {
   vendorList: ({ vendorList }) => vendorList,
@@ -30,7 +31,9 @@ const mutations = {
   SET_ROLE(state, data){
     state.AllRole = data
   },
-
+  SET_SUCCESS_MODAL(state, value) {
+    state.SuccessModal = value;
+  }
 
 }
 
@@ -40,6 +43,7 @@ const actions = {
     if (data.status === 200) {
       commit('SET_VENDOR_DATA', data)
       dispatch('ui/setToastMessage', data.message, {root: true})
+       commit('SET_SUCCESS_MODAL', true); // Set SuccessModal to true
       return data
     } else if (data.status === 201) {
       dispatch('ui/setToastError', data.message, {root: true})
