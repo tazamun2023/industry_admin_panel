@@ -1,11 +1,11 @@
 <template>
-  <all-brand :api="`getBrands`" :param="`reject`" :open-tab="4"></all-brand>
+  <all-brand :api="`getBrands`" :param="`pending`" :open-tab="3"></all-brand>
 </template>
 
 <script>
 import AllBrand from "@/components/brand/AllBrand.vue";
 export default {
-  name: "RejectBrand",
+  name: "ApprovedBrand",
   middleware: ['common-middleware', 'auth'],
 
   components: {
@@ -17,4 +17,3 @@ export default {
   }
 }
 </script>
-

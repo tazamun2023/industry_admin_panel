@@ -120,13 +120,17 @@
                         @updateInput="updateInput"></lang-input>
 
             <div class="input-wrapper">
-              <label class="font-bold">{{ $t('prod.title') }} (EN) <strong class="text-error">*</strong></label>
-            <div v-dompurify-html="result.description.en"></div>
+<!--              <label class="font-bold">{{ $t('prod.title') }} (EN) <strong class="text-error">*</strong></label>-->
+<!--            <div v-dompurify-html="result.description.en"></div>-->
+              <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
+                          :valuesOfLang="result.description"
+                          :IsReadOnly="true"
+                          @updateInput="updateInput"></lang-input>
             </div>
-            <div class="input-wrapper">
-              <label class="font-bold">{{ $t('prod.description') }} (AR) <strong class="text-error">*</strong></label>
-            <div v-dompurify-html="result.description.ar"></div>
-            </div>
+<!--            <div class="input-wrapper">-->
+<!--              <label class="font-bold">{{ $t('prod.description') }} (AR) <strong class="text-error">*</strong></label>-->
+<!--            <div v-dompurify-html="result.description.ar"></div>-->
+<!--            </div>-->
 <!--            <lang-input v-if="!is_variant" :hasError="hasError" :IsReadOnly="true" type="textarea" :title="$t('prod.desc')"-->
 <!--                        :valuesOfLang="result.description"-->
 <!--                        @updateInput="updateInput"></lang-input>-->

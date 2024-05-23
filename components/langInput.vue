@@ -32,7 +32,7 @@
                          @file="editorOverviewFile"
                          :description="valuesOfLang[language]"
                          @change="valuesOfLang[language]= $event"
-                         :disabled="IsReadOnly"
+                         :disabled="true"
                          @input="updateInputValue(language, $event.target.value)"
           />
           <span class="error" v-if="errors[0]">{{ $t('category.req', {type: title}) }}</span>
