@@ -24,6 +24,21 @@
             <p>{{ $t('orderReject.orderPlaced') }}</p>
             <p class="text-xs">{{ selectedOrders[0]?.order_placed }}</p>
           </div>
+
+        </div>
+        <div v-if="selectedOrders[0]?.status=='out_for_delivery'"
+             class="flex justify-between border-b pb-4 border-smooth gap-4">
+          <div>
+            <p class="mb-2">{{ $t('changeStatus.add_file') }}</p>
+
+            <vue-upload-images
+              :old_images="[]"
+              :max-files="1"
+              @updateInput="saveAttachment">
+
+            </vue-upload-images>
+
+          </div>
         </div>
 
         <div class="w-full px-2 py-4 ">
@@ -33,7 +48,7 @@
             </button>
             <ajax-button
               name="save"
-              class="primary-btn"
+              class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3"
               type="button"
               :text="$t('setting.sv')"
               @click="save"
@@ -53,18 +68,23 @@
 <script>
 import ToastMessage from "./ToastMessage.vue";
 import AjaxButton from "./AjaxButton.vue";
+import VueUploadImages from "./product/uploadImages.vue";
 
 export default {
-  components: {AjaxButton, ToastMessage},
+  components: {VueUploadImages, AjaxButton, ToastMessage},
   props: ['selectedOrders', 'saveSata'],
   data() {
     return {
       hasError: false,
+      files: []
     }
   },
   methods: {
     closeModal() {
       this.$emit('close');
+    },
+    saveAttachment(images) {
+      this.files = images
     },
     save() {
 
@@ -81,6 +101,7 @@ export default {
         status = "delivered"
       let data = {
         status: status,
+        files: this.files,
         order_id: this.selectedOrders[0]?.order_id,
       }
       this.$emit('save', data)

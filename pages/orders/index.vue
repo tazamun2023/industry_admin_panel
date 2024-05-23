@@ -168,7 +168,7 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
+        <OrderApprovedModal :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
         <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
@@ -325,6 +325,7 @@ export default {
       const response = await this.subOrderChangeStatus({
         payload: {
           status: data.status,
+          receipt_files: data.files,
           order_id: data.order_id,
           reject_reason_id: data.reject_reasons
         }
@@ -351,6 +352,7 @@ export default {
       this.loading = false;
     },
     async approveOrderSave(data) {
+      this.saveSata=true
       const response = await this.approveOrder({
         payload: data
       })
@@ -358,11 +360,13 @@ export default {
       if (index !== -1) {
         this.$set(this.orders.data, index, Object.assign({}, this.orders.data[index], {status: response.data.status}));
       }
+      this.saveSata=false
       this.handleModalClose();
     },
     handleModalClose() {
       this.selectedOrders = [];
       this.approvedModal = false;
+      this.saveSata = false;
     },
     rejectModalClose() {
       this.selectedOrders = [];
