@@ -3,63 +3,63 @@
        :class="[width]"
   >
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.itemTotal') }}</h6></div>
+      <div><span>{{ $t('approveModal.itemTotal') }}</span></div>
       <div>
-        <h6>
+        <span>
           <price-with-curency-format :price="order?.sub_total "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.vat') }} ({{ order?.vat_percent }}%):</h6></div>
+      <div><span>{{ $t('approveModal.vat') }} ({{ order?.vat_percent }}%):</span></div>
       <div>
-        <h6>
+        <span>
           <price-with-curency-format :price="order?.vat "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.itemTotal') }}</h6></div>
+      <div><span>{{ $t('approveModal.itemTotal') }}</span></div>
       <div>
-        <h6>
+        <span>
 
           <price-with-curency-format :price="order?.total "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex my-2 justify-between">
-      <div><h6 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h6></div>
+      <div><span class="font-bold">{{ $t('orderDetails.industry_fee') }}</span></div>
     </div>
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.commission') }}</h6></div>
+      <div><span>{{ $t('approveModal.commission') }}</span></div>
       <div>
-        <h6>
+        <span>
           <price-with-curency-format :price="order?.commission "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.vatOnCommission') }} ({{ order?.commission_on_vat_percent }}%)</h6></div>
+      <div><span>{{ $t('approveModal.vatOnCommission') }} ({{ order?.commission_on_vat_percent }}%)</span></div>
       <div>
-        <h6>
+        <span>
           <price-with-curency-format :price="order?.commission_on_vat "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex my-1 justify-between">
-      <div><h6>{{ $t('approveModal.totalCommission') }}</h6></div>
+      <div><span>{{ $t('approveModal.totalCommission') }}</span></div>
       <div>
-        <h6>
+        <span>
           <price-with-curency-format :price="order?.commission_total "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
     <div class="flex border-t border-smooth pt-2 my-1 justify-between">
-      <div><h6 class="font-bold">{{ $t('approveModal.totalPayout') }}</h6></div>
+      <div><span class="font-bold">{{ $t('approveModal.totalPayout') }}</span></div>
       <div>
-        <h6 class="font-bold">
+        <span class="font-bold">
           <price-with-curency-format :price="order?.seller_payout "></price-with-curency-format>
-        </h6>
+        </span>
       </div>
     </div>
   </div>
