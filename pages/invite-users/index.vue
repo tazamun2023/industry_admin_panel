@@ -5,7 +5,7 @@
     ref="listPage"
     :addButton="false"
     :modalButton="true"
-    list-api="getVendorUsers"
+    list-api="getVendorInvitation"
     delete-api="deleteVendors"
     route-name="vendor-users"
     :name="$t('user.invitation')"
@@ -13,19 +13,18 @@
     gate="invite"
     manage_gate="invite"
     @open-modal="openModal"
+    @list="listChange($event)"
+    @list-invite-user="listChange($event)"
   >
     <template v-slot:table="{list}">
       <tr class="lite-bold">
-        <th>{{ $t('user.name') }}</th>
         <th>{{ $t('fSale.email') }}</th>
         <th>{{ $t('user.role') }}</th>
         <th>{{ $t('user.verified') }}</th>
-        <th>{{ $t('title.ac') }}</th>
         <th>{{ $t('category.created') }}</th>
         <th>{{ $t('title.act') }}</th>
       </tr>
-
-      <tr
+      <!-- <tr
         v-for="(value, index) in list"
         :key="index"
         :class="{'new-data': !parseInt(value.viewed)}"
@@ -68,6 +67,20 @@
             <EditButtonIcon/>
           </button>
 
+        </td>
+      </tr> -->
+      <tr v-for="(value, index) in list" :key="index" >
+        <td>{{ value.email }}</td>
+        <td>{{ value.role }}</td>
+        <td>
+          <span v-if="value.status">{{ $t('user.verified') }}</span>
+          <span v-else>{{ $t('user.unverified') }}</span>
+        </td>
+        <td>{{ value.created_at }}</td>
+        <td>
+          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItemInv(value.id,'deleteInvitations')" class="border-0">
+            <DeleteButtonIcon />
+          </button>
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
@@ -200,6 +213,22 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
     methods: {
       ...mapActions('vendor', ['sentInvitation', 'getAllRoles']),
       ...mapActions('ui', ['setToastMessage', 'setToastError']),
+      ...mapActions('common', [ 'getRequest'] ),
+      listChange(v) {
+        console.log('value list',v)
+      },
+      async fetchingData() {
+        try {
+          this.loading = true
+          this.result = await this.getRequest({
+            params: null,
+            api: "getVendorInvitation"
+          })
+          this.loading = false
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+      },
       async formSubmit(){
         this.loading  = true
         const data = await this.sentInvitation({
@@ -212,6 +241,7 @@ import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
         if(data.status === 200){
           this.deleteModal = false
           this.errors = []
+          this.$router.go('/invite-users')
           this.setToastMessage(data.message)
         }else{
           this.errors = data.data.form

@@ -1,22 +1,10 @@
 <template>
-  <list-page v-if="$can('invite')" :param="vendor_id" ref="listPage" :addButton="false" :modalButton="true"
+  <list-page v-if="$can('invite')" :param="vendor_id" ref="listPage" :addButton="false" :modalButton="false"
     list-api="getVendorUsers" delete-api="deleteVendors" route-name="vendor-users" :name="$t('user.users')"
-    :order-options="orderOptions" gate="invite" manage_gate="invite" @open-modal="openModal">
-    <template #tab-access-managment>
-      <div class=" mt-20 mb-20">
-        <button @click="allUserTab()" :class="{ 'border-color-ddd': allUsers }"
-          class="bg-white hover:bg-gray-100 leading-3 text-primary font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-          {{ $t("vendor.all_users") }}
-        </button>
-        <button @click="InvUserTab()" :class="{ 'border-color-ddd': inviteUsers }"
-          class="bg-white hover:bg-gray-100 leading-3 text-primary font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-          {{ $t("vendor.invite_users") }}
-        </button>
-      </div>
-    </template>
+    :order-options="orderOptions" gate="invite" manage_gate="invite" @open-modal="openModal" >
     <template v-slot:table="{ list }">
 
-      <tr class="lite-bold" v-if="allUsers">
+      <tr class="lite-bold" >
         <th>{{ $t('user.name') }}</th>
         <th>{{ $t('fSale.email') }}</th>
         <th>{{ $t('user.role') }}</th>
@@ -25,14 +13,7 @@
         <th>{{ $t('category.created') }}</th>
         <th>{{ $t('title.act') }}</th>
       </tr>
-      <tr class="lite-bold" v-else>
-        <th>{{ $t('fSale.email') }}</th>
-        <th>{{ $t('user.role') }}</th>
-        <th>{{ $t('user.verified') }}</th>
-        <th>{{ $t('category.created') }}</th>
-        <th>{{ $t('title.act') }}</th>
-      </tr>
-      <tr v-for="(value, index) in list" :key="index"  v-if="allUsers" :class="{ 'new-data': !parseInt(value.viewed) }">
+      <tr v-for="(value, index) in list" :key="index"  :class="{ 'new-data': !parseInt(value.viewed) }">
         <td class="">
           <nuxt-link class="link" :to="`/vendor-users/${value.id}`">
             <h5 class="mx-w-300x">{{ value.name[currentLanguage.code] }}</h5>
@@ -60,20 +41,6 @@
             <EditButtonIcon />
           </button>
 
-        </td>
-      </tr>
-      <tr v-for="(value, index) in list" :key="index"  v-else >
-        <td>{{ value.email }}</td>
-        <td>{{ value.role }}</td>
-        <td>
-          <span v-if="value.status">{{ $t('user.verified') }}</span>
-          <span v-else>{{ $t('user.unverified') }}</span>
-        </td>
-        <td>{{ value.created_at }}</td>
-        <td>
-          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItemInv(value.id,'deleteInvitations')" class="border-0">
-            <DeleteButtonIcon />
-          </button>
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
@@ -249,6 +216,7 @@ export default {
         this.deleteModal = false
         this.errors = []
         this.setToastMessage(data.message)
+        this.$router.go('/vendor-users')
       } else {
         this.errors = data.data.form
         this.setToastError("Solve The Error")
@@ -290,4 +258,5 @@ export default {
 .border-color-ddd {
   border-color: #0cc048;
 }
+ {}
 </style>

@@ -414,6 +414,7 @@
     "deleteAdmin": "admin-data/delete",
 
     "getVendorUsers": "vendor-users/all",
+    "getVendorInvitation": "vendor-users/all?type_is=invitation",
     "getUser": "vendor-users/find",
     "deleteVendors": "vendor-users/delete",
     "sentInvitation": "vendor-users/SentInvitation",
