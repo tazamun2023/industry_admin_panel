@@ -127,7 +127,7 @@
     computed: {
       addRoute(){
         // Removing the trailing slash
-        return `${this.$route.path.replace(/\/$/, "")}/add`
+        return this.$route.path.replace(/^\/brands(\/.*)?$/, "/brands/add");
       }
     },
     methods: {

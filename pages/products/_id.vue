@@ -417,14 +417,14 @@
             <!--          BasicInformationChild-->
             <!-- ------------------------------------- -->
             <!--          ProductImages-->
-            <ValidationProvider name="Image" :rules="ProductImageValidationRules" v-slot="{ errors }"
+            <ValidationProvider name="Image" :rules="{ required: result.product_images.length===0 && !is_variant }" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
-            <div class="tab-sidebar p-3" v-if="!is_variant" :class="{ 'has-error': errors[0] }">
+            <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
               <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="false" :old_images="result.images" :max-files="8" @updateInput="saveAttachment">></vue-upload-images>
 
             </div>
-              <span class="error">{{ errors[0] }}</span>
+              <span class="error" v-if="result.product_images.length===0">{{ errors[0] }}</span>
             </ValidationProvider>
             <!--          ProductImages-->
             <!-- ------------------------------------- -->
@@ -437,7 +437,7 @@
               <p class="text-sm">
                 {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
               <div class="grid grid-cols-2 gap-4">
-                <ValidationProvider name="Barcode type" :rules="NotDraftValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="Barcode type" :rules="{required: true}" v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode type')}) }">
                   <div class="input-wrapper mt-3 mt-sm-0">
                     <label class="w-full">{{ $t('prod.Barcode type') }}</label>
@@ -1572,7 +1572,7 @@ export default {
     },
     BarcodeValidationRules() {
       let validationRules = {
-        required: !this.is_draft && this.result.barcode_type != 4 && this.result.barcode_type!==''
+        required: !this.is_draft && this.result.barcode_type != 4
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1634,7 +1634,7 @@ export default {
     },
     ProductImageValidationRules() {
       return {
-        required: this.result.product_images.length===0
+        required: !this.result.product_images && !this.is_variant
       };
     },
     CartonDimensionValidationRules() {
@@ -1739,8 +1739,6 @@ export default {
 
     },
     'result.barcode_type'(newValue, oldValue) {
-      console.log('newValue')
-      console.log(newValue)
       if (newValue == 4) {
         this.result.barcode = '';
       }

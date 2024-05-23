@@ -93,8 +93,16 @@ export default {
       <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
         <NuxtLink class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
                   @click="toggleTabs(3)"
-                  :to="`/brands/reject`"
+                  :to="`/brands/pending`"
                   :class="{'bg-white border-white border-b-2': openTab !== 3, 'border-b-2 border-primary': openTab === 3}">
+          {{ $t('prod.Pending') }}
+        </NuxtLink>
+      </li>
+      <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
+        <NuxtLink class="text-xs font-bold uppercase px-5 py-3  block leading-normal"
+                  @click="toggleTabs(4)"
+                  :to="`/brands/reject`"
+                  :class="{'bg-white border-white border-b-2': openTab !== 4, 'border-b-2 border-primary': openTab === 4}">
           {{ $t('prod.Reject') }}
         </NuxtLink>
       </li>
