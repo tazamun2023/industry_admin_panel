@@ -1,5 +1,8 @@
 <template>
   <check-validity :gate="'view_orders'">
+
+
+
     <div :class="{ loading: loading }">
       <div class="orders">
         <div class="card p-4">
@@ -76,6 +79,7 @@
           <div class="flex-auto ">
             <div class="tab-content input-wrapper tab-space">
               <div>
+
                 <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs( openTab)" :tap="openTab"
                             :invoice_status="true"/>
                 <div class="text-center flex justify-center">
@@ -86,7 +90,7 @@
                        v-for="(order, index) in orders?.data" :key="index" v-if="!loading">
                     <div class="flex gap-4 justify-between">
                       <div class="flex-1   flex gap-4 max-w-[46rem] justify-between">
-                        <div v-if="closeable" @click="productTableShow(index)" class="p-2">
+                        <div v-if="closeable" @click="productTableShow(index)" class="p-2 w-5">
                           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -96,63 +100,7 @@
                         <!--                        <div class="flex-none p-2 w-5">-->
                         <!--                          <input type="checkbox" @change="setSelectedOrder(order, $event.target.checked)">-->
                         <!--                        </div>-->
-                        <div>
-                          <p>{{ $t('order.orderId') }}: </p>
-                          <p class="font-bold">{{ order?.order_id }}</p>
-                        </div>
-                        <div>
-                          <p>{{ $t('order.orderPlaced') }}:</p>
-                          <p class="font-bold text-nowrap">{{ order?.order_placed }}</p>
-                        </div>
-                        <div>
-                          <p>{{ $t('orderDetails.type') }}</p>
-                          <p class="">
-                            {{ order?.type?.name }}
-                          </p>
-                        </div>
-                        <div>
-                          <p>{{ $t('order.paymentMethod') }}:</p>
-                          <payment-method :payment_method="order?.payment_method"></payment-method>
-
-                        </div>
-                        <div>
-                          <p>{{ $t('order.payment') }}:</p>
-                          <p class="font-bold"><span
-                            class="bg-primarylight px-2 text-nowrap text-primary rounded-3xl text-[12px]">
-                            {{ order.payment_status_data.name }}
-
-                          </span>
-                          </p>
-                        </div>
-                        <div>
-                          <p>{{ $t('order.status') }}:</p>
-                          <p class="font-bold"><span class="bg-theemlight
-                          text-nowrap
-                                    px-2 text-theem rounded-3xl text-[12px]">
-                            {{ order?.status_data.name }}
-                          </span></p>
-                        </div>
-                        <div v-if="order?.pickup_date">
-                          <p>{{ $t('orderDetails.pickup_date') }}</p>
-                          <p class="font-bold text-nowrap">{{ order?.pickup_date }}</p>
-                        </div>
-                        <div class="tooltip" v-if="order?.pickup_location">
-                          <p>{{ $t('orderDetails.pickup_location') }}</p>
-                          <p class="font-bold text-primary flex" @mouseover="showTooltip = true"
-                             @mouseleave="showTooltip = false">
-                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
-                            </svg>
-                            <span>{{ order.billing_address.name }}</span>
-                            <div class="tooltip-content" v-show="showTooltip">{{ order?.pickup_location }}</div>
-                          </p>
-                        </div>
-
+                        <CardTab class="flex-1 " :order="order"></CardTab>
 
                       </div>
 
@@ -160,7 +108,12 @@
                         <div>
                           <p>{{ $t('order.total') }}:</p>
 
+
+
                           <price-with-curency-format :price="order?.sub_total"></price-with-curency-format>
+
+
+
                         </div>
                         <div v-if="order?.status=='pending'">
                           <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
@@ -177,7 +130,7 @@
                           <button @click="changeStatusModalShow(order)" v-if="$can('fulfil_orders')"
                                   class="border-2 mt-1 border-info text-info uppercase font-bold p-2 rounded leading-3">
                           <span>
-                            {{ $t('changeStatus.from_status.'+order?.status) }}
+                            {{ $t('changeStatus.from_status.' + order?.status) }}
                           </span>
 
                           </button>
@@ -194,9 +147,10 @@
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                           <div class="overflow-hidden">
-                            <TablePending v-if="!(closeable && index !== indexTabel)">
-                              <tr-sub-items :subItems="order.sub_order_items"/>
-                            </TablePending>
+                            <order-items :show_taxes="false" :order="order" v-if="!(closeable && index !== indexTabel)"></order-items>
+<!--                            <TablePending v-if="!(closeable && index !== indexTabel)">-->
+<!--                              <tr-sub-items :subItems="order.sub_order_items"/>-->
+<!--                            </TablePending>-->
                           </div>
 
                         </div>
@@ -214,14 +168,19 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal :selectedOrders="selectedOrders" v-if="approvedModal" @save="saveRejectProduct"
+        <OrderApprovedModal :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
         <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
                      :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
-                        :saveSata="saveSata"    :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
+                           :saveSata="saveSata" :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
+
+
+<!--        <custome-modal size="lg" :show-modal="showModal"></custome-modal>-->
+
+
       </div>
     </div>
   </check-validity>
@@ -243,9 +202,13 @@ import routeParamHelper from "~/mixin/routeParamHelper"
 import OrderChangeStatus from "../../components/OrderChangeStatus.vue";
 import OrderReject from "../../components/OrderReject.vue";
 import OrderApprovedModal from "../../components/OrderApprovedModal.vue";
+import OrderItems from "./component/OrderItems.vue";
+import CustomeModal from "../../components/CustomeModal.vue";
 
 export default {
   components: {
+    CustomeModal,
+    OrderItems,
     OrderApprovedModal,
     OrderReject,
     OrderChangeStatus,
@@ -258,6 +221,7 @@ export default {
       loading: true,
       approvedModal: false,
       saveSata: false,
+      showModal: false,
       selectedOrders: [],
       rejectModal: false,
       changeStatusModal: false,
@@ -280,7 +244,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   mixins: [util, routeParamHelper],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'subOrderReject','subOrderChangeStatus', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
+    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'subOrderReject', 'subOrderChangeStatus', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
     ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList']),
     async filterUpdate(result) {
       console.log('filter update')
@@ -334,9 +298,9 @@ export default {
     },
     changeStatusModalShow(order) {
 
-        this.selectedOrders=[];
-        this.selectedOrders.push(order);
-        this.changeStatusModal = !this.changeStatusModal
+      this.selectedOrders = [];
+      this.selectedOrders.push(order);
+      this.changeStatusModal = !this.changeStatusModal
 
     },
     async saveReject(data) {

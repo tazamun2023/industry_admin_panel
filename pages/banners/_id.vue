@@ -17,53 +17,72 @@
         <label>{{ $t('profile.ui') }}: </label><b>{{ bannerUsed[result.type] }}</b>
       </div>
 
-     <div class="grid grid-cols-2 gap-4">
-       <div>
-         <label class="font-bold">{{ $t('prod.Large screen english') }}</label>
-         <div>
-           <img :src="result.large_image_en" alt="" class="w-full h-[220px]">
-         </div>
-         <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>
-         </div>
-       </div>
-       <div>
-         <label class="font-bold">{{ $t('prod.Small screen english') }}</label>
-         <div>
-           <img :src="result.small_image_en" alt="" class="w-full h-[220px]">
-         </div>
-         <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>
-         </div>
-       </div>
-     </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="font-bold">{{ $t('prod.Large screen english') }}</label>
+          <!--         <div>-->
+          <!--           <img :src="result.large_image_en" alt="" class="w-full h-[220px]">-->
+          <!--         </div>-->
+          <div class="mt-2">
+            <!--           <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>-->
+            <vue-upload-images v-if="(result)" :old_images="[result.large_image_en]"
+                               @updateInput="saveAttachmentLargeEn">>
+            </vue-upload-images>
 
-     <div class="grid grid-cols-2 gap-4 pt-4">
-       <div>
-         <label class="font-bold">{{ $t('prod.Large screen arabic') }}</label>
-         <div>
-           <img :src="result.large_image_ar" alt="" class="w-full h-[220px]">
-         </div>
-         <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentLargeAr"></upload-files>
-         </div>
-       </div>
-       <div>
-         <label class="font-bold">{{ $t('prod.Small screen arabic') }}</label>
-         <div>
-           <img :src="result.small_image_ar" alt="" class="w-full h-[220px]">
-         </div>
-         <div class="mt-2">
-           <upload-files @updateInput="saveAttachmentSmallAr"></upload-files>
-         </div>
-       </div>
-     </div>
+          </div>
+        </div>
+        <div>
+          <label class="font-bold">{{ $t('prod.Small screen english') }}</label>
+          <!--         <div>-->
+          <!--           <img :src="result.small_image_en" alt="" class="w-full h-[220px]">-->
+          <!--         </div>-->
+          <div class="mt-2">
+            <!--           <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>-->
+            <vue-upload-images v-if="(result)" :old_images="[result.small_image_en]"
+                               @updateInput="saveAttachmentSmallEn">>
+            </vue-upload-images>
 
-<!--      <div class="input-wrapper">-->
-<!--        <img :src="result.image" alt="" class="w-1/2">-->
-<!--        <label>{{ $t('index.banner') }}</label>-->
-<!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
-<!--      </div>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 pt-4">
+        <div>
+          <label class="font-bold">{{ $t('prod.Large screen arabic') }}</label>
+          <!--         <div>-->
+          <!--           <img :src="result.large_image_ar" alt="" class="w-full h-[220px]">-->
+          <!--         </div>-->
+          <div class="mt-2">
+            <!--           <upload-files @updateInput="saveAttachmentLargeAr"></upload-files>-->
+            <vue-upload-images v-if="(result)" :old_images="[result.large_image_ar]"
+                               @updateInput="saveAttachmentLargeAr">>
+            </vue-upload-images>
+
+          </div>
+        </div>
+        <div>
+          <label class="font-bold">{{ $t('prod.Small screen arabic') }}</label>
+          <!--         <div>-->
+          <!--           <img :src="result.small_image_ar" alt="" class="w-full h-[220px]">-->
+          <!--         </div>-->
+          <div class="mt-2">
+            <vue-upload-images v-if="(result)"
+                 :old_images="[result.small_image_ar]"
+                   :max-files="1"
+                  @updateInput="saveAttachmentSmallAr">
+
+            </vue-upload-images>
+
+            <!--           <upload-files @updateInput="saveAttachmentSmallAr"></upload-files>-->
+          </div>
+        </div>
+      </div>
+
+      <!--      <div class="input-wrapper">-->
+      <!--        <img :src="result.image" alt="" class="w-1/2">-->
+      <!--        <label>{{ $t('index.banner') }}</label>-->
+      <!--        <upload-files @updateInput="saveAttachment"></upload-files>-->
+      <!--      </div>-->
 
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
@@ -86,7 +105,7 @@
           class="error"
           v-if="!!!result.slug && hasError"
         >
-          {{ $t('category.req', { type: $t('category.slug')}) }}
+          {{ $t('category.req', {type: $t('category.slug')}) }}
         </span>
       </div>
 
@@ -199,179 +218,183 @@
 
 <script>
 
-  import DataPage from "~/components/partials/DataPage"
-  import util from "~/mixin/util"
-  import Dropdown from "~/components/Dropdown"
-  import SliderFormTab from "~/components/partials/SliderFormTab"
-  import TagSearch from "~/components/TagSearch"
-  import {mapGetters, mapActions} from 'vuex'
-  import Spinner from "~/components/Spinner"
-  import SourceTypeProducts from "~/components/partials/SourceTypeProducts"
-  import ProductSource from "~/components/partials/ProductSource"
+import DataPage from "~/components/partials/DataPage"
+import util from "~/mixin/util"
+import Dropdown from "~/components/Dropdown"
+import SliderFormTab from "~/components/partials/SliderFormTab"
+import TagSearch from "~/components/TagSearch"
+import {mapGetters, mapActions} from 'vuex'
+import Spinner from "~/components/Spinner"
+import SourceTypeProducts from "~/components/partials/SourceTypeProducts"
+import ProductSource from "~/components/partials/ProductSource"
+import VueUploadImages from "../../components/product/uploadImages.vue";
 
-  export default {
-    name: "banner",
-    middleware: ['common-middleware', 'auth'],
-    data() {
-      return {
-        loading: false,
-        result: {
-          id: '',
-          source_products: [],
-          source_brands: [],
-          source_categories: [],
-          source_sub_categories: [],
-          image: '',
-          large_image_en: '',
-          small_image_en: '',
-          large_image_ar: '',
-          small_image_ar: '',
-          large_file_en: '',
-          small_file_en: '',
-          large_file_ar: '',
-          small_file_ar: '',
-          file: '',
-          source_type: 1,
-          tags: '',
-          url: '',
-          slug: '',
-          title: {ar: '', en: ''},
-          status: '',
-          closable: '',
-          type: parseInt(this.$route?.query?.type) || 1
-        }
+export default {
+  name: "banner",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      loading: false,
+      result: {
+        id: '',
+        source_products: [],
+        source_brands: [],
+        source_categories: [],
+        source_sub_categories: [],
+        image: '',
+        large_image_en: '',
+        small_image_en: '',
+        large_image_ar: '',
+        small_image_ar: '',
+        large_file_en: '',
+        small_file_en: '',
+        large_file_ar: '',
+        small_file_ar: '',
+        file: '',
+        source_type: 1,
+        tags: '',
+        url: '',
+        slug: '',
+        title: {ar: '', en: ''},
+        status: '',
+        closable: '',
+        type: parseInt(this.$route?.query?.type) || 1
       }
-    },
-    mixins: [util],
-    components: {
-      ProductSource,
-      SourceTypeProducts,
-      Spinner,
-      TagSearch,
-      SliderFormTab,
-      Dropdown,
-      DataPage
-    },
-    computed: {
-      sourceProducts() {
-        return this.result?.source_products || []
-      },
-      currencyIcon() {
-        return this.setting?.currency_icon || '$'
-      },
-      sourceSubCategories(){
-        return this.result?.source_sub_categories
-      },
-      ...mapGetters('language', ['currentLanguage']),
-      ...mapGetters('setting', ['setting']),
-      ...mapGetters('common', ['allCategories', 'allSubCategories', 'allBrands'])
-    },
-    methods: {
-      updateInput(input, language, value) {
-        this.$set(input, language, value);
-      },
-      saveAttachment(images) {
-        this.result.file = images
-      },
-      saveAttachmentLargeEn(images) {
-        this.result.large_file_en = images
-      },
-      saveAttachmentSmallEn(images) {
-        this.result.small_file_en = images
-      },
-      saveAttachmentLargeAr(images) {
-        this.result.large_file_ar = images
-      },
-      saveAttachmentSmallAr(images) {
-        this.result.small_file_ar = images
-      },
-      undoDelete(index){
-        const v =  {
-          ...this.result.source_products[index],
-          ...{deleted: false}
-        }
-        this.result.source_products.splice(index, 1)
-        this.result.source_products.splice(index, 0, v)
-      },
-      deleteProduct(index){
-        const v =  {
-          ...this.result.source_products[index],
-          ...{deleted: true}
-        }
-        this.result.source_products.splice(index, 1)
-        this.result.source_products.splice(index, 0, v)
-      },
-      addProduct(product){
-        if(this.result?.source_products?.findIndex((o) => {
-          return o.product.id === product.id
-        }) || -1 === -1){
-
-          this.result?.source_products?.push({
-            product: {
-              id: product.id,
-              title: product.title,
-              image: product.image,
-              offered: product.offered,
-              selling: product.selling
-            }
-          })
-        }
-        this.$refs.sourceTypeProducts.autoSuggestionClose()
-      },
-      onSuccess(event){
-        this.result = Object.assign(this.result, event)
-      },
-      itemSelected(source, type, {index, value}){
-        if(this.result[source][index]?.id){
-          this.result[source][index] = {...this.result[source][index], ...{updated: true}}
-        }
-        const v = {...this.result[source][index], ...{[type]: {id: value}}}
-        this.result[source].splice(index, 1)
-        this.result[source].splice(index, 0, v)
-      },
-      removeItem(source, {index, deleted}){
-        const v =  {
-          ...this.result[source][index],
-          ...{deleted: deleted}
-        }
-        this.result[source].splice(index, 1)
-        this.result[source].splice(index, 0, v)
-      },
-      addItem(source, type, allData){
-        this.result[source].push({[type]: {id: Object.keys(allData)[0]}})
-      },
-      addTag(tag){
-        if (!this.result.tags){
-          this.result.tags = ','
-        }
-        this.result.tags = `${this.result.tags}${tag},`
-      },
-      deleteTag(tag){
-        this.result.tags = this.result.tags.replace(`${tag},`, '')
-      },
-      closableSelected(data) {
-        this.result.closable = data.key
-      },
-      statusSelected(data) {
-        this.result.status = data.key
-      },
-      dropdownSelected(data) {
-        this.result.source_type = data.key
-      },
-      ...mapActions('common', ['getDropdownList'])
-    },
-    async mounted() {
-      this.loading = true
-      try {
-        if (!this.allCategories || !this.allSubCategories || !this.allBrands) {
-          await this.getDropdownList()
-        }
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
-      this.loading = false
     }
+  },
+  mixins: [util],
+  components: {
+    VueUploadImages,
+    ProductSource,
+    SourceTypeProducts,
+    Spinner,
+    TagSearch,
+    SliderFormTab,
+    Dropdown,
+    DataPage
+  },
+  computed: {
+    sourceProducts() {
+      return this.result?.source_products || []
+    },
+    currencyIcon() {
+      return this.setting?.currency_icon || '$'
+    },
+    sourceSubCategories() {
+      return this.result?.source_sub_categories
+    },
+    ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('setting', ['setting']),
+    ...mapGetters('common', ['allCategories', 'allSubCategories', 'allBrands'])
+  },
+  methods: {
+    updateInput(input, language, value) {
+      this.$set(input, language, value);
+    },
+    saveAttachment(images) {
+      this.result.file = images
+    },
+    saveAttachmentLargeEn(images) {
+      this.result.large_file_en = images
+    },
+    saveAttachmentSmallEn(images) {
+      console.log("ddd")
+      console.log(images)
+      this.result.small_file_en = images
+    },
+    saveAttachmentLargeAr(images) {
+      this.result.large_file_ar = images
+    },
+    saveAttachmentSmallAr(images) {
+      this.result.small_file_ar = images
+    },
+    undoDelete(index) {
+      const v = {
+        ...this.result.source_products[index],
+        ...{deleted: false}
+      }
+      this.result.source_products.splice(index, 1)
+      this.result.source_products.splice(index, 0, v)
+    },
+    deleteProduct(index) {
+      const v = {
+        ...this.result.source_products[index],
+        ...{deleted: true}
+      }
+      this.result.source_products.splice(index, 1)
+      this.result.source_products.splice(index, 0, v)
+    },
+    addProduct(product) {
+      if (this.result?.source_products?.findIndex((o) => {
+        return o.product.id === product.id
+      }) || -1 === -1) {
+
+        this.result?.source_products?.push({
+          product: {
+            id: product.id,
+            title: product.title,
+            image: product.image,
+            offered: product.offered,
+            selling: product.selling
+          }
+        })
+      }
+      this.$refs.sourceTypeProducts.autoSuggestionClose()
+    },
+    onSuccess(event) {
+      this.result = Object.assign(this.result, event)
+    },
+    itemSelected(source, type, {index, value}) {
+      if (this.result[source][index]?.id) {
+        this.result[source][index] = {...this.result[source][index], ...{updated: true}}
+      }
+      const v = {...this.result[source][index], ...{[type]: {id: value}}}
+      this.result[source].splice(index, 1)
+      this.result[source].splice(index, 0, v)
+    },
+    removeItem(source, {index, deleted}) {
+      const v = {
+        ...this.result[source][index],
+        ...{deleted: deleted}
+      }
+      this.result[source].splice(index, 1)
+      this.result[source].splice(index, 0, v)
+    },
+    addItem(source, type, allData) {
+      this.result[source].push({[type]: {id: Object.keys(allData)[0]}})
+    },
+    addTag(tag) {
+      if (!this.result.tags) {
+        this.result.tags = ','
+      }
+      this.result.tags = `${this.result.tags}${tag},`
+    },
+    deleteTag(tag) {
+      this.result.tags = this.result.tags.replace(`${tag},`, '')
+    },
+    closableSelected(data) {
+      this.result.closable = data.key
+    },
+    statusSelected(data) {
+      this.result.status = data.key
+    },
+    dropdownSelected(data) {
+      this.result.source_type = data.key
+    },
+    ...mapActions('common', ['getDropdownList'])
+  },
+  async mounted() {
+    this.loading = true
+    try {
+      if (!this.allCategories || !this.allSubCategories || !this.allBrands) {
+        await this.getDropdownList()
+      }
+    } catch (e) {
+      return this.$nuxt.error(e)
+    }
+    this.loading = false
   }
+}
 </script>
 
 <style scoped>

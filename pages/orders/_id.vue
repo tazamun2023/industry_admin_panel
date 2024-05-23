@@ -12,44 +12,9 @@
 </div>
 </div>
     <div class="card my-2 p-4">
-      <div class="flex gap-4">
-        <div>
-          <p>{{ $t('orderDetails.order_number') }}:</p>
-          <p><strong>{{ orderDetails?.order_id }}</strong></p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.InitialDate') }}</p>
-          <p><strong>{{orderDetails.pickup_date}}</strong></p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.delivery_method') }}:</p>
-          <p><strong>{{orderDetails.shipping_method_id}}</strong></p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.order_status') }}</p>
-          <p class="text-warning p-1 rounded bg-smooth">{{ orderDetails?.status }}p</p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.invoice_status') }}</p>
-          <p class="text-warning p-1 rounded bg-smooth">Pending Upload</p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.pickup_date') }}</p>
-          <p><strong>{{ orderDetails.estimated_delivery_date }}</strong></p>
-        </div>
-        <div>
-          <p>{{ $t('orderDetails.pickup_location') }}</p>
-          <p><strong class="flex gap-2">
-            <svg class="w-6 h-6 text-gray" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                 viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17.8 14h0a7 7 0 1 0-11.5 0h0l.1.3.3.3L12 21l5.1-6.2.6-.7.1-.2Z"/>
-            </svg>
-            <span>{{ orderDetails.pickup_location }}</span></strong></p>
-        </div>
-      </div>
+
+      <CardTab v-if="orderDetails" class="flex-1 " :order="orderDetails"></CardTab>
+
     </div>
     <div class="card my-2 p-4">
       <h4>{{ $t('orderDetails.orders_overview') }}</h4>
@@ -58,109 +23,14 @@
       <div class='flex w-full from-purple-200 via-purple-300 to-purple-500 bg-gradient-to-br'>
         <div class="flex items-center w-full justify-between">
           <div class="relative w-full">
-            <table class="w-full text-sm text-left text-gray-500 ">
-              <thead class="text-xs  uppercase bg-gray-50  ">
-              <tr>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.product') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.agreed_price') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('rfq.Quantity') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.item_status') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.subtotal') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.commission_percentage') }}</th>
-                <th scope="col" class="py-3 px-6">{{ $t('orderDetails.commission_subtotal') }}</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr class="bg-white" v-for="(item,index) in orderDetails.sub_order_items" :key="index">
-                <td class="py-4 px-6">
-                  <div class="flex gap-2">
-                    <LazyImage
-                      :data-src="item.product.image"
-                      :title="item.product.title"
-                      :alt="item.product.title"
-                      class="w-10 h-10"
-                    />
-                    <div>
-                      <p class="font-bold">{{ item.product.title.slice(0, 30) }} ...</p>
-                      <p>
-                        <del>321321</del>
-                      </p>
-                      <p>MCQ:3</p>
-                      <p>{{ $t('app.sku') }}:{{ item.product.sku }}</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="py-4 px-6">
-                  <price-with-curency-format :price="item?.price " ></price-with-curency-format>
-                </td>
-                <td class="py-4 px-6">{{ item.quantity }}</td>
-                <td class="py-4 px-6"><span class="bg-smooth text-warning p-2 rounded">{{
-                    $t(`status.${item.status}`)
-                  }}</span></td>
-                <td class="py-4 px-6">
-                  <del>
-                    <price-with-curency-format :price="item?.total_price " ></price-with-curency-format>
-                  </del>
-                </td>
-                <td class="py-4 px-6">{{ orderDetails.commission_tax }} %</td>
-                <td class="py-4 px-6">
-                  <del>{{ orderDetails.commission}}</del>
-                </td>
-              </tr>
-
-              </tbody>
-            </table>
+            <order-items :order="orderDetails" :show_taxes="true"></order-items>
           </div>
 
         </div>
       </div>
       <!-- ------------subtotal--------------- -->
       <div class="w-full">
-        <div class="w-1/4 ml-auto items-end border border-smooth p-4 rounded">
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.count_items_subtotal') }}</h5></div>
-            <div><h5>{{orderDetails.sub_order_items?.length}}</h5></div>
-          </div>
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.vat') }}:</h5></div>
-            <div><h5>
-              <price-with-curency-format :price="orderDetails?.vat " ></price-with-curency-format>
-            </h5></div>
-          </div>
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.items_subtotal') }}</h5></div>
-            <div><h5>
-              <price-with-curency-format :price="orderDetails?.sub_total " ></price-with-curency-format>
-            </h5></div>
-          </div>
-          <div class="flex my-2 justify-between">
-            <div><h5 class="font-bold">{{ $t('orderDetails.industry_fee') }}</h5></div>
-          </div>
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.commission') }}</h5></div>
-            <div><h5>
-              <price-with-curency-format :price="orderDetails?.commission " ></price-with-curency-format>
-            </h5></div>
-          </div>
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.vat_on_commission') }}</h5></div>
-            <div><h5>
-              <price-with-curency-format :price="orderDetails?.commission_on_vat " ></price-with-curency-format>
-            </h5></div>
-          </div>
-          <div class="flex my-1 justify-between">
-            <div><h5>{{ $t('orderDetails.total_commission') }}</h5></div>
-            <div><h5><price-with-curency-format :price="orderDetails?.commission_total " ></price-with-curency-format>
-
-            </h5></div>
-          </div>
-          <div class="flex border-t border-smooth pt-2 my-1 justify-between">
-            <div><h5 class="font-bold">{{ $t('orderDetails.total_payout') }}</h5></div>
-            <div><h5 class="font-bold">
-              <price-with-curency-format :price="orderDetails?.seller_payout " ></price-with-curency-format>
-                    </h5></div>
-          </div>
-        </div>
+        <order-summary :order="orderDetails"></order-summary>
       </div>
     </div>
 <!--    <div class="card my-2 p-4">-->
@@ -221,8 +91,11 @@ import {mapGetters, mapActions} from "vuex";
 import LazyImage from "@/components/LazyImage.vue";
 import Invoice from "./component/Invoice.vue"
 import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
+import CardTab from "./component/CardTab.vue";
+import OrderSummary from "./component/OrderSummary.vue";
+import OrderItems from "./component/OrderItems.vue";
 export default {
-  components: {PriceWithCurencyFormat, LazyImage,Invoice},
+  components: {OrderItems, OrderSummary, CardTab, PriceWithCurencyFormat, LazyImage,Invoice},
   computed: {
     ...mapGetters('order', ['orderDetails'])
   },

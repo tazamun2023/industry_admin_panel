@@ -525,7 +525,7 @@
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3">
-            <vue-upload-images :old_images="variants[openTab].result.images" :max-files="5"
+            <vue-upload-images :return-data-just="false" :old_images="variants[openTab].result.images" :max-files="10"
                                @updateInput="saveAttachment"></vue-upload-images>
             <span class="error">{{ errors[0] }}</span>
           </div>

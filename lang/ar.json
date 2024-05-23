@@ -581,7 +581,7 @@
     "items_subtotal": "مجموع العناصر الفرعية",
     "vat": "ضريبة القيمة المضافة (%):",
     "item_total": "مجموع العناصر",
-    "industry_fee": "رسوم الصناعة",
+    "industry_fee": "رسوم المنصة",
     "commission": "العمولة",
     "vat_on_commission": "ضريبة القيمة المضافة على العمولة (5%)",
     "total_commission": "مجموع العمولة",
@@ -1056,7 +1056,7 @@
     "access": "إدارة الوصول"
   },
   "approveModal": {
-    "approvedOrder": "تمت الموافقة على الطلب",
+    "approvedOrder": " الموافقة على الطلب",
     "titleModel": "هل انت متأكد من انك تريد الموافقة على هذا الطلب",
     "ordersItems": "العناصر المطلوبة",
     "pickupAddress": "عنوان الاستلام",
