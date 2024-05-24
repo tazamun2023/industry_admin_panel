@@ -332,6 +332,36 @@ export default {
       this.is_reject_modal = !this.is_reject_modal;
       this.rfqId = id
     },
+    // setRejectRfq
+    // async isRejected(id) {
+    //   this.is_loading = true;
+
+    //   const app = await this.swetAlertFire({
+    //     params: {
+    //       title: this.$i18n.t('approvedModal.sure'),
+    //       text: this.$i18n.t('approvedModal.revert'),
+    //     }
+    //   });
+
+    //   if (app) {
+    //     const data = await this.setRequest({
+    //       params: {
+    //         id:id
+    //       },
+    //       api: 'setRejectRfq'
+    //     });
+
+    //     const index = this.itemList.findIndex(item => item.id === id);
+    //     if (index !== -1) {
+    //       this.itemList[index].status = data.status;
+    //     }
+    //     this.is_loading = false;
+    //     return true;
+    //   } else {
+    //     this.is_loading = false;
+    //     return false;
+    //   }
+    // },
     async isApproved(id) {
       this.is_loading = true;
 
