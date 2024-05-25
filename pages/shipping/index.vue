@@ -36,8 +36,8 @@
           <input type="hidden" v-model="value.id">
           {{ value.city_name }}
         </td>
-        <td><input type="number" min="0" v-model="value.est_days"></td>
-        <td><input type="number" min="0" max="23" v-model="value.est_hours"></td>
+        <td><input type="number" min="0" :disabled="!value.status" v-model="value.est_days"></td>
+        <td><input type="number" min="0" :disabled="!value.status" max="23" v-model="value.est_hours"></td>
         <!--        <td><input type="number" v-model="value.default_price"></td>-->
 
       </tr>
