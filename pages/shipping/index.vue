@@ -13,6 +13,7 @@
     @list="itemList = $event"
   >
     <template v-slot:table-top>
+      <button v-tippy="'Tooltip content'">Hover me</button>
 
       <p class="button primary-btn">{{ $t('shipping.est') }}</p>
     </template>
