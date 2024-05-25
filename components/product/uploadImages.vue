@@ -44,7 +44,7 @@ export default {
   props: {
     accept: {
       type: String,
-      default: "image/*"
+      default: "image/*,application/pdf"
     },
     maxFiles: {
       type: Number,
@@ -59,7 +59,6 @@ export default {
       default: 1
     },
     old_images: [],
-
     uploadMsg: String,
     maxError: String,
     fileError: String,
@@ -67,12 +66,9 @@ export default {
   },
   computed: {
     mergedArray() {
-      // You can use any of the merging methods mentioned above
       return [...this.old_images, ...this.Imgs];
     },
   },
-
-
   mounted() {
     for (var i = 0; i < this.old_images.length; i++)
       if (this.returnDataJust)
@@ -101,20 +97,18 @@ export default {
     }
 
   },
-
   methods: {
     dragOver() {
       this.dropped = 2;
     },
     dragLeave() {
     },
-
     drop(e) {
       let status = true;
       let files = Array.from(e.dataTransfer.files)
       if (e && files) {
         files.forEach((file) => {
-          if (file.type.startsWith("image") === false) status = false;
+          if (!file.type.startsWith("image") && !file.type === "application/pdf") status = false;
         });
         if (status == true) {
           if (
@@ -125,8 +119,6 @@ export default {
               ? this.$props.maxError
               : `Maximum files is` + this.$props.maxFiles;
           } else {
-
-
             this.files.push(...files);
             this.previewImgs();
           }
@@ -178,104 +170,60 @@ export default {
       let readers = [];
       if (!this.files.length) return;
       for (let i = 0; i < this.files.length; i++) {
-
         readers.push(this.readAsDataURL(this.files[i]));
       }
 
       var temp = [];
       Promise.all(readers).then((values) => {
         temp = values;
-        console.log("values");
-        console.log(values);
         for (let i = 0; i < values.length; i++) {
-          this.Imgs.push({id: "", url: values[i]})
+          this.Imgs.push({
+            id: "",
+            url: values[i],
+            isPdf: this.files[i].type === 'application/pdf'
+          });
         }
       }).then(()=>{
         this.updateInputEvntData()
       })
-
-      console.log(readers);
-
-      console.log(this.Imgs)
-
-
-
-
     },
     updateInputEvntData() {
-
-
-        console.log("be")
-        console.log(this.Imgs)
-      let dataJust=this.Imgs.map(item => item.url);
-        console.log(dataJust)
+      let dataJust = this.Imgs.map(item => item.url);
       if (this.returnDataJust)
         this.$emit('updateInput', this.Imgs.map(item => item.url));
       else
         this.$emit('updateInput', this.Imgs);
-      // this.$emit('updateInput', this.attachments.map(obj => obj.file));
     },
     reordered(event, dropped) {
-
-      this.dropped = 0
-      console.log(this.Imgs)
-      console.log(event)
-      console.log(dropped)
-
+      this.dropped = 0;
       var old_index = parseInt(event.detail.ids[0]);
-      if (old_index === -1)
-        return
+      if (old_index === -1) return;
       var new_index = parseInt(event.detail.index);
       let temp = this.Imgs[old_index];
       this.Imgs.splice(old_index, 1);
-
-      // Move the item to the first position
-      // this.files.splice(new_index, 0, temp);
       this.Imgs.splice(new_index, 0, temp);
-      //   if (!dropped || !dropped.element) {
-      //     return; // Handle the case where "dropped" is undefined or missing "element"
-      //   }
-      //
-      //   // Optional: Handle the drop event to update image order or provide feedback
-      //   const draggedIndex = this.images.indexOf(dropped.element);
-      //   const newIndex = this.images.indexOf(dropped.related);
-      //
-      //   if (draggedIndex !== -1 && draggedIndex !== newIndex) {
-      //     const [removedImage] = this.images.splice(draggedIndex, 1);
-      //     this.images.splice(newIndex, 0, removedImage);
-      //   }
-      //
-      //   console.log('Images dropped (updated order):', this.images);
-      // },
-
-      this.updateInputEvntData()
+      this.updateInputEvntData();
     },
     reset() {
       this.$refs.uploadInput.value = null;
       this.Imgs = [];
       this.files = [];
       this.$emit("changed", this.files);
-      this.updateInputEvntData()
+      this.updateInputEvntData();
     },
   },
-
 };
 </script>
 
 <template>
-  <!--  @drop.prevent="drop($event)"-->
-
   <div>
     <div
       class="container"
       @dragover.prevent="dragOver"
       @dragleave.prevent="dragLeave"
-
-
     >
       <div class="drop" v-show="dropped == 2"></div>
       <!-- Error Message -->
-
 
       <!-- To inform user how to upload image -->
       <div v-show="Imgs.length == 0" class="beforeUpload">
@@ -293,37 +241,43 @@ export default {
           {{ uploadMsg ? uploadMsg : "Click to upload or drop your images here" }}
         </p>
       </div>
-      <div class="imgsPreview" v-show="Imgs.length > 0 ">
-        <button v-if=" maxFiles>1" type="button" class="clearButton" @click="reset">
+      <div class="imgsPreview" v-show="Imgs.length > 0">
+        <button v-if="maxFiles > 1" type="button" class="clearButton" @click="reset">
           {{ clearAll ? clearAll : "clear All" }}
         </button>
         <div v-drag-and-drop:options="dragOptions">
-          <ul
-
-            @reordered="reordered">
-            <li class="imageHolder " :class="{'singleImageHolder':maxFiles===1 }" v-for="(img, i) in Imgs" :data-id="i" :key="i">
-              <!--              <lazy-image v-if="img.id!=''" :datasrc="img.url"></lazy-image>-->
-              <img style="" :src="img.url"/>
+          <ul @reordered="reordered">
+            <li
+              class="imageHolder"
+              :class="{'singleImageHolder': maxFiles === 1}"
+              v-for="(img, i) in Imgs"
+              :data-id="i"
+              :key="i"
+            >
+              <template v-if="img.isPdf">
+                <iframe :src="img.url" width="100%" height="200px"></iframe>
+              </template>
+              <template v-else>
+                <img :src="img.url" />
+              </template>
               <span class="delete" style="color: white" @click="deleteImg(i)">
-          <svg
-            class="icon"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
-        </span>
-
+                <svg
+                  class="icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </span>
             </li>
-
-            <li class="absolute bottom-[4rem] ms-5" v-if="Imgs.length<maxFiles" :data-id="-1">
+            <li v-if="Imgs.length < maxFiles" :data-id="-1">
               <div class="plus" @click="append">
                 <upload-image-icon></upload-image-icon>
               </div>
@@ -332,12 +286,10 @@ export default {
         </div>
       </div>
     </div>
-
     <div v-show="error" class="error">
       {{ error }}
     </div>
   </div>
-
 </template>
 
 <style scoped>
