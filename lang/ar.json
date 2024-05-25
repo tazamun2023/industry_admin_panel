@@ -137,14 +137,15 @@
     "name": "اسم المنتج",
     "Or More": " او اكثر ",
     "invalid Quantity": "كمية غير صحيحة  ",
-    "add": "اضافة منتج",
+    "add": "اضافة منتج جديد",
     "Image": "الصورة",
     "Products": "المنتجات",
     "Category": "الفئة",
     "Quantity": "الكمية",
     "Unit Target Price": "سعر الوحدة المستهدف",
     "Total target price": "السعر الإجمالي المستهدف",
-    "min_order_qty": "اقل كمية للطلب"
+    "min_order_qty": "اقل كمية للطلب",
+    "search":"بحث"
   },
   "index": {
     "tProduct": "إجمالي المنتجات",
