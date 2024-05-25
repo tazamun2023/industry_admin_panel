@@ -26,7 +26,9 @@
         </th>
         <th class="">{{ $t('city.city') }}</th>
         <th class="col w-1/4"><span class="flex gap-2 items-center">{{ $t('shipping.est_days') }}
-        <QuestionTooltip/></span>
+        <QuestionTooltip :title="$t('shipping.est')" />
+
+        </span>
         </th>
         <th class="col w-1/4">{{ $t('shipping.est_hours') }}</th>
         <!--        <th>{{ $t('shipping.price') }}</th>-->
@@ -40,8 +42,8 @@
           <input type="hidden" v-model="value.id">
           {{ value.city_name }}
         </td>
-        <td><input class="w-3/4" type="number" min="0" v-model="value.est_days"></td>
-        <td><input class="w-3/4" type="number" min="0" max="23" v-model="value.est_hours"></td>
+        <td><input class="w-3/4" :disabled="!value.status" type="number" min="0" v-model="value.est_days"></td>
+        <td><input class="w-3/4" :disabled="!value.status" type="number" min="0" max="23" v-model="value.est_hours"></td>
         <!--        <td><input type="number" v-model="value.default_price"></td>-->
 
       </tr>
