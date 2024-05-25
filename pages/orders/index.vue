@@ -168,10 +168,11 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
+        <OrderApprovedModal  v-if="$can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
-        <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
+
+        <OrderReject   v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
                      :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
