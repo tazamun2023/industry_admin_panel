@@ -10,6 +10,7 @@
   <button
     @click.passive="btnClicked"
     class="ajax-btn"
+    :class="[another_class]"
     :type="type"
   >
     <spinner
@@ -58,6 +59,10 @@
       onlyIcon: {
         type: String,
         default: null,
+      },
+      another_class: {
+        type: String,
+        default: "null",
       },
       loadingText: {
         type: String,

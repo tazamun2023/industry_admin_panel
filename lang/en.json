@@ -937,10 +937,8 @@
     "invite_users": "User invitations",
     "Awesome": "Awesome",
     "Company Profile Saved Succesfully": "Company Profile Saved Successfully",
-
-    "componyName":"compony Name",
-
-    "Ok":"Ok"
+    "componyName": "compony Name",
+    "Ok": "Ok"
   },
   "paymentMethod": {
     "bank": "Bank",
@@ -1248,6 +1246,7 @@
   },
   "changeStatus": {
     "title": "   Change Order Status To : ",
+    "add_file": " Add Receipt File : ",
     "confirmation": "You are about to change the status of the following order. Once you press the save button, you cannot undo this action.",
     "from_status": {
       "approved": " Ready to Ship",

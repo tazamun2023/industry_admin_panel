@@ -5,17 +5,17 @@
       <p class="font-bold">{{ order?.order_id }}</p>
     </div>
     <div>
-      <p>{{ $t('order.orderPlaced') }}:</p>
+      <p class="text-nowrap ">{{ $t('order.orderPlaced') }}:</p>
       <p class="font-bold text-nowrap">{{ order?.order_placed }}</p>
     </div>
     <div>
       <p>{{ $t('orderDetails.type') }}</p>
-      <p class="">
+      <p class="text-nowrap ">
         {{ order?.type?.name }}
       </p>
     </div>
     <div>
-      <p>{{ $t('order.paymentMethod') }}:</p>
+      <p class="text-nowrap ">{{ $t('order.paymentMethod') }}:</p>
       <payment-method :payment_method="order?.payment_method"></payment-method>
 
     </div>

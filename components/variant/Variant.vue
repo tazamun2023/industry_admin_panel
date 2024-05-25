@@ -543,7 +543,7 @@
                 <label class="w-full">{{ $t('prod.Barcode type') }}</label>
                 <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                         v-model="variants[openTab]?.result.barcode_type">
-                  <option value="">{{ $t('prod.Barcode type') }}</option>
+                  <option value="" disabled>{{ $t('prod.Barcode type') }}</option>
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
               </div>

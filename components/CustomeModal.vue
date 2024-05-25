@@ -12,7 +12,8 @@
         <slot></slot>
       </div>
       <div class="w-full  border-t relative p-8 border-smooth">
-        <div class="items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
+
+        <div class="flex justify-between gap-4 items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
           <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">
             {{ $t('approveModal.cancel') }}
           </button>

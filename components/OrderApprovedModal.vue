@@ -2,8 +2,8 @@
 <template v-if="$can('fulfil_orders')">
   <custome-modal
     :title="` ${$t('approveModal.approvedOrder') }  ${selectedOrders[0]?.order_id }`"
-     :show-modal="showModal"
-    @close="closeModal"    size="xl">
+    :show-modal="showModal"
+    @close="closeModal" size="xl">
 
     <!--    //todo: header2 slot if you want add another fixed header like stepers  here is main content -->
     <template v-slot:header2>
@@ -17,16 +17,16 @@
             <div class="flex-1 w-5 h-1  rounded-lg bg-primary"></div>
           </div>
         </div>
-        <div class="w-full">
+        <div v-if="!selectedOrdersall.shipping_by_vendor" class="w-full">
           <div class="flex flex-row  items-center w-full">
             <div class="w-5 h-5  shrink-0 mx-[-1px]  p-1.5 flex items-center justify-center rounded-full "
                  :class="{'bg-primary ':secondBox || thirdBox,'bg-smooth ': !thirdBox && !secondBox }">
               <span class="text-base text-sx text-white ">2</span>
             </div>
             <span class="flex-1 mx-4  text-nowrap text-sm "
-                  :class="{'text-primary ':secondBox || thirdBox,'text-disabled ': !thirdBox && !secondBox }">{{
-                $t('approveModal.pickupAddress')
-              }}</span>
+                  :class="{'text-primary ':secondBox || thirdBox,'text-disabled ': !thirdBox && !secondBox }">
+              {{ $t('approveModal.pickupAddress') }}
+            </span>
             <div class="flex-1 w-5 h-1  rounded-lg "
                  :class="{' bg-primary': secondBox || thirdBox ,' bg-smooth':!thirdBox && !secondBox}">
             </div>
@@ -38,7 +38,11 @@
             <div class="w-5 h-5  shrink-0 mx-[-1px]  p-1.5 flex items-center justify-center rounded-full " :class="{'  bg-primary ':secondBox || thirdBox,
             '  bg-smooth ': !thirdBox,
             }">
-              <span class="text-base text-sx text-white ">3</span>
+              <span class="text-base text-sx text-white ">
+                 <span v-if="selectedOrdersall.shipping_by_vendor">2</span>
+                  <span v-else>3</span>
+
+              </span>
             </div>
             <span class="flex-1 mx-4  text-nowrap text-sm "
                   :class="{'text-primary ': thirdBox,'text-disabled ': !thirdBox }">{{
@@ -50,7 +54,7 @@
       </div>
     </template>
 
-<!--    //todo: here is main content -->
+    <!--    //todo: here is main content -->
 
     <div v-if="firstBox" class="firstStep">
       <div class="my-2 p-4 border border-smooth rounded" v-for="(order,i) in selectedOrders" :key="i">
@@ -85,6 +89,7 @@
     </div>
     <!-- -------------1st step end--------- -->
     <div v-if="secondBox" class="secondStep p-4">
+
       <div class="card p-4">
         <div class="flex justify-between">
           <h4> {{ $t('approveModal.pickupAddress') }}</h4>
@@ -129,7 +134,7 @@
                 <span>+{{ address?.phone_code }} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="closeModelAddAddress"
+              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="addressmodal=true"
                       v-if="$can('edit_addresses')"
               >{{ $t('category.edit') }}
               </button>
@@ -180,7 +185,14 @@
             </table>
           </div>
         </div>
-        <div class="card my-2 p-4">
+        <div v-if="selectedOrdersall.shipping_by_vendor" class="card my-2 p-4">
+          <h4>{{ $t('orderDetails.ShippingAddress') }}</h4>
+          <p><strong>{{ addressSelected.type }}</strong></p>
+          <p>{{ addressSelected.address_name }},{{ addressSelected.country }},{{ addressSelected.city }}
+            ,{{ addressSelected.building_number }}
+          </p>
+        </div>
+        <div v-else class="card my-2 p-4">
           <h4>{{ $t('approveModal.pickupAddress') }}</h4>
           <p><strong>{{ addressSelected.type }}</strong></p>
           <p>{{ addressSelected.address_name }},{{ addressSelected.country }},{{ addressSelected.city }}
@@ -209,16 +221,25 @@
               class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">
         {{ $t('approveModal.back') }}
       </button>
-      <button v-if="thirdBox" @click="approveSave" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">
-        {{ $t('approveModal.save') }}
-      </button>
+      <!--      <button v-if="thirdBox" @click="approveSave" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">-->
+      <!--        {{ $t('approveModal.save') }}-->
+      <!--      </button>-->
+      <ajax-button
+        v-if="thirdBox"
+        name="save"
+        another_class="primary-btn"
+        type="button"
+        :text="$t('setting.sv')"
+        @click="approveSave"
+        @clicked="approveSave"
+        :fetching-data="saving"
+      />
+
     </template>
 
-    <div v-if="addressmodal">
-      <AddAddressModel @close="closeModelAddAddress" :address="addressSelected">
 
-      </AddAddressModel>
-    </div>
+    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">
+    </AddAddressModel>
 
 
   </custome-modal>
@@ -234,9 +255,11 @@ import OrderSummary from "../pages/orders/component/OrderSummary.vue";
 import CardTab from "../pages/orders/component/CardTab.vue";
 import OrderItems from "../pages/orders/component/OrderItems.vue";
 import CustomeModal from "./CustomeModal.vue";
+import AjaxButton from "./AjaxButton.vue";
 
 export default {
   components: {
+    AjaxButton,
     CustomeModal,
     OrderItems, CardTab, OrderSummary, PriceWithCurencyFormat, AddAddressModel, LazyImage, Pagination
   },
@@ -303,8 +326,12 @@ export default {
     },
     firstStep() {
       this.firstBox = false;
-      this.secondBox = true;
-      this.thirdBox = false
+      if (this.selectedOrdersall.shipping_by_vendor) {
+        this.secondStep()
+      } else {
+        this.secondBox = true;
+        this.thirdBox = false
+      }
     },
     secondStep() {
       this.firstBox = false;
@@ -315,6 +342,9 @@ export default {
       this.firstBox = false;
       this.secondBox = true;
       this.thirdBox = false
+      if (this.selectedOrdersall.shipping_by_vendor) {
+        this.backSecondStep()
+      }
     },
     backSecondStep() {
       this.firstBox = true;
@@ -323,11 +353,12 @@ export default {
     },
 
     closeModelAddAddress() {
-      this.addressmodal = !this.addressmodal
+      console.log("close address modal 222")
+      this.addressmodal = false
     },
     showModelAddAddress() {
       this.addressSelected = "";
-      this.closeModelAddAddress();
+      this.addressmodal = true
     },
     handleSelectChange(value, subItem) {
       console.log("event.target.value, subItem")
@@ -380,6 +411,8 @@ export default {
       let data = {
         order_id: this.selectedOrdersall.order_id,
         pickup_address_id: this.addressSelected.id,
+        // selectedOrdersall.shipping_by_vendor: this.selectedOrdersall.shipping_by_vendor,
+        shipping_by_vendor: this.selectedOrdersall.shipping_by_vendor,
         products: orders
       }
       this.$emit('approveOrder', data)
@@ -387,6 +420,7 @@ export default {
   },
   mounted() {
     this.orders = this.selectedOrders;
+    // this.selectedOrdersall.shipping_by_vendor =this.selectedOrdersall.shipping_by_vendor??false
     if (!this.addressList)
       this.fetchingData();
     // this.$router.beforeEach((to, from, next) => {
@@ -398,7 +432,7 @@ export default {
     //   }
     // });
   },
-  props: ['showModal', 'is_reject_modal', 'providedId', 'selectedOrders', 'reasonsRejection']
+  props: ['showModal','saving', 'is_reject_modal', 'providedId', 'selectedOrders', 'reasonsRejection']
 };
 </script>
 
