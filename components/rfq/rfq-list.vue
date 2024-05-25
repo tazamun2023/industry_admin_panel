@@ -110,6 +110,19 @@
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
                                     src="~/assets/icon/clipboard-text.svg" alt=""><strong>
                                     {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                <p class="m-0 flex gap-2">
+                                  <svg v-if="value.status === 'canceled'"
+                                    style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24"
+                                    focusable="false" id="popover-trigger-64" aria-haspopup="dialog"
+                                    aria-expanded="false" aria-controls="popover-content-64">
+                                    <path fill="currentColor"
+                                      d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
+                                    </path>
+                                  </svg>
+                                  <span v-if="value.status === 'canceled'">{{ $t('rfq.rfqCanceled') }}</span>
+                                </p>
+
+
                               </td>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
@@ -155,14 +168,12 @@
                             <div>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                 @click.prevent="isRejected(value.id)"
-                                class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2"
-                              >
+                                class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2">
                                 Rejected
                               </button>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                 @click.prevent="isApproved(value.id)"
-                                class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2"
-                                >
+                                class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2">
                                 Approved
                               </button>
                             </div>
@@ -176,13 +187,14 @@
                               </nuxt-link>
                               <!--  {{ value.status_quotes !== 'draft' ?   $t('rfq.View Quote') : $t('rfq.View Draft Quote') }} -->
                               <nuxt-link
-                                v-else-if="$can('view_quotation') && value.is_submit && value.status_quotes == 'draft'"
+                              
+                                v-else-if="$can('view_quotation') && value.is_submit && value.status_quotes == 'draft' && value.status !== 'canceled'"
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
                                 :to="`/rfq/${value.id}`">
                                 {{ $t('rfq.View Draft Quote') }}
                               </nuxt-link>
                               <nuxt-link
-                                v-else-if="$can('submit_quotation') && $store.state.admin.isVendor && !value.is_submit"
+                                v-else-if="$can('submit_quotation') && $store.state.admin.isVendor && !value.is_submit &&  value.status !== 'canceled'"
                                 class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
                                 :to="`/rfq/${value.id}`"><i class="icofont-ui-add"></i>
                                 {{ $t("rfq.Submit Quotes") }}
@@ -332,6 +344,36 @@ export default {
       this.is_reject_modal = !this.is_reject_modal;
       this.rfqId = id
     },
+    // setRejectRfq
+    // async isRejected(id) {
+    //   this.is_loading = true;
+
+    //   const app = await this.swetAlertFire({
+    //     params: {
+    //       title: this.$i18n.t('approvedModal.sure'),
+    //       text: this.$i18n.t('approvedModal.revert'),
+    //     }
+    //   });
+
+    //   if (app) {
+    //     const data = await this.setRequest({
+    //       params: {
+    //         id:id
+    //       },
+    //       api: 'setRejectRfq'
+    //     });
+
+    //     const index = this.itemList.findIndex(item => item.id === id);
+    //     if (index !== -1) {
+    //       this.itemList[index].status = data.status;
+    //     }
+    //     this.is_loading = false;
+    //     return true;
+    //   } else {
+    //     this.is_loading = false;
+    //     return false;
+    //   }
+    // },
     async isApproved(id) {
       this.is_loading = true;
 

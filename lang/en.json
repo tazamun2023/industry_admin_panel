@@ -152,7 +152,8 @@
     "ClearFilter": "Clear Filter",
     "change": "CHANGE",
     "Remove": "remove",
-    "EditQuote": "Edit Quote"
+    "EditQuote": "Edit Quote",
+    "rfqCanceled":"rfq Canceled"
   },
   "multiSelect": {
     "orderStatus": "Order Status"

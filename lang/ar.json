@@ -129,7 +129,8 @@
     "ClearFilter": "مسح الفلتره",
     "change": "تعديل",
     "Remove": "حذف",
-    "EditQuote": "تعديل العرض"
+    "EditQuote": "تعديل العرض",
+    "rfqCanceled":"هذا العرض تم الغائة"
   },
   "products": {
     "Id": "المعرف",
