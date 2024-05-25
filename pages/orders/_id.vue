@@ -50,6 +50,8 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
+
+    <show-address :order-details="orderDetails"></show-address>
     <div class="card p-4">
       <div>
         <h4> {{$t('orderDetails.timeline')}}</h4>
@@ -94,8 +96,9 @@ import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue"
 import CardTab from "./component/CardTab.vue";
 import OrderSummary from "./component/OrderSummary.vue";
 import OrderItems from "./component/OrderItems.vue";
+import ShowAddress from "../../components/showAddress.vue";
 export default {
-  components: {OrderItems, OrderSummary, CardTab, PriceWithCurencyFormat, LazyImage,Invoice},
+  components: {ShowAddress, OrderItems, OrderSummary, CardTab, PriceWithCurencyFormat, LazyImage,Invoice},
   computed: {
     ...mapGetters('order', ['orderDetails'])
   },

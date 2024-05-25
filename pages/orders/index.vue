@@ -135,7 +135,7 @@
 
                           </button>
                         </div>
-                        <div v-else>
+                        <div >
                           <button @click="$router.push('orders/'+order.order_id)"
                                   class="border-2 font-bold mt-1 border-primary p-2 uppercase  rounded text-primary hover:text-primary leading-3">
                             {{ $t('order.ViewOrder') }}
