@@ -36,6 +36,9 @@
                 v-bind:list="list"
               />
             </table>
+            <!-- ----------------------- -->
+            <!-- <GlobalPagination/> -->
+            <!-- ----------------------- -->
             </div>
             <slot name="checkboxArea"/>
             <div
@@ -76,6 +79,7 @@ import Pagination from "~/components/partials/Pagination"
 import TableTop from "~/components/partials/TableTop"
 import routeParamHelper from "~/mixin/routeParamHelper"
 import Spinner from "~/components/Spinner"
+import GlobalPagination from "~/components/GlobalPagination"
 
 export default {
   name: "ListEditPage",
@@ -169,7 +173,8 @@ export default {
     Spinner,
     Pagination,
     TableTop,
-    Shimmer
+    Shimmer,
+    GlobalPagination
   },
   mixins: [util, routeParamHelper],
   computed: {
