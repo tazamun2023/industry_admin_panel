@@ -134,7 +134,7 @@ export default {
             product_id: this.ActiveInquiryData.inquirable?.id,
             quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
             visitor_id: this.ActiveInquiryData?.user?.id,
-            price: this.activeInquiries?.inquiryOffers[index]?.offer?.price * this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
+            price: this.activeInquiries?.inquiryOffers[index]?.offer?.price ,
             type: 'inquires',
           },
           api: 'acceptInquiriesOffer'
@@ -154,7 +154,7 @@ export default {
               is_reply: 1,
               type: 'offer',
               expired_at: this.expired_at,
-              price: this.activeInquiries?.inquiryOffers[index]?.offer?.price * this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
+              price: this.activeInquiries?.inquiryOffers[index]?.offer?.price ,
               quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity
             },
             api: 'inquiriesOfferStore'
@@ -318,7 +318,7 @@ export default {
                             <div class="flex justify-between p-1">
                               <span>{{ $t('products.Unit target price') }}</span>
                               <span><span class="font-bold">{{
-                                  activeInquirie.offer.price / activeInquirie.offer.quantity
+                                  activeInquirie.offer.price
                                 }}</span> <span
                                 class="text-primary">{{ $t('app.SAR') }}</span></span>
                             </div>
@@ -328,7 +328,7 @@ export default {
                           <div></div>
                           <div class="text-end flex justify-between">
                             <span>{{ $t('products.Total Price excl VAT') }}</span>
-                            <span><span class="font-bold">{{ activeInquirie.offer.price }}</span> <span
+                            <span><span class="font-bold">{{   activeInquirie.offer.price * activeInquirie.offer.quantity }}</span> <span
                               class="text-primary"> SAR</span></span>
                           </div>
                         </div>
@@ -468,7 +468,7 @@ export default {
                             <div class="flex justify-between p-1">
                               <span>{{ $t('products.Unit target price') }}</span>
                               <span><span class="font-bold">{{
-                                  activeInquirie.offer.price / activeInquirie.offer.quantity
+                                  activeInquirie.offer.price
                                 }}</span> <span
                                 class="text-primary">{{ $t('app.SAR') }}</span></span>
                             </div>
@@ -478,7 +478,7 @@ export default {
                           <div></div>
                           <div class="text-end flex justify-between">
                             <span>{{ $t('products.Total Price excl VAT') }}</span>
-                            <span><span class="font-bold">{{ activeInquirie.offer.price }}</span> <span
+                            <span><span class="font-bold">{{ activeInquirie.offer.price * activeInquirie.offer.quantity}}</span> <span
                               class="text-primary"> SAR</span></span>
                           </div>
                         </div>

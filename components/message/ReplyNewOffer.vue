@@ -48,7 +48,7 @@ export default {
             status: 'pending_response',
             is_reply: 1,
             type: this.formData.type,
-            price: this.formData.unit_target_price * this.formData.quantity + this.formData.total_tax,
+            price: this.formData.unit_target_price ,
             quantity: this.formData.quantity,
             expired_at: this.formData.expired_at
           },
