@@ -153,7 +153,7 @@
     "change": "CHANGE",
     "Remove": "remove",
     "EditQuote": "Edit Quote",
-    "rfqCanceled":"rfq Canceled"
+    "rfqCanceled":"RFQ Canceled"
   },
   "multiSelect": {
     "orderStatus": "Order Status"
@@ -166,7 +166,7 @@
     "Manage RFQ": "Manage RFQ",
     "min_order_qty": "Min.Order Quantity",
     "name": "Product name",
-    "add": "Add Product",
+    "add": "Add New Product",
     "Or More": "Or More ",
     "Products": "Products",
     "invalid Quantity": "invalid Quantity",
@@ -216,7 +216,8 @@
     "Send Offer": "Send Offer",
     "Your offer price": "Your offer price",
     "Total Price excl VAT": "Total Price excl.VAT",
-    "Unit target price": "Unit target price"
+    "Unit target price": "Unit target price",
+    "search":"search"
   },
   "index": {
     "qty": "Quantity",

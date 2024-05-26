@@ -12,7 +12,8 @@
           <div class="md:w-full pr-4 pl-4">
             <div class="flex mb-2">
               <input
-                class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+                class="block appearance-none w-full py-1 px-2 mb-1 text-base
+                 leading-normal bg-white text-gray-800 border border-gray-200 rounded"
                 type="text"
                 v-model="searchedString"
                 :placeholder="$t('list.sh')"

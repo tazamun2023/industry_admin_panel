@@ -139,15 +139,31 @@
                                   <div class="col-span-2">
                                     <label for="">{{ $t('products.name') }}*</label>
                                     <div class="flex border rounded p-1 border-smooth bg-white">
+
+                                      <input v-if="!product.qoute.product.title" class="block appearance-none w-full py-1 px-2 
+                                        mb-1 text-base leading-normal bg-white text-gray-800 border
+                                         border-gray-200 rounded no-radius border-none"
+                                         name="section" list="scripts"  v-model="prod" />
+                                      <!-- <datalist id="scripts" >
+                                        <span  v-for="(product, index) in productList"  
+                                        :key="index" :value="product.title" />
+                                      </datalist> -->
+                                      <span>
+                                     {{  product.qoute.product.title }}
+                                      </span>
+                                      <button type="button" @click="addProduct"
+                                      v-if="prod !== ''"
+                                        class="inline-block bg-primary  align-middle 
+                                        text-center select-none border font-normal whitespace-no-wrap rounded 
+                                         leading-normal no-underline  text-white hover:text-primary"
+                                        data-toggle="modal" data-target="#staticBackdrop">
+                                        {{  $t('products.search') }}
+                                      </button>
                                       <button type="button" @click="addProduct"
                                         class="inline-block bg-primary w-50  align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white hover:text-primary"
                                         data-toggle="modal" data-target="#staticBackdrop">
                                         {{ product.qoute.product_id !== "" ? $t('rfq.change') : $t('products.add') }}
                                       </button>
-                                      <span
-                                        class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
-                                        {{ product.qoute.product.title }}
-                                      </span>
                                     </div>
                                   </div>
                                   <div>
@@ -178,8 +194,9 @@
                                           @blur="validateTotalPrice(k, $event)" placeholder="0"
                                           class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
                                       </div>
-                                      <span class="error text-error" v-if="rfq.products[k].qoute.product_id && (rfq.products[k].qoute.total_offer_price == ''
-                                        || rfq.products[k].qoute.total_offer_price == 0)
+                                      <span class="error text-error" 
+                                      v-if="rfq.products[k].qoute.product_id && (rfq.products[k].qoute.total_offer_price == ''
+                                        || rfq.products[k].qoute.total_offer_price == 0)  && change
                                       ">{{ $t('rfq.costPriceGreater1') }}</span>
                                       <span v-if="rfq.products[k].qoute.product_id" class="error text-error">{{
                                         errors[0] }}</span>
@@ -211,7 +228,7 @@
                                       </button>
                                       <button :disabled="rfq.products[k].qoute.disabled"
                                         v-if="rfq.products[k].qoute.product_id" type="button"
-                                        @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                        @click="toggleCollapse('', 1),addDraftQuote()" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
                                        py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
                                         long mt-20">
                                         {{ $t('app.Save') }}
@@ -220,51 +237,53 @@
                                     </div>
                                   </div>
                                 </div>
-                                
+
                               </form>
                             </ValidationObserver>
                           </td>
                         </tr>
-                        <tr v-if="!isCollapsed  && activeProductId !== product.id &&  product.qoute.product_id !== ''">
+                        <tr v-if="!isCollapsed && activeProductId !== product.id && product.qoute.product_id !== ''">
                           <td colspan="8">
-                                <div class="grid grid-cols-5 gap-4 bg-[#fafafa] border-[0.5px] border-solid
+                            <div class="grid grid-cols-5 gap-4 bg-[#fafafa] border-[0.5px] border-solid
                                  border-[#BFBFBF] rounded-15 my-2 p-20">
-                                  <div>
-                                    <label for="">{{ $t('products.name') }}</label>
-                                    <div class="flex  rounded p-1  ">
-                                      <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
+                              <div>
+                                <label for="">{{ $t('products.name') }}</label>
+                                <div class="flex  rounded p-1  ">
+                                  <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
                                           rounded no-radius border-none font-bold">{{ product.qoute?.product?.title }}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label for="">{{ $t('rfq.Quantity') }}</label>
-                                    <div class="flex  rounded p-1  ">
-                                      <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
-                                          rounded no-radius border-none font-bold">{{ product.qoute?.quantity }} {{  product.unit.name }}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label for="">{{ $t('rfq.Unit offer price') }}</label>
-                                    <div class="flex  rounded p-1  ">
-                                      <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
-                                        rounded no-radius font-bold ">{{ product.qoute?.total_offer_price  }}
-                                        {{ $t('app.SAR') }}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label for=""> {{ $t('rfq.Total target price') }}</label>
-                                    <div class="flex  rounded p-1  ">
-                                      <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
-                                          rounded no-radius font-bold border-none text-orange-500">{{ product.qoute?.total_offer_price * product.qoute?.quantity  }}
-                                          {{ $t('app.SAR') }}
-                                      </span>
-                                    </div>
-                                  </div>
+                                  </span>
                                 </div>
-                            </td>
+                              </div>
+                              <div>
+                                <label for="">{{ $t('rfq.Quantity') }}</label>
+                                <div class="flex  rounded p-1  ">
+                                  <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
+                                          rounded no-radius border-none font-bold">{{ product.qoute?.quantity }} {{
+                                    product.unit.name }}
+                                  </span>
+                                </div>
+                              </div>
+                              <div>
+                                <label for="">{{ $t('rfq.Unit offer price') }}</label>
+                                <div class="flex  rounded p-1  ">
+                                  <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
+                                        rounded no-radius font-bold ">{{ product.qoute?.total_offer_price }}
+                                    {{ $t('app.SAR') }}
+                                  </span>
+                                </div>
+                              </div>
+                              <div>
+                                <label for=""> {{ $t('rfq.Total target price') }}</label>
+                                <div class="flex  rounded p-1  ">
+                                  <span class="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal  text-gray-800
+                                          rounded no-radius font-bold border-none text-orange-500">{{
+                                            product.qoute?.total_offer_price * product.qoute?.quantity }}
+                                    {{ $t('app.SAR') }}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
                         </tr>
                       </template>
                     </tbody>
@@ -353,14 +372,14 @@
                             {{ $t("rfq.Select from my catalogue") }}
                           </label>
                         </div>
-                        <div class="relative block mb-2 inline-block p-1">
+                        <!-- <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"
                             id="allproductLog" @click="productTableShow('copy_from_product')"
                             v-model="copy_from_product">
                           <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="allproductLog">
                             {{ $t("rfq.Copy from website catalogue") }}
                           </label>
-                        </div>
+                        </div> -->
                         <div class="relative block mb-2 inline-block p-1">
                           <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"
                             @click="productTableShow('upload_new_product')" id="upload_new" value="option3"
@@ -457,7 +476,10 @@ export default {
       },
       minDate: null,
       rfq: null,
-      loading: false
+      loading: false,
+      productData:[],
+      prod:"",
+      change: false
     }
   },
   directives: { outsideClick },
@@ -472,6 +494,9 @@ export default {
     ValidationObserver, ValidationProvider
   },
   computed: {
+    productList() {
+      return this.productData?.data || []
+    },
     id() {
       return this.$route?.params?.id
     },
@@ -486,7 +511,29 @@ export default {
     ...mapGetters('common', ['allUnits',])
   },
   methods: {
+    ...mapActions('common', ['getRequest']),
+    async fetchingDataList() {
+      this.fetchingProductList = true
+      try {
+        this.productData = await this.getRequest({
+          params: {
+            page: this.productPage,
+            orderby: 'created_at',
+            type: 'DESC',
+            search: this.searchedString,
+            page_type: this.type,
+            type_selected: this.type
+          },
+          api: 'getProducts'
+        })
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+      // this.fetchingProductList = false
+    },
     validateTotalPrice(k, val) {
+      this.change =true;
       if (this.rfq.products[k]?.qoute.total_offer_price == "" || this.rfq.products[k]?.qoute.total_offer_price == 0) {
         this.$set(this.rfq.products[k].qoute, 'disabled', true);
         if (val.target.value == '') {
@@ -565,6 +612,8 @@ export default {
     },
     async addQuote() {
       this.result.expiry_date = this.formatDate(this.result.expiry_date)
+      console.log('this.result',this.result)
+      this.result.is_draft= false;
       this.save()
       if (this.canSend)
         await this.setById({
@@ -572,11 +621,12 @@ export default {
           params: this.result,
           api: 'setQuote'
         }).then((res) => {
+          console.log('respose',res)
           return this.$router.push(`/rfq/quotation-details/` + res.id)
         })
     },
     async addDraftQuote() {
-      this.result.expiry_date = this.formatDate(this.result.expiry_date)
+      this.result.expiry_date = this.result.expiry_date ? this.formatDate(this.result.expiry_date) : null
       this.result.is_draft = true
       this.save()
       // if (this.canSend)
@@ -725,6 +775,7 @@ export default {
   async mounted() {
     this.minDate = this.getTodayDate();
     await this.fetchingData()
+    await this.fetchingDataList()
     this.select_from_my_catalog = true;
 
     if (this.allUnits.length == 0) {

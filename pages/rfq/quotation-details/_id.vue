@@ -57,15 +57,15 @@ export default {
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Status') }}</p>
-            <p class="uppercase">{{ quotation.status }}</p>
+            <p class="uppercase">{{ quotation?.status }}</p>
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Price Valid Until') }}</p>
-            <p>{{ quotation.valid_until }}</p>
+            <p>{{ quotation?.valid_until }}</p>
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Quotes Submitted')}}</p>
-            <p>{{ quotation.created }}</p>
+            <p>{{ quotation?.created }}</p>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default {
         <div class="flex justify-between">
           <div>
             <p class="font-bold">{{ $t('rfq.RFQ Id') }}</p>
-            <p>RFQ{{quotation.rfq.id}}</p>
+            <p>RFQ{{quotation?.rfq?.id}}</p>
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Shipping Country') }}</p>
@@ -87,7 +87,7 @@ export default {
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Shipping Terms') }}</p>
-            <p v-for="(shipmen_term, index) in quotation.rfq.shipmen_terms" :key="index">{{ shipmen_term.name }} <span v-if="index!=0">,</span></p>
+            <p v-for="(shipmen_term, index) in quotation?.rfq?.shipmen_terms" :key="index">{{ shipmen_term?.name }} <span v-if="index!=0">,</span></p>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default {
                     class="border-b border-neutral-200 font-medium">
                   <tr>
                     <th scope="col" class="px-3 py-1">#</th>
-                    <th scope="col" class="px-3 py-1">{{ $t('rfq.Product') }}({{quotation.products.length}})</th>
+                    <th scope="col" class="px-3 py-1">{{ $t('rfq.Product') }}({{quotation?.products?.length}})</th>
 <!--                    <th scope="col" class="px-3 py-1">{{ $t('rfq.Category') }}</th>-->
                     <th scope="col" class="px-3 py-1">{{ $t('rfq.Quantity') }}</th>
                     <th scope="col" class="px-3 py-1">{{ $t('rfq.Unit Offer Price') }}</th>
@@ -116,13 +116,13 @@ export default {
                     <td class="whitespace-nowrap px-3 py-1">
                       <div class="flex gap-4 items-center" v-if="product.product.image">
                         <img class="w-20 h-20" :src="product.product.image" :alt="product.product.title">
-                        <a class="underline text-primary" href="">{{ product.product.title }}</a>
+                        <a class="underline text-primary" href="">{{ product?.product?.title }}</a>
                       </div>
                     </td>
 <!--                    <td class="whitespace-nowrap px-3 py-1">{{ product.name }}</td>-->
                     <td class="whitespace-nowrap px-3 py-1">{{ product.quantity }} {{ product.unit?.name }}</td>
                     <td class="whitespace-nowrap px-3 py-1">SAR {{ product.total_offer_price }}</td>
-                    <td class="whitespace-nowrap px-3 py-1">SAR {{  product.total }}</td>
+                    <td class="whitespace-nowrap px-3 py-1">SAR {{  product?.total }}</td>
                   </tr>
                   </tbody>
                 </table>
