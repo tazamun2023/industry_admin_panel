@@ -5,10 +5,12 @@
           <h3 class="uppercase">Page Heading</h3>
         </div>
           <div class="w-full flex gap-4 items-center">
-            <button  class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
+            <nuxt-link :to="route">
+              <button  class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
               <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
               New
             </button>
+            </nuxt-link>
             <div class="related w-full">
               <img src="~/assets/icon/search-normal.svg" alt="" class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] mt-[13px]">
                  <input type="text" placeholder="Search" class="w-full px-34px">
@@ -46,6 +48,13 @@
 </template>
 <script>
 export default{
+  props: {
+    route: {
+      type: String,
+      default: '/'
+    },
+
+  },
   data(){
     return{
       dropDown:false,

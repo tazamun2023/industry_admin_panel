@@ -1114,7 +1114,8 @@
     "transportation": "Transportation Mode",
     "units": "Units",
     "temperatures": "Storage Temperatures",
-    "barcodes": "Barcodes"
+    "barcodes": "Barcodes",
+    "rejection-reasons":"Rejection Reasons"
   },
   "approvedModal": {
     "sure": "Are you sure",
