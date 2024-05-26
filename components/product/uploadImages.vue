@@ -44,7 +44,7 @@ export default {
   props: {
     accept: {
       type: String,
-      default: "image/*,application/pdf"
+      default: "image/*"
     },
     maxFiles: {
       type: Number,
