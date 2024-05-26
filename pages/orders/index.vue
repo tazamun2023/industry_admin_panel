@@ -2,7 +2,6 @@
   <check-validity :gate="'view_orders'">
 
 
-
     <div :class="{ loading: loading }">
       <div class="orders">
         <div class="card p-4">
@@ -51,7 +50,6 @@
                 {{ $t('status.outForDelivery') }}
               </a>
             </li>
-
             <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
               <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
                  v-on:click.prevent="toggleTabs( 'delivered')"
@@ -59,20 +57,30 @@
                 {{ $t('status.delivered') }}
               </a>
             </li>
+
             <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
               <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
-                 v-on:click.prevent="toggleTabs( 'rejected')"
-                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='rejected', 'border-b-2   border-primary text-primary': openTab ==='rejected' }">
-                {{ $t('status.rejected') }}
+                 v-on:click.prevent="toggleTabs( 'out_for_delivery')"
+                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='dispute', 'border-b-2    border-primary text-primary': openTab ==='dispute' }">
+                {{ $t('status.dispute') }}
               </a>
             </li>
-            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"
-                 v-on:click.prevent="toggleTabs( 'cancelled')"
-                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='cancelled', 'border-b-2   border-primary text-primary': openTab ==='cancelled' }">
-                {{ $t('status.cancelled') }}
-              </a>
-            </li>
+
+
+            <!--            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">-->
+            <!--              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"-->
+            <!--                 v-on:click.prevent="toggleTabs( 'rejected')"-->
+            <!--                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='rejected', 'border-b-2   border-primary text-primary': openTab ==='rejected' }">-->
+            <!--                {{ $t('status.rejected') }}-->
+            <!--              </a>-->
+            <!--            </li>-->
+            <!--            <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">-->
+            <!--              <a class="text-xs font-bold uppercase px-5 py-3   block leading-normal"-->
+            <!--                 v-on:click.prevent="toggleTabs( 'cancelled')"-->
+            <!--                 v-bind:class="{ 'bg-white border-white border-b': openTab !=='cancelled', 'border-b-2   border-primary text-primary': openTab ==='cancelled' }">-->
+            <!--                {{ $t('status.cancelled') }}-->
+            <!--              </a>-->
+            <!--            </li>-->
           </ul>
         </div>
         <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
@@ -109,9 +117,7 @@
                           <p>{{ $t('order.total') }}:</p>
 
 
-
                           <price-with-curency-format :price="order?.sub_total"></price-with-curency-format>
-
 
 
                         </div>
@@ -135,7 +141,7 @@
 
                           </button>
                         </div>
-                        <div >
+                        <div>
                           <button @click="$router.push('orders/'+order.order_id)"
                                   class="border-2 font-bold mt-1 border-primary p-2 uppercase  rounded text-primary hover:text-primary leading-3">
                             {{ $t('order.ViewOrder') }}
@@ -147,10 +153,11 @@
                       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                           <div class="overflow-hidden">
-                            <order-items :show_taxes="false" :order="order" v-if="!(closeable && index !== indexTabel)"></order-items>
-<!--                            <TablePending v-if="!(closeable && index !== indexTabel)">-->
-<!--                              <tr-sub-items :subItems="order.sub_order_items"/>-->
-<!--                            </TablePending>-->
+                            <order-items :show_taxes="false" :order="order"
+                                         v-if="!(closeable && index !== indexTabel)"></order-items>
+                            <!--                            <TablePending v-if="!(closeable && index !== indexTabel)">-->
+                            <!--                              <tr-sub-items :subItems="order.sub_order_items"/>-->
+                            <!--                            </TablePending>-->
                           </div>
 
                         </div>
@@ -168,18 +175,19 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal  v-if="$can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
+        <OrderApprovedModal v-if="$can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders"
+                            :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
 
-        <OrderReject   v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
+        <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
                      :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
                            :saveSata="saveSata" :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
 
 
-<!--        <custome-modal size="lg" :show-modal="showModal"></custome-modal>-->
+        <!--        <custome-modal size="lg" :show-modal="showModal"></custome-modal>-->
 
 
       </div>
@@ -353,7 +361,7 @@ export default {
       this.loading = false;
     },
     async approveOrderSave(data) {
-      this.saveSata=true
+      this.saveSata = true
       const response = await this.approveOrder({
         payload: data
       })
@@ -361,7 +369,7 @@ export default {
       if (index !== -1) {
         this.$set(this.orders.data, index, Object.assign({}, this.orders.data[index], {status: response.data.status}));
       }
-      this.saveSata=false
+      this.saveSata = false
       this.handleModalClose();
     },
     handleModalClose() {
