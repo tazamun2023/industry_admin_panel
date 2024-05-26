@@ -831,7 +831,17 @@ export default {
               is_image:true,
               gate: 'manage_shipment_setting',
             },
-
+            {
+              path: 'rejection-reasons',
+              title: this.$t('setting.rejection-reasons'),
+              icon: `<svg class="text-primary h-4 w-4" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.4167 1.66699H7.58342C7.01675 1.66699 6.21674 2.00033 5.81674 2.40033L2.40009 5.817C2.00009 6.217 1.66675 7.017 1.66675 7.58366V12.417C1.66675 12.9837 2.00009 13.7836 2.40009 14.1836L5.81674 17.6003C6.21674 18.0003 7.01675 18.3337 7.58342 18.3337H12.4167C12.9834 18.3337 13.7834 18.0003 14.1834 17.6003L17.6001 14.1836C18.0001 13.7836 18.3334 12.9837 18.3334 12.417V7.58366C18.3334 7.017 18.0001 6.217 17.6001 5.817L14.1834 2.40033C13.7834 2.00033 12.9834 1.66699 12.4167 1.66699Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.1167 15.8995L15.9 4.11621" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              `,
+              is_image:true,
+              gate: 'manage_shipment_setting',
+            },
             {
               path: 'units',
               title: this.$t('setting.units'),
@@ -1148,6 +1158,9 @@ export default {
 }
 .sidebar ul .child-open > a {
   background:#01A781 !important;
+  color:#fff !important;
+}
+.sidebar ul .child-open > a span svg{
   color:#fff !important;
 }
 .sidebar ul li{

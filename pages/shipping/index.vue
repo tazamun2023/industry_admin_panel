@@ -36,7 +36,8 @@
 
       <tr v-for="(value, index) in list" :key="index">
         <td>
-          <input type="checkbox" :value="1" v-model="value.status">
+          <SwitchToggle :value="value.status?true:false"/>
+          // <input type="checkbox" :value="1" v-model="value.status">
         </td>
         <td>
           <input type="hidden" v-model="value.id">
@@ -180,4 +181,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
       background-image: url('~/assets/icon/clock.svg'); /* Custom clock icon */
 
     }
+    .rtl\:right-1:where([dir="rtl"], [dir="rtl"] *) {
+    right: 1.25rem;
+}
 </style>
