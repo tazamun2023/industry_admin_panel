@@ -36,13 +36,13 @@
           <img v-if="orderbyType == 'desc'" @click="orderbyType='asc', searchBank()" class="w-7 h-7 rotate-180"
                src="~/assets/icon/frame.svg" alt="">
           <div class="relative inline-block text-left">
-            <div>
+            <div class="min-w-[156px]">
               <button @click="shortDropdown" type="button"
-                      class="inline-flex w-full justify-center items-center gap-6 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
+                      class="inline-flex w-full justify-between  capitalize items-center text-[13px] gap-4 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
                       id="menu-button" aria-expanded="true" aria-haspopup="true">
                 <img style="background: #01A78133;" class="w-8 h-8 bg-primary p-2 rounded"
                      src="~/assets/icon/setting-5.svg" alt="">
-                Name
+                {{ btnText }}
                 <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd"
                         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
@@ -52,18 +52,22 @@
             </div>
 
             <div v-if="dropDown"
-                 class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                 class="absolute right-0 z-10 mt-2 w-[156px] origin-top-right rounded-md bg-white shadow-lg   focus:outline-none"
                  role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div class="py-1" role="none">
+              <div class="py-1 px-2" role="none">
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                <span @click="orderBy='name', searchBank()"
-                      class="text-gray-700 block px-4 py-2 text-sm w-full border-b border-smooth" role="menuitem"
-                      tabindex="-1" id="menu-item-0">Name</span>
-                <span @click="orderBy='bank_name', searchBank()"
-                      class="text-gray-700 block px-4 py-2 text-sm border-b border-smooth" role="menuitem" tabindex="-1"
-                      id="menu-item-1">Bank Name</span>
-                <span @click="orderBy='holder_name', searchBank()" class="text-gray-700 block px-4 py-2 text-sm"
-                      role="menuitem" tabindex="-1" id="menu-item-2">Holder Name</span>
+                <span @click="orderBy='name', searchBank(),selectOption($t('filter.name'))"
+                      :class="{'bg-primarylight text-primary': btnText === $t('filter.name')}"
+                      class="hover:bg-primarylight block rounded-[7px] cursor-pointer my-1 px-4 py-2 text-sm " role="menuitem"
+                      tabindex="-1" id="menu-item-0">{{ $t('filter.name') }}</span>
+                <span @click="orderBy='bank_name', searchBank(),selectOption($t('filter.BankName'))"
+                      :class="{'bg-primarylight text-primary': btnText === $t('filter.BankName')}"
+                      class="text-gray-700 block hover:bg-primarylight rounded-[7px] cursor-pointer my-1 px-4 py-2 text-sm" role="menuitem" tabindex="-1"
+                      id="menu-item-1">{{ $t('filter.BankName') }}</span>
+                <span @click="orderBy='holder_name', searchBank(),selectOption($t('filter.HolderName'))"
+                      :class="{'bg-primarylight text-primary': btnText === $t('filter.HolderName')}"
+                      class="text-gray-700 hover:bg-primarylight rounded-[7px] cursor-pointer my-1 block px-4  py-2 text-sm"
+                      role="menuitem" tabindex="-1" id="menu-item-2">{{ $t('filter.HolderName') }}</span>
               </div>
             </div>
           </div>
@@ -122,64 +126,7 @@
           </td>
         </tr>
       </table>
-      <div class="flex border-t border-pb p-4 items-center justify-between gap-4">
-        <button disabled
-                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                type="button">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9 5L6 8L9 11" stroke="#01A781" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-
-          Previous
-        </button>
-        <div class="flex items-center gap-2">
-          <button
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg bg-gray-900 text-center align-middle font-sans text-xs font-medium uppercase text-white bg-primary shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        1
-      </span>
-          </button>
-          <button
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        2
-      </span>
-          </button>
-          <button
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        3
-      </span>
-          </button>
-          <button
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        4
-      </span>
-          </button>
-          <button
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button">
-      <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        5
-      </span>
-          </button>
-        </div>
-        <button
-          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          type="button">
-          Next
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.75 13.75L12.5 10L8.75 6.25" stroke="#01A781" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-          </svg>
-
-        </button>
-      </div>
+     <GlobalPagination/>
     </div>
     <DeleteModal v-if="deleteModal" @closeModal="closeModal">
       <template v-slot:title>
@@ -428,6 +375,7 @@ export default {
   mixins: [bank],
   data() {
     return {
+      btnText:'name',
       dropDown: false,
       Cardmodal: false,
       bankData: {
@@ -470,6 +418,10 @@ export default {
     closeModal() {
       this.deleteModal = false
 
+    },
+    selectOption(option) {
+      this.btnText = option;
+      this.dropDown = false; // Close dropdown after selection
     },
     async SetDefaultBanks(id, e) {
       const res = await this.swetAlertFire({

@@ -1522,5 +1522,11 @@
     "terms_and_conditions": "Terms and Conditions",
     "pay_within_15_days": "Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.",
     "quote_invoice_number": "Please quote invoice number when remitting funds."
-  }
+  },
+"filter":{
+  "name":"Name",
+  "BankName":"Bank Name",
+  "HolderName":"Holder Name"
+}
+
 }
