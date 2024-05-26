@@ -130,7 +130,7 @@
     "change": "تعديل",
     "Remove": "حذف",
     "EditQuote": "تعديل العرض",
-    "rfqCanceled":"هذا العرض تم الغائة"
+    "rfqCanceled": "هذا العرض تم الغائة"
   },
   "products": {
     "Id": "المعرف",
@@ -547,6 +547,7 @@
     "pending": "قيد الانتظار"
   },
   "orderDetails": {
+    "addFiles": "Add Files",
     "title": "الطلبات الخاصة بي",
     "ItemPrice": "سعر المتتج",
     "ItemStatus": "حالة المنتج ",
@@ -830,9 +831,9 @@
     "organization": "المؤسسة",
     "image": "الصورة",
     "verify": "التحقق",
-    "all_users":"جميع المستخدمين",
-    "invite_users":"دعوات المستخدمين",
-    "componyName":"اسم الشركة"
+    "all_users": "جميع المستخدمين",
+    "invite_users": "دعوات المستخدمين",
+    "componyName": "اسم الشركة"
   },
   "bank": {
     "bank_name": "اسم البنك",

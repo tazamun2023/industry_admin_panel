@@ -207,12 +207,12 @@ export default {
     const response = await apiClient.get(`${json.api.subOrder}/${id}`);
     return response;
   },
-  async getReasonsRejection(bearer, lang = null) {
+  async getReasonsRejection(bearer,data, lang = null) {
     if (lang) {
       apiClient.defaults.headers.common['Language'] = lang
     }
     apiClient.defaults.headers.common['Authorization'] = bearer
-    const response = await apiClient.get(json.api.reasonsRejection);
+    const response = await apiClient.post(json.api.reasonsRejection,data);
     return response;
   },
 //   getVendorAddress

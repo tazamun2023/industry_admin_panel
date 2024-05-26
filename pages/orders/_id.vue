@@ -54,7 +54,7 @@
     <show-address :order-details="orderDetails"></show-address>
     <div class="card p-4">
       <div>
-        <h4> {{ $t('orderDetails.timeline') }}</h4>
+        <h4> {{ $t('orderDetails.addFiles') }}</h4>
       </div>
       <!-- component -->
       <!-- This is an example component -->

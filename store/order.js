@@ -99,8 +99,8 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-  async getReasonsRejection({commit, dispatch}) {
-    const {data} = await Service.getReasonsRejection(this.$auth.strategy.token.get())
+  async getReasonsRejection({rootState,commit, dispatch}, payload ) {
+    const {data} = await Service.getReasonsRejection(this.$auth.strategy.token.get(),payload, rootState.language.langCode)
     if (data.status === 200) {
       commit('SET_REASONS_REJECTION', data.data)
       dispatch('ui/setToastMessage', data.message, {root: true})
