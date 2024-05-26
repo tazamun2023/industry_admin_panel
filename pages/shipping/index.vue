@@ -37,7 +37,7 @@
       <tr v-for="(value, index) in list" :key="index">
         <td>
           <SwitchToggle :value="value.status?true:false"/>
-
+          // <input type="checkbox" :value="1" v-model="value.status">
         </td>
         <td>
           <input type="hidden" v-model="value.id">
