@@ -1160,6 +1160,9 @@ export default {
   background:#01A781 !important;
   color:#fff !important;
 }
+.sidebar ul .child-open > a span svg{
+  color:#fff !important;
+}
 .sidebar ul li{
   margin-top:2px  !important;
   margin-bottom:2px  !important;

@@ -93,8 +93,8 @@
           <th class="bg-lightdeep">Swift code</th>
           <th class="bg-lightdeep">Bank Holder</th>
           <th class="bg-lightdeep">Bank</th>
-          <th class="bg-lightdeep">
-            <div class="flex gap-4 items-center">
+          <th class="bg-lightdeep text-center">
+            <div class="flex gap-2 justify-center items-center">
               <input type="checkbox">
               Set as Default
             </div>
@@ -116,12 +116,13 @@
           </td>
           <td class="font-bold capitalize">{{ value.holder_name }}</td>
           <td>{{ value.bank_name }}</td>
-          <td><input type="checkbox" :checked="value.is_default"></td>
+          <td class="text-center"><input type="checkbox" :checked="value.is_default"></td>
           <td>
             <div class="flex gap-4">
+
+              <img @click="deleteModal=true" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
               <img @click="editing(value)" v-if="$can('update_financial')" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
-              <img @click="deleteModal=true" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
             </div>
           </td>
         </tr>
