@@ -335,6 +335,7 @@ export default {
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                           <p class="p-2 bg-warning rounded" v-if="activeInquirie.status==='rejected'">{{ $t('prod.Rejected by Buyer') }}</p>
+                          <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">{{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
                           <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
 <!--                            <button @click="acceptOffer(index)"-->
@@ -344,13 +345,13 @@ export default {
 <!--                            acceptOffer(index, activeInquirie)-->
 
                             <button @click="acceptOfferModal(index)"
-                                    v-if="activeInquirie.status!=='approved' && activeInquirie.status!=='rejected' && !is_click_accept"
+                                    v-if="activeInquirie.status!=='approved' && activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired'"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Accept Offer') }}
                             </button>
 
                             <button @click="RejectOffer(activeInquirie)"
-                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept"
+                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired'"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('prod.Reject') }}
                             </button>
@@ -485,10 +486,11 @@ export default {
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                           <p class="p-2 bg-warning text-white rounded" v-if="activeInquirie.status==='rejected'">{{ $t('prod.Rejected') }}</p>
+                          <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">{{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
                           <p class="p-2 bg-primarylight rounded" v-else>{{ $t('prod.Offer sent') }} {{  activeInquirie?.offer?.expired_at }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_cancel_new_offer_customer=activeInquirie.id"
-                                    v-if="activeInquirie.status!=='rejected'"
+                                    v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired'"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Cancel Offer') }}
                             </button>
