@@ -44,6 +44,7 @@ export default {
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src:   '~/plugins/tippy.js'},
     {src:  '~/plugins/vue-modal.js'},
     { src: '~/plugins/vue-draggable', ssr: false },
     { src: '~/plugins/vue-select.js', ssr: false },

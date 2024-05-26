@@ -1,5 +1,5 @@
 <template>
-    <span :class="`bg-${backgroundColor} text-${color} px-2 rounded-3xl font-bold text-[13px]`">
+    <span :class="`bg-[${backgroundColor}] text-[${color}] px-2 rounded-3xl font-bold text-[13px]`">
       {{ $t(`${text}`) }}
     </span>
   </template>

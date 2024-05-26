@@ -23,19 +23,24 @@
       name="fade" mode="out-in"
     >
       <div v-if="!loading">
-        <div class="card">
+        <div :class="cardClass" class="card">
           <div class="table-wrapper">
             <form
               @submit.prevent="formSubmit"
               :class="{'has-error': hasError}"
             >
-            <table class="mn-w-600x">
+            <div :class="tableClass">
+              <table  class="mn-w-600x">
               <slot
                 name="table"
                 v-bind:list="list"
               />
             </table>
-
+            <!-- ----------------------- -->
+            <!-- <GlobalPagination/> -->
+            <!-- ----------------------- -->
+            </div>
+            <slot name="checkboxArea"/>
             <div
               class="dply-felx j-right single-btn my-2"
             >
@@ -74,10 +79,19 @@ import Pagination from "~/components/partials/Pagination"
 import TableTop from "~/components/partials/TableTop"
 import routeParamHelper from "~/mixin/routeParamHelper"
 import Spinner from "~/components/Spinner"
+import GlobalPagination from "~/components/GlobalPagination"
 
 export default {
   name: "ListEditPage",
   props: {
+    cardClass: {
+      type: String,
+      default: ''
+    },
+    tableClass: {
+      type: String,
+      default: ''
+    },
     addButton: {
       type: Boolean,
       default: true
@@ -159,7 +173,8 @@ export default {
     Spinner,
     Pagination,
     TableTop,
-    Shimmer
+    Shimmer,
+    GlobalPagination
   },
   mixins: [util, routeParamHelper],
   computed: {

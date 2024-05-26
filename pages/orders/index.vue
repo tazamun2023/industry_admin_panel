@@ -135,7 +135,7 @@
 
                           </button>
                         </div>
-                        <div v-else>
+                        <div >
                           <button @click="$router.push('orders/'+order.order_id)"
                                   class="border-2 font-bold mt-1 border-primary p-2 uppercase  rounded text-primary hover:text-primary leading-3">
                             {{ $t('order.ViewOrder') }}
@@ -168,10 +168,11 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
+        <OrderApprovedModal  v-if="$can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders" :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
-        <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
+
+        <OrderReject   v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
                      :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
