@@ -251,6 +251,15 @@ export default {
     const response = await apiClient.post(`${json.api.subOrderChangeStatus}/${params.order_id}`,params)
     return response;
   },
+  // addOrderFiles
+  async addOrderFiles(bearer, params,lang = null) {
+    if (lang) {
+      apiClient.defaults.headers.common['Language'] = lang
+    }
+    apiClient.defaults.headers.common['Authorization'] = bearer
+    const response = await apiClient.post(`${json.api.addOrderFiles}/${params.order_id}`,params)
+    return response;
+  },
   //approve Order
   async approveOrder(bearer, params,lang = null) {
     if (lang) {

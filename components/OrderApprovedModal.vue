@@ -187,10 +187,10 @@
         </div>
         <div v-if="selectedOrdersall.shipping_by_vendor" class="card my-2 p-4">
           <h4>{{ $t('orderDetails.ShippingAddress') }}</h4>
-          <p><strong>{{ addressSelected.type }}</strong></p>
-          <p>{{ addressSelected.address_name }},{{ addressSelected.country }},{{ addressSelected.city }}
-            ,{{ addressSelected.building_number }}
-          </p>
+          <p><strong>{{ selectedOrdersall.shipping_address.name }}</strong></p>
+          <p class="flex items-center gap-4"><img class="h-4 w-4" src="~/assets/icon/phone.svg" alt="">{{
+              selectedOrdersall.shipping_address?.phone            }}</p>
+
         </div>
         <div v-else class="card my-2 p-4">
           <h4>{{ $t('approveModal.pickupAddress') }}</h4>

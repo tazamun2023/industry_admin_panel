@@ -105,8 +105,8 @@ export default {
     async fetchingData() {
       try {
         this.loading = true;
-        let data = await this.getRequest({ params: { ...this.param }, api: this.getApi });
-        this.allRejectReasons = data.all_reject_reasons;
+        let {data} = await this.getRequest({ params: { ...this.param }, api: this.getApi });
+        this.allRejectReasons = data;
       } catch (error) {
         this.$nuxt.error(error);
       } finally {

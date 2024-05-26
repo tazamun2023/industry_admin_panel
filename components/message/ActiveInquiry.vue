@@ -23,10 +23,12 @@ export default {
       is_send_new_offer_index: false,
       is_send_new_offer_vendor: false,
       is_cancel_new_offer_customer: false,
+      is_click_accept: false,
       is_loading: false,
       activeInquiries: [],
       test: [],
-      message: ''
+      message: '',
+      expired_at: ''
     }
 
   },
@@ -104,10 +106,27 @@ export default {
         return this.$nuxt.error(e)
       }
     },
-    RejectOffer(offer){
-
+    acceptOfferModal(index){
+      this.is_click_accept = index
     },
-    async acceptOffer(index){
+    RejectOffer(offer){
+      this.setRequest({
+        params: {
+          offer_id: offer.id,
+          inquiry_id: this.ActiveInquiryData.id,
+          status: 'rejected',
+          is_reply: 1,
+          type: 'offer'
+        },
+        api: 'inquiriesOfferStore'
+      }).then(data=>{
+        // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
+        this.$emit('is_send_new_offer', false);
+        this.$emit('is_send_new_offer_vendor', false);
+        this.is_after_send = false
+      })
+    },
+    async acceptOffer(index, activeInquirie){
       try {
         this.formSubmitting = true
         await this.setRequest({
@@ -128,11 +147,13 @@ export default {
 
           this.setRequest({
             params: {
+              offer_id: activeInquirie.id,
               inquiry_id: this.ActiveInquiryData.id,
               product_id: this.ActiveInquiryData.product?.id??this.ActiveInquiryData?.inquirable?.id,
               status: 'approved',
               is_reply: 1,
               type: 'offer',
+              expired_at: this.expired_at,
               price: this.activeInquiries?.inquiryOffers[index]?.offer?.price * this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
               quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity
             },
@@ -142,6 +163,7 @@ export default {
             this.$emit('is_send_new_offer', false);
             this.$emit('is_send_new_offer_vendor', false);
             this.is_after_send = false
+            this.is_click_accept = false
           })
         })
         this.formSubmitting = false
@@ -154,7 +176,13 @@ export default {
     isLastOffer(index) {
       return index === this.activeInquiries.inquiryOffers.length - 1;
     },
-
+    getTodayFormattedDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    },
     sendNewOffer(ev) {
       this.is_send_new_offer = ev;
       this.is_send_new_offer_customer = ev;
@@ -306,20 +334,23 @@ export default {
                         </div>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
-                          <p class="p-2 bg-primarylight rounded">{{ $t('products.Offer sent message') }}</p>
+                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.status==='rejected'">{{ $t('prod.Rejected by Buyer') }}</p>
+                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
 <!--                            <button @click="acceptOffer(index)"-->
 <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
 <!--                              {{ $t('products.Accept Offer') }}-->
 <!--                            </button>-->
+<!--                            acceptOffer(index, activeInquirie)-->
 
-                            <button @click="acceptOffer(index)"
-                                    v-if="activeInquirie.status!=='approved'"
+                            <button @click="acceptOfferModal(index)"
+                                    v-if="activeInquirie.status!=='approved' && activeInquirie.status!=='rejected' && !is_click_accept"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Accept Offer') }}
                             </button>
 
                             <button @click="RejectOffer(activeInquirie)"
+                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('prod.Reject') }}
                             </button>
@@ -330,6 +361,7 @@ export default {
 <!--                            </button>-->
 
                             <button @click="isSendNewOfferVendor(index, activeInquirie)"
+                                    v-if="!is_click_accept"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
                             </button>
@@ -363,7 +395,28 @@ export default {
                         </div>
                         <!-- ---------end-------- -->
                         <!-- -------------- -->
-
+                        <div class="flex justify-between gap-4 pt-4" v-if="is_click_accept">
+                          <p class="w-50">{{ $t('prod.Validate until') }}</p>
+                          <input
+                            class="p-2 rounded"
+                            :placeholder="$t('prod.Validate until')"
+                            type="date"
+                            :min="getTodayFormattedDate()"
+                            v-model="expired_at"
+                          >
+                        </div>
+                        <div class="flex justify-end gap-4 pt-2" v-if="is_click_accept">
+                          <button @click="is_click_accept=false"
+                                  class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                            {{ $t('products.Cancel') }}
+                          </button>
+                          <button
+                            :disabled="!expired_at"
+                            @click="acceptOffer(index, activeInquirie)"
+                            class="border-2 border-primary px-2 h-[34px] leading-3 bg-primary text-white font-bold">
+                            {{ $t('products.Confirm') }}
+                          </button>
+                        </div>
                         <ReplyNewOffer
                           v-if="is_send_new_offer_vendor===index"
                           :ActiveInquiryData="activeInquirie"
@@ -431,9 +484,11 @@ export default {
                         </div>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
-                          <p class="p-2 bg-primarylight rounded">{{ $t('prod.Offer sent') }} {{  activeInquirie?.offer?.expired_at }}</p>
+                          <p class="p-2 bg-warning text-white rounded" v-if="activeInquirie.status==='rejected'">{{ $t('prod.Rejected') }}</p>
+                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('prod.Offer sent') }} {{  activeInquirie?.offer?.expired_at }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_cancel_new_offer_customer=activeInquirie.id"
+                                    v-if="activeInquirie.status!=='rejected'"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Cancel Offer') }}
                             </button>
