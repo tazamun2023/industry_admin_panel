@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="card">
-      <FilterGlobal route="rejection-reasons/create"/>
+    <div class="">
+      <FilterGlobal page-heading="Rejection Reasons" route="rejection-reasons/create"/>
       <div class="table-wrapper p-4">
        <div class="border border-cardb rounded-[12px]">
         <table  class="mn-w-600x">

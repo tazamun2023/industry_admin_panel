@@ -2,9 +2,9 @@
   <div>
     <div class="px-[10em] py-4">
           <div class="py-2">
-          <h3 class="uppercase">Page Heading</h3>
+          <h3 class="uppercase">{{ pageHeading }}</h3>
         </div>
-          <div class="w-full flex gap-4 items-center">
+          <div class="w-full px-3 flex gap-4 items-center">
             <nuxt-link :to="route">
               <button  class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
               <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
@@ -69,7 +69,10 @@ export default{
       type: String,
       default: '/'
     },
-
+    pageHeading:{
+      type: String,
+      default: ''
+    },
   },
   data(){
     return{
