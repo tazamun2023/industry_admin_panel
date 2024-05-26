@@ -121,7 +121,7 @@
 
 
                         </div>
-                        <div v-if="order?.status=='pending'">
+                        <div v-if="order?.status!='pending'">
                           <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
                                   class="border-2 mt-1 border-warning text-warning uppercase font-bold p-2 rounded leading-3">
                             {{ $t('order.rejectOrder') }}

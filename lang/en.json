@@ -5,6 +5,8 @@
     "ar": "Arabic",
     "en": "English",
     "Save": "Save",
+    "Previous": "Previous",
+    "Next": "Next",
     "Add": "Add",
     "Done": "Done",
     "of": "of",
@@ -153,7 +155,7 @@
     "change": "CHANGE",
     "Remove": "remove",
     "EditQuote": "Edit Quote",
-    "rfqCanceled":"RFQ Canceled"
+    "rfqCanceled": "RFQ Canceled"
   },
   "multiSelect": {
     "orderStatus": "Order Status"
@@ -217,7 +219,7 @@
     "Your offer price": "Your offer price",
     "Total Price excl VAT": "Total Price excl.VAT",
     "Unit target price": "Unit target price",
-    "search":"search"
+    "search": "search"
   },
   "index": {
     "qty": "Quantity",
@@ -1119,7 +1121,7 @@
     "units": "Units",
     "temperatures": "Storage Temperatures",
     "barcodes": "Barcodes",
-    "rejection-reasons":"Rejection Reasons"
+    "rejection-reasons": "Rejection Reasons"
   },
   "approvedModal": {
     "sure": "Are you sure",
@@ -1525,10 +1527,9 @@
     "pay_within_15_days": "Please pay within 15 days from the date of invoice, overdue interest @ 14% will be charged on delayed payments.",
     "quote_invoice_number": "Please quote invoice number when remitting funds."
   },
-"filter":{
-  "name":"Name",
-  "BankName":"Bank Name",
-  "HolderName":"Holder Name"
-}
-
+  "filter": {
+    "name": "Name",
+    "BankName": "Bank Name",
+    "HolderName": "Holder Name"
+  }
 }
