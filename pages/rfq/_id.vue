@@ -612,6 +612,8 @@ export default {
     },
     async addQuote() {
       this.result.expiry_date = this.formatDate(this.result.expiry_date)
+      console.log('this.result',this.result)
+      this.result.is_draft= false;
       this.save()
       if (this.canSend)
         await this.setById({
@@ -619,6 +621,7 @@ export default {
           params: this.result,
           api: 'setQuote'
         }).then((res) => {
+          console.log('respose',res)
           return this.$router.push(`/rfq/quotation-details/` + res.id)
         })
     },
