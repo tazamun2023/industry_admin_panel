@@ -1975,7 +1975,8 @@ export default {
             this.variants[0].result = {};
           }
           this.variant_uuid_global = res.variant_uuid
-
+          console.log('varian send')
+          console.log(res)
           // Assign properties from res to this.variants[this.openTab].result
           this.variants[0].result = {
             title: res.title,

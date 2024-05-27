@@ -191,7 +191,7 @@
                         v-else
                         class="dply-felx j-left link"
                         style="max-width:100px;height:70px;object-fit:cover"
-                        :to="$store.state.admin.isSuperAdmin?`/products/show/${value.id}`:`/products/${value.id}`"
+                        :to="computedUrl(value)"
                       >
 
                         <lazy-image
@@ -288,8 +288,8 @@
                         </div>
                       </Modal>
                     </td>
-                    <td v-if="value.is_buyable===1">Online</td>
-                    <td v-else>Offline</td>
+                    <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
+                    <td v-else>{{ $t('prod.Offline')}}</td>
                     <td>
 
                       <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
@@ -315,10 +315,16 @@
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
-                            v-if="$can('manage_products') && !value.is_variant"
+                            v-if="$can('manage_products') && !value.is_variant && value.status !== 'pending'"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">
                             {{ $t('prod.Edit')}}
+                          </nuxt-link>
+                          <nuxt-link
+                            v-if="$can('manage_products') && !value.is_variant && value.status === 'pending'"
+                            class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
+                            :to="`/products/show/pending/${value.id}`">
+                            {{ $t('prod.Show')}}
                           </nuxt-link>
                           <nuxt-link
                             v-if="$can('manage_products') && value.is_variant"
@@ -344,7 +350,7 @@
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
-                            v-if="$store.state.admin.isVendor"
+                            v-if="$store.state.admin.isVendor && value.status !== 'pending'"
                           >
                             {{ $t('prod.Delete')}}
                           </li>
@@ -433,7 +439,15 @@ export default {
       var lang = this.currentLanguage ? this.currentLanguage.code : 'en';
       return text[lang] || text['en'] || text;
     },
+    computedUrl(value) {
+      const baseUrl = this.$store.state.admin.isSuperAdmin ? `/products/show/` : `/products/`;
 
+      if (value.status === 'pending') {
+        return `/products/show/pending/${value.id}`;
+      }
+
+      return `${baseUrl}${value.id}`;
+    },
     openModal(index) {
       this.modalVisible = true;
       this.is_reject_modal = index;

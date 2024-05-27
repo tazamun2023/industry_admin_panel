@@ -268,7 +268,6 @@ export default {
       }
     },
 
-
     getThumbImageURL(image) {
 
       if (!image) {
