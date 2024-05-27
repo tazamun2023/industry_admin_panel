@@ -20,42 +20,51 @@
     <!-- ==================tab============== -->
     <div class="flex  mt-20 flex-wrap">
       <div class="w-full">
-        <ul class="flex mb-0 list-none flex-wrap pt-3 w-50 pb-4 flex-row">
+        <ul class="flex mb-0 list-none flex-wrap pt-3 w-full pb-4 flex-row">
+          <li v-if="$store.state.admin.isSuperAdmin" class="-mb-px mr-2 last:mr-0   flex-auto text-center">
+            <nuxt-link
+              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+              v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'pending', 'border-t-4 border-primary': openTab === 'pending' }"
+              :to="`/rfq/pending`" :title="$t('prod.pending_approval')">
+              {{ $t("prod.pending_approval") }}
+            </nuxt-link>
+          </li>
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
 
             <nuxt-link v-if="$store.state.admin.isVendor"
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal" v-bind:class="{
+                       class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                       v-bind:class="{
                 'text-pink-600 bg-white border-white border-t-4':
                   openTab !== 'relevant_to_me', 'border-t-4 border-primary': openTab === 'relevant_to_me'
-              }" :to="`/rfq`" :title="$t('app.Relevant to me')">
+              }" :to="`/rfq/relevant`" :title="$t('app.Relevant to me')">
               {{ $t("app.Relevant to me") }}
             </nuxt-link>
             <nuxt-link v-if="$store.state.admin.isSuperAdmin"
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-              v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'approved', 'border-t-4 border-primary': openTab === 'approved' }"
-              :to="`/rfq/approved`" :title="$t('app.Approved')">
+                       class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'approved', 'border-t-4 border-primary': openTab === 'approved' }"
+                       :to="`/rfq/approved`" :title="$t('app.Approved')">
               {{ $t("app.Approved") }}
             </nuxt-link>
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <nuxt-link class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-              v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'all_rfq', 'border-t-4 border-primary': openTab === 'all_rfq' }"
-              :to="`/rfq/all`" :title="$t('app.All')">
+                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'all_rfq', 'border-t-4 border-primary': openTab === 'all_rfq' }"
+                       :to="`/rfq`" :title="$t('app.All')">
               {{ $t("app.All") }}
             </nuxt-link>
 
           </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <nuxt-link v-if="$store.state.admin.isVendor"
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-              v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 3, 'border-t-4 border-primary': openTab === 3 }"
-              :to="`/rfq/my-list`" :title="$t('app.My List')">
+                       class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'my-list', 'border-t-4 border-primary': openTab ===  'my-list' }"
+                       :to="`/rfq/my-list`" :title="$t('app.My List')">
               {{ $t("app.My List") }}
             </nuxt-link>
             <nuxt-link v-if="$store.state.admin.isSuperAdmin"
-              class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-              v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'rejected', 'border-t-4 border-primary': openTab === 'rejected' }"
-              :to="`/rfq/rejected`" :title="$t('app.Rejected')">
+                       class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'rejected', 'border-t-4 border-primary': openTab === 'rejected' }"
+                       :to="`/rfq/rejected`" :title="$t('app.Rejected')">
               {{ $t("app.Rejected") }}
             </nuxt-link>
           </li>
@@ -64,8 +73,8 @@
           <div class="flex-auto">
             <div class="tab-content tab-space">
               <list-page v-if="$can('view_RFQ')" ref="listPage" :list-api="api" delete-api="deleteBrand"
-                route-name="rfqs" empty-store-variable="allRfqs" :name="$t('rfq.rfq')" gate="view_RFQ"
-                :order-options="orderOptions" @delete-bulk="deleteBulk" @list="itemList = $event">
+                         route-name="rfqs" empty-store-variable="allRfqs" :name="$t('rfq.rfq')" gate="view_RFQ"
+                         :order-options="orderOptions" @delete-bulk="deleteBulk" @list="itemList = $event">
                 <template v-slot:table-top="{ orderOptions }">
                   <rfq-filter @filter="filterChanged"></rfq-filter>
                 </template>
@@ -101,22 +110,23 @@
                             <tr>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
-                                    alt=""> <strong> {{ $t("rfq.Created on") }} :</strong>
+                                                               alt=""> <strong> {{ $t("rfq.Created on") }} :</strong>
                                   {{ value.created }}</p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                    alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong>
+                                                               alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong>
                                   {{ value.expiry_date }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
-                                    src="~/assets/icon/clipboard-text.svg" alt=""><strong>
-                                    {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                                               src="~/assets/icon/clipboard-text.svg" alt=""><strong>
+                                  {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
                                 <p class="m-0 flex gap-2">
                                   <svg v-if="value.status === 'canceled'"
-                                    style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24"
-                                    focusable="false" id="popover-trigger-64" aria-haspopup="dialog"
-                                    aria-expanded="false" aria-controls="popover-content-64">
+                                       style="height: 15px; width: 15px; color: red; margin-top: 5px"
+                                       viewBox="0 0 24 24"
+                                       focusable="false" id="popover-trigger-64" aria-haspopup="dialog"
+                                       aria-expanded="false" aria-controls="popover-content-64">
                                     <path fill="currentColor"
-                                      d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
+                                          d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
                                     </path>
                                   </svg>
                                   <span v-if="value.status === 'canceled'">{{ $t('rfq.rfqCanceled') }}</span>
@@ -126,17 +136,17 @@
                               </td>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
-                                    alt=""><strong> {{
-                                      $t("rfq.Shipping country")
-                                    }}:</strong>
+                                                               alt=""><strong> {{
+                                    $t("rfq.Shipping country")
+                                  }}:</strong>
                                   {{ value.country.name }} {{ value.is_submit }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
-                                    alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>
+                                                               alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>
                                   {{ value.city.name }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
-                                    alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
+                                                               alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
 
                                   <template v-for="(term, index) in value.shipmen_terms">
                                     <span>{{ term.name }}</span>
@@ -167,13 +177,13 @@
 
                             <div>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
-                                @click.prevent="isRejected(value.id)"
-                                class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2">
+                                      @click.prevent="isRejected(value.id)"
+                                      class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2">
                                 Rejected
                               </button>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
-                                @click.prevent="isApproved(value.id)"
-                                class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2">
+                                      @click.prevent="isApproved(value.id)"
+                                      class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2">
                                 Approved
                               </button>
                             </div>
@@ -187,7 +197,7 @@
                               </nuxt-link>
                               <!--  {{ value.status_quotes !== 'draft' ?   $t('rfq.View Quote') : $t('rfq.View Draft Quote') }} -->
                               <nuxt-link
-                              
+
                                 v-else-if="$can('view_quotation') && value.is_submit && value.status_quotes == 'draft' && value.status !== 'canceled'"
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
                                 :to="`/rfq/${value.id}`">
@@ -200,8 +210,8 @@
                                 {{ $t("rfq.Submit Quotes") }}
                               </nuxt-link>
                               <nuxt-link v-else-if="$store.state.admin.isSuperAdmin"
-                                class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
-                                :to="`/rfq/rfq-details/${value.id}`"><i class="icofont-ui-add"></i>
+                                         class="bg-primary rounded-lg uppercase text-white px-4 w-full p-3 mt-[70px]"
+                                         :to="`/rfq/rfq-details/${value.id}`"><i class="icofont-ui-add"></i>
                                 {{ $t("rfq.View Details") }}
                               </nuxt-link>
                             </div>
@@ -212,60 +222,13 @@
                         <div>
 
                           <div v-if="collapsedId == value.id" class="mt-4 bg-gray-200 p-4 rounded">
-                            <div class="table-responsive">
-                              <table class="table mb-0">
-                                <thead class="thead-light">
-                                  <tr>
-                                    <!-- <th>{{ $t('products.Id') }}</th>
-                                  <th> {{ $t('products.Image') }}</th> -->
-                                    <th> {{ $t('products.Products') }} ({{ value.products.length }})</th>
-                                    <th> {{ $t('products.Category') }}</th>
-                                    <th> {{ $t('products.Quantity') }}</th>
-                                    <th> {{ $t('products.Unit Target Price') }}</th>
-                                    <th> {{ $t("products.Total target price") }}</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr v-for="product in value.products">
-                                    <!-- <td>{{ product.id }}</td>
-                                  <td>
-                                   </td> -->
-                                    <td>
-                                      <div class="flex" v-if="product?.image">
-                                        <lazy-image class="mr-15 img-40x" :data-src="product?.image"
-                                          :alt="product?.name" />
-                                        <span class="mt-3">{{ product.name }}</span>
-                                      </div>
-                                    </td>
-                                    <td>{{ product.category?.title }}</td>
-                                    <td>{{ product.quantity }} {{ product.unit.name }}</td>
-                                    <td> {{
-                                      product.target_price.toLocaleString($t('app.currency_local'), {
-                                        style: 'currency',
-                                        maximumFractionDigits: 0,
-                                        currency: 'SAR'
-                                      })
-                                    }}
-                                    </td>
-                                    <td> {{
-                                      product.total_target_price.toLocaleString($t('app.currency_local'), {
-                                        style: 'currency',
-                                        maximumFractionDigits: 0,
-                                        currency: 'SAR'
-                                      })
-                                    }}
-                                    </td>
-                                  </tr>
-
-                                </tbody>
-                              </table>
-                            </div>
+                            <RFQProducts class="p-4" :show_summary="false" :rfq="value"></RFQProducts>
                           </div>
                           <div class="text-center relative">
                             <img @click="toggleCollapse(value.id)"
-                              :class="{ 'rt180deg': isCollapsed, 'rounded-t-lg': !isCollapsed, 'rounded-b-lg': isCollapsed }"
-                              class="w-10 h-10 absolute shadow mx-auto left-0 right-0 mt-[-36px]"
-                              src="~/assets/icon/arrowdown.PNG" alt="" />
+                                 :class="{ 'rt180deg': isCollapsed, 'rounded-t-lg': !isCollapsed, 'rounded-b-lg': isCollapsed }"
+                                 class="w-10 h-10 absolute shadow mx-auto left-0 right-0 mt-[-36px]"
+                                 src="~/assets/icon/arrowdown.PNG" alt=""/>
                           </div>
                         </div>
                       </div>
@@ -281,7 +244,7 @@
     <!-- ==================tab============== -->
 
     <reject-reason v-if="is_reject_modal" get-api="RejectReasons" set-api="setRejectRfq" :set-id="rfqId" :param="param"
-      @update="updateReject" @close="closeRejectModal"></reject-reason>
+                   @update="updateReject" @close="closeRejectModal"></reject-reason>
   </div>
 
 
@@ -295,8 +258,10 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import moment from 'moment-timezone'
 import RfqFilter from "../../components/rfq/filter.vue";
-import { mapActions } from "vuex";
+import {mapActions} from "vuex";
 import Swal from 'sweetalert2';
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
+import RFQProducts from "./RFQProducts.vue";
 
 export default {
   name: "rfq-list",
@@ -318,6 +283,8 @@ export default {
     }
   },
   components: {
+    RFQProducts,
+    PriceWithCurencyFormat,
     RfqFilter,
     LazyImage,
     ListPage
@@ -387,13 +354,16 @@ export default {
       if (app) {
         const data = await this.setById({
           id: id,
-          params: { status: 'approved' },
+          params: {status: 'approved'},
           api: 'setApprovedRfq'
         });
 
         const index = this.itemList.findIndex(item => item.id === id);
         if (index !== -1) {
+          if (this.openTab === 'pending')
+            this.itemList.splice(index, 1)
           this.itemList[index].status = data.status;
+
         }
         this.is_loading = false;
         return true;
@@ -406,9 +376,14 @@ export default {
     updateReject(status) {
       const index = this.itemList.findIndex(item => item.id === this.rfqId)
       if (index !== -1) {
-        this.itemList[index].status = status
+
+        if (this.openTab === 'pending')
+          this.itemList.splice(index, 1)
+        else
+          this.itemList[index].status = status
+
       }
-      return this.$router.push(`/rfq`)
+      // return this.$router.push(`/rfq`)
     },
     filterChanged(result) {
       this.$router.push({

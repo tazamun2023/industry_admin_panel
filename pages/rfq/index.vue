@@ -1,6 +1,6 @@
 <template>
-  <rfq-list api="getRfqsRelevent" 
-  :open-tab="$store.state.admin.isVendor?'relevant_to_me':'all_rfq'"></rfq-list>
+
+  <rfq-list api="getRfqsAll"  :open-tab="'all_rfq'"></rfq-list>
 </template>
 
 <script>

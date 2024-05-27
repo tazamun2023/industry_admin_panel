@@ -2,12 +2,15 @@
 
 import util from "~/mixin/util"
 import {mapGetters, mapActions} from 'vuex'
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 
 export default {
   name: "RFQProducts",
+  components: {PriceWithCurencyFormat},
   middleware: ['common-middleware', 'auth'],
   props: {
     rfq: '',
+    show_summary: false,
 
   },
   data() {
@@ -40,14 +43,14 @@ export default {
           </thead>
           <tbody class="bg-white">
 
-          <tr v-for="product in rfq.products" class="">
+          <tr v-for="product in rfq.products" class="border-b border-smooth">
             <td class="px-4 border-smooth text-start border py-3">
               <div class="flex justify-start text-sm">
                 <div class="relative w-8 h-8 mr-3 rounded-full md:block">
-<!--                  <lazy-image class="object-cover w-full h-full rounded-full"-->
-<!--                              :data-src="getThumbImageURL(product.image)"-->
-<!--                              :alt=" product.name"-->
-<!--                  />-->
+                  <!--                  <lazy-image class="object-cover w-full h-full rounded-full"-->
+                  <!--                              :data-src="getThumbImageURL(product.image)"-->
+                  <!--                              :alt=" product.name"-->
+                  <!--                  />-->
                   <img :src="getThumbImageURL(product.image)" alt="">
                   <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                 </div>
@@ -67,42 +70,35 @@ export default {
                 </div>
               </div>
             </td>
-            <td class="border text-start border-smooth px-4 text-sm">Category name static</td>
-            <td class="border text-start border-smooth px-4 text-sm">{{ product.quantity }} {{ product.unit?.name }}</td>
             <td class="border text-start border-smooth px-4 text-sm">
-              {{
-                product.target_price.toLocaleString($t('app.currency_local'), {
-                  style: 'currency',
-                  maximumFractionDigits: 0,
-                  currency: 'SAR'
-                })
+              {{ product?.product?.category?.title ?? $t('products.not existing product') }}
+            </td>
+            <td class="border text-start border-smooth px-4 text-sm">{{ product.quantity }} {{
+                product.unit?.name
               }}
             </td>
             <td class="border text-start border-smooth px-4 text-sm">
+              <price-with-curency-format :price="product.target_price"></price-with-curency-format>
+
+            </td>
+            <td class="border text-start border-smooth px-4 text-sm">
               <p> <span style="line-height: inherit;">
-                {{
-                  product.total_target_price.toLocaleString($t('app.currency_local'), {
-                    style: 'currency',
-                    maximumFractionDigits: 0,
-                    currency: 'SAR'
-                  })
-                }}
+                              <price-with-curency-format
+                                :price=" product.total_target_price"></price-with-curency-format>
+
+
                   </span></p>
             </td>
           </tr>
 
-          <tr>
+          <tr v-if="show_summary" class="border-b border-smooth">
             <td class="px-4 border-smooth border py-3 text-end" colspan="3">
-              <p><strong class="font-18px text-end">{{ $t('rfq.RFQ Total Value') }}</strong> <span class="text-primary">(Excl.VAT)</span></p>
+              <p><strong class="font-18px text-end">{{ $t('rfq.RFQ Total Value') }}</strong> <span class="text-primary">(Excl.VAT)</span>
+              </p>
             </td>
             <td class="px-4 border-smooth border py-3 font-bold" colspan="3">
-              {{
-                rfq?.total_target_price?.toLocaleString($t('app.currency_local'), {
-                  style: 'currency',
-                  maximumFractionDigits: 0,
-                  currency: 'SAR'
-                })
-              }}
+              <price-with-curency-format :price="rfq?.total_target_price"></price-with-curency-format>
+
             </td>
           </tr>
           </tbody>
@@ -113,7 +109,7 @@ export default {
 </template>
 
 <style scoped>
-.text-end{
+.text-end {
   text-align: end !important;
 }
 </style>
