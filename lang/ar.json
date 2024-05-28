@@ -135,6 +135,7 @@
     "rfqCanceled": "هذا العرض تم الغائة"
   },
   "products": {
+    "not existing product": "منتج غير موجود",
     "Id": "المعرف",
     "name": "اسم المنتج",
     "Or More": " او اكثر ",

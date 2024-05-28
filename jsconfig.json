@@ -179,11 +179,14 @@
     "getRfqsAll": "rfq/all/all",
     "getRfqsRelevent": "rfq/all/relevent",
     "getRfqsMYList": "rfq/all/my-list",
+    "getRfqsPending": "rfq/all/pending",
     "getApprovedRfqs": "rfq/all/approved",
     "getRejectedRfqs": "rfq/all/rejected",
-    "getAllQuoteRfqs": "rfq/all/quote/all",
-    "getOrderPlacedQuoteRfqs": "rfq/all/quote/order-placed",
-    "getDraftQuoteRfqs": "rfq/all/quote/draft-quotes",
+
+    "getAllQuoteRfqs": "quotes/all",
+    "getOrderPlacedQuoteRfqs": "quotes/order-placed",
+    "getDraftQuoteRfqs": "quotes/draft-quotes",
+
     "getRFQ": "rfq/find",
     "getRfqQuotation": "rfq/view-quotation",
 

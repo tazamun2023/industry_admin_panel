@@ -6,16 +6,16 @@
     <div class="card pb-4">
       <div class="flex justify-between items-center px-4 py-3 bg-primary rounded-t">
         <div class="flex gap-4">
-          <span class="font-bold text-white">RFQ281</span>
-          <span class="bg-white p-2 rounded-lg leading-3 capitalize">approved</span>
+          <span class="font-bold text-white">RFQ{{rfq.id}} </span>
+          <span class="bg-white p-2 rounded-lg leading-3 capitalize">{{ rfq.status_data?.name }}</span>
         </div>
         <div class="flex gap-4">
-          <p class="text-white">Submit Quote: <span class="font-bold">1</span></p>
-          <p class="text-white">Expires on: <span class="font-bold"> 2024-02-22</span></p>
-          <p class="text-white">Created on: <span class="font-bold">09:08 AM, 14 Feb, 24</span></p>
+          <p class="text-white">{{ $t("rfq.Received quotes")}}<span class="font-bold">{{ rfq.received_quotes }}</span></p>
+          <p class="text-white">{{ $t("rfq.Created on") }}<span class="font-bold"> {{rfq.expiry_date}}</span></p>
+          <p class="text-white">{{ $t("rfq.Expires on") }}<span class="font-bold">{{rfq.created}}</span></p>
         </div>
       </div>
-      <RFQProducts class="p-4" :rfq="rfq"></RFQProducts>
+      <RFQProducts class="p-4" :show_summary="true" :rfq="rfq"></RFQProducts>
       <div class="grid grid-cols-2 px-4 gap-4">
         <ShippingDetails :rfq="rfq"></ShippingDetails>
         <AdditionalInformation :rfq="rfq"></AdditionalInformation>

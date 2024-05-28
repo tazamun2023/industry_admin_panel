@@ -1,5 +1,5 @@
 <template>
-  <rfq-list api="getApprovedRfqs" :open-tab="'approved'"></rfq-list>
+  <rfq-list api="getRfqsPending" :open-tab="'pending'"></rfq-list>
 </template>
 
 <script>

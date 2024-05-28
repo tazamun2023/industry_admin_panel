@@ -123,7 +123,7 @@ export default {
     <!-- ==================tab============== -->
     <div class="flex  mt-20 flex-wrap">
       <div class="w-full">
-        <ul class="flex mb-0 list-none flex-wrap pt-3 w-50 pb-4 flex-row">
+        <ul class="flex mb-0 list-none flex-wrap pt-3 w-full pb-4 flex-row">
           <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
 
             <nuxt-link

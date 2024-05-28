@@ -1,11 +1,12 @@
 <template>
-  <rfq-list api="getApprovedRfqs" :open-tab="'approved'"></rfq-list>
+  <rfq-list api="getRfqsRelevent"
+            :open-tab="$store.state.admin.isVendor?'relevant_to_me':'all_rfq'"></rfq-list>
 </template>
 
 <script>
 import RfqList from "../../components/rfq/rfq-list.vue";
 export default {
-  name: "ApprovedRFQ",
+  name: "rfq",
   middleware: ['common-middleware', 'auth'],
 
   components: {
