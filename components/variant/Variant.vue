@@ -355,7 +355,7 @@
       <!-- ------------------------------------- -->
     </div>
 
-    <div class="tab-sidebar p-3" v-if="openTab === 'parent'">
+    <div class="tab-sidebar p-3" v-if="openTab === 'parent' && variants[0]?.result.status !== 'pending'">
       <div class="flex justify-end gap-4 pt-3">
         <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doSubmit">
           {{ $t('prod.Send for review') }}
@@ -1160,7 +1160,7 @@
               </button>
             </div>
           </div>
-          <div class="button-group border-t border-smooth mt-20">
+          <div class="button-group border-t border-smooth mt-20" v-if="variants[openTab].result.status !== 'pending'">
             <div class="flex justify-end gap-4 pt-3 items-center">
               <button type="button" class="btn bg-primary text-white border-secondary"
                       @click.prevent="handleSubmit(doSubmitSingle(variants[openTab]?.result.id))">
