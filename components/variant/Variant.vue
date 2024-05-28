@@ -2046,10 +2046,29 @@ export default {
             id: res.id,
           };
 
+          this.fetchingData(res.id);
           this.openTab = 'parent'
         }
       } catch (error) {
         this.setToastError('Error! at last complete one variant')
+      }
+    },
+
+    async fetchingData(id) {
+      try {
+        this.is_loading = true
+        var variant_res = Object.assign({}, await this.getById({id: id, params: {}, api: 'getVariantProducts'}));
+        for (let key in variant_res) {
+          if (!isNaN(key)) {
+            // console.log('variant_res', variant_res[key])
+            this.variants[key].result.title = variant_res[key].title;
+            this.variants[key].result.brand_id = variant_res[key].brand_id;
+            this.variants[key].result.unit_id = variant_res[key].unit_id;
+            this.result.unit_id = variant_res[key].unit_id;
+          }
+        }
+      } catch (e) {
+        return this.$nuxt.error(e)
       }
     },
 
