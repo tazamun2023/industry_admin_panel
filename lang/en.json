@@ -371,6 +371,7 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Always Available": "Always Available ?",
     "Validate until": "Validate until",
     "Offer sent": "Offer sent valid until",
     "Canceled by Buyer": "Canceled by Buyer",
