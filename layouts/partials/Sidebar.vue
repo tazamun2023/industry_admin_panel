@@ -1156,18 +1156,30 @@ export default {
   background:#01A781 !important;
   color:#fff !important;
 }
+
 .sidebar ul .child-open > a {
-  background:#01A781 !important;
-  color:#fff !important;
+  /* background:#01A781 !important; */
+  color:#01A781 !important;
 }
 .sidebar ul .child-open > a span svg{
-  color:#fff !important;
+  color:#01A781 !important;
 }
 .sidebar ul li{
   margin-top:2px  !important;
   margin-bottom:2px  !important;
 }
 .sidebar ul .active > a span svg{
+  color:#fff !important;
+}
+.sidebar ul .child-active > a {
+  background:#01A781 !important;
+  color:#fff !important;
+}
+.sidebar ul .child-active > a span svg{
+  color:#fff !important;
+}
+.sidebar ul .active > a {
+  background:#01A781 !important;
   color:#fff !important;
 }
 </style>
