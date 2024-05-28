@@ -3,7 +3,10 @@
     class="dropdown-wrapper input-wrapper product-search"
     v-outside-click="autoSuggestionClose"
   >
+  <div class="flex justify-between mx-2 text-center items-center">
     <label>{{ $t('list.sp') }}</label>
+    <slot name="labelRight"></slot>
+  </div>
 
     <div class="pos-rel">
       <input
