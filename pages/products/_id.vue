@@ -502,16 +502,16 @@
                     <div class="input-wrapper">
                       <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                       <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                             :disabled="result.is_availability===1 && result.available_quantity===''"
+                             :disabled="result.is_availability===1 && result.available_quantity==='' || result.available_quantity===null"
                              v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
                       <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                     </div>
                     <span class="error">{{ errors[0] }}</span>
                   </ValidationProvider>
                   <div class="form-check">
-                    <label class="form-check-label">{{ $t('prod.Always Available') }}</label>
-                    <input type="checkbox" class="custom-control-input" v-if="!is_variant && result.is_availability===1 && result.available_quantity!==''" @change="isAvailability($event)"/>
-                    <input type="checkbox" class="custom-control-input" v-else-if="!is_variant" checked v-model="result.is_availability" @change="isAvailability($event)"/>
+                    <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
+                    <input type="checkbox" class="custom-control-input" checked v-if="id && !is_variant && result.is_availability===1 && result.available_quantity===null" @change="isAvailability($event)">
+                    <input type="checkbox" class="custom-control-input" v-if="!is_variant && !id" v-model="result.is_availability" @change="isAvailability($event)"/>
                   </div>
                 </div>
             </div>
@@ -1582,7 +1582,7 @@ export default {
     },
     availableQuantityValidationRules() {
       return {
-        required: !this.is_draft,
+        required: !this.is_draft && this.result.is_availability!==1 && result.available_quantity!==null,
         min_value: 0,
         max_value: 99999999,
       };

@@ -296,7 +296,7 @@ export default {
                     {{ activeInquirie.user?.username }}, {{ activeInquirie.created }}</p>
                   <div class="messenger  w-full" v-if="activeInquirie.offer.type==='offer'">
                     <div class="card rounded-lg shadow m-2">
-                      <div class="bg-graylight rounded-t p-2">OFF{{ activeInquirie.id }}</div>
+                      <div class="bg-graylight font-bold rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
                         <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
                         <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
@@ -336,7 +336,7 @@ export default {
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                           <p class="p-2 bg-warning rounded" v-if="activeInquirie.status==='rejected'">{{ $t('prod.Rejected by Buyer') }}</p>
                           <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">{{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
-                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>
+<!--                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>-->
                           <div class="flex justify-end gap-4 pt-4">
 <!--                            <button @click="acceptOffer(index)"-->
 <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
@@ -396,7 +396,7 @@ export default {
                         </div>
                         <!-- ---------end-------- -->
                         <!-- -------------- -->
-                        <div class="flex justify-between gap-4 pt-4" v-if="is_click_accept">
+                        <div class="flex justify-between gap-4 pt-4" v-if="is_click_accept===index">
                           <p class="w-50">{{ $t('prod.Validate until') }}</p>
                           <input
                             class="p-2 rounded"
@@ -406,7 +406,7 @@ export default {
                             v-model="expired_at"
                           >
                         </div>
-                        <div class="flex justify-end gap-4 pt-2" v-if="is_click_accept">
+                        <div class="flex justify-end gap-4 pt-2" v-if="is_click_accept===index">
                           <button @click="is_click_accept=false"
                                   class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                             {{ $t('products.Cancel') }}

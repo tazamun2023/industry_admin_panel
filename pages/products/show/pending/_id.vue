@@ -417,7 +417,7 @@
             <!--          BasicInformationChild-->
             <!-- ------------------------------------- -->
             <!--          ProductImages-->
-            <ValidationProvider name="Image" :rules="{ required: result.product_images.length===0 && !is_variant }" v-slot="{ errors }"
+            <ValidationProvider v-if="!is_variant" name="Image" :rules="{ required: result.product_images.length===0 && !is_variant }" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
               <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
@@ -486,7 +486,7 @@
             <!-- ------------------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <div class="tab-sidebar p-3" v-if="!is_variant">
+            <div v-if="!is_variant" class="p-3" >
               <div class="border-b border-smooth">
                 <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
                 <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
@@ -495,17 +495,25 @@
                 <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
                 <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
               </div>
-              <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
-                                  v-slot="{ errors }"
-                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
-                <div class="input-wrapper">
-                  <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
-                  <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                         v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
-                  <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
+              <div  class="tab-sidebar flex items-center gap-4 p-3">
+                <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
+                  <div class="input-wrapper">
+                    <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
+                    <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
+                           :disabled="result.is_availability===1 && result.available_quantity==='' || result.available_quantity===null"
+                           v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
+                    <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
+                  </div>
+                  <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
+                <div class="form-check">
+                  <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
+                  <input type="checkbox" checked v-if="id && !is_variant && result.is_availability===1 && result.available_quantity===null" @change="isAvailability($event)">
+                  <input type="checkbox" class="custom-control-input" v-if="!is_variant && !id" v-model="result.is_availability" @change="isAvailability($event)"/>
                 </div>
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
+              </div>
             </div>
             <!--          ProductInventorySection-->
 
@@ -1051,17 +1059,17 @@
                   </button>
                 </div>
               </div>
-              <div class="button-group border-t border-smooth mt-20">
-                <div class="flex justify-end gap-4 pt-3">
-                  <button type="button" class="btn text-primary" @click.prevent="doDraft">
-                    {{ $t('prod.Save Draft') }}
-                  </button>
-                  <button type="submit" class="btn bg-primary text-white border-secondary">
-                    {{ $t('prod.Send for review') }}
-                  </button>
-                  <span class="font-semibold text-error" v-if="invalid & is_submit">{{  $t('prod.Check the errors') }}</span>
-                </div>
-              </div>
+<!--              <div class="button-group border-t border-smooth mt-20">-->
+<!--                <div class="flex justify-end gap-4 pt-3">-->
+<!--                  <button type="button" class="btn text-primary" @click.prevent="doDraft">-->
+<!--                    {{ $t('prod.Save Draft') }}-->
+<!--                  </button>-->
+<!--                  <button type="submit" class="btn bg-primary text-white border-secondary">-->
+<!--                    {{ $t('prod.Send for review') }}-->
+<!--                  </button>-->
+<!--                  <span class="font-semibold text-error" v-if="invalid & is_submit">{{  $t('prod.Check the errors') }}</span>-->
+<!--                </div>-->
+<!--              </div>-->
             </div>
           </form>
         </ValidationObserver>
@@ -1207,11 +1215,12 @@ extend('priceComparison', {
 
 
 export default {
-  name: "pending",
+  name: "pink-tabs",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       is_next: false,
+      is_click_available: false,
       variant_uu_id: '',
       is_variant_save: false,
       is_variant_edit: false,
@@ -1487,6 +1496,14 @@ export default {
   },
 
   computed: {
+    availabilityStatus: {
+      get() {
+        return this.result.is_availability ? "1" : "0";
+      },
+      set(value) {
+        this.result.is_availability = value === "1";
+      }
+    },
     error() {
       return error
     },
@@ -1565,7 +1582,7 @@ export default {
     },
     availableQuantityValidationRules() {
       return {
-        required: !this.is_draft,
+        required: !this.is_draft && this.result.is_availability!==1 && result.available_quantity!==null,
         min_value: 0,
         max_value: 99999999,
       };
@@ -2073,6 +2090,14 @@ export default {
         this.handleInput($event)
       }
     },
+    isAvailability(event){
+      const checked = event.target.checked;
+      // console.log(checked); // This will log true or false
+      this.result.is_availability = checked ? 1 : 0;
+      this.result.available_quantity = ''
+      // console.log(this.result.is_availability); // This will log 1 or 0
+    },
+
 
     updateBrand(event) {
       this.result.brand_id = event.target.value;
