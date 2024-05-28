@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       openTab: 1,
+      visibleDropdown: false,
       orderOptions: {
         title: { title: this.$t('index.title') },
         featured: { title: this.$t('category.featured') },
@@ -44,6 +45,9 @@ export default {
   mixins: [util, bulkDelete],
   computed: {},
   methods: {
+    toggleDropdown(index) {
+      this.visibleDropdown = this.visibleDropdown === index ? null : index;
+    },
     toggleTabs: function (tabNumber) {
       this.openTab = tabNumber
     },
@@ -185,16 +189,52 @@ export default {
           </td>
           <td>{{ value.created }}</td>
           <td>
-            <button
-              class="border-0"
-              v-if="$can('manage_brands')"
-              @click.prevent="$refs.listPage.deleteItem(value.id)"><delete-button-icon/></button>
-            <button
-              class="border-0"
-              v-if="$can('manage_brands')"
-              @click.prevent="$refs.listPage.editItem(value.id)"><edit-button-icon/></button>
-            <button class="border-0" v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" @click.prevent="changeStatus(value.id, 'approved')">Approved</button>
-            <button class="border-0" v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin" @click.prevent="changeStatus(value.id, 'reject')">Reject</button>
+            <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
+                    class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
+                    type="button">{{ $t('prod.action') }}
+              <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="m1 1 4 4 4-4"/>
+              </svg>
+            </button>
+            <div id="dropdown"
+                 class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
+                 v-if="visibleDropdown === index"
+            >
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownDefaultButton">
+                <li
+                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                  v-if="$can('manage_brands') && $store.state.admin.isVendor"
+                  @click.prevent="$refs.listPage.editItem(value.id)"
+                >
+                  {{ $t('prod.Edit')}}
+                </li>
+                <li
+                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                  v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin"
+                  @click.prevent="changeStatus(value.id, 'reject')"
+                >
+                  {{ $t('prod.Reject')}}
+                </li>
+
+                <li
+                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                  v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin"
+                  @click.prevent="changeStatus(value.id, 'approved')"
+                >
+                  {{ $t('prod.Approved') }}
+                </li>
+                <li
+                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                  @click.prevent="$refs.listPage.deleteItem(value.id)"
+                  v-if="$can('manage_brands') && $store.state.admin.isVendor"
+                >
+                  {{ $t('prod.Delete')}}
+                </li>
+              </ul>
+            </div>
           </td>
         </tr>
       </template>
