@@ -107,21 +107,12 @@
                         <td class="w-1/4"> {{ product.name }}</td>
                         <td>{{ product.category?.title }}</td>
                         <td>{{ product.quantity }} {{ product.unit.name }}</td>
-                        <td> {{
-                            product.target_price.toLocaleString($t('app.currency_local'), {
-                              style: 'currency',
-                              maximumFractionDigits: 0,
-                              currency: 'SAR'
-                            })
-                          }}
+                        <td>
+                          <price-with-curency-format :price=" product.target_price"></price-with-curency-format>
+
                         </td>
-                        <td> {{
-                            product.total_target_price.toLocaleString($t('app.currency_local'), {
-                              style: 'currency',
-                              maximumFractionDigits: 0,
-                              currency: 'SAR'
-                            })
-                          }}
+                        <td>
+                          <price-with-curency-format :price=" product.total_target_price"></price-with-curency-format>
                         </td>
 
 
@@ -139,7 +130,7 @@
                             <form action="">
                               <div class="grid grid-cols-6 gap-4">
 
-                                <div class=" col-span-2 grid grid-cols-5">
+                                <div class=" col-span-2 grid grid-cols-5 mb-96">
                                   <div class="col-span-5 ">
                                     <div v-if="product.qoute?.product_id>0" class="lg:px-2   max:h-12 ">
                                       <label class="mt-3 mb-2"  for="">{{ $t('products.Products') }}*</label>
@@ -500,6 +491,7 @@ import LazyImage from "../../components/LazyImage.vue";
 import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 import Datepicker from 'vue2-datepicker';
 import {ValidationObserver, ValidationProvider} from "vee-validate";
+import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 
 export default {
 
@@ -507,7 +499,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
-      dateFormat: 'Y-M-D',
+      dateFormat: 'Y-MM-DD',
       activeProductId: 0,
       isCollapsed: false,
       isDisable: false,
@@ -538,6 +530,7 @@ export default {
   directives: {outsideClick},
   mixins: [util],
   components: {
+    PriceWithCurencyFormat,
     Datepicker,
     ProductSearch2,
     LazyImage,
@@ -871,17 +864,48 @@ export default {
 }
 </style>
 <style scoped>
-@import 'vue2-datepicker/index.css';
 
-.mx-calendar-content .cell {
-  color: black !important;
+.min-width-180 {
+  width: 180px;
 }
 
 .mx-calendar-content .cell.disabled {
-  color: #ccc !important;
+  background-color: transparent !important;
+}
+
+.cell .not-current-month {
+  color: #000;
 }
 
 .mx-table-date .cell.not-current-month {
-  color: black !important;
+  color: #000;
 }
+
+.mx-table-date > thead {
+  background-color: #ebe2e2;
+}
+
+.mx-datepicker-main {
+  color: #000000;
+
+}
+
+.mx-calendar-content .cell.disabled {
+  color: #ccc;
+}
+
+.mx-btn {
+  font-weight: 900;
+  color: #000;
+}
+
+.mx-icon-calendar, .mx-icon-clear {
+  html:lang(ar) & {
+    right: auto;
+    left: 8px;
+  }
+}
+
+
+
 </style>
