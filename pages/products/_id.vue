@@ -511,7 +511,8 @@
                   <div class="form-check">
                     <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
                     <input type="checkbox" class="custom-control-input" checked v-if="id && !is_variant && result.is_availability===1 && result.available_quantity===null" @change="isAvailability($event)">
-                    <input type="checkbox" class="custom-control-input" v-if="!is_variant && !id" v-model="result.is_availability" @change="isAvailability($event)"/>
+                    <input type="checkbox" class="custom-control-input" v-else-if="!is_variant && id && result.is_availability===1 && result.available_quantity!==null" @change="isAvailability($event)"/>
+                    <input type="checkbox" class="custom-control-input" v-else-if="!is_variant && !id" v-model="result.is_availability" @change="isAvailability($event)"/>
                   </div>
                 </div>
             </div>
