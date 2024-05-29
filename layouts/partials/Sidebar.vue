@@ -617,6 +617,24 @@ export default {
               is_image:true,
             },
             {
+              path: 'shipping',
+              title: this.$t('account.shipping'),
+              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.0001 11.6665H10.8335C11.7501 11.6665 12.5001 10.9165 12.5001 9.99984V1.6665H5.00012C3.75012 1.6665 2.65846 2.35816 2.0918 3.37483" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.66699 14.1665C1.66699 15.5498 2.78366 16.6665 4.16699 16.6665H5.00033C5.00033 15.7498 5.75033 14.9998 6.66699 14.9998C7.58366 14.9998 8.33366 15.7498 8.33366 16.6665H11.667C11.667 15.7498 12.417 14.9998 13.3337 14.9998C14.2503 14.9998 15.0003 15.7498 15.0003 16.6665H15.8337C17.217 16.6665 18.3337 15.5498 18.3337 14.1665V11.6665H15.8337C15.3753 11.6665 15.0003 11.2915 15.0003 10.8332V8.33317C15.0003 7.87484 15.3753 7.49984 15.8337 7.49984H16.9086L15.4837 5.00818C15.1837 4.49151 14.6337 4.1665 14.0337 4.1665H12.5003V9.99984C12.5003 10.9165 11.7503 11.6665 10.8337 11.6665H10.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M6.66667 18.3333C7.58714 18.3333 8.33333 17.5871 8.33333 16.6667C8.33333 15.7462 7.58714 15 6.66667 15C5.74619 15 5 15.7462 5 16.6667C5 17.5871 5.74619 18.3333 6.66667 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M13.3337 18.3333C14.2541 18.3333 15.0003 17.5871 15.0003 16.6667C15.0003 15.7462 14.2541 15 13.3337 15C12.4132 15 11.667 15.7462 11.667 16.6667C11.667 17.5871 12.4132 18.3333 13.3337 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M18.3333 10V11.6667H15.8333C15.375 11.6667 15 11.2917 15 10.8333V8.33333C15 7.875 15.375 7.5 15.8333 7.5H16.9083L18.3333 10Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.66699 6.6665H6.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.66699 9.1665H5.00033" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1.66699 11.6665H3.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  `,
+              is_image:true,
+              gate: 'update_shipping_favorite'
+            },
+
+            {
               // dont have permission
               path: 'vendors',
               title: this.$t('account.vendors'),
@@ -1156,18 +1174,30 @@ export default {
   background:#01A781 !important;
   color:#fff !important;
 }
+
 .sidebar ul .child-open > a {
-  background:#01A781 !important;
-  color:#fff !important;
+  /* background:#01A781 !important; */
+  color:#01A781 !important;
 }
 .sidebar ul .child-open > a span svg{
-  color:#fff !important;
+  color:#01A781 !important;
 }
 .sidebar ul li{
   margin-top:2px  !important;
   margin-bottom:2px  !important;
 }
 .sidebar ul .active > a span svg{
+  color:#fff !important;
+}
+.sidebar ul .child-active > a {
+  background:#01A781 !important;
+  color:#fff !important;
+}
+.sidebar ul .child-active > a span svg{
+  color:#fff !important;
+}
+.sidebar ul .active > a {
+  background:#01A781 !important;
   color:#fff !important;
 }
 </style>

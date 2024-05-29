@@ -1498,6 +1498,7 @@
     "vendors": "Vendors",
     "customers": "Customers",
     "address": "Address",
+    "shipping": "Shipping Favorite",
     "payment": "Payment"
   },
   "content": {
