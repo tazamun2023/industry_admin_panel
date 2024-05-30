@@ -248,11 +248,11 @@ export default {
                                                                alt=""><strong> {{
                                     $t("rfq.Shipping country")
                                   }}:</strong>
-                                  {{ value.rfq.country.name }} {{ value.is_submit }}
+                                  {{ value.rfq?.country?.name }} {{ value.is_submit }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
                                                                alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>
-                                  {{ value.rfq.city.name }}
+                                  {{ value.rfq?.city?.name }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
                                                                src="~/assets/icon/clipboard-text.svg" alt=""><strong>

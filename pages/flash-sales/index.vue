@@ -7,6 +7,7 @@
     :name="$t('fSale.fSale')"
     :order-options="orderOptions"
     gate="view_flash_sales"
+    :addButton="$store.state.admin.isVendor"
 
     manage_gate="manage_flash_sales"
 
@@ -50,11 +51,11 @@
           <td>
             <button
             class="border-0"
-              v-if="$can('manage_flash_sales')"
+              v-if="$can('manage_flash_sales') && $store.state.admin.isVendor"
               @click.prevent="$refs.listPage.deleteItem(value.id)"><DeleteButtonIcon/></button>
             <button
             class="border-0"
-              v-if="$can('manage_flash_sales')"
+              v-if="$can('manage_flash_sales') && $store.state.admin.isVendor"
               @click.prevent="$refs.listPage.editItem(value.id)"><EditButtonIcon/></button>
 
           </td>
