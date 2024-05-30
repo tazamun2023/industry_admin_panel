@@ -42,7 +42,9 @@ module.exports = {
       obg:'#F8F8F8',
       whitelight:'#FAFAFA',
       cardb:'#C4CDD5',
-      pb:"#E4E7EC"
+      pb:"#E4E7EC",
+      redlight:'#FF00001C',
+      darklight:'#F1F1F3',
     },
 
     screens: {
