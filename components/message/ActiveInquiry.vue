@@ -387,7 +387,7 @@ export default {
                   <span>{{ ActiveInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="text-smooth">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.last_time }}</p>
+                  <p class="">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.last_time }}</p>
                 </div>
               </div>
             </div>
@@ -408,9 +408,9 @@ export default {
                               :data-src="activeInquiries?.inquirable?.image"
                               :alt="activeInquirie?.product?.title"
                             />
-                            <span class="text-smooth" v-if="activeInquiries?.inquirable?.product_prices"><del>{{
+                            <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{
                                 activeInquiries?.inquirable?.product_prices[0]?.selling_price
-                              }} {{ $t('app.SAR') }}</del></span>
+                              }} {{ $t('app.SAR') }}</span>
                           </div>
                           <div>
                             <div class="flex justify-between p-1">
@@ -541,7 +541,7 @@ export default {
                     </div>
 
                   </div>
-                  <p class="text-xs text-smooth py-2 px-4 ltr:text-end rtl:text-start">
+                  <p class="text-xs  py-2 px-4 ltr:text-end rtl:text-start">
                     {{ activeInquirie.user?.username }}, {{ activeInquirie.created }}</p>
                   <!--        vendor reply-->
                   <!-- -------------------message --------------- -->
@@ -581,7 +581,7 @@ export default {
 
                 </div>
                 <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.is_reply===1">
-                  <p class="text-xs text-smooth px-4 ltr:text-start rtl:text-end">
+                  <p class="text-xs  px-4 ltr:text-start rtl:text-end">
                     {{ activeInquirie.vendor?.name }}, {{ activeInquirie.created }}
                   </p>
                   <div class="messenger w-full" v-if="activeInquirie.offer.type==='offer'">
@@ -596,9 +596,9 @@ export default {
                               :data-src="activeInquirie?.inquirable?.image"
                               :alt="activeInquirie?.inquirable?.title"
                             />
-                            <span class="text-smooth" v-if="activeInquiries?.inquirable?.product_prices"><del>{{
+                            <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{
                                 activeInquiries?.inquirable?.product_prices[0]?.selling_price
-                              }} {{ $t('app.SAR') }}</del></span>
+                              }} {{ $t('app.SAR') }}</span>
                           </div>
                           <div>
                             <div class="flex justify-between p-1">

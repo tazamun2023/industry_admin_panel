@@ -105,9 +105,6 @@ export default {
            @click="activeInquiryData(inquirie)"
            :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'bg-primarylight':''"
            class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth my-2 p-2">
-        <!--        <img class="h-10 w-10"-->
-        <!--             src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"-->
-        <!--             alt="">-->
         <lazy-image
           class="h-10 w-10 object-cover rounded"
           :data-src="inquirie?.inquirable?.image"
@@ -115,10 +112,11 @@ export default {
         />
         <div class="w-full">
           <div class="flex justify-between">
-            <span class="font-bold font-13px" :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
+            <span class="font-bold font-13px"
+                  :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
                {{ inquirie?.inquirable?.title }}
             </span>
-            <span class="">{{ inquirie.last_time}}</span>
+            <span class="">{{ inquirie.last_time }}</span>
           </div>
           <span class=" text-[12px]">From : {{ inquirie.user.name }}</span>
           <div class="flex justify-between">
