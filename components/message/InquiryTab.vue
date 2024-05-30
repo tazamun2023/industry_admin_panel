@@ -22,9 +22,37 @@ export default {
       this.CurrentActiveInquiryData = data
       this.$emit('activeInquiry', data.id);
       this.$emit('ActiveInquiryData', data);
+      this.readMessage(data.id)
     },
     searchInquiries() {
       // this.filteredInquiries()
+    },
+    readMessage(inquiry_id) {
+      this.setRequest({
+        params: {
+          inquiry_id: inquiry_id,
+        },
+        api: 'readMessage'
+      }).then(data => {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher('933de91b2f4d1fa5191a', {
+          cluster: 'ap2'
+        });
+
+        const channel = pusher.subscribe('chat');
+        channel.bind('message', dataP => {
+          try {
+            this.is_loading = true
+            this.fetchingData()
+            this.is_loading = false
+
+          } catch (e) {
+            return this.$nuxt.error(e)
+          }
+        });
+      })
     },
 
     async fetchingData() {
@@ -116,7 +144,13 @@ export default {
                   :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
                {{ inquirie?.inquirable?.title }}
             </span>
-            <span class="">{{ inquirie.last_time }}</span>
+            <span class="relative">
+              {{ inquirie.last_time }}
+              <span class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]" v-if="inquirie.unread_message">
+                {{ inquirie.unread_message > 9 ? 9 : inquirie.unread_message }}
+                <sup v-if="inquirie.unread_message > 9">+</sup>
+              </span>
+            </span>
           </div>
           <span class=" text-[12px]">From : {{ inquirie.user.name }}</span>
           <div class="flex justify-between">
