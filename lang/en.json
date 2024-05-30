@@ -45,6 +45,9 @@
     "est_hours": "hours"
   },
   "rfq": {
+    "expired": " Expired ",
+    "Deadline": "Deadline",
+    "left": "left",
     "Shipping details": "Shipping details",
     "Total Quote Price": "Total Quote Price",
     "Price valid until": "Price valid until",

@@ -133,7 +133,7 @@
                                 <div class=" col-span-2 grid grid-cols-5 mb-96">
                                   <div class="col-span-5 ">
                                     <div v-if="product.qoute?.product_id>0" class="lg:px-2   max:h-12 ">
-                                      <label class="mt-3 mb-2"  for="">{{ $t('products.Products') }}*</label>
+                                      <label class="mt-3 mb-2" for="">{{ $t('products.Products') }}*</label>
                                       <div class="flex rounded-lg h-full border border-smooth  flex-col">
                                         <div class="flex items-center  py-1">
                                           <p class="leading-relaxed textelipse  text-base">
@@ -207,7 +207,8 @@
                                   <ValidationProvider tag="div" class="w-full" v-slot="{ errors }"
                                                       :rules="{required: true}"
                                                       :name="'product_unit_' + k">
-                                    <label class="mt-3 mb-2"  for="">{{ $t('unit.unit') }} <span class="text-error">*</span></label>
+                                    <label class="mt-3 mb-2" for="">{{ $t('unit.unit') }} <span
+                                      class="text-error">*</span></label>
                                     <v-select
                                       v-model="rfq.products[k].qoute.unit_id"
                                       :dir="$t('app.dir')"
@@ -227,7 +228,7 @@
                                 <div>
                                   <ValidationProvider name="type" class="w-full" rules="required" v-slot="{ errors }"
                                                       :custom-messages="{ required: `${$t('rfq.UnitpriceRequired')}` }">
-                                    <label class="mt-3 mb-2"  for="">{{ $t('rfq.Unit offer price') }}*</label>
+                                    <label class="mt-3 mb-2" for="">{{ $t('rfq.Unit offer price') }}*</label>
                                     <div class="flex border rounded  border-smooth bg-white">
                                       <label class="p-3" for="">{{ $t('app.SAR') }}</label>
                                       <input type="number" v-model="rfq.products[k].qoute.total_offer_price"
@@ -245,7 +246,7 @@
                                 </div>
 
                                 <div>
-                                  <label class="mt-3 mb-2"  for=""> {{ $t('rfq.Total target price') }}*</label>
+                                  <label class="mt-3 mb-2" for=""> {{ $t('rfq.Total target price') }}*</label>
                                   <div class="flex border rounded  border-smooth bg-white">
                                     <label class="p-3" for="">{{ $t('app.SAR') }}</label>
                                     <input name="quantity" placeholder="0"
@@ -269,7 +270,7 @@
                                     </button>
                                     <button :disabled="rfq.products[k].qoute.disabled"
                                             v-if="rfq.products[k].qoute.product_id" type="button"
-                                            @click="toggleCollapse('', 1),addDraftQuote()" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                            @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
                                        py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
                                         long mt-20">
                                       {{ $t('app.Save') }}
@@ -366,10 +367,15 @@
                 </div>
                 <div class="md:w-full pr-4 pl-4">
                   <div class="mb-4 text-right">
-                    <button id="add_form_cancel" @click="addDraftQuote"
+                    <button id="add_form_cancel" @click="addDraftQuote('add')"
+                            class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mb-auto  ml-4 mr-4">
+                      {{ $t('prod.Save Draft') }}
+
+                    </button>
+                    <button v-if="rfq?.quotation_id>0 && rfq?.status_quotes=='draft'" id="add_form_cancel"
+                            @click="addDraftQuote('discard')"
                             class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mb-auto  ml-4 mr-4">
                       {{ $t('app.Discard Draft') }}
-
                     </button>
                     <button type="button" :disabled="!canSend" @click="addQuote"
                             class="inline-block align-middle text-center select-none border bg-primary font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  text-white   long lg">
@@ -668,22 +674,31 @@ export default {
           api: 'setQuote'
         }).then((res) => {
           console.log('respose', res)
-          return this.$router.push(`/rfq/quotation-details/` + res.id)
+          return this.$router.push(`/rfq/quotation-details/` + res.data.quotation_id)
         })
     },
-    async addDraftQuote() {
+    async addDraftQuote(type) {
       this.result.expiry_date = this.result.expiry_date ? this.formatDate(this.result.expiry_date) : null
       this.result.is_draft = true
+      this.result.draft_action = type
       this.save()
       // if (this.canSend)
-      await this.setById({
+      this.setById({
         id: this.id,
         params: this.result,
         api: 'setQuote'
-      }).then(() => {
+      }).then((res) => {
+        console.log(res)
+        console.log(res.data)
+        this.rfq = res.data
+        this.saveDataResponce()
+        if (type === 'add')
+          this.$router.push(`/rfq`)
 
         // alert('saved')
       })
+
+
     },
     addProduct() {
       this.open = true;
@@ -771,6 +786,51 @@ export default {
       // this.$refs.productSearch.autoSuggestionClose()
       this.save()
     },
+    saveDataResponce() {
+      if (this.rfq.quote != null) {
+        // this.result.expiry_date =
+        this.result.expiry_date = this.rfq.quote.expiry_date
+        this.result.additional_details = this.rfq.quote.additional_details
+      } else {
+        this.result.expiry_date = ""
+        this.result.additional_details = ""
+      }
+
+
+      this.result.products = []
+
+      for (var i = 0; i < this.rfq.products.length; i++) {
+        // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
+
+        if (this.rfq.quote != null && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id) > -1) {
+          let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
+          this.rfq.products[i].qoute = ({
+            rfq_product_id: p.rfq_product_id,
+            product: p.product,
+            unit: p.unit,
+            unit_id: p.unit.id,
+            product_id: p.product.id,
+            id: p.id,
+            quantity: p.quantity ?? 1,
+            total_offer_price: p.total_offer_price ?? 0,
+            disabled: p?.total_offer_price == '' || p?.total_offer_price == 0 ? true : false
+          })
+        } else
+          this.rfq.products[i].qoute = ({
+            rfq_product_id: this.rfq.products[i].id,
+            product: {},
+            unit: {},
+            unit_id: "",
+            product_id: "",
+            id: "",
+            quantity: 1,
+            total_offer_price: 0,
+            disabled: true
+          })
+        console.log('point', this.rfq.products[i].qoute);
+      }
+
+    },
     async fetchingData() {
       try {
         this.loading = true
@@ -779,40 +839,7 @@ export default {
           params: {time_zone: this.timeZone},
           api: 'getRFQ'
         }))
-        this.result.products = []
-
-        for (var i = 0; i < this.rfq.products.length; i++) {
-          // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
-
-          if (this.rfq.quote != null && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id) > -1) {
-            let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
-            this.rfq.products[i].qoute = ({
-              rfq_product_id: p.rfq_product_id,
-              product: p.product,
-              unit: p.unit,
-              unit_id: p.unit.id,
-              product_id: p.product.id,
-              id: p.id,
-              quantity: p.quantity ?? 1,
-              total_offer_price: p.total_offer_price ?? 0,
-              disabled: p?.total_offer_price == '' || p?.total_offer_price == 0 ? true : false
-            })
-          } else
-            this.rfq.products[i].qoute = ({
-              rfq_product_id: this.rfq.products[i].id,
-              product: {},
-              unit: {},
-              unit_id: "",
-              product_id: "",
-              id: "",
-              quantity: 1,
-              total_offer_price: 0,
-              disabled: true
-            })
-          console.log('point', this.rfq.products[i].qoute);
-        }
-
-
+        this.saveDataResponce()
         console.log("this.rfq.products")
         console.log(this.rfq.products)
 
@@ -851,7 +878,7 @@ export default {
 
 .vs--single .vs__selected {
 
- width: auto;
+  width: auto;
 
 }
 
@@ -905,7 +932,6 @@ export default {
     left: 8px;
   }
 }
-
 
 
 </style>

@@ -178,7 +178,7 @@ export default {
                 <template
                   v-slot:table-top="{orderOptions}"
                 >
-                  <rfq-filter @filter="filterChanged"  :page="'manage-rfq'" :tab-manage="openTab"></rfq-filter>
+                  <rfq-filter @filter="filterChanged" :page="'manage-rfq'" :tab-manage="openTab"></rfq-filter>
                 </template>
                 <template v-slot:table="{list}">
 
@@ -188,13 +188,13 @@ export default {
                     <div class="card mt-20 p-1 m-2 bg-white">
                       <div class="grid grid-cols-7 gap-4">
                         <div>
-<!--                          <lazy-image-->
-<!--                            v-if="getThumbImageURL(value.products[0].product.image)"-->
-<!--                            class="w-48 h-full object-cover rounded"-->
-<!--                            :data-src="value.products[0].product.image"-->
-<!--                          />-->
-                         <img  v-if="value.products[0]?.product?.image"
-                          :src="value.products[0]?.product?.image" alt="">
+                          <!--                          <lazy-image-->
+                          <!--                            v-if="getThumbImageURL(value.products[0].product.image)"-->
+                          <!--                            class="w-48 h-full object-cover rounded"-->
+                          <!--                            :data-src="value.products[0].product.image"-->
+                          <!--                          />-->
+                          <img v-if="value.products[0]?.product?.image"
+                               :src="value.products[0]?.product?.image" alt="">
                         </div>
                         <div class="col-span-5 p-3">
                           <div class="">
@@ -213,7 +213,8 @@ export default {
                           <table class="w-full ">
                             <tr>
                               <td class="rtl:text-end">
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/clipboard-text.svg"
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
+                                                               src="~/assets/icon/clipboard-text.svg"
                                                                alt=""> <strong> {{ $t("rfq.Quote ID") }} :</strong>
                                   Q{{ value.id }}</p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
@@ -228,20 +229,20 @@ export default {
                                     })
                                   }}
 
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                                               alt=""> <strong>{{
-                                    $t("products.Quantity")
-                                  }}:</strong>
-                                  {{
-                                    value.quantity
-                                  }}
-                                </p>
+                                  <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
+                                                                 alt=""> <strong>{{
+                                      $t("products.Quantity")
+                                    }}:</strong>
+                                    {{
+                                      value.quantity
+                                    }}
+                                  </p>
 
-                                <p class="m-0 flex gap-2">
-                                  <img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                                               alt=""> <strong>{{ $t("rfq.Price valid until") }}:</strong>
-                                  {{ value.valid_until }}
-                                </p>
+                                  <p class="m-0 flex gap-2">
+                                    <img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
+                                         alt=""> <strong>{{ $t("rfq.Price valid until") }}:</strong>
+                                    {{ value.valid_until }}
+                                  </p>
                               </td>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
@@ -263,6 +264,7 @@ export default {
                         </div>
                         <div>
                           <div class="qoute-card p-3">
+
 
                             <div>
                               <nuxt-link
@@ -290,6 +292,10 @@ export default {
                                 {{ $t('rfq.View Quote') }}
                               </nuxt-link>
                             </div>
+                            <p v-if="value.is_expired" class="text-error">
+                              {{ $t('rfq.expired') }}
+                            </p>
+
                           </div>
                         </div>
                       </div>

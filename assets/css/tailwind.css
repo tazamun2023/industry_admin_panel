@@ -45,3 +45,7 @@ input[type="number"] {
 .border-red {
   border-color: red;
 }
+
+cloudflare-app {
+  display: none;
+}

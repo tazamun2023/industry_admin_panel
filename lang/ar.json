@@ -42,6 +42,9 @@
     "est_hours": "ساعات"
   },
   "rfq": {
+    "Deadline": "الموعد النهائي",
+    "left": " متبقي ",
+    "expired": "منتهي الصلاحية ",
     "Select from my catalogue": "اختر من الكتالوج الخاص بي",
     "Copy from website catalogue": "انسخ المنتج من كتالوج المنصة",
     "Upload a new product": "تحميل منتج جديد",

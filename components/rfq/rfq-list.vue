@@ -84,15 +84,19 @@
                   <div v-for="(value, index) in list" :key="index">
 
                     <div class="card mt-20 p-1 m-2 bg-white">
-                      <div class="grid grid-cols-7 gap-4">
-                        <div v-if="value.products[0]?.image">
-                          <!--                          <lazy-image-->
-                          <!--                            class="w-48 h-full object-cover rounded"-->
-                          <!--                            :data-src="value.products[0].image"-->
-                          <!--                          />-->
-                          <img :src="value.products[0].image" alt="">
-                        </div>
-                        <div class="col-span-5 p-3">
+                      <div class="grid grid-cols-12 gap-4">
+                        <lazy-image
+                          class="w-48 h-full col-span-2 colo object-cover rounded"
+                          :data-src="value.products[0].image"></lazy-image>
+
+<!--                        <div v-if="value.products[0]?.image">-->
+<!--                          &lt;!&ndash;                          <lazy-image&ndash;&gt;-->
+<!--                          &lt;!&ndash;                            class="w-48 h-full object-cover rounded"&ndash;&gt;-->
+<!--                          &lt;!&ndash;                            :data-src="value.products[0].image"&ndash;&gt;-->
+<!--                          &lt;!&ndash;                          />&ndash;&gt;-->
+<!--                          <img :src="value.products[0].image" alt="">-->
+<!--                        </div>-->
+                        <div class="col-span-7 p-3">
                           <div class="">
                             <h5 class="mb-4 ml-4 font-bold">
                               <a v-for="p in value.products">{{ p.name }}</a>
@@ -158,7 +162,7 @@
                             </tr>
                           </table>
                         </div>
-                        <div>
+                        <div class="col-span-3">
                           <div class="qoute-card p-3">
                             <!-- <p><span>{{ $t("products.Total target price") }}:</span>
                               <span><strong> {{
@@ -168,10 +172,20 @@
                                     currency: 'SAR'
                                   })
                                 }}</strong></span></p> -->
-                            <div class="bg-primarylight text-primary relative p-3 uppercase rounded-lg">
+                            <span class="m-0 d-flex gap-2 mb-2 text-error flex justify-between "
+                                  v-if="value.deadline.days !== 0 || value.deadline.hours !== 0 || value.deadline.minutes !== 0">
+                            <strong> {{ $t("rfq.Deadline") }}: </strong>
+                             <span>
+
+                        {{ value.deadline.days }}:  {{ value.deadline.hours }}:{{value.deadline.minutes}}
+                                  {{$t("rfq.left") }}
+                             </span>
+                          </span>
+
+                            <div class="bg-primarylight flex justify-between text-primary relative p-3 uppercase rounded-lg">
                               <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
                               <span
-                                class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 right-0">
+                                class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 rtl:left-0 ltr:right-0">
                                 {{ value.received_quotes }}</span>
                             </div>
 

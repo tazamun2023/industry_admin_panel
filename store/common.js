@@ -650,6 +650,7 @@ const actions = {
         api,
         rootState.language.langCode
       ));
+      return data
     }
 
     if (data.status === 200 && data.message != "") {
