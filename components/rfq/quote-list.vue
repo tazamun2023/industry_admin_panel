@@ -6,6 +6,7 @@ import bulkDelete from "~/mixin/bulkDelete";
 import moment from 'moment-timezone'
 import RfqFilter from "~/components/rfq/filter.vue";
 import {mapActions} from "vuex";
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 
 export default {
   name: "QuoteList",
@@ -27,6 +28,7 @@ export default {
     }
   },
   components: {
+    PriceWithCurencyFormat,
     RfqFilter,
     LazyImage,
     ListPage
@@ -213,36 +215,23 @@ export default {
                           <table class="w-full ">
                             <tr>
                               <td class="rtl:text-end">
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
-                                                               src="~/assets/icon/clipboard-text.svg"
-                                                               alt=""> <strong> {{ $t("rfq.Quote ID") }} :</strong>
-                                  Q{{ value.id }}</p>
-                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                                               alt=""> <strong>{{
-                                    $t("rfq.Total Quote Price")
-                                  }}:</strong>
-                                  {{
-                                    value.total_target_price.toLocaleString($t('app.currency_local'), {
-                                      style: 'currency',
-                                      maximumFractionDigits: 0,
-                                      currency: 'SAR'
-                                    })
-                                  }}
+                                <p class="m-0 flex gap-2">
+                                  <img class="w-5 h-5 mt-1" src="~/assets/icon/clipboard-text.svg" alt="">
+                                  <strong> {{ $t("rfq.Quote ID") }} :</strong>
+                                  Q{{ value.id }}
+                                </p>
+                                <p class="m-0 flex gap-2">
+                                  <img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg" alt="">
+                                  <strong>{{ $t("rfq.Total Quote Price") }}:</strong>
+                                  <price-with-curency-format
+                                    :price=" value.total_target_price"></price-with-curency-format>
+                                </p>
 
-                                  <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                                                 alt=""> <strong>{{
-                                      $t("products.Quantity")
-                                    }}:</strong>
-                                    {{
-                                      value.quantity
-                                    }}
-                                  </p>
-
-                                  <p class="m-0 flex gap-2">
-                                    <img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
-                                         alt=""> <strong>{{ $t("rfq.Price valid until") }}:</strong>
-                                    {{ value.valid_until }}
-                                  </p>
+                                <p class="m-0 flex gap-2">
+                                  <img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
+                                       alt=""> <strong>{{ $t("rfq.Price valid until") }}:</strong>
+                                  {{ value.valid_until }}
+                                </p>
                               </td>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
@@ -337,22 +326,14 @@ export default {
                                   </td>
                                   <td>{{ product.product.category?.title }}</td>
                                   <td>{{ product?.quantity }} {{ product?.unit.name }}</td>
-                                  <td> {{
-                                      product.total_offer_price?.toLocaleString($t('app.currency_local'), {
-                                        style: 'currency',
-                                        maximumFractionDigits: 0,
-                                        currency: 'SAR'
-                                      })
-                                    }}
+                                  <td>
+                                    <price-with-curency-format
+                                      :price=" product.total_offer_price"></price-with-curency-format>
+
                                   </td>
                                   <td>
-                                    {{
-                                      product.total?.toLocaleString($t('app.currency_local'), {
-                                        style: 'currency',
-                                        maximumFractionDigits: 0,
-                                        currency: 'SAR'
-                                      })
-                                    }}
+                                    <price-with-curency-format :price=" product.total"></price-with-curency-format>
+
                                   </td>
                                 </tr>
 
@@ -391,4 +372,7 @@ export default {
 .font-12px {
   font-size: 12px;
 }
+
+
+
 </style>
