@@ -214,6 +214,7 @@
     "inquiriesOfferStore": "message-center/inquiries/offer/store",
     "getAllInquiriesRfqs": "message-center/inquiries/rfq/all",
     "cancelOffer": "message-center/inquiries/offer/cancel",
+    "readMessage": "message-center/inquiries/read-message",
 
     "bulkExport": "bulk/export",
     "bulkImport": "product/import-bulk-products",
