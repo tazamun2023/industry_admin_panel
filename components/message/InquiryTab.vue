@@ -24,8 +24,11 @@ export default {
       this.$emit('ActiveInquiryData', data);
       this.readMessage(data.id)
     },
-    searchInquiries() {
-      // this.filteredInquiries()
+    truncateUserName(userName, maxLength = 15) {
+      if (userName.length > maxLength) {
+        return userName.substring(0, maxLength) + '...';
+      }
+      return userName;
     },
     readMessage(inquiry_id) {
       this.setRequest({
@@ -146,13 +149,20 @@ export default {
             </span>
             <span class="relative">
               {{ inquirie.last_time }}
-              <span class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]" v-if="inquirie.unread_message">
+              <span
+                class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
+                v-if="inquirie.unread_message">
                 {{ inquirie.unread_message > 9 ? 9 : inquirie.unread_message }}
                 <sup v-if="inquirie.unread_message > 9">+</sup>
               </span>
             </span>
           </div>
-          <span class=" text-[12px]">From : {{ inquirie.user.name }}</span>
+          <span class=" text-[12px]" v-if="$store.state.admin.isSuperAdmin">{{
+              $t('prod.From')
+            }} : {{ inquirie.user.name }} - {{ $t('prod.To') }} : {{ inquirie.vendor.name }}</span>
+          <span class="text-[12px]" v-if="$store.state.admin.isVendor">
+            {{ $t('prod.From') }} : {{ truncateUserName(inquirie.user.name) }}
+          </span>
           <div class="flex justify-between">
             <span class=" font-12px">INQ{{ inquirie.inquirable_id }}</span>
             <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
