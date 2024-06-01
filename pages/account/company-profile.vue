@@ -354,7 +354,7 @@
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
               <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded-[10px] text-[14px] font-semibold leading-3 h-[36px]  text-primary "><span class="flex justify-between gap-2"><img class="w-3 rtl:rotate-180 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-[14px] font-semibold   h-[36px] text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary mt-20" ><span class="flex justify-center items-center gap-2"> <span>Save</span> <img class="h-3 w-3" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>
