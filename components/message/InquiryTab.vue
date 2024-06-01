@@ -1,5 +1,6 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Pusher from "pusher-js";
 
 export default {
   name: "InquiryTab",
@@ -8,6 +9,7 @@ export default {
       is_loading: false,
       inquiries: [],
       activeInquiry: '',
+      CurrentActiveInquiryData: '',
       searchQuery: '',
       formSubmitting: false
     }
@@ -17,6 +19,7 @@ export default {
     activeInquiryData(data) {
       this.activeInquiry = data.id
       this.ActiveInquiryData = data
+      this.CurrentActiveInquiryData = data
       this.$emit('activeInquiry', data.id);
       this.$emit('ActiveInquiryData', data);
     },
@@ -61,9 +64,29 @@ export default {
 
 
   async mounted() {
+
     this.is_loading = true
     await this.fetchingData()
     this.is_loading = false
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('933de91b2f4d1fa5191a', {
+      cluster: 'ap2'
+    });
+
+    const channel = pusher.subscribe('chat');
+    channel.bind('message', dataP => {
+      try {
+        this.is_loading = true
+        this.fetchingData()
+        this.is_loading = false
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    });
   }
 }
 </script>
@@ -80,6 +103,7 @@ export default {
     <div v-if="inquiries.length > 0">
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
            @click="activeInquiryData(inquirie)"
+           :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'bg-primarylight':''"
            class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth my-2 p-2">
         <!--        <img class="h-10 w-10"-->
         <!--             src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"-->
@@ -89,19 +113,19 @@ export default {
           :data-src="inquirie?.inquirable?.image"
           :alt="inquirie?.inquirable?.title"
         />
-        <div>
+        <div class="w-full">
           <div class="flex justify-between">
-            <span class="font-bold  font-13px" :class="{ 'text-theem': activeInquiry === index }">
+            <span class="font-bold font-13px" :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
                {{ inquirie?.inquirable?.title }}
             </span>
-            <span class="text-smooth">{{ inquirie.last_time}}</span>
+            <span class="">{{ inquirie.last_time}}</span>
           </div>
-          <span class="text-smooth text-[12px]">From : {{ inquirie.user.name }}</span>
+          <span class=" text-[12px]">From : {{ inquirie.user.name }}</span>
           <div class="flex justify-between">
-            <span class="text-smooth  font-12px">INQ{{ inquirie.inquirable_id }}</span>
-            <span class="p-1 rounded text-smooth bg-theemlight text-theem uppercase font-12px"
+            <span class=" font-12px">INQ{{ inquirie.inquirable_id }}</span>
+            <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
                   v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
-            <span class="p-1 rounded text-smooth bg-theemlight text-theem uppercase font-12px"
+            <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
                   v-if="(inquirie.last_status==='pending_agreement')">{{ $t('products.PENDING AGREEMENT') }}</span>
             <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
                   v-if="(inquirie.last_status==='expired')">{{ $t('products.expired') }}</span>
