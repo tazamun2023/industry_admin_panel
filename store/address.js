@@ -37,13 +37,13 @@ const actions = {
   async getVendorAddress ({rootState, commit}) {
     const {data} = await Service.getVendorAddress(this.$auth.strategy.token.get(), rootState.language.langCode)
     if (data.status === 200) {
-      commit('SET_VENDOR_ADDRESS', data.data)
+      commit('SET_VENDOR_ADDRESS', data.data.data)
     } else {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
 
   },
-  
+
 
   async userAddressAction({commit,dispatch}, params) {
     const {data} = await Service.userAddressAction(params, this.$auth.strategy.token.get())
