@@ -1965,6 +1965,7 @@ export default {
           api: this.setApi
         });
         if (res) {
+
           // Initialize this.variants[this.openTab] if it doesn't exist
           if (!this.variants[0]) {
             this.variants[0] = {};
