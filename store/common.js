@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 const state = () => ({
   allCategories: null,
   allCategoriesTree: [],
+  reject_reasons_types: [],
   allUnits: [],
   phoneCode: null,
   allCountries: [],
@@ -44,6 +45,7 @@ const getters = {
   allBrands: ({allBrands}) => allBrands,
   allSKus: ({allSKus}) => allSKus,
   allCategories: ({allCategories}) => allCategories,
+  reject_reasons_types: ({reject_reasons_types}) => reject_reasons_types,
   allStorageTemperatures: ({allStorageTemperatures}) =>
     allStorageTemperatures,
   allCategoriesTree: ({allCategoriesTree}) => allCategoriesTree,
@@ -73,6 +75,9 @@ const getters = {
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
     state.allPermissions = allPermissions;
+  },
+  SET_Reject_Reasons_Types(state, reject_reasons_types) {
+    state.reject_reasons_types = reject_reasons_types;
   },
   SET_ALL_FLASH_SALE(state, allFlashSale) {
     state.allFlashSale = allFlashSale;
@@ -393,6 +398,7 @@ const actions = {
     if (data.status === 200) {
       const result = data.data;
 
+      commit("SET_Reject_Reasons_Types", result.reject_reasons_types);
       commit("SET_ALL_CATEGORIES", result.categories);
       commit("SET_ALL_STORAGE_TEMPERATURES", result.storage_temperatures);
       commit("SET_ALL_WAREHOUSES", result.warehouses);
