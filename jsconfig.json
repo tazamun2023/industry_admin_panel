@@ -71,6 +71,8 @@
     "setBrandImage": "brand/upload",
     "doApprovedBrand": "brand/change-status",
 
+    "rejectReasons": "reject-reasons",
+
     "getAllCountries": "city/all-countries",
     "getCitys": "city/all",
     "deleteCity": "city/delete",

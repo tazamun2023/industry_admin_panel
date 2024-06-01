@@ -113,7 +113,7 @@ export default {
     if (this.$route?.query.search) {
       this.result.search = this.$route?.query.search
     }
-    
+
     if (this.$route?.query.product_name) {
       this.result.product_name = this.$route?.query.product_name
     }
@@ -171,28 +171,11 @@ export default {
     <div class="md:w-full py-3">
       <div class="flex flex-wrap ">
         <div class="md:w-1/5 pr-4 pl-4">
-          <label for="">{{ $t("rfq.FilterBy") }}</label>
-          <v-select :dir="$t('app.dir')" v-model="result.type_filter" :options="rfqFilterType" label="title"
-            :reduce="rfqtype => rfqtype.value" :placeholder="$t('rfq.selectOption')" 
-            class="custom-select"></v-select>
-        </div>
-        <div class="md:w-1/5 pr-4 pl-4">
           <div class="mb-4">
-            <label for="">{{ $t("rfq.FilterValue") }}</label>
-            <input v-model="result.search" type="text" class="theme-input-style" :disabled="result.type_filter == ''"
-            >
+            <label for="">{{ $t("rfq.RFQ ID") }}</label>
+            <input v-model="result.search" type="text" class="theme-input-style" :placeholder="$t('rfq.Search by RFQ ID or Product')">
           </div>
         </div>
-        <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'manage-rfq'">
-          <div class="mb-4">
-            <label for="">{{ $t("rfq.Product Name") }}</label>
-            <input v-model="result.product_name" type="text" class="theme-input-style"
-              :placeholder="$t('rfq.Search by Product')">
-          </div>
-        </div>
-
-        <!--        {{ result }}-->
-
 
         <!-- First Select - Search by Category -->
         <div class="md:w-1/5 pr-4 pl-4" v-if="page === 'rfq-list'">
@@ -266,12 +249,12 @@ export default {
         </div>
         <div class="md:w-1/3 pr-4 pl-4">
           <div class="mb-4">
-            <button type="button" @click="filterData" class="inline-block align-middle text-center select-none border 
+            <button type="button" @click="filterData" class="inline-block align-middle text-center select-none border
                     font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long mt-20">
               {{ $t("app.Apply Filters") }}
             </button>
             <button @click="clearFilter" class="inline-block align-middle
-               text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3 
+               text-center select-none border font-normal whitespace-no-wrap rounded py-1 px-3
                leading-normal no-underline bg-red-600  hover:bg-red-700 long mb-auto mt-20 ml-4 mr-4"> {{ $t("rfq.ClearFilter") }} </button>
           </div>
         </div>

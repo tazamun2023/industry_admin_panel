@@ -33,7 +33,13 @@
     "All quotes": "جميع عروض الأسعار ",
     "Order Placed": "تم الطلب ",
     "Select on Status": "اختر الحالة",
-    "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً"
+    "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً",
+    "Active": "مفعل"
+  },
+  "rejectReasons": {
+    "Reason": "السبب ",
+    "type": "النوع ",
+    "group": "المجموعة"
   },
   "shipping": {
     "free_shipping": " توفر شحن مجاني ",

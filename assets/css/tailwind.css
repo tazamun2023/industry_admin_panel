@@ -49,3 +49,15 @@ input[type="number"] {
 cloudflare-app {
   display: none;
 }
+
+
+
+.vs--single .vs__selected {
+
+  width: auto !important;
+
+}
+
+.custom-select {
+  min-width: auto !important;
+}
