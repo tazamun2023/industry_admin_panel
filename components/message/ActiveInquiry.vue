@@ -43,6 +43,7 @@ export default {
   },
 
   methods: {
+
     handleFileUpload(event) {
       const selectedFile = event.target.files[0];
 
@@ -330,6 +331,7 @@ export default {
   },
 
   mounted() {
+    console.log(999);
     this.fetchingData();
 
     this.$watch('ActiveInquiryData', (newValue, oldValue) => {
@@ -395,9 +397,10 @@ export default {
               <!-- -------------------message card user--------------- -->
               <div v-for="(activeInquirie, index) in activeInquiries.inquiryOffers">
                 <!--        vendor reply-->
-                <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.is_reply===0">
+                <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===0">
+                 <div class="col-span-3">
                   <div class="messenger  w-full" v-if="activeInquirie.offer.type==='offer'">
-                    <div class="card rounded-lg shadow m-2">
+                    <div class="card rounded-lg shadow m-2 mb-0">
                       <div class="bg-graylight font-bold rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
                         <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
@@ -541,13 +544,12 @@ export default {
                     </div>
 
                   </div>
-                  <p class="text-xs  py-2 px-4 ltr:text-end rtl:text-start">
-                    {{ activeInquirie.user?.username }}, {{ activeInquirie.created }}</p>
+
                   <!--        vendor reply-->
                   <!-- -------------------message --------------- -->
-                  <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.offer.type==='message'">
-                    <div class="messenger m-2 ">
-                      <div class="bg-smooth p-4 rounded">
+                  <div class="w-full" v-if="activeInquirie.offer.type==='message'">
+                    <div class="messenger m-2 mb-0 ">
+                      <div class="bg-mbg p-4 rounded">
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
@@ -577,15 +579,25 @@ export default {
                     </div>
 
                   </div>
+                  <div>
+                    <p class="text-xs text-smooth pb-2 px-4">
+                    <!-- {{ activeInquirie.user?.username }}, -->
+                    {{ activeInquirie.created }}</p>
+                  </div>
+                 </div>
+                  <div class="col-span-2">
+
+                  </div>
                   <!-- -------------------message card end--------------- -->
 
                 </div>
-                <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.is_reply===1">
-                  <p class="text-xs  px-4 ltr:text-start rtl:text-end">
-                    {{ activeInquirie.vendor?.name }}, {{ activeInquirie.created }}
-                  </p>
-                  <div class="messenger w-full" v-if="activeInquirie.offer.type==='offer'">
-                    <div class="card rounded-lg shadow m-2">
+                <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===1">
+                  <div class="col-span-2">
+
+                  </div>
+                  <div class="col-span-3">
+                    <div class="messenger w-full" v-if="activeInquirie.offer.type==='offer'">
+                    <div class="card rounded-lg shadow m-2 mb-0">
                       <div class="bg-graylight rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
                         <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
@@ -700,9 +712,9 @@ export default {
                   </div>
                   <!--        vendor reply-->
                   <!-- -------------------message --------------- -->
-                  <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.offer.type==='message'">
-                    <div class="messenger m-2 ">
-                      <div class="bg-smooth p-4 rounded">
+                  <div class="w-full" v-if="activeInquirie.offer.type==='message'">
+                    <div class="messenger m-2 mb-0">
+                      <div class="bg-mbg p-4 rounded">
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
@@ -731,6 +743,13 @@ export default {
                       <!-- -------++++++++++----------new design end---------+++++++++++++++---------- -->
                     </div>
 
+                  </div>
+                  <div>
+                      <p class="text-xs text-smooth px-4 ltr:text-end rtl:text-start">
+                    <!-- {{ activeInquirie.vendor?.name }}, -->
+                     {{ activeInquirie.created }}
+                  </p>
+                    </div>
                   </div>
                 </div>
 

@@ -45,6 +45,7 @@ module.exports = {
       pb:"#E4E7EC",
       redlight:'#FF00001C',
       darklight:'#F1F1F3',
+      mbg:"#F2F2F2"
     },
 
     screens: {
