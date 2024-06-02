@@ -469,15 +469,16 @@ export default {
                             </button>
 
                             <button @click="RejectOffer(activeInquirie)"
-                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired' && $store.state.admin.isVendor"
+                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired' && activeInquirie.status !== 'approved' && $store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('prod.Reject') }}
                             </button>
 
-                            <!--                            <button @click="is_cancel_new_offer_customer=activeInquirie.id"-->
-                            <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                            <!--                              {{ $t('prod.cancel') }}-->
-                            <!--                            </button>-->
+                            <button @click="is_cancel_new_offer_customer=activeInquirie.id"
+                                    v-if="activeInquirie.status ==='approved' && activeInquirie.status ==='pending_response' "
+                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                              {{ $t('prod.Cancel') }}
+                            </button>
 
                             <button @click="isSendNewOfferVendor(index, activeInquirie)"
                                     v-if="!is_click_accept && $store.state.admin.isVendor"
@@ -668,10 +669,11 @@ export default {
                               {{ activeInquirie?.offer?.expired_at }}</p>
                             <div class="flex justify-end gap-4 pt-4">
                               <button @click="is_cancel_new_offer_customer=activeInquirie.id"
-                                      v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired' && $store.state.admin.isVendor"
+                                      v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired' && $store.state.admin.isVendor && activeInquirie.status ==='approved' ||  activeInquirie.status ==='pending_response'"
                                       class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                                 {{ $t('products.Cancel Offer') }}
                               </button>
+
                               <!--                            <button @click="acceptOffer(index)"-->
                               <!--                                    v-if="activeInquirie.status!=='approved'"-->
                               <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
