@@ -257,12 +257,13 @@ export default {
 
                             <div>
                               <nuxt-link
+
                                 v-if="value.status==='draft'"
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
-                                :to="`/rfq/quotation-details/${value.id}`"
-                              >
+                                :to="`/rfq/${value.rfq.id}`">
                                 {{ $t('rfq.View Draft Quote') }}
                               </nuxt-link>
+
                               <nuxt-link
                                 v-else
                                 class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"

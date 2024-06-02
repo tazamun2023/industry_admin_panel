@@ -144,8 +144,8 @@
             </ValidationProvider>
 
 
-            <div class="text-right">
-              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+            <div class="ltr:text-right rtl:text-start">
+              <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"  class="p-1 text-[14px] font-semibold px-4 text-[14px] font-semibold h-[36px] bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3 rtl:rotate-180" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -242,8 +242,8 @@
             </ValidationProvider>
 
             <div class="flex justify-between">
-              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(1)" class="p-1 px-2 bg-white border text-[14px] font-semibold border-primary rounded-[10px] leading-3 h-[36px]  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3 rtl:rotate-180" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(3)" :disabled="invalid"   class="p-1 px-4  text-[14px] font-semibold bg-primary rounded-[10px] leading-3 h-[36px]  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3 rtl:rotate-180" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -307,8 +307,8 @@
             </div>
             </ValidationProvider>
             <div class="flex justify-between mt-[200px]">
-              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary rounded-[10px] leading-3  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3" src="~/assets/icon/arrow-white.svg"></span></button>
+              <button v-on:click="toggleTabs(2)" class="p-1 px-2 bg-white border border-primary  text-[14px] font-semibold rounded-[10px] leading-3 h-[36px] text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3 rtl:rotate-180" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button v-on:click="toggleTabs(4)" :disabled="invalid"   class="p-1 px-4 bg-primary text-[14px] font-semibold rounded-[10px] leading-3 h-[36px]  text-white "><span class="flex justify-between gap-2"><span>Next</span> <img class="w-3 h-3 rtl:rotate-180" src="~/assets/icon/arrow-white.svg"></span></button>
             </div>
           </div>
 
@@ -353,8 +353,8 @@
               </ValidationProvider>
             </div>
             <div class="input-wrapper flex justify-between mt-[200px] text-end mb-2">
-              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded-[10px] leading-3  text-primary "><span class="flex justify-between gap-2"><img class="w-3 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
-              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-white border-secondary mt-20" ><span class="flex gap-2"> <span>Save</span> <img class="h-3 w-3 mt-[15px]" src="~/assets/icon/archive-add.svg" alt=""></span></button>
+              <button v-on:click="toggleTabs(3)" class="p-1 px-2 bg-white border border-primary rounded-[10px] text-[14px] font-semibold leading-3 h-[36px]  text-primary "><span class="flex justify-between gap-2"><img class="w-3 rtl:rotate-180 h-3" src="~/assets/icon/arowgreen.svg"><span>Privious</span> </span></button>
+              <button @click="submit = true" :disabled="invalid || checkNameValue" class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary mt-20" ><span class="flex justify-center items-center gap-2"> <span>Save</span> <img class="h-3 w-3" src="~/assets/icon/archive-add.svg" alt=""></span></button>
             </div>
           </div>
         </div>

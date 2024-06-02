@@ -120,7 +120,7 @@
                           <button href="" target="_blank" @click="toggleCollapse(product.id)" id="addToQuote"
                                   :disabled="isDisable"
                                   class="inline-block align-middle text-center bg-primary text-white select-none border font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline long  mt-20">
-                            {{ product.qoute.product_id !== "" ? $t('rfq.EditQuote') : $t('rfq.add to quote') }}
+                            {{ product?.qoute?.product_id !== "" ? $t('rfq.EditQuote') : $t('rfq.add to quote') }}
                           </button>
                         </td>
                       </tr>
@@ -245,7 +245,7 @@
                                   </ValidationProvider>
                                 </div>
 
-                                <div>
+                                <div v-if="product.qoute">
                                   <label class="mt-3 mb-2" for=""> {{ $t('rfq.Total target price') }}*</label>
                                   <div class="flex border rounded  border-smooth bg-white">
                                     <label class="p-3" for="">{{ $t('app.SAR') }}</label>
@@ -255,7 +255,7 @@
                                            class="block appearance-none w-full py-1 px-2  text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
                                   </div>
                                   <div class="mb-4 text-right flex justify-center">
-                                    <button v-if="product.qoute.product_id !== ''" id="add_form_cancel"
+                                    <button v-if="product?.qoute?.product_id !== ''" id="add_form_cancel"
                                             @click.prevent="
                                           deleteProduct(k)
                                           , toggleCollapse('', 1)"
@@ -284,7 +284,7 @@
                           </ValidationObserver>
                         </td>
                       </tr>
-                      <tr v-if="!isCollapsed && activeProductId !== product.id && product.qoute.product_id !== ''">
+                      <tr v-if="!isCollapsed && activeProductId !== product.id && product?.qoute?.product_id !== ''">
                         <td colspan="8">
                           <div class="grid grid-cols-5 gap-4 bg-[#fafafa] border-[0.5px] border-solid
                                  border-[#BFBFBF] rounded-15 my-2 p-20">
@@ -788,6 +788,8 @@ export default {
     },
     saveDataResponce() {
       if (this.rfq.quote != null) {
+        if (this.rfq.quote.status!='draft')
+          return this.$router.push(`/rfq/quotation-details/` + this.rfq.quotation_id)
         // this.result.expiry_date =
         this.result.expiry_date = this.rfq.quote.expiry_date
         this.result.additional_details = this.rfq.quote.additional_details
@@ -829,6 +831,8 @@ export default {
           })
         console.log('point', this.rfq.products[i].qoute);
       }
+
+      this.save()
 
     },
     async fetchingData() {

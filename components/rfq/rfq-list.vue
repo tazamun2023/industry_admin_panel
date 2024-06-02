@@ -21,6 +21,15 @@
     <div class="flex  mt-20 flex-wrap">
       <div class="w-full">
         <ul class="flex mb-0 list-none flex-wrap pt-3 w-full pb-4 flex-row">
+          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
+            <nuxt-link class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'all_rfq', 'border-t-4 border-primary': openTab === 'all_rfq' }"
+                       :to="`/rfq`" :title="$t('app.All')">
+              {{ $t("app.All") }}
+            </nuxt-link>
+
+          </li>
+
           <li v-if="$store.state.admin.isSuperAdmin" class="-mb-px mr-2 last:mr-0   flex-auto text-center">
             <nuxt-link
               class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
@@ -46,14 +55,7 @@
               {{ $t("app.Approved") }}
             </nuxt-link>
           </li>
-          <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
-            <nuxt-link class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                       v-bind:class="{ 'text-pink-600 bg-white border-white border-t-4': openTab !== 'all_rfq', 'border-t-4 border-primary': openTab === 'all_rfq' }"
-                       :to="`/rfq`" :title="$t('app.All')">
-              {{ $t("app.All") }}
-            </nuxt-link>
 
-          </li>
           <li class="-mb-px mr-2 last:mr-0 flex-auto text-center">
             <nuxt-link v-if="$store.state.admin.isVendor"
                        class="text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
