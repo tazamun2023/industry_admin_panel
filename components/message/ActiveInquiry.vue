@@ -145,6 +145,12 @@ export default {
       this.is_send_new_offer_index = index
       this.$emit('is_send_new_offer_index', index);
     },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const container = this.$refs.messageContainer;
+        container.scrollTop = container.scrollHeight;
+      });
+    },
     async cancelOffer(offer_id) {
       // cancelOffer
       try {
@@ -156,8 +162,9 @@ export default {
           },
           api: 'cancelOffer',
           requiredToken: true
-        })
-        if (data?.status === 200) {
+        });
+
+        if (data) {
           this.is_send_new_offer = false
           this.is_cancel_new_offer_customer = false
           await this.fetchingData();
@@ -319,6 +326,7 @@ export default {
           api: 'activeInquiries',
         });
         this.activeInquiries = data;
+        this.scrollToBottom();
       } catch (e) {
         this.$nuxt.error(e);
       } finally {
@@ -331,7 +339,6 @@ export default {
   },
 
   mounted() {
-    console.log(999);
     this.fetchingData();
 
     this.$watch('ActiveInquiryData', (newValue, oldValue) => {
@@ -339,7 +346,7 @@ export default {
         this.fetchingData(); // Fetch data again when ActiveInquiryData changes
       }
     });
-
+    this.scrollToBottom();
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
@@ -393,7 +400,7 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="h-[700px] overflow-y-scroll scrolly">
+            <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
               <!-- -------------------message card user--------------- -->
               <div v-for="(activeInquirie, index) in activeInquiries.inquiryOffers">
                 <!--        vendor reply-->
@@ -441,6 +448,11 @@ export default {
                               class="text-primary"> SAR</span></span>
                           </div>
                         </div>
+
+                        <div v-if="activeInquirie.status==='order_placed'">
+                          <p class="p-2 bg-primarylight rounded">{{ $t('prod.Paid') }}</p>
+                        </div>
+                        <div v-else>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                           <p class="p-2 bg-warning rounded" v-if="activeInquirie.status==='rejected'">
@@ -525,6 +537,7 @@ export default {
                             {{ $t('products.Confirm') }}
                           </button>
                         </div>
+                        </div>
                         <ReplyNewOffer
                           v-if="is_send_new_offer_vendor===index"
                           :ActiveInquiryData="activeInquirie"
@@ -607,7 +620,7 @@ export default {
                           <div class="flex items-center gap-4">
                             <lazy-image
                               class="h-10 w-10 object-cover rounded"
-                              :data-src="activeInquirie?.inquirable?.image"
+                              :data-src="activeInquiries?.inquirable?.image"
                               :alt="activeInquirie?.inquirable?.title"
                             />
                             <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{
@@ -642,64 +655,66 @@ export default {
                           </div>
                         </div>
                         <!-- --------------end-------- -->
-                        <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
-                          <p class="p-2 bg-warning text-white rounded" v-if="activeInquirie.status==='rejected'">
-                            {{ $t('prod.Rejected') }}</p>
-                          <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
-                            {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
-                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('prod.Offer sent') }}
-                            {{ activeInquirie?.offer?.expired_at }}</p>
-                          <div class="flex justify-end gap-4 pt-4">
-                            <button @click="is_cancel_new_offer_customer=activeInquirie.id"
-                                    v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired' && $store.state.admin.isVendor"
-                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              {{ $t('products.Cancel Offer') }}
-                            </button>
-                            <!--                            <button @click="acceptOffer(index)"-->
-                            <!--                                    v-if="activeInquirie.status!=='approved'"-->
-                            <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                            <!--                              {{ $t('products.Accept Offer') }}-->
-                            <!--                            </button>-->
-                            <button @click="isSendNewOfferVendor(index)"
-                                    v-if="$store.state.admin.isVendor"
-                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              {{ $t('products.Send New Offer') }}
-                            </button>
-                          </div>
+                        <div v-if="activeInquirie.status==='order_placed'">
+                          <p class="p-2 bg-primarylight rounded">{{ $t('prod.Paid') }}</p>
                         </div>
-                        <!-- ---------end-------- -->
-                        <!-- ---------------------- -->
-                        <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
-                          <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
-                          <div class="flex justify-end gap-4 pt-4">
-                            <button @click="is_cancel_new_offer_customer=false"
-                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              {{ $t('products.No') }}
-                            </button>
-                            <button @click="cancelOffer(activeInquirie.id)"
-                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              {{ $t('products.Cancel') }}
-                            </button>
+                        <div v-else>
+                          <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
+                            <p class="p-2 bg-warning text-white rounded" v-if="activeInquirie.status==='rejected'">
+                              {{ $t('prod.Rejected') }}</p>
+                            <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
+                              {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
+                            <p class="p-2 bg-primarylight rounded" v-else>{{ $t('prod.Offer sent') }}
+                              {{ activeInquirie?.offer?.expired_at }}</p>
+                            <div class="flex justify-end gap-4 pt-4">
+                              <button @click="is_cancel_new_offer_customer=activeInquirie.id"
+                                      v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired' && $store.state.admin.isVendor"
+                                      class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                                {{ $t('products.Cancel Offer') }}
+                              </button>
+                              <!--                            <button @click="acceptOffer(index)"-->
+                              <!--                                    v-if="activeInquirie.status!=='approved'"-->
+                              <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
+                              <!--                              {{ $t('products.Accept Offer') }}-->
+                              <!--                            </button>-->
+                              <button @click="isSendNewOfferVendor(index)"
+                                      v-if="$store.state.admin.isVendor"
+                                      class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                                {{ $t('products.Send New Offer') }}
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                        <!-- ---------end-------- -->
-                        <!-- ---------------------- -->
-                        <div v-if="activeInquirie.status==='canceled'">
-                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
-                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
-                          <div class="flex justify-end gap-4 pt-4">
-                            <button
-                              v-if="$store.state.admin.isVendor"
-                              @click="is_send_new_offer_vendor=index"
-                                    :disabled="!isLastOffer(index)"
-                                    :style="{ cursor: isLastOffer(index) ? '' : 'not-allowed' }"
-                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-                              {{ $t('products.Send New Offer') }}
-                            </button>
+                          <!-- ---------end-------- -->
+                          <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
+                            <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
+                            <div class="flex justify-end gap-4 pt-4">
+                              <button @click="is_cancel_new_offer_customer=false"
+                                      class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                                {{ $t('products.No') }}
+                              </button>
+                              <button @click="cancelOffer(activeInquirie.id)"
+                                      class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                                {{ $t('products.Cancel') }}
+                              </button>
+                            </div>
                           </div>
+                          <!-- ---------end-------- -->
+                          <div v-if="activeInquirie.status==='canceled'">
+                            <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
+                            <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
+                            <div class="flex justify-end gap-4 pt-4">
+                              <button
+                                v-if="$store.state.admin.isVendor"
+                                @click="is_send_new_offer_vendor=index"
+                                :disabled="!isLastOffer(index)"
+                                :style="{ cursor: isLastOffer(index) ? '' : 'not-allowed' }"
+                                class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+                                {{ $t('products.Send New Offer') }}
+                              </button>
+                            </div>
+                          </div>
+                          <!-- ---------end-------- -->
                         </div>
-                        <!-- ---------end-------- -->
-                        <!-- -------------- -->
 
                         <ReplyNewOffer
                           v-if="is_send_new_offer_vendor===index"
