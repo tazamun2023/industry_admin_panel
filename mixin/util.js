@@ -3,6 +3,39 @@ import json from './../jsconfig.json'
 export default {
   data() {
     return {
+
+      rejectReasonsTypes: {
+        Products: {
+          "id": "Products",
+          "title": "Products"
+        },
+        Brands: {
+          "id": "Brands",
+          "title": "Brands"
+        },
+        RFQs: {
+          "id": "RFQs",
+          "title": "RFQs"
+        },
+        RejectOrders: {
+          "id": "RejectOrders",
+          "title": "RejectOrders"
+        },
+        UnavailableOrderItems: {
+          "id": "UnavailableOrderItems",
+          "title": "UnavailableOrderItems"
+        },
+        CancelOrders: {
+          "id": "CancelOrders",
+          "title": "CancelOrders"
+        },
+        BankPayment: {
+          "id": "BankPayment",
+          "title": "filters.rejectReasons.BankPayment"
+        }
+
+      },
+
       withdraw: {
         minAmount: 50
       },

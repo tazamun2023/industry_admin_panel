@@ -1,14 +1,15 @@
 <template>
   <list-page
-    v-if="$can('manage_shipment_setting')"
+    v-if="$can('manage_initial_setting')"
     ref="listPage"
     list-api="rejectReasons"
     delete-api="rejectReasons"
-    route-name="ejection-reasons"
+    route-name="rejection-reasons"
     empty-store-variable="rejectReasons"
-    gate="manage_shipment_setting"
-    manage_gate="manage_shipment_setting"
-    :order-options="orderOptions"
+    gate="manage_initial_setting"
+    :title="$t('setting.rejection-reasons')"
+    manage_gate="manage_initial_setting"
+    :order-options="rejectReasonsTypes"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
 
@@ -78,37 +79,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
-      orderOptions: {
-        Products: {
-          "id": "Products",
-          "title": "Products"
-        },
-        Brands: {
-          "id": "Brands",
-          "title": "Brands"
-        },
-        RFQs: {
-          "id": "RFQs",
-          "title": "RFQs"
-        },
-        RejectOrders: {
-          "id": "RejectOrders",
-          "title": "RejectOrders"
-        },
-        UnavailableOrderItems: {
-          "id": "UnavailableOrderItems",
-          "title": "UnavailableOrderItems"
-        },
-        CancelOrders: {
-          "id": "CancelOrders",
-          "title": "CancelOrders"
-        },
-        BankPayment: {
-          "id": "BankPayment",
-          "title": "filters.rejectReasons.BankPayment"
-        }
 
-      }
     }
   },
   components: {

@@ -1,72 +1,114 @@
 <template>
-  <div>
-      <div class="p-4">
-       <div class="py-4">
-        <h1 class="text-[35px] uppercase text-[#3E3E3E]">New Rejection Reason</h1>
-       </div>
-      <div class="w-2/4">
-        <form class="" action="">
-         <div class="py-2 input-container">
-          <label class="text-[16px] order-1 capitalize" for="reject">Rejection Reason</label>
-          <input for="reject" type="text" placeholder="Here you can put the reason of reject">
-         </div>
-          <div  class="py-2 input-container">
-            <label  class="text-[16px] capitalize" for="">Rejection Type</label>
-            <div class="relative">
-      <select v-model="selectedType" class="w-full border focus:outline-none focus:border-primary ring-primary border-smooth p-2 rounded-[10px]">
-        <option value="">Select Type</option>
-        <option value="products">Products</option>
-        <option value="rfqs">RFqs</option>
-      </select>
-      <label class="absolute mt-[-25px] ltr:right-1 rtl:left-1">
-        <img class="w-4" src="~/assets/icon/select.svg" alt="Select Icon">
-      </label>
-    </div>
-</div>
-    <div v-if="selectedType === 'products'" class="py-2 input-container">
-      <label class="text-[16px] capitalize" for="groupSelect">Rejection Groups</label>
-      <div class="relative">
-        <select class="w-full border border-smooth focus:outline-none focus:border-primary ring-primary p-2 rounded-[10px]" id="groupSelect">
-          <option value="">Group Name</option>
-          <option value="">Group Name 2</option>
-        </select>
-        <label class="absolute mt-[-25px] ltr:right-1 rtl:left-1">
-          <img class="w-4" src="~/assets/icon/select.svg" alt="Select Icon">
-        </label>
+  <data-page
+    ref="dataPage"
+    set-api="rejectReasons"
+    get-api="rejectReasons"
+    route-name="rejection-reasons"
+    method="put"
+    :name="$t('setting.rejection-reasons')"
+    gate="manage_initial_setting"
+    manage_gate="manage_initial_setting"
+    :validation-keys="['description.ar','description.en','type']"
+    :result="result"
+    @result="resultData"
+  >
+    <template v-slot:form="{hasError}">
+
+      <lang-input :hasError="hasError" type="text" :title="$t('rejectReasons.Reason')"
+                  :valuesOfLang="result.description"
+                  @updateInput="updateInput"></lang-input>
+
+      <div class="grid grid-cols-1  md:grid-cols-2  gap-1 md:gap-2 ">
+        <div class="py-2 ">
+          <custom-select v-model="result.type"
+                         :options="rejectReasonsTypes"
+                         label="Rejection Type"
+                         non_select_option="Select Type">
+
+          </custom-select>
+        </div>
+        <div class="py-2">
+          <custom-select v-model="result.type"
+                         :options="[]"
+                         non_select_option="Select Rejection Groups"
+                         label="Rejection Groups"></custom-select>
+        </div>
+
+
       </div>
-    </div>
-          <div class="flex  items-center  gap-4 py-2">
-            <label  class="text-[16px] mt-[7px] capitalize" for="active">Active</label>
-            <SwitchToggle id="active" checked="checked"/>
-          </div>
-          <div class="flex justify-end items-center mt-[50px] gap-4">
-            <button class="h-[41px] w-[195px] uppercase px-6 py-2 leading-3">cancel</button>
-            <button class="h-[41px]  w-[195px] border border-smooth uppercase hover:text-primary hover:border-primary text-white px-6 py-2 bg-primary leading-3">Update</button>
-          </div>
-        </form>
+
+
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+            <span class="mr-15">
+              {{ $t('app.Active') }}
+            </span>
+          <SwitchToggle v-model="result.status"/>
+
+        </div>
       </div>
-      </div>
-  </div>
+    </template>
+  </data-page>
 </template>
+
 <script>
-export default{
-  data(){
-    return{
-      selectedType: ''
+
+import DataPage from "~/components/partials/DataPage";
+import util from "~/mixin/util"
+import Dropdown from '~/components/Dropdown'
+import {mapGetters, mapActions} from 'vuex'
+import LangInput from "../../components/langInput.vue";
+import SwitchToggle from "../../components/SwitchToggle.vue";
+import CustomSelect from "../../components/CustomSelect.vue";
+
+export default {
+  name: "Cities",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      result: {
+        id: '',
+        type: '',
+        group: '',
+        description: {'ar': '', 'en': ''},
+        country_id: '',
+        status: '',
+      }
     }
+  },
+  mixins: [util],
+  components: {
+    CustomSelect,
+    SwitchToggle,
+    LangInput,
+    DataPage,
+    Dropdown
+  },
+  computed: {
+    ...mapGetters('language', ['currentLanguage']),
+  },
+  methods: {
+    resultData(evt) {
+      if (this.$route?.params?.id === 'add') {
+        // this.emptyAllList('allCategories')
+        this.$router.push({path: `/rejection-reasons`})
+      }
+      this.result = evt
+    },
+    updateInput(input, language, value) {
+
+      this.$set(input, language, value);
+    },
+
+
+  },
+  async mounted() {
+
   }
+
 }
 </script>
-<style scoped>
-.input-container input:focus label {
-    color:#01a781; /* Change this color to whatever you prefer */
-  }
-  .input-container label {
-  display: block;
-  transition: color 0.3s ease;
-}
 
-.input-container:focus-within label {
-  color: #01a781; /* Change this color to whatever you prefer */
-}
+<style scoped>
+
 </style>
