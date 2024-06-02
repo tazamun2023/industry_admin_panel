@@ -567,9 +567,15 @@ export default {
 
                       <!-- ------------------file---------- -->
                       <div class="my-2 cursor-pointer" v-if="activeInquirie.file">
-                      <span class="p-4 shadow-lg rounded-lg w-full border border-smooth" v-if="activeInquirie.fileName">{{
-                          activeInquirie.fileName
-                        }}</span>
+                        <a
+                          class="p-4 shadow-lg rounded-lg w-full border border-smooth"
+                          v-if="activeInquirie.fileName"
+                          :href="activeInquirie.file"
+                          download
+                          target="_blank"
+                        >
+                          {{ activeInquirie.fileName }}
+                        </a>
                       </div>
                       <!-- -------++++++++++----------new design end---------+++++++++++++++---------- -->
                     </div>
@@ -736,9 +742,15 @@ export default {
 
                       <!-- ------------------file---------- -->
                       <div class="my-2 cursor-pointer" v-if="activeInquirie.file">
-                      <span class="p-4 shadow-lg rounded-lg w-full border border-smooth" v-if="activeInquirie.fileName">{{
-                          activeInquirie.fileName
-                        }}</span>
+                        <a
+                          class="p-4 shadow-lg rounded-lg w-full border border-smooth"
+                          v-if="activeInquirie.fileName"
+                          :href="activeInquirie.file"
+                          download
+                          target="_blank"
+                        >
+                          {{ activeInquirie.fileName }}
+                        </a>
                       </div>
                       <!-- -------++++++++++----------new design end---------+++++++++++++++---------- -->
                     </div>
