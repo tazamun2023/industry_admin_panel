@@ -1,6 +1,6 @@
 <template>
        <check-validity :gate="'view_addresses'">
-        <div class="card p-4">
+        <!-- <div class="card p-4">
            <div class="flex justify-between">
 
                 <div>
@@ -12,8 +12,66 @@
                     <button  v-if="$can('edit_addresses')" @click="addAddress" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Add Address</button>
                 </div>
            </div>
-        </div>
-        <div class="grid grid-cols-5 my-2 gap-4">
+        </div> -->
+<div>
+  <button  v-if="$can('edit_addresses')" @click="addAddress" class="flex gap-4 items-center p-2 leading-3 rounded-[10px] bg-primary text-white hover:text-primary h-[40px]"><img class="h-5 w-5" src="~/assets/icon/add-square.svg" alt=""> Add Address</button>
+  <div style="box-shadow: 0px 1px 2px 0px #1018280D;" class="table-wrapper border border-pb rounded-[12px]">
+      <table
+        class="mn-w-800x mb-10 mt-0"
+      >
+        <tr class="lite-bold">
+          <th class="bg-lightdeep">
+            <div class="flex gap-4 items-center">
+              <input type="checkbox">
+              Name
+            </div>
+          </th>
+          <th class="bg-lightdeep">
+            {{ $t('address.country') }}
+          </th>
+          <th class="bg-lightdeep">{{ $t('address.city') }}</th>
+          <th class="bg-lightdeep">{{ $t('fSale.phone') }}</th>
+          <th class="bg-lightdeep">{{ $t('address.near') }}</th>
+          <th class="bg-lightdeep text-center">
+            <div class="flex gap-2 justify-center items-center">
+              <input type="checkbox">
+              Set as Default
+            </div>
+          </th>
+          <th class="bg-lightdeep"></th>
+        </tr>
+        <tr v-for="(value, index) in addressList?.data" :key="index" class="border-t border-pb">
+          <td>
+            <div class="flex font-bold capitalize gap-4 items-center">
+              <input type="checkbox">
+              {{value.address_name}}
+            </div>
+          </td>
+          <td class="text-primary">
+            {{ value?.country }}
+          </td>
+          <td class="text-primary">
+            {{value?.city}}
+          </td>
+          <td class="font-bold capitalize">{{value?.phone}}</td>
+          <td>{{value?.nearest_landmark}}</td>
+          <td class="text-center"><input @change="setDeaultAddress(value,$event)" :checked="value.default > 0" type="checkbox"></td>
+          <td>
+            <div class="flex gap-4">
+              <img  v-show="value.default == 0" @click="deleting(value)" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
+              <img @click="editAddress(value)" v-if="$can('edit_addresses')"  class="action_img cursor-pointer"
+                   src="~/assets/icon/edit-g.svg">
+            </div>
+          </td>
+        </tr>
+      </table>
+     <GlobalPagination/>
+    </div>
+</div>
+
+
+
+        <!-- <div class="grid grid-cols-5 my-2 gap-4">
             <div v-for="(value, index) in addressList?.data" :key="index" class="card my-2">
               <div>
           <div class="bg-primary p-3 rounded-t-lg">
@@ -21,7 +79,7 @@
             <h3 class="text-white truncate capitalize">{{value.address_name}}</h3>
            </div>
             <div class="d-flex gap-2">
-            <!-- <span v-show="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span> -->
+
             <span class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">
               {{ value.type }}</span>
           </div>
@@ -65,16 +123,16 @@
                 </div>
           </div>
           <div class="flex gap-4  p-3">
-                        <button class="p-2 leading-3 rounded hover:border hover:border-smooth 
+                        <button class="p-2 leading-3 rounded hover:border hover:border-smooth
                          hover:text-warning flex items-center gap-3 text-error"
                          v-show="value.default == 0"
                          @click="deleting(value)" >
                          <img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> {{ $t('address.Remove')}}</button>
                     <button v-if="$can('edit_addresses')" class="p-2 leading-3 rounded bg-primary text-white
-                     hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4" 
+                     hover:text-primary flex items-center gap-3" @click="editAddress(value)"><img class="w-4 h-4"
                      src="~/assets/icon/edit.svg" alt=""> {{ $t('address.Edit')}}</button>
           </div>
-      </div>
+      </div> -->
                 <!-- <div class="flex gap-4 py-2 justify-between">
                     <h4>{{ value?.address_name }}</h4>
                     <div class="flex gap-4">
@@ -109,7 +167,11 @@
                         <p>{{ value?.country }}</p>
                     </div>
                 </div> -->
-              <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+
+            <!-- </div>
+        </div> -->
+
+        <DeleteModal v-if="deleteModal" @closeModal="closeModal">
                 <template v-slot:title>
                   <h4>{{ $t('vendor.deletemessage') }}</h4>
                 </template>
@@ -119,19 +181,15 @@
                   <div class="flex gap-4 justify-end">
                     <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
                       {{ $t('address.Quit')}}</button>
-                    <button @click.prevent="deleting(value)" 
+                    <button @click.prevent="deleting(value)"
                     class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
                     {{ $t('address.Agree')}}</button>
                   </div>
                 </template>
               </DeleteModal>
-            </div>
-        </div>
 
-
-        
         <!-- -----------------modal------------ -->
-   
+
   <template v-if="addressmodal || confirmAddAddress">
     <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
       <div class="absolute inset-0 bg-black opacity-50"></div>
@@ -211,7 +269,7 @@ export default{
    ...mapActions('ui', ["setToastMessage", "setToastError"]),
    ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode','swetAlertFire','setAddressDefault']),
 
-   
+
    countrySelected() {
      this.addressData.city_id = ""
      try {
@@ -228,7 +286,7 @@ export default{
    async getAllAddress(){
      await this.getVendorAddress({params:{'vendor_id': this.profile.id}, api:'getVendorAddress'})
    },
-   
+
    closeAddressModel() {
       this.addressmodal = false
       this.confirmAddAddress = false

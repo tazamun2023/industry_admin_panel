@@ -36,7 +36,13 @@
     "tableEmptyData": "This table is currently empty of any data",
     "add_admin": "Add admin User",
     "update_admin": "Update admin User",
-    "update_vendor": "Update Vendor User"
+    "update_vendor": "Update Vendor User",
+    "Active":"Active"
+  },
+  "rejectReasons": {
+    "Reason":"Reason",
+    "type":"type",
+    "group":"group"
   },
   "shipping": {
     "free_shipping": "Free Shipping",

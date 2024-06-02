@@ -5,7 +5,7 @@
       name="add-button"
     >
       <nuxt-link
-        v-if="title && addButton && (gate && $can(manage_gate))"
+        v-if=" (gate && $can(manage_gate))"
         :to="addRoute"
 
         class="flex h-[42px] w-[156px] hover:bg-primary rounded-md gap-4 bg-primary text-white px-4 items-center"
@@ -91,7 +91,8 @@ export default {
   computed: {
     addRoute() {
       // Removing the trailing slash
-      return this.$route.path.replace(/^\/brands(\/.*)?$/, "/brands/add");
+      // return this.$route.path.replace(/^\/brands(\/.*)?$/, "/brands/add");
+      return `${this.$route.path.replace(/\/$/, "")}/add`
     }
   },
   methods: {

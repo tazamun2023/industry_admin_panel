@@ -11,7 +11,7 @@
     <!-- Input fields for each language -->
     <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
     <div class="grid grid-cols-12 gap-1 md:gap-2">
-      <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 md:col-span-6':(width50 && type=='text')}">
+      <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
         <ValidationProvider name="Title" :rules="{required: hasError}" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
         <div class="input-wrapper">

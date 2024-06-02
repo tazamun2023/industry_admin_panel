@@ -1,9 +1,11 @@
 <script>
 import util from "@/mixin/util";
 import {mapActions} from "vuex";
+import RFQProducts from "../../../components/rfq/RFQProducts.vue";
 
 export default {
   name: "QuotationDetails",
+  components: {RFQProducts},
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
   data() {
@@ -90,6 +92,8 @@ export default {
             <p v-for="(shipmen_term, index) in quotation?.rfq?.shipmen_terms" :key="index">{{ shipmen_term?.name }} <span v-if="index!=0">,</span></p>
           </div>
         </div>
+        <RFQProducts class="p-4" :show_summary="true" :rfq="quotation.rfq"></RFQProducts>
+
       </div>
       <div class="card my-4 p-4">
         <h4 class="font-bold pb-2">{{ $t('rfq.Products in your quote') }}</h4>

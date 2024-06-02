@@ -29,29 +29,29 @@
               @submit.prevent="formSubmit"
               :class="{'has-error': hasError}"
             >
-            <div :class="tableClass">
-              <table  class="mn-w-600x">
-              <slot
-                name="table"
-                v-bind:list="list"
-              />
-            </table>
-            <!-- ----------------------- -->
-            <!-- <GlobalPagination/> -->
-            <!-- ----------------------- -->
-            </div>
-            <slot name="checkboxArea"/>
-            <div
-              class="dply-felx j-right single-btn my-2"
-            >
+              <div :class="tableClass">
+                <table class="mn-w-600x">
+                  <slot
+                    name="table"
+                    v-bind:list="list"
+                  />
+                </table>
+                <!-- ----------------------- -->
+                <!-- <GlobalPagination/> -->
+                <!-- ----------------------- -->
+              </div>
+              <slot name="checkboxArea"/>
+              <div
+                class="dply-felx j-right single-btn my-2"
+              >
 
-              <ajax-button
-                name="save"
-                class="primary-btn"
-                :text="$t('setting.sv')"
-                :fetching-data="formSubmitting "
-              />
-            </div>
+                <ajax-button
+                  name="save"
+                  class="primary-btn"
+                  :text="$t('setting.sv')"
+                  :fetching-data="formSubmitting "
+                />
+              </div>
             </form>
           </div>
         </div>
@@ -137,6 +137,12 @@ export default {
       type: String,
       default: ''
     },
+
+    anotherData: {
+      type: Object,
+      default: {}
+    },
+
     deleteApi: {
       type: String,
       default: ''
@@ -167,6 +173,7 @@ export default {
       hasError: false,
       loading: true,
       result: null,
+      res: null,
     }
   },
   components: {
@@ -221,13 +228,17 @@ export default {
       this.formSubmitting = true
       try {
 
-        const data = await this.setById({id: this.id, params: {data:this.result.data}, api: this.setApi,method:this.method})
-        if (data) {
+        const data = await this.setById({
+          id: this.id,
+          params: {data: this.result.data,...this.anotherData},
+          api: this.setApi,
+          method: this.method
+        })
+        if (data.status=200) {
 
           this.emptyAllList(this.emptyStoreVariable)
 
-         this.result=data
-          this.$emit('list', data)
+          this.saveResponce(data.data)
 
         } else {
           this.$refs["formWrapper"].scrollIntoView({behavior: "smooth"})
@@ -248,7 +259,7 @@ export default {
       try {
         this.settingRouteParam()
         this.loading = true
-        this.result = await this.getRequest({
+        var result = await this.getRequest({
           params: {
             ...this.param,
             ...this.$route.query,
@@ -257,13 +268,24 @@ export default {
           },
           api: this.listApi
         })
-        this.$emit('list', this.list)
+        this.saveResponce(result)
 
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
       }
     },
+    saveResponce(res) {
+      console.log("res")
+      console.log(res)
+      if (this.listApi === 'getSaShipping')
+        this.result = res.cities
+      else
+        this.result = res
+      this.$emit('list', this.list)
+      this.$emit('res', res)
+    },
+
     editItem(id) {
       return this.$router.push(`/${this.routeName}/${id}`)
     },
