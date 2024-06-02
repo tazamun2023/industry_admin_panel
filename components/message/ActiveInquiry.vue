@@ -449,20 +449,15 @@ export default {
                             {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
                           <!--                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>-->
                           <div class="flex justify-end gap-4 pt-4">
-                            <!--                            <button @click="acceptOffer(index)"-->
-                            <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                            <!--                              {{ $t('products.Accept Offer') }}-->
-                            <!--                            </button>-->
-                            <!--                            acceptOffer(index, activeInquirie)-->
 
                             <button @click="acceptOfferModal(index)"
-                                    v-if="activeInquirie.status!=='approved' && activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired'"
+                                    v-if="activeInquirie.status!=='approved' && activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired' && $store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Accept Offer') }}
                             </button>
 
                             <button @click="RejectOffer(activeInquirie)"
-                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired'"
+                                    v-if="activeInquirie.status!=='rejected' && !is_click_accept && activeInquirie.status !== 'expired' && $store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('prod.Reject') }}
                             </button>
@@ -473,7 +468,7 @@ export default {
                             <!--                            </button>-->
 
                             <button @click="isSendNewOfferVendor(index, activeInquirie)"
-                                    v-if="!is_click_accept"
+                                    v-if="!is_click_accept && $store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
                             </button>
@@ -497,7 +492,8 @@ export default {
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="activeInquirie.status==='canceled'">
-                          <p class="p-2 bg-warning rounded">{{ $t('prod.Canceled by Buyer') }}</p>
+                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
+                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <!--                            <button @click="is_send_new_offer_vendor=index"-->
                             <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
@@ -649,7 +645,7 @@ export default {
                             {{ activeInquirie?.offer?.expired_at }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_cancel_new_offer_customer=activeInquirie.id"
-                                    v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired'"
+                                    v-if="activeInquirie.status!=='rejected' && activeInquirie.status!=='expired' && $store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Cancel Offer') }}
                             </button>
@@ -659,6 +655,7 @@ export default {
                             <!--                              {{ $t('products.Accept Offer') }}-->
                             <!--                            </button>-->
                             <button @click="isSendNewOfferVendor(index)"
+                                    v-if="$store.state.admin.isVendor"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
                             </button>
@@ -682,9 +679,12 @@ export default {
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="activeInquirie.status==='canceled'">
-                          <p class="p-2 bg-warning rounded">{{ $t('products.Cancelled Well let Seller know') }}</p>
+                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
+                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
-                            <button @click="is_send_new_offer_vendor=index"
+                            <button
+                              v-if="$store.state.admin.isVendor"
+                              @click="is_send_new_offer_vendor=index"
                                     :disabled="!isLastOffer(index)"
                                     :style="{ cursor: isLastOffer(index) ? '' : 'not-allowed' }"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
