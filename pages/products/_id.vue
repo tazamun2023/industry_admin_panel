@@ -1583,7 +1583,7 @@ export default {
     },
     availableQuantityValidationRules() {
       return {
-        required: !this.is_draft && this.result.is_availability!==1 && result.available_quantity!==null,
+        required: !this.is_draft && this.result.is_availability===0 && this.result.available_quantity===null || this.result.available_quantity==='',
         min_value: 0,
         max_value: 99999999,
       };
