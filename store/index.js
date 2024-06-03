@@ -36,6 +36,7 @@ const actions = {
 
 
     dispatch('admin/setActivated', data)
+    dispatch('common/setAllFilters', data?.filters)
 
     dispatch('language/setLanguages', data.languages)
 
@@ -60,16 +61,13 @@ const actions = {
 
     var token = cookies && cookies.includes('frontend__token.local=Bearer%20')
       ? cookies.split('frontend__token.local=Bearer%20')[1].split(';')[0] : null
-
+    const currentLanguage = cookies && cookies.includes('currentLanguage=')
+      ? cookies.split('currentLanguage=')[1].split(';')[0] : '';
 
     if (token) {
       try {
-        const {data} = await Service.getRequest({}, 'Bearer ' + token, 'profile', null)
-
-        console.log(data.status )
-        console.log('data.status')
-        console.log(data.status)
-      if (data.status != 200 ) {
+        const {data} = await Service.getRequest({}, 'Bearer ' + token, 'profile', currentLanguage)
+        if (data.status != 200) {
           window.location.replace(process.env.frontBase)
 
         } else {
@@ -81,25 +79,25 @@ const actions = {
               i18n: context.app.i18n,
               token: 'Bearer ' + token
             })
-
             if (state.language?.currentLanguage?.code) {
               context.app.i18n.locale = state.language?.currentLanguage?.code
             }
+
+
           }
         }
 
       } catch (e) {
         // window.location.replace(process.env.frontBase)
-
         return context.error({
           message: e.message
         })
       }
     } else {
 
-        // window.location.replace(process.env.frontBase)
+      // window.location.replace(process.env.frontBase)
 
-       // this.$router.push('/login')
+      // this.$router.push('/login')
       try {
         const {data} = await Service.getRequest({}, null, 'languages', null)
         dispatch('settingSiteData', data.data)

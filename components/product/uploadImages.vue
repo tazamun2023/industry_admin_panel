@@ -54,6 +54,10 @@ export default {
       type: Number,
       default: 1
     },
+    updateWatch: {
+      type: Boolean,
+      default: true
+    },
     minFiles: {
       type: Number,
       default: 1
@@ -70,6 +74,8 @@ export default {
     },
   },
   mounted() {
+
+    console.log("mounteeeeed")
     for (var i = 0; i < this.old_images.length; i++)
       if (this.returnDataJust)
         this.Imgs.push({id: "old_url", url: this.old_images[i]});
@@ -82,15 +88,18 @@ export default {
   watch: {
     old_images: {
       handler(newValue) {
-        this.Imgs = [];
-        for (var i = 0; i < this.old_images.length; i++) {
-          if (this.returnDataJust)
-            this.Imgs.push({id: "old_url", url: this.old_images[i]});
-          else
-            this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
-        }
-        if (this.old_images.length > 0) {
-          this.updateInputEvntData()
+        console.log("watch watch")
+        if (this.updateWatch) {
+          this.Imgs = [];
+          for (var i = 0; i < this.old_images.length; i++) {
+            if (this.returnDataJust)
+              this.Imgs.push({id: "old_url", url: this.old_images[i]});
+            else
+              this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+          }
+          if (this.old_images.length > 0) {
+            this.updateInputEvntData()
+          }
         }
       },
       deep: true
@@ -183,7 +192,7 @@ export default {
             isPdf: this.files[i].type === 'application/pdf'
           });
         }
-      }).then(()=>{
+      }).then(() => {
         this.updateInputEvntData()
       })
     },
@@ -238,7 +247,7 @@ export default {
         <div class="text-center"></div>
         <upload-image-icon></upload-image-icon>
         <p class="mainMessage">
-          {{ uploadMsg ? uploadMsg : "Click to upload or drop your images here" }}
+          {{ uploadMsg ? uploadMsg : $t("orderDetails.Click to upload or drop your images here") }}
         </p>
       </div>
       <div class="imgsPreview" v-show="Imgs.length > 0">
@@ -258,7 +267,7 @@ export default {
                 <iframe :src="img.url" width="100%" height="200px"></iframe>
               </template>
               <template v-else>
-                <img :src="img.url" />
+                <img :src="img.url"/>
               </template>
               <span class="delete" style="color: white" @click="deleteImg(i)">
                 <svg
@@ -355,6 +364,7 @@ export default {
   margin: 5px 5px;
   display: inline-block;
 }
+
 .imgsPreview .singleImageHolder {
   width: auto !important;
   height: auto !important;
@@ -370,10 +380,11 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 .imgsPreview .singleImageHolder img {
   object-fit: cover;
   width: auto;
-  height:auto;
+  height: auto;
   max-height: 150px;
 }
 

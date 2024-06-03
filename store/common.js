@@ -2,6 +2,7 @@ import Service from "@/services/service.js";
 import Swal from "sweetalert2";
 
 const state = () => ({
+  filters: null,
   allCategories: null,
   allCategoriesTree: [],
   reject_reasons_types: [],
@@ -44,6 +45,7 @@ const getters = {
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
   allSKus: ({allSKus}) => allSKus,
+  filters: ({filters}) => filters,
   allCategories: ({allCategories}) => allCategories,
   reject_reasons_types: ({reject_reasons_types}) => reject_reasons_types,
   allStorageTemperatures: ({allStorageTemperatures}) =>
@@ -188,6 +190,9 @@ const mutations = {
   SET_ALL_CATEGORIES_Tree(state, allCategories) {
     state.allCategoriesTree = allCategories;
   },
+  SET_ALL_Filters(state, filters) {
+    state.filters = filters;
+  },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = allCountries;
     /*  allCountries.forEach((item) => {
@@ -295,6 +300,10 @@ const mutations = {
 };
 
 const actions = {
+  setAllFilters({ commit }, filters){
+    commit('SET_ALL_Filters', filters)
+  },
+
   setAllSubscriptionEmailFormats({commit}, allSubscriptionEmailFormats) {
     commit("SET_ALL_SUBSCRIPTION_EMAIL_FORMATS", allSubscriptionEmailFormats);
   },
