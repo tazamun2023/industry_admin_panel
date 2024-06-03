@@ -11,7 +11,7 @@
     manage_gate="manage_brands"
     :validation-keys="['title', 'slug']"
     :result="result"
-    @result="result = $event"
+    @result="resultData"
   >
 
     <template v-slot:form="{hasError}">
@@ -118,6 +118,7 @@ import util from "~/mixin/util"
 import {mapGetters} from 'vuex'
 import UploadFiles from "../../components/UploadFiles.vue";
 import LangInput from "../../components/langInput.vue";
+import th from "vue2-datepicker/locale/es/th";
 
 export default {
   name: "brands",
@@ -126,7 +127,6 @@ export default {
     return {
       result: {
         id: '',
-        // title: '',
         title: {'ar': '', 'en': ''},
         slug: '',
         featured: 2,
@@ -160,6 +160,21 @@ export default {
     saveAttachment(image) {
       this.result.file = image
     },
+    resultData(event){
+      this.result = {...event}
+      if (event.data){
+        this.result= {
+          id: event.data.id,
+          title: event.data.title,
+          slug: event.data.slug,
+          featured: event.data.featured,
+          status: event.data.status,
+          image: event.data.image,
+        }
+      }
+
+    }
+
 
   },
 

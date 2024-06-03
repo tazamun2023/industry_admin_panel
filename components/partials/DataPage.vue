@@ -263,14 +263,23 @@ export default {
               hash: this.hash
             })
           }
+          // console.log('check',this.redirect)
+          if (this.routeName==='brands' && this.redirect){
+            await this.$router.push({
+              path: `/${this.routeName}`,
+              hash: this.hash
+            })
+          }
 
           if (!this.gate || this.$can(this.gate) && this.result?.id) {
             await this.$router.push({
               path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.id}`,
               hash: this.hash
             })
+
           }
           await this.$emit('on-success', Object.assign({}, data))
+
 
         } else {
           this.$refs["formWrapper"].scrollIntoView({behavior: "smooth"})
