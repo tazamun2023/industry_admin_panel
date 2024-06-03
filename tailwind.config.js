@@ -45,7 +45,10 @@ module.exports = {
       pb:"#E4E7EC",
       redlight:'#FF00001C',
       darklight:'#F1F1F3',
-      mbg:"#F2F2F2"
+      mbg:"#F2F2F2",
+      fullred:"#E10000",
+      cancellight:"#FFF1CC",
+      canceldeep:'#FB641E'
     },
 
     screens: {

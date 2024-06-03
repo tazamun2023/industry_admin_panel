@@ -102,22 +102,22 @@ export default {
 <template>
   <div>
     <p class="font-bold">{{ $t('products.Send new offer') }}</p>
-    <ValidationObserver v-slot="{ invalid }">
-      <div class="bg-darklight p-4">
+    <ValidationObserver class="w-full" v-slot="{ invalid }">
+      <div class="bg-darklight rounded-[12px] p-4">
         <div class="flex justify-between gap-4 pt-4">
-          <p>{{ $t('products.How many Piece') }}</p>
-          <div class="flex border-smooth bg-white rounded my-2 border">
+          <p>{{ $t('products.How many Price') }}</p>
+          <div class="flex border-smooth bg-white rounded-[12px] my-2 border">
             <button @click="decrement" class="w-14  text-center  p-0 border-0"><img class="w-3 h-1 mx-auto" src="~/assets/icon/minus.svg" alt=""></button>
-            <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" v-model="formData.quantity">
+            <input class="w-[83px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" v-model="formData.quantity">
             <button @click="increment" class="w-14  text-center  p-0 border-0"><img class="w-3 h-3 mx-auto" src="~/assets/icon/plus.svg" alt=""></button>
           </div>
         </div>
-        <ValidationProvider name="email" rules="required|numeric" v-slot="{ errors }"
+        <ValidationProvider class="w-full" name="email" rules="required|numeric" v-slot="{ errors }"
                             :custom-messages="{required: `${$t('products.Unit target price')} is Required`}">
           <div class="flex justify-between gap-4 pt-4">
             <p class="w-50">{{ $t('products.Unit target price') }}</p>
             <input
-              class="w-50 p-2 rounded"
+              class="w-[200px] p-2 rounded"
               :placeholder="$t('products.Unit target price')"
               type="text"
               v-model="formData.unit_target_price"
@@ -126,12 +126,12 @@ export default {
           </div>
           <span class="error">{{ errors[0] }}</span>
         </ValidationProvider>
-        <ValidationProvider name="expired date" rules="required" v-slot="{ errors }"
+        <ValidationProvider class="w-full" name="expired date" rules="required" v-slot="{ errors }"
                             :custom-messages="{required: `${$t('prod.Validate until')} is Required`}">
           <div class="flex justify-between gap-4 pt-4">
             <p class="w-50">{{ $t('prod.Validate until') }}</p>
             <input
-              class="p-2 rounded"
+              class="p-2 w-[200px] rounded"
               :placeholder="$t('prod.Validate until')"
               type="date"
               :min="getTodayFormattedDate()"
@@ -163,5 +163,10 @@ export default {
 </template>
 
 <style scoped>
-
+.w-\[200px\] {
+    width: 200px !important;
+}
+.w-\[83px\] {
+    width: 83px !important;
+}
 </style>

@@ -1,12 +1,13 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
+import ImagePopup from "@/components/message/ImagePopup.vue";
 import Pusher from 'pusher-js'
 import da from "vue2-datepicker/locale/es/da";
 
 export default {
   name: 'ActiveInquiry',
-  components: {ReplyNewOffer},
+  components: {ReplyNewOffer,ImagePopup},
 
   props: {
     ActiveInquiryData: {},
@@ -405,11 +406,12 @@ export default {
               <div v-for="(activeInquirie, index) in activeInquiries.inquiryOffers">
                 <!--        vendor reply-->
                 <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===0">
-                 <div class="col-span-3">
+                 <div class="col-span-2">
                   <div class="messenger  w-full" v-if="activeInquirie.offer.type==='offer'">
                     <div class="card rounded-lg shadow m-2 mb-0">
                       <div class="bg-graylight font-bold rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
+
                         <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
                         <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                           <div class="flex items-center gap-4">
@@ -455,7 +457,7 @@ export default {
                         <div v-else>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
-                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.status==='rejected'">
+                          <p class="p-2 bg-warninglight text-fullred rounded" v-if="activeInquirie.status==='rejected'">
                             {{ $t('prod.Rejected by Buyer') }}</p>
                           <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
                             {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
@@ -490,7 +492,7 @@ export default {
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
-                          <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
+                          <p class="p-2 bg-cancellight text-canceldeep rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <button @click="is_cancel_new_offer_customer=false"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
@@ -505,8 +507,8 @@ export default {
                         <!-- ---------end-------- -->
                         <!-- ---------------------- -->
                         <div v-if="activeInquirie.status==='canceled'">
-                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
-                          <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
+                          <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
+                          <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
                             <!--                            <button @click="is_send_new_offer_vendor=index"-->
                             <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
@@ -559,14 +561,14 @@ export default {
                   <!-- -------------------message --------------- -->
                   <div class="w-full" v-if="activeInquirie.offer.type==='message'">
                     <div class="messenger m-2 mb-0 ">
-                      <div class="bg-mbg p-4 rounded">
+                      <div :class="{'bg-mbg':activeInquirie.offer.message}" class="p-4 rounded">
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
                         <div>
                           <lazy-image
                             v-if="activeInquirie.image"
-                            class="h-auto"
+                            class="h-[280px] w-[280px] shadow rounded-[10px]"
                             :data-src="activeInquirie.image"
                             :alt="activeInquirie.offer.message"
                           />
@@ -608,10 +610,10 @@ export default {
 
                 </div>
                 <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===1">
-                  <div class="col-span-2">
+                  <div class="col-span-3">
 
                   </div>
-                  <div class="col-span-3">
+                  <div class="col-span-2">
                     <div class="messenger w-full" v-if="activeInquirie.offer.type==='offer'">
                     <div class="card rounded-lg shadow m-2 mb-0">
                       <div class="bg-graylight rounded-t p-2">OFF{{ activeInquirie.id }}</div>
@@ -661,7 +663,7 @@ export default {
                         </div>
                         <div v-else>
                           <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
-                            <p class="p-2 bg-warning text-white rounded" v-if="activeInquirie.status==='rejected'">
+                            <p class="p-2 bg-warninglight  text-fullred rounded" v-if="activeInquirie.status==='rejected'">
                               {{ $t('prod.Rejected') }}</p>
                             <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
                               {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
@@ -687,8 +689,8 @@ export default {
                             </div>
                           </div>
                           <!-- ---------end-------- -->
-                          <div v-if="is_cancel_new_offer_customer===activeInquirie.id">
-                            <p class="p-2 bg-warning rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
+                          <div class="my-1" v-if="is_cancel_new_offer_customer===activeInquirie.id">
+                            <p class="p-2 bg-cancellight text-canceldeep rounded">{{ $t('products.Are you sure you want to cancel') }}</p>
                             <div class="flex justify-end gap-4 pt-4">
                               <button @click="is_cancel_new_offer_customer=false"
                                       class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
@@ -702,8 +704,8 @@ export default {
                           </div>
                           <!-- ---------end-------- -->
                           <div v-if="activeInquirie.status==='canceled'">
-                            <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
-                            <p class="p-2 bg-warning rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
+                            <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
+                            <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
                             <div class="flex justify-end gap-4 pt-4">
                               <button
                                 v-if="$store.state.admin.isVendor"
@@ -737,14 +739,15 @@ export default {
                   <!-- -------------------message --------------- -->
                   <div class="w-full" v-if="activeInquirie.offer.type==='message'">
                     <div class="messenger m-2 mb-0">
-                      <div class="bg-mbg p-4 rounded">
+                      <div :class="{'bg-mbg':activeInquirie.offer.message}" class="p-4 rounded">
+                       
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
                         <div>
                           <lazy-image
                             v-if="activeInquirie.image"
-                            class="h-auto"
+                            class="h-[280px] w-[280px] shadow rounded-[10px] mx-auto"
                             :data-src="activeInquirie.image"
                             :alt="activeInquirie.offer.message"
                           />
