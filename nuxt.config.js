@@ -33,7 +33,7 @@ export default {
   css: [
     'vue-select/dist/vue-select.css',
     'vue2-datepicker/index.css',
-
+    '@kouts/vue-modal/dist/vue-modal.css',
     '~/assets/css/tailwind.css',
     '~/assets/styles/styles.styl'
   ],
@@ -45,7 +45,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src:   '~/plugins/tippy.js'},
-    {src:  '~/plugins/vue-modal.js'},
+    { src: '~/plugins/vue-modal.js', mode: 'client' },
     { src: '~/plugins/vue-draggable', ssr: false },
     { src: '~/plugins/vue-select.js', ssr: false },
     { src: '~/plugins/vue-datepicker.js', ssr: false },

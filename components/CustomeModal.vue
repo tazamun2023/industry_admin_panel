@@ -1,34 +1,39 @@
 <template>
   <div>
-    <Modal
-      v-model="showModal"
-      @before-open="beforeOpen" @before-close="beforeClose"
-      :title="title"
-      :modal-class="`Body freeze  scrollable-modal modal modal-${size}`"
-    >
+    <client-only>
+      <VueModal2
+        v-model="showModal"
+        @before-open="beforeOpen" @before-close="beforeClose"
+        :title="title"
+        :modal-class="`Body freeze  scrollable-modal modal modal-${size}`"
+      >
 
-      <slot name="header2"></slot>
-      <div class="scrollable-content">
-        <slot></slot>
-      </div>
-      <div class="w-full  border-t relative p-8 border-smooth">
-
-        <div class="flex justify-between gap-4 items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
-          <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">
-            {{ $t('approveModal.cancel') }}
-          </button>
-          <slot name="buttons"></slot>
+        <slot name="header2"></slot>
+        <div class="scrollable-content">
+          <slot></slot>
         </div>
-      </div>
+        <div class="w-full  border-t relative p-8 border-smooth">
+
+          <div
+            class="flex justify-between gap-4 items-end p-1 text-end absolute ltr:right-[40px] mt-[-18px] rtl:left-[40px]">
+            <button @click="closeModal" class="bg-smooth px-4 w-[100px] text-primary p-3 rounded leading-3">
+              {{ $t('approveModal.cancel') }}
+            </button>
+            <slot name="buttons"></slot>
+          </div>
+        </div>
 
 
-    </Modal>
+      </VueModal2>
+    </client-only>
   </div>
 </template>
 <script>
 import bodyScroll from 'body-scroll-freezer'
+import VueModal2 from "./ModalComponent/Modal2.vue";
 
 export default {
+  components: {VueModal2},
   props: ['showModal', 'size', 'title'],
 
   data: function () {
@@ -96,6 +101,7 @@ export default {
 
 .vm-btn-close {
   height: 32px;
+
   html:lang(ar) & {
     float: left !important;
   }
@@ -107,6 +113,7 @@ export default {
 .modal {
   min-width: 300px;
 }
+
 .vm-titlebar {
   padding: 10px 10px 0px;
   overflow: auto;
@@ -130,7 +137,6 @@ export default {
     max-width: 1140px;
   }
 }
-
 
 
 </style>
