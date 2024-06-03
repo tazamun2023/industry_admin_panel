@@ -144,9 +144,10 @@ const actions = {
     }
   },
 // sub-order/reject/
-  async addOrderFiles({dispatch}, {payload}) {
+  async addOrderFiles({commit,dispatch}, {payload}) {
     const {data} = await Service.addOrderFiles(this.$auth.strategy.token.get(), payload)
     if (data.status === 200) {
+      commit('SET_ORDER_DETAILS', data.data)
       dispatch('ui/setToastMessage', data.message, {root: true})
       return data.data;
     } else if (data.status === 500) {

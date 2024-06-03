@@ -188,17 +188,12 @@ export default {
                   <div v-for="(value, index) in list" :key="index">
 
                     <div class="card mt-20 p-1 m-2 bg-white">
-                      <div class="grid grid-cols-7 gap-4">
-                        <div>
-                          <!--                          <lazy-image-->
-                          <!--                            v-if="getThumbImageURL(value.products[0].product.image)"-->
-                          <!--                            class="w-48 h-full object-cover rounded"-->
-                          <!--                            :data-src="value.products[0].product.image"-->
-                          <!--                          />-->
-                          <img v-if="value.products[0]?.product?.image"
-                               :src="value.products[0]?.product?.image" alt="">
-                        </div>
-                        <div class="col-span-5 p-3">
+
+                      <div class="grid grid-cols-12 gap-4">
+                        <lazy-image
+                          class="w-48 h-full col-span-2 colo object-cover rounded"
+                          :data-src="value?.products[0]?.product?.image"></lazy-image>
+                        <div class="col-span-7 p-3">
                           <div class="">
                             <h5 class="mb-4 ml-4 font-bold">
                               <a v-for="p in value.products">{{ p.name }}</a>
@@ -251,22 +246,29 @@ export default {
                             </tr>
                           </table>
                         </div>
-                        <div>
+                        <div class="col-span-3">
                           <div class="qoute-card p-3">
+                            <div class="flex flex-col">
+                              <span v-if="value.is_expired && ['draft','pending'].includes(value.status)"
+                                    class="bg-redlight px-2 py-1 mb-2 text-nowrap text-error rounded-3xl ">
+                                {{ $t('rfq.expired') }}
+                              </span>
 
+                              <span v-else
+                                    class="bg-primarylight px-2 py-1 mb-2 text-nowrap text-primary rounded-3xl ">
+                            {{ value?.status_data.name }}
+                          </span>
 
-                            <div>
                               <nuxt-link
-
                                 v-if="value.status==='draft'"
-                                class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
+                                class="bg-white rounded-lg uppercase text-primary mt-2 px-4 w-full p-3 border-primary border-2"
                                 :to="`/rfq/${value.rfq.id}`">
                                 {{ $t('rfq.View Draft Quote') }}
                               </nuxt-link>
 
                               <nuxt-link
                                 v-else
-                                class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-[70px] border-primary border-2"
+                                class="bg-white rounded-lg uppercase text-primary px-4 w-full p-3 mt-2 border-primary border-2"
                                 :to="`/rfq/quotation-details/${value.id}`"
                               >
                                 {{ $t('rfq.View Quote') }}
@@ -282,10 +284,6 @@ export default {
                                 {{ $t('rfq.View Quote') }}
                               </nuxt-link>
                             </div>
-                            <p v-if="value.is_expired" class="text-error">
-                              {{ $t('rfq.expired') }}
-                            </p>
-
                           </div>
                         </div>
                       </div>
@@ -373,7 +371,6 @@ export default {
 .font-12px {
   font-size: 12px;
 }
-
 
 
 </style>

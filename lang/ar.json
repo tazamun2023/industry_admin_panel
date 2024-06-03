@@ -42,6 +42,7 @@
     "group": "المجموعة"
   },
   "shipping": {
+    "message": "اسمح لمنصة اندكس بتحديد المخزن  المناسب من قائمة المخازن الخاصة بي  لاستلام البضاعة  بحسب قرب المسافة من المشتري",
     "free_shipping": " توفر شحن مجاني ",
     "est_days": "ايام",
     "est": "مدة التوصيل المتوقعة  هي مدة الشحن ولاتشمل مدة تجهيز المنتج",
@@ -560,7 +561,13 @@
     "pending": "قيد الانتظار"
   },
   "orderDetails": {
-    "addFiles": "Add Files",
+    "document": "المستند",
+    "select_document_type": "اختر نوع المستند ",
+    "document_type": "نوع المستند ",
+    "addDocuments": "اضافة مستندات",
+    "files_and_documents": " الملفات والمستندات",
+    "add_document_for_order": "اضافة مستندات الطلب ",
+    "Click to upload or drop your images here": "انقر للتحميل أو اسحب الصور هنا",
     "title": "الطلبات الخاصة بي",
     "ItemPrice": "سعر المتتج",
     "ItemStatus": "حالة المنتج ",

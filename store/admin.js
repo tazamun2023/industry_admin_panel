@@ -54,6 +54,8 @@ const actions = {
     commit('SET_PUBLIC_KEY', public_key)
   },
 
+
+
   setProfile({ commit }, params) {
 
     commit('SET_PROFILE', params?.user)

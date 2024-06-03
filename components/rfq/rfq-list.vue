@@ -91,13 +91,6 @@
                           class="w-48 h-full col-span-2 colo object-cover rounded"
                           :data-src="value.products[0].image"></lazy-image>
 
-<!--                        <div v-if="value.products[0]?.image">-->
-<!--                          &lt;!&ndash;                          <lazy-image&ndash;&gt;-->
-<!--                          &lt;!&ndash;                            class="w-48 h-full object-cover rounded"&ndash;&gt;-->
-<!--                          &lt;!&ndash;                            :data-src="value.products[0].image"&ndash;&gt;-->
-<!--                          &lt;!&ndash;                          />&ndash;&gt;-->
-<!--                          <img :src="value.products[0].image" alt="">-->
-<!--                        </div>-->
                         <div class="col-span-7 p-3">
                           <div class="">
                             <h5 class="mb-4 ml-4 font-bold">
@@ -174,17 +167,24 @@
                                     currency: 'SAR'
                                   })
                                 }}</strong></span></p> -->
-                            <span class="m-0 d-flex gap-2 mb-2 text-error flex justify-between "
-                                  v-if="value.deadline.days !== 0 || value.deadline.hours !== 0 || value.deadline.minutes !== 0">
-                            <strong> {{ $t("rfq.Deadline") }}: </strong>
-                             <span>
 
-                        {{ value.deadline.days }}:  {{ value.deadline.hours }}:{{value.deadline.minutes}}
-                                  {{$t("rfq.left") }}
+
+                            <div class="m-0 d-flex gap-2 mb-2 text-error flex justify-between "
+                                 v-if="value.deadline.days !== 0 || value.deadline.hours !== 0 || value.deadline.minutes !== 0">
+                              <strong> {{ $t("rfq.Deadline") }}: </strong>
+                              <span>
+
+                        {{ value.deadline.days }}:  {{ value.deadline.hours }}:{{ value.deadline.minutes }}
+                                  {{ $t("rfq.left") }}
                              </span>
-                          </span>
-
-                            <div class="bg-primarylight flex justify-between text-primary relative p-3 uppercase rounded-lg">
+                            </div>
+                            <div class="m-0 d-flex gap-2 mb-2  flex justify-between ">
+                              <span> {{ $t('products.Total target price') }}: </span>
+                              <span>              <price-with-curency-format
+                                :price="value?.total_target_price"></price-with-curency-format></span>
+                            </div>
+                            <div
+                              class="bg-primarylight flex justify-between text-primary relative p-3 uppercase rounded-lg">
                               <span class="font-12px"> {{ $t("rfq.Received quotes") }} </span>
                               <span
                                 class="absolute bg-primary p-3 uppercase text-center font-semibold text-sm text-white align-baseline leading-none rounded m-1 top-0 rtl:left-0 ltr:right-0">

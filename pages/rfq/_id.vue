@@ -555,7 +555,7 @@ export default {
 
     canSend() {
       return (
-        (this.result.products.length == this.rfq.products.length) &&
+        (this.result.products.length >0) &&
         (this.result.expiry_date != null && this.result.expiry_date != ""
           && (new Date(this.result.expiry_date) > new Date()))
       )

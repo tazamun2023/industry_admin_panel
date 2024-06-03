@@ -59,24 +59,27 @@
       <template v-slot:checkboxArea>
         <div class="p-4 py-10">
           <div class="flex w-full  gap-2">
-            <input id="nearest" v-model="settings.allow_find_nearest_pickup_address" type="checkbox">
+            <input id="nearest" :onchange="changeDefalutAddress()" v-model="settings.allow_find_nearest_pickup_address"
+                   type="checkbox">
             <label for="nearest"
-                   class="text-[16px] text-black capitalize">choose the nearest warehouse or distribution point</label>
+                   class="text-[16px] text-black capitalize">{{ $t('shipping.message') }}</label>
           </div>
           <div class="w-full py-4">
             <p>Shipping Default Address</p>
             <div class="flex w-full gap-4 items-center">
               <div class="relative">
-                <select v-model="settings.default_address_id"
+                <select :disabled="settings.allow_find_nearest_pickup_address" v-model="settings.default_address_id"
                         class="border border-cardb w-[602px] rounded-[10px] p-2 h-[44px]" name="" id="">
-                  <option disabled value=""><< Choose Address >></option>
+                  <option :selected="settings.allow_find_nearest_pickup_address" disabled value=""><< Choose Address
+                    >>
+                  </option>
                   <option v-for="address in addressList" :value="address.id">{{ address.address_name }}</option>
                 </select>
                 <label class="absolute top-[16px] ltr:right-1 rtl:left-1" for="">
                   <img class="h-3" src="~/assets/icon/arrow-down-green.svg" alt="">
                 </label>
               </div>
-              <button type="button" @click="addressmodal=true"
+              <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addressmodal=true"
                       class="bg-primary h-[44px] text-white flex gap-3 items-center">
                 <img class="w-5" src="~/assets/icon/add-square.svg" alt="">
                 New Address
@@ -199,7 +202,10 @@ export default {
       console.log("close address modal 222")
       this.addressmodal = false
     },
-
+    changeDefalutAddress() {
+      if (this.settings.allow_find_nearest_pickup_address)
+        this.settings.default_address_id = ""
+    },
     toggleDay(day) {
       this.days[day] = !this.days[day];
       this.settings.working_days = this.workingDays

@@ -53,9 +53,14 @@
 
     <show-address :order-details="orderDetails"></show-address>
     <div class="card p-4">
-      <div>
-        <h4> {{ $t('orderDetails.addFiles') }}</h4>
+      <div class="flex justify-between">
+        <h4> {{ $t('orderDetails.files_and_documents') }}</h4>
+        <button @click="addDocumentsModal()" v-if="$can('fulfil_orders')"
+                class="border mt-1 border-primary font-bold p-2 uppercase rounded bg-primary text-white hover:text-primary leading-3">
+          {{ $t('orderDetails.addDocuments') }}
+        </button>
       </div>
+   
       <!-- component -->
       <!-- This is an example component -->
       <div class='flex w-full from-purple-200 via-purple-300 to-purple-500 bg-gradient-to-br'>
@@ -65,9 +70,9 @@
               <table class="w-full text-sm text-left text-gray-500 ">
                 <thead class="text-xs  uppercase bg-gray-50  ">
                 <tr>
-                  <th scope="col" class="py-3 px-6">{{ $t('orderDetails.file_type') }}</th>
+                  <th scope="col" class="py-3 px-6">{{ $t('orderDetails.document_type') }}</th>
                   <th scope="col" class="py-3 px-6">{{ $t('orderDetails.date') }}</th>
-                  <th scope="col" class="py-3 px-6">{{ $t('orderDetails.files') }}</th>
+                  <th scope="col" class="py-3 px-6">{{ $t('orderDetails.document') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -101,11 +106,7 @@
     </div>
     <div class="card p-4">
       <div class="flex justify-between">
-        <h4> {{ $t('orderDetails.files_and_documents') }}</h4>
-        <button @click="addDocumentsModal()" v-if="$can('fulfil_orders')"
-                class="border mt-1 border-primary font-bold p-2 uppercase rounded bg-primary text-white hover:text-primary leading-3">
-          {{ $t('order.approveOrder') }}
-        </button>
+        <h4> {{ $t('orderDetails.timeline') }}</h4>
       </div>
       <!-- component -->
       <!-- This is an example component -->

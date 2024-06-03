@@ -37,14 +37,15 @@
     "add_admin": "Add admin User",
     "update_admin": "Update admin User",
     "update_vendor": "Update Vendor User",
-    "Active":"Active"
+    "Active": "Active"
   },
   "rejectReasons": {
-    "Reason":"Reason",
-    "type":"type",
-    "group":"group"
+    "Reason": "Reason",
+    "type": "type",
+    "group": "group"
   },
   "shipping": {
+    "message": "Allow the Index platform to determine the appropriate warehouse from my list of warehouses for receiving the goods based on proximity to the buyer",
     "free_shipping": "Free Shipping",
     "est": "The estimate  duration  is the shipping period and does not include the product delivery period",
     "est_days": "days",
@@ -693,7 +694,14 @@
     "ViewOrder": "View Order"
   },
   "orderDetails": {
-    "type": "النوع",
+    "document": "Documents",
+    "select_document_type": "Select Document Type",
+    "document_type": "Document Type",
+    "addDocuments": "Add Documents",
+    "add_document_for_order": "Add Order Documents",
+    "files_and_documents": " Files & Documents",
+    "Click to upload or drop your images here": "Click to upload or drop your images here",
+    "type": "Type",
     "title": "My Orders",
     "next_step": "Next step for this order",
     "ItemPrice": "Item Price",
