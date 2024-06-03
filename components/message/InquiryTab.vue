@@ -22,7 +22,9 @@ export default {
       this.CurrentActiveInquiryData = data
       this.$emit('activeInquiry', data.id);
       this.$emit('ActiveInquiryData', data);
-      this.readMessage(data.id)
+      if (data.unread_message!==0){
+        this.readMessage(data.id)
+      }
     },
     truncateUserName(userName, maxLength = 15) {
       if (userName.length > maxLength) {
@@ -40,7 +42,7 @@ export default {
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;
 
-        const pusher = new Pusher('933de91b2f4d1fa5191a', {
+        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
           cluster: 'ap2'
         });
 
@@ -103,7 +105,7 @@ export default {
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    const pusher = new Pusher('933de91b2f4d1fa5191a', {
+    const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
       cluster: 'ap2'
     });
 

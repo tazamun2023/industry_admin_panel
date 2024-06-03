@@ -1,13 +1,13 @@
 <template>
     <div class="card p-4">
         <div class="title mb-2">
-            <h4>All Vendors List</h4>
+            <h4>{{ $t('account.All Vendors List') }}</h4>
         </div>
         <div>
             <div class="w-full mb-4">
                 <ul class="lg:flex mb-0 list-none rounded shadow flex-wrap mb-4 flex-row">
                 <li class="-mb-px mr-2 last:mr-0   flex-auto text-center">
-                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal" 
+                <a class="font-bold uppercase px-2 py-1   block cursor-pointer leading-normal"
                 v-on:click="toggleTabs('all')" v-bind:class="{'text-pink-600 bg-white border-white border-b-2': openTab !== 'all', 'border-b-2 border-primary': openTab === 'all'}">
                   {{ $t('vendor.all') }}
                 </a>
@@ -28,18 +28,21 @@
 
             <div v-if="openTab === 'all'" v-bind:class="{'hidden': openTab !== 'all', 'block': openTab === 'all'}">
                 <template>
-                 <vendor-all/>
+                 <vendor-all api="getVendor" :tab="'all'"/>
                 </template>
             </div>
             <div v-if="openTab === 'verified'" v-bind:class="{'hidden': openTab !== 'verified', 'block': openTab === 'verified'}">
                 <template>
-                    <vendor-approve />
+                  <vendor-all api="getApprovalVendor" :tab="'verified'"/>
+<!--                    <vendor-approve  />-->
                 </template>
             </div>
 
             <div v-if="openTab === 'not_verified'" v-bind:class="{'hidden': openTab !== 'not_verified', 'block': openTab === 'not_verified'}">
                 <template>
-                  <vendor-not-verified />
+                  <vendor-all api="getNotApprovalVendor" :tab="'not_verified'"/>
+
+<!--                  <vendor-not-verified />-->
                 </template>
             </div>
         </div>
@@ -81,7 +84,7 @@ export default{
            this.openTab = tabNumber
             this.$router.push({
               query: {
-                ...this.$route.query,
+                // ...this.$route.query,
                 tap:this.openTab
                 // filter: this.checkedFilter.join(','),
               }

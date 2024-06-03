@@ -20,7 +20,7 @@
       </select>
 <!--      <input class="w-50"  type="date" placeholder="00-00-00">-->
       <button class="bg-primary text-white hover:text-primary">Filter</button>
-      <button>Clear</button>
+      <button @click="clearFilter">Clear</button>
     </div>
   </form>
 </template>
@@ -60,6 +60,10 @@ export default {
       }*/
       this.$emit('filter', this.result);
     },
+
+    clearFilter(){
+      return this.$router.push({path: this.$route.path})
+    }
 
   },
  async mounted() {

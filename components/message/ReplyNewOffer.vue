@@ -1,6 +1,7 @@
 <script>
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {mapActions} from "vuex";
+
 export default {
   name: "ReplyNewOffer",
   props: {
@@ -33,12 +34,12 @@ export default {
   mounted() {
     this.formData.quantity = this.ActiveInquiryData?.offer?.quantity
   },
-  methods:{
+  methods: {
     initializeQuantity() {
       const inquiryOffers = this.ActiveInquiryData?.inquiryOffers;
       this.formData.quantity = inquiryOffers?.[this.offer_index]?.offer?.quantity;
     },
-    async Confirm(){
+    async Confirm() {
       try {
         this.formSubmitting = true
         await this.setRequest({
@@ -48,12 +49,12 @@ export default {
             status: 'pending_response',
             is_reply: 1,
             type: this.formData.type,
-            price: this.formData.unit_target_price ,
+            price: this.formData.unit_target_price,
             quantity: this.formData.quantity,
             expired_at: this.formData.expired_at
           },
           api: 'inquiriesOfferStore'
-        }).then(data=>{
+        }).then(data => {
           // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
           this.$emit('is_send_new_offer', false);
           this.$emit('is_send_new_offer_vendor', false);
@@ -65,7 +66,7 @@ export default {
         return this.$nuxt.error(e)
       }
     },
-    Cancel(){
+    Cancel() {
       this.$emit('is_cancel', true);
     },
     increment() {
@@ -104,15 +105,27 @@ export default {
     <p class="font-bold">{{ $t('products.Send new offer') }}</p>
     <ValidationObserver v-slot="{ invalid }">
       <div class="bg-darklight p-4">
-        <div class="flex justify-between gap-4 pt-4">
-          <p>{{ $t('products.How many Piece') }}</p>
-          <div class="flex border-smooth bg-white rounded my-2 border">
-            <button @click="decrement" class="w-14  text-center  p-0 border-0"><img class="w-3 h-1 mx-auto" src="~/assets/icon/minus.svg" alt=""></button>
-            <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text" v-model="formData.quantity">
-            <button @click="increment" class="w-14  text-center  p-0 border-0"><img class="w-3 h-3 mx-auto" src="~/assets/icon/plus.svg" alt=""></button>
+        <ValidationProvider name="quantity price" :rules="{required: true, min_value: 1, max_value: 99999999}"
+                            v-slot="{ errors }"
+                            :custom-messages="{required: `${$t('products.Unit target price')} is Required`}">
+          <div class="flex justify-between gap-4 pt-4">
+            <p>{{ $t('products.How many Piece') }}</p>
+            <div class="flex border-smooth bg-white rounded my-2 border">
+              <button @click="decrement" class="w-14  text-center  p-0 border-0"><img class="w-3 h-1 mx-auto"
+                                                                                      src="~/assets/icon/minus.svg"
+                                                                                      alt=""></button>
+              <input class="w-[102px]  p-2 border-t-0 border-b-0 rounded-none  text-center" type="text"
+                     v-model="formData.quantity">
+              <button @click="increment" class="w-14  text-center  p-0 border-0"><img class="w-3 h-3 mx-auto"
+                                                                                      src="~/assets/icon/plus.svg"
+                                                                                      alt="">
+              </button>
+            </div>
           </div>
-        </div>
-        <ValidationProvider name="email" rules="required|numeric" v-slot="{ errors }"
+          <span class="error">{{ errors[0] }}</span>
+        </ValidationProvider>
+        <ValidationProvider name="Target price" :rules="{required: true, min_value: 1, max_value: 99999999}"
+                            v-slot="{ errors }"
                             :custom-messages="{required: `${$t('products.Unit target price')} is Required`}">
           <div class="flex justify-between gap-4 pt-4">
             <p class="w-50">{{ $t('products.Unit target price') }}</p>
@@ -142,23 +155,24 @@ export default {
         </ValidationProvider>
 
       </div>
+
+      <p class="text-end font-bold py-1 px-4">{{ $t('products.Total Price excl VAT') }} <span class="text-primary">{{
+          $t('app.SAR')
+        }} {{ calculateTotalPrice() }}</span>
+      </p>
+      <div class="flex justify-end gap-4 pt-2" v-if="is_after_send">
+        <button @click="Cancel"
+                class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
+          {{ $t('products.Cancel') }}
+        </button>
+        <button
+          :disabled="!formData.expired_at"
+          @click="Confirm"
+          class="border-2 border-primary px-2 h-[34px] leading-3 bg-primary text-white font-bold">
+          {{ $t('products.Confirm') }}
+        </button>
+      </div>
     </ValidationObserver>
-    <p class="text-end font-bold py-1 px-4">{{ $t('products.Total Price excl VAT') }} <span class="text-primary">{{
-        $t('app.SAR')
-      }} {{ calculateTotalPrice() }}</span>
-    </p>
-    <div class="flex justify-end gap-4 pt-2" v-if="is_after_send">
-      <button @click="Cancel"
-              class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
-        {{ $t('products.Cancel') }}
-      </button>
-      <button
-        :disabled="!formData.expired_at"
-        @click="Confirm"
-        class="border-2 border-primary px-2 h-[34px] leading-3 bg-primary text-white font-bold">
-        {{ $t('products.Confirm') }}
-      </button>
-    </div>
   </div>
 </template>
 

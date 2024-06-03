@@ -40,7 +40,8 @@ export default {
   env: {
     apiBase: process.env.API_BASE,
     frontBase: process.env.Front_BASE,
-    isDemo: isDemo
+    isDemo: isDemo,
+    PUSHER_APP_KEY: process.env.PUSHER_APP_KEY
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [

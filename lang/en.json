@@ -37,6 +37,7 @@
     "add_admin": "Add admin User",
     "update_admin": "Update admin User",
     "update_vendor": "Update Vendor User",
+    "Register user": "Register user",
     "Active": "Active"
   },
   "rejectReasons": {
@@ -173,6 +174,7 @@
   "products": {
     "Id": "Id",
     "Image": "Image",
+    "To": "To",
     "RFQ ID": "RFQ ID",
     "Quote ID": "Quote ID",
     "Manage RFQ": "Manage RFQ",
@@ -816,6 +818,7 @@
   },
   "user": {
     "users": "users",
+    "Submit": "Submit",
     "sEmail": "Send email",
     "eFor": "email format",
     "subs": "subscribers",
@@ -1520,6 +1523,7 @@
   },
   "account": {
     "account": "Account",
+    "All Vendors List": "All Vendors List",
     "company-profile": "Company Profile",
     "sellers": "Sellers",
     "vendors": "Vendors",
