@@ -352,7 +352,7 @@ export default {
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;
 
-    const pusher = new Pusher('933de91b2f4d1fa5191a', {
+    const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
       cluster: 'ap2'
     });
 
@@ -397,7 +397,8 @@ export default {
                   <span>{{ ActiveInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.last_time }}</p>
+                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.last_time }}</p>
+                  <p class="" v-if="$store.state.admin.isSuperAdmin">{{ ActiveInquiryData?.vendor?.name  }}</p>
                 </div>
               </div>
             </div>

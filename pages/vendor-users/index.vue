@@ -1,7 +1,18 @@
 <template>
-  <list-page v-if="$can('invite')" :param="vendor_id" ref="listPage" :addButton="false" :modalButton="false"
-    list-api="getVendorUsers" delete-api="deleteVendors" route-name="vendor-users" :name="$t('user.users')"
-    :order-options="orderOptions" gate="invite" manage_gate="invite" @open-modal="openModal" >
+  <list-page
+    v-if="$can('invite')"
+    :param="vendor_id"
+    ref="listPage"
+    :addButton="false"
+    :modalButton="false"
+    list-api="getVendorUsers"
+    delete-api="deleteVendors"
+    route-name="vendor-users"
+    :name="$t('user.users')"
+    :order-options="orderOptions"
+    gate="invite"
+    manage_gate="invite"
+    @open-modal="openModal" >
     <template v-slot:table="{ list }">
 
       <tr class="lite-bold" >
@@ -15,8 +26,9 @@
       </tr>
       <tr v-for="(value, index) in list" :key="index"  :class="{ 'new-data': !parseInt(value.viewed) }">
         <td class="">
+<!--          <p>{{ value }}</p>-->
           <nuxt-link class="link" :to="`/vendor-users/${value.id}`">
-            <h5 class="mx-w-300x">{{ value.name[currentLanguage.code] }}</h5>
+            <h5 class="mx-w-300x">{{ value.name }}</h5>
           </nuxt-link>
         </td>
         <td>{{ value.email }}</td>
@@ -106,7 +118,7 @@
                   <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
                 </div>
                 <div class="input-wrapper mb-0 text-end">
-                  <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
+                  <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">$t('user.Submit')</button>
                 </div>
               </form>
             </ValidationObserver>
@@ -176,7 +188,7 @@ export default {
     ...mapActions('vendor', ['sentInvitation', 'getAllRoles']),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
     allUserTab() {
-    
+
       this.$router.push({
         query: {
           // ...this.$route.query,
@@ -186,11 +198,11 @@ export default {
           type_is: 'all_user'
         }
       })
-      this.allUsers = true, 
+      this.allUsers = true,
       this.inviteUsers = false;
     },
     InvUserTab() {
-     
+
       this.$router.push({
         query: {
           // ...this.$route.query,
@@ -211,7 +223,7 @@ export default {
         },
         api: "sentInvitation"
       })
-      this.loading = false
+
       if (data.status === 200) {
         this.deleteModal = false
         this.errors = []
@@ -221,6 +233,7 @@ export default {
         this.errors = data.data.form
         this.setToastError("Solve The Error")
       }
+      this.loading = false
     },
 
     openModal() {

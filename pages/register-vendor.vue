@@ -18,7 +18,7 @@
 
 
     <h4 class="mb-30 mb-sm-15">
-      {{ $t('profile.register_user') }}
+      {{ $t('app.Register user') }}
     </h4>
 
     <div class="card p-4" v-if="errors?.length">
@@ -242,12 +242,13 @@
            },
            api:"getUserInfo"
          })
-        this.loading = false
+
         if(data.status === 200){
           this.type = data.data.type
           this.roles = data.data.roles
           this.vendor_id = data.data.vendor_id
         }
+        this.loading = false
       }
 
     }

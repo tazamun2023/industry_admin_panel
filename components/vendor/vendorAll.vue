@@ -2,7 +2,7 @@
     <div>
       <list-page
         ref="listPage"
-        list-api="getVendor"
+        :list-api="api"
         route-name="vendors"
         empty-store-variable="allProducts"
         :name="$t('title.prod')"
@@ -21,7 +21,7 @@
               <tr>
                 <th>{{ $t('vendor.sl') }}</th>
                 <th>{{ $t('vendor.logo') }}</th>
-                <th>{{ $t('vendor.company_name') }}</th>
+                <th>{{ $t('vendor.name') }}</th>
                 <th>{{ $t('vendor.email') }}</th>
                 <th>{{ $t('vendor.primary_mobile') }}</th>
                 <th>{{ $t('vendor.foundation_date') }}</th>
@@ -36,11 +36,15 @@
               <tbody>
               <tr v-for="(value, index) in list" :key="index">
                 <td>{{ index+1 }}</td>
-                <td><a class="text-primary" href=""><img :src="value.logo" alt=""></a></td>
                 <td>
-                  <!-- <a class="text-primary" v-if="langCode === 'ar'"  href="">{{ value.name.ar }}</a> -->
-                  <!-- <a class="text-primary" v-else  href="">{{ value.name.en }}</a> -->
-                  {{ value.subdomain }}
+                  <lazy-image
+                    class="mr-20"
+                    :data-src="value.logo"
+                    :alt="value.subdomain"
+                  />
+                </td>
+                <td>
+                  {{ value.name }}
                 </td>
                 <td>{{ value.primary_email }}</td>
                 <td>{{ value.primary_mobile }}</td>
@@ -106,11 +110,22 @@ import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapGetters} from "vuex";
 import EditButtonIcon from '../partials/EditButtonIcon.vue';
+import LazyImage from "~/components/LazyImage"
 
 export default {
   name : "vendorAll",
-  components: {ListPage,EditButtonIcon},
+  components: {ListPage,EditButtonIcon, LazyImage},
   mixins: [util, bulkDelete],
+  props:{
+    openTab: {
+      type: String,
+      default: 'all'
+    },
+    api: {
+      type: String,
+      default: "getVendor"
+    },
+  },
   data(){
     return {
       visibleAction: null,
