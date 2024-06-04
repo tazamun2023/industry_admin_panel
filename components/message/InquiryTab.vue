@@ -148,7 +148,7 @@ export default {
           <div class="flex justify-between">
             <span class="font-bold font-13px"
                   :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
-               {{ inquirie?.inquirable?.title }}
+               {{ truncateUserName(inquirie?.inquirable?.title, 60) }}
             </span>
             <span class="relative">
               {{ inquirie.last_time }}
@@ -160,11 +160,12 @@ export default {
               </span>
             </span>
           </div>
-          <span class=" text-[12px]" v-if="$store.state.admin.isSuperAdmin">{{
-              $t('prod.From')
-            }} : {{ inquirie.user.name }} - {{ $t('prod.To') }} : {{ inquirie.vendor.name }}</span>
+          <span class=" text-[12px]" v-if="$store.state.admin.isSuperAdmin">
+          <!-- {{$t('prod.From')}} : -->
+             {{ inquirie.user.name }} - {{ $t('prod.To') }} : {{ inquirie.vendor.name }}</span>
           <span class="text-[12px]" v-if="$store.state.admin.isVendor">
-            {{ $t('prod.From') }} : {{ truncateUserName(inquirie.user.name) }}
+            <!-- {{ $t('prod.From') }} : -->
+             {{ truncateUserName(inquirie.user.name) }}
           </span>
           <div class="flex justify-between">
             <span class=" font-12px">INQ{{ inquirie.inquirable_id }}</span>
