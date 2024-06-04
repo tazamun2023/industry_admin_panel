@@ -49,7 +49,7 @@ module.exports = {
       fullred:"#E10000",
       cancellight:"#FFF1CC",
       canceldeep:'#FB641E',
-      transparent:"#00000054"
+      transparent:"#000000f7"
     },
 
     screens: {

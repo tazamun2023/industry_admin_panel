@@ -572,7 +572,7 @@ export default {
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
-                        <div>
+                        <div @click="showImagePopup(activeInquirie.image)">
                           <lazy-image
                             v-if="activeInquirie.image"
                             class="h-[280px] w-[280px] shadow rounded-[10px]"
@@ -580,6 +580,7 @@ export default {
                             :alt="activeInquirie.offer.message"
                           />
                         </div>
+
                       </div>
                       <video class="w-full" controls v-if="activeInquirie.video">
                         <source
@@ -761,7 +762,6 @@ export default {
                             :alt="activeInquirie.offer.message"
                           />
                           </div>
-                          <ImagePopup :imageUrl="clickedImageUrl" :imageAlt="clickedImageUrl" v-if="showImageClicked" @closePopup="showImageClicked = false" />
                         </div>
                       </div>
                       <video class="w-full" controls v-if="activeInquirie.video">
@@ -1038,6 +1038,7 @@ export default {
           </div>
         </div>
       </div>
+      <ImagePopup :imageUrl="clickedImageUrl" :imageAlt="clickedImageUrl" v-if="showImageClicked" @closePopup="showImageClicked = false" />
     </div>
     <div v-else-if="is_loading">
       <spinner
