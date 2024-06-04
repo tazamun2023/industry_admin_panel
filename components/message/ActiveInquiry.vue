@@ -368,7 +368,7 @@ export default {
         }).then(data => {
           this.activeInquiries = data
 
-          if (data.id=== this.activeInquiries)
+          // if (data.id=== this.activeInquiries)
         })
 
         this.is_loading = false
