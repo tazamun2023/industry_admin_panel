@@ -153,7 +153,7 @@ export default {
                {{ truncateUserName(inquirie?.inquirable?.title, 60) }}
             </span>
             <span class="relative">
-              {{ inquirie.last_time }}
+              {{ inquirie.customer_last_seen }}
               <span
                 class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
                 v-if="inquirie.unread_message">

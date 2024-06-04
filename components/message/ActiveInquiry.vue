@@ -340,6 +340,34 @@ export default {
       }
     },
 
+    readMessage(inquiry_id) {
+      this.setRequest({
+        params: {
+          inquiry_id: inquiry_id,
+        },
+        api: 'readMessage'
+      }).then(data => {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+          cluster: process.env.PUSHER_APP_CLUSTER
+        });
+
+        const channel = pusher.subscribe('chat');
+        channel.bind('message', dataP => {
+          // try {
+          //   this.is_loading = true
+          //   this.fetchingData()
+          //   this.is_loading = false
+          //
+          // } catch (e) {
+          //   return this.$nuxt.error(e)
+          // }
+        });
+      })
+    },
+
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
   },
@@ -372,8 +400,10 @@ export default {
           api: 'activeInquiries'
         }).then(data => {
           this.activeInquiries = data
-
-          // if (data.id=== this.activeInquiries)
+          // console.log(data)
+          if (data.id=== this.ActiveInquiryData.id){
+            this.readMessage(this.ActiveInquiryData?.id)
+          }
         })
 
         this.is_loading = false
@@ -404,7 +434,7 @@ export default {
                   <span>{{ ActiveInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.last_time }}</p>
+                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.customer_last_seen }}</p>
                   <p class="" v-if="$store.state.admin.isSuperAdmin">{{ ActiveInquiryData?.vendor?.name  }}</p>
                 </div>
               </div>
