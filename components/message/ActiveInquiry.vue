@@ -359,7 +359,7 @@ export default {
     Pusher.logToConsole = true;
 
     const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-      cluster: 'ap2'
+      cluster: process.env.PUSHER_APP_CLUSTER
     });
 
     const channel = pusher.subscribe('chat');
@@ -373,6 +373,8 @@ export default {
           api: 'activeInquiries'
         }).then(data => {
           this.activeInquiries = data
+
+          // if (data.id=== this.activeInquiries)
         })
 
         this.is_loading = false
