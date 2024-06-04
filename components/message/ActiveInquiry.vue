@@ -47,7 +47,6 @@ export default {
 
   methods: {
     showImagePopup(index) {
-      console.log(index);
       this.clickedImageUrl = index
       this.showImageClicked = true;
     },
