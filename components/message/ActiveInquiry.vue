@@ -353,7 +353,7 @@ export default {
     Pusher.logToConsole = true;
 
     const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-      cluster: 'ap2'
+      cluster: process.env.PUSHER_APP_CLUSTER
     });
 
     const channel = pusher.subscribe('chat');
@@ -367,6 +367,8 @@ export default {
           api: 'activeInquiries'
         }).then(data => {
           this.activeInquiries = data
+
+          if (data.id=== this.activeInquiries)
         })
 
         this.is_loading = false
@@ -741,7 +743,7 @@ export default {
                   <div class="w-full" v-if="activeInquirie.offer.type==='message'">
                     <div class="messenger m-2 mb-0">
                       <div :class="{'bg-mbg':activeInquirie.offer.message}" class="p-4 rounded">
-                       
+
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->

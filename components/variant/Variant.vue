@@ -49,11 +49,13 @@
                     <!--                         src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/noImageIcon.svg"-->
                     <!--                         alt="">-->
                     <lazy-image
+                      v-if="variants[index]?.result.product_images"
                       class="w-10 h-10 rounded"
                       :lazy-src="variants[index]?.result?.product_images[0]?.url"
                       :data-src="variants[index]?.result?.product_images[0]?.url"
                       :alt="colorItem.color_name"
                     />
+
 
                            <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
                                colorItem.value
@@ -607,33 +609,39 @@
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
             <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
           </div>
-         <div class="flex items-center gap-4 p-3">
-           <ValidationProvider name="available_quantity" :rules="{required: true, min_value: 1}"
-                               v-slot="{ errors }"
-                               :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
-             <div class="input-wrapper" v-if="openTab !== 'parent'">
-               <label for="">{{ $t('prod.Available quantity') }} ?</label>
-               <input
-                 type="text"
-                 class="form-control"
-                 :class="{ 'has-error': errors[0] }"
-                 v-model="variants[openTab]?.result.available_quantity"
-                 @keypress="onlyNumber" min="0" maxlength="8"
-                 :disabled="variants[openTab].result.is_availability===1 && variants[openTab].result.available_quantity==='' || variants[openTab].result.available_quantity===null"
-                 @input="availableQuantity">
-               <label>{{ $t('prod.Minimum order quantity') }}: {{
-                   variants[openTab]?.result.product_prices[0]?.quantity
-                 }}</label>
-             </div>
-             <span class="error">{{ errors[0] }}</span>
-           </ValidationProvider>
-           <div class="form-check">
-             <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
-             <input type="checkbox" class="custom-control-input" checked v-if="id && variants[openTab]?.result.is_availability===1 && variants[openTab]?.result.available_quantity===null" @change="isAvailability($event)">
-             <input type="checkbox" class="custom-control-input" v-else-if="id && result.is_availability===1 && result.available_quantity!==null" @change="isAvailability($event)"/>
-             <input type="checkbox" class="custom-control-input" v-else-if="!id" v-model="result.is_availability" @change="isAvailability($event)"/>
-           </div>
-         </div>
+          <div class="flex items-center gap-4 p-3">
+            <ValidationProvider name="available_quantity"
+                                :rules="{ required: variants[openTab]?.result.is_availability===0 && variants[openTab]?.result.available_quantity==='',}"
+                                v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
+              <div class="input-wrapper" v-if="openTab !== 'parent'">
+                <label for="">{{ $t('prod.Available quantity') }} ?</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  :class="{ 'has-error': errors[0] }"
+                  v-model="variants[openTab]?.result.available_quantity"
+                  @keypress="onlyNumber" min="0" maxlength="8"
+                  :disabled="variants[openTab].result.is_availability===1 && variants[openTab].result.available_quantity==='' || variants[openTab].result.available_quantity===null"
+                  @input="availableQuantity">
+                <label>{{ $t('prod.Minimum order quantity') }}: {{
+                    variants[openTab]?.result.product_prices[0]?.quantity
+                  }}</label>
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+            <div class="form-check">
+              <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
+              <input type="checkbox" class="custom-control-input" checked
+                     v-if="id && variants[openTab]?.result.is_availability===1 && variants[openTab]?.result.available_quantity===null"
+                     @change="isAvailability($event)">
+              <input type="checkbox" class="custom-control-input"
+                     v-else-if="id && result.is_availability===1 && result.available_quantity!==null"
+                     @change="isAvailability($event)"/>
+              <input type="checkbox" class="custom-control-input" v-else-if="!id" v-model="result.is_availability"
+                     @change="isAvailability($event)"/>
+            </div>
+          </div>
         </div>
         <div class="my-10"></div>
         <div class="tab-sidebar p-3">
@@ -1840,7 +1848,7 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   methods: {
-    isAvailability(event){
+    isAvailability(event) {
       const checked = event.target.checked;
       // console.log(checked); // This will log true or false
       this.variants[this.openTab].result.is_availability = checked ? 1 : 0;
@@ -1894,7 +1902,7 @@ export default {
           // Check if any variant has missing name or value
           if (!this.result.product_variants[i].name && !this.result.product_variants[i].value) {
             // Show error message and exit loop early
-            this.setToastError(this.$t('prod.Color or value cant empty value'));
+            // this.setToastError(this.$t('prod.Color or value cant empty value'));
             return;
           }
         }
@@ -1981,7 +1989,7 @@ export default {
           api: this.setApi
         });
         if (res) {
-
+          // console.log('sfdsfa', res)
           // Initialize this.variants[this.openTab] if it doesn't exist
           if (!this.variants[0]) {
             this.variants[0] = {};
@@ -1991,78 +1999,79 @@ export default {
           if (!this.variants[0].result) {
             this.variants[0].result = {};
           }
-          this.variant_uuid_global = res.variant_uuid
+          this.variant_uuid_global = res.data.variant_uuid
 
           // Assign properties from res to this.variants[this.openTab].result
           this.variants[0].result = {
-            title: res.title,
-            variant_uu_id: res.variant_uu_id,
-            description: res.description,
-            parentCategory: res.category?.id,
-            subCategory: res.sub_category?.id,
-            childCategory: res.child_category?.id,
-            product_prices: res.product_prices,
-            unit_id: res.unit_id,
-            features: res.product_features?.map(item => item.name),
-            unit: res.unit,
-            brand_id: res.brand_id,
-            meta_title: res.meta_title,
-            meta_description: res.meta_description,
-            selling: res.selling,
-            purchased: res.selling, // Should this be res.purchased?
-            offered: res.offered,
-            images: res.images,
-            product_images: res.images,
-            video: res.video,
-            status: res.status,
-            parent_sku: res.parent_sku,
-            basic_keyword_en: res.basic_keyword_en,
-            basic_keyword_ar: res.basic_keyword_ar,
-            basicInfoAr: res.title,
-            basicInfoEng: res.title,
-            barcode_type: res.barcode_id,
-            barcode: res.barcode_number,
-            sku: res.sku,
-            available_quantity: res.available_quantity,
-            pk_size: res.packaging?.size,
-            pk_size_unit: res.packaging?.size_unit,
-            pk_number_of_carton: res.packaging?.number_of_carton,
-            pk_average_lead_time: res.packaging?.average_lead_time,
-            pk_transportation_mode: res.packaging?.transportation_mode,
-            pc_weight: res.product_carton?.weight,
-            pc_weight_unit_id: res.product_carton?.weight_unit_id,
-            pc_height: res.product_carton?.height,
-            pc_height_unit_id: res.product_carton?.height_unit_id,
-            pc_length: res.product_carton?.length,
-            pc_length_unit_id: res.product_carton?.length_unit_id,
-            pc_width: res.product_carton?.width,
-            pc_width_unit_id: res.product_carton?.width_unit_id,
-            pdime_weight: res.product_dimension?.weight,
-            pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
-            pdime_height: res.product_dimension?.height,
-            pdime_length: res.product_dimension?.length,
-            pdime_width: res.product_dimension?.width,
-            pdime_dimention_unit: res.product_dimension?.dimention_unit,
-            pp_quantity: res.product_prices?.map(price => price.quantity),
-            pp_unit_price: res.product_prices?.map(price => price.unit_price),
-            pp_selling_price: res.product_prices?.map(price => price.selling_price),
-            is_ready_to_ship: res.is_ready_to_ship,
-            is_buy_now: res.is_buyable,
-            is_availability: res.is_available,
-            storage_temperature: res.storage_temperature_id,
-            stock_location: res.warehouse_id,
-            country_of_origin: res.product_origin_id,
-            is_dangerous: res.is_dangerous,
-            product_variants: res.product_variant,
-            product_variant: res.product_single_variant ?? [],
-            PriceingRows: res.product_prices,
-            is_variant: !!res.product_variant,
-            additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-            hts_code: res.hts_code,
-            id: res.id,
+            title: res.data.title,
+            variant_uu_id: res.data.variant_uu_id,
+            description: res.data.description,
+            parentCategory: res.data.category?.id,
+            subCategory: res.data.sub_category?.id,
+            childCategory: res.data.child_category?.id,
+            product_prices: res.data.product_prices,
+            unit_id: res.data.unit_id,
+            features: res.data.product_features?.map(item => item.name),
+            unit: res.data.unit,
+            brand_id: res.data.brand_id,
+            meta_title: res.data.meta_title,
+            meta_description: res.data.meta_description,
+            selling: res.data.selling,
+            purchased: res.data.selling, // Should this be res.purchased?
+            offered: res.data.offered,
+            images: res.data.images,
+            product_images: res.data.images,
+            video: res.data.video,
+            status: res.data.status,
+            parent_sku: res.data.parent_sku,
+            basic_keyword_en: res.data.basic_keyword_en,
+            basic_keyword_ar: res.data.basic_keyword_ar,
+            basicInfoAr: res.data.title,
+            basicInfoEng: res.data.title,
+            barcode_type: res.data.barcode_id,
+            barcode: res.data.barcode_number,
+            sku: res.data.sku,
+            available_quantity: res.data.available_quantity,
+            pk_size: res.data.packaging?.size,
+            pk_size_unit: res.data.packaging?.size_unit,
+            pk_number_of_carton: res.data.packaging?.number_of_carton,
+            pk_average_lead_time: res.data.packaging?.average_lead_time,
+            pk_transportation_mode: res.data.packaging?.transportation_mode,
+            pc_weight: res.data.product_carton?.weight,
+            pc_weight_unit_id: res.data.product_carton?.weight_unit_id,
+            pc_height: res.data.product_carton?.height,
+            pc_height_unit_id: res.data.product_carton?.height_unit_id,
+            pc_length: res.data.product_carton?.length,
+            pc_length_unit_id: res.data.product_carton?.length_unit_id,
+            pc_width: res.data.product_carton?.width,
+            pc_width_unit_id: res.data.product_carton?.width_unit_id,
+            pdime_weight: res.data.product_dimension?.weight,
+            pdime_weight_unit_id: res.data.product_dimension?.weight_unit_id,
+            pdime_height: res.data.product_dimension?.height,
+            pdime_length: res.data.product_dimension?.length,
+            pdime_width: res.data.product_dimension?.width,
+            pdime_dimention_unit: res.data.product_dimension?.dimention_unit,
+            pp_quantity: res.data.product_prices?.map(price => price.quantity),
+            pp_unit_price: res.data.product_prices?.map(price => price.unit_price),
+            pp_selling_price: res.data.product_prices?.map(price => price.selling_price),
+            is_ready_to_ship: res.data.is_ready_to_ship,
+            is_buy_now: res.data.is_buyable,
+            is_availability: res.data.is_available,
+            storage_temperature: res.data.storage_temperature_id,
+            stock_location: res.data.warehouse_id,
+            country_of_origin: res.data.product_origin_id,
+            is_dangerous: res.data.is_dangerous,
+            product_variants: res.data.product_variant,
+            product_variant: res.data.product_single_variant ?? [],
+            PriceingRows: res.data.product_prices,
+            is_variant: !!res.data.product_variant,
+            additional_details_row: res.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
+            hts_code: res.data.hts_code,
+            id: res.data.id,
           };
 
-          this.fetchingData(res.id);
+
+          this.fetchingData(res.data.id);
           this.openTab = 'parent'
         }
       } catch (error) {
@@ -2074,15 +2083,19 @@ export default {
       try {
         this.is_loading = true
         var variant_res = Object.assign({}, await this.getById({id: id, params: {}, api: 'getVariantProducts'}));
+        // console.log('this.variants[0].result', variant_res)
+
         for (let key in variant_res) {
           if (!isNaN(key)) {
             // console.log('variant_res', variant_res[key])
-            this.variants[key].result.title = variant_res[key].title;
-            this.variants[key].result.brand_id = variant_res[key].brand_id;
-            this.variants[key].result.unit_id = variant_res[key].unit_id;
             this.result.unit_id = variant_res[key].unit_id;
+              this.variants[key].result.title = variant_res[key].title,
+              this.variants[key].result.brand_id = variant_res[key].brand_id,
+              this.variants[key].result.unit_id = variant_res[key].unit_id,
+              this.variants[key].result.product_images = variant_res[key].images
           }
         }
+
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -2475,8 +2488,12 @@ export default {
     if (this.allKeywords.length === 0) {
       await this.findKeyword()
     }
-    if (!this.allCategories || !this.allTaxRules || !this.allAttributes ||
-      !this.allBrands || !this.allProductCollections || !this.allBundleDeals || !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses) {
+    if (
+      !this.allCategories || !this.allTaxRules || !this.allAttributes ||
+      !this.allBrands || !this.allProductCollections || !this.allBundleDeals ||
+      !this.allShippingRules || !this.allColors || !this.allBarcodes || !this.allPackagingUnits ||
+      !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses
+    ) {
 
       this.loading = true
       try {
