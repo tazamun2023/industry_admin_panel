@@ -16,6 +16,8 @@ export default {
 
   data() {
     return {
+      showImageClicked: false,
+      clickedImageUrl: null, // Store clicked image URL
       inserFile: false,
       is_send_new_offer: false,
       is_accept_offer: false,
@@ -44,7 +46,11 @@ export default {
   },
 
   methods: {
-
+    showImagePopup(index) {
+      console.log(index);
+      this.clickedImageUrl = index
+      this.showImageClicked = true;
+    },
     handleFileUpload(event) {
       const selectedFile = event.target.files[0];
 
@@ -741,17 +747,21 @@ export default {
                   <div class="w-full" v-if="activeInquirie.offer.type==='message'">
                     <div class="messenger m-2 mb-0">
                       <div :class="{'bg-mbg':activeInquirie.offer.message}" class="p-4 rounded">
-                       
+
                         <p>{{ activeInquirie.offer.message }}</p>
                         <!-- ++++++++++++++++++++-----------------new design----------++++++++++++++++--------- -->
                         <!-- ------------------message with image---------- -->
                         <div>
-                          <lazy-image
+                          <div  @click="showImagePopup(activeInquirie.image)">
+                            <lazy-image
+
                             v-if="activeInquirie.image"
                             class="h-[280px] w-[280px] shadow rounded-[10px] mx-auto"
                             :data-src="activeInquirie.image"
                             :alt="activeInquirie.offer.message"
                           />
+                          </div>
+                          <ImagePopup :imageUrl="clickedImageUrl" :imageAlt="clickedImageUrl" v-if="showImageClicked" @closePopup="showImageClicked = false" />
                         </div>
                       </div>
                       <video class="w-full" controls v-if="activeInquirie.video">
