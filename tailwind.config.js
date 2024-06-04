@@ -48,7 +48,8 @@ module.exports = {
       mbg:"#F2F2F2",
       fullred:"#E10000",
       cancellight:"#FFF1CC",
-      canceldeep:'#FB641E'
+      canceldeep:'#FB641E',
+      transparent:"#00000054"
     },
 
     screens: {
