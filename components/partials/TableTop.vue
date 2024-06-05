@@ -29,7 +29,7 @@
 
         </div>
 
-     
+
       </slot>
       <div v-if="enableSearch" class="related w-full">
         <img src="~/assets/icon/search-normal.svg" alt=""
