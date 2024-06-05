@@ -502,17 +502,16 @@
                     <div class="input-wrapper">
                       <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                       <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                             :disabled="result.is_availability===1 && !result.available_quantity"
+                             :disabled="result.is_always_available==1"
                              v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
                       <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                     </div>
                     <span class="error">{{ errors[0] }}</span>
                   </ValidationProvider>
-                  <div class="form-check">
+                  <div class="form-check" v-if="!is_variant">
                     <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
-                    <input type="checkbox" class="custom-control-input" checked v-if="id && !is_variant && result.is_availability===1 && result.available_quantity===null" @change="isAvailability($event)">
-                    <input type="checkbox" class="custom-control-input" v-else-if="!is_variant && id && result.is_availability===1 && result.available_quantity!==null" @change="isAvailability($event)"/>
-                    <input type="checkbox" class="custom-control-input" v-else-if="!is_variant && !id" v-model="result.is_availability" @change="isAvailability($event)"/>
+<!--                    is_always_available-->
+                    <input type="checkbox" class="custom-control-input" v-model="result.is_always_available" />
                   </div>
                 </div>
             </div>
@@ -1342,6 +1341,7 @@ export default {
         is_ready_to_ship: 1,
         is_buy_now: 1,
         is_availability: 0,
+        is_always_available: false,
         is_dangerous: 0,
         is_offer_private_label_option: 1,
         storage_temperature: '',
@@ -1583,7 +1583,7 @@ export default {
     },
     availableQuantityValidationRules() {
       return {
-        required: !this.is_draft && this.result.is_availability==0 && this.result.available_quantity=='' || this.result.available_quantity==null,
+        required: !this.is_draft && !this.result.is_always_available,
         min_value: 0,
         max_value: 99999999,
       };
@@ -1759,6 +1759,11 @@ export default {
     'result.barcode_type'(newValue, oldValue) {
       if (newValue == 4) {
         this.result.barcode = '';
+      }
+    },
+    'result.is_always_available'(newValue, oldValue) {
+      if (newValue == 1) {
+        this.result.available_quantity = '';
       }
     }
   },
@@ -2116,7 +2121,7 @@ export default {
     isAvailability(event){
       const checked = event.target.checked;
       // console.log(checked); // This will log true or false
-      this.result.is_availability = checked ? 1 : 0;
+      this.result.is_availability = checked ? true : 0;
       this.result.available_quantity = ''
       // console.log(this.result.is_availability); // This will log 1 or 0
     },
@@ -2487,6 +2492,7 @@ export default {
           is_ready_to_ship: res.is_ready_to_ship,
           is_buy_now: res.is_buyable,
           is_availability: res.is_available,
+          is_always_available: res.is_always_available,
           storage_temperature: res.storage_temperature_id,
           stock_location: res.warehouse_id,
           country_of_origin: res.product_origin_id,
