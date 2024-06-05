@@ -42,7 +42,7 @@
       <div v-if="!loading">
         <div class="card">
           <div class="table-wrapper">
-            <table class="mn-w-600x">
+            <table class="lg:mn-w-600x">
               <slot
                 name="table"
                 v-bind:list="list"
