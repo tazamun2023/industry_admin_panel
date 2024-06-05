@@ -51,6 +51,7 @@ export default {
         parentCategory: '',
         subCategory: '',
         childCategory: '',
+        is_always_available: false,
         /*Product Inventory*/
         available_quantity: '',
         /*End Product Inventory*/
@@ -323,6 +324,7 @@ export default {
           is_ready_to_ship: res[0]?.is_ready_to_ship,
           is_buy_now: res[0]?.is_buyable,
           is_availability: res[0]?.is_available,
+          is_always_available: res[0]?.is_always_available,
           storage_temperature: res[0]?.storage_temperature_id,
           stock_location: res[0]?.warehouse_id,
           country_of_origin: res[0]?.product_origin_id,
@@ -398,6 +400,7 @@ export default {
               is_ready_to_ship: res[key].is_ready_to_ship || 1,
               is_buy_now: res[key].is_buyable,
               is_availability: res[key].is_available,
+              is_always_available: res[key].is_always_available,
               is_dangerous: res[key].is_dangerous || 0,
               is_offer_private_label_option: res[key].is_offer_private_label_option || 1,
               stock_location: res[key].warehouse_id || 1,

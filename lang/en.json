@@ -38,6 +38,7 @@
     "update_admin": "Update admin User",
     "update_vendor": "Update Vendor User",
     "Register user": "Register user",
+    "Product Successfully Saved": "Product Successfully Saved!",
     "Active": "Active"
   },
   "rejectReasons": {
@@ -195,6 +196,7 @@
     "No": "No",
     "Search": "Search",
     "Confirm": "Confirm",
+    "Order Placed": "Order Placed",
     "PENDING RESPONSE": "PENDING RESPONSE",
     "PENDING AGREEMENT": "PENDING AGREEMENT",
     "expired": "expired",
