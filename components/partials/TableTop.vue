@@ -4,21 +4,26 @@
     <slot
       name="add-button"
     >
-      <nuxt-link
-        v-if=" (gate && $can(manage_gate))"
-        :to="addRoute"
+      <div v-if="modalButton">
+        <button
+          class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center"
+          @click="openModal">
+          <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
+          <span v-html="$t('app.Add')"></span>
+        </button>
+      </div>
+      <div v-else>
+        <nuxt-link
+          v-if=" (gate && $can(manage_gate))"
+          :to="addRoute"
 
-        class="flex h-[42px] w-[156px] hover:bg-primary rounded-md gap-4 bg-primary text-white px-4 items-center"
-      >
-        <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
-        <span v-html="$t('app.Add')"></span>
-      </nuxt-link>
-      <button  v-if="modalButton"
-              class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center"
-              @click="openModal">
-        <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
-        <span v-html="$t('app.Add')"></span>
-      </button>
+          class="flex h-[42px] w-[156px] hover:bg-primary rounded-md gap-4 bg-primary text-white px-4 items-center"
+        >
+          <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
+          <span v-html="$t('app.Add')"></span>
+        </nuxt-link>
+      </div>
+
     </slot>
     <div v-if="enableSearch" class="related w-full">
       <img src="~/assets/icon/search-normal.svg" alt=""

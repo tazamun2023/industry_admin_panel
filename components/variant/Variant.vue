@@ -1913,6 +1913,7 @@ export default {
             ...this.variants[0].result,
             id: '',
             product_images: [],
+            images: [],
             sku: '',
             status: 'incomplete',
             is_variant: true
