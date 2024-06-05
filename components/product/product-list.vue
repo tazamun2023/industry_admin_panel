@@ -217,21 +217,25 @@
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td v-if="value.product_prices[0]?.selling_price">
-                      <p>
-                        <del>SAR {{ value.product_prices[0]?.unit_price }}</del>
+                      <p >
+                        <del>
+                          <price-with-curency-format :price="value.product_prices[0]?.unit_price"></price-with-curency-format>
+
+                         </del>
                       </p>
                       <p>
-                        SAR {{ value.product_prices[0]?.selling_price }}
+                        <price-with-curency-format :price="value.product_prices[0]?.selling_price"></price-with-curency-format>
+
+
                       </p>
                     </td>
                     <td v-else>
-                      <p>
-                        SAR {{ value.product_prices[0]?.unit_price }}
-                      </p>
+                      <price-with-curency-format :price="value.product_prices[0]?.unit_price "></price-with-curency-format>
+
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
-                      <p v-if="value.available_quantity===null && value.is_always_available===1" class="text-primary">
+                      <p v-if="value.available_quantity===null && value.is_always_available===1" class="text-primary text-nowrap">
                         {{ $t('prod.Always Available') }}</p>
                       <input v-else-if="$store.state.admin.isVendor && value.available_quantity!==null" type="qty" title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"
@@ -384,6 +388,7 @@ import bulkDelete from "~/mixin/bulkDelete";
 import ProductFilter from "../../components/product/filter.vue";
 import moment from 'moment-timezone';
 import Modal from "~/components/Modal.vue";
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 
 export default {
   name: "product-list",
@@ -424,6 +429,7 @@ export default {
   },
   mixins: [util, bulkDelete],
   components: {
+    PriceWithCurencyFormat,
     LazyImage,
     ListPage,
     ProductFilter,
