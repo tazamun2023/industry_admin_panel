@@ -8,8 +8,31 @@
       class="child-layer"
       @click="closeChild"
     />
-    <ul class="sb sb-2">
 
+    <ul class="sb sb-2">
+      <div class="lg:hidden xl:hidden" :class="{'hidden':!sidebarOpen}">
+        <nuxt-link
+        to="/"
+        class="logo w-full"
+      >
+        <!-- <img
+          v-if="storeData"
+          :src="getImageURL(siteLogo)"
+          alt=""
+        > -->
+        <div class="flex gap-4 px-[15px] justify-between items-center">
+          <div class="flex items-center gap-2">
+          <img class="w-[51px] h-[51px] mt-5" src="~/assets/icon/user.svg" alt="">
+          <div v-if="$store.state.admin.profile">
+            <p class="font-bold">{{ $store.state.admin.profile.name[currentLanguage?.code] }}</p>
+            <p class="text-[16px] font-bold capitalize">{{ $store.state.admin.profile.username }}</p>
+            <p class="text-xs text-primary">{{ $store.state.admin.profile.email }}</p>
+          </div>
+        </div>
+        <img @click.prevent="leftMenuToggle" class="w-[12px] h-[12px]" src="~/assets/icon/cros-g.svg" alt="cros">
+        </div>
+      </nuxt-link>
+    </div>
       <li
         v-for="(value, index) in sidebarsArr"
         :key="index"
@@ -74,7 +97,7 @@
       </li>
 
     </ul>
-    <div class="absolute bottom-0 w-full bg-white py-4 ">
+    <div class="absolute bottom-0 w-full bg-white lg:py-4 pt-[4em]">
         <button class="w-full border-0 flex gap-4 hover:bg-white" @click.prevent="loggingOut">
         <img src="~/assets/icon/logout.svg" class="h-4 w-4 mt-3" alt="">
             <span>{{ $t('error.log') }}</span>
@@ -570,7 +593,7 @@ export default {
         {
           path: 'account',
           title: this.$t('account.account'),
-          icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          icon: `<svg width="20" height="20" class="text-primary h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M10.1334 9.06012C10.05 9.05179 9.95005 9.05179 9.85838 9.06012C7.87505 8.99346 6.30005 7.36846 6.30005 5.36846C6.30005 3.32679 7.95005 1.66846 10 1.66846C12.0417 1.66846 13.7 3.32679 13.7 5.36846C13.6917 7.36846 12.1167 8.99346 10.1334 9.06012Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M5.96672 12.1354C3.95006 13.4854 3.95006 15.6854 5.96672 17.0271C8.25839 18.5604 12.0167 18.5604 14.3084 17.0271C16.3251 15.6771 16.3251 13.4771 14.3084 12.1354C12.0251 10.6104 8.26672 10.6104 5.96672 12.1354Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>`,
@@ -1007,6 +1030,9 @@ export default {
     }
   },
   methods: {
+    leftMenuToggle() {
+        this.toggleSidebar()
+      },
     getImgUrl(pic) {
       return require('~/assets/icon/' + pic)
     },
@@ -1199,5 +1225,12 @@ export default {
 .sidebar ul .active > a {
   background:#01A781 !important;
   color:#fff !important;
+}
+@media only screen and (max-width: 992px) {
+.sidebar-opened .sidebar{
+        width: 100%;
+        top: 0;
+        z-index: 9999;
+}
 }
 </style>

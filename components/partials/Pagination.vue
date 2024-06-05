@@ -1,30 +1,30 @@
 <template>
   <div>
     <div v-if="totalPage > 1">
-      <div class=" flex border-t border-cardb p-4 justify-between items-center gap-4">
+      <div class=" flex border-t border-cardb p-4 justify-between items-center lg:gap-4 gap-1">
 
         <button :disabled="currentPage === 1"
                 @click.prevent="navigateToFirst"
                 :class="{disabled: currentPage === 1}"
-                class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                class="flex items-center gap-2 lg:px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                 type="button">
           <svg class="w-4 h-4 text-primary rtl:rotate-180" width="16" height="16" viewBox="0 0 16 16" fill="none"
                xmlns="http://www.w3.org/2000/svg">
             <path d="M9 5L6 8L9 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                   stroke-linejoin="round"/>
           </svg>
-          {{ $t('app.Previous') }}
+          <span class="hidden lg:block">{{ $t('app.Previous') }}</span>
         </button>
 
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center lg:gap-2 gap-1">
 
           <template v-for="(value, index) in visiblePages">
             <button
               v-if="currentPage === value"
               :key="index"
               @click.prevent="paginate(value)"
-              class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg bg-primary text-center align-middle font-sans text-xs font-medium  border-none uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="relative lg:h-10 max-h-[40px] w-7 h-7 lg:w-10 max-w-[40px] select-none rounded-lg bg-primary text-center align-middle font-sans text-xs font-medium  border-none uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type="button">
             <span class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold top-1/2 left-1/2">
               {{ value }}</span>
@@ -33,7 +33,7 @@
                     :key="index"
                     :disabled="value==='...'"
                     @click.prevent="paginate(value)"
-                    class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase border-none transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    class="relative lg:h-10 max-h-[40px] w-7 h-7 lg:w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase border-none transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                     type="button">
       <span class="absolute transform -translate-x-1/2 -translate-y-1/2 font-bold top-1/2 left-1/2">
          {{ value }}
@@ -46,9 +46,9 @@
           :class="{disabled: currentPage === totalPage}"
           :disabled="currentPage === totalPage"
           @click.prevent="paginate(currentPage+1)"
-          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center  uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          class="flex items-center gap-2 lg:px-6 py-3 font-sans text-xs font-bold text-center  uppercase align-middle transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button">
-          {{ $t('app.Next') }}
+          <span class="hidden lg:block">{{ $t('app.Next') }}</span>
 
           <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
             aria-hidden="true" class="w-4 h-4 text-primary">

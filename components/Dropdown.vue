@@ -147,7 +147,7 @@
         if (this.opt && this.opt[this.currentKey] && this.opt[this.currentKey][this.keyName])
           return this.opt[this.currentKey][this.keyName]
         else
-          return '--------------'
+          return ''
       }
     },
     methods: {
