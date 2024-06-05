@@ -153,7 +153,7 @@ export default {
                {{ truncateUserName(inquirie?.inquirable?.title, 60) }}
             </span>
             <span class="relative">
-              {{ inquirie.customer_last_seen }}
+              {{ inquirie.last_time }}
               <span
                 class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
                 v-if="inquirie.unread_message">
@@ -181,6 +181,8 @@ export default {
                   v-if="(inquirie.last_status==='canceled')">{{ $t('products.canceled') }}</span>
             <span class="p-1 rounded bg-primarylight text-primary uppercase text-[12px]"
                   v-if="(inquirie.last_status==='approved')">{{ $t('products.approved') }}</span>
+            <span class="p-1 rounded bg-primarylight text-primary uppercase text-[12px]"
+                  v-if="(inquirie.last_status==='order_placed')">{{ $t('products.Order Placed') }}</span>
             <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
                   v-if="(inquirie.last_status==='rejected')">{{ $t('products.rejected') }}</span>
           </div>

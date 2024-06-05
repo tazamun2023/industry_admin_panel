@@ -8,7 +8,7 @@
         <div>
           <div class="bg-theemlight p-1 rounded-lg">
             <p class="font-bold"><span class="mx-1">{{ $t('products.Seller Message') }}</span> <span
-              class="bg-theem text-white p-2  rounded-lg">{{ ActiveInquiryData?.inquiryOffers?.length }}</span></p>
+              class="bg-theem text-white p-2  rounded-lg">{{ ActiveInquiryData.count }}</span></p>
           </div>
         </div>
       </div>

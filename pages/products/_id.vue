@@ -502,7 +502,7 @@
                     <div class="input-wrapper">
                       <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
                       <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                             :disabled="result.is_availability===1 && result.available_quantity==='' || result.available_quantity===null"
+                             :disabled="result.is_availability===1 && !result.available_quantity"
                              v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
                       <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                     </div>
@@ -1583,7 +1583,7 @@ export default {
     },
     availableQuantityValidationRules() {
       return {
-        required: !this.is_draft && this.result.is_availability===0 && this.result.available_quantity===null || this.result.available_quantity==='',
+        required: !this.is_draft && this.result.is_availability==0 && this.result.available_quantity=='' || this.result.available_quantity==null,
         min_value: 0,
         max_value: 99999999,
       };
@@ -2042,7 +2042,7 @@ export default {
     // },
 
 
-    doSubmit() {
+    async doSubmit() {
       this.is_draft = false;
       this.result.is_draft = false;
       this.is_submit = true
@@ -2069,7 +2069,29 @@ export default {
       this.result.is_quote = false
       this.result.is_variant = false
 
-      this.checkForm()
+      // this.checkForm()
+      const data = await this.setById({
+        id: this.id,
+        params: {
+          result: {
+            ...this.result,
+            rfq_id: this.$route.query?.quote,
+            rfq_product_id: this.$route.query?.rfq_product_id
+          },
+        },
+        api: this.setApi
+      })
+
+      if (data.status===200){
+        if (data.data.status==="approved"){
+          const path = '/products/approved';
+          this.$router.push({path});
+        }else {
+          const path = this.is_draft ? '/products/draft' : `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`;
+          this.$router.push({path});
+        }
+      }
+
     },
 
     updateLevel2() {

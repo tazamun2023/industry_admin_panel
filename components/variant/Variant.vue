@@ -523,10 +523,10 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <ValidationProvider name="Image" :rules="{required: !variants[openTab].result.product_images}"
+        <ValidationProvider name="Image" :rules="{required: variants[openTab].result.product_images===0}"
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
-          <div class="tab-sidebar p-3">
+          <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && variants[openTab].result.product_images===0 }">
             <vue-upload-images :return-data-just="false" :old_images="variants[openTab].result.images" :max-files="10"
                                @updateInput="saveAttachment"></vue-upload-images>
             <span class="error">{{ errors[0] }}</span>
@@ -568,6 +568,7 @@
             </ValidationProvider>
             <div v-if="variants[openTab].result.id">
               <ValidationProvider name="sku" v-slot="{ errors }"
+                                  :rules="{required: true}"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
                 <div class="form-group input-wrapper  mt-3 mt-sm-0">
                   <label>{{ $t('prod.SKU') }}</label>
@@ -2073,6 +2074,7 @@ export default {
 
           this.fetchingData(res.data.id);
           this.openTab = 'parent'
+          this.setToastMessage(this.$t('app.Product Successfully Saved'))
         }
       } catch (error) {
         this.setToastError('Error! at last complete one variant')
@@ -2142,7 +2144,7 @@ export default {
           if (!this.variants[this.openTab].result) {
             this.variants[this.openTab].result = {};
           }
-          this.variant_uuid_global = res.variant_uuid
+          this.variant_uuid_global = res?.data.variant_uuid
           // Assign properties from res to this.variants[this.openTab].result
           this.variants[this.openTab].result = {
             title: res?.data.title,
@@ -2222,7 +2224,7 @@ export default {
           }
           this.isErrorMessage = null;
           this.openTab = 'parent'
-
+          this.setToastMessage(this.$t('app.Product Successfully Saved'))
         }
       } catch (error) {
         if (error.response.status === 422) {

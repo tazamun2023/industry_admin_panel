@@ -292,7 +292,12 @@ export default {
       // acceptInquiriesOffer
     },
     isLastOffer(index) {
-      return index === this.activeInquiries.inquiryOffers.length - 1;
+      // return index === this.activeInquiries.inquiryOffers.length - 1;
+      const offer = this.activeInquiries.inquiryOffers[index];
+      // console.log('zill', offer)
+      return index === this.activeInquiries.inquiryOffers.length - 1 &&
+        (offer.status === 'canceled' || offer.status === 'rejected');
+
     },
     getTodayFormattedDate() {
       const today = new Date();
@@ -490,14 +495,14 @@ export default {
                         </div>
 
                         <div v-if="activeInquirie.status==='order_placed'">
-                          <p class="p-2 bg-primarylight rounded">{{ $t('prod.Paid') }}</p>
+                          <p class="p-2 bg-primarylight rounded">{{ $t('products.Order Placed') }}</p>
                         </div>
                         <div v-else>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                           <p class="p-2 bg-warninglight text-fullred rounded" v-if="activeInquirie.status==='rejected'">
                             {{ $t('prod.Rejected by Buyer') }}</p>
-                          <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
+                          <p class="p-2 bg-warninglight rounded" v-else-if="activeInquirie.status==='expired'">
                             {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
                           <!--                          <p class="p-2 bg-primarylight rounded" v-else>{{ $t('products.Offer sent message') }}</p>-->
                           <div class="flex justify-end gap-4 pt-4">
@@ -548,10 +553,6 @@ export default {
                           <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 0">{{ $t('prod.Canceled by Customer') }}</p>
                           <p class="p-2 bg-cancellight text-canceldeep rounded" v-if="activeInquirie.cancel_by === 1">{{ $t('prod.Canceled by Seller') }}</p>
                           <div class="flex justify-end gap-4 pt-4">
-                            <!--                            <button @click="is_send_new_offer_vendor=index"-->
-                            <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                            <!--                              {{ $t('products.Send New Offer') }}-->
-                            <!--                            </button>-->
                           </div>
                         </div>
                         <!-- ---------end-------- -->
@@ -637,7 +638,7 @@ export default {
 
                   </div>
                   <div>
-                    <p class="text-xs text-smooth pb-2 px-4">
+                    <p class="text-xs pb-2 px-4">
                     <!-- {{ activeInquirie.user?.username }}, -->
                     {{ activeInquirie.created }}</p>
                   </div>
@@ -698,13 +699,13 @@ export default {
                         </div>
                         <!-- --------------end-------- -->
                         <div v-if="activeInquirie.status==='order_placed'">
-                          <p class="p-2 bg-primarylight rounded">{{ $t('prod.Paid') }}</p>
+                          <p class="p-2 bg-primarylight rounded">{{ $t('products.Order Placed') }}</p>
                         </div>
                         <div v-else>
                           <div v-if="activeInquirie.status!=='canceled' && !is_send_new_offer_vendor">
                             <p class="p-2 bg-warninglight  text-fullred rounded" v-if="activeInquirie.status==='rejected'">
                               {{ $t('prod.Rejected') }}</p>
-                            <p class="p-2 bg-error text-white rounded" v-else-if="activeInquirie.status==='expired'">
+                            <p class="p-2 bg-warninglight rounded" v-else-if="activeInquirie.status==='expired'">
                               {{ $t('prod.Expired on') }} {{ activeInquirie?.offer?.expired_at }}</p>
                             <p class="p-2 bg-primarylight rounded" v-else>{{ $t('prod.Offer sent') }}
                               {{ activeInquirie?.offer?.expired_at }}</p>
@@ -715,11 +716,6 @@ export default {
                                 {{ $t('products.Cancel Offer') }}
                               </button>
 
-                              <!--                            <button @click="acceptOffer(index)"-->
-                              <!--                                    v-if="activeInquirie.status!=='approved'"-->
-                              <!--                                    class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">-->
-                              <!--                              {{ $t('products.Accept Offer') }}-->
-                              <!--                            </button>-->
                               <button @click="isSendNewOfferVendor(index)"
                                       v-if="$store.state.admin.isVendor"
                                       class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
@@ -819,7 +815,7 @@ export default {
 
                   </div>
                   <div>
-                      <p class="text-xs text-smooth px-4 ltr:text-end rtl:text-start">
+                      <p class="text-xs px-4 ltr:text-end rtl:text-start">
                     <!-- {{ activeInquirie.vendor?.name }}, -->
                      {{ activeInquirie.created }}
                   </p>
@@ -833,7 +829,7 @@ export default {
             <div class="p-4 border-t border-l border-smooth">
               <!--        <ValidationProvider class="w-full" name="message" rules="required" v-slot="{ errors }"-->
               <!--                            :custom-messages="{required: `${$t('products.Message')} is Required`}">-->
-              <div class="flex gap-3 items-center">
+              <div class="flex gap-3 items-center" v-if="!$store.state.admin.isSuperAdmin">
                 <label class="items-center cursor-pointer font-bold text-theem  py-1 text-sm" for="Documents"
                        tabindex="-1" id="menu-item-0">
                   <!-- <span class="hidden">Docs</span>
@@ -1039,7 +1035,7 @@ export default {
                 </div>
 
               </div>
-              <div class="flex gap-4">
+              <div class="flex gap-4" v-if="!$store.state.admin.isSuperAdmin">
                 <input
                   :placeholder="$t('products.Message')"
                   class="w-full rounded-lg px-4"
