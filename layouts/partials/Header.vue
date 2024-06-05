@@ -2,25 +2,28 @@
   <header
     :class="{'dots-open': dotsOpen}"
   >
-    <div class="dply-felx logo-wrapper">
+    <div class="flex items-center logo-wrapper">
       <button
         @click.prevent="leftMenuToggle"
-        class="dply-felx j-center toggle-menu-btn"
+        class="dply-felx j-center bgnone toggle-menu-btn"
       >
-        <i
-          class="ignore-click icon menu-icon mr-0"
-        />
+        <svg class="ignore-click  menu-icon mr-0 h-[20px] w-[20px] lg:h-[30px] lg:w-[30px] text-primary lg:text-black" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M2.5 5.83325H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M2.5 10H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M2.5 14.1667H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
       </button>
       <nuxt-link
         to="/"
-        class="logo"
+        class="logo hidden  lg:block"
       >
         <!-- <img
           v-if="storeData"
           :src="getImageURL(siteLogo)"
           alt=""
         > -->
-        <div class="flex gap-2">
+        <div class="flex items-center gap-2">
           <img class="w-6 h-6 mt-5" src="~/assets/icon/user.svg" alt="">
           <div v-if="$store.state.admin.profile">
             <p class="font-bold">{{ $store.state.admin.profile.name[currentLanguage?.code] }}</p>
@@ -30,17 +33,42 @@
       </nuxt-link>
     </div>
 
-    <div class="dply-felx grow right-wrap">
+    <div class="flex items-center grow right-wrap">
 
-      <div class="flex gap-4  m-2">
+      <div class="flex items-center gap-4  m-2">
         <clear-cache-btn
         color="primary"
-        class="outline-btn mt-2"
+        class="outline-btn hidden lg:block mt-2"
       />
-      <img class="w-[228px] h-[57px]" src="~/assets/images/ar_logo_admin1.svg" alt="">
+      <!--  -------------------mobile view-------------- -->
+      <div class="flex lg:hidden xl:hidden items-center gap-4">
+          <dropdown
+          v-if=" Object.keys(languages).length > 1"
+          :selected-key="currentLanguage.code"
+          :options="languages"
+          class="lang-down lg:hidden xl:hidden   mobile-lang"
+          @clicked="selectedLanguage"
+        >
+        <img class="w-[20px] h-[20px]" src="~/assets/icon/glove.svg" alt="">
+      </dropdown>
+      <div>
+        <svg class="w-[20px] h-[20px] text-primary lg:hidden xl:hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9.16669 16.6665C13.3088 16.6665 16.6667 13.3086 16.6667 9.1665C16.6667 5.02437 13.3088 1.6665 9.16669 1.6665C5.02455 1.6665 1.66669 5.02437 1.66669 9.1665C1.66669 13.3086 5.02455 16.6665 9.16669 16.6665Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15.775 17.2413C16.2166 18.5747 17.225 18.708 18 17.5413C18.7083 16.4747 18.2416 15.5997 16.9583 15.5997C16.0083 15.5913 15.475 16.333 15.775 17.2413Z" stroke="currentcolor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
       </div>
+      <img class="lg:w-[228px] lg:h-[57px] w-[170px] h-[42px]" src="~/assets/images/ar_logo_admin1.svg" alt="">
+      <user-messages
+          v-if="$can('view_messages')"
+        />
+        <img class="w-[40px] h-[40px] mt-5" src="~/assets/icon/user.svg" alt="">
+        </div>
 
-      <div class="dply-felx w-[60%] j-left pos-rel">
+      </div>
+      <div class="hidden  w-full lg:block xl:block">
+
+      <div class="flex justify-between items-center gap-4 w-full">
+        <img class="lg:w-[228px] lg:h-[57px] w-[170px] h-[42px]" src="~/assets/images/ar_logo_admin1.svg" alt="">
         <div class="w-full relative">
           <img class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] top-[14px]" src="~/assets/icon/search-normal.svg" alt="">
         <input class="w-full px-34px" type="text" placeholder="Search">
@@ -97,6 +125,7 @@
 
 
       </div>
+    </div>
     </div>
   </header>
 </template>
@@ -194,4 +223,31 @@
     padding-left: 34px !important;
     padding-right: 34px !important;
   }
+</style>
+<style>
+@media only screen and (max-width: 992px) {
+  .mobile-lang span{
+  padding:0px !important;
+  height:auto !important;
+  width: auto !important;
+  gap:0px !important;
+  min-width: 20px !important;
+}
+.main{
+  background: none;
+}
+header{
+  background: #fff;
+  box-shadow: 0px 2px 20px 0px #0000001A;
+  height: 84px;
+}
+.bgnone{
+  background: none !important;
+}
+header .right-wrap{
+  padding: 0px;
+}
+}
+
+
 </style>
