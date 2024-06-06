@@ -8,7 +8,7 @@
     <div class="relative inline-block text-left">
       <div class="lg:min-w-[156px]">
         <button @click="shortDropdown" type="button"
-                class="inline-flex w-full justify-between  capitalize items-center text-[13px] gap-4 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
+                class="inline-flex w-full justify-between  capitalize items-center text-[13px] lg:gap-4 gap-1 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
                 id="menu-button" aria-expanded="true" aria-haspopup="true">
           <img style="background: #01A78133;" class="w-8 h-8 bg-primary p-2 rounded"
                src="~/assets/icon/setting-5.svg" alt="">

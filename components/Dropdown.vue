@@ -8,7 +8,8 @@
       :class="{disabled: disabled}"
       @click.prevent="openDropdown"
     >
-      {{ selectedValue }}
+    <div :class="mblangName">{{ selectedValue }}</div>
+
       <slot></slot>
       <i
         class="icon black ignore-click arrowIcon"
@@ -113,6 +114,10 @@
       keyName: {
         type: String,
         default: 'title'
+      },
+      mblangName: {
+        type: String,
+        default: ''
       },
       searching: {
         type: Boolean,

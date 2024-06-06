@@ -41,7 +41,7 @@
 
 
         <nuxt-link
-          class="ltr:rounded-tl-[12px] ltr:rounded-bl-[12px] ltr:ml-2  rtl:rounded-tr-[12px] rtl:rounded-br-[12px] rtl:mr-2"
+          class="lg:ltr:rounded-tl-[12px] lg:ltr:rounded-bl-[12px] lg:ltr:ml-2  lg:rtl:rounded-tr-[12px] lg:rtl:rounded-br-[12px] lg:rtl:mr-2"
           v-if="hasParentPermission(value)"
           :event="value.children ? '' : 'click'"
           :to="`/${value.path}`"
@@ -77,7 +77,7 @@
             :class="{active: isCurrentRoute(child)}"
           >
             <nuxt-link
-              class="ltr:rounded-tl-[12px] ltr:rounded-bl-[12px] ltr:ml-4  rtl:rounded-tr-[12px] rtl:rounded-br-[12px] rtl:mr-4"
+              class="lg:ltr:rounded-tl-[12px] lg:ltr:rounded-bl-[12px] lg:ltr:ml-4  lg:rtl:rounded-tr-[12px] lg:rtl:rounded-br-[12px] lg:rtl:mr-4"
               v-if="hasPermission(child)"
               :event="child.children ? '' : 'click'"
               :to="`/${child.path}`"
@@ -98,7 +98,7 @@
 
     </ul>
     <div class="absolute bottom-0 w-full bg-white lg:py-4 pt-[4em]">
-        <button class="w-full border-0 flex gap-4 hover:bg-white" @click.prevent="loggingOut">
+        <button class="w-full border-0 flex gap-4 overflow-hidden hover:bg-white" @click.prevent="loggingOut">
         <img src="~/assets/icon/logout.svg" class="h-4 w-4 mt-3" alt="">
             <span>{{ $t('error.log') }}</span>
        </button>
