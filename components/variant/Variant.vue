@@ -2458,6 +2458,7 @@ export default {
         console.log('newVal', newVal)
         if (newVal[this.openTab]?.result.is_always_available == 1) {
           this.variants[this.openTab].result.available_quantity = '';
+          this.variants[this.openTab].result.is_availability = 1;
         }
         // Iterate through each item in the variants array
         for (let i = 0; i < newVal.length; i++) {
