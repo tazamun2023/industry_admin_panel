@@ -98,7 +98,7 @@
 
     </ul>
     <div class="absolute bottom-0 w-full bg-white lg:py-4 pt-[4em]">
-        <button class="w-full border-0 flex gap-4 hover:bg-white" @click.prevent="loggingOut">
+        <button class="w-full border-0 flex gap-4 overflow-hidden hover:bg-white" @click.prevent="loggingOut">
         <img src="~/assets/icon/logout.svg" class="h-4 w-4 mt-3" alt="">
             <span>{{ $t('error.log') }}</span>
        </button>

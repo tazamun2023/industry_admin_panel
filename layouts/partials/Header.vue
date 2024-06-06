@@ -46,6 +46,7 @@
           v-if=" Object.keys(languages).length > 1"
           :selected-key="currentLanguage.code"
           :options="languages"
+          key-name="name"
           class="lang-down lg:hidden xl:hidden   mobile-lang"
           @clicked="selectedLanguage"
         >
