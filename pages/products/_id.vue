@@ -1790,6 +1790,7 @@ export default {
     'result.is_always_available'(newValue, oldValue) {
       if (newValue == 1) {
         this.result.available_quantity = '';
+        this.result.is_availability = 1;
       }
     }
   },

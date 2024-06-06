@@ -18,7 +18,7 @@
         </div>
         <div v-else class="hidden lg:block xl:block">
           <nuxt-link
-            v-if=" (gate && $can(manage_gate))"
+            v-if=" (gate && $can(manage_gate)) && addButton"
             :to="addRoute"
 
             class="flex h-[42px] w-[156px]  hover:bg-primary rounded-md gap-4 bg-primary text-white px-4 items-center"
