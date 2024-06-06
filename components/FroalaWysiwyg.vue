@@ -1,6 +1,6 @@
 <template>
 
-  <froala :tag="'textarea'" :config="config" v-model="internalValue"></froala>
+  <froala :tag="'textarea'" @input="emitChange" :config="config" v-model="internalValue"></froala>
 </template>
 
 
@@ -37,7 +37,7 @@ export default {
         //Buttons for the popup menu which appears on imageReplace button click
         // imageEditButtons: ['imageReplace', 'imageRemove'],
         imageInsertButtons: ['imageBack', '|', 'imageUpload', 'imageByURL', 'imageManager'],
-        imageDefaultWidth: 150,
+        imageDefaultWidth: 350,
         imageManagerDeleteURL: `${process.env.apiBase.trim()}api/admin/editor-images/delete`,
         //Validation
         imageAllowedTypes: ['jpeg', 'jpg', 'png'],

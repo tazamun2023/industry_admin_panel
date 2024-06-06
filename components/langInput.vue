@@ -10,51 +10,59 @@
     <!--    </ul>-->
     <!-- Input fields for each language -->
     <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
-    <div class="grid grid-cols-12 gap-1 md:gap-2">
-      <div v-for="(language, index) in languages" :key="language" class="col-span-12" :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
-        <ValidationProvider name="Title" :rules="{required: hasError}" v-slot="{ errors }"
-                            :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
-        <div class="input-wrapper">
-          <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) <strong class="text-error">*</strong></label>
-          <input
-                 v-if="type=='text'"
-                 type="text"
-                 :placeholder="title"
-                 :value="valuesOfLang[language]"
-                 @input="updateInputValue(language, $event.target.value)"
-                 :class="{ invalid: !!!valuesOfLang[language] && hasError, 'cursor-not-allowed': isVariant }"
-                 :readonly="IsReadOnly"
-          >
+      <div class="grid grid-cols-12 gap-1 md:gap-2">
+        <div v-for="(language, index) in languages" :key="language" class="col-span-12"
+             :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
+          <ValidationProvider name="Title" :rules="{required: hasError}" v-slot="{ errors }"
+                              :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
+            <div class="input-wrapper">
+              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) <strong
+                class="text-error">*</strong></label>
+              <input
+                v-if="type=='text'"
+                type="text"
+                :placeholder="title"
+                :value="valuesOfLang[language]"
+                @input="updateInputValue(language, $event.target.value)"
+                :class="{ invalid: !!!valuesOfLang[language] && hasError, 'cursor-not-allowed': isVariant }"
+                :readonly="IsReadOnly"
+              >
 
+              <froala-wysiwyg v-else
+                              :description="valuesOfLang[language]"
+                              :value="valuesOfLang[language]"
+                              @change="valuesOfLang[language]= $event"
+                              :disabled="true"
+                              @input="updateInputValue(language, $event)"
+              ></froala-wysiwyg>
+              <!--          <WYSIWYGEditor v-else-->
+              <!--                         :title="` ${title}  ( ${language} ) `"-->
+              <!--                         @file="editorOverviewFile"-->
+              <!--                         :description="valuesOfLang[language]"-->
+              <!--                         @change="valuesOfLang[language]= $event"-->
+              <!--                         :disabled="true"-->
+              <!--                         @input="updateInputValue(language, $event.target.value)"-->
+              <!--          />-->
+              <span class="error" v-if="errors[0]">{{ $t('category.req', {type: title}) }}</span>
+              <!--          <span class="error" v-if="!!!valuesOfLang[language] && hasError">-->
+              <!--          {{ $t('category.req', {type: title}) }}-->
+              <!--        </span>-->
 
-          <WYSIWYGEditor v-else
-                         :title="` ${title}  ( ${language} ) `"
-                         @file="editorOverviewFile"
-                         :description="valuesOfLang[language]"
-                         @change="valuesOfLang[language]= $event"
-                         :disabled="true"
-                         @input="updateInputValue(language, $event.target.value)"
-          />
-          <span class="error" v-if="errors[0]">{{ $t('category.req', {type: title}) }}</span>
-<!--          <span class="error" v-if="!!!valuesOfLang[language] && hasError">-->
-<!--          {{ $t('category.req', {type: title}) }}-->
-<!--        </span>-->
-
+            </div>
+          </ValidationProvider>
         </div>
-        </ValidationProvider>
-      </div>
-      <!--      <div class="h-10 w-10 md:w-16 self-center mt-3 ">-->
-      <!--        <select v-model="currentTab"-->
-      <!--          class="peer h-full w-full rounded-[7px]  transition-all uppercase focus:outline-none focus:ring">-->
-      <!--                    <option v-for="(language, index) in languages" :value="index" :key="index" @click="currentTab = index">{{ language }}</option>-->
-      <!--        </select>-->
-      <!--        <label-->
-      <!--          class="before:content[''] after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-sm before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-sm after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent">-->
-      <!--         {{$t('app.lang')}}-->
-      <!--        </label>-->
-      <!--      </div>-->
+        <!--      <div class="h-10 w-10 md:w-16 self-center mt-3 ">-->
+        <!--        <select v-model="currentTab"-->
+        <!--          class="peer h-full w-full rounded-[7px]  transition-all uppercase focus:outline-none focus:ring">-->
+        <!--                    <option v-for="(language, index) in languages" :value="index" :key="index" @click="currentTab = index">{{ language }}</option>-->
+        <!--        </select>-->
+        <!--        <label-->
+        <!--          class="before:content[''] after:content[''] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-sm before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-sm after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-gray-900 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-gray-900 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-gray-900 peer-disabled:text-transparent peer-disabled:before:border-transparent">-->
+        <!--         {{$t('app.lang')}}-->
+        <!--        </label>-->
+        <!--      </div>-->
 
-    </div>
+      </div>
     </ValidationObserver>
   </div>
 </template>
@@ -62,6 +70,8 @@
 <script>
 import {mapActions} from "vuex";
 import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
+import FroalaWysiwyg from "./FroalaWysiwyg.vue";
+
 export default {
   props: {
     valuesOfLang: {
@@ -96,7 +106,8 @@ export default {
     },
 
   },
-  components:{
+  components: {
+    FroalaWysiwyg,
     ValidationProvider,
     ValidationObserver
   },
@@ -110,42 +121,42 @@ export default {
     updateInputValue(language, value) {
       this.$emit('updateInput', this.valuesOfLang, language, value);
     },
-    editorOverviewFile({deleted, file, Editor, cursorLocation, resetUploader}){
+    editorOverviewFile({deleted, file, Editor, cursorLocation, resetUploader}) {
       this.editorFile({deleted, file, Editor, cursorLocation, resetUploader}, "product")
     },
 
-    async editorFile({deleted, file, Editor, cursorLocation, resetUploader}, type){
-      if(!deleted){
+    async editorFile({deleted, file, Editor, cursorLocation, resetUploader}, type) {
+      if (!deleted) {
         this.loading = true
         try {
           const fd = new FormData()
           fd.append('type', type)
           fd.append('photo', file)
-          fd.append('item_id',0)
+          fd.append('item_id', 0)
           const data = await this.setWysiwygImage(fd)
-          if(data){
-          //   if (!this.result.id) {
-          //     await this.$router.push({path: `/${this.routeName}/${data.item_id}`})
-          //   } else {
-              Editor.insertEmbed(cursorLocation, "image", data.url);
-              resetUploader();
+          if (data) {
+            //   if (!this.result.id) {
+            //     await this.$router.push({path: `/${this.routeName}/${data.item_id}`})
+            //   } else {
+            Editor.insertEmbed(cursorLocation, "image", data.url);
+            resetUploader();
             // }
           }
         } catch (e) {
           return this.$nuxt.error(e)
         }
         this.loading = false
-      }else{
+      } else {
         this.loading = true
         try {
           await this.deleteData({params: this.getImageName(file), api: 'deleteWysiwygImage'})
-        }catch (e) {
+        } catch (e) {
           return this.$nuxt.error(e)
         }
         this.loading = false
       }
     },
-    ...mapActions('common', [ 'setImageById', 'setWysiwygImage', 'deleteData'])
+    ...mapActions('common', ['setImageById', 'setWysiwygImage', 'deleteData'])
 
   },
 };
