@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="lg:flex gap-4 my-2 lg:my-0">
-      <div class="relative">
+      <div class="relative lg:min-w-[180px]">
         <multi-select class="w-full" :old_selected="search.order_status" :disabled="tap !== 'all'" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
                         :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
         <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>

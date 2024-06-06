@@ -80,7 +80,7 @@
               <!--              v-if="$can('approve_orders')"-->
               <!--                @click="approvedModalShow(order)">{{ $t('order.approveOrder') }}</button>-->
             </CartOrder>
-            <div class="flex justify-center" v-if="!loading">
+            <div class="w-full" v-if="!loading">
               <pagination :total-page="orders?.last_page"/>
             </div>
             <div v-else class="flex justify-center text-center py-5 w-100 "> {{ $t('app.tableEmptyData') }}</div>
