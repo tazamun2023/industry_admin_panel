@@ -8,7 +8,7 @@
       :class="{disabled: disabled}"
       @click.prevent="openDropdown"
     >
-    <div class="hidden lg:block xl:block md:block">{{ selectedValue }}</div>
+    <div :class="mblangName">{{ selectedValue }}</div>
 
       <slot></slot>
       <i
@@ -115,9 +115,9 @@
         type: String,
         default: 'title'
       },
-      langCode: {
+      mblangName: {
         type: String,
-        default: 'en'
+        default: ''
       },
       searching: {
         type: Boolean,

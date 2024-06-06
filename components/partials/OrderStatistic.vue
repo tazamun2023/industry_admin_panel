@@ -22,7 +22,7 @@
         @clicked="dropdownSelected"
       />
     </div>
-    <div class="order-status-wrapper mb-20 mb-sm-15 mb-xs-10">
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-20 mb-sm-15 mb-xs-10">
 
       <div class="card p-20">
         <p>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="order-status-wrapper mb-20 mb-sm-15 mb-xs-10">
-      <div class="card p-20 p-sm-15">
+      <div class="card p-20 my-4 p-sm-15">
         <h5 class="mb-15">
           <b>{{ $t('index.topCat') }}</b>
         </h5>
@@ -153,7 +153,7 @@
       </div>
     </div>
 
-    <div class="card p-20 p-sm-15">
+    <div class="card my-4 p-20 p-sm-15">
       <h5 class="mb-10">
         <b>{{ $t('index.topPro') }}</b>
       </h5>

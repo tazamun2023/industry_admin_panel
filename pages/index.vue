@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
 
-    <div class="card-wrapper">
+    <div class="lg:card-wrapper grid grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="dashboard-card">
         <div class="card rounded-[12px] p-4">
           <!-- <i
@@ -10,7 +10,7 @@
           <p class="f-1-2">
             {{ $t('index.tProduct') }}
           </p>
-          <h3><b>{{ productCount }}</b></h3>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ productCount }}</b></h3>
         </div>
       </div>
       <div v-if="$store.state.admin.isSuperAdmin" class="dashboard-card">
@@ -21,7 +21,7 @@
           <p class="f-1-2">
             {{ $t('index.tUsers') }}
           </p>
-          <h3><b>{{ usersCount }}</b></h3>
+          <h3 class="text-[20px] lg:text-[24px]"><b>{{ usersCount }}</b></h3>
         </div>
       </div>
       <div class="dashboard-card">
@@ -32,7 +32,7 @@
           <p class="f-1-2">
             {{ $t('index.tOrders') }}
           </p>
-          <h3><b>{{ orderCount }}</b></h3>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ orderCount }}</b></h3>
         </div>
       </div>
       <div class="dashboard-card">
@@ -43,7 +43,7 @@
           <p class="f-1-2">
             {{ $t('index.tSells') }}
           </p>
-          <h3><b>{{priceFormatting(orderAmount)}}</b></h3>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{priceFormatting(orderAmount)}}</b></h3>
         </div>
       </div>
     </div>
