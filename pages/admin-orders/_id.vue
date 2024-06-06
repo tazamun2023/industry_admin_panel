@@ -57,7 +57,7 @@
             {{ $t('app.of') }}
             {{ orderDetails.sub_orders.length }} </span>
         </div>
-        <div class="flex justify-between py-3 border-b border-smooth">
+        <div class="lg:flex justify-between py-3 border-b border-smooth">
           <div class="flex gap-4">
             <p>{{ $t('orderDetails.messageOne') }}<br>
               {{ $t('orderDetails.messageTow') }}</p>
@@ -361,7 +361,8 @@
 
     <div class="border border-smooth rounded-lg">
       <h4 class="font-bold p-4"> {{ $t('orderDetails.timeline') }}</h4>
-      <table>
+      <div class="overflow-x-auto">
+      <table class="min-w-full leading-normal">
         <tr class="bg-lightdeep">
           <td class="w-[200px]">{{ $t('orderDetails.user') }}</td>
           <td>{{ $t('orderDetails.action') }}</td>
@@ -374,6 +375,7 @@
         </tr>
         <div class="mt-4 mb-4 text-center" v-if="orderDetails.timeline?.length < 1">{{ $t('app.tableEmptyData') }}</div>
       </table>
+    </div>
     </div>
 
     <div class="flex justify-between my-4 p-4">

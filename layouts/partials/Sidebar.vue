@@ -41,7 +41,7 @@
 
 
         <nuxt-link
-          class="ltr:rounded-tl-[12px] ltr:rounded-bl-[12px] ltr:ml-2  rtl:rounded-tr-[12px] rtl:rounded-br-[12px] rtl:mr-2"
+          class="lg:ltr:rounded-tl-[12px] lg:ltr:rounded-bl-[12px] lg:ltr:ml-2  lg:rtl:rounded-tr-[12px] lg:rtl:rounded-br-[12px] lg:rtl:mr-2"
           v-if="hasParentPermission(value)"
           :event="value.children ? '' : 'click'"
           :to="`/${value.path}`"
@@ -77,7 +77,7 @@
             :class="{active: isCurrentRoute(child)}"
           >
             <nuxt-link
-              class="ltr:rounded-tl-[12px] ltr:rounded-bl-[12px] ltr:ml-4  rtl:rounded-tr-[12px] rtl:rounded-br-[12px] rtl:mr-4"
+              class="lg:ltr:rounded-tl-[12px] lg:ltr:rounded-bl-[12px] lg:ltr:ml-4  lg:rtl:rounded-tr-[12px] lg:rtl:rounded-br-[12px] lg:rtl:mr-4"
               v-if="hasPermission(child)"
               :event="child.children ? '' : 'click'"
               :to="`/${child.path}`"

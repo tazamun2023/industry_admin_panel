@@ -3,7 +3,7 @@
   <check-validity :gate="'view_main_orders'" class="orders  p-4">
     <div class="p-4">
       <h3 class="uppercase">{{ $t('error.orders') }}</h3>
-      <ul class="flex list-none bg-tabbg shadow flex-wrap rounded-xl p-1  w-2/5  my-3 flex-row">
+      <ul class="flex list-none bg-tabbg shadow flex-wrap rounded-xl p-1  lg:w-2/5 w-full  my-3 flex-row">
         <li class="-mb-px  last:mr-0 cursor-pointer  flex-auto">
           <a class="text-xs font-bold capitalize p-2 flex justify-between items-center leading-normal"
              v-on:click="toggleTabs(1, 'all')"
@@ -42,8 +42,8 @@
           </a>
         </li>
       </ul>
-      <div class="relative flex flex-col min-w-0 break-words  w-full mb-6 rounded">
-        <div class="flex-auto ">
+      <div class="relative lg:flex flex-col min-w-0 break-words  w-full mb-6 rounded">
+        <div class="lg:flex-auto ">
           <div class="tab-content input-wrapper tab-space">
             <div v-bind:class="{ 'hidden': openTab !== 1, 'block': openTab === 1 }">
               <FilterData @filter-update="filterUpdate" @clear-filter="toggleTabs(openTab, status)" :tap="openTab"/>
