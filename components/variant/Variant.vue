@@ -526,8 +526,9 @@
         <ValidationProvider name="Image" :rules="{required: variants[openTab].result.product_images===0}"
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
-          <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && variants[openTab].result.product_images===0 }">
-            <vue-upload-images :return-data-just="false" :old_images="variants[openTab].result.images" :max-files="10"
+          <div class="tab-sidebar p-3"
+               :class="{ 'has-error': errors[0] && variants[openTab].result.product_images===0 }">
+            <vue-upload-images :return-data-just="0" :old_images="variants[openTab].result.images" :max-files="10"
                                @updateInput="saveAttachment"></vue-upload-images>
             <span class="error">{{ errors[0] }}</span>
           </div>
@@ -633,94 +634,95 @@
             </ValidationProvider>
             <div class="form-check">
               <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
-              <input type="checkbox" class="custom-control-input" v-model="variants[openTab].result.is_always_available" />
-<!--              <input type="checkbox" class="custom-control-input" v-else-if="!id" v-model="result.is_availability" @change="isAvailability($event)"/>-->
-                          </div>
-                        </div>
-                      </div>
-                      <div class="my-10"></div>
-                      <div class="tab-sidebar p-3">
-                        <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                          <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
-                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
-                            <div class="input-wrapper">
-                              <label for="">{{ $t('prod.Size') }} ?</label>
-                              <div class="relative flex input-group gap-4 mb-3">
-                                <input
-                                  type="text"
-                                  class="form-control pr-12"
-                                  :class="{ 'has-error': errors[0] }"
-                                  :placeholder="$t('prod.Size')"
-                                  @keypress="onlyNumber" min="0" maxlength="8"
-                                  v-model="variants[openTab]?.result.pk_size"
-                                >
-                                <div class="absolute right-0 top-0">
-                                  <select class="p-2 m-1 float-right border-l border-smooth uppercase"
-                                          v-model="variants[openTab]?.result.pk_size_unit"
-                                  >
-                                    <option value="0">{{ $t('prod.Size Unit') }}</option>
-                                    <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
-                                        item.name
-                                      }}
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                            <span class="error">{{ errors[0] }}</span>
-                          </ValidationProvider>
-                          <ValidationProvider name="Number of units per carton"
-                                              :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
-                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
-                            <div class="input-wrapper">
-                              <label for="">{{ $t('prod.Number of units per carton') }}</label>
-                              <div class=" mb-3">
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  :class="{ 'has-error': errors[0] }"
-                                  :placeholder="$t('prod.Number of units per carton')"
-                                  @keypress="onlyNumber" min="0" maxlength="8"
-                                  v-model="variants[openTab]?.result.pk_number_of_carton">
-                              </div>
-                            </div>
-                            <span class="error">{{ errors[0] }}</span>
-                          </ValidationProvider>
+              <input type="checkbox" class="custom-control-input"
+                     v-model="variants[openTab].result.is_always_available"/>
+              <!--              <input type="checkbox" class="custom-control-input" v-else-if="!id" v-model="result.is_availability" @change="isAvailability($event)"/>-->
+            </div>
+          </div>
+        </div>
+        <div class="my-10"></div>
+        <div class="tab-sidebar p-3">
+          <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
+          <div class="grid grid-cols-2 gap-4">
+            <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Size')}) }">
+              <div class="input-wrapper">
+                <label for="">{{ $t('prod.Size') }} ?</label>
+                <div class="relative flex input-group gap-4 mb-3">
+                  <input
+                    type="text"
+                    class="form-control pr-12"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Size')"
+                    @keypress="onlyNumber" min="0" maxlength="8"
+                    v-model="variants[openTab]?.result.pk_size"
+                  >
+                  <div class="absolute right-0 top-0">
+                    <select class="p-2 m-1 float-right border-l border-smooth uppercase"
+                            v-model="variants[openTab]?.result.pk_size_unit"
+                    >
+                      <option value="0">{{ $t('prod.Size Unit') }}</option>
+                      <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
+                          item.name
+                        }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+            <ValidationProvider name="Number of units per carton"
+                                :rules="{required: true, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
+              <div class="input-wrapper">
+                <label for="">{{ $t('prod.Number of units per carton') }}</label>
+                <div class=" mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Number of units per carton')"
+                    @keypress="onlyNumber" min="0" maxlength="8"
+                    v-model="variants[openTab]?.result.pk_number_of_carton">
+                </div>
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
 
-                          <ValidationProvider name="average lead time" :rules="{required: true, min_value: 1, max_value: 99}"
-                                              v-slot="{ errors }"
-                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Average lead time(Days)')}) }">
-                            <div class="input-wrapper">
-                              <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label>
-                              <div class=" mb-3">
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  :class="{ 'has-error': errors[0] }"
-                                  :placeholder="$t('prod.Average lead time(Days)')"
-                                  @keypress="onlyNumber" min="0" maxlength="2"
-                                  v-model="variants[openTab]?.result.pk_average_lead_time">
-                              </div>
-                            </div>
-                            <span class="error">{{ errors[0] }}</span>
-                          </ValidationProvider>
-                          <div class="input-wrapper">
-                            <label for="">{{ $t('prod.Transportation Mode') }}</label>
-                            <div class="mb-3">
-                              <select class="border p-3 w-full border-smooth rounded-lg uppercase"
-                                      v-model="variants[openTab]?.result.pk_transportation_mode"
-                              >
-                                <option :value="index" v-for="(item, index) in allTransportationModes" :key="index">{{
-                                    item.name
-                                  }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- ------------------------------------- -->
+            <ValidationProvider name="average lead time" :rules="{required: true, min_value: 1, max_value: 99}"
+                                v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Average lead time(Days)')}) }">
+              <div class="input-wrapper">
+                <label for="">{{ $t('prod.Average lead time(Days)') }} ?</label>
+                <div class=" mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    :class="{ 'has-error': errors[0] }"
+                    :placeholder="$t('prod.Average lead time(Days)')"
+                    @keypress="onlyNumber" min="0" maxlength="2"
+                    v-model="variants[openTab]?.result.pk_average_lead_time">
+                </div>
+              </div>
+              <span class="error">{{ errors[0] }}</span>
+            </ValidationProvider>
+            <div class="input-wrapper">
+              <label for="">{{ $t('prod.Transportation Mode') }}</label>
+              <div class="mb-3">
+                <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                        v-model="variants[openTab]?.result.pk_transportation_mode"
+                >
+                  <option :value="index" v-for="(item, index) in allTransportationModes" :key="index">{{
+                      item.name
+                    }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ------------------------------------- -->
         <div class="my-10"></div>
 
 
@@ -1548,18 +1550,22 @@ export default {
   },
   data() {
     return {
+      openTapData: {},
+
       is_submit_data: false,
       variant_copy: [],
       is_submit: [],
       allKeywords: [],
       injectedData: this.exampleData,
       openTab: 'parent',
+      oldTap: 'parent',
       isErrorMessage: '',
       uploadModal: false,
       variant_uuid_global: '',
       is_change: false,
       hasErrorQty: false,
       varientModal: false,
+      is_always_available: false,
       is_attributes_modal_index: false,
       is_attributes_modal_price_index: false,
       attributes_modal_price: null,
@@ -1908,6 +1914,7 @@ export default {
             ...this.variants[0].result,
             id: '',
             product_images: [],
+            images: [],
             sku: '',
             status: 'incomplete',
             is_variant: true
@@ -1976,7 +1983,7 @@ export default {
         const res = await this.setById({
           id: this.variants[0]?.result.id,
           params: {
-            result: {from_parent: true, ...this.variants[0].result},
+            result: {from_parent: true, ...this.variants[0].result, is_variant: true},
             variant: this.result.product_variants[0],
             single_submit: true,
             tab: 0
@@ -2060,6 +2067,7 @@ export default {
             product_variant: res.data.product_single_variant ?? [],
             PriceingRows: res.data.product_prices,
             is_variant: !!res.data.product_variant,
+            is_always_available: res.data?.is_always_available ?? 0,
             additional_details_row: res.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
             hts_code: res.data.hts_code,
             id: res.data.id,
@@ -2085,7 +2093,7 @@ export default {
           if (!isNaN(key)) {
             // console.log('variant_res', variant_res[key])
             this.result.unit_id = variant_res[key].unit_id;
-              this.variants[key].result.title = variant_res[key].title,
+            this.variants[key].result.title = variant_res[key].title,
               this.variants[key].result.brand_id = variant_res[key].brand_id,
               this.variants[key].result.unit_id = variant_res[key].unit_id,
               this.variants[key].result.product_images = variant_res[key].images
@@ -2121,7 +2129,7 @@ export default {
         const res = await this.setById({
           id: id,
           params: {
-            result: this.variants[this.openTab].result,
+            result: {...this.variants[this.openTab].result, is_variant: true},
             variant: this.result.product_variants[this.openTab],
             single_submit: true,
             tab: this.openTab
@@ -2203,6 +2211,7 @@ export default {
             product_variant: res?.data.product_single_variant ?? [],
             PriceingRows: res?.data.product_prices,
             is_variant: !!res?.data.product_variant,
+            is_always_available: res?.data?.is_always_available,
             additional_details_row: res?.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
             hts_code: res?.data.hts_code,
             id: res?.data.id,
@@ -2212,7 +2221,7 @@ export default {
           for (let i = 0; i < this.variants.length; i++) {
             const variantResult = this.variants[i].result;
             if (!variantResult.id) {
-              variantResult.sku = null;
+              // variantResult.sku = null;
               variantResult.product_images = [];
             }
           }
@@ -2289,10 +2298,17 @@ export default {
       this.$set(input, language, value);
     },
     toggleTabs: async function (tab) {
-      if (!this.is_change) {
-        this.openTab = tab;
-      } else {
+      this.is_change = (this.openTab != 'parent' && !this.objectsAreEqual(this.variants[this.openTab]?.result, this.openTapData))
+      if (this.is_change)
         await this.handleUnsavedChanges(tab);
+      else {
+        this.openTab = tab;
+        this.oldTap = tab;
+        if (this.openTab == 'parent')
+          this.openTapData = {}
+        else
+          this.openTapData = JSON.parse(JSON.stringify(this.variants[tab].result));
+
       }
     },
 
@@ -2355,6 +2371,12 @@ export default {
       if (confirmation.value) {
         this.openTab = tab;
         this.is_change = false
+        if (this.openTab == 'parent')
+          this.openTapData = {}
+        else
+          // this.openTapData = (Object.assign({}, this.variants[tab].result))
+          this.openTapData = JSON.parse(JSON.stringify(this.variants[tab].result));
+
       }
     },
     uploadModalToggle() {
@@ -2441,34 +2463,86 @@ export default {
     },
 
 
+    objectsAreEqual(obj1, obj2) {
+      const keys1 = Object.keys(obj1).sort();
+      const keys2 = Object.keys(obj2).sort();
+      if (keys1.length !== keys2.length) {
+        console.log("diff  1", keys1.length, keys2.length)
+        return false;
+
+
+      }
+      for (let i = 0; i < keys1.length; i++) {
+        const key1 = keys1[i];
+        const key2 = keys2[i];
+
+        if (key1 !== key2 || typeof obj1[key1] !== typeof obj2[key2]) {
+          console.log("diff  2")
+          return false;
+        }
+
+        if (Array.isArray(obj1[key1])) {
+          if (!this.arraysAreEqual(obj1[key1], obj2[key2])) {
+            console.log("diff  3", key1, key2)
+            return false;
+          }
+        } else if (typeof obj1[key1] === 'object' && obj1[key1] !== null) {
+          if (!this.objectsAreEqual(obj1[key1], obj2[key2])) {
+            console.log("diff  4")
+            return false;
+          }
+        } else if (obj1[key1] !== obj2[key2]) {
+          console.log("diff  6")
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    arraysAreEqual(arr1, arr2) {
+      if (arr1.length !== arr2.length) {
+        console.log("diff  7")
+        return false;
+      }
+
+      for (let i = 0; i < arr1.length; i++) {
+        if (typeof arr1[i] === 'object' && arr1[i] !== null) {
+          if (!this.objectsAreEqual(arr1[i], arr2[i])) {
+            console.log("diff  8")
+            return false;
+          }
+        } else if (arr1[i] !== arr2[i]) {
+          console.log("diff  9")
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+
     ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   watch: {
 
-    // 'variants[openTab].result.is_always_available'(newValue, oldValue) {
-    //   if (newValue == 1) {
-    //     this.variants[this.openTab].result.available_quantity = '';
-    //   }
-    // },
     variants: {
       deep: true,
       handler(newVal, oldVal) {
-        console.log('newVal', newVal)
         if (newVal[this.openTab]?.result.is_always_available == 1) {
           this.variants[this.openTab].result.available_quantity = '';
           this.variants[this.openTab].result.is_availability = 1;
         }
+        
+        // console.log(this.openTab)
+        // console.log('newVal', newVal)
+        // if (newVal[this.openTab]?.result.is_always_available == 1) {
+        //   this.variants[this.openTab].result.available_quantity = '';
+        // }
         // Iterate through each item in the variants array
-        for (let i = 0; i < newVal.length; i++) {
-          // Compare the result objects of the current and previous values
-          if (JSON.stringify(newVal[i]?.result) === JSON.stringify(oldVal[i]?.result)) {
-            console.log(`Change detected in variant at index ${i}`);
-            this.is_change = true
-            // Perform necessary actions here
-          }
-        }
+
       }
     }
   },
@@ -2478,7 +2552,7 @@ export default {
       this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     } else {
       this.result.product_variants.forEach((variant) => {
-        this.result.sku = ''
+        // this.result.sku = ''
         this.variants.push(Object.assign({result: this.result}));
       });
       console.log('mounted...')

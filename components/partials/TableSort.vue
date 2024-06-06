@@ -1,14 +1,14 @@
 <template>
-  <div class="w-[300px] flex gap-4 items-center">
+  <div class="lg:w-[300px] w-[256px] justify-end flex gap-4 items-center">
     <img v-if="sortByType == 'asc'" @click="dropdownSelected(true, {key:'desc'})" class="w-7 h-7"
          src="~/assets/icon/frame.svg" alt="">
     <img v-if="sortByType == 'desc'" @click="dropdownSelected(true, {key:'asc'})" class="w-7 h-7 rotate-180"
          src="~/assets/icon/frame.svg" alt="">
 
     <div class="relative inline-block text-left">
-      <div class="min-w-[156px]">
+      <div class="lg:min-w-[156px]">
         <button @click="shortDropdown" type="button"
-                class="inline-flex w-full justify-between  capitalize items-center text-[13px] gap-4 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
+                class="inline-flex w-full justify-between  capitalize items-center text-[13px] lg:gap-4 gap-1 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
                 id="menu-button" aria-expanded="true" aria-haspopup="true">
           <img style="background: #01A78133;" class="w-8 h-8 bg-primary p-2 rounded"
                src="~/assets/icon/setting-5.svg" alt="">

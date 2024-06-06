@@ -110,18 +110,13 @@
                 </ValidationProvider>
               </div>
 
-              <div class="input-wrapper mb-10" v-if="is_variant">
-                <label for="">{{ $t('prod.parent_sku') }}</label>
-                <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')"
-                       type="text"
-                       v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
-              </div>
-<!--              <ValidationProvider name="Title" :rules="{required: true}" v-slot="{ errors }"-->
-<!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">-->
+
+              <!--              <ValidationProvider name="Title" :rules="{required: true}" v-slot="{ errors }"-->
+              <!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">-->
               <lang-input :hasError="true" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
                           @updateInput="updateInput"></lang-input>
-<!--                <span class="error">{{ errors[0] }}</span>-->
-<!--              </ValidationProvider>-->
+              <!--                <span class="error">{{ errors[0] }}</span>-->
+              <!--              </ValidationProvider>-->
               <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
                           :valuesOfLang="result.description"
                           @updateInput="updateInput"></lang-input>
@@ -219,6 +214,13 @@
               </div>
               <div class="card-body mt-10" v-if="is_variant">
 
+                <div class="input-wrapper mb-10" v-if="is_variant">
+                  <label for="">{{ $t('prod.parent_sku') }}</label>
+                  <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')"
+                         type="text"
+                         v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
+                </div>
+
                 <div class="grid grid-cols-3 gap-4 pt-4" v-if="!is_variant_save">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -307,9 +309,10 @@
                   </div>
                 </div>
 
-                <div v-if="!is_variant_save">
+                <div v-if="!is_variant_save ">
                   <div class="col-md-4 pt-4">
-                    <button :disabled="select_attr1==='' || select_attr2===''" type="button"
+                    <button v-if="result.product_variants.length==0 || id==''"
+                            :disabled="select_attr1==='' || select_attr2===''" type="button"
                             @click.prevent="addVariantValueRows()"
                             class="btn mb-10 w-25 btn-outline-secondary">
                       {{ $t('prod.Add Row') }}
@@ -322,22 +325,27 @@
                   <!--              <button type="button" class="btn text-white bg-primary" @click.prevent="doSubmitVariant">-->
                   <!--                Send for review-->
                   <!--              </button>-->
-                  <button v-if="!is_variant_save && !is_variant_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
+                  <button v-if="!is_variant_save && !is_variant_edit" type="button"
+                          class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
                     {{ $t('prod.Save') }}
                   </button>
 
-                  <button v-if="is_variant_edit && !is_variant_save_after_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantEdit">
+                  <button v-if="is_variant_edit && !is_variant_save_after_edit" type="button"
+                          class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantEdit">
                     {{ $t('prod.Edit') }}
                   </button>
 
-                  <button v-if="is_variant_save_after_edit" type="button" class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
+                  <button v-if="is_variant_save_after_edit" type="button"
+                          class="btn text-white bg-primary hover:text-primary" @click.prevent="doVariantSave">
                     {{ $t('prod.Save') }}
                   </button>
-                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary" @click.prevent="doVariantReset">
+                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary"
+                          @click.prevent="doVariantReset">
                     <span>{{ $t('prod.Reset') }}</span>
                   </button>
 
-                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary" @click.prevent="doVariantCancel">
+                  <button v-if="is_variant_save_after_edit" type="button" class="btn border-secondary"
+                          @click.prevent="doVariantCancel">
                     <span>{{ $t('prod.Cancel') }}</span>
                   </button>
 
@@ -364,66 +372,76 @@
               <div class="card-body">
                 <div class="input-wrapper mb-10">
                   <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
-                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
-                  <label for="">{{ $t('prod.Key features - English') }} ?</label>
+                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
+                                      class="w-full">
+                    <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-                <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
-                                  :valuesOfLang="result.features"
-                                  @updateInput="updateInput"></lang-input-multi>
-                  <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-              </div>
+                    <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
+                                      :valuesOfLang="result.features"
+                                      @updateInput="updateInput"></lang-input-multi>
+                    <span class="error">{{ errors[0] }}</span>
+                  </ValidationProvider>
+                </div>
 
-                <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}" v-slot="{ errors }"
-                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }" class="w-full">
+                <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }"
+                                    class="w-full">
 
-              <div class="input-wrapper mb-10">
-                <label for="">{{ $t('prod.Keywords - English') }} ?</label>
-                <v-select
-                  :dir="$t('app.dir')"
-                  v-model="result.basic_keyword_en"
-                  :options="allKeywords"
-                  taggable
-                  multiple
-                  :placeholder="$t('title.select_type')"
-                  class="custom-select"
-                ></v-select>
-              </div>
+                  <div class="input-wrapper mb-10">
+                    <label for="">{{ $t('prod.Keywords - English') }} ?</label>
+                    <v-select
+                      :dir="$t('app.dir')"
+                      v-model="result.basic_keyword_en"
+                      :options="allKeywords"
+                      taggable
+                      multiple
+                      :placeholder="$t('title.select_type')"
+                      class="custom-select"
+                    ></v-select>
+                  </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !result.basic_keyword_ar}" v-slot="{ errors }"
-                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }" class="w-full">
-              <div class="input-wrapper mb-10">
-                <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
-                <v-select
-                  :dir="$t('app.dir')"
-                  v-model="result.basic_keyword_ar"
-                  :options="allKeywords"
-                  taggable
-                  multiple
-                  :placeholder="$t('title.select_type')"
-                  class="custom-select"
-                ></v-select>
-              </div>
-                <span class="error">{{ errors[0] }}</span>
+                <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !result.basic_keyword_ar}"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
+                                    class="w-full">
+                  <div class="input-wrapper mb-10">
+                    <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
+                    <v-select
+                      :dir="$t('app.dir')"
+                      v-model="result.basic_keyword_ar"
+                      :options="allKeywords"
+                      taggable
+                      multiple
+                      :placeholder="$t('title.select_type')"
+                      class="custom-select"
+                    ></v-select>
+                  </div>
+                  <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
+              </div>
             </div>
-          </div>
-          <!--          BasicInformationChild-->
+            <!--          BasicInformationChild-->
 
 
-          <!-- ------------------------------------- -->
-          <div class="my-10"></div>
+            <!-- ------------------------------------- -->
+            <div class="my-10"></div>
             <!--          BasicInformationChild-->
             <!-- ------------------------------------- -->
             <!--          ProductImages-->
-            <ValidationProvider v-if="!is_variant" name="Image" :rules="{ required: result.product_images.length===0 && !is_variant }" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
-            <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
+            <ValidationProvider v-if="!is_variant" name="Image"
+                                :rules="{ required: result.product_images.length===0 && !is_variant }"
+                                v-slot="{ errors }"
+                                :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }"
+                                class="w-full">
+              <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
-              <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="false" :old_images="result.images" :max-files="8" @updateInput="saveAttachment">></vue-upload-images>
+                <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="false"
+                                   :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
+                </vue-upload-images>
 
-            </div>
+              </div>
               <span class="error" v-if="result.product_images.length===0">{{ errors[0] }}</span>
             </ValidationProvider>
             <!--          ProductImages-->
@@ -459,7 +477,7 @@
                       type="text" class="form-control"
                       v-model="result.barcode"
                       :placeholder="$t('prod.Barcode')"
-                      @keypress="onlyNumber"  min="0" maxlength="15"
+                      @keypress="onlyNumber" min="0" maxlength="15"
                       :disabled="result.barcode_type==4 || result.barcode_type===''"
                       :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
                     >
@@ -486,34 +504,35 @@
             <!-- ------------------------------------- -->
             <div class="my-10"></div>
             <!-- ------------------------------------- -->
-            <div v-if="!is_variant" class="p-3" >
-                <div class="border-b border-smooth">
-                  <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
-                  <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
-                </div>
-                <div class="mt-10">
-                  <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
-                  <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
-                </div>
-                <div  class="tab-sidebar flex items-center gap-4 p-3">
-                  <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
-                                      v-slot="{ errors }"
-                                      :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
-                    <div class="input-wrapper">
-                      <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
-                      <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                             :disabled="result.is_always_available==1"
-                             v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber"  min="0" maxlength="8">
-                      <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
-                    </div>
-                    <span class="error">{{ errors[0] }}</span>
-                  </ValidationProvider>
-                  <div class="form-check" v-if="!is_variant">
-                    <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
-<!--                    is_always_available-->
-                    <input type="checkbox" class="custom-control-input" v-model="result.is_always_available" />
+            <div v-if="!is_variant" class="p-3">
+              <div class="border-b border-smooth">
+                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
+                <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
+              </div>
+              <div class="mt-10">
+                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
+                <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
+              </div>
+              <div class="tab-sidebar flex items-center gap-4 p-3">
+                <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
+                                    v-slot="{ errors }"
+                                    :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
+                  <div class="input-wrapper">
+                    <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
+                    <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
+                           :disabled="result.is_always_available==1"
+                           v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber" min="0"
+                           maxlength="8">
+                    <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
                   </div>
+                  <span class="error">{{ errors[0] }}</span>
+                </ValidationProvider>
+                <div class="form-check" v-if="!is_variant">
+                  <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
+                  <!--                    is_always_available-->
+                  <input type="checkbox" class="custom-control-input" v-model="result.is_always_available"/>
                 </div>
+              </div>
             </div>
             <!--          ProductInventorySection-->
 
@@ -534,7 +553,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Size')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pk_size"
                       >
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -552,7 +571,9 @@
                   </div>
                   <span class="error">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <ValidationProvider name="Number of units per carton" :rules="{required: !is_draft, min_value: 1, max_value: 99999999}" v-slot="{ errors }"
+                <ValidationProvider name="Number of units per carton"
+                                    :rules="{required: !is_draft, min_value: 1, max_value: 99999999}"
+                                    v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Number of units per carton')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Number of units per carton') }} <strong
@@ -563,7 +584,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Number of units per carton')"
-                        @keypress="onlyNumber"  min="0" maxlength="8" v-model="result.pk_number_of_carton">
+                        @keypress="onlyNumber" min="0" maxlength="8" v-model="result.pk_number_of_carton">
                     </div>
                   </div>
                   <span class="error">{{ errors[0] }}</span>
@@ -579,7 +600,7 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Average lead time(Days)')"
-                        @keypress="onlyNumber"  min="0" maxlength="2"
+                        @keypress="onlyNumber" min="0" maxlength="2"
                         v-model="result.pk_average_lead_time">
                     </div>
                   </div>
@@ -622,7 +643,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Weight')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pc_weight">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -649,7 +670,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Length')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pc_length">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -675,7 +696,7 @@
                         type="text" class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         placeholder="Carton Height"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pc_height">
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
                         <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
@@ -700,7 +721,7 @@
                         class="form-control pr-12"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Width')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pc_width">
 
                       <div class="absolute ltr:right-0 rtl:left-0 top-0">
@@ -726,7 +747,8 @@
             <div class="tab-sidebar p-3" v-if="!is_variant">
               <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product dimensions & weight') }}</h4>
               <p>{{ $t("prod.These attributes provide information about the products dimensions and weight") }}.</p>
-              <ValidationProvider name="product dimention weight" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+              <ValidationProvider name="product dimention weight" :rules="ProductDimensionValidationRules"
+                                  v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Weight')}) }">
                 <div class="input-wrapper">
                   <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
@@ -736,7 +758,7 @@
                       class="form-control pr-12"
                       :class="{ 'has-error': errors[0] }"
                       :placeholder="$t('prod.Weight')"
-                      @keypress="onlyNumber"  min="0" maxlength="8"
+                      @keypress="onlyNumber" min="0" maxlength="8"
                       v-model="result.pdime_weight"
                     >
 
@@ -757,7 +779,8 @@
               </ValidationProvider>
 
               <div class="grid grid-cols-4 gap-4">
-                <ValidationProvider name="product dimention length" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention length" :rules="ProductDimensionValidationRules"
+                                    v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Length')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
@@ -767,13 +790,14 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Length')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pdime_length">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="product dimention height" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention height" :rules="ProductDimensionValidationRules"
+                                    v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Height')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
@@ -783,13 +807,14 @@
                         class="form-control"
                         :class="{ 'has-error': errors[0] }"
                         :placeholder="$t('prod.Height')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pdime_height">
                     </div>
                     <span class="error">{{ errors[0] }}</span>
                   </div>
                 </ValidationProvider>
-                <ValidationProvider name="product dimention width" :rules="ProductDimensionValidationRules" v-slot="{ errors }"
+                <ValidationProvider name="product dimention width" :rules="ProductDimensionValidationRules"
+                                    v-slot="{ errors }"
                                     :custom-messages="{required: $t('global.req', { type: $t('prod.Width')}) }">
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
@@ -799,7 +824,7 @@
                         class="form-control"
                         :placeholder="$t('prod.Width')"
                         :class="{ 'has-error': errors[0] }"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
+                        @keypress="onlyNumber" min="0" maxlength="8"
                         v-model="result.pdime_width"
                       >
                     </div>
@@ -864,29 +889,29 @@
                     <td class="p-2">
                       <ValidationProvider name="quantity" :rules="QuantityValidationRules" v-slot="{ errors }"
                                           :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
-                      <input
-                        type="text"
-                        class="form-control"
-                        :placeholder="$t('prod.Minimum order quantity')"
-                        @keypress="onlyNumber"  min="0" maxlength="8"
-                        v-model="product_price.quantity"
-                        @input="availableQuantity"
-                      >
-                                          <span class="error">{{ errors[0] }}</span>
-                                          </ValidationProvider>
+                        <input
+                          type="text"
+                          class="form-control"
+                          :placeholder="$t('prod.Minimum order quantity')"
+                          @keypress="onlyNumber" min="0" maxlength="8"
+                          v-model="product_price.quantity"
+                          @input="availableQuantity"
+                        >
+                        <span class="error">{{ errors[0] }}</span>
+                      </ValidationProvider>
                     </td>
                     <td class="p-2">
-                                          <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
-                                                              :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
-                      <div class="relative flex">
-                        <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
-                        <input type="text" style="padding: 1px 56px;" class="form-control px-20"
-                               :placeholder="$t('prod.Unit price')"
-                               @keypress="onlyNumber"  min="0" maxlength="8"
-                               v-model="product_price.unit_price">
-                      </div>
-                                            <span class="error">{{ errors[0] }}</span>
-                                          </ValidationProvider>
+                      <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
+                                          :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
+                        <div class="relative flex">
+                          <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
+                          <input type="text" style="padding: 1px 56px;" class="form-control px-20"
+                                 :placeholder="$t('prod.Unit price')"
+                                 @keypress="onlyNumber" min="0" maxlength="8"
+                                 v-model="product_price.unit_price">
+                        </div>
+                        <span class="error">{{ errors[0] }}</span>
+                      </ValidationProvider>
                     </td>
                     <td class="p-2">
                       <ValidationProvider :name="`Sale price`" :rules="PriceValidationRules" v-slot="{ errors }"
@@ -896,10 +921,10 @@
                           <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                  :class="{ 'has-error': errors[0] }"
                                  :placeholder="$t('prod.Sale price')"
-                                 @keypress="onlyNumber"  min="0" maxlength="8"
+                                 @keypress="onlyNumber" min="0" maxlength="8"
                                  v-model="product_price.selling_price">
                         </div>
-                        <span class="error" >{{ errors[0] }}</span>
+                        <span class="error">{{ errors[0] }}</span>
                       </ValidationProvider>
 
                     </td>
@@ -997,7 +1022,8 @@
                   <div class="input-wrapper">
                     <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
                     <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
-                      <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled v-if="item.id===194">{{
+                      <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled
+                              v-if="item.id===194">{{
                           item.name
                         }}
                       </option>
@@ -1067,7 +1093,9 @@
                   <button type="submit" class="btn bg-primary text-white border-secondary">
                     {{ $t('prod.Send for review') }}
                   </button>
-                  <span class="font-semibold text-error" v-if="invalid & is_submit">{{  $t('prod.Check the errors') }}</span>
+                  <span class="font-semibold text-error" v-if="invalid & is_submit">{{
+                      $t('prod.Check the errors')
+                    }}</span>
                 </div>
               </div>
             </div>
@@ -1179,7 +1207,7 @@ extend('validatePrice', {
 
 // Custom rule for quantity comparison
 extend('quantityComparison', {
-  validate(value, { first, second, third }) {
+  validate(value, {first, second, third}) {
     if (!first || !second) {
       return true; // If any quantity is missing, let required rule handle it
     }
@@ -1199,7 +1227,7 @@ extend('quantityComparison', {
 });
 // Custom rule for quantity comparison
 extend('priceComparison', {
-  validate(value, { unit_prices, selling_prices }) {
+  validate(value, {unit_prices, selling_prices}) {
     for (let i = 0; i < unit_prices.length; i++) {
       if (selling_prices[i] >= unit_prices[i]) {
         return 'The selling price must be smaller than the unit price!';
@@ -1210,8 +1238,6 @@ extend('priceComparison', {
   params: ['unit_prices', 'selling_prices'],
   message: 'Invalid price comparison'
 });
-
-
 
 
 export default {
@@ -1525,7 +1551,7 @@ export default {
     checkPricing() {
       const allPrices = this.result.product_prices;
 
-      if (allPrices[0]?.unit_price && allPrices[0]?.selling_price){
+      if (allPrices[0]?.unit_price && allPrices[0]?.selling_price) {
         for (let i = 0; i < allPrices.length; i++) {
           const unitPrice = parseFloat(allPrices[i]?.unit_price);
           const sellingPrice = parseFloat(allPrices[i]?.selling_price);
@@ -1540,8 +1566,8 @@ export default {
       return false;
       // If all unit prices are less than or equal to selling prices, return true
     },
-    UnitPriceValidationRules(){
-      return{
+    UnitPriceValidationRules() {
+      return {
         required: !this.is_draft,
         min_value: 1,
         max_value: 99999999,
@@ -1564,7 +1590,7 @@ export default {
         min_value: 1,
         max_value: 99999999,
         regex: /^(?:\d*\.\d{1,2}|\d+)$/,
-        priceComparison: { unit_prices, selling_prices }
+        priceComparison: {unit_prices, selling_prices}
       };
     },
 
@@ -1889,7 +1915,7 @@ export default {
     cloneProduct(product) {
 
       // this.id=product.id
-      this.fetchingData(product.id,'cloneProduct').then(() => {
+      this.fetchingData(product.id, 'cloneProduct').then(() => {
         this.is_clone = false
         this.result.id = ""
         this.result.sku = ""
@@ -1911,6 +1937,8 @@ export default {
       // }
       this.is_next = true;
       this.variant_uu_id = this.generateUUID();
+      this.result.id = this.id;
+
     },
     generateUUID() {
       // Get current timestamp
@@ -1948,7 +1976,7 @@ export default {
       this.is_variant_edit = true;
       this.is_variant_save_after_edit = false;
 
-      if (this.variant_copy){
+      if (this.variant_copy) {
         this.result.product_variants = this.variant_copy
       }
 
@@ -2088,11 +2116,11 @@ export default {
         api: this.setApi
       })
 
-      if (data.status===200){
-        if (data.data.status==="approved"){
+      if (data.status === 200) {
+        if (data.data.status === "approved") {
           const path = '/products/approved';
           this.$router.push({path});
-        }else {
+        } else {
           const path = this.is_draft ? '/products/draft' : `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`;
           this.$router.push({path});
         }
@@ -2119,7 +2147,7 @@ export default {
         this.handleInput($event)
       }
     },
-    isAvailability(event){
+    isAvailability(event) {
       const checked = event.target.checked;
       // console.log(checked); // This will log true or false
       this.result.is_availability = checked ? true : 0;
@@ -2136,7 +2164,7 @@ export default {
       this.result.pk_size_unit = event.target.value;
     },
     addVariantValueRows() {
-      this.result.product_variants.push({ ...this.product_variant });
+      this.result.product_variants.push({...this.product_variant});
     },
 
     setColorName(index, event) {
@@ -2267,7 +2295,7 @@ export default {
     },
     isVariant() {
       this.is_variant = !this.is_variant;
-      this.result.status = 'draft';
+      // this.result.status = 'draft';
       this.result.is_variant = !this.result.is_variant;
       if (!this.is_variant) {
         this.result.variantRows = [];
@@ -2413,7 +2441,7 @@ export default {
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
-    async fetchingData(id,api='getProduct') {
+    async fetchingData(id, api = 'getProduct') {
 
       try {
         this.loading = true
@@ -2520,8 +2548,9 @@ export default {
         this.result.product_variants = res.product_variant ?? [];
 
         if (res.product_variant?.length != 0) {
-          // this.is_variant = true
           this.result.is_variant = true
+          if (res.variant_uuid)
+            this.$router.push('/products/variant/' + res.id)
         }
 
 
@@ -2673,7 +2702,7 @@ export default {
       }
     },
     async findKeyword() {
-      let res = await this.getById({ id: 1, params: { keyword: '' }, api: 'findRfqKeyword' });
+      let res = await this.getById({id: 1, params: {keyword: ''}, api: 'findRfqKeyword'});
       this.allKeywords = res;
     },
 
@@ -2717,7 +2746,7 @@ export default {
         this.result.id = ""
       })
     }
-    if (this.allKeywords.length===0){
+    if (this.allKeywords.length === 0) {
       await this.findKeyword()
     }
     if (!this.allCategories || !this.allTaxRules || !this.allAttributes || !this.allWeightUnits || !this.allCountries || !this.allStorageTemperatures || !this.allTransportationModes || !this.allWarehouses || !this.allSKus) {

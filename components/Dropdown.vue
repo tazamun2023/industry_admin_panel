@@ -8,7 +8,8 @@
       :class="{disabled: disabled}"
       @click.prevent="openDropdown"
     >
-      {{ selectedValue }}
+    <div class="hidden lg:block xl:block md:block">{{ selectedValue }}</div>
+
       <slot></slot>
       <i
         class="icon black ignore-click arrowIcon"
@@ -114,6 +115,10 @@
         type: String,
         default: 'title'
       },
+      langCode: {
+        type: String,
+        default: 'en'
+      },
       searching: {
         type: Boolean,
         default: false
@@ -147,7 +152,7 @@
         if (this.opt && this.opt[this.currentKey] && this.opt[this.currentKey][this.keyName])
           return this.opt[this.currentKey][this.keyName]
         else
-          return '--------------'
+          return ''
       }
     },
     methods: {

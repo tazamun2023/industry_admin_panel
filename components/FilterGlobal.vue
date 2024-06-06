@@ -5,7 +5,7 @@
           <h3 class="uppercase">{{ pageHeading }}</h3>
         </div>
           <div class="w-full px-3 flex gap-4 items-center">
-            <nuxt-link :to="route">
+            <nuxt-link class="hidden lg:block xl:block" :to="route">
               <button  class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
               <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
               New
@@ -58,6 +58,14 @@
           </div>
 
             </div>
+        </div>
+        <div class="w-full lg:hidden xl:hidden">
+          <nuxt-link :to="route">
+              <button  class="flex w-full hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
+              <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
+              New
+            </button>
+            </nuxt-link>
         </div>
         </div>
   </div>

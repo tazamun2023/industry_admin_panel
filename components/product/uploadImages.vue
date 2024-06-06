@@ -75,12 +75,12 @@ export default {
   },
   mounted() {
 
-    console.log("mounteeeeed")
+    // console.log("mounteeeeed")
     for (var i = 0; i < this.old_images.length; i++)
       if (this.returnDataJust)
         this.Imgs.push({id: "old_url", url: this.old_images[i]});
       else
-        this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+        this.Imgs.push(this.old_images[i]);
     if (this.old_images.length > 0) {
       this.updateInputEvntData()
     }
@@ -95,7 +95,7 @@ export default {
             if (this.returnDataJust)
               this.Imgs.push({id: "old_url", url: this.old_images[i]});
             else
-              this.Imgs.push({id: this.old_images[i].file_name, url: this.old_images[i].url});
+              this.Imgs.push(this.old_images[i]);
           }
           if (this.old_images.length > 0) {
             this.updateInputEvntData()

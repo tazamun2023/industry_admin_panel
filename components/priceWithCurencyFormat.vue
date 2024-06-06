@@ -1,19 +1,12 @@
 <template>
-  <p :dir="$t('app.dir')">
-    {{price?
-      price.toLocaleString($t('app.currency_local'), {
-        style: 'currency',
-        maximumFractionDigits: maximumFractionDigits,
-        currency: currency,
-        // currencyDisplay: 'code' // or 'code' or 'name' depending on your preference
-
-      }):"0"
-    }}
+  <p :dir="$t('app.dir')" class="text-nowrap">
+    {{ formattedPrice }}
   </p>
 </template>
 
 <script>
 import util from '~/mixin/util'
+
 export default {
   props: {
     price: {
@@ -36,6 +29,17 @@ export default {
     },
   },
   mixins: [util],
-
+  computed: {
+    formattedPrice() {
+      const p = Number(this.price, fractionDigits);
+      const fractionDigits = Number.isInteger(p) ? 0 : this.maximumFractionDigits;
+      return p.toLocaleString(this.$t('app.currency_local'), {
+        style: 'currency',
+        maximumFractionDigits: fractionDigits,
+        currency: 'SAR',
+        currencyDisplay: 'code' // or 'code' or 'name' depending on your preference
+      });
+    }
+  }
 }
 </script>
