@@ -21,7 +21,7 @@
               <tr>
                 <th>{{ $t('vendor.sl') }}</th>
                 <th>{{ $t('vendor.logo') }}</th>
-                <th>{{ $t('vendor.name') }}</th>
+                <th>{{ $t('vendor.Company Name') }}</th>
                 <th>{{ $t('vendor.email') }}</th>
                 <th>{{ $t('vendor.primary_mobile') }}</th>
                 <th>{{ $t('vendor.foundation_date') }}</th>
@@ -68,36 +68,51 @@
                   <span v-else>{{ $t('util.deactive') }}</span>
                 </td>
                 <td>
-                  <button
-                   @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
-                  <!-- <button id="dropdownDefaultButton" @click="toggleAction(index)"
-                          class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
-                          type="button">{{ $t('prod.action') }}
-                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 10 6">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 4 4 4-4"/>
-                    </svg>
-                  </button>
-                  <div id="dropdown"
-                       class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
-                       v-if="visibleAction === index"
-                  >
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdownDefaultButton">
-                      <nuxt-link
-                        class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                        :to="`${/vendors/}${value.id}`">
-                        Edit
-                      </nuxt-link>
-                    </ul>
-                  </div> -->
 
+                  <div class="flex gap-4" v-if="!value.verified">
+                    <button @click.prevent="$refs.listPage.editItem(value.id)" class="border-0">
+                      <edit-button-icon /></button>
+                    <button class="leading-4" @click="approval(value.id, 1)">
+                      {{ $t('app.Verified') }}
+                    </button>
+                  </div>
+
+                  <div class="flex gap-4" v-else>
+                    <button
+                      @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
+                    <button class="leading-4 text-[12px] w-[93px]" @click="approval(value.id, 0)" > {{ $t('app.Un-Verified') }}</button>
+                  </div>
                 </td>
               </tr>
 
               </tbody>
             </table>
+          </div>
+        </template>
+
+        <template v-if="approvedModal">
+          <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-1/5">
+              <svg @click="approvedModal = false"
+                   class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
+                   aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <!-- Modal Content -->
+              <div class="mb-4">
+                <h4>Are you want to Verified?</h4>
+              </div>
+              <!-- Close Button -->
+              <div class="flex justify-end gap-4">
+                <button @click="approvedModal = false"
+                        class="p-2 border text-center rounded border-primary w-[50px] leading-3">No</button>
+                <button @click="approval(value.id, 1)"
+                        class="p-2 border border-primary bg-primary text-center rounded text-white w-[50px] leading-3">Yes</button>
+              </div>
+
+            </div>
           </div>
         </template>
 
@@ -108,7 +123,7 @@
 import ListPage from "@/components/partials/ListPage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import EditButtonIcon from '../partials/EditButtonIcon.vue';
 import LazyImage from "~/components/LazyImage"
 
@@ -129,6 +144,7 @@ export default {
   data(){
     return {
       visibleAction: null,
+      approvedModal: false,
     }
   },
   computed:{
@@ -146,9 +162,36 @@ export default {
         }
       })
     },
+
+    async approval(val, status) {
+      // alert(val)
+      // this.approvedModal = false
+      const app = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      });
+
+      if (app) {
+        const data = await this.changeVendorStatus({ params: { 'vendor_id': val, 'verified': status }, api: "ChangeVendorApproved" })
+        if (data.status == 200) {
+          this.setToastMessage(data.message)
+        } else {
+          this.setToastError(data.data.form.join(', '))
+        }
+      }
+
+      this.$router.go(0)
+    },
     toggleAction(index){
       this.visibleAction = this.visibleAction === index ? null : index;
     },
+
+
+    ...mapActions('vendor', ['changeVendorStatus']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"]),
+    ...mapActions('common', ['swetAlertFire']),
   }
 }
 </script>

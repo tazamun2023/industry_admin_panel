@@ -38,6 +38,8 @@
     "update_admin": "Update admin User",
     "update_vendor": "Update Vendor User",
     "Register user": "Register user",
+    "Verified": "Verified",
+    "Un-Verified": "Un-Verified",
     "Product Successfully Saved": "Product Successfully Saved!",
     "Active": "Active"
   },
@@ -385,6 +387,7 @@
   },
   "prod": {
     "Submit": "Submit",
+    "Quantity Updated successfully": "Quantity Updated successfully!",
     "Add Product": "Add Product",
     "Selling price": "Selling price",
     "Paid": "Paid",
@@ -978,6 +981,7 @@
     "Awesome": "Awesome",
     "Company Profile Saved Succesfully": "Company Profile Saved Successfully",
     "componyName": "compony Name",
+    "Company Name": "Company Name",
     "Ok": "Ok"
   },
   "paymentMethod": {
@@ -1567,5 +1571,21 @@
     "name": "Name",
     "BankName": "Bank Name",
     "HolderName": "Holder Name"
+  },
+  "CompanyProfiles": {
+    "Company Profiles": "Company Profiles",
+    "PRIMARY INFO": "PRIMARY INFO",
+    "Previous": "Previous",
+    "General Information": "General Information",
+    "Company Name": "Company Name",
+    "Logo Upload": "Logo Upload",
+    "Next": "Next",
+    "Save": "Save",
+    "Primary Information": "Primary Information",
+    "Location Information": "Location Information",
+    "Licence Upload": "Licence Upload",
+    "LOCATION INFORMATION": "LOCATION INFORMATION",
+    "GENERAL INFO": "GENERAL INFO"
   }
+
 }

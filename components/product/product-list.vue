@@ -450,7 +450,7 @@ export default {
     computedUrl(value) {
       const baseUrl = this.$store.state.admin.isSuperAdmin ? `/products/show/` : `/products/`;
 
-      if (value.status === 'pending') {
+      if (value.status === 'pending' && this.$store.state.admin.isVendor) {
         return `/products/show/pending/${value.id}`;
       }
 
@@ -547,6 +547,9 @@ export default {
           api: 'setAvailableQty'
         }).then(data => {
           console.log(data);
+          if (data.status===200){
+            this.setToastMessage(this.$t('prod.Quantity Updated successfully'));
+          }
         });
       } else {
         // If input is not a valid number or out of range, reset input value to empty string
