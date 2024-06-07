@@ -469,7 +469,9 @@
     "changePaymentStatus":"main-order/change-payment-status",
     "getHelpAssistance": "help-assistants-groups/all",
     "setHelpAssistanceGroup": "help-assistants-groups/action",
-    "setHelpAssistance": "help-assistants/action"
+    "deleteHelpAssistanceGroup": "help-assistants-groups/delete",
+    "setHelpAssistance": "help-assistants/action",
+    "deleteHelpAssistance": "help-assistants/delete"
 
   }
 }

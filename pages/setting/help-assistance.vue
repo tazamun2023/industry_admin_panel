@@ -28,7 +28,8 @@
                 <div class="flex gap-4 mx-3 px-3">
                   <img @click="selectedGroup=group, showAddGroupModals=true" class="action_img cursor-pointer"
                        src="~/assets/icon/edit-g.svg">
-                  <img class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
+                  <img @click="deleteData('group',group)" class="action_img  cursor-pointer"
+                       src="~/assets/icon/delete.svg">
                 </div>
               </li>
             </template>
@@ -67,7 +68,8 @@
                              @click="selectedHelp=help_assistant, showEditHelp=true"
 
                              src="~/assets/icon/edit-g.svg">
-                        <img class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
+                        <img @click="deleteData('help',help_assistant)" class="action_img  cursor-pointer"
+                             src="~/assets/icon/delete.svg">
                         <img class="h-2 w-3" src="~/assets/icon/minus.svg"
                              alt="">
                       </div>
@@ -100,7 +102,7 @@
         </div>
       </div>
     </div>
-    <AddHelpAssistants  v-if="$can('manage_ui_settings')"
+    <AddHelpAssistants v-if="$can('manage_ui_settings')"
                        :selected-group="selectedGroup"
                        :selected-help="selectedHelp"
                        :show-modal="showEditHelp"
@@ -148,6 +150,26 @@ export default {
     ...mapGetters('help-assistances', ['groups']),
   },
   methods: {
+    async deleteData(type, params) {
+      const confirmation = await this.$swal({
+        title: "Are you sure?",
+        icon: "question",
+        iconHtml: "؟",
+        confirmButtonText: "Yes",
+        cancelButtonText: "Noا",
+        showCancelButton: true,
+        showCloseButton: true,
+      });
+
+      if (confirmation.value) {
+        if (type === 'help')
+          await this.deleteHelpAssistance(params);
+        else
+          await this.deleteGroup(params);
+
+
+      }
+    },
     toggleTabs: async function (tabNumber) {
       console.log(tabNumber)
       this.selectedGroup = JSON.parse(JSON.stringify(this.groups.filter(g => g.id == parseInt(tabNumber))[0]));
@@ -157,16 +179,12 @@ export default {
           tap: tabNumber,
         }
       })
-
-
-      // this.selectedGroup = this.groups.filter(g => g.id === help.id)[0]
-
     },
     toggleCollapse(index) {
       this.collapsed = index;
       this.showEditHelp = false
     },
-    ...mapActions('help-assistances', ['getHelpAssistance', 'setHelpAssistance']),
+    ...mapActions('help-assistances', ['getHelpAssistance', 'setHelpAssistance', 'deleteHelpAssistance', 'deleteGroup']),
   },
   created() {
   },

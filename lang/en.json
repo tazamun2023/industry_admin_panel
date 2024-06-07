@@ -629,7 +629,9 @@
     "available_quantity": "Available Quantity",
     "create_update": "Created / Updated",
     "sku": "SKU",
-    "parent_sku": "Parent SKU"
+    "parent_sku": "Parent SKU",
+    "These attributes provide information about the product's dimensions and weight": "These attributes provide information about the product's dimensions and weight",
+    "Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the product's shipping container": "Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the product's shipping container"
   },
   "paymentStatus": {
     "check_payment": "check payment",
@@ -771,7 +773,8 @@
     "Accept": "Accept",
     "Reject": "Reject",
     "nameEmpty": " name is empty",
-    "Search by orderId": "Search by orderId"
+    "Search by orderId": "Search by orderId",
+    "reference_number": "reference Number"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -815,11 +818,7 @@
     "rating": "Rating",
     "product": "Product",
     "review": "Review",
-    "fSale": "flash sale",
-    "role": "Role",
-    "first_name": "First Name",
-    "last_name": "Last Name",
-    "name": "Name"
+    "fSale": "flash sale"
   },
   "user": {
     "users": "users",
@@ -858,6 +857,7 @@
     "alphabetic _lowercase": "Contain at least one alphabetic Lowercase character",
     "one_special": "Contain at least one Special character",
     "confirm_password": "Confirm New Password"
+
   },
   "admin": {
     "default": "Default",
@@ -1085,9 +1085,8 @@
     "select_color": "Select Color"
   },
   "transportation_mode": {
-    "transportation_mode": "Transportation Mode",
-    "color_code": "Code",
-    "select_color": "Select Color"
+    "transportation_mode": "Transportation Mode"
+
   },
   "warehouse": {
     "warehouses": "Warehouses",
@@ -1099,9 +1098,7 @@
   },
   "unit": {
     "unit": "Unit",
-    "code": "Code",
-    "unit_code": "Unit Code",
-    "select_color": "Select Color"
+    "code": "Code"
   },
   "port": {
     "port": "Port",
@@ -1250,7 +1247,8 @@
     "message": "Message",
     "access": "Access Management",
     "vendor_users": "Vendor Users",
-    "invite_users": "Invite Users"
+    "invite_users": "Invite Users",
+    "error": "error"
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
@@ -1277,8 +1275,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "next": "Next",
-    "back": "Back",
-    "reference_number": "reference number"
+    "back": "Back"
   },
   "orderReject": {
     "title": "Reject Order",
@@ -1386,7 +1383,8 @@
     "video": "Video",
     "certificate": "Certificate",
     "faq": "FAQ",
-    "content": "Content"
+    "content": "Content",
+    "sef": "تنسيقات البريد الإلكتروني للاشتراك"
   },
   "dataPage": {
     "fImgs": "Footer images",
@@ -1587,5 +1585,4 @@
     "LOCATION INFORMATION": "LOCATION INFORMATION",
     "GENERAL INFO": "GENERAL INFO"
   }
-
 }
