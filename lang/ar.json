@@ -36,6 +36,12 @@
     "tableEmptyData": "هذا الجدول فارغ من اي بيانات حالياً",
     "Active": "مفعل"
   },
+  "HelpAssistants": {
+    "AddHelpAssistantsGroup": "Add Help Assistants Group",
+    "HelpAssistants": "Help Assistants",
+    "AddHelpAssistants": "Add Help Assistants",
+    "order": "Order"
+  },
   "rejectReasons": {
     "Reason": "السبب ",
     "type": "النوع ",
