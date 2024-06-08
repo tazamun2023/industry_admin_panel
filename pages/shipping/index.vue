@@ -4,7 +4,7 @@
 
     <list-edit-page
       card-class="p-4"
-      table-class="border border-cardb rounded-[8px]"
+      table-class="lg:border border-cardb rounded-[8px]"
       ref="listPage"
       list-api="getSaShipping"
       delete-api="deleteShippingRule"
@@ -57,7 +57,7 @@
         </tr>
       </template>
       <template v-slot:checkboxArea>
-        <div class="p-4 py-10">
+        <div class="lg:p-4 py-10">
           <div class="flex w-full  gap-2">
             <input id="nearest" :onchange="changeDefalutAddress()" v-model="settings.allow_find_nearest_pickup_address"
                    type="checkbox">
@@ -69,7 +69,7 @@
             <div class="lg:flex w-full gap-4 items-center">
               <div class="relative">
                 <select :disabled="settings.allow_find_nearest_pickup_address" v-model="settings.default_address_id"
-                        class="border border-cardb w-[602px] rounded-[10px] p-2 h-[44px]" name="" id="">
+                        class="border border-cardb lg:w-[602px] w-full rounded-[10px] p-2 h-[44px]" name="" id="">
                   <option :selected="settings.allow_find_nearest_pickup_address" disabled value=""><< Choose Address
                     >>
                   </option>
@@ -80,7 +80,7 @@
                 </label>
               </div>
               <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addressmodal=true"
-                      class="bg-primary h-[44px] text-white flex gap-3 items-center">
+                      class="bg-primary h-[44px] text-white flex gap-3 w-full justify-center my-2 lg:my-0 lg:w-[200px] items-center">
                 <img class="w-5" src="~/assets/icon/add-square.svg" alt="">
                 New Address
               </button>
