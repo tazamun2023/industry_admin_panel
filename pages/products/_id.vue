@@ -491,11 +491,13 @@
                     <input
                       type="text" class="form-control"
                       :class="{ 'has-error': errors[0] }"
+                      @input="changeSKU(result.sku,result.id)"
                       v-model="result.sku"
                       :placeholder="$t('prod.SKU')"
                     >
                   </div>
                   <span class="error">{{ errors[0] }}</span>
+<!--                  <span class="error">{{ // is_sku_exsist? "":"SKU must be unique" }}</span>-->
                 </ValidationProvider>
               </div>
             </div>
@@ -1179,12 +1181,22 @@ extend('min', {
   message: 'The {_field_} field must have at least {length} characters'
 });
 
+// extend('uniqueSku', {
+//   validate: (value, {allSKus}) => {
+//     // Check if the provided SKU value already exists in allSKus
+//
+//     return !Object.values(allSKus).find(item => item.sku === value);
+//   },
+//   params: ['allSKus'], // Define the parameter name as allSKus
+//   message: 'SKU must be unique'
+// });
 extend('uniqueSku', {
-  validate: (value, {allSKus}) => {
+  validate: (value, {exsist}) => {
     // Check if the provided SKU value already exists in allSKus
-    return !Object.values(allSKus).find(item => item.sku === value);
+
+    return exsist;
   },
-  params: ['allSKus'], // Define the parameter name as allSKus
+  params: ['uniqueSku'], // Define the parameter name as allSKus
   message: 'SKU must be unique'
 });
 extend('validatePrice', {
@@ -1541,7 +1553,7 @@ export default {
       if (!this.id) {
         return {
           required: !this.is_draft,
-          uniqueSku: {allSKus}, // Pass allSKus as a parameter to uniqueSku
+          uniqueSku: this.is_sku_exsist, // Pass allSKus as a parameter to uniqueSku
           min: 2,
           max: 32
         };
@@ -1774,7 +1786,7 @@ export default {
     ...mapGetters('admin', ['publicKey']),
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
-    ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes',
+    ...mapGetters('common', ['is_sku_exsist','allCategories', 'allTaxRules', 'allAttributes',
       'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
@@ -1791,13 +1803,16 @@ export default {
       if (newValue == 1) {
         this.result.available_quantity = '';
         this.result.is_availability = 1;
-      }else{
+      } else {
         this.result.is_availability = 0;
       }
     }
   },
 
   methods: {
+    async changeSKU(sku, product_id) {
+      await this.checkIfVaildSKU({sku: sku, product_id: product_id})
+    },
     basicInfoChild(result) {
       this.result.features = result.features
       this.result.basic_keyword_en = result.basic_keyword_en
@@ -2708,7 +2723,7 @@ export default {
       this.allKeywords = res;
     },
 
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
+    ...mapActions('common', ['checkIfVaildSKU', 'getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
   async mounted() {
