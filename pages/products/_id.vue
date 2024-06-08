@@ -491,7 +491,7 @@
                     <input
                       type="text" class="form-control"
                       :class="{ 'has-error': errors[0] }"
-                      @input="changeSKU(result.sku,result.id)"
+                      @input="changeSKU(result.sku, result.id)"
                       v-model="result.sku"
                       :placeholder="$t('prod.SKU')"
                     >
@@ -1192,8 +1192,6 @@ extend('min', {
 // });
 extend('uniqueSku', {
   validate: (value, {exsist}) => {
-    // Check if the provided SKU value already exists in allSKus
-
     return exsist;
   },
   params: ['uniqueSku'], // Define the parameter name as allSKus
@@ -1548,16 +1546,14 @@ export default {
     },
 
     skuRules() {
-      const allSKus = this.allSKus;
-
-      if (!this.id) {
+      // if (!this.id) {
         return {
           required: !this.is_draft,
           uniqueSku: this.is_sku_exsist, // Pass allSKus as a parameter to uniqueSku
           min: 2,
           max: 32
         };
-      }
+      // }
 
     },
     checkPricing() {
@@ -1786,7 +1782,7 @@ export default {
     ...mapGetters('admin', ['publicKey']),
     ...mapGetters('language', ['currentLanguage']),
     ...mapGetters('setting', ['setting']),
-    ...mapGetters('common', ['is_sku_exsist','allCategories', 'allTaxRules', 'allAttributes',
+    ...mapGetters('common', ['is_sku_exsist', 'allCategories', 'allTaxRules', 'allAttributes',
       'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
@@ -2551,6 +2547,7 @@ export default {
           additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
           hts_code: res.hts_code,
           variant_uuid: res.variant_uuid,
+          id: res.id,
 
 
         }
