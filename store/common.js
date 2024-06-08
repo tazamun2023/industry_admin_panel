@@ -193,6 +193,9 @@ const mutations = {
   SET_ALL_Filters(state, filters) {
     state.filters = filters;
   },
+  SET_SKU(state, sku) {
+    state.allSKus.push(sku);
+  },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = allCountries;
     /*  allCountries.forEach((item) => {
@@ -302,6 +305,9 @@ const mutations = {
 const actions = {
   setAllFilters({ commit }, filters){
     commit('SET_ALL_Filters', filters)
+  },
+  setSku({ commit }, sku){
+    commit('SET_SKU', sku)
   },
 
   setAllSubscriptionEmailFormats({commit}, allSubscriptionEmailFormats) {

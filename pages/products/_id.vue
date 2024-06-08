@@ -1791,6 +1791,8 @@ export default {
       if (newValue == 1) {
         this.result.available_quantity = '';
         this.result.is_availability = 1;
+      }else{
+        this.result.is_availability = 0;
       }
     }
   },

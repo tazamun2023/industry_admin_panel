@@ -116,18 +116,23 @@
           </td>
           <td class="font-bold capitalize">{{ value.holder_name }}</td>
           <td>{{ value.bank_name }}</td>
-          <td class="text-center"><input type="checkbox" :checked="value.is_default"></td>
+          <td class="text-center">
+            <input type="checkbox"
+                   :checked="value.is_default"
+                   @change="isDefault(value.id, $event)"
+            >
+          </td>
           <td>
             <div class="flex gap-4">
 
-              <img @click="deleteModal=true" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
+              <img @click="isDelete(value.id)" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
               <img @click="editing(value)" v-if="$can('update_financial')" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
             </div>
           </td>
         </tr>
       </table>
-     <GlobalPagination/>
+     <GlobalPagination />
     </div>
     <DeleteModal v-if="deleteModal" @closeModal="closeModal">
       <template v-slot:title>
@@ -136,7 +141,7 @@
       <template v-slot:buttons>
         <div class="flex gap-4 justify-end">
           <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-          <button @click.prevent="deleting(value)"
+          <button @click.prevent="isDeleteSubmit"
                   class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
             Agree
           </button>
@@ -370,15 +375,18 @@ table td {
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 import bank from "@/mixin/bank";
+import GlobalPagination from "../../components/GlobalPagination.vue";
+import DeleteModal from "../../components/DeleteModal.vue";
 
 export default {
-  components: {ValidationObserver, ValidationProvider},
+  components: {DeleteModal, GlobalPagination, ValidationObserver, ValidationProvider},
   mixins: [bank],
   data() {
     return {
       btnText:'name',
       dropDown: false,
       Cardmodal: false,
+      current_bank_id: '',
       bankData: {
         id: '',
         vendor_id: null,
@@ -414,34 +422,60 @@ export default {
   methods: {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
     ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank', 'SetDefaultBank']),
-    ...mapActions('common', ['swetAlertFire']),
+    ...mapActions('common', ['swetAlertFire', 'deleteData']),
 
     closeModal() {
       this.deleteModal = false
+    },
 
+    async isDefault(id, event){
+      await this.SetDefaultBanks(id, event.target.checked);
+    },
+    async isDeleteSubmit(){
+      try {
+        if (this.current_bank_id){
+          const data = await this.deleteData({params: this.current_bank_id, api: 'DeleteVendorBank' })
+          if (data){
+            this.deleteModal = false;
+            await this.getAllVendorBank();
+          }
+        }
+
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async isDelete(id){
+      this.deleteModal = true;
+      this.current_bank_id = id;
+      // await this.vendorBankDelete(id, event.target.checked);
     },
     selectOption(option) {
       this.btnText = option;
       this.dropDown = false; // Close dropdown after selection
     },
-    async SetDefaultBanks(id, e) {
+    async SetDefaultBanks(id, is_default) {
+
       const res = await this.swetAlertFire({
         params: {
           title: this.$i18n.t('approvedModal.sure'),
           text: this.$i18n.t('approvedModal.revert'),
         }
-      })
+      });
+
       if (res) {
-        this.SetDefaultBank({
-          params: {
-            bank_id: id,
-            is_default: e.target.checked,
-          },
+        try {
+          await this.SetDefaultBank({
+            params: {
+              bank_id: id,
+              is_default: is_default
+            },
 
-        })
-        this.getAllVendorBank();
-      } else {
-
+          })
+          await this.getAllVendorBank();
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
     async searchBank() {
@@ -468,6 +502,10 @@ export default {
     },
     shortDropdown() {
       this.dropDown = !this.dropDown
+    },
+
+    deleting(){
+
     }
 
   },
