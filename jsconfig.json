@@ -202,6 +202,7 @@
     "updateStock": "product/update-stock",
     "updateStatus": "product/update-status",
     "findSku": "product/find-sku",
+    "fetchSkus": "product/fetchSkus",
     "updateSinglePrice":"product/update-single-price",
 
     "getQuote": "quotes/find",
@@ -465,7 +466,13 @@
     "addOrderFiles": "sub-order/uploadFiles",
     "mainOrderDetails": "sub-order/admin",
     "mainOrder": "main-order",
-    "changePaymentStatus":"main-order/change-payment-status"
+    "changePaymentStatus":"main-order/change-payment-status",
+    "getHelpAssistance": "help-assistants-groups/all",
+    "setHelpAssistanceGroup": "help-assistants-groups/action",
+    "deleteHelpAssistanceGroup": "help-assistants-groups/delete",
+    "setHelpAssistance": "help-assistants/action",
+    "deleteHelpAssistance": "help-assistants/delete",
+    "setPolice": "site-setting/setPolice"
 
   }
 }

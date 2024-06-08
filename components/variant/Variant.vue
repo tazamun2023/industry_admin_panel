@@ -2533,8 +2533,9 @@ export default {
       handler(newVal, oldVal) {
         if (newVal[this.openTab]?.result.is_always_available == 1) {
           this.variants[this.openTab].result.available_quantity = '';
+          this.variants[this.openTab].result.is_availability = 1;
         }
-        
+
         // console.log(this.openTab)
         // console.log('newVal', newVal)
         // if (newVal[this.openTab]?.result.is_always_available == 1) {

@@ -76,7 +76,7 @@
           <span v-if="value.status">{{ $t('user.verified') }}</span>
           <span v-else>{{ $t('user.unverified') }}</span>
         </td>
-        <td>{{ value.created_at }}</td>
+        <td>{{ value.created }}</td>
         <td>
           <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItemInv(value.id,'deleteInvitations')" class="border-0">
             <DeleteButtonIcon />

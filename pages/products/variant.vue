@@ -546,8 +546,8 @@ export default {
     //   // this.result.subCategorySlug = this.selectedLevel2.slug
     // },
 
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
-    ...mapActions('ui', ["setToastMessage", "setToastError"]),
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'fetchSKus']),
+    ...mapActions('ui', ["setToastMessage", "setToastError"])
   }
 }
 </script>
