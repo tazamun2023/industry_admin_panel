@@ -43,6 +43,14 @@
     "Product Successfully Saved": "Product Successfully Saved!",
     "Active": "Active"
   },
+  "polices": {
+    "edit": "Edit ",
+    "polices": "Polices ",
+    "privacy_polices": " Privacy Policy",
+    "return_polices": "Return & Refund Policy",
+    "vendors_terms_condition": "Terms & Conditions (Vendors)",
+    "customers_terms_condition": "Terms & Conditions (Customers)"
+  },
   "rejectReasons": {
     "Reason": "Reason",
     "type": "type",
@@ -857,7 +865,6 @@
     "alphabetic _lowercase": "Contain at least one alphabetic Lowercase character",
     "one_special": "Contain at least one Special character",
     "confirm_password": "Confirm New Password"
-
   },
   "admin": {
     "default": "Default",
@@ -1086,7 +1093,6 @@
   },
   "transportation_mode": {
     "transportation_mode": "Transportation Mode"
-
   },
   "warehouse": {
     "warehouses": "Warehouses",

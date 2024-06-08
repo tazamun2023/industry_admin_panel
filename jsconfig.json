@@ -471,7 +471,8 @@
     "setHelpAssistanceGroup": "help-assistants-groups/action",
     "deleteHelpAssistanceGroup": "help-assistants-groups/delete",
     "setHelpAssistance": "help-assistants/action",
-    "deleteHelpAssistance": "help-assistants/delete"
+    "deleteHelpAssistance": "help-assistants/delete",
+    "setPolice": "site-setting/setPolice"
 
   }
 }

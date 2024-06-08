@@ -60,24 +60,16 @@
 </template>
 
 <script>
-import LazyImage from "./LazyImage.vue";
 import {mapGetters, mapActions} from "vuex";
 import CustomeModal from "./CustomeModal.vue";
 import AjaxButton from "./AjaxButton.vue";
-import VueUploadImages from "./product/uploadImages.vue";
-import CustomSelect from "./CustomSelect.vue";
-import LangInput from "./langInput.vue";
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 
 export default {
   components: {
     ValidationObserver, ValidationProvider,
-    LangInput,
-    CustomSelect,
-    VueUploadImages,
     AjaxButton,
     CustomeModal,
-    LazyImage
   },
   computed: {
     ...mapGetters('address', ['addressList']),
@@ -106,13 +98,6 @@ export default {
       this.isInvalid = invalid;
       return true; // Necessary to keep the template valid
     },
-    updateInput(input, language, value) {
-      this.$set(input, language, value);
-    },
-    saveAttachment(images) {
-      this.files = images
-    },
-
     async saveGroup() {
       if (!this.isInvalid) {
         this.saveSata = true

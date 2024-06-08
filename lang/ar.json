@@ -43,7 +43,14 @@
     "Un-Verified": "غير محقق",
     "Product Successfully Saved": "تم حفظ المنتج بنجاح!"
   },
-
+  "polices": {
+    "edit": "تعديل",
+    "polices": "السياسات",
+    "privacy_polices": "سياسة الخصوسية",
+    "return_polices": "سياسة الاسترجاع والاسترداد",
+    "vendors_terms_condition": "  الأحكام والشروط (المصانع)",
+    "customers_terms_condition": "  الأحكام والشروط (العملاء)"
+  },
   "HelpAssistants": {
     "AddHelpAssistantsGroup": "اضافة مجموعة المساعدة",
     "HelpAssistants": "المساعدة",
@@ -545,7 +552,6 @@
     "create_update": "تم الإنشاء / التحديث",
     "sku": "رمز SKU",
     "parent_sku": "الرمز الرئيسي (Parent SKU)",
-
     "Submit": "إرسال",
     "Quantity Updated successfully": "تم تحديث الكمية بنجاح!",
     "Add Product": "إضافة منتج",
@@ -557,7 +563,6 @@
     "Country of production": "بلد الإنتاج",
     "Stock Location": "موقع المخزون",
     "Image and Video": "الصور والفيديو",
-
     "Always Available": "متاح دائمًا",
     "Validate until": "صالح حتى",
     "Offer sent": "تم إرسال العرض صالح حتى",
@@ -636,7 +641,6 @@
     "These attributes provide information about the products dimensions and weight": "توفر هذه السمات معلومات حول أبعاد المنتج ووزنه",
     "Icon": "أيقونة",
     "Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the products shipping container": "أدخل أبعاد ووزن الصندوق لمساعدة في حساب معدل الشحن هذه القياسات هي لحاوية الشحن الخاصة بالمنتج"
-
   },
   "statusOrder": {
     "all": "الكل ",
@@ -1391,7 +1395,6 @@
     "certificate": "شهادة",
     "faq": "الأسئلة الشائعة",
     "content": "المحتوى",
-
     "register_user": "سجل حسابك",
     "sef": "تنسيقات البريد الإلكتروني للاشتراك"
   },
