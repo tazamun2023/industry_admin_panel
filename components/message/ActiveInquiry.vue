@@ -3,7 +3,6 @@ import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
 import ImagePopup from "@/components/message/ImagePopup.vue";
 import Pusher from 'pusher-js'
-import da from "vue2-datepicker/locale/es/da";
 
 export default {
   name: 'ActiveInquiry',

@@ -20,7 +20,6 @@
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
-import th from "vue2-datepicker/locale/es/th";
 
 export default {
   name: "VariantUpdate",

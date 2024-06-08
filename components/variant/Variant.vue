@@ -1454,8 +1454,6 @@ import ProductInventory from "@/components/partials/ProductInventory.vue";
 import ErrorFormatter from "@/components/ErrorFormatter.vue";
 import Spinner from "@/components/Spinner.vue";
 import LangInput from "@/components/langInput.vue";
-import th from "vue2-datepicker/locale/es/th";
-import id from "vue2-datepicker/locale/es/id";
 import util from "@/mixin/util";
 
 extend('uniqueSku', {

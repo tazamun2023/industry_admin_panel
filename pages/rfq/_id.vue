@@ -232,7 +232,8 @@
                                     <div class="flex border rounded  border-smooth bg-white">
                                       <label class="p-3" for="">{{ $t('app.SAR') }}</label>
                                       <input type="number" v-model="rfq.products[k].qoute.total_offer_price"
-                                             @blur="validateTotalPrice(k, $event)" placeholder="0"
+                                             min="1"
+                                             @input="validateTotalPrice(k, $event)" placeholder="0"
                                              class="block appearance-none w-full py-1 px-2  text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded no-radius border-none">
                                     </div>
                                     <span class="error text-error"
@@ -268,9 +269,11 @@
                                       font-normal whitespace-no-wrap rounded py-1 px-3 leading-normal no-underline  long mb-auto mt-20 ml-2 mr-2">
                                       {{ $t('app.Cancel') }}
                                     </button>
-                                    <button :disabled="rfq.products[k].qoute.disabled"
-                                            v-if="rfq.products[k].qoute.product_id" type="button"
-                                            @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
+                                    <!--                                    :disabled="rfq.products[k].qoute.disabled"-->
+                                    <button
+                                      :disabled="!( rfq.products[k].qoute.unit_id>0 && rfq.products[k].qoute.quantity>0  && rfq.products[k].qoute.total_offer_price>0  )"
+                                      v-if="rfq.products[k].qoute.product_id" type="button"
+                                      @click="toggleCollapse('', 1)" class="inline-block align-middle text-center select-none border font-normal whitespace-no-wrap rounded
                                        py-1 px-3 leading-normal no-underline bg-red-600 text-white  bg-primary  hover:text-primary
                                         long mt-20">
                                       {{ $t('app.Save') }}
@@ -353,8 +356,13 @@
                 <div class="md:w-1/3 pr-4 pl-4">
                   <div class="mb-4">
                     <label for="">{{ $t('rfq.quote_expired_message') }}</label>
-                    <datepicker :type="'date'" v-model="result.expiry_date" :default-value="new Date()"
-                                :format="dateFormat" :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
+                    <!--                    <datepicker :type="'date'" v-model="result.expiry_date" :default-value="new Date()"-->
+                    <!--                                :format="dateFormat" :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>-->
+
+                    <datepicker class="mbwidth " v-model="result.expiry_date" :type="'date'"
+                                :default-value="new Date()" :format="dateFormat"
+
+                                :disabled-date="disabledBeforeTodayAndAfterAWeek"></datepicker>
 
                   </div>
                 </div>
@@ -388,99 +396,7 @@
           </div>
         </div>
       </div>
-      <!-- ================= -->
-      <!-- ==========modal============= -->
-      <!--      <div v-if="open" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">-->
-      <!--        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>-->
-      <!--        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">-->
-      <!--          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">-->
-      <!--            <div-->
-      <!--              class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">-->
-      <!--              <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">-->
-      <!--                <div class="grid grid-cols-1 gap-4">-->
-      <!--                  <div class="flex justify-between items-center">-->
-      <!--                    <h4 class="font-14 bold black pb-2  pt-2">{{ $t('rfq.How would you like to add a product') }}</h4>-->
-      <!--                    <svg @click="cancel" class="cursor-pointer w-4 h-4 text-gray-800  font-14" aria-hidden="true"-->
-      <!--                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">-->
-      <!--                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-      <!--                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>-->
-      <!--                    </svg>-->
-      <!--                  </div>-->
-      <!--                </div>-->
-      <!--                <div class="sm:flex sm:items-start">-->
 
-      <!--                  <div class="modal-body">-->
-
-      <!--                    <div class="relative flex flex-col min-w-0 rounded break-words bg-white p-2">-->
-      <!--                      <div class="grid grid-cols-3 gap-4">-->
-      <!--                        <div class="relative block mb-2 inline-block p-1">-->
-      <!--                          <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"-->
-      <!--                                 id="productLog" @click="productTableShow('select_from_my_catalog')"-->
-      <!--                                 v-model="select_from_my_catalog">-->
-      <!--                          <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="productLog">-->
-      <!--                            {{ $t("rfq.Select from my catalogue") }}-->
-      <!--                          </label>-->
-      <!--                        </div>-->
-      <!--                        &lt;!&ndash; <div class="relative block mb-2 inline-block p-1">-->
-      <!--                          <input class="absolute mt-1 -ml-4 existing" type="radio" name="inlineRadioOptions"-->
-      <!--                            id="allproductLog" @click="productTableShow('copy_from_product')"-->
-      <!--                            v-model="copy_from_product">-->
-      <!--                          <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="allproductLog">-->
-      <!--                            {{ $t("rfq.Copy from website catalogue") }}-->
-      <!--                          </label>-->
-      <!--                        </div> &ndash;&gt;-->
-      <!--                        <div class="relative block mb-2 inline-block p-1">-->
-      <!--                          <input class="absolute mt-1 -ml-4 " type="radio" name="inlineRadioOptions"-->
-      <!--                                 @click="productTableShow('upload_new_product')" id="upload_new" value="option3"-->
-      <!--                                 v-model="upload_new_product">-->
-      <!--                          <label class="text-gray-700  mb-0 font-14 bold black pb-2" for="upload_new">-->
-      <!--                            {{ $t("rfq.Upload a new product") }}</label>-->
-      <!--                        </div>-->
-      <!--                      </div>-->
-      <!--                      <div v-if="tableShow !== 'upload_new_product'"-->
-      <!--                           class="relative flex flex-col min-w-0 min-h-96 rounded break-words  appendTable">-->
-      <!--                        <product-search2 ref="productSearch" @product-clicked="addRFQProduct" :type="tableShow"/>-->
-      <!--                      </div>-->
-      <!--                      <div v-if="uploadNewText"-->
-      <!--                           class="relative flex flex-col min-w-0 rounded break-words for_upload_message">-->
-      <!--                        <p>{{ $t('rfq.selectProductMessage') }}</p>-->
-      <!--                      </div>-->
-      <!--                    </div>-->
-      <!--                  </div>-->
-      <!--                </div>-->
-      <!--              </div>-->
-      <!--              <div class="bg-smooth px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">-->
-      <!--                <div v-if="tableShow === 'upload_new_product'">-->
-      <!--                  &lt;!&ndash;                  return this.$router.push(`/products/add?id=` + rfqProduct.qoute.product.id + `&rfq_product_id=` + this.activeProductId + `&quote=` + res.id)&ndash;&gt;-->
-
-      <!--                  &lt;!&ndash;                  <NuxtLink to="/products/quote/add?quote="&ndash;&gt;-->
-      <!--                  &lt;!&ndash;                            class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">&ndash;&gt;-->
-      <!--                  &lt;!&ndash;                    {{ $t('app.Continue') }}&ndash;&gt;-->
-      <!--                  &lt;!&ndash;                  </NuxtLink>&ndash;&gt;-->
-
-      <!--                  <button type="button" @click="saveUploadNewProduct"-->
-      <!--                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">-->
-      <!--                    {{ $t('app.Continue') }}-->
-      <!--                  </button>-->
-      <!--                </div>-->
-      <!--                <div v-else>-->
-      <!--                  <button type="button" @click="saveSelectedProduct"-->
-      <!--                          class="leading-6 inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:text-primary sm:ml-3 sm:w-auto">-->
-      <!--                    {{ $t('app.Save') }}-->
-      <!--                  </button>-->
-      <!--                  <button type="button" @click="cancel"-->
-      <!--                          class="leading-6 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">-->
-      <!--                    {{ $t('app.Cancel') }}-->
-      <!--                  </button>-->
-      <!--                </div>-->
-
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
-      <!-- ==========modal end============= -->
-      <!-- ====================end========== -->
     </div>
   </check-validity>
 </template>
@@ -506,6 +422,12 @@ export default {
   data() {
     return {
       dateFormat: 'Y-MM-DD',
+      // lang: {
+      //   formatLocale: {
+      //     firstDayOfWeek: 1,
+      //   },
+      //   monthBeforeYear: false,
+      // },
       activeProductId: 0,
       isCollapsed: false,
       isDisable: false,
@@ -555,7 +477,7 @@ export default {
 
     canSend() {
       return (
-        (this.result.products.length >0) &&
+        (this.result.products.length > 0) &&
         (this.result.expiry_date != null && this.result.expiry_date != ""
           && (new Date(this.result.expiry_date) > new Date()))
       )
@@ -598,6 +520,7 @@ export default {
         }
       }
     },
+
     formatDate(dateString) {
       const date = new Date(dateString);
       const year = date.getFullYear();
@@ -788,7 +711,7 @@ export default {
     },
     saveDataResponce() {
       if (this.rfq.quote != null) {
-        if (this.rfq.quote.status!='draft')
+        if (this.rfq.quote.status != 'draft')
           return this.$router.push(`/rfq/quotation-details/` + this.rfq.quotation_id)
         // this.result.expiry_date =
         this.result.expiry_date = this.rfq.quote.expiry_date
@@ -803,30 +726,30 @@ export default {
 
       for (var i = 0; i < this.rfq.products.length; i++) {
         // if (i< this.rfq.quote.products.length&&(!this.rfq.products[i].find(q => q.rfq_product_id == this.rfq.products[i].id)))
-
+        var rfq_product = this.rfq.products[i];
         if (this.rfq.quote != null && this.rfq.quote.products.findIndex(p => p.rfq_product_id == this.rfq.products[i].id) > -1) {
           let p = this.rfq.quote.products.find(p => p.rfq_product_id == this.rfq.products[i].id);
           this.rfq.products[i].qoute = ({
             rfq_product_id: p.rfq_product_id,
             product: p.product,
             unit: p.unit,
-            unit_id: p.unit.id,
+            unit_id: p.unit?.id ?? rfq_product.unit_id,
             product_id: p.product.id,
             id: p.id,
-            quantity: p.quantity ?? 1,
-            total_offer_price: p.total_offer_price ?? 0,
+            quantity: p.quantity ?? rfq_product.quantity,
+            total_offer_price: p.total_offer_price ?? rfq_product.target_price,
             disabled: p?.total_offer_price == '' || p?.total_offer_price == 0 ? true : false
           })
         } else
           this.rfq.products[i].qoute = ({
-            rfq_product_id: this.rfq.products[i].id,
+            rfq_product_id: rfq_product.id,
             product: {},
             unit: {},
-            unit_id: "",
+            unit_id: rfq_product.unit_id,
             product_id: "",
             id: "",
-            quantity: 1,
-            total_offer_price: 0,
+            quantity: rfq_product.quantity,
+            total_offer_price: rfq_product.target_price,
             disabled: true
           })
         console.log('point', this.rfq.products[i].qoute);
@@ -894,48 +817,5 @@ export default {
   border-radius: 0px !important;
 }
 </style>
-<style scoped>
-
-.min-width-180 {
-  width: 180px;
-}
-
-.mx-calendar-content .cell.disabled {
-  background-color: transparent !important;
-}
-
-.cell .not-current-month {
-  color: #000;
-}
-
-.mx-table-date .cell.not-current-month {
-  color: #000;
-}
-
-.mx-table-date > thead {
-  background-color: #ebe2e2;
-}
-
-.mx-datepicker-main {
-  color: #000000;
-
-}
-
-.mx-calendar-content .cell.disabled {
-  color: #ccc;
-}
-
-.mx-btn {
-  font-weight: 900;
-  color: #000;
-}
-
-.mx-icon-calendar, .mx-icon-clear {
-  html:lang(ar) & {
-    right: auto;
-    left: 8px;
-  }
-}
 
 
-</style>

@@ -693,7 +693,6 @@ import ProductSearch from "~/components/partials/ProductSearch.vue";
 import Variant from "@/components/variant/Variant.vue";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
-import tr from "vue2-datepicker/locale/es/tr";
 
 extend('min', {
   validate(value, {length}) {

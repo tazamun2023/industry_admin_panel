@@ -118,7 +118,6 @@ import util from "~/mixin/util"
 import {mapGetters} from 'vuex'
 import UploadFiles from "../../components/UploadFiles.vue";
 import LangInput from "../../components/langInput.vue";
-import th from "vue2-datepicker/locale/es/th";
 
 export default {
   name: "brands",

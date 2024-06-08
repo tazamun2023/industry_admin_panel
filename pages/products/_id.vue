@@ -1169,8 +1169,7 @@ import CartonDimensionSection from "@/components/product/CartonDimensionSection.
 import ShippingDetailsSection from "@/components/product/ShippingDetailsSection.vue";
 import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
-import tr from "vue2-datepicker/locale/es/tr";
-import th from "vue2-datepicker/locale/es/th";
+
 
 
 extend('min', {
