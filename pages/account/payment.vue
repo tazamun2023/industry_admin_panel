@@ -83,7 +83,7 @@
         <tr class="lite-bold">
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
-              <input type="checkbox">
+              <!-- <input type="checkbox"> -->
               Name
             </div>
           </th>
@@ -95,7 +95,7 @@
           <th class="bg-lightdeep">Bank</th>
           <th class="bg-lightdeep text-center">
             <div class="flex gap-2 justify-center items-center">
-              <input type="checkbox">
+              <!-- <input type="checkbox"> -->
               Set as Default
             </div>
           </th>
@@ -104,7 +104,7 @@
         <tr class="border-t border-pb" v-for="(value, index) in bankList" :key="index">
           <td>
             <div class="flex font-bold capitalize gap-4 items-center">
-              <input type="checkbox">
+              <!-- <input type="checkbox"> -->
               {{ value.name }}
             </div>
           </td>
