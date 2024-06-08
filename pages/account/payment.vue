@@ -15,13 +15,13 @@
     </div> -->
     <!-- ----------------------------------- -->
 
-    <div class="px-[10em] py-4">
+    <div class="lg:px-[10em] lg:py-4">
       <div class="py-2">
         <h3 class="uppercase">Payments</h3>
       </div>
       <div class="w-full flex gap-4 items-center">
         <button @click="addPayment" v-if="$can('update_financial')"
-                class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
+                class="flex w-[156px] hover:bg-primary hidden md:block sm:block xs:block gap-4 bg-primary text-white px-4 items-center">
           <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
           New
         </button>
@@ -36,7 +36,7 @@
           <img v-if="orderbyType == 'desc'" @click="orderbyType='asc', searchBank()" class="w-7 h-7 rotate-180"
                src="~/assets/icon/frame.svg" alt="">
           <div class="relative inline-block text-left">
-            <div class="min-w-[156px]">
+            <div class="lg:min-w-[156px] w-full">
               <button @click="shortDropdown" type="button"
                       class="inline-flex w-full justify-between  capitalize items-center text-[13px] gap-4 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
                       id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -74,6 +74,11 @@
 
         </div>
       </div>
+      <button @click="addPayment" v-if="$can('update_financial')"
+                class="flex w-full lg:hidden xl:hidden my-2 hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
+          <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
+          New
+        </button>
     </div>
     <!-- -----------------------------------------new table design 5-21-2024------------------ -->
     <div style="box-shadow: 0px 1px 2px 0px #1018280D;" class="table-wrapper border border-pb rounded-[12px]">
