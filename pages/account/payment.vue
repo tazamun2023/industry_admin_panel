@@ -485,3 +485,13 @@ export default {
 
 }
 </script>
+
+<style>
+.swal2-popup .swal2-styled.swal2-cancel{
+  line-height: 0px;
+}
+.swal2-popup .swal2-styled.swal2-confirm{
+  line-height: 0px;
+  background: #01a781;
+}
+</style>

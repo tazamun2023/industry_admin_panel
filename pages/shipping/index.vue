@@ -66,7 +66,7 @@
           </div>
           <div class="w-full py-4">
             <p>Shipping Default Address</p>
-            <div class="flex w-full gap-4 items-center">
+            <div class="lg:flex w-full gap-4 items-center">
               <div class="relative">
                 <select :disabled="settings.allow_find_nearest_pickup_address" v-model="settings.default_address_id"
                         class="border border-cardb w-[602px] rounded-[10px] p-2 h-[44px]" name="" id="">
