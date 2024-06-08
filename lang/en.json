@@ -43,6 +43,12 @@
     "Product Successfully Saved": "Product Successfully Saved!",
     "Active": "Active"
   },
+  "HelpAssistants": {
+    "AddHelpAssistantsGroup": "Add Help Assistants Group",
+    "HelpAssistants": "Help Assistants",
+    "AddHelpAssistants": "Add Help Assistants",
+    "order": "Order"
+  },
   "polices": {
     "edit": "Edit ",
     "polices": "Polices ",
