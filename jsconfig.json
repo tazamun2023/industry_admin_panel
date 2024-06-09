@@ -472,7 +472,8 @@
     "deleteHelpAssistanceGroup": "help-assistants-groups/delete",
     "setHelpAssistance": "help-assistants/action",
     "deleteHelpAssistance": "help-assistants/delete",
-    "setPolice": "site-setting/setPolice"
+    "setPolice": "site-setting/setPolice",
+    "checkIfVaildSKU": "product/checkSKU"
 
   }
 }

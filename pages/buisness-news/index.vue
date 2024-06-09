@@ -36,7 +36,12 @@
         <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
         <td>{{ value._title }}</td>
         <td>
-          <img :src="value.image" :alt="value._title">
+          <lazy-image
+            class="mr-20"
+            :data-src="value.image"
+            :alt="value._title"
+          />
+<!--          <img :src="value.image" :alt="value._title">-->
         </td>
         <td>
           <button

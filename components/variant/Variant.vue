@@ -2225,6 +2225,13 @@ export default {
               variantResult.product_images = [];
             }
           }
+
+          const data = {
+            "sku": res.sku,
+            "product_id": res.id
+          };
+
+          this.setSku(data)
           this.isErrorMessage = null;
           this.openTab = 'parent'
           this.setToastMessage(this.$t('app.Product Successfully Saved'))
@@ -2522,7 +2529,7 @@ export default {
     },
 
 
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree']),
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setSku']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },
@@ -2534,6 +2541,10 @@ export default {
         if (newVal[this.openTab]?.result.is_always_available == 1) {
           this.variants[this.openTab].result.available_quantity = '';
           this.variants[this.openTab].result.is_availability = 1;
+        }else{
+          if (this.openTab!= 'parent'){
+            this.variants[this.openTab].result.is_availability = 0;
+          }
         }
 
         // console.log(this.openTab)

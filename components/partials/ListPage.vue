@@ -254,7 +254,7 @@ export default {
 
     async deleteBankItem(id, params) {
 
-      alert("sdfdf")
+      // alert("sdfdf")
 
       try {
         this.deleting = true
