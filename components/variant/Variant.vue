@@ -523,14 +523,14 @@
         <!-- ------------------------------------- -->
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
-        <ValidationProvider name="Image" :rules="{required: variants[openTab].result.product_images===0}"
+        <ValidationProvider name="Image" :rules="{ required: variants[openTab]?.result.product_images.length===0 }"
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }" class="w-full">
           <div class="tab-sidebar p-3"
-               :class="{ 'has-error': errors[0] && variants[openTab].result.product_images===0 }">
+               :class="{ 'has-error': errors[0] && variants[openTab]?.result.product_images.length===0 }">
             <vue-upload-images :return-data-just="0" :old_images="variants[openTab].result.images" :max-files="10"
                                @updateInput="saveAttachment"></vue-upload-images>
-            <span class="error">{{ errors[0] }}</span>
+            <span class="error" v-if="errors[0] && variants[openTab]?.result.product_images.length===0">{{ errors[0] }}</span>
           </div>
         </ValidationProvider>
         <!-- ------------------------------------- -->
@@ -567,23 +567,24 @@
               </div>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
-            <div v-if="variants[openTab].result.id">
-              <ValidationProvider name="sku" v-slot="{ errors }"
-                                  :rules="{required: true}"
-                                  :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
-                <div class="form-group input-wrapper  mt-3 mt-sm-0">
-                  <label>{{ $t('prod.SKU') }}</label>
-                  <input
-                    type="text" class="form-control"
-                    :class="{ 'has-error': errors[0] }"
-                    v-model="variants[openTab]?.result.sku"
-                    :placeholder="$t('prod.SKU')"
-                  >
-                </div>
-                <span class="error">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-            <div v-else>
+<!--            <div v-if="variants[openTab].result.id">-->
+<!--              <ValidationProvider name="sku" v-slot="{ errors }"-->
+<!--                                  :rules="{required: true}"-->
+<!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">-->
+<!--                <div class="form-group input-wrapper  mt-3 mt-sm-0">-->
+<!--                  <label>{{ $t('prod.SKU') }}</label>-->
+<!--                  <input-->
+<!--                    type="text" class="form-control"-->
+<!--                    :class="{ 'has-error': errors[0] }"-->
+<!--                    @input="changeSKU(variants[openTab]?.result.sku,variants[openTab]?.result.id)"-->
+<!--                    v-model="variants[openTab]?.result.sku"-->
+<!--                    :placeholder="$t('prod.SKU')"-->
+<!--                  >-->
+<!--                </div>-->
+<!--                <span class="error">{{ errors[0] }}</span>-->
+<!--              </ValidationProvider>-->
+<!--            </div>-->
+            <div>
               <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
                 <div class="form-group input-wrapper  mt-3 mt-sm-0">
@@ -591,6 +592,7 @@
                   <input
                     type="text" class="form-control"
                     :class="{ 'has-error': errors[0] }"
+                    @input="changeSKU(variants[openTab]?.result.sku,variants[openTab]?.result.id)"
                     v-model="variants[openTab]?.result.sku"
                     :placeholder="$t('prod.SKU')"
                   >
@@ -1457,11 +1459,12 @@ import LangInput from "@/components/langInput.vue";
 import util from "@/mixin/util";
 
 extend('uniqueSku', {
-  validate: (value, {allSKus}) => {
+  validate: (value, {exsist}) => {
     // Check if the provided SKU value already exists in allSKus
-    return !Object.values(allSKus).find(item => item.sku === value);
+
+    return exsist;
   },
-  params: ['allSKus'], // Define the parameter name as allSKus
+  params: ['uniqueSku'], // Define the parameter name as allSKus
   message: 'SKU must be unique'
 });
 
@@ -1640,7 +1643,6 @@ export default {
     }
   },
   computed: {
-
     hasError() {
       return this.form.errors.length > 0;
     },
@@ -1653,10 +1655,10 @@ export default {
 
     skuRules() {
       if (this.openTab !== 'parent') {
-        const allSKus = this.allSKus;
+        // const allSKus = this.allSKus;
         return {
-          required: !this.variants[this.openTab].result.id,
-          uniqueSku: allSKus, // Pass allSKus directly
+          required: true,
+          uniqueSku: this.is_sku_exsist, // Pass allSKus directly
           min: 2,
           max: 32
         };
@@ -1843,10 +1845,13 @@ export default {
     ...mapGetters('admin', ['publicKey']),
     ...mapGetters('setting', ['setting']),
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('common', ['allCategories', 'allTaxRules', 'allAttributes', 'allSKus',
+    ...mapGetters('common', ['is_sku_exsist', 'allCategories', 'allTaxRules', 'allAttributes', 'allSKus',
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   methods: {
+    async changeSKU(sku, product_id) {
+      await this.checkIfVaildSKU({sku: sku, product_id: product_id})
+    },
     isAvailability(event) {
       const checked = event.target.checked;
       // console.log(checked); // This will log true or false
@@ -2224,12 +2229,6 @@ export default {
             }
           }
 
-          const data = {
-            "sku": res.sku,
-            "product_id": res.id
-          };
-
-          this.setSku(data)
           this.isErrorMessage = null;
           this.openTab = 'parent'
           this.setToastMessage(this.$t('app.Product Successfully Saved'))
@@ -2527,7 +2526,7 @@ export default {
     },
 
 
-    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'setSku']),
+    ...mapActions('common', ['getById', 'setById', 'setImageById', 'getDropdownList', 'setWysiwygImage', 'deleteData', 'getRequest', 'getCategoriesTree', 'checkIfVaildSKU']),
     ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
   },

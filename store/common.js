@@ -15,7 +15,7 @@ const state = () => ({
   allAttributeValues: null,
   allBrands: null,
   allSKus: null,
-  is_sku_exsist: true,
+  is_sku_exsist: false,
   allProductCollections: null,
   allBundleDeals: null,
   allShippingRules: null,
