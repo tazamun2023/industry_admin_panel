@@ -30,8 +30,8 @@ export default {
 <template>
   <section class="mx-auto" v-if="rfq?.products?.length > 0">
     <div class="w-full mb-8 overflow-hidden rounded-lg ">
-      <div class="w-full overflow-x-auto">
-        <table class="w-full">
+      <div class="lg:w-full w-[300px] overflow-x-auto">
+        <table class="lg:w-full">
           <thead>
           <tr class="text-md font-semibold tracking-wide text-start bg-smooth uppercase border-b border-smooth">
             <th class="px-4 py-3 ">{{ $t("products.Products") }}</th>

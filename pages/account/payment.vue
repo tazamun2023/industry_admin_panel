@@ -20,11 +20,13 @@
         <h3 class="uppercase">Payments</h3>
       </div>
       <div class="w-full flex gap-4 items-center">
-        <button @click="addPayment" v-if="$can('update_financial')"
-                class="flex w-[156px] hover:bg-primary hidden md:block sm:block xs:block gap-4 bg-primary text-white px-4 items-center">
+      <div class="hidden md:block sm:block xs:block">
+         <button @click="addPayment" v-if="$can('update_financial')"
+                class="flex w-[156px] hover:bg-primary  gap-4 bg-primary text-white px-4 items-center">
           <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
           New
         </button>
+      </div>
         <div class="related w-full">
           <img src="~/assets/icon/search-normal.svg" alt=""
                class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] mt-[13px]">
