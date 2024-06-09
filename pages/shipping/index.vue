@@ -7,6 +7,7 @@
       table-class="lg:border border-cardb rounded-[8px]"
       ref="listPage"
       list-api="getSaShipping"
+      btn-class="w-full lg:w-[100px]"
       delete-api="deleteShippingRule"
       set-api="storeSaFreeShipping"
       method="post"

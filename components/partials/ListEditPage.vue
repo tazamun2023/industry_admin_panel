@@ -46,8 +46,9 @@
               >
 
                 <ajax-button
+                :class="btnClass"
                   name="save"
-                  class="primary-btn"
+                  class="primary-btn w-full"
                   :text="$t('setting.sv')"
                   :fetching-data="formSubmitting "
                 />
@@ -85,6 +86,10 @@ export default {
   name: "ListEditPage",
   props: {
     cardClass: {
+      type: String,
+      default: ''
+    },
+    btnClass:{
       type: String,
       default: ''
     },
