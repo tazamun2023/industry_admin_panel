@@ -31,7 +31,7 @@ export default {
   mixins: [util],
   computed: {
     formattedPrice() {
-      const p = Number(this.price, fractionDigits);
+      const p = Number(this.price, 2);
       const fractionDigits = Number.isInteger(p) ? 0 : this.maximumFractionDigits;
       return p.toLocaleString(this.$t('app.currency_local'), {
         style: 'currency',
