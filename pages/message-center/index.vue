@@ -504,6 +504,7 @@ import {mapActions, mapGetters} from "vuex";
 import ActiveInquiry from "@/components/message/ActiveInquiry.vue";
 import RFQTab from "@/components/message/RFQTab.vue";
 import ActiveRFQ from "@/components/message/ActiveRFQ.vue";
+import Pusher from "pusher-js";
 
 export default {
   name: 'MessageCenter',
@@ -567,6 +568,25 @@ export default {
       this.activeInquiry = event
     },
     activeInquiryEventData(event) {
+      Pusher.logToConsole = true;
+
+      const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+        cluster: process.env.PUSHER_APP_CLUSTER
+      });
+
+      const channel = pusher.subscribe('chat');
+      channel.bind('message', dataP => {
+        try {
+          // this.is_loading = true
+          // this.fetchingData()
+          // this.is_loading = false
+          this.ActiveInquiryData = event
+          console.log(event)
+
+        } catch (e) {
+          return this.$nuxt.error(e)
+        }
+      });
       this.ActiveInquiryData = event
     },
     currentInq(event) {
