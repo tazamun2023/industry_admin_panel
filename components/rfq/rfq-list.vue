@@ -86,9 +86,9 @@
                   <div v-for="(value, index) in list" :key="index">
 
                     <div class="card mt-20 p-1 m-2 bg-white">
-                      <div class="grid grid-cols-12 gap-4">
+                      <div class="lg:grid lg:grid-cols-12 gap-4">
                         <lazy-image
-                          class="w-48 h-full col-span-2 colo object-cover rounded"
+                          class="w-48 mx-auto h-full col-span-2 colo object-cover rounded"
                           :data-src="value.products[0].image"></lazy-image>
 
                         <div class="col-span-7 p-3">
@@ -105,7 +105,7 @@
                               </svg>
                             </div> -->
                           </div>
-                          <table class="w-full ">
+                          <table class="w-full">
                             <tr>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
