@@ -530,7 +530,9 @@
                :class="{ 'has-error': errors[0] && variants[openTab]?.result.product_images.length===0 }">
             <vue-upload-images :return-data-just="0" :old_images="variants[openTab].result.images" :max-files="10"
                                @updateInput="saveAttachment"></vue-upload-images>
-            <span class="error" v-if="errors[0] && variants[openTab]?.result.product_images.length===0">{{ errors[0] }}</span>
+            <span class="error" v-if="errors[0] && variants[openTab]?.result.product_images.length===0">{{
+                errors[0]
+              }}</span>
           </div>
         </ValidationProvider>
         <!-- ------------------------------------- -->
@@ -567,23 +569,23 @@
               </div>
               <span class="error">{{ errors[0] }}</span>
             </ValidationProvider>
-<!--            <div v-if="variants[openTab].result.id">-->
-<!--              <ValidationProvider name="sku" v-slot="{ errors }"-->
-<!--                                  :rules="{required: true}"-->
-<!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">-->
-<!--                <div class="form-group input-wrapper  mt-3 mt-sm-0">-->
-<!--                  <label>{{ $t('prod.SKU') }}</label>-->
-<!--                  <input-->
-<!--                    type="text" class="form-control"-->
-<!--                    :class="{ 'has-error': errors[0] }"-->
-<!--                    @input="changeSKU(variants[openTab]?.result.sku,variants[openTab]?.result.id)"-->
-<!--                    v-model="variants[openTab]?.result.sku"-->
-<!--                    :placeholder="$t('prod.SKU')"-->
-<!--                  >-->
-<!--                </div>-->
-<!--                <span class="error">{{ errors[0] }}</span>-->
-<!--              </ValidationProvider>-->
-<!--            </div>-->
+            <!--            <div v-if="variants[openTab].result.id">-->
+            <!--              <ValidationProvider name="sku" v-slot="{ errors }"-->
+            <!--                                  :rules="{required: true}"-->
+            <!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">-->
+            <!--                <div class="form-group input-wrapper  mt-3 mt-sm-0">-->
+            <!--                  <label>{{ $t('prod.SKU') }}</label>-->
+            <!--                  <input-->
+            <!--                    type="text" class="form-control"-->
+            <!--                    :class="{ 'has-error': errors[0] }"-->
+            <!--                    @input="changeSKU(variants[openTab]?.result.sku,variants[openTab]?.result.id)"-->
+            <!--                    v-model="variants[openTab]?.result.sku"-->
+            <!--                    :placeholder="$t('prod.SKU')"-->
+            <!--                  >-->
+            <!--                </div>-->
+            <!--                <span class="error">{{ errors[0] }}</span>-->
+            <!--              </ValidationProvider>-->
+            <!--            </div>-->
             <div>
               <ValidationProvider name="sku" :rules="skuRules" v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.SKU')}) }">
@@ -2097,6 +2099,7 @@ export default {
             // console.log('variant_res', variant_res[key])
             this.result.unit_id = variant_res[key].unit_id;
             this.variants[key].result.title = variant_res[key].title,
+            this.variants[key].result.status = variant_res[key].status,
               this.variants[key].result.brand_id = variant_res[key].brand_id,
               this.variants[key].result.unit_id = variant_res[key].unit_id,
               this.variants[key].result.product_images = variant_res[key].images
@@ -2362,6 +2365,9 @@ export default {
     },
 
     async handleUnsavedChanges(tab) {
+
+      console.log(this.variants[this.openTab].result)
+      console.log(this.openTapData)
       const confirmation = await this.$swal({
         title: "Unsaved changes",
         icon: "question",
@@ -2375,6 +2381,12 @@ export default {
       if (confirmation.value) {
         this.openTab = tab;
         this.is_change = false
+
+        if (this.variants[tab].result?.result.is_always_available == 1) {
+          this.variants[this.openTab].result.available_quantity = '';
+          this.variants[this.openTab].result.is_availability = 1;
+        }
+
         if (this.openTab == 'parent')
           this.openTapData = {}
         else
@@ -2465,7 +2477,11 @@ export default {
       let res = await this.getById({id: 1, params: {keyword: ''}, api: 'findRfqKeyword'});
       this.allKeywords = res;
     },
-
+    normalizeString(str) {
+      if (typeof str === 'string')
+        return str.replace(/\s+/g, ' ').trim();
+      return str;
+    },
 
     objectsAreEqual(obj1, obj2) {
       const keys1 = Object.keys(obj1).sort();
@@ -2495,7 +2511,7 @@ export default {
             console.log("diff  4")
             return false;
           }
-        } else if (obj1[key1] !== obj2[key2]) {
+        } else if (this.normalizeString(obj1[key1]) !== this.normalizeString(obj2[key2])) {
           console.log("diff  6")
           return false;
         }
@@ -2516,7 +2532,7 @@ export default {
             console.log("diff  8")
             return false;
           }
-        } else if (arr1[i] !== arr2[i]) {
+        } else if (this.normalizeString(arr1[i]) !== this.normalizeString(arr2[i])) {
           console.log("diff  9")
           return false;
         }
@@ -2535,14 +2551,14 @@ export default {
     variants: {
       deep: true,
       handler(newVal, oldVal) {
-        if (newVal[this.openTab]?.result.is_always_available == 1) {
-          this.variants[this.openTab].result.available_quantity = '';
-          this.variants[this.openTab].result.is_availability = 1;
-        }else{
-          if (this.openTab!= 'parent'){
-            this.variants[this.openTab].result.is_availability = 0;
-          }
-        }
+        // if (newVal[this.openTab]?.result.is_always_available == 1) {
+        //   // this.variants[this.openTab].result.available_quantity = '';
+        //   this.variants[this.openTab].result.is_availability = 1;
+        // }else{
+        //   if (this.openTab!= 'parent'){
+        //     this.variants[this.openTab].result.is_availability = 0;
+        //   }
+        // }
 
         // console.log(this.openTab)
         // console.log('newVal', newVal)
