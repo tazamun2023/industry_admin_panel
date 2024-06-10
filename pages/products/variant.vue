@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-center items-center h-full" v-if="is_loading">
-      <spinner />
+      <spinner/>
     </div>
     <div v-else>
       <Variant
@@ -14,15 +14,20 @@
         :is_edit="is_edit"
         :variantsData="variantsData"
       ></Variant>
+
+      <!--      <add-product></add-product>-->
     </div>
 
   </div>
 </template>
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Variant from "@/components/variant/Variant.vue";
+import AddProduct from "../../components/variant/AddProduct.vue";
 
 export default {
   name: "VariantUpdate",
+  components: {AddProduct, Variant},
   data() {
     return {
       is_edit: true,
@@ -196,7 +201,7 @@ export default {
 
     }
   },
-  computed:{
+  computed: {
     id() {
       return !this.isAdding ? this.$route?.params?.id : ''
     },
@@ -235,10 +240,10 @@ export default {
         for (let key in res) {
           if (!isNaN(key)) {
             let productVariant = {
-              name: res[key]?.product_variant?.name||'',
-              color_name: res[key]?.product_variant?.color.name?.en||'',
-              value: res[key]?.product_variant?.value||'',
-              product_id: res[key]?.product_variant?.product_id||'',
+              name: res[key]?.product_variant?.name || '',
+              color_name: res[key]?.product_variant?.color.name?.en || '',
+              value: res[key]?.product_variant?.value || '',
+              product_id: res[key]?.product_variant?.product_id || '',
             };
             productVariants.push(productVariant);
           }
@@ -336,8 +341,8 @@ export default {
           hts_code: res[0]?.hts_code,
           variant_uu_id: res[0]?.variant_uu_id,
         },
-        this.select_attr1= 'color';
-        this.select_attr2= 'size';
+          this.select_attr1 = 'color';
+        this.select_attr2 = 'size';
 
         this.updateLevel2()
         this.result.subCategory = res[0]?.sub_category?.id
@@ -351,10 +356,10 @@ export default {
         for (let key in res) {
           if (!isNaN(key)) {
             let productVariant = {
-              name: res[key]?.product_variant?.name||'',
-              color_name: res[key]?.product_variant?.color.name?.en||'',
-              value: res[key]?.product_variant?.value||'',
-              product_id: res[key]?.product_variant?.product_id||'',
+              name: res[key]?.product_variant?.name || '',
+              color_name: res[key]?.product_variant?.color.name?.en || '',
+              value: res[key]?.product_variant?.value || '',
+              product_id: res[key]?.product_variant?.product_id || '',
             };
             productVariants1.push(productVariant);
           }
@@ -364,6 +369,7 @@ export default {
           // Check if the key is a number
           if (!isNaN(key)) {
             const variant = {
+              is_variant: true,
               parentCategory: res[key].category?.id,
               subCategory: res[key].sub_category?.id,
               childCategory: res[key].child_category?.id,
@@ -386,7 +392,10 @@ export default {
 
 
               /*Additional details*/
-              additional_details_row: res[key].additional_attribute?.map(item => ({name: item.name, value: item.value})) || [
+              additional_details_row: res[key].additional_attribute?.map(item => ({
+                name: item.name,
+                value: item.value
+              })) || [
                 {
                   "name": "",
                   "value": ""
@@ -482,22 +491,22 @@ export default {
               primary_category_id: res[key].primary_category_id || '',
               category_id: res[key].category_id || '',
               bundle_deal_id: res[key].bundle_deal_id || '',
-              unit: res[key].unit ||10,
+              unit: res[key].unit || 10,
               badge: res[key].badge || '',
-              subcategory_id: res[key].subcategory_id ||'',
+              subcategory_id: res[key].subcategory_id || '',
               tax_rule_id: res[key].tax_rule_id || '',
-              shipping_rule_id: res[key].shipping_rule_id ||'',
-              purchased: res[key].purchased ||'',
-              selling: res[key].selling ||'',
-              offered: res[key].offered ||'',
-              refundable: res[key].refundable ||1,
-              warranty: res[key].warranty ||1,
-              meta_description: res[key].meta_description ||'',
-              flash_sale_product: res[key].flash_sale_product ||'',
-              meta_title: res[key].meta_title ||'',
-              images: res[key].images ||'',
-              slug: res[key].slug ||'',
-              video: res[key].video ||'',
+              shipping_rule_id: res[key].shipping_rule_id || '',
+              purchased: res[key].purchased || '',
+              selling: res[key].selling || '',
+              offered: res[key].offered || '',
+              refundable: res[key].refundable || 1,
+              warranty: res[key].warranty || 1,
+              meta_description: res[key].meta_description || '',
+              flash_sale_product: res[key].flash_sale_product || '',
+              meta_title: res[key].meta_title || '',
+              images: res[key].images || '',
+              slug: res[key].slug || '',
+              video: res[key].video || '',
               product_images: res[key].images,
               product_collections: [],
               product_categories: [],
@@ -518,11 +527,10 @@ export default {
         }
 
 
-
         this.is_fetch = true;
         this.is_loading = false
 
-      }catch (e) {
+      } catch (e) {
         return this.$nuxt.error(e)
       }
     },

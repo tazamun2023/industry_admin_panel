@@ -6,7 +6,7 @@
       <!-- --------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
-      <div id="product_form" class="tab-sidebar p-3">
+      <div v-if="fromSingle" id="product_form" class="tab-sidebar p-3">
 
         <div class="d-flex justify-content-between  align-items-center">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic information') }}</h4>
@@ -83,7 +83,7 @@
                     @updateInput="updateInput"></lang-input>
         <!--                <span class="error">{{ errors[0] }}</span>-->
         <!--              </ValidationProvider>-->
-        <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
+        <lang-input :hasError="false" type="textarea" :title="$t('prod.desc')"
                     :valuesOfLang="result.description"
                     @updateInput="updateInput"></lang-input>
         <ValidationProvider name="Brand" :rules="{ required: !is_draft && !result.brand_id }" v-slot="{ errors }"
@@ -104,7 +104,7 @@
       <!-- --------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
-      <div class="tab-sidebar p-3" v-if="is_variant">
+      <div class="tab-sidebar p-3" v-if="is_variant && !fromSingle">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unit of measure') }}</h4>
         <div class="form-group input-wrapper for-lang ar-lang">
           <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
@@ -116,9 +116,7 @@
           </select>
         </div>
       </div>
-      <!-- --------------------------- -->
-      <div class="my-10"></div>
-      <div class="col-md-4"></div>
+
       <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
         <hr>
@@ -387,7 +385,11 @@
         </div>
       </div>
       <!--          BasicInformationChild-->
-
+      <div class="tab-sidebar p-3">
+        <lang-input v-if="!fromSingle" :hasError="false" type="textarea" :title="$t('prod.desc')"
+                    :valuesOfLang="result.description"
+                    @updateInput="updateInput"></lang-input>
+      </div>
 
       <!-- ------------------------------------- -->
       <div class="my-10"></div>
@@ -1049,7 +1051,7 @@
         </div>
         <div class="button-group border-t border-smooth mt-20">
           <div class="flex justify-end gap-4 pt-3">
-            <button type="button" class="btn text-primary" @click.prevent="doDraft">
+            <button v-if="fromSingle" type="button" class="btn text-primary" @click.prevent="doDraft">
               {{ $t('prod.Save Draft') }}
             </button>
             <button type="submit" class="btn bg-primary text-white border-secondary">
@@ -1094,7 +1096,6 @@ import outsideClick from '~/directives/outside-click.js';
 import LangInput from "../../components/langInput.vue";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
-import Variant from "@/components/variant/Variant2.vue";
 import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
 import {extend} from 'vee-validate';
 import BasicInformationChild from "@/components/product/BasicInformationChild.vue";
@@ -1164,15 +1165,30 @@ extend('priceComparison', {
   message: 'Invalid price comparison'
 });
 export default {
-  name: "pink-tabs",
+  name: "AddProduct",
   middleware: ['common-middleware', 'auth'],
   props: {
     product: {
-      type: Object
+      type: Object,
+      default: null
+    },
+    select_attr1: String,
+    select_attr2: String,
+    is_edit: {
+      type: Boolean,
+      default: false
+    },
+    variant_uu_id: {
+      type: Number,
+      default: null
     },
     id: {
-      type: [Number,String],
+      type: [Number, String],
       default: ""
+    },
+    fromSingle: {
+      type: Boolean,
+      default: true
     },
     is_next: {
       type: Boolean,
@@ -1446,7 +1462,6 @@ export default {
     ErrorFormatter,
     Spinner,
     LangInput,
-    Variant,
     ValidationProvider,
     ValidationObserver
   },
@@ -1455,6 +1470,7 @@ export default {
     //   this.fetchingData()
     // },
   },
+
 
   computed: {
     availabilityStatus: {
@@ -1622,7 +1638,11 @@ export default {
       'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
-    selectedColor(newIndex) {
+    product(newValue, oldValue) {
+      if (this.product) {
+        this.result = this.product;
+        // this.result = JSON.parse(JSON.stringify(newValue));
+      }
 
     },
     'result.barcode_type'(newValue, oldValue) {
@@ -1666,7 +1686,7 @@ export default {
 
     doNext() {
 
-      this.$emit('GoNext',true)
+      this.$emit('GoNext', true)
       this.variant_uu_id = this.generateUUID();
       this.result.id = this.id;
 
@@ -1790,7 +1810,7 @@ export default {
       }
       this.result.status = 'pending'
       this.result.is_quote = false
-      this.result.is_variant = false
+      this.result.is_variant = !this.fromSingle
       // this.checkForm()
       const data = await this.setById({
         id: this.id,
@@ -1802,10 +1822,83 @@ export default {
         api: this.setApi
       })
       if (data.status === 200) {
-        var path = '/products/pending-approval';
-        if (data.data.status === "approved")
-          path = '/products/approved';
-        this.$router.push({path});
+        var res = data;
+        
+        this.result = {
+          title: res?.data.title,
+          variant_uu_id: res?.data.variant_uu_id,
+          description: res?.data.description,
+          parentCategory: res?.data.category?.id,
+          subCategory: res?.data.sub_category?.id,
+          childCategory: res?.data.child_category?.id,
+          product_prices: res?.data.product_prices,
+          unit_id: res?.data.unit_id,
+          features: res?.data.product_features?.map(item => item.name),
+          unit: res?.data.unit,
+          brand_id: res?.data.brand_id,
+          meta_title: res?.data.meta_title,
+          meta_description: res?.data.meta_description,
+          selling: res?.data.selling,
+          purchased: res?.data.selling, // Should this be res?.data.purchased?
+          offered: res?.data.offered,
+          images: res?.data.images,
+          product_images: res?.data.images,
+          video: res?.data.video,
+          status: res?.data.status,
+          parent_sku: res?.data.parent_sku,
+          basic_keyword_en: res?.data.basic_keyword_en,
+          basic_keyword_ar: res?.data.basic_keyword_ar,
+          basicInfoAr: res?.data.title,
+          basicInfoEng: res?.data.title,
+          barcode_type: res?.data.barcode_id,
+          barcode: res?.data.barcode_number,
+          sku: res?.data.sku,
+          available_quantity: res?.data.available_quantity,
+          pk_size: res?.data.packaging?.size,
+          pk_size_unit: res?.data.packaging?.size_unit,
+          pk_number_of_carton: res?.data.packaging?.number_of_carton,
+          pk_average_lead_time: res?.data.packaging?.average_lead_time,
+          pk_transportation_mode: res?.data.packaging?.transportation_mode,
+          pc_weight: res?.data.product_carton?.weight,
+          pc_weight_unit_id: res?.data.product_carton?.weight_unit_id,
+          pc_height: res?.data.product_carton?.height,
+          pc_height_unit_id: res?.data.product_carton?.height_unit_id,
+          pc_length: res?.data.product_carton?.length,
+          pc_length_unit_id: res?.data.product_carton?.length_unit_id,
+          pc_width: res?.data.product_carton?.width,
+          pc_width_unit_id: res?.data.product_carton?.width_unit_id,
+          pdime_weight: res?.data.product_dimension?.weight,
+          pdime_weight_unit_id: res?.data.product_dimension?.weight_unit_id,
+          pdime_height: res?.data.product_dimension?.height,
+          pdime_length: res?.data.product_dimension?.length,
+          pdime_width: res?.data.product_dimension?.width,
+          pdime_dimention_unit: res?.data.product_dimension?.dimention_unit,
+          pp_quantity: res?.data.product_prices?.map(price => price.quantity),
+          pp_unit_price: res?.data.product_prices?.map(price => price.unit_price),
+          pp_selling_price: res?.data.product_prices?.map(price => price.selling_price),
+          is_ready_to_ship: res?.data.is_ready_to_ship,
+          is_buy_now: res?.data.is_buyable,
+          is_availability: res?.data.is_available,
+          storage_temperature: res?.data.storage_temperature_id,
+          stock_location: res?.data.warehouse_id,
+          country_of_origin: res?.data.product_origin_id,
+          is_dangerous: res?.data.is_dangerous,
+          product_variants: res?.data.product_variant,
+          product_variant: res?.data.product_single_variant ?? [],
+          PriceingRows: res?.data.product_prices,
+          is_variant: !!res?.data.product_variant,
+          is_always_available: res?.data?.is_always_available,
+          additional_details_row: res?.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
+          hts_code: res?.data.hts_code,
+          id: res?.data.id,
+        }
+        this.$emit('productUpdate',this.result)
+        if (this.fromSingle) {
+          var path = '/products/pending-approval';
+          if (data.data.status === "approved")
+            path = '/products/approved';
+          this.$router.push({path});
+        }
 
       }
 
@@ -2094,14 +2187,17 @@ export default {
         return this.$nuxt.error(e)
       }
     }
-    if (!this.isAdding) {
-      await this.fetchingData(this.id)
+    if (this.product != null) {
+      this.result = this.product
     }
-    if (this.$route.query?.id) {
-      this.fetchingData(this.$route.query?.id).then(() => {
-        this.result.id = ""
-      })
-    }
+    // if (!this.isAdding) {
+    //   await this.fetchingData(this.id)
+    // }
+    // if (this.$route.query?.id) {
+    //   this.fetchingData(this.$route.query?.id).then(() => {
+    //     this.result.id = ""
+    //   })
+    // }
     if (this.allKeywords.length === 0) {
       await this.findKeyword()
     }

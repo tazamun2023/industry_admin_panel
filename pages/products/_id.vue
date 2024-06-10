@@ -16,15 +16,13 @@
         <label class="custom-control-label fw-bold" for="clonecheck"><strong
           style="line-height: 26px;">{{ $t('prod.Clone from existing product') }}</strong></label>
       </div>
-
       <product-clone-section
         v-if="is_clone"
         :cloneProduct="cloneProduct"
       />
     </div>
-
     <div v-if="!is_next && !is_clone">
-      <AddProduct @GoNext="is_next=true"></AddProduct>
+      <AddProduct :id="id" @GoNext="is_next=true"></AddProduct>
     </div>
   </div>
 

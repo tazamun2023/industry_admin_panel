@@ -2,7 +2,7 @@
   <div>
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4>{{ $t('prod.add_new_product') }}888888</h4>
+        <h4>{{ $t('prod.add_new_product') }}</h4>
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
       <div>
@@ -1508,7 +1508,7 @@ extend('priceComparison', {
 
 
 export default {
-  name: "Variant",
+  name: "VariantOld",
   mixins: [util],
   inject: [],
   components: {
@@ -1795,7 +1795,7 @@ export default {
     BarcodeValidationRules() {
       if (this.openTab !== 'parent') {
         let validationRules = {
-          required: (this.variants[this.openTab]?.result?.barcode_type != 4 && this.variants[this.openTab]?.result?.barcode_type != "")
+          required:( this.variants[this.openTab]?.result?.barcode_type != 4 &&  this.variants[this.openTab]?.result?.barcode_type!="" )
         };
 
         const barcodeLength = this.variants[this.openTab]?.result?.barcode?.length || 0;
@@ -2392,18 +2392,19 @@ export default {
       });
 
       if (confirmation.value) {
-        this.variants[this.openTab].result = JSON.parse(JSON.stringify(this.openTapData));
         this.openTab = tab;
         this.is_change = false
+
+
         if (this.openTab == 'parent')
           this.openTapData = {}
         else if (this.variants[tab].result?.is_always_available == 1) {
           this.variants[this.openTab].result.available_quantity = '';
           this.variants[this.openTab].result.is_availability = 1;
+
         }
 
       }
-
     },
     uploadModalToggle() {
       this.uploadModal = !this.uploadModal
