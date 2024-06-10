@@ -581,6 +581,7 @@ const actions = {
       dispatch("ui/setToastMessage", data.message, {root: true});
       return data.data;
     } else if (data.status === 201) {
+      dispatch('ui/setToastMessage', data.message, { root: true })
       dispatch("ui/setErrors", data.data, {root: true});
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
@@ -700,6 +701,7 @@ const actions = {
       return data.data;
     } else if (data.status === 201) {
       dispatch("ui/setErrors", data.data, {root: true});
+      dispatch("ui/setToastMessage", data.message, {root: true});
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
     }

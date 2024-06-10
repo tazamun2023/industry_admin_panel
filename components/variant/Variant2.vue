@@ -2,7 +2,7 @@
   <div>
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4>{{ $t('prod.add_new_product') }}</h4>
+        <h4>{{ $t('prod.add_new_product') }}888888</h4>
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
       <div>
