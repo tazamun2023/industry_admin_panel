@@ -1,9 +1,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Pusher from "pusher-js";
+import LazyImage from "../LazyImage.vue";
 
 export default {
   name: "InquiryTab",
+  components: {LazyImage},
   data() {
     return {
       is_loading: false,
@@ -16,6 +18,10 @@ export default {
   },
 
   methods: {
+    setActiveInq(data){
+      this.setActiveInquiriesOffer(data)
+      this.fetchingOfferData()
+    },
     activeInquiryData(data) {
       this.activeInquiry = data.id
       this.ActiveInquiryData = data
@@ -80,8 +86,31 @@ export default {
       }
     },
 
+    async fetchingOfferData() {
+      try {
+        this.formSubmitting = true
+        const data = await this.getRequest({
+          params: {
+            inquiry_id: this.activeInquiryData?.id,
+            tab: this.activeTab
+          },
+          api: 'activeInquiries',
+          requiredToken: true
+        });
+        if (data?.status === 200) {
+          await this.setActiveInquiriesOffer(data.data)
+        } else {
+          this.errors = data?.data?.form
+        }
+        this.formSubmitting = false
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    // ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer']),
   },
 
   computed: {
@@ -92,7 +121,10 @@ export default {
         inquiry.user?.name?.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+
+
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
 
 
@@ -135,7 +167,7 @@ export default {
     </div>
     <div v-if="inquiries.length > 0">
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
-           @click="activeInquiryData(inquirie)"
+           @click="setActiveInq(inquirie)"
            :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'bg-primarylight':''"
            class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth  p-2">
         <!--        <img class="h-10 w-10"-->

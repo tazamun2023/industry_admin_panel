@@ -223,7 +223,7 @@
     "Message Sent": "Message Sent",
     "RFQ Details": "RFQ Details",
     "Expires on": "Expires on",
-    "Initial unit target price": "GR • Initial unit target price:",
+    "Initial unit target price": "Initial unit target price:",
     "Cancelled Well let Seller know": "Cancelled. We'll let Seller know.",
     "Send": "Send",
     "Offer sent message": "Offer Sent! Thank you. We’ll let Seller know.",
@@ -1597,5 +1597,11 @@
     "LOCATION INFORMATION": "LOCATION INFORMATION",
     "LOCATION INFO": "LOCATION INFO",
     "GENERAL INFO": "GENERAL INFO"
+  },
+
+  "messageCenter": {
+    "Inquiries" : "Inquiries",
+    "RFQs" : "RFQs",
+    "Shipping" : "Shipping"
   }
 }
