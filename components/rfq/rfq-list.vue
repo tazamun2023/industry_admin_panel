@@ -237,8 +237,8 @@
                       <div class="w-100">
                         <div>
 
-                          <div v-if="collapsedId == value.id" class="mt-4 bg-gray-200 p-4 rounded">
-                            <RFQProducts class="p-4" :show_summary="false" :rfq="value"></RFQProducts>
+                          <div v-if="collapsedId == value.id" class="mt-4  p-4 rounded">
+                            <RFQProducts class="lg:p-4" :show_summary="false" :rfq="value"></RFQProducts>
                           </div>
                           <div class="text-center relative">
                             <img @click="toggleCollapse(value.id)"
