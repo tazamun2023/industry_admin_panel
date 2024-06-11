@@ -86,7 +86,7 @@
           @updateInput="updateInput"></lang-input>
         <!--                <span class="error">{{ errors[0] }}</span>-->
         <!--              </ValidationProvider>-->
-        <lang-input :hasError="false" type="textarea" :title="$t('prod.desc')"
+        <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
                     :valuesOfLang="result.description"
                     @updateInput="updateInput"></lang-input>
         <ValidationProvider name="Brand" :rules="{ required: !is_draft && !result.brand_id }" v-slot="{ errors }"
@@ -107,7 +107,7 @@
       <!-- --------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
-      <div class="tab-sidebar p-3" v-if="is_variant && !fromSingle">
+      <div class="tab-sidebar p-3" v-if="is_variant || !fromSingle">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unit of measure') }}</h4>
         <div class="form-group input-wrapper for-lang ar-lang">
           <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
@@ -122,11 +122,13 @@
 
       <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
+
         <hr>
         <table>
           <tr>
             <td>{{ $t('prod.Color') }}</td>
             <td>{{ $t('prod.Size') }}</td>
+
           </tr>
           <tr>
             <td>
@@ -276,9 +278,10 @@
             </div>
           </div>
 
-          <div v-if="!is_variant_save ">
+          <div>
             <div class="col-md-4 pt-4">
-              <button v-if="result.product_variants.length==0 || id==''"
+
+              <button v-if="((result.product_variants.length==0 && id>0 ) || id=='add')"
                       :disabled="select_attr1==='' || select_attr2===''" type="button"
                       @click.prevent="addVariantValueRows()"
                       class="btn mb-10 w-25 btn-outline-secondary">
@@ -1160,8 +1163,6 @@ export default {
       pv_type: false,
       isColor: false,
       isSize: false,
-      selectedAttribute1: null,
-      selectedAttribute2: null,
       disableAttribute2: false,
       disableAttribute1: false,
       is_barcode: false,
@@ -1584,12 +1585,12 @@ export default {
       }
     },
     p_select_attr1(newValue, oldValue) {
-      if (this.p_variant_uu_id) {
+      if (this.p_select_attr1) {
         this.select_attr1 = this.p_select_attr1;
       }
     },
     p_select_attr2(newValue, oldValue) {
-      if (this.p_variant_uu_id) {
+      if (this.p_select_attr2) {
         this.select_attr1 = this.p_select_attr2;
       }
     },
@@ -2010,107 +2011,13 @@ export default {
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: api}))
-        // console.log('res', res)
-        this.result = {
-          title: res.title,
-          description: res.description,
-          parentCategory: res.category?.id,
-          subCategory: res.sub_category?.id,
-          childCategory: res.child_category?.id,
-          product_prices: res.product_prices,
-          unit_id: res.unit_id,
-          features: res.product_features?.map(item => (item.name)),
-          unit: res.unit,
-          brand_id: res.brand_id,
-          meta_title: res.meta_title,
-          meta_description: res.meta_description,
-          selling: res.selling,
-          purchased: res.selling,
-          offered: res.offered,
-          images: res.images,
-          product_images: res.product_images,
-          video: res.video,
-          status: res.status,
-          parent_sku: res.parent_sku,
-          /*Basic Information*/
-          basic_keyword_en: res.basic_keyword_en,
-          basic_keyword_ar: res.basic_keyword_ar,
-          basicInfoAr: res.title,
-          basicInfoEng: res.title,
-          /*end Basic Information*/
-          /* Product Identifiers*/
-          barcode_type: res.barcode_id,
-          barcode: res.barcode_number,
-          sku: res.sku,
-          /* end Product Identifiers*/
+        console.log('res', res)
+        this.result = res
 
-
-
-          /*Product Inventory*/
-          available_quantity: res.available_quantity,
-          /*ende Product Inventory*/
-          /*Packaging*/
-
-          pk_size: res.packaging?.size,
-          pk_size_unit: res.packaging?.size_unit,
-          pk_number_of_carton: res.packaging?.number_of_carton,
-          pk_average_lead_time: res.packaging?.average_lead_time,
-          pk_transportation_mode: res.packaging?.transportation_mode,
-          /*emd Packaging*/
-
-          /*Carton Dimensions & Weight*/
-          pc_weight: res.product_carton?.weight,
-          pc_weight_unit_id: res.product_carton?.weight_unit_id,
-          pc_height: res.product_carton?.height,
-          pc_height_unit_id: res.product_carton?.height_unit_id,
-          pc_length: res.product_carton?.length,
-          pc_length_unit_id: res.product_carton?.length_unit_id,
-          pc_width: res.product_carton?.width,
-          pc_width_unit_id: res.product_carton?.width_unit_id,
-          /*end Carton Dimensions & Weight*/
-          /*Product dimensions & weight*/
-          pdime_weight: res.product_dimension?.weight,
-          pdime_weight_unit_id: res.product_dimension?.weight_unit_id,
-          pdime_height: res.product_dimension?.height,
-          pdime_length: res.product_dimension?.length,
-          pdime_width: res.product_dimension?.width,
-          pdime_dimention_unit: res.product_dimension?.dimention_unit,
-          /*end Product dimensions & weight*/
-          /*Pricing*/
-          // pp_unit_of_measure_id: res.product_prices.length != 0?res.product_prices?.[0].unit_of_measure_id:0,
-          pp_quantity: res.product_prices?.map(price => price.quantity),
-          pp_unit_price: res.product_prices?.map(price => price.unit_price),
-          pp_selling_price: res.product_prices?.map(price => price.selling_price),
-          /*Shipping details*/
-          is_ready_to_ship: res.is_ready_to_ship,
-          is_buy_now: res.is_buyable,
-          is_availability: res.is_available,
-          is_always_available: res.is_always_available,
-          storage_temperature: res.storage_temperature_id,
-          stock_location: res.warehouse_id,
-          country_of_origin: res.product_origin_id,
-          is_dangerous: res.is_dangerous,
-
-          product_variants: res.product_variant,
-          product_variant: res.product_single_variant ?? [],
-          PriceingRows: res.product_prices,
-          is_variant: res.product_variant ? true : false,
-          additional_details_row: res.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-          hts_code: res.hts_code,
-          variant_uuid: res.variant_uuid,
-          id: res.id,
-
-
-        }
         if (this.result.features.length == 0)
           this.result.features = [{'ar': '', 'en': ''}]
 
-        this.isThumb = res.thumb_image;
-        this.isFirstThumb = res.first_thumb_image;
-        this.result.images = res.images
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
-        this.select_attr1 = 'color';
-        this.select_attr2 = 'size';
         this.is_variant = false;
         // this.result.PriceingRows = res.product_prices
         this.result.product_variants = res.product_variant ?? [];
@@ -2154,8 +2061,8 @@ export default {
     this.getThumb(this.isThumb)
 
     this.compareMethods();
-    this.selectedAttribute1 = 'color';
-    this.selectedAttribute2 = 'size';
+    this.select_attr1 = 'color';
+    this.select_attr2 = 'size';
     if (this.allCategoriesTree.length == 0) {
       try {
         await this.getCategoriesTree()

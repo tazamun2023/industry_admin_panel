@@ -365,10 +365,10 @@
     <div :class="openTab !== 'parent' ? 'block':'hidden'">
       <!--      <div v-if="openTab !== 'parent'">-->
       <add-product :from-single="false"
-                   :select_attr1="select_attr1"
+                   :p_select_attr1="select_attr1"
                    @productUpdate="openTab='parent'"
                    :id="variants[openTab]?.result?.id"
-                   :select_attr2="select_attr2"
+                   :p_select_attr2="select_attr2"
                    :product="variants[openTab]?.result"></add-product>
       <!--      </div>-->
     </div>
@@ -1345,9 +1345,10 @@ export default {
       this.variants = this.variantsData
       this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     } else {
+
       this.result.product_variants.forEach((variant) => {
         // this.result.sku = ''
-        this.variants.push(Object.assign({result: this.result}));
+        this.variants.push(Object.assign({result: {...this.result,product_variant:variant}}));
       });
       console.log('mounted...')
     }

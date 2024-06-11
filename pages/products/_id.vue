@@ -92,7 +92,7 @@ export default {
     GoNext(v) {
       this.is_next = true;
       this.variant = v;
-      this.variant.product_variant={name:v.select_attr1,value:v.select_attr2}
+      this.variant.result.product_variant={name:v.select_attr1,value:v.select_attr2}
     },
     isClone() {
       this.is_clone = !this.is_clone;
