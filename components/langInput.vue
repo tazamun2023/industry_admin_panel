@@ -9,14 +9,15 @@
     <!--      </li>-->
     <!--    </ul>-->
     <!-- Input fields for each language -->
-    <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
+    <ValidationObserver class="w-full" v-slot="{ invalid }">
+      <template v-if="invalidWatcher(invalid)"></template>
       <div class="grid grid-cols-12 gap-1 md:gap-2">
-        <div v-for="(language, index) in languages" :key="language" class="col-span-12"
+        <div v-for="(language, index) in languages" class="col-span-12" :key="index"
              :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
-          <ValidationProvider name="Title" :rules="{required: hasError}" v-slot="{ errors }"
+          <ValidationProvider :name="'Title_'+language" :rules="{min:min,required: isRequired}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
             <div class="input-wrapper">
-              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) <strong
+              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) {{invalidData}} <strong
                 class="text-error">*</strong></label>
               <input
                 v-if="type=='text'"
@@ -24,7 +25,7 @@
                 :placeholder="title"
                 :value="valuesOfLang[language]"
                 @input="updateInputValue(language, $event.target.value)"
-                :class="{ invalid: !!!valuesOfLang[language] && hasError, 'cursor-not-allowed': isVariant }"
+                :class="{ invalid: !!!valuesOfLang[language] , 'cursor-not-allowed': isVariant }"
                 :readonly="IsReadOnly"
               >
 
@@ -43,7 +44,7 @@
               <!--                         :disabled="true"-->
               <!--                         @input="updateInputValue(language, $event.target.value)"-->
               <!--          />-->
-              <span class="error" v-if="errors[0]">{{ $t('category.req', {type: title}) }}</span>
+              <span class="error" v-if="errors[0]">{{errors[0] }}</span>
               <!--          <span class="error" v-if="!!!valuesOfLang[language] && hasError">-->
               <!--          {{ $t('category.req', {type: title}) }}-->
               <!--        </span>-->
@@ -78,13 +79,16 @@ export default {
       type: Object,
       required: true,
     },
-    hasError: {
+    isRequired: {
       type: Boolean,
-      required: true,
+      default: true,
+    },
+    min: {
+      type: Number,
+      default: 3,
     },
     width50: {
       type: Boolean,
-      required: false,
       default: true
     },
     title: {
@@ -93,7 +97,6 @@ export default {
     },
     type: {
       type: String,
-      required: true,
       default: "text"
     },
     isVariant: {
@@ -115,48 +118,20 @@ export default {
     return {
       languages: ['ar', 'en'], // Add your desired languages here
       currentTab: 0,
+      invalidData: false
     };
   },
   methods: {
     updateInputValue(language, value) {
       this.$emit('updateInput', this.valuesOfLang, language, value);
     },
-    editorOverviewFile({deleted, file, Editor, cursorLocation, resetUploader}) {
-      this.editorFile({deleted, file, Editor, cursorLocation, resetUploader}, "product")
+    invalidWatcher(invalid) {
+      console.log('unvaild', invalid)
+      this.invalidData=invalid
+      if (invalid!=undefined)
+        this.$emit('checkLangError', this.invalidData)
+      return true; // Necessary to keep the template valid
     },
-
-    async editorFile({deleted, file, Editor, cursorLocation, resetUploader}, type) {
-      if (!deleted) {
-        this.loading = true
-        try {
-          const fd = new FormData()
-          fd.append('type', type)
-          fd.append('photo', file)
-          fd.append('item_id', 0)
-          const data = await this.setWysiwygImage(fd)
-          if (data) {
-            //   if (!this.result.id) {
-            //     await this.$router.push({path: `/${this.routeName}/${data.item_id}`})
-            //   } else {
-            Editor.insertEmbed(cursorLocation, "image", data.url);
-            resetUploader();
-            // }
-          }
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
-        this.loading = false
-      } else {
-        this.loading = true
-        try {
-          await this.deleteData({params: this.getImageName(file), api: 'deleteWysiwygImage'})
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
-        this.loading = false
-      }
-    },
-    ...mapActions('common', ['setImageById', 'setWysiwygImage', 'deleteData'])
 
   },
 };

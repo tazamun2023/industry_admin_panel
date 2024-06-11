@@ -426,14 +426,14 @@
                   <div class="form-group">
                     <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                             @change="setColorName(index, $event)"
-                            v-if="select_attr1 === 'color'">
+                           >
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                           item.name
                         }}
                       </option>
                     </select>
                     <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                           v-if="select_attr1 === 'size'"/>
+                           />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -525,7 +525,7 @@
           <!-- Modal Content -->
           <div class="mb-4 border-b border-smooth pb-2">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unite price') }}
-              ({{ variants[is_attributes_modal_index]?.result.product_variant?.color.name.en }},
+              ({{ variants[is_attributes_modal_index]?.result.product_variant?.color?.name.en }},
               {{ variants[is_attributes_modal_index]?.result.product_variant?.value }})</h4>
           </div>
           <div>
@@ -615,8 +615,7 @@
 <script>
 
 import {mapActions, mapGetters} from "vuex";
-import {extend, validate, ValidationObserver, ValidationProvider} from 'vee-validate';
-import AjaxButton from "@/components/AjaxButton.vue";
+import { ValidationObserver, ValidationProvider} from 'vee-validate';
 import util from "@/mixin/util";
 import AddProduct from "./AddProduct.vue";
 

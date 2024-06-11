@@ -235,7 +235,7 @@
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
-                      <p v-if="value.available_quantity===null && value.is_always_available===1" class="text-primary text-nowrap">
+                      <p v-if="value.is_always_available===1" class="text-primary text-nowrap">
                         {{ $t('prod.Always Available') }}</p>
                       <input v-else-if="$store.state.admin.isVendor && value.available_quantity!==null" type="qty" title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"

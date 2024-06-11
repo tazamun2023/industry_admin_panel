@@ -241,7 +241,7 @@ export default {
           if (!isNaN(key)) {
             let productVariant = {
               name: res[key]?.product_variant?.name || '',
-              color_name: res[key]?.product_variant?.color.name?.en || '',
+              color_name: res[key]?.product_variant?.color?.name?.en || '',
               value: res[key]?.product_variant?.value || '',
               product_id: res[key]?.product_variant?.product_id || '',
             };
@@ -354,7 +354,7 @@ export default {
           if (!isNaN(key)) {
             let productVariant = {
               name: res[key]?.product_variant?.name || '',
-              color_name: res[key]?.product_variant?.color.name?.en || '',
+              color_name: res[key]?.product_variant?.color?.name?.en || '',
               value: res[key]?.product_variant?.value || '',
               product_id: res[key]?.product_variant?.product_id || '',
             };

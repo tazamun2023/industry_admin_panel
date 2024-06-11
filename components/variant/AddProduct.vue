@@ -2,7 +2,7 @@
 
 
   <ValidationObserver class="w-full" v-slot="{ invalid, handleSubmit }">
-    <form @submit.prevent="handleSubmit(doSubmit)">
+    <form @submit.prevent="is_submit=true,handleSubmit(doSubmit)">
       <!-- --------------------------- -->
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
@@ -79,8 +79,11 @@
 
         <!--              <ValidationProvider name="Title" :rules="{required: true}" v-slot="{ errors }"-->
         <!--                                  :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">-->
-        <lang-input :hasError="true" type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
-                    @updateInput="updateInput"></lang-input>
+        <lang-input
+          @checkLangError="checkLangError"
+          :min="5"
+          type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
+          @updateInput="updateInput"></lang-input>
         <!--                <span class="error">{{ errors[0] }}</span>-->
         <!--              </ValidationProvider>-->
         <lang-input :hasError="false" type="textarea" :title="$t('prod.desc')"
@@ -333,16 +336,12 @@
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
         <div class="card-body">
           <div class="input-wrapper mb-10">
-            <ValidationProvider name="Arabic keyword" :rules="{required: false}" v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
-                                class="w-full">
-              <label for="">{{ $t('prod.Key features - English') }} ?</label>
 
-              <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
-                                :valuesOfLang="result.features"
-                                @updateInput="updateInput"></lang-input-multi>
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
+            <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
+                              :valuesOfLang="result.features"
+                              @updateInput="updateInput">
+
+            </lang-input-multi>
           </div>
 
           <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}"
@@ -402,7 +401,7 @@
                           class="w-full">
         <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
-          <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="false"
+          <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="0"
                              :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
           </vue-upload-images>
 
@@ -1057,7 +1056,7 @@
             <button type="submit" class="btn bg-primary text-white border-secondary">
               {{ $t('prod.Send for review') }}
             </button>
-            <span class="font-semibold text-error" v-if="invalid && is_submit ">{{
+            <span class="font-semibold text-error" v-if="(invalid || hasLangError)&& is_submit ">{{
                 $t('prod.Check the errors')
               }}</span>
           </div>
@@ -1103,67 +1102,6 @@ import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
 import _ from 'lodash';
 
-extend('min', {
-  validate(value, {length}) {
-    return value.length >= length;
-  },
-  params: ['length'],
-  message: 'The {_field_} field must have at least {length} characters'
-});
-extend('uniqueSku', {
-  validate: (value, {exsist}) => {
-    return exsist;
-  },
-  params: ['uniqueSku'], // Define the parameter name as allSKus
-  message: 'SKU must be unique'
-});
-extend('validatePrice', {
-  validate: (value, {allPrices}) => {
-    for (let i = 0; i < allPrices.length; i++) {
-      const up = allPrices[i]?.unit_price;
-      const usp = allPrices[i]?.selling_price;
-      if (!(up && usp && usp <= up)) {
-        return false; // If any item doesn't meet the condition, return false
-      }
-    }
-    return true; // If all items meet the condition, return true
-  },
-  params: ['allPrices'],
-  message: 'Selling price must be smaller than or equal to the unit price'
-});
-// Custom rule for quantity comparison
-extend('quantityComparison', {
-  validate(value, {first, second, third}) {
-    if (!first || !second) {
-      return true; // If any quantity is missing, let required rule handle it
-    }
-
-    if (first > second) {
-      return 'Second quantity must be greater than the first';
-    }
-
-    if (third && second > third) {
-      return 'Third quantity must be greater than the second';
-    }
-
-    return true;
-  },
-  params: ['first', 'second', 'third'],
-  message: 'Invalid quantities comparison'
-});
-// Custom rule for quantity comparison
-extend('priceComparison', {
-  validate(value, {unit_prices, selling_prices}) {
-    for (let i = 0; i < unit_prices.length; i++) {
-      if (selling_prices[i] >= unit_prices[i]) {
-        return 'The selling price must be smaller than the unit price!';
-      }
-    }
-    return true;
-  },
-  params: ['unit_prices', 'selling_prices'],
-  message: 'Invalid price comparison'
-});
 export default {
   name: "AddProduct",
   middleware: ['common-middleware', 'auth'],
@@ -1172,8 +1110,8 @@ export default {
       type: Object,
       default: null
     },
-    select_attr1: String,
-    select_attr2: String,
+    p_select_attr1: String,
+    p_select_attr2: String,
     is_edit: {
       type: Boolean,
       default: false
@@ -1203,6 +1141,7 @@ export default {
 
     return {
 
+      hasLangError: false,
       is_click_available: false,
       variant_uu_id: '',
       is_variant_save: false,
@@ -1542,6 +1481,7 @@ export default {
         max_value: 99999999,
       };
     },
+
     BarcodeValidationRules() {
       let validationRules = {
         required: !this.is_draft && this.result.barcode_type != 4
@@ -1638,9 +1578,27 @@ export default {
       'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
+    p_variant_uu_id(newValue, oldValue) {
+      if (this.p_variant_uu_id) {
+        this.variant_uu_id = this.p_variant_uu_id;
+      }
+    },
+    p_select_attr1(newValue, oldValue) {
+      if (this.p_variant_uu_id) {
+        this.select_attr1 = this.p_select_attr1;
+      }
+    },
+    p_select_attr2(newValue, oldValue) {
+      if (this.p_variant_uu_id) {
+        this.select_attr1 = this.p_select_attr2;
+      }
+    },
     product(newValue, oldValue) {
       if (this.product) {
         this.result = this.product;
+
+        if (this.result.features.length == 0)
+          this.result.features = [{'ar': '', 'en': ''}]
         // this.result = JSON.parse(JSON.stringify(newValue));
       }
 
@@ -1660,6 +1618,11 @@ export default {
     }
   },
   methods: {
+    checkLangError(haserror) {
+
+      this.hasLangError = haserror
+    },
+
     async changeSKU(sku, product_id) {
       this.debouncedInputHandler();
 
@@ -1669,7 +1632,7 @@ export default {
       console.log('User stopped typing, current value:', this.inputValue);
       this.checkIfVaildSKU({sku: this.result.sku, product_id: this.result.id})
       // Add any additional logic here
-    }, 1000),
+    }, 500),
 
     compareMethods() {
       let ava_qty = parseInt(this.result.available_quantity);
@@ -1686,7 +1649,16 @@ export default {
 
     doNext() {
 
-      this.$emit('GoNext', true)
+      this.$emit('GoNext', {
+        result: this.result,
+        selectedLevel1: this.selectedLevel1,
+        selectedLevel2: this.selectedLevel2,
+        selectedLevel3: this.selectedLevel3,
+        select_attr1: this.select_attr1,
+        select_attr2: this.select_attr2,
+        variant_uu_id: this.variant_uu_id,
+
+      })
       this.variant_uu_id = this.generateUUID();
       this.result.id = this.id;
 
@@ -1822,82 +1794,83 @@ export default {
         api: this.setApi
       })
       if (data.status === 200) {
-        var res = data;
-        
-        this.result = {
-          title: res?.data.title,
-          variant_uu_id: res?.data.variant_uu_id,
-          description: res?.data.description,
-          parentCategory: res?.data.category?.id,
-          subCategory: res?.data.sub_category?.id,
-          childCategory: res?.data.child_category?.id,
-          product_prices: res?.data.product_prices,
-          unit_id: res?.data.unit_id,
-          features: res?.data.product_features?.map(item => item.name),
-          unit: res?.data.unit,
-          brand_id: res?.data.brand_id,
-          meta_title: res?.data.meta_title,
-          meta_description: res?.data.meta_description,
-          selling: res?.data.selling,
-          purchased: res?.data.selling, // Should this be res?.data.purchased?
-          offered: res?.data.offered,
-          images: res?.data.images,
-          product_images: res?.data.images,
-          video: res?.data.video,
-          status: res?.data.status,
-          parent_sku: res?.data.parent_sku,
-          basic_keyword_en: res?.data.basic_keyword_en,
-          basic_keyword_ar: res?.data.basic_keyword_ar,
-          basicInfoAr: res?.data.title,
-          basicInfoEng: res?.data.title,
-          barcode_type: res?.data.barcode_id,
-          barcode: res?.data.barcode_number,
-          sku: res?.data.sku,
-          available_quantity: res?.data.available_quantity,
-          pk_size: res?.data.packaging?.size,
-          pk_size_unit: res?.data.packaging?.size_unit,
-          pk_number_of_carton: res?.data.packaging?.number_of_carton,
-          pk_average_lead_time: res?.data.packaging?.average_lead_time,
-          pk_transportation_mode: res?.data.packaging?.transportation_mode,
-          pc_weight: res?.data.product_carton?.weight,
-          pc_weight_unit_id: res?.data.product_carton?.weight_unit_id,
-          pc_height: res?.data.product_carton?.height,
-          pc_height_unit_id: res?.data.product_carton?.height_unit_id,
-          pc_length: res?.data.product_carton?.length,
-          pc_length_unit_id: res?.data.product_carton?.length_unit_id,
-          pc_width: res?.data.product_carton?.width,
-          pc_width_unit_id: res?.data.product_carton?.width_unit_id,
-          pdime_weight: res?.data.product_dimension?.weight,
-          pdime_weight_unit_id: res?.data.product_dimension?.weight_unit_id,
-          pdime_height: res?.data.product_dimension?.height,
-          pdime_length: res?.data.product_dimension?.length,
-          pdime_width: res?.data.product_dimension?.width,
-          pdime_dimention_unit: res?.data.product_dimension?.dimention_unit,
-          pp_quantity: res?.data.product_prices?.map(price => price.quantity),
-          pp_unit_price: res?.data.product_prices?.map(price => price.unit_price),
-          pp_selling_price: res?.data.product_prices?.map(price => price.selling_price),
-          is_ready_to_ship: res?.data.is_ready_to_ship,
-          is_buy_now: res?.data.is_buyable,
-          is_availability: res?.data.is_available,
-          storage_temperature: res?.data.storage_temperature_id,
-          stock_location: res?.data.warehouse_id,
-          country_of_origin: res?.data.product_origin_id,
-          is_dangerous: res?.data.is_dangerous,
-          product_variants: res?.data.product_variant,
-          product_variant: res?.data.product_single_variant ?? [],
-          PriceingRows: res?.data.product_prices,
-          is_variant: !!res?.data.product_variant,
-          is_always_available: res?.data?.is_always_available,
-          additional_details_row: res?.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-          hts_code: res?.data.hts_code,
-          id: res?.data.id,
-        }
-        this.$emit('productUpdate',this.result)
+
         if (this.fromSingle) {
           var path = '/products/pending-approval';
           if (data.data.status === "approved")
             path = '/products/approved';
           this.$router.push({path});
+        } else {
+          var res = data;
+          this.result = {
+            title: res?.data.title,
+            variant_uu_id: res?.data.variant_uu_id,
+            description: res?.data.description,
+            parentCategory: res?.data.category?.id,
+            subCategory: res?.data.sub_category?.id,
+            childCategory: res?.data.child_category?.id,
+            product_prices: res?.data.product_prices,
+            unit_id: res?.data.unit_id,
+            features: res?.data.product_features?.map(item => item.name),
+            unit: res?.data.unit,
+            brand_id: res?.data.brand_id,
+            meta_title: res?.data.meta_title,
+            meta_description: res?.data.meta_description,
+            selling: res?.data.selling,
+            purchased: res?.data.selling, // Should this be res?.data.purchased?
+            offered: res?.data.offered,
+            images: res?.data.images,
+            product_images: res?.data.images,
+            video: res?.data.video,
+            status: res?.data.status,
+            parent_sku: res?.data.parent_sku,
+            basic_keyword_en: res?.data.basic_keyword_en,
+            basic_keyword_ar: res?.data.basic_keyword_ar,
+            basicInfoAr: res?.data.title,
+            basicInfoEng: res?.data.title,
+            barcode_type: res?.data.barcode_id,
+            barcode: res?.data.barcode_number,
+            sku: res?.data.sku,
+            available_quantity: res?.data.available_quantity,
+            pk_size: res?.data.packaging?.size,
+            pk_size_unit: res?.data.packaging?.size_unit,
+            pk_number_of_carton: res?.data.packaging?.number_of_carton,
+            pk_average_lead_time: res?.data.packaging?.average_lead_time,
+            pk_transportation_mode: res?.data.packaging?.transportation_mode,
+            pc_weight: res?.data.product_carton?.weight,
+            pc_weight_unit_id: res?.data.product_carton?.weight_unit_id,
+            pc_height: res?.data.product_carton?.height,
+            pc_height_unit_id: res?.data.product_carton?.height_unit_id,
+            pc_length: res?.data.product_carton?.length,
+            pc_length_unit_id: res?.data.product_carton?.length_unit_id,
+            pc_width: res?.data.product_carton?.width,
+            pc_width_unit_id: res?.data.product_carton?.width_unit_id,
+            pdime_weight: res?.data.product_dimension?.weight,
+            pdime_weight_unit_id: res?.data.product_dimension?.weight_unit_id,
+            pdime_height: res?.data.product_dimension?.height,
+            pdime_length: res?.data.product_dimension?.length,
+            pdime_width: res?.data.product_dimension?.width,
+            pdime_dimention_unit: res?.data.product_dimension?.dimention_unit,
+            pp_quantity: res?.data.product_prices?.map(price => price.quantity),
+            pp_unit_price: res?.data.product_prices?.map(price => price.unit_price),
+            pp_selling_price: res?.data.product_prices?.map(price => price.selling_price),
+            is_ready_to_ship: res?.data.is_ready_to_ship,
+            is_buy_now: res?.data.is_buyable,
+            is_availability: res?.data.is_available,
+            storage_temperature: res?.data.storage_temperature_id,
+            stock_location: res?.data.warehouse_id,
+            country_of_origin: res?.data.product_origin_id,
+            is_dangerous: res?.data.is_dangerous,
+            product_variants: res?.data.product_variant,
+            product_variant: res?.data.product_single_variant ?? [],
+            PriceingRows: res?.data.product_prices,
+            is_variant: !!res?.data.product_variant,
+            is_always_available: res?.data?.is_always_available,
+            additional_details_row: res?.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
+            hts_code: res?.data.hts_code,
+            id: res?.data.id,
+          }
+          this.$emit('productUpdate', this.result)
         }
 
       }
@@ -2129,6 +2102,9 @@ export default {
 
 
         }
+        if (this.result.features.length == 0)
+          this.result.features = [{'ar': '', 'en': ''}]
+
         this.isThumb = res.thumb_image;
         this.isFirstThumb = res.first_thumb_image;
         this.result.images = res.images
@@ -2190,14 +2166,16 @@ export default {
     if (this.product != null) {
       this.result = this.product
     }
-    // if (!this.isAdding) {
-    //   await this.fetchingData(this.id)
-    // }
-    // if (this.$route.query?.id) {
-    //   this.fetchingData(this.$route.query?.id).then(() => {
-    //     this.result.id = ""
-    //   })
-    // }
+    if (this.fromSingle) {
+      if (!this.isAdding) {
+        await this.fetchingData(this.id)
+      }
+      if (this.$route.query?.id) {
+        this.fetchingData(this.$route.query?.id).then(() => {
+          this.result.id = ""
+        })
+      }
+    }
     if (this.allKeywords.length === 0) {
       await this.findKeyword()
     }
