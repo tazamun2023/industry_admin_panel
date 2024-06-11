@@ -1,17 +1,12 @@
 <script>
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "ReplyNewOffer",
   props: {
-    ActiveInquiryData: {},
     is_send_new_offer_customer: {},
-    offer_index: {},
-    is_send_new_offer_vendor: {},
-    customer: {
-      type: Boolean
-    },
+    InqOffer: {},
   },
   components: {ValidationObserver, ValidationProvider},
   data() {
@@ -24,15 +19,18 @@ export default {
         unit_target_price: '',
         total_tax: 0,
         expired_at: '',
-        quantity: ''
+        quantity: 1
       }
     }
   },
   created() {
-    this.initializeQuantity();
+    // this.initializeQuantity();
   },
   mounted() {
-    this.formData.quantity = this.ActiveInquiryData?.offer?.quantity
+    // this.formData.quantity = this.activeInquiryData?.offer?.quantity
+  },
+  computed:{
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
   methods: {
     initializeQuantity() {
@@ -44,8 +42,8 @@ export default {
         this.formSubmitting = true
         await this.setRequest({
           params: {
-            inquiry_id: this.ActiveInquiryData.inquiry_id,
-            inquiry_offer_id: this.ActiveInquiryData.id,
+            inquiry_id: this.activeInquiryData.id,
+            inquiry_offer_id: this.InqOffer.id,
             status: 'pending_response',
             is_reply: 1,
             type: this.formData.type,
@@ -55,6 +53,7 @@ export default {
           },
           api: 'inquiriesOfferStore'
         }).then(data => {
+          // this.InqOffer = null;
           // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
           this.$emit('is_send_new_offer', false);
           this.$emit('is_send_new_offer_vendor', false);
@@ -66,6 +65,8 @@ export default {
         return this.$nuxt.error(e)
       }
     },
+
+
     Cancel() {
       this.$emit('is_cancel', true);
     },
@@ -96,12 +97,13 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer']),
   }
 }
 </script>
 
 <template>
-  <div>
+  <div v-if="InqOffer">
     <p class="font-bold">{{ $t('products.Send new offer') }}</p>
     <ValidationObserver v-slot="{ invalid }">
       <div class="bg-darklight p-4">

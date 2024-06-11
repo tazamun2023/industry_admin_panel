@@ -20,6 +20,11 @@ export default {
   methods: {
     setActiveInq(data){
       this.setActiveInquiriesOffer(data)
+      console.log('set active - ',data)
+      if (data.unread_message > 0){
+        this.readMessage(data.id)
+        this.fetchingData();
+      }
       this.fetchingOfferData()
     },
     activeInquiryData(data) {
@@ -46,23 +51,23 @@ export default {
         api: 'readMessage'
       }).then(data => {
         // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-          cluster: process.env.PUSHER_APP_CLUSTER
-        });
-
-        const channel = pusher.subscribe('chat');
-        channel.bind('message', dataP => {
-          try {
-            this.is_loading = true
-            this.fetchingData()
-            this.is_loading = false
-
-          } catch (e) {
-            return this.$nuxt.error(e)
-          }
-        });
+        // Pusher.logToConsole = true;
+        //
+        // const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+        //   cluster: process.env.PUSHER_APP_CLUSTER
+        // });
+        //
+        // const channel = pusher.subscribe('chat');
+        // channel.bind('message', dataP => {
+        //   try {
+        //     this.is_loading = true
+        //     this.fetchingData()
+        //     this.is_loading = false
+        //
+        //   } catch (e) {
+        //     return this.$nuxt.error(e)
+        //   }
+        // });
       })
     },
 
@@ -79,8 +84,6 @@ export default {
           this.$emit('currentInq', this.inquiries);
           this.is_loading = false
         }))
-
-
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -141,7 +144,8 @@ export default {
       cluster: process.env.PUSHER_APP_CLUSTER
     });
 
-    const channel = pusher.subscribe('chat');
+    const vendorId = this.$store.$auth.user.user.vendor_id;
+    const channel = pusher.subscribe(`chat${vendorId}`);
     channel.bind('message', dataP => {
       try {
         this.is_loading = true
@@ -168,7 +172,7 @@ export default {
     <div v-if="inquiries.length > 0">
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
            @click="setActiveInq(inquirie)"
-           :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'bg-primarylight':''"
+           :class="inquirie?.id===activeInquiryData?.id ?'bg-primarylight':''"
            class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth  p-2">
         <!--        <img class="h-10 w-10"-->
         <!--             src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"-->
@@ -184,7 +188,7 @@ export default {
                   :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
                {{ truncateUserName(inquirie?.inquirable?.title, 60) }}
             </span>
-            <span class="relative">
+            <span class="relative ml-2">
               {{ inquirie.last_time }}
               <span
                 class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
