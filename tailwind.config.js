@@ -49,7 +49,9 @@ module.exports = {
       fullred:"#E10000",
       cancellight:"#FFF1CC",
       canceldeep:'#FB641E',
-      transparent:"#000000f7"
+      transparent:"#000000f7",
+      prograss:'#D83432',
+      orange:'#F9A533'
     },
 
     screens: {
