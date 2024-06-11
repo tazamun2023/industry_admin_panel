@@ -457,25 +457,39 @@ export default {
               <div class="lg:grid lg:grid-cols-2 gap-4">
                 <div class="flex gap-4 items-center">
                   <lazy-image
+                    v-if="activeTab==='rfq'"
+                    class="h-10 w-10 object-cover rounded"
+                    :data-src="activeRfqInquiries.rfq_product?.image"
+                    :alt="activeRfqInquiries.rfq_product?.image"
+                  />
+                  <lazy-image
+                    v-else
                     class="h-10 w-10 object-cover rounded"
                     :data-src="activeInquiryData?.inquirable?.image"
                     :alt="activeInquiryData?.inquirable?.image"
                   />
-                  <div>
-                    <a class="font-bold text-theem" href="">{{ activeInquiryData?.inquirable?.title }}</a>
-                    <p>Quantity: <span class="text-primary">{{ activeInquiryData?.inquiryOffers[0]?.offer?.quantity }} {{ activeInquiryData?.inquirable?.product_unit?.name  }}</span>
-                      <br>
-                      {{ $t('products.Initial unit target price') }}
-                      <price-format :price="Number(activeInquiryData?.inquiryOffers[0]?.offer?.quantity * activeInquiryData?.inquiryOffers[0]?.offer?.price)" />
 
+                  <div>
+                    <a class="font-bold text-theem" href="">{{ activeRfqInquiries?.rfq_product?.name }}</a>
+                    <p v-if="activeRfqInquiries?.rfq_product?.quantity">{{ $t('products.Quantity') }}: <span class="text-primary">{{ activeRfqInquiries?.rfq_product.quantity }}</span>
+                      {{ activeRfqInquiries?.rfq_product.unit?.name }}
+                      <br>
+                      {{ $t('products.Initial unit target price') }} :
+                      <price-format
+                        :price="activeRfqInquiries?.rfq_product.total_target_price"/>
                     </p>
-                    <p>{{ $t('products.Expires on') }} : <span class="text-red">{{ activeInquiryData?.inquiryOffers[0]?.offer?.expired_at }}</span></p>
+                    <p v-if="activeRfqInquiries?.rfq?.expiry_date">{{ $t('products.Expires on') }} :
+                      <span class="text-red">{{ activeRfqInquiries?.rfq?.expiry_date }}</span></p>
                   </div>
                 </div>
                 <div class="ltr:text-end rtl:text-left">
-                  <p>{{ $t('products.RFQ ID') }}: RFQ{{ activeRfqInquiries?.rfq_id }}</p>
+                  <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries?.rfq_id }}</p>
                   <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries?.rfq?.quote?.id }}</p>
-                  <p><NuxtLink class="underline" :to="`user/rfq/${activeRfqInquiries?.rfq_id}`">{{ $t('products.Manage RFQ') }}</NuxtLink></p>
+                  <p>
+                    <NuxtLink class="underline" :to="localePath(`user/rfq/${activeRfqInquiries?.rfq_id}`)">
+                      {{ $t('products.Manage RFQ') }}
+                    </NuxtLink>
+                  </p>
                 </div>
               </div>
             </div>
