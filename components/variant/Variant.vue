@@ -55,8 +55,6 @@
                       :data-src="variants[index]?.result?.product_images[0]?.url"
                       :alt="colorItem.color_name"
                     />
-
-
                            <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
                                colorItem.value
                              }}
@@ -1017,12 +1015,12 @@ export default {
         const res = await this.setById({
           id: this.variants[0]?.result.id,
           params: {
-            result: {from_parent: true, ...this.variants[0].result, is_variant: true},
-            variant: this.result.product_variants[0],
+            from_parent: true, ...this.variants[0].result, is_variant: true,
+            product_variant: this.result.product_variants[0],
             single_submit: true,
             tab: 0
           },
-          api: this.setApi
+          api: "saveParentVariantsProduct"
         });
         if (res) {
           // console.log('sfdsfa', res)

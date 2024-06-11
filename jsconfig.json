@@ -288,6 +288,7 @@
     "getVariantProducts": "product/find-variant-products",
     "getProductBySku": "product/sku",
     "setProduct": "product/action",
+    "saveParentVariantsProduct": "product/parentAction",
     "setRejectProduct": "product/reject",
     "setRejectRfq": "rfq/reject",
     "setApprovedRfq": "rfq/approved",

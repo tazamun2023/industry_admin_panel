@@ -349,10 +349,7 @@ export default {
         this.updateLevel3()
         this.result.category_id = res[0]?.child_category?.id
         this.result.childCategory = res[0]?.child_category?.id
-
-
         let productVariants1 = [];
-
         for (let key in res) {
           if (!isNaN(key)) {
             let productVariant = {
