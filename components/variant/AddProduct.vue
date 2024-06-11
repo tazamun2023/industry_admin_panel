@@ -21,6 +21,7 @@
                 class="text-error">*</strong></label>
               <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
               <v-select
+                :disabled="is_show"
                 :dir="$t('app.dir')"
                 v-model="result.parentCategory"
                 :options="allCategoriesTree"
@@ -41,6 +42,7 @@
               <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }} <strong
                 class="text-error">*</strong></label>
               <v-select
+                :disabled="is_show"
                 :dir="$t('app.dir')"
                 v-model="result.subCategory"
                 :options="selectedLevel1?.child"
@@ -62,6 +64,7 @@
               <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }} <strong
                 class="text-error">*</strong></label>
               <v-select
+                :disabled="is_show"
                 :dir="$t('app.dir')"
                 v-model="result.childCategory"
                 :options="selectedLevel2?.child"
@@ -82,11 +85,12 @@
         <lang-input
           @checkLangError="checkLangError"
           :min="5"
+          :IsReadOnly="is_show"
           type="text" :title="$t('prod.name')" :valuesOfLang="result.title"
           @updateInput="updateInput"></lang-input>
         <!--                <span class="error">{{ errors[0] }}</span>-->
         <!--              </ValidationProvider>-->
-        <lang-input v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
+        <lang-input :IsReadOnly="is_show" v-if="!is_variant" :hasError="false" type="textarea" :title="$t('prod.desc')"
                     :valuesOfLang="result.description"
                     @updateInput="updateInput"></lang-input>
         <ValidationProvider name="Brand" :rules="{ required: !is_draft && !result.brand_id }" v-slot="{ errors }"
@@ -94,7 +98,7 @@
 
           <div class="input-wrapper mt-3 mt-sm-0">
             <label class="w-full">{{ $t('prod.Select Brand') }} <strong class="text-error">*</strong></label>
-            <select class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+            <select :disabled="is_show" class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                     :class="{ 'has-error': errors[0] }"
                     v-model="result.brand_id">
               <option value="">{{ $t('prod.Select Brand') }}</option>
@@ -111,7 +115,8 @@
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Unit of measure') }}</h4>
         <div class="form-group input-wrapper for-lang ar-lang">
           <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
-          <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
+          <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                  v-model="result.unit_id">
             <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                 item.name
               }}
@@ -134,7 +139,7 @@
             <td>
               <div class="col-md-4">
                 <div class="form-group">
-                  <select class="w-full rounded border mb-10 border-smooth p-3"
+                  <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3"
                           v-model="result.product_variant.name"
                           v-if="select_attr1 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -142,7 +147,7 @@
                       }}
                     </option>
                   </select>
-                  <input class="form-control w-100" type="text" placeholder="Enter Value"
+                  <input :disabled="is_show" class="form-control w-100" type="text" placeholder="Enter Value"
                          v-model="result.product_variant.value"
                          v-if="select_attr1 === 'size'"/>
                 </div>
@@ -151,10 +156,10 @@
             <td>
               <div class="col-md-4">
                 <div class="form-group">
-                  <input class="form-control w-100" type="text" placeholder="Enter Value"
+                  <input :disabled="is_show" class="form-control w-100" type="text" placeholder="Enter Value"
                          v-model="result.product_variant.value"
                          v-if="select_attr2 === 'size'"/>
-                  <select class="w-full rounded border mb-10 border-smooth p-3"
+                  <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3"
                           v-model="result.product_variant.name"
                           v-if="select_attr2 === 'color'">
                     <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -173,9 +178,10 @@
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
         <div class="form-check">
           <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                 v-model="is_variant" :disabled="is_variant_save"
+                 v-model="is_variant" :disabled="is_show && is_variant_save"
                  :style="is_variant_save?'cursor: not-allowed':''"/>
-          <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_variant"
+          <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else
+                 v-model="is_variant"
                  @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>
           <label class="form-check-label" for="flexCheckDefault">
             {{ $t('prod.This product has options, like size or color') }}
@@ -185,7 +191,8 @@
 
           <div class="input-wrapper mb-10" v-if="is_variant">
             <label for="">{{ $t('prod.parent_sku') }}</label>
-            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('prod.parent_sku')"
+            <input :disabled="is_show" class="form-control" name="e.g. Macbook Pro 2019"
+                   :placeholder="$t('prod.parent_sku')"
                    type="text"
                    v-model="result.parent_sku" :class="{invalid: result.parent_sku==='' && hasError}">
           </div>
@@ -193,7 +200,8 @@
           <div class="grid grid-cols-3 gap-4 pt-4" v-if="!is_variant_save">
             <div class="col-md-4">
               <div class="form-group">
-                <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr1"
+                <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                        v-model="select_attr1"
                         @change="isAttr($event, 'color')">
                   <option value="">{{ $t('prod.Select attribute 1') }}</option>
                   <option v-for="(item, index) in product_variant_type" :key="index"
@@ -206,7 +214,8 @@
 
             <div class="col-md-4">
               <div class="form-group">
-                <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="select_attr2"
+                <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                        v-model="select_attr2"
                         @change="isAttr($event, 'size')">
                   <option value="">{{ $t('prod.Select attribute 2') }}</option>
                   <option v-for="(item, index) in product_variant_type" :key="index"
@@ -241,7 +250,8 @@
                v-for="(variant, index) in result.product_variants" :key="index">
             <div class="col-md-4">
               <div class="form-group">
-                <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
+                <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                        v-model="variant.name"
                         @change="setColorName(index, $event)"
                         v-if="select_attr1 === 'color'">
                   <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -249,15 +259,18 @@
                     }}
                   </option>
                 </select>
-                <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                <input :disabled="is_show" class="form-control w-100" type="text" placeholder="Enter Value"
+                       v-model="variant.value"
                        v-if="select_attr1 === 'size'"/>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group" :class="{ invalid: variant.value }">
-                <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                <input :disabled="is_show" class="form-control w-100" type="text" placeholder="Enter Value"
+                       v-model="variant.value"
                        v-if="select_attr2 === 'size'"/>
-                <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
+                <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                        v-model="variant.name"
                         v-if="select_attr2 === 'color'">
                   <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                       item.name
@@ -340,7 +353,8 @@
         <div class="card-body">
           <div class="input-wrapper mb-10">
 
-            <lang-input-multi :hasError="true" type="text" :title="$t('prod.Key features - English')"
+            <lang-input-multi :IsReadOnly="is_show" :hasError="true" type="text"
+                              :title="$t('prod.Key features - English')"
                               :valuesOfLang="result.features"
                               @updateInput="updateInput">
 
@@ -355,6 +369,7 @@
             <div class="input-wrapper mb-10">
               <label for="">{{ $t('prod.Keywords - English') }} ?</label>
               <v-select
+                :disabled="is_show"
                 :dir="$t('app.dir')"
                 v-model="result.basic_keyword_en"
                 :options="allKeywords"
@@ -373,6 +388,7 @@
             <div class="input-wrapper mb-10">
               <label for="">{{ $t('prod.Keywords - Arabic') }} ?</label>
               <v-select
+                :disabled="is_show"
                 :dir="$t('app.dir')"
                 v-model="result.basic_keyword_ar"
                 :options="allKeywords"
@@ -390,6 +406,7 @@
       <div class="tab-sidebar p-3">
         <lang-input v-if="!fromSingle" :hasError="false" type="textarea" :title="$t('prod.desc')"
                     :valuesOfLang="result.description"
+                    :IsReadOnly="is_show"
                     @updateInput="updateInput"></lang-input>
       </div>
 
@@ -404,7 +421,8 @@
                           class="w-full">
         <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
-          <vue-upload-images v-if="(isAdding || (!isAdding && result.images))" :return-data-just="0"
+          <vue-upload-images :IsReadOnly="is_show" v-if="(isAdding || (!isAdding && result.images))"
+                             :return-data-just="0"
                              :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
           </vue-upload-images>
 
@@ -426,6 +444,7 @@
             <div class="input-wrapper mt-3 mt-sm-0">
               <label class="w-full">{{ $t('prod.Barcode type') }}</label>
               <select
+                :disabled="is_show"
                 class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                 :class="{ 'has-error': errors[0] }"
                 v-model="result.barcode_type">
@@ -440,11 +459,12 @@
             <div class="form-group input-wrapper mt-3 mt-sm-0 ">
               <label>{{ $t('prod.Barcode') }}</label>
               <input
+
                 type="text" class="form-control"
                 v-model="result.barcode"
                 :placeholder="$t('prod.Barcode')"
                 @keypress="onlyNumber" min="0" maxlength="15"
-                :disabled="result.barcode_type==4 || result.barcode_type===''"
+                :disabled="is_show ||result.barcode_type==4 || result.barcode_type===''"
                 :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
               >
             </div>
@@ -455,6 +475,7 @@
             <div class="form-group input-wrapper  mt-3 mt-sm-0">
               <label>{{ $t('prod.SKU') }} <strong class="text-error">*</strong></label>
               <input
+                :disabled="is_show"
                 type="text" class="form-control"
                 :class="{ 'has-error': errors[0] }"
                 @input="changeSKU(result.sku, result.id)"
@@ -487,7 +508,7 @@
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
               <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                     :disabled="result.is_always_available==1"
+                     :disabled="is_show|| result.is_always_available==1"
                      v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber" min="0"
                      maxlength="8">
               <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
@@ -497,7 +518,8 @@
           <div class="form-check" v-if="!is_variant">
             <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
             <!--                    is_always_available-->
-            <input type="checkbox" class="custom-control-input" v-model="result.is_always_available"/>
+            <input :disabled="is_show" type="checkbox" class="custom-control-input"
+                   v-model="result.is_always_available"/>
           </div>
         </div>
       </div>
@@ -515,6 +537,7 @@
               <div class="relative flex input-group gap-4 mb-3 w-full">
 
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
@@ -523,7 +546,8 @@
                   v-model="result.pk_size"
                 >
                 <div class="absolute ltr:right-0 rtl:left-0 top-0">
-                  <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
+                  <select :disabled="is_show"
+                          class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                           v-model="result.pk_size_unit"
                           :placeholder="$t('prod.Size Unit')"
                   >
@@ -546,6 +570,7 @@
                 class="text-error">*</strong></label>
               <div class=" mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control"
                   :class="{ 'has-error': errors[0] }"
@@ -562,6 +587,7 @@
               class="text-error">*</strong>
               <div class=" mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control"
                   :class="{ 'has-error': errors[0] }"
@@ -576,6 +602,7 @@
             <label for="">{{ $t('prod.Transportation Mode') }}</label>
             <div class=" mb-3">
               <select
+                :disabled="is_show"
                 class="border p-3 w-full border-smooth rounded-lg uppercase"
                 v-model="result.pk_transportation_mode"
               >
@@ -605,6 +632,7 @@
               <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
@@ -613,7 +641,8 @@
                   v-model="result.pc_weight">
 
                 <div class="absolute ltr:right-0 rtl:left-0 top-0">
-                  <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
+                  <select :disabled="is_show"
+                          class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                           v-model="result.pc_weight_unit_id">
                     <!--                  <option value="0">Select</option>-->
                     <option v-for="(item, index) in allWeightUnits" :key="index" :value="index">{{
@@ -632,6 +661,7 @@
               <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
@@ -640,7 +670,8 @@
                   v-model="result.pc_length">
 
                 <div class="absolute ltr:right-0 rtl:left-0 top-0">
-                  <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
+                  <select :disabled="is_show"
+                          class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                           v-model="result.pc_length_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.name
@@ -659,13 +690,15 @@
               <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input
+                  :disabled="is_show"
                   type="text" class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
                   placeholder="Carton Height"
                   @keypress="onlyNumber" min="0" maxlength="8"
                   v-model="result.pc_height">
                 <div class="absolute ltr:right-0 rtl:left-0 top-0">
-                  <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
+                  <select :disabled="is_show"
+                          class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                           v-model="result.pc_height_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.name
@@ -683,6 +716,7 @@
               <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
               <div class="relative flex input-group gap-4 mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control pr-12"
                   :class="{ 'has-error': errors[0] }"
@@ -691,7 +725,8 @@
                   v-model="result.pc_width">
 
                 <div class="absolute ltr:right-0 rtl:left-0 top-0">
-                  <select class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
+                  <select :disabled="is_show"
+                          class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                           v-model="result.pc_width_unit_id">
                     <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                         item.name
@@ -720,6 +755,7 @@
             <label for="">{{ $t('prod.Weight') }} ? <strong class="text-error">*</strong></label>
             <div class="relative flex input-group gap-4 mb-3">
               <input
+                :disabled="is_show"
                 type="text"
                 class="form-control pr-12"
                 :class="{ 'has-error': errors[0] }"
@@ -730,6 +766,7 @@
 
               <div class="absolute ltr:right-0 rtl:left-0 top-0">
                 <select
+                  :disabled="is_show"
                   class="p-[6px] m-1 float-right ltr:border-l rtl:border-r border-smooth uppercase"
                   v-model="result.pdime_weight_unit_id"
                 >
@@ -752,6 +789,7 @@
               <label for="">{{ $t('prod.Length') }} ? <strong class="text-error">*</strong></label>
               <div class="input-group mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control"
                   :class="{ 'has-error': errors[0] }"
@@ -769,6 +807,7 @@
               <label for="">{{ $t('prod.Height') }} ? <strong class="text-error">*</strong></label>
               <div class="input-group mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control"
                   :class="{ 'has-error': errors[0] }"
@@ -786,6 +825,7 @@
               <label for="">{{ $t('prod.Width') }} ? <strong class="text-error">*</strong></label>
               <div class="input-group mb-3">
                 <input
+                  :disabled="is_show"
                   type="text"
                   class="form-control"
                   :placeholder="$t('prod.Width')"
@@ -801,6 +841,7 @@
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Dimension Unit') }}</label>
             <select data-plugin="customselect" class="border p-3 w-full border-smooth rounded-lg uppercase"
+                    :disabled="is_show"
                     v-model="result.pdime_dimention_unit">
               <option v-for="(item, index) in allDimensionUnits" :key="index" :value="index">{{
                   item.name
@@ -822,7 +863,7 @@
           <div class="input-wrapper">
             <label for="">{{ $t('prod.Unit of measure') }} ? <strong class="text-error">*</strong></label>
             <div class="input-group mb-3">
-              <select class="border p-3 border-smooth rounded-lg uppercase"
+              <select :disabled="is_show" class="border p-3 border-smooth rounded-lg uppercase"
                       v-model="result.unit_id">
                 <option value="">{{ $t('prod.Unit') }}</option>
                 <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
@@ -856,6 +897,7 @@
                 <ValidationProvider name="quantity" :rules="QuantityValidationRules" v-slot="{ errors }"
                                     :custom-messages="{ required: $t('global.req', { type: $t('prod.Minimum order quantity') }) }">
                   <input
+                    :disabled="is_show"
                     type="text"
                     class="form-control"
                     :placeholder="$t('prod.Minimum order quantity')"
@@ -873,6 +915,7 @@
                     <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                            :placeholder="$t('prod.Unit price')"
+                           :disabled="is_show"
                            @keypress="onlyNumber" min="0" maxlength="8"
                            v-model="product_price.unit_price">
                   </div>
@@ -886,6 +929,7 @@
                     <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
                     <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                            :class="{ 'has-error': errors[0] }"
+                           :disabled="is_show"
                            :placeholder="$t('prod.Sale price')"
                            @keypress="onlyNumber" min="0" maxlength="8"
                            v-model="product_price.selling_price">
@@ -924,7 +968,7 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Is Ready To Ship') }} ?</label>
-              <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       v-model="result.is_ready_to_ship"
               >
                 <option value="1">{{ $t('prod.Yes') }}</option>
@@ -935,7 +979,7 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Is Buy Now') }} ?</label>
-              <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       v-model="result.is_buy_now">
                 <option value="1">{{ $t('prod.Yes') }}</option>
                 <option value="0">{{ $t('prod.No') }}</option>
@@ -945,7 +989,7 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Availability') }}</label>
-              <select class="border p-3 w-full border-smooth rounded-lg uppercase" disabled
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase" disabled
                       v-model="result.is_availability">
                 <option value="1">{{ $t('prod.In Stock') }}</option>
                 <option value="0">{{ $t('prod.Out of Stock') }}</option>
@@ -958,6 +1002,7 @@
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Storage temperature') }} <strong class="text-error">*</strong></label>
                 <select
+                  :disabled="is_show"
                   class="border p-3 w-full border-smooth rounded-lg"
                   :class="{ 'has-error': errors[0] }"
                   v-model="result.storage_temperature">
@@ -975,7 +1020,8 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Ware House') }} <strong class="text-error">*</strong></label>
-              <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.stock_location">
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"
+                      v-model="result.stock_location">
                 <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{
                     item.name
                   }}
@@ -987,7 +1033,8 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
-              <select class="border p-3 w-full border-smooth rounded-lg" v-model="result.country_of_origin">
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"
+                      v-model="result.country_of_origin">
                 <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled
                         v-if="item.id===194">{{
                     item.name
@@ -1000,7 +1047,7 @@
           <div class="col-md-6">
             <div class="input-wrapper">
               <label for="">{{ $t('prod.Dangerous Goods') }}</label>
-              <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+              <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase"
                       v-model="result.is_dangerous">
                 <option value="1">{{ $t('prod.Yes') }}</option>
                 <option value="0">{{ $t('prod.No') }}</option>
@@ -1020,7 +1067,8 @@
         </div>
         <div class="form-group input-wrapper mb-10 for-lang ar-lang">
           <label for="name">{{ $t("prod.hts_code") }}</label>
-          <input class="form-control" :placeholder="$t('prod.hts_code')" type="text" v-model="result.hts_code">
+          <input :disabled="is_show" class="form-control" :placeholder="$t('prod.hts_code')" type="text"
+                 v-model="result.hts_code">
         </div>
         <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Additional attributes') }} <span
           class="text-xs">({{ $t('prod.optional') }})</span>
@@ -1030,7 +1078,8 @@
           <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
             <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
                    v-model="item.name">
-            <input class="form-control" placeholder="Text to display" type="text" v-model="item.value">
+            <input :disabled="is_show" class="form-control" placeholder="Text to display" type="text"
+                   v-model="item.value">
             <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
                     v-if="index!=0"
                     class="btn ml-2 mr-2 btn-danger">
@@ -1051,7 +1100,8 @@
             </button>
           </div>
         </div>
-        <div class="button-group border-t border-smooth mt-20">
+
+        <div v-if="!is_show" class="button-group border-t border-smooth mt-20">
           <div class="flex justify-end gap-4 pt-3">
             <button v-if="fromSingle" type="button" class="btn text-primary" @click.prevent="doDraft">
               {{ $t('prod.Save Draft') }}
@@ -1064,6 +1114,11 @@
               }}</span>
           </div>
         </div>
+        <div v-if="$can('approve_products') && result.status==='pending'  ">
+          <slot name="actions"></slot>
+        </div>
+
+
       </div>
     </form>
   </ValidationObserver>
@@ -1116,6 +1171,10 @@ export default {
     p_select_attr1: String,
     p_select_attr2: String,
     is_edit: {
+      type: Boolean,
+      default: false
+    },
+    is_show: {
       type: Boolean,
       default: false
     },

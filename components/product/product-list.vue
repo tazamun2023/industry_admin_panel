@@ -329,7 +329,7 @@
                           <nuxt-link
                             v-if="$can('manage_products') && !value.is_variant && value.status === 'pending'"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/show/pending/${value.id}`">
+                            :to="`/products/show/${value.id}`">
                             {{ $t('prod.Show')}}
                           </nuxt-link>
                           <nuxt-link
@@ -451,7 +451,7 @@ export default {
       const baseUrl = this.$store.state.admin.isSuperAdmin ? `/products/show/` : `/products/`;
 
       if (value.status === 'pending' && this.$store.state.admin.isVendor) {
-        return `/products/show/pending/${value.id}`;
+        return `/products/show/${value.id}`;
       }
 
       return `${baseUrl}${value.id}`;

@@ -33,7 +33,8 @@
                               :description="valuesOfLang[language]"
                               :value="valuesOfLang[language]"
                               @change="valuesOfLang[language]= $event"
-                              :disabled="true"
+                              :IsReadOnly="IsReadOnly"
+
                               @input="updateInputValue(language, $event)"
               ></froala-wysiwyg>
               <!--          <WYSIWYGEditor v-else-->

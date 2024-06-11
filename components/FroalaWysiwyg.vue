@@ -1,6 +1,13 @@
 <template>
+  <div v-if="IsReadOnly">
+    <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden " v-html="value">
 
-  <froala :tag="'textarea'" @input="emitChange" :config="config" v-model="internalValue"></froala>
+    </div>
+
+  </div>
+  <froala v-else :tag="'textarea'"
+
+          @input="emitChange" :config="config" v-model="internalValue"></froala>
 </template>
 
 
@@ -10,6 +17,10 @@ export default {
     value: {
       type: String,
       default: " "
+    },
+    IsReadOnly: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -26,7 +37,7 @@ export default {
         heightMin: 345,
         attribution: false,
         enter: 1,
-
+        readOnly: true,
         requestHeaders: {
           Authorization: `${this.$auth.strategy.token.get()}`,
         },
