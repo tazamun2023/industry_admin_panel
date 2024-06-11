@@ -1,48 +1,65 @@
 <template>
   <div class="dashboard">
-      <h3 class="uppercase py-3">Dashboard</h3>
-      <Profile/>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
-          <BestSeller/>
-        </div>
-        <div>
-          <MyProducts/>
-        </div>
-      </div>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
-          <LowStock/>
-        </div>
-        <div>
-          <VendorShortDetails/>
+
+    <div class="lg:card-wrapper grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="dashboard-card">
+        <div class="card rounded-[12px] p-4">
+          <!-- <i
+            class="icon products"
+          /> -->
+          <p class="f-1-2">
+            {{ $t('index.tProduct') }}
+          </p>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ productCount }}</b></h3>
         </div>
       </div>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
-          <InqueryRfq/>
-        </div>
-        <div>
-          <Brands/>
+      <div v-if="$store.state.admin.isSuperAdmin" class="dashboard-card">
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
+            class="icon users"
+          /> -->
+          <p class="f-1-2">
+            {{ $t('index.tUsers') }}
+          </p>
+          <h3 class="text-[20px] lg:text-[24px]"><b>{{ usersCount }}</b></h3>
         </div>
       </div>
-      <div class="my-4 gap-4">
-        <Orders/>
+      <div class="dashboard-card">
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
+            class="icon orders"
+          /> -->
+          <p class="f-1-2">
+            {{ $t('index.tOrders') }}
+          </p>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ orderCount }}</b></h3>
+        </div>
       </div>
+      <div class="dashboard-card">
+        <div class="p-4 rounded-[12px] card">
+          <!-- <i
+            class="icon withdrawal"
+          /> -->
+          <p class="f-1-2">
+            {{ $t('index.tSells') }}
+          </p>
+          <h3 class="text-[20px]  lg:text-[24px]"><b>{{priceFormatting(orderAmount)}}</b></h3>
+        </div>
+      </div>
+    </div>
+    <order-chart
+      v-if="chartMonth"
+      :chart-month="chartMonth"
+      :monthly-order="monthlyOrder"
+      @month-changed="monthChanged"
+    />
+    <order-statistic/>
   </div>
 </template>
 
 <script>
   import OrderStatistic from '~/components/partials/OrderStatistic'
   import OrderChart from '~/components/partials/OrderChart'
-  import Profile from '~/components/vendorDashboard/Profile'
-  import BestSeller from '~/components/vendorDashboard/BestSeller'
-  import MyProducts from '~/components/vendorDashboard/MyProducts'
-  import LowStock from '~/components/vendorDashboard/LowStock'
-  import VendorShortDetails from '~/components/vendorDashboard/VendorShortDetails'
-  import InqueryRfq from '~/components/vendorDashboard/InqueryRfq'
-  import Brands from '~/components/vendorDashboard/Brands'
-  import Orders from '~/components/vendorDashboard/Orders'
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
 
@@ -60,15 +77,7 @@
     },
     components: {
       OrderChart,
-      OrderStatistic,
-      Profile,
-      BestSeller,
-      MyProducts,
-      LowStock,
-      VendorShortDetails,
-      InqueryRfq,
-      Brands,
-      Orders
+      OrderStatistic
     },
     mixins: [util],
     computed: {
