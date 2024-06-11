@@ -87,8 +87,9 @@ export default {
           api: 'activeInquiries',
           requiredToken: true
         });
-        if (data?.status === 200) {
-          await this.setActiveInquiriesOffer(data.data)
+        console.log('data.data', data)
+        if (data) {
+          await this.setActiveInquiriesOffer(data)
         } else {
           this.errors = data?.data?.form
         }

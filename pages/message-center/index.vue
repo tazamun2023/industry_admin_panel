@@ -6,7 +6,7 @@
           <h3 class="test-theem uppercase font-bold">{{ $t('products.Message') }}</h3>
         </div>
         <div>
-          <div class="bg-theemlight p-1 rounded-lg">
+          <div class="bg-theemlight p-1 rounded-lg" v-if="activeInquiryData">
             <p class="font-bold"><span class="mx-1">{{ $t('products.Seller Message') }}</span> <span
               class="bg-theem text-white p-2  rounded-lg">{{ activeInquiryData?.count }}</span></p>
           </div>
@@ -520,7 +520,6 @@ export default {
 
 
       activeInquiry: '',
-      ActiveInquiryData: '',
       rfq_inquiries: '',
       activeRfq: '',
       is_active_inq: '',
@@ -557,7 +556,7 @@ export default {
     },
     ActiveRfqInquiryEventData(event){
       this.ActiveRfqInquiryData = event
-      this.ActiveInquiryData = event
+      // this.ActiveInquiryData = event
     },
     currentRfqInq(event){
       this.rfq_inquiries = event
@@ -570,26 +569,26 @@ export default {
       this.activeInquiry = event
     },
     activeInquiryEventData(event) {
-      Pusher.logToConsole = true;
-
-      const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-        cluster: process.env.PUSHER_APP_CLUSTER
-      });
-
-      const channel = pusher.subscribe('chat');
-      channel.bind('message', dataP => {
-        try {
-          // this.is_loading = true
-          // this.fetchingData()
-          // this.is_loading = false
-          this.ActiveInquiryData = event
-          console.log(event)
-
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
-      });
-      this.ActiveInquiryData = event
+      // Pusher.logToConsole = true;
+      //
+      // const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+      //   cluster: process.env.PUSHER_APP_CLUSTER
+      // });
+      //
+      // const channel = pusher.subscribe('chat');
+      // channel.bind('message', dataP => {
+      //   try {
+      //     // this.is_loading = true
+      //     // this.fetchingData()
+      //     // this.is_loading = false
+      //     // this.ActiveInquiryData = event
+      //     // console.log(event)
+      //
+      //   } catch (e) {
+      //     return this.$nuxt.error(e)
+      //   }
+      // });
+      // this.ActiveInquiryData = event
     },
     currentInq(event) {
       this.inquiries = event
