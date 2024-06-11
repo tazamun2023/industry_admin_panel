@@ -2011,17 +2011,16 @@ export default {
       try {
         this.loading = true
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: api}))
-        console.log('res', res)
-        this.result = res
-
+        // console.log('res', res)
+        this.result = JSON.parse(JSON.stringify(res))
         if (this.result.features.length == 0)
           this.result.features = [{'ar': '', 'en': ''}]
 
+        this.result.images = res.images
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.is_variant = false;
         // this.result.PriceingRows = res.product_prices
         this.result.product_variants = res.product_variant ?? [];
-
         if (res.product_variant?.length != 0) {
           this.result.is_variant = true
           if (res.variant_uuid)
@@ -2030,10 +2029,11 @@ export default {
 
 
         this.updateLevel2()
-        this.result.subCategory = res.sub_category?.id
+        this.result.subCategory = res.subCategory
         this.updateLevel3()
-        this.result.category_id = res.child_category?.id
-        this.result.childCategory = res.child_category?.id
+
+        this.result.category_id = res.childCategory
+        this.result.childCategory = res.childCategory
 
 
         this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
