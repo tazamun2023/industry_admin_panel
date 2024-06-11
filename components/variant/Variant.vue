@@ -10,7 +10,7 @@
           <div class="p-4">
             <div class="flex gap-4 p-2 justify-between">
               <p class="font-bold pt-2">{{ $t('prod.Variants List') }}</p>
-              <button @click="openVariantModal"
+              <button v-if="is_edit" @click="openVariantModal"
                       class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
                 <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24">
@@ -93,7 +93,7 @@
               <div class="flex justify-between">
                 <h4>{{ $t('prod.Basic information') }}</h4>
                 <p
-                  v-if="is_edit"
+                  v-if="!is_edit"
                   class="cursor-pointer underline font-bold text-disabled"
                   style="cursor: not-allowed"
                 >
@@ -114,40 +114,18 @@
                   <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
                       <a href="/" class="text-gray-500 hover:text-gray-700">{{ $t('prod.Home') }}</a>
-                      <svg
-                        class="h-5 w-auto text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 5l7 7-7 7"
-                        ></path>
-                      </svg>
+                      <NavIcon></NavIcon>
                     </li>
                     <li class="flex items-center">
-                      <a href="/category" class="text-gray-500 hover:text-gray-700">{{ selectedLevel1.title }}</a>
-                      <svg
-                        class="h-5 w-auto text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M9 5l7 7-7 7"
-                        ></path>
-                      </svg>
+                      <a href="/category" class="text-gray-500 hover:text-gray-700">{{ selectedLevel1?.title }}</a>
+                      <NavIcon></NavIcon>
                     </li>
                     <li class="flex items-center">
-                      <span class="text-gray-700">{{ selectedLevel2.title }}</span>
+                      <span class="text-gray-700">{{ selectedLevel2?.title }}</span>
+                      <NavIcon></NavIcon>
+                    </li>
+                    <li class="flex items-center">
+                      <span class="text-gray-700">{{ selectedLevel3?.title }}</span>
                     </li>
                   </ol>
                 </nav>
@@ -163,6 +141,7 @@
                     v-model="result.parentCategory"
                     :options="allCategoriesTree"
                     label="title"
+                    :disabled="!is_edit"
                     :reduce="cat => cat.id"
                     :placeholder="$t('rfq.Search by Category')"
                     class="custom-select"
@@ -178,6 +157,7 @@
                     v-model="result.subCategory"
                     :options="selectedLevel1?.child"
                     label="title"
+                    :disabled="!is_edit"
                     :reduce="cat => cat.id"
                     class="custom-select"
                     :placeholder="$t('rfq.Select Sub Category')"
@@ -193,6 +173,7 @@
                     :dir="$t('app.dir')"
                     v-model="result.childCategory"
                     :options="selectedLevel2?.child"
+                    :disabled="!is_edit"
                     :reduce="cat => cat.id"
                     :class="{invalid: result.childCategory === '' && hasError}"
                     label="title"
@@ -212,6 +193,7 @@
                   </div>
                   <lang-input v-if="openTab === 'parent'" :hasError="hasError" type="text" :title="$t('prod.name')"
                               :valuesOfLang="result.title" :isVariant="openTab !== 'parent'"
+                              :is-read-only="!is_edit"
                               @updateInput="updateInput"></lang-input>
                   <div class="input-wrapper mb-4" v-else>
                     <label for="">{{ $t('prod.name') }}</label>
@@ -222,8 +204,8 @@
                     <div class="input-wrapper   mt-sm-0">
                       <label class="w-full">{{ $t('prod.Brand') }} <strong class="text-error">*</strong></label>
                       <select class="form-control w-full rounded border border-smooth p-3"
-                              :disabled="openTab !== 'parent'"
-                              :readonly="openTab !== 'parent'"
+                              :disabled="!is_edit || openTab !== 'parent'"
+                              :readonly="!is_edit || openTab !== 'parent'"
                               :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
                               v-model="result.brand_id">
                         <option value="0">{{ $t('prod.Brand') }}</option>
@@ -233,7 +215,9 @@
 
                     <div class="input-wrapper  ">
                       <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
-                      <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
+                      <select :disabled="!is_edit || openTab !== 'parent'"
+                              :readonly="!is_edit || openTab !== 'parent'"
+                              class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
                         <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
                             item.name
                           }}
@@ -320,7 +304,8 @@
                   <div class="w-full p-2">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Min Qty') }}</span>
-                      <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
+                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                           class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
                     {{ product_price.quantity }}
@@ -328,7 +313,8 @@
                   <div class="w-full p-2 border-l border-r border-smooth">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Price') }}</span>
-                      <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
+                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                           class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
                     {{ product_price.unit_price }}
@@ -337,7 +323,8 @@
                   <div class="w-full p-2">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Sale price') }}</span>
-                      <img class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
+                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                           class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
                     {{ product_price.selling_price }}
@@ -354,7 +341,7 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
     </div>
-    <div class="tab-sidebar p-3" v-if="openTab === 'parent'">
+    <div class="tab-sidebar p-3" v-if="is_edit && openTab === 'parent'">
       <div class="flex justify-end gap-4 pt-3">
         <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doSubmit">
           {{ $t('prod.Send for review') }}
@@ -367,6 +354,7 @@
       <add-product :from-single="false"
                    :p_select_attr1="select_attr1"
                    @productUpdate="openTab='parent'"
+                   :is_show="!($can('manage_products') && variants[openTab]?.result?.status !== 'pending')"
                    :id="variants[openTab]?.result?.id"
                    :p_select_attr2="select_attr2"
                    :product="variants[openTab]?.result"></add-product>
@@ -426,14 +414,14 @@
                   <div class="form-group">
                     <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                             @change="setColorName(index, $event)"
-                           >
+                    >
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                           item.name
                         }}
                       </option>
                     </select>
                     <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                           />
+                    />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -615,9 +603,10 @@
 <script>
 
 import {mapActions, mapGetters} from "vuex";
-import { ValidationObserver, ValidationProvider} from 'vee-validate';
+import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import util from "@/mixin/util";
 import AddProduct from "./AddProduct.vue";
+import NavIcon from "./NavIcon.vue";
 
 
 export default {
@@ -625,6 +614,7 @@ export default {
   mixins: [util],
   inject: [],
   components: {
+    NavIcon,
     AddProduct,
     ValidationProvider,
     ValidationObserver
@@ -1035,74 +1025,7 @@ export default {
           this.variant_uuid_global = res.data.variant_uuid
 
           // Assign properties from res to this.variants[this.openTab].result
-          this.variants[0].result = {
-            title: res.data.title,
-            variant_uu_id: res.data.variant_uu_id,
-            description: res.data.description,
-            parentCategory: res.data.category?.id,
-            subCategory: res.data.sub_category?.id,
-            childCategory: res.data.child_category?.id,
-            product_prices: res.data.product_prices,
-            unit_id: res.data.unit_id,
-            features: res.data.product_features?.map(item => item.name),
-            unit: res.data.unit,
-            brand_id: res.data.brand_id,
-            meta_title: res.data.meta_title,
-            meta_description: res.data.meta_description,
-            selling: res.data.selling,
-            purchased: res.data.selling, // Should this be res.purchased?
-            offered: res.data.offered,
-            images: res.data.images,
-            product_images: res.data.images,
-            video: res.data.video,
-            status: res.data.status,
-            parent_sku: res.data.parent_sku,
-            basic_keyword_en: res.data.basic_keyword_en,
-            basic_keyword_ar: res.data.basic_keyword_ar,
-            basicInfoAr: res.data.title,
-            basicInfoEng: res.data.title,
-            barcode_type: res.data.barcode_id,
-            barcode: res.data.barcode_number,
-            sku: res.data.sku,
-            available_quantity: res.data.available_quantity,
-            pk_size: res.data.packaging?.size,
-            pk_size_unit: res.data.packaging?.size_unit,
-            pk_number_of_carton: res.data.packaging?.number_of_carton,
-            pk_average_lead_time: res.data.packaging?.average_lead_time,
-            pk_transportation_mode: res.data.packaging?.transportation_mode,
-            pc_weight: res.data.product_carton?.weight,
-            pc_weight_unit_id: res.data.product_carton?.weight_unit_id,
-            pc_height: res.data.product_carton?.height,
-            pc_height_unit_id: res.data.product_carton?.height_unit_id,
-            pc_length: res.data.product_carton?.length,
-            pc_length_unit_id: res.data.product_carton?.length_unit_id,
-            pc_width: res.data.product_carton?.width,
-            pc_width_unit_id: res.data.product_carton?.width_unit_id,
-            pdime_weight: res.data.product_dimension?.weight,
-            pdime_weight_unit_id: res.data.product_dimension?.weight_unit_id,
-            pdime_height: res.data.product_dimension?.height,
-            pdime_length: res.data.product_dimension?.length,
-            pdime_width: res.data.product_dimension?.width,
-            pdime_dimention_unit: res.data.product_dimension?.dimention_unit,
-            pp_quantity: res.data.product_prices?.map(price => price.quantity),
-            pp_unit_price: res.data.product_prices?.map(price => price.unit_price),
-            pp_selling_price: res.data.product_prices?.map(price => price.selling_price),
-            is_ready_to_ship: res.data.is_ready_to_ship,
-            is_buy_now: res.data.is_buyable,
-            is_availability: res.data.is_available,
-            storage_temperature: res.data.storage_temperature_id,
-            stock_location: res.data.warehouse_id,
-            country_of_origin: res.data.product_origin_id,
-            is_dangerous: res.data.is_dangerous,
-            product_variants: res.data.product_variant,
-            product_variant: res.data.product_single_variant ?? [],
-            PriceingRows: res.data.product_prices,
-            is_variant: !!res.data.product_variant,
-            is_always_available: res.data?.is_always_available ?? 0,
-            additional_details_row: res.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-            hts_code: res.data.hts_code,
-            id: res.data.id,
-          };
+          this.variants[0].result = res.data;
 
 
           this.fetchingData(res.data.id);
@@ -1348,7 +1271,7 @@ export default {
 
       this.result.product_variants.forEach((variant) => {
         // this.result.sku = ''
-        this.variants.push(Object.assign({result: {...this.result,product_variant:variant}}));
+        this.variants.push(Object.assign({result: {...this.result, product_variant: variant}}));
       });
       console.log('mounted...')
     }

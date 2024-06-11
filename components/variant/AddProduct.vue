@@ -939,7 +939,7 @@
 
               </td>
               <td class="p-2">
-                <button type="button" class="btn  btn-outline-secondary"
+                <button v-if="!is_show" type="button" class="btn  btn-outline-secondary"
                         @click.prevent="removePriceingRows(index)">
                                <span><svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                           fill="none" viewBox="0 0 18 20">
@@ -953,7 +953,7 @@
             </tbody>
           </table>
 
-          <button v-if="result.product_prices.length <= 2" class="btn btn-link fw-bold"
+          <button v-if="!is_show&& result.product_prices.length <= 2" class="btn btn-link fw-bold"
                   @click.prevent="addPriceingRows()">+ {{ $t('prod.ADD TIER') }}
           </button>
         </div>
@@ -1861,75 +1861,7 @@ export default {
             path = '/products/approved';
           this.$router.push({path});
         } else {
-          var res = data;
-          this.result = {
-            title: res?.data.title,
-            variant_uu_id: res?.data.variant_uu_id,
-            description: res?.data.description,
-            parentCategory: res?.data.category?.id,
-            subCategory: res?.data.sub_category?.id,
-            childCategory: res?.data.child_category?.id,
-            product_prices: res?.data.product_prices,
-            unit_id: res?.data.unit_id,
-            features: res?.data.product_features?.map(item => item.name),
-            unit: res?.data.unit,
-            brand_id: res?.data.brand_id,
-            meta_title: res?.data.meta_title,
-            meta_description: res?.data.meta_description,
-            selling: res?.data.selling,
-            purchased: res?.data.selling, // Should this be res?.data.purchased?
-            offered: res?.data.offered,
-            images: res?.data.images,
-            product_images: res?.data.images,
-            video: res?.data.video,
-            status: res?.data.status,
-            parent_sku: res?.data.parent_sku,
-            basic_keyword_en: res?.data.basic_keyword_en,
-            basic_keyword_ar: res?.data.basic_keyword_ar,
-            basicInfoAr: res?.data.title,
-            basicInfoEng: res?.data.title,
-            barcode_type: res?.data.barcode_id,
-            barcode: res?.data.barcode_number,
-            sku: res?.data.sku,
-            available_quantity: res?.data.available_quantity,
-            pk_size: res?.data.packaging?.size,
-            pk_size_unit: res?.data.packaging?.size_unit,
-            pk_number_of_carton: res?.data.packaging?.number_of_carton,
-            pk_average_lead_time: res?.data.packaging?.average_lead_time,
-            pk_transportation_mode: res?.data.packaging?.transportation_mode,
-            pc_weight: res?.data.product_carton?.weight,
-            pc_weight_unit_id: res?.data.product_carton?.weight_unit_id,
-            pc_height: res?.data.product_carton?.height,
-            pc_height_unit_id: res?.data.product_carton?.height_unit_id,
-            pc_length: res?.data.product_carton?.length,
-            pc_length_unit_id: res?.data.product_carton?.length_unit_id,
-            pc_width: res?.data.product_carton?.width,
-            pc_width_unit_id: res?.data.product_carton?.width_unit_id,
-            pdime_weight: res?.data.product_dimension?.weight,
-            pdime_weight_unit_id: res?.data.product_dimension?.weight_unit_id,
-            pdime_height: res?.data.product_dimension?.height,
-            pdime_length: res?.data.product_dimension?.length,
-            pdime_width: res?.data.product_dimension?.width,
-            pdime_dimention_unit: res?.data.product_dimension?.dimention_unit,
-            pp_quantity: res?.data.product_prices?.map(price => price.quantity),
-            pp_unit_price: res?.data.product_prices?.map(price => price.unit_price),
-            pp_selling_price: res?.data.product_prices?.map(price => price.selling_price),
-            is_ready_to_ship: res?.data.is_ready_to_ship,
-            is_buy_now: res?.data.is_buyable,
-            is_availability: res?.data.is_available,
-            storage_temperature: res?.data.storage_temperature_id,
-            stock_location: res?.data.warehouse_id,
-            country_of_origin: res?.data.product_origin_id,
-            is_dangerous: res?.data.is_dangerous,
-            product_variants: res?.data.product_variant,
-            product_variant: res?.data.product_single_variant ?? [],
-            PriceingRows: res?.data.product_prices,
-            is_variant: !!res?.data.product_variant,
-            is_always_available: res?.data?.is_always_available,
-            additional_details_row: res?.data.additional_attribute?.map(item => ({name: item.name, value: item.value})),
-            hts_code: res?.data.hts_code,
-            id: res?.data.id,
-          }
+          this.result = data.data
           this.$emit('productUpdate', this.result)
         }
 
@@ -2080,9 +2012,9 @@ export default {
         this.is_variant = false;
         // this.result.PriceingRows = res.product_prices
         this.result.product_variants = res.product_variant ?? [];
-        if (res.product_variant?.length != 0) {
+        if (this.result.is_variant) {
           this.result.is_variant = true
-          if (res.variant_uuid)
+          if (res.variant_uu_id && !this.is_show)
             this.$router.push('/products/variant/' + res.id)
         }
 
@@ -2135,11 +2067,6 @@ export default {
     if (this.fromSingle) {
       if (!this.isAdding) {
         await this.fetchingData(this.id)
-      }
-      if (this.$route.query?.id) {
-        this.fetchingData(this.$route.query?.id).then(() => {
-          this.result.id = ""
-        })
       }
     }
     if (this.allKeywords.length === 0) {

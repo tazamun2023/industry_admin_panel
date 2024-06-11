@@ -40,6 +40,7 @@
 
 import AddProduct from "../../../components/variant/AddProduct.vue";
 import util from '~/mixin/util'
+import {mapActions} from "vuex";
 export default {
   name: "ShowProductPage",
   middleware: ['common-middleware', 'auth'],
@@ -49,6 +50,9 @@ export default {
         "type": 'product'
       },
       modalVisible: false,
+      setRejectApi: 'setRejectProduct',
+      setApprovedProduct: 'setApprovedProduct',
+      routeName: 'products',
       is_reject_modal: false,
       is_next: false,
       result: null,
@@ -61,7 +65,7 @@ export default {
   },
   computed: {
     id() {
-      return !this.isAdding ? this.$route?.params?.id : ''
+      return  this.$route?.params?.id
     },
   },
   methods: {
@@ -97,7 +101,7 @@ export default {
               this.is_reject_modal = false;
               this.modalVisible = false;
 
-              const pathSuffix = this.redirect ? '' : `/show/${this.rejected.product_id}`;
+              const pathSuffix = this.redirect ? '' : `/show/${this.id}`;
               this.$router.push({path: `/${this.routeName}${pathSuffix}`});
             }
           }
@@ -142,10 +146,12 @@ export default {
           this.is_reject_modal = false;
           this.modalVisible = false;
 
-          this.$router.push({path: `/${this.routeName}`})
+          this.$router.push({path: `/${this.routeName}/approved`})
         }
       }
     },
+    ...mapActions('common', [ 'setRequest'])
+
   }
 
 }

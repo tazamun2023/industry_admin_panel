@@ -37,7 +37,7 @@
 
             </ValidationProvider>
           </div>
-          <div class="col-span-12 lg:col-span-1 flex justify-between">
+          <div v-if="!IsReadOnly" class="col-span-12 lg:col-span-1 flex justify-between">
 
 
             <button type="button" class="btn  btn-danger " v-if="index !== 0"
@@ -49,7 +49,7 @@
               </svg>
             </button>
 
-            <button v-if="index+1===valuesOfLang.length" type="button" class="btn   btn-primary"
+            <button v-if="( index+1===valuesOfLang.length)" type="button" class="btn   btn-primary"
                     @click.prevent="addRow()">
               <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                    viewBox="0 0 18 18">

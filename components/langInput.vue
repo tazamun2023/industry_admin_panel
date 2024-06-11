@@ -17,7 +17,7 @@
           <ValidationProvider :name="'Title_'+language" :rules="{min:min,required: isRequired}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
             <div class="input-wrapper">
-              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }}) {{invalidData}} <strong
+              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }})  <strong
                 class="text-error">*</strong></label>
               <input
                 v-if="type=='text'"
