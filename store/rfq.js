@@ -2,10 +2,16 @@ import Service from '@/services/service.js';
 
 const state = () => ({
   allRfqRejectReason: null,
+
+  activeRfqInquiries: null,
+  activeInquiryData: null
 });
 
 const getters = {
   allRfqRejectReason: ({allRfqRejectReason}) => allRfqRejectReason,
+
+  activeRfqInquiries: state => state.activeRfqInquiries,
+  activeInquiryData: state => state.activeInquiryData
 };
 
 const mutations = {
@@ -16,6 +22,20 @@ const mutations = {
     //   name: item.name,
     //   description: item.description,
     // }));
+  },
+
+
+  SET_ACTIVE_RFQ_INQUIRIES(state, data) {
+    state.activeRfqInquiries = data;
+  },
+  CLEAR_ACTIVE_RFQ_INQUIRIES(state) {
+    state.activeRfqInquiries = null;
+  },
+  SET_ACTIVE_INQUIRIES_OFFER(state, data) {
+    state.activeInquiryData = data;
+  },
+  CLEAR_ACTIVE_INQUIRIES_OFFER(state) {
+    state.activeInquiryData = null;
   },
 };
 
@@ -34,6 +54,25 @@ const actions = {
       console.error(error);
       return Promise.reject(error);
     }
+  },
+
+
+  setActiveRfqInquiries({ commit, state }, data) {
+    commit('SET_ACTIVE_RFQ_INQUIRIES'); // Clear previous data
+    commit('SET_ACTIVE_RFQ_INQUIRIES', data); // Set active RFQ inquiries
+  },
+
+  setActiveInquiriesOffer({ commit, state }, data) {
+    commit('CLEAR_ACTIVE_INQUIRIES_OFFER'); // Set active inquiries offer
+    commit('SET_ACTIVE_INQUIRIES_OFFER', data); // Set active inquiries offer
+  },
+
+  clearActiveInquiriesOffers({ commit }) {
+    commit('CLEAR_ACTIVE_INQUIRIES_OFFER');
+  },
+
+  clearActiveRfqData({ commit }) {
+    commit('SET_ACTIVE_RFQ_INQUIRIES');
   },
 };
 

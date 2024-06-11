@@ -3,15 +3,14 @@ import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
 import ImagePopup from "@/components/message/ImagePopup.vue";
 import Pusher from 'pusher-js'
+import LazyImage from "../LazyImage.vue";
+import PriceFormat from "../partials/PriceFormat.vue";
 
 export default {
   name: 'ActiveInquiry',
-  components: {ReplyNewOffer,ImagePopup},
+  components: {PriceFormat, LazyImage, ReplyNewOffer,ImagePopup},
 
-  props: {
-    ActiveInquiryData: {},
-    offer_index: {},
-  },
+  props: ['activeTab'],
 
   data() {
     return {
@@ -42,6 +41,7 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
 
   methods: {
@@ -153,7 +153,9 @@ export default {
     scrollToBottom() {
       this.$nextTick(() => {
         const container = this.$refs.messageContainer;
-        container.scrollTop = container.scrollHeight;
+        if (this.activeInquiryData) {
+          container.scrollTop = container.scrollHeight;
+        }
       });
     },
     async cancelOffer(offer_id) {
@@ -292,9 +294,9 @@ export default {
     },
     isLastOffer(index) {
       // return index === this.activeInquiries.inquiryOffers.length - 1;
-      const offer = this.activeInquiries.inquiryOffers[index];
+      const offer = this.activeInquiryData.inquiryOffers[index];
       // console.log('zill', offer)
-      return index === this.activeInquiries.inquiryOffers.length - 1 &&
+      return index === this.activeInquiryData.inquiryOffers.length - 1 &&
         (offer.status === 'canceled' || offer.status === 'rejected');
 
     },
@@ -374,16 +376,17 @@ export default {
 
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer']),
   },
 
   mounted() {
-    this.fetchingData();
+    // this.fetchingData();
 
-    this.$watch('ActiveInquiryData', (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        this.fetchingData(); // Fetch data again when ActiveInquiryData changes
-      }
-    });
+    // this.$watch('ActiveInquiryData', (newValue, oldValue) => {
+    //   if (newValue !== oldValue) {
+    //     this.fetchingData(); // Fetch data again when ActiveInquiryData changes
+    //   }
+    // });
     this.scrollToBottom();
 
     // Enable pusher logging - don't include this in production
@@ -423,7 +426,7 @@ export default {
 
 <template>
   <div>
-    <div v-if="activeInquiries">
+    <div v-if="activeInquiryData">
       <div class="relative  min-w-0 break-words w-full rounded">
         <div class="flex-auto">
           <div class="tab-content tab-space">
@@ -432,20 +435,47 @@ export default {
                 <div class="flex gap-4 items-center">
                   <lazy-image
                     class="w-[38px] h-[38px] object-cover rounded"
-                    :data-src="activeInquiries?.vendor?.logo"
-                    :alt="activeInquiries?.vendor?.local_name"
+                    :data-src="activeInquiryData?.vendor?.logo"
+                    :alt="activeInquiryData?.vendor?.local_name"
                   />
-                  <span>{{ ActiveInquiryData?.user?.name }}</span>
+                  <span>{{ activeInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.customer_last_seen }}</p>
-                  <p class="" v-if="$store.state.admin.isSuperAdmin">{{ ActiveInquiryData?.vendor?.name  }}</p>
+                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ activeInquiryData?.customer_last_seen }}</p>
+                  <p class="" v-if="$store.state.admin.isSuperAdmin">{{ activeInquiryData?.vendor?.name  }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 bg-graylight rounded" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
+              <p class="font-bold text-[18px] py-2">{{ $t('products.RFQ Details') }}</p>
+              <div class="lg:grid lg:grid-cols-2 gap-4">
+                <div class="flex gap-4 items-center">
+                  <lazy-image
+                    class="h-10 w-10 object-cover rounded"
+                    :data-src="activeInquiryData?.inquirable?.image"
+                    :alt="activeInquiryData?.inquirable?.image"
+                  />
+                  <div>
+                    <a class="font-bold text-theem" href="">{{ activeInquiryData?.inquirable?.title }}</a>
+                    <p>Quantity: <span class="text-primary">{{ activeInquiryData?.inquiryOffers[0]?.offer?.quantity }} {{ activeInquiryData?.inquirable?.product_unit?.name  }}</span>
+                      <br>
+                      {{ $t('products.Initial unit target price') }}
+                      <price-format :price="activeInquiryData?.inquiryOffers[0]?.offer?.quantity * activeInquiryData?.inquiryOffers[0]?.offer?.price" />
+
+                    </p>
+                    <p>{{ $t('products.Expires on') }} : <span class="text-red">{{ activeInquiryData?.inquiryOffers[0]?.offer?.expired_at }}</span></p>
+                  </div>
+                </div>
+                <div class="ltr:text-end rtl:text-left">
+                  <p>{{ $t('products.RFQ ID') }}: RFQ{{ activeRfqInquiries?.rfq_id }}</p>
+                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries?.rfq?.quote?.id }}</p>
+                  <p><NuxtLink class="underline" :to="`user/rfq/${activeRfqInquiries?.rfq_id}`">{{ $t('products.Manage RFQ') }}</NuxtLink></p>
                 </div>
               </div>
             </div>
             <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
               <!-- -------------------message card user--------------- -->
-              <div v-for="(activeInquirie, index) in activeInquiries.inquiryOffers">
+              <div v-for="(activeInquirie, index) in activeInquiryData.inquiryOffers">
                 <!--        vendor reply-->
                 <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===0">
                  <div class="col-span-2">
