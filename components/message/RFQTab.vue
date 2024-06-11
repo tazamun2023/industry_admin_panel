@@ -1,8 +1,10 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
+import LazyImage from "../LazyImage.vue";
 
 export default {
   name: "RFQTab",
+  components: {LazyImage},
   props: {
     // ActiveInquiryData: {}
   },
@@ -29,6 +31,7 @@ export default {
     },
 
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
 
   async mounted() {
@@ -48,28 +51,53 @@ export default {
   },
 
   methods: {
-    activeInquiryData(data) {
+    activeParentInquiry(data) {
       if (this.activeRfqInquiry && !this.is_related_rfq) {
         this.activeRfqInquiry = false;
         this.ActiveInquiryData = false;
       } else {
         this.activeRfqInquiry = data.id;
         this.ActiveInquiryData = data;
+        this.setActiveRfqInquiries(data);
       }
 
       // this.$emit('activeRfqInquiry', this.activeRfqInquiry);
       // this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
     },
-    activeRelatedInquirie(data, index_sub) {
+    async activeRelatedInquirie(data, index_sub) {
+      this.setActiveInquiriesOffer(data)
       this.activeRfqInquiry = data.id;
       this.ActiveInquiryData = data;
       this.is_related_rfq = true;
       this.is_active_inq = index_sub
-      this.$emit('activeRfqInquiry', this.activeRfqInquiry);
-      this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
-      this.$emit('is_active_inq', this.is_active_inq);
+      // this.$emit('activeRfqInquiry', this.activeRfqInquiry);
+      // this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
+      // this.$emit('is_active_inq', this.is_active_inq);
+      await this.fetchingOfferData()
     },
 
+    async fetchingOfferData() {
+      try {
+        this.formSubmitting = true
+        const data = await this.getRequest({
+          params: {
+            inquiry_id: this.activeInquiryData?.id,
+            tab: this.activeTab
+          },
+          api: 'activeInquiries',
+          requiredToken: true
+        });
+        if (data?.status === 200) {
+          await this.setActiveInquiriesOffer(data.data)
+        } else {
+          this.errors = data?.data?.form
+        }
+        this.formSubmitting = false
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
 
     async fetchingData() {
       try {
@@ -91,6 +119,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setActiveRfqInquiries']),
   }
 }
 </script>
@@ -110,9 +139,9 @@ export default {
       <div
         class="w-full  cursor-pointer  items-top border-t border-smooth my-2"
         v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
-        @click="activeInquiryData(inquirie)"
+        @click="activeParentInquiry(inquirie)"
       >
-        <div class="flex gap-4 p-2 items-center">
+        <div class="flex gap-4 p-2 items-center" :class="inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
           <lazy-image
             class="h-10 w-10 object-cover rounded"
             :data-src="inquirie?.inquirable?.image"
@@ -127,7 +156,7 @@ export default {
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
              class="p-2 hidden border-l-2 border-l-primary border-t border-t-smooth">
-          <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)">
+          <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)" :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
             <div class="flex gap-4 items-center">
               <img class="h-[10px] w-[38px]" src="~/assets/icon/rfqdirection.svg" alt="">
               <lazy-image
