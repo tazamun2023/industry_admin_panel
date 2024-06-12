@@ -10,7 +10,7 @@
           <div class="p-4">
             <div class="flex gap-4 p-2 justify-between">
               <p class="font-bold pt-2">{{ $t('prod.Variants List') }}</p>
-              <button v-if="is_edit" @click="openVariantModal"
+              <button @click="openVariantModal"
                       class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
                 <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24">
@@ -46,15 +46,15 @@
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
 <!--                    <img class="w-10 h-10 rounded"-->
-                    <!--                         src="https://c8n.tradeling.com/web-catalog-pim/assets/svgs/noImageIcon.svg"-->
-                    <!--                         alt="">-->
-                    <lazy-image
-                      v-if="variants[index]?.result.product_images"
-                      class="w-10 h-10 rounded"
-                      :lazy-src="variants[index]?.result?.product_images[0]?.url"
-                      :data-src="variants[index]?.result?.product_images[0]?.url"
-                      :alt="colorItem.color_name"
-                    />
+<!--                         :src="variants[index]?.result?.product_images[0]?.url"-->
+<!--                         alt="">-->
+                                        <lazy-image
+                                          v-if="variants[index]?.result.product_images"
+                                          class="w-10 h-10 rounded"
+                                          :lazy-src="variants[index]?.result?.product_images[0]?.url"
+                                          :data-src="variants[index]?.result?.product_images[0]?.url"
+                                          :alt="colorItem.color_name"
+                                        />
                            <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
                                colorItem.value
                              }}
@@ -260,6 +260,7 @@
             <tr class="bg-white hover:bg-gray-50 " v-for="(variant, index) in variants" :key="index"
                 v-if="variant.result.id">
               <td class="p-4 border border-smooth">
+
                 <lazy-image
                   class="mr-20 w-10 md:w-10 max-w-full max-h-full"
                   :data-src="variant.result.product_images[0]?.url"
@@ -304,7 +305,7 @@
                   <div class="w-full p-2">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Min Qty') }}</span>
-                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                      <img v-if="($can('manage_products') && variant.result.status !== 'pending')"
                            class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
@@ -313,7 +314,7 @@
                   <div class="w-full p-2 border-l border-r border-smooth">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Price') }}</span>
-                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                      <img v-if="($can('manage_products') && variant.result.status !== 'pending')"
                            class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
@@ -323,7 +324,7 @@
                   <div class="w-full p-2">
                     <div class="flex w-full justify-between">
                       <span>{{ $t('prod.Sale price') }}</span>
-                      <img v-if="($can('manage_products') && variants[openTab]?.result?.status === 'pending')"
+                      <img v-if="($can('manage_products') && variant.result.status !== 'pending')"
                            class="w-4 h-4 cursor-pointer" src="~/assets/icon/edit-g.svg" alt=""
                            @click="attrModalOpen(product_price, p_index, index)">
                     </div>
@@ -353,7 +354,7 @@
       <!--      <div v-if="openTab !== 'parent'">-->
       <add-product :from-single="false"
                    :p_select_attr1="select_attr1"
-                   @productUpdate="openTab='parent'"
+                   @productUpdate="productUpdate"
                    :is_show="!($can('manage_products') && variants[openTab]?.result?.status !== 'pending')"
                    :id="variants[openTab]?.result?.id"
                    :p_select_attr2="select_attr2"
@@ -408,11 +409,13 @@
                 <!--                </div>-->
               </div>
               <hr class="border-smooth mb-2.5">
-              <div class="grid grid-cols-3 gap-4"
+              <div class="grid grid-cols-3 my-2 gap-4"
                    v-for="(variant, index) in result.product_variants" :key="index">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
+                    <select v-if="select_attr1 === 'color'"
+                            :disabled="variant.product_id!=''"
+                            class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
                             @change="setColorName(index, $event)"
                     >
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
@@ -420,16 +423,17 @@
                         }}
                       </option>
                     </select>
-                    <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
+                    <input v-else class="form-control w-100" type="text" placeholder="Enter Value"
+                           :disabled="variant.product_id!=''" v-model="variant.value"
                     />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group" :class="{ invalid: variant.value }">
                     <input class="form-control w-100" type="text" placeholder="Enter Value" v-model="variant.value"
-                           v-if="select_attr2 === 'size'"/>
+                           :disabled="variant.product_id!=''" v-if="select_attr2 === 'size'"/>
                     <select class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="variant.name"
-                            v-if="select_attr2 === 'color'">
+                            :disabled="variant.product_id!=''" v-if="select_attr2 === 'color'">
                       <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                           item.name
                         }}
@@ -438,8 +442,8 @@
                   </div>
                 </div>
 
-                <div v-if="variant.product_id">
-                  <p> {{ variant.color_name }}, {{ variant.value }} </p>
+                <div class="col-md-4" v-if="variant.product_id">
+                  <!--                  <p> {{ variant.color_name }}, {{ variant.value }} </p>-->
                 </div>
                 <div v-else class="col-md-4" @click.prevent="removeVariantRows(index)">
                   <span class="p-3 border border-smooth rounded cursor-pointer">
@@ -475,23 +479,12 @@
                 <!--                        v-else>-->
                 <!--                  {{ $t('prod.Edit') }}-->
                 <!--                </button>-->
-                <button type="button" class="btn  border-secondary" @click.prevent="doVariantSave"
+                <button type="button" class="btn  border-secondary" @click.prevent="closeVariantModal"
                         :class="result[openTab]?.product_variants.length===0?'cursor-not-allowed':''">
                   <span>{{ $t('prod.CANCEL') }}</span>
                 </button>
               </div>
               <div class="my-10"></div>
-              <div class="tab-sidebar p-3" v-if="is_variant">
-                <div class="flex justify-end gap-4 pt-3">
-                  <button
-                    type="button"
-                    class="btn text-white bg-primary w-1/4 hover:text-primary"
-                    :disabled="!result.product_variants[0]?.color_name || !result.product_variants[0]?.value || !result.childCategory || !result.title.ar || !result.title.en || !result.brand_id || !result.parent_sku"
-                    @click.prevent="doNext">
-                    {{ $t('prod.Next') }}
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
           <!-- Close Button -->
@@ -631,6 +624,10 @@ export default {
       type: Boolean,
       default: false
     },
+    fromSingle: {
+      type: Boolean,
+      default: false
+    },
     variant_uu_id: {
       type: Number,
       default: null
@@ -643,7 +640,6 @@ export default {
       is_submit_data: false,
       variant_copy: [],
       is_submit: [],
-      allKeywords: [],
       injectedData: this.exampleData,
       openTab: 'parent',
       oldTap: 'parent',
@@ -738,26 +734,6 @@ export default {
     },
     isAdding() {
       return isNaN(this.$route?.params?.id)
-    },
-
-    skuRules() {
-      if (this.openTab !== 'parent') {
-        // const allSKus = this.allSKus;
-        return {
-          required: true,
-          uniqueSku: this.is_sku_exsist, // Pass allSKus directly
-          min: 2,
-          max: 32
-        };
-      }
-    },
-
-    PackagingValidationRules() {
-      return {
-        required: !this.is_draft,
-        min_value: 1,
-        max_value: 99999999,
-      };
     },
 
     QuantityValidationRules() {
@@ -874,60 +850,6 @@ export default {
         };
       }
     },
-
-    BarcodeValidationRules() {
-      if (this.openTab !== 'parent') {
-        let validationRules = {
-          required: (this.variants[this.openTab]?.result?.barcode_type != 4 && this.variants[this.openTab]?.result?.barcode_type != "")
-        };
-
-        const barcodeLength = this.variants[this.openTab]?.result?.barcode?.length || 0;
-
-        switch (this.variants[this.openTab]?.result?.barcode_type) {
-          case '1':
-            if (barcodeLength <= 8) {
-              validationRules.min = 8;
-            } else if (barcodeLength <= 13) {
-              validationRules.min = 13;
-              validationRules.max = 13;
-            } else {
-              validationRules.max = 13;
-            }
-            break;
-
-          case '2':
-            if (barcodeLength <= 8) {
-              validationRules.min = 8;
-            } else if (barcodeLength <= 12) {
-              validationRules.min = 12;
-              validationRules.max = 12;
-            } else if (barcodeLength <= 13) {
-              validationRules.min = 13;
-              validationRules.max = 13;
-            } else if (barcodeLength <= 14) {
-              validationRules.min = 14;
-              validationRules.max = 14;
-            } else {
-              validationRules.max = 14;
-            }
-            break;
-
-          case '3':
-            if (barcodeLength <= 12) {
-              validationRules.min = 12;
-            } else {
-              validationRules.max = 12;
-            }
-            break;
-
-          default:
-            break;
-        }
-
-        return validationRules;
-      }
-    },
-
     ...mapGetters(['mediaStorage']),
     ...mapGetters('admin', ['publicKey']),
     ...mapGetters('setting', ['setting']),
@@ -953,6 +875,11 @@ export default {
 
       }
     },
+    productUpdate(data) {
+      // console.log(index)
+      this.variants[this.openTab].result = data;
+      this.openTab = 'parent';
+    },
     doVariantSave() {
       if (this.result.product_variants.length === 0) {
         this.setToastMessage(this.$t('prod.No variants added'))
@@ -963,24 +890,33 @@ export default {
           if (!this.result.product_variants[i].name && !this.result.product_variants[i].value) {
             // Show error message and exit loop early
             // this.setToastError(this.$t('prod.Color or value cant empty value'));
-            return;
+            continue;
+          }
+
+          if (this.result.product_variants[i].product_id === "") {
+            this.is_variant_save = !this.is_variant_save;
+            this.varientModal = false;
+            const newVariant = {
+              result: {
+                ...this.variants[0].result,
+                id: '',
+                product_images: [],
+                images: [],
+                sku: '',
+                status: 'incomplete',
+                is_variant: true
+              }
+            };
+            newVariant.result.product_variant = {
+              name: this.result.product_variants[i].name,
+              value: this.result.product_variants[i].value
+            };
+            newVariant.result.product_images = []
+            newVariant.result.images = []
+            newVariant.result.sku = ''
+            this.variants.splice(this.variants.length, 0, newVariant);
           }
         }
-        this.is_variant_save = !this.is_variant_save;
-        this.varientModal = false;
-        const newVariant = {
-          result: {
-            ...this.variants[0].result,
-            id: '',
-            product_images: [],
-            images: [],
-            sku: '',
-            status: 'incomplete',
-            is_variant: true
-          }
-        };
-        this.variants.splice(this.variants.length, 0, newVariant);
-
       }
     },
 
@@ -1071,9 +1007,10 @@ export default {
 
     closeVariantModal() {
       this.varientModal = false;
-      if (this.variant_copy) {
-        this.result.product_variants = this.variant_copy
-      }
+      this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
+      // if (this.variant_copy) {
+      //   this.result.product_variants = this.variant_copy
+      // }
     },
     openVariantModal() {
       this.varientModal = true
@@ -1197,10 +1134,7 @@ export default {
         return this.result.product_variants[index]?.color_name + ',' + this.result.product_variants[index]?.value;
       }
     },
-    async findKeyword() {
-      let res = await this.getById({id: 1, params: {keyword: ''}, api: 'findRfqKeyword'});
-      this.allKeywords = res;
-    },
+
     normalizeString(str) {
       if (typeof str === 'string')
         return str.replace(/\s+/g, ' ').trim();
@@ -1264,7 +1198,8 @@ export default {
   },
   watch: {},
   async mounted() {
-    if (this.is_edit) {
+    this.variants = this.variantsData
+    if (!this.fromSingle) {
       this.variants = this.variantsData
       this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     } else {
@@ -1275,9 +1210,7 @@ export default {
       });
       console.log('mounted...')
     }
-    if (this.allKeywords.length === 0) {
-      await this.findKeyword()
-    }
+
     if (
       !this.allCategories || !this.allTaxRules || !this.allAttributes ||
       !this.allBrands || !this.allProductCollections || !this.allBundleDeals ||

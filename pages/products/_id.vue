@@ -33,6 +33,7 @@
         :selectedLevel2="variant?.selectedLevel2"
         :selectedLevel3="variant?.selectedLevel3"
         :select_attr1="variant?.select_attr1"
+        :from-single="true"
         :select_attr2="variant?.select_attr2"
         :variant_uu_id="variant?.variant_uu_id"
       ></Variant>

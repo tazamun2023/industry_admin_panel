@@ -1035,8 +1035,8 @@
               <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
               <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"
                       v-model="result.country_of_origin">
-                <option v-for="(item, index) in allCountries" :key="index" :value="item.id" disabled
-                        v-if="item.id===194">{{
+                <option v-for="(item, index) in allCountries" :key="index" :value="item.id" :disabled="is_show"
+                        v-if="item.iso.toLowerCase()==='sa'">{{
                     item.name
                   }}
                 </option>

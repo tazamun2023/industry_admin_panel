@@ -34,8 +34,8 @@ export default {
       selectedLevel1: null,
       selectedLevel2: null,
       selectedLevel3: null,
-      select_attr1: '',
-      select_attr2: '',
+      select_attr1: 'color',
+      select_attr2: 'size',
       is_loading: true,
       is_fetch: false
 
@@ -83,11 +83,8 @@ export default {
         let productVariants = [];
         for (let key in res) {
           if (!isNaN(key)) {
-            let productVariant = {
-              ...res[key]?.product_variant,
-              color_name: res[key]?.product_variant?.color?.name?.en || '',
-            };
-            productVariants.push(productVariant);
+
+            productVariants.push(res[key]?.product_variant);
           }
         }
 
@@ -96,9 +93,8 @@ export default {
             this.result = {
               ...res[key],
               product_variants: productVariants,
-              is_variant: res[0]?.product_variant ? true : false,
             }
-            this.variantsData.push(Object.assign({result: this.result}));
+            this.variantsData.push(Object.assign({result: JSON.parse(JSON.stringify(this.result))}));
           }
         }
         this.result = JSON.parse(JSON.stringify(this.variantsData[0].result))
