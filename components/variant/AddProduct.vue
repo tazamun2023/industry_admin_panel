@@ -134,6 +134,7 @@
 
           <lang-input :IsReadOnly="is_show" v-if="!is_variant" :hasError="false" type="textarea"
                       :title="$t('prod.desc')"
+                      :isRequired="!is_draft"
                       :valuesOfLang="result.description"
                       @updateInput="updateInput"></lang-input>
 
@@ -386,13 +387,14 @@
 
                 <lang-input-multi :IsReadOnly="is_show" :hasError="true" type="text"
                                   :title="$t('prod.Key features - English')"
+                                  :isRequired="!is_draft"
                                   :valuesOfLang="result.features"
                                   @updateInput="updateInput">
 
                 </lang-input-multi>
               </div>
 
-              <ValidationProvider name="English keyword " :rules="{required: !is_draft & !result.basic_keyword_en}"
+              <ValidationProvider name="English keyword " :rules="{required: !is_draft }"
                                   v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - English')}) }"
                                   class="w-full">
@@ -412,7 +414,7 @@
                 </div>
                 <span class="error">{{ errors[0] }}</span>
               </ValidationProvider>
-              <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft & !result.basic_keyword_ar}"
+              <ValidationProvider name="Arabic keyword" :rules="{required: !is_draft  }"
                                   v-slot="{ errors }"
                                   :custom-messages="{required: $t('global.req', { type: $t('prod.Keywords - Arabic')}) }"
                                   class="w-full">
@@ -447,7 +449,7 @@
         <!--          BasicInformationChild-->
         <!-- ------------------------------------- -->
         <ValidationProvider v-if="!is_variant" name="Image"
-                            :rules="{ required: result.product_images.length===0 && !is_variant }"
+                            :rules="{ required: !is_draft &&(result.product_images.length===0 && !is_variant )}"
                             v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }"
                             class="w-full">
@@ -1157,13 +1159,20 @@
         <div>
           <div v-if="!is_show" class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
-              <button v-if="fromSingle && !isRfqProduct" type="button" class="btn text-primary"
-                      @click.prevent="doDraft">
-                {{ $t('prod.Save Draft') }}
-              </button>
-              <button type="submit" class="btn bg-primary text-white border-secondary">
-                {{ $t('prod.Send for review') }}
-              </button>
+              <ajax-button
+                name="draft"
+                another_class="btn text-primary"
+                :text="$t('prod.Save Draft')"
+                @clicked="is_draft=true"
+                :fetching-data="is_submit_data && is_draft"
+              />
+              <ajax-button
+                name="save"
+                another_class="primary-btn"
+                :text="$t('prod.Send for review') "
+                @clicked="is_draft=false"
+                :fetching-data="is_submit_data && !is_draft"
+              />
               <span class="font-semibold text-error" v-if="(invalid || hasLangError)&& is_submit ">{{
                   $t('prod.Check the errors')
                 }}</span>
@@ -1172,8 +1181,6 @@
           <div v-if="$can('approve_products') && result.status==='pending'  ">
             <slot name="actions"></slot>
           </div>
-
-
         </div>
       </form>
     </ValidationObserver>
@@ -1209,7 +1216,6 @@ import LangInput from "../../components/langInput.vue";
 import ProductSearch2 from "~/components/partials/ProductSearch2.vue";
 import ProductSearch from "~/components/partials/ProductSearch.vue";
 import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
-import {extend} from 'vee-validate';
 import BasicInformationChild from "@/components/product/BasicInformationChild.vue";
 import VueUploadImages from "../../components/product/uploadImages.vue";
 import error from "@/layouts/error.vue";
@@ -1261,6 +1267,7 @@ export default {
 
       hasLangError: false,
       is_click_available: false,
+      is_submit_data: false,
       variant_uu_id: '',
       is_variant_save: false,
       is_variant_edit: false,
@@ -1385,7 +1392,7 @@ export default {
         country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
-        barcode_type: '',
+        barcode_type: 4,
         barcode: null,
         sku: null,
         /*Product Identifiers*/
@@ -1605,7 +1612,7 @@ export default {
 
     BarcodeValidationRules() {
       let validationRules = {
-        required: !this.is_draft && this.result.barcode_type != 4
+        required:  this.result.barcode_type != 4 &&  this.result.barcode_type!=""
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1873,34 +1880,9 @@ export default {
         this.setToastError(this.$t('prod.Color or value cant empty value'));
       }
     },
-    doDraft() {
-      this.is_draft = true;
-      this.result.is_draft = true;
-      this.result.status = 'draft'
-      if (this.result.storage_temperature === 0) {
-        this.result.storage_temperature = null
-      }
-      if (this.result.brand_id === 0) {
-        this.result.brand_id = null
-      }
-      if (this.result.barcode_type === 0) {
-        this.result.barcode_type = null
-      }
-      if (this.result.unit_id === 0) {
-        this.result.unit_id = null
-      }
-      if (this.validationKeysIfIsDraft.findIndex((i) => {
-        return (!this.result[i])
-      }) > -1) {
-        this.hasError = true
-        return false
-      }
-      this.checkForm()
 
-    },
     async doSubmit() {
-      this.is_draft = false;
-      this.result.is_draft = false;
+      this.result.is_draft = this.is_draft;
       this.is_submit = true
       this.result.is_quote = false
       var vaildationsKeys = this.validationKeysIfNotVariant;
@@ -1908,6 +1890,8 @@ export default {
         this.result.is_quote = true
         vaildationsKeys = this.validationKeysIfNotVariant.filter(x => !this.validationIgnoreInRFQ.includes(x))
       }
+      if(this.is_draft)
+        vaildationsKeys=this.validationKeysIfIsDraft
       console.log(vaildationsKeys)
       if (vaildationsKeys.findIndex((i) => {
         return (!this.result[i])
@@ -1931,10 +1915,8 @@ export default {
       if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
-      this.result.status = 'pending'
-
       this.result.is_variant = !this.fromSingle
-      // this.checkForm()
+      this.is_submit_data=true
       const data = await this.setById({
         id: this.id,
         params: {
@@ -1944,12 +1926,13 @@ export default {
         },
         api: this.setApi
       })
+      this.is_submit_data=false
       if (data.status === 200) {
         if (this.isRfqProduct) {
           return this.$router.push({path: `/rfq/${this.$route.query?.quote}`})
         }
         if (this.fromSingle) {
-          var path = '/products/pending-approval';
+          var path = this.is_draft ? '/products/draft' : `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`;
           if (data.data.status === "approved")
             path = '/products/approved';
           return this.$router.push({path});
@@ -2058,35 +2041,6 @@ export default {
     getThumb(url) {
       return url
     },
-    async checkForm() {
-
-      this.formSubmitting = true
-      try {
-
-        delete this.result.created_at
-        delete this.result.updated_at
-        this.result.is_draft = true;
-        const data = await this.setById({
-          id: this.id,
-          params: {
-            ...this.result,
-            rfq_id: this.$route.query?.quote,
-            rfq_product_id: this.$route.query?.rfq_product_id
-          },
-          api: this.setApi
-        })
-
-        console.log(data)
-        if (data.status === 200) {
-          const path = this.is_draft ? '/products/draft' : `/${this.routeName}${this.redirect ? '' : '/pending-approval'}`;
-          this.$router.push({path});
-        }
-
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
-      this.formSubmitting = false
-    },
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({behavior: "smooth"})
     },
@@ -2099,7 +2053,6 @@ export default {
         this.result = JSON.parse(JSON.stringify(res))
         if (this.result.features.length == 0)
           this.result.features = [{'ar': '', 'en': ''}]
-
         this.result.images = res.images
         this.min_qty = Math.min(...this.result.product_prices.map(item => item.quantity));
         this.is_variant = false;
@@ -2110,23 +2063,12 @@ export default {
           if (res.variant_uu_id && !this.is_show)
             this.$router.push('/products/variant/' + res.id)
         }
-
-
         this.updateLevel2()
         this.result.subCategory = res.subCategory
         this.updateLevel3()
-
         this.result.category_id = res.childCategory
         this.result.childCategory = res.childCategory
 
-
-        this.result.product_collections = [...new Set(this.result?.product_collections?.map((o) => {
-          return o.product_collection_id
-        }))]
-        this.result.product_categories = [...new Set(this.result?.product_categories?.map((o) => {
-          return o.category_id.toString()
-        }))]
-        console.log(this.result.product_categories)
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)

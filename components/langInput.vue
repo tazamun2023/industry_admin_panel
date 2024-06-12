@@ -15,9 +15,9 @@
         <div v-for="(language, index) in languages" class="col-span-12" :key="index"
              :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
           <ValidationProvider :name="'Title '+language" :rules="{min:min,required: isRequired}" v-slot="{ errors }"
-                              :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
+                              :custom-messages="{required: $t('global.req', { type: title}) }" class="w-full">
             <div class="input-wrapper">
-              <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }})  <strong
+              <label class="font-bold">{{ title }} ({{ language }}) <strong
                 class="text-error">*</strong></label>
               <input
                 v-if="type=='text'"
@@ -45,7 +45,7 @@
               <!--                         :disabled="true"-->
               <!--                         @input="updateInputValue(language, $event.target.value)"-->
               <!--          />-->
-              <span class="error" v-if="errors[0]">{{errors[0] }}</span>
+              <span class="error" v-if="errors[0]">{{ errors[0] }}</span>
               <!--          <span class="error" v-if="!!!valuesOfLang[language] && hasError">-->
               <!--          {{ $t('category.req', {type: title}) }}-->
               <!--        </span>-->
@@ -128,8 +128,8 @@ export default {
     },
     invalidWatcher(invalid) {
       console.log('unvaild', invalid)
-      this.invalidData=invalid
-      if (invalid!=undefined)
+      this.invalidData = invalid
+      if (invalid != undefined)
         this.$emit('checkLangError', this.invalidData)
       return true; // Necessary to keep the template valid
     },

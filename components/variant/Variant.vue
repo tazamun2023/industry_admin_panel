@@ -46,8 +46,8 @@
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
 <!--                    <img class="w-10 h-10 rounded"-->
-<!--                         :src="variants[index]?.result?.product_images[0]?.url"-->
-<!--                         alt="">-->
+                    <!--                         :src="variants[index]?.result?.product_images[0]?.url"-->
+                    <!--                         alt="">-->
                                         <lazy-image
                                           v-if="variants[index]?.result.product_images"
                                           class="w-10 h-10 rounded"
@@ -344,9 +344,15 @@
     </div>
     <div class="tab-sidebar p-3" v-if="is_edit && openTab === 'parent'">
       <div class="flex justify-end gap-4 pt-3">
-        <button type="button" class="btn text-white bg-primary w-1/4 hover:text-primary" @click.prevent="doSubmit">
-          {{ $t('prod.Send for review') }}
-        </button>
+        <ajax-button
+          name="save"
+          another_class="primary-btn"
+          type="button"
+          :text="$t('prod.Send for review') "
+          @clicked="doSubmit"
+          :fetching-data="is_submit_data"
+        />
+
       </div>
     </div>
     <!-- ------------------------ -->
@@ -600,6 +606,7 @@ import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import util from "@/mixin/util";
 import AddProduct from "./AddProduct.vue";
 import NavIcon from "./NavIcon.vue";
+import AjaxButton from "../AjaxButton.vue";
 
 
 export default {
@@ -607,6 +614,7 @@ export default {
   mixins: [util],
   inject: [],
   components: {
+    AjaxButton,
     NavIcon,
     AddProduct,
     ValidationProvider,
@@ -935,7 +943,7 @@ export default {
       }
       // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
-
+      this.is_submit_data = true
       try {
         const res = await this.setById({
           id: this.variants[0]?.result.id,
@@ -947,6 +955,7 @@ export default {
           },
           api: "saveParentVariantsProduct"
         });
+        this.is_submit_data = false
         if (res) {
           // console.log('sfdsfa', res)
           // Initialize this.variants[this.openTab] if it doesn't exist

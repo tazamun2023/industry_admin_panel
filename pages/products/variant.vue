@@ -97,8 +97,8 @@ export default {
             this.variantsData.push(Object.assign({result: JSON.parse(JSON.stringify(this.result))}));
           }
         }
-        this.result = JSON.parse(JSON.stringify(this.variantsData[0].result))
-        this.is_edit = this.$can('manage_products') && this.result.status !== 'pending'
+        // this.result = JSON.parse(JSON.stringify(this.variantsData[0].result))
+        this.is_edit = this.$can('manage_products')
         this.updateLevel2()
         this.result.subCategory = res[0].subCategory
         this.updateLevel3()

@@ -1,6 +1,7 @@
 <template>
   <div v-if="IsReadOnly">
-    <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden " v-html="value">
+    <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden " >
+      <div v-html="value"></div>
 
     </div>
 
