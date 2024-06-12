@@ -14,7 +14,7 @@
       <div class="grid grid-cols-12 gap-1 md:gap-2">
         <div v-for="(language, index) in languages" class="col-span-12" :key="index"
              :class="{'col-span-12 lg:col-span-6':(width50 && type=='text')}">
-          <ValidationProvider :name="'Title_'+language" :rules="{min:min,required: isRequired}" v-slot="{ errors }"
+          <ValidationProvider :name="'Title '+language" :rules="{min:min,required: isRequired}" v-slot="{ errors }"
                               :custom-messages="{required: $t('global.req', { type: $t('prod.name')}) }" class="w-full">
             <div class="input-wrapper">
               <label class="font-bold" v-if="type=='text'">{{ title }} ({{ language }})  <strong

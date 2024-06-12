@@ -656,10 +656,10 @@ export default {
         api: 'setQuote'
       }).then((res) => {
         return this.$router.push({
-          path: '/products/quote/add',
+          path: '/products/add',
           query: {
             rfq_product_id: activeProductId,
-            quote: res.id
+            quote: this.id
           }
         });
         //  this.$router.push(`/products/quote/add?rfq_product_id=` + this.activeProductId + `&quote=` + res.id)
