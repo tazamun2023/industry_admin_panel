@@ -64,6 +64,13 @@ export default {
       // this.$emit('activeRfqInquiry', this.activeRfqInquiry);
       // this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
     },
+
+    truncateUserName(userName, maxLength = 15) {
+      if (userName.length > maxLength) {
+        return userName.substring(0, maxLength) + '...';
+      }
+      return userName;
+    },
     async activeRelatedInquirie(data, index_sub) {
       this.setActiveInquiriesOffer(data)
       this.activeRfqInquiry = data.id;
@@ -87,7 +94,7 @@ export default {
           api: 'activeInquiries',
           requiredToken: true
         });
-        console.log('data.data', data)
+        // console.log('data.data', data)
         if (data) {
           await this.setActiveInquiriesOffer(data)
         } else {
@@ -153,6 +160,8 @@ export default {
             <p class="font-bold uppercase">RFQ{{ inquirie.rfq_id }}</p>
             <p>{{ inquirie?.inquirable?.title }}</p>
           </div>
+
+<!--          <span class="relative ml-2">{{ inquirie.last_time }}</span>-->
         </div>
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
@@ -162,8 +171,8 @@ export default {
               <img class="h-[10px] w-[38px]" src="~/assets/icon/rfqdirection.svg" alt="">
               <lazy-image
                 class="h-6 w-6 object-cover rounded"
-                :data-src="related_inquirie.inquirie?.inquirable?.image"
-                :alt="related_inquirie.inquirie?.inquirable?.image"
+                :data-src="related_inquirie?.inquirable?.image"
+                :alt="related_inquirie?.inquirable?.image"
               />
             </div>
             <div>
@@ -171,11 +180,35 @@ export default {
                 <span class="font-bold  font-13px" :class="{ 'text-primary': activeRfqInquiry === index }">{{ related_inquirie.inquirable?.title }}</span>
                 <span class="text-smooth">{{ related_inquirie.created }}</span>
               </div>
-              <span class="text-smooth font-12px">From : {{ related_inquirie.user?.name }}</span>
+              <span class=" text-[12px]" v-if="$store.state.admin.isSuperAdmin">
+          <!-- {{$t('prod.From')}} : -->
+             {{ inquirie.user.name }} - {{ $t('prod.To') }} : {{ inquirie.vendor.name }}</span>
+              <span class="text-[12px]" v-if="$store.state.admin.isVendor">
+                <!-- {{ $t('prod.From') }} : -->
+                 {{ truncateUserName(inquirie.user.name) }}
+              </span>
+<!--              <span class="text-smooth font-12px">From : {{ related_inquirie.user?.name }}</span>-->
+<!--              <div class="flex justify-between">-->
+<!--                <span class="font-12px">INQ{{ related_inquirie.inquirable?.id }}</span>-->
+<!--                <span-->
+<!--                  class="p-1 rounded bg-theemlight text-theem uppercase text-[12px]">{{ related_inquirie.last_status }}</span>-->
+<!--              </div>-->
               <div class="flex justify-between">
-                <span class="text-smooth  font-12px">INQ{{ related_inquirie.id }}</span>
-                <span
-                  class="p-1 rounded text-smooth bg-theemlight text-theem uppercase text-[12px]">PENDING AGREEMENT</span>
+                <span class=" font-12px">INQ{{ related_inquirie.inquirable_id }}</span>
+                <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
+                      v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
+                <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
+                      v-if="(inquirie.last_status==='pending_agreement')">{{ $t('products.PENDING AGREEMENT') }}</span>
+                <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
+                      v-if="(inquirie.last_status==='expired')">{{ $t('products.expired') }}</span>
+                <span class="p-1 rounded bg-warninglight text-error uppercase text-[12px]"
+                      v-if="(inquirie.last_status==='canceled')">{{ $t('products.canceled') }}</span>
+                <span class="p-1 rounded bg-primarylight text-primary uppercase text-[12px]"
+                      v-if="(inquirie.last_status==='approved')">{{ $t('products.approved') }}</span>
+                <span class="p-1 rounded bg-primarylight text-primary uppercase text-[12px]"
+                      v-if="(inquirie.last_status==='order_placed')">{{ $t('products.Order Placed') }}</span>
+                <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
+                      v-if="(inquirie.last_status==='rejected')">{{ $t('products.rejected') }}</span>
               </div>
             </div>
           </div>

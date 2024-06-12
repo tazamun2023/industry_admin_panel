@@ -240,6 +240,7 @@ export default {
         },
         api: 'inquiriesOfferStore'
       }).then(data => {
+        this.fetchingOfferData();
         // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
         this.$emit('is_send_new_offer', false);
         this.$emit('is_send_new_offer_vendor', false);
@@ -275,13 +276,24 @@ export default {
 
       // acceptInquiriesOffer
     },
+    // isLastOffer(index) {
+    //   // return index === this.activeInquiries.inquiryOffers.length - 1;
+    //   const offer = this.activeInquiryData.inquiryOffers[index];
+    //   // console.log('zill', offer)
+    //   return index === this.activeInquiryData.inquiryOffers.length - 1 &&
+    //     (offer.status === 'canceled' || offer.status === 'rejected');
+    //
+    // },
     isLastOffer(index) {
-      // return index === this.activeInquiries.inquiryOffers.length - 1;
-      const offer = this.activeInquiryData.inquiryOffers[index];
-      // console.log('zill', offer)
-      return index === this.activeInquiryData.inquiryOffers.length - 1 &&
-        (offer.status === 'canceled' || offer.status === 'rejected');
+      const offers = this.activeInquiryData?.inquiryOffers || [];
+      const lastOfferIndex = offers
+        .map((offer, idx) => ({ type: offer.offer?.type, index: idx }))
+        .reverse()
+        .find(offer => {
+          return offer.type === 'offer';
+        })?.index;
 
+      return index === lastOfferIndex;
     },
     getTodayFormattedDate() {
       const today = new Date();
@@ -476,7 +488,7 @@ export default {
                       <br>
                       {{ $t('products.Initial unit target price') }} :
                       <price-format
-                        :price="activeRfqInquiries?.rfq_product.total_target_price"/>
+                        :price="activeRfqInquiries?.rfq_product.target_price"/>
                     </p>
                     <p v-if="activeRfqInquiries?.rfq?.expiry_date">{{ $t('products.Expires on') }} :
                       <span class="text-red">{{ activeRfqInquiries?.rfq?.expiry_date }}</span></p>
@@ -486,10 +498,61 @@ export default {
                   <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries?.rfq_id }}</p>
                   <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries?.rfq?.quote?.id }}</p>
                   <p>
-                    <NuxtLink class="underline" :to="localePath(`user/rfq/${activeRfqInquiries?.rfq_id}`)">
-                      {{ $t('products.Manage RFQ') }}
-                    </NuxtLink>
                   </p>
+                </div>
+              </div>
+            </div>
+            <div class="lg:grid lg:grid-cols-8 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
+              <div class="col-span-4 ltr:text-end rtl:text-start">
+
+              </div>
+              <div class="col-span-4">
+                <div class="messenger  w-full">
+                  <div class="card rounded-[16px] shadow m-2 mb-0">
+                    <div class="bg-graylight rounded-t-[16px] p-4 font-bold flex justify-between">
+                      <div>Q{{ activeRfqInquiries.rfq.quote.id }}</div>
+                      <div v-if="activeRfqInquiries?.rfq.expiry_date">{{ $t('prod.Offer valid until') }}
+                        {{ activeRfqInquiries?.rfq.expiry_date }}
+                      </div>
+                    </div>
+                    <div class="p-4">
+                      <a class="text-primary font-bold" href="">{{ activeRfqInquiries?.quotes_product?.product.title }}</a>
+                      <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
+                        <div class="flex items-center gap-4">
+                          <lazy-image
+                            class="h-10 w-10 object-cover rounded"
+                            :data-src="activeRfqInquiries?.quotes_product?.product.image"
+                            :alt="activeRfqInquiries?.quotes_product?.product.image"
+                          />
+                          <price-format
+                            :price="Number(activeRfqInquiries?.quotes_product?.product?.product_prices[0].selling_price)"/>
+                        </div>
+                        <div>
+                          <div class="flex justify-between p-1">
+                            <span>{{ $t('prod.Quantity') }}</span>
+                            <span><span class="text-primary">{{
+                                activeRfqInquiries?.quotes_product?.quantity
+                              }}</span> {{ activeRfqInquiries?.quotes_product?.unit?.name }}</span>
+                          </div>
+                          <div class="flex justify-between p-1">
+                            <span>{{ $t('prod.Unit target price') }}</span>
+                            <price-format :price="activeRfqInquiries?.quotes_product?.total_offer_price"/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="grid grid-cols-2 p-2">
+                        <div></div>
+                        <div class="text-end flex justify-between">
+                          <span>{{ $t('app.Total Price excl VAT') }}</span>
+                          <price-format :price="activeRfqInquiries?.quotes_product?.total"/>
+                        </div>
+                      </div>
+                      <div class="w-full">
+                        <p class="p-2 bg-redlight text-reject rounded">{{ $t('prod.Reject') }}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -571,6 +634,7 @@ export default {
 
                             <button @click="isSendNewOfferVendor(index, activeInquirie)"
                                     v-if="!is_click_accept && $store.state.admin.isVendor"
+                                    :disabled="!isLastOffer(index)"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
                             </button>
@@ -752,6 +816,7 @@ export default {
 
                               <button @click="isSendNewOfferVendor(index)"
                                       v-if="$store.state.admin.isVendor"
+                                      :disabled="!isLastOffer(index)"
                                       class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                                 {{ $t('products.Send New Offer') }}
                               </button>
@@ -1105,9 +1170,6 @@ export default {
         color="primary"
         class="mr-15 justify-center"
       />
-    </div>
-    <div v-else>
-      no data
     </div>
   </div>
 </template>
