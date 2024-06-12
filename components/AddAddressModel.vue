@@ -1,6 +1,6 @@
 <template>
   <custome-modal
-    :title="` ${$t('address.Add Address') } `"
+    :title="` ${$t('address.Add Address') }  uu`"
     :show-modal="showModal"
     @close="closeAddressModel"
     size="lg">
@@ -25,17 +25,17 @@
             <div class="flex start  gap-4">
 
               <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary':
-                    addressData.type === 'shipping'}" @click="shipping">
+                    addressData.type === 'shipping'}" @click="addressData.type = 'shipping'">
                 <p>{{ $t('address.Shipping') }}</p>
               </div>
 
               <div class="border border-smooth rounded  cursor-pointer border-smoth p-2"
-                   :class="{'bg-primary': addressData.type === 'billing'}" @click="billing">
+                   :class="{'bg-primary': addressData.type === 'billing'}" @click="addressData.type ='billing'">
                 <p>{{ $t('address.Billing') }}</p>
               </div>
 
               <div class="border  rounded border-smooth cursor-pointer p-2"
-                   :class="{'bg-primary': addressData.type === 'both'}" @click="both">
+                   :class="{'bg-primary': addressData.type === 'both'}" @click="addressData.type ='both'">
                 <p>{{ $t('address.Both') }}</p>
               </div>
               <span

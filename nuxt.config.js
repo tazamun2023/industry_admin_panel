@@ -46,8 +46,9 @@ export default {
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/directives.js'},
     {src: '~/plugins/tippy.js'},
-    {src:  '~/plugins/lodash.js'},
+    {src: '~/plugins/lodash.js'},
     // { src: '~/plugins/froala_editor.js', mode: 'client', ssr: false },
     {src: '~/plugins/vue-modal.js', mode: 'client'},
     {src: '~/plugins/vue-draggable', ssr: false},

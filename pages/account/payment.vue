@@ -1,92 +1,20 @@
 <template>
-  <check-validity :gate="'view_financial'">
-    <!-- <div class="card p-4">
-       <div class="flex justify-between">
-            <div>
-                <h4 class="font-bold">My Payment Information</h4>
-                <p>Providing this bank account information allows us to deposit payments into your account, including payouts from orders</p>
-            </div>
-            <div>
-                <button @click="addPayment" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary"
-                v-if="$can('update_financial')"
-                >Add Payment</button>
-            </div>
-       </div>
-    </div> -->
-    <!-- ----------------------------------- -->
-
-    <div class="lg:px-[10em] lg:py-4">
-      <div class="py-2">
-        <h3 class="uppercase">Payments</h3>
-      </div>
-      <div class="w-full flex gap-4 items-center">
-      <div class="hidden md:block sm:block xs:block">
-         <button @click="addPayment" v-if="$can('update_financial')"
-                class="flex w-[156px] hover:bg-primary  gap-4 bg-primary text-white px-4 items-center">
-          <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
-          New
-        </button>
-      </div>
-        <div class="related w-full">
-          <img src="~/assets/icon/search-normal.svg" alt=""
-               class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] mt-[13px]">
-          <input type="text" placeholder="Search" class="w-full px-34px" v-model="search" @change="searchBank">
-        </div>
-        <div class="w-[300px] flex gap-4 items-center">
-          <img v-if="orderbyType == 'asc'" @click="orderbyType='desc', searchBank()" class="w-7 h-7"
-               src="~/assets/icon/frame.svg" alt="">
-          <img v-if="orderbyType == 'desc'" @click="orderbyType='asc', searchBank()" class="w-7 h-7 rotate-180"
-               src="~/assets/icon/frame.svg" alt="">
-          <div class="relative inline-block text-left">
-            <div class="lg:min-w-[156px] w-full">
-              <button @click="shortDropdown" type="button"
-                      class="inline-flex w-full justify-between  capitalize items-center text-[13px] gap-4 px-1 rounded-[10px] bg-white p-1  text-sm font-semibold text-primary shadow-sm"
-                      id="menu-button" aria-expanded="true" aria-haspopup="true">
-                <img style="background: #01A78133;" class="w-8 h-8 bg-primary p-2 rounded"
-                     src="~/assets/icon/setting-5.svg" alt="">
-                {{ btnText }}
-                <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                        clip-rule="evenodd"/>
-                </svg>
-              </button>
-            </div>
-
-            <div v-if="dropDown"
-                 class="absolute right-0 z-10 mt-2 w-[156px] origin-top-right rounded-md bg-white shadow-lg   focus:outline-none"
-                 role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div class="py-1 px-2" role="none">
-                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-                <span @click="orderBy='name', searchBank(),selectOption($t('filter.name'))"
-                      :class="{'bg-primarylight text-primary': btnText === $t('filter.name')}"
-                      class="hover:bg-primarylight block rounded-[7px] cursor-pointer my-1 px-4 py-2 text-sm " role="menuitem"
-                      tabindex="-1" id="menu-item-0">{{ $t('filter.name') }}</span>
-                <span @click="orderBy='bank_name', searchBank(),selectOption($t('filter.BankName'))"
-                      :class="{'bg-primarylight text-primary': btnText === $t('filter.BankName')}"
-                      class="text-gray-700 block hover:bg-primarylight rounded-[7px] cursor-pointer my-1 px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                      id="menu-item-1">{{ $t('filter.BankName') }}</span>
-                <span @click="orderBy='holder_name', searchBank(),selectOption($t('filter.HolderName'))"
-                      :class="{'bg-primarylight text-primary': btnText === $t('filter.HolderName')}"
-                      class="text-gray-700 hover:bg-primarylight rounded-[7px] cursor-pointer my-1 block px-4  py-2 text-sm"
-                      role="menuitem" tabindex="-1" id="menu-item-2">{{ $t('filter.HolderName') }}</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <button @click="addPayment" v-if="$can('update_financial')"
-                class="flex w-full lg:hidden xl:hidden my-2 hover:bg-primary gap-4 bg-primary text-white px-4 items-center">
-          <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
-          New
-        </button>
-    </div>
-    <!-- -----------------------------------------new table design 5-21-2024------------------ -->
-    <div style="box-shadow: 0px 1px 2px 0px #1018280D;" class="table-wrapper border border-pb rounded-[12px]">
-      <table
-        class="mn-w-800x mb-10 mt-0"
-      >
+  <div>
+    <list-page
+      v-if="$can('view_financial')"
+      ref="listPage"
+      list-api="getVendorBank"
+      delete-api="rejectReasons"
+      route-name="rejection-reasons"
+      :modalButton="true"
+      empty-store-variable="rejectReasons"
+      gate="view_financial"
+      @open-modal="addPayment"
+      :title="$t('setting.rejection-reasons')"
+      manage_gate="update_financial"
+      @list="itemList = $event"
+    >
+      <template v-slot:table="{list}">
         <tr class="lite-bold">
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
@@ -138,139 +66,8 @@
             </div>
           </td>
         </tr>
-      </table>
-     <GlobalPagination />
-    </div>
-    <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-      <template v-slot:title>
-        <h4>{{ $t('vendor.deletemessage') }}</h4>
       </template>
-      <template v-slot:buttons>
-        <div class="flex gap-4 justify-end">
-          <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-          <button @click.prevent="isDeleteSubmit"
-                  class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
-            Agree
-          </button>
-        </div>
-      </template>
-    </DeleteModal>
-    <!-- -----------------------------------------new table design end------------------ -->
-    <!-- ---------------------------------------------------------------------------------------------- -->
-
-    <!-- <div class="grid grid-cols-4 my-2 gap-8 py-4">
-     <div v-for="(value, index) in bankList" :key="index" class="card rounded-3xl my-2">
-       <div>
-         <div class="bg-theem p-3 py-6 rounded-t-3xl flex  items-center justify-between">
-           <div class="truncate">
-             <h4 class="text-white font-bold truncate capitalize">{{ value.name }}</h4>
-           </div>
-             <div class="d-flex gap-2">
-
-             <span v-if="value.is_default" class="bg-white shadow rounded-lg border border-smooth py-1 px-2 text-[11px] leading-3 text-theem capitalize">Default</span>
-           </div>
-         </div>
-         <div class="flex gap-4 justify-between  p-4">
-             <div class="flex items-start gap-1">
-               <img class="w-4 h-4 mt-1" src="~/assets/icon/card.svg" alt="">
-               <div>
-                 <p>IBAN</p>
-                 <p class="capitalize semi-bold text-primary text-[14px]">{{ value.iban_number }}</p>
-               </div>
-             </div>
-             <div>
-                 <p>SWIFT CODE</p>
-                 <p class="capitalize text-primary semi-bold  text-[14px]">{{ value.swift_code }}</p>
-               </div>
-         </div>
-         <div class="flex gap-4 justify-between  p-4">
-             <div class="flex items-start gap-1">
-               <img class="w-5 h-5 mt-1" src="~/assets/icon/profile.svg" alt="">
-               <div>
-                 <p>BANK HOLDER</p>
-                 <p class="capitalize text-primary  semi-bold text-[14px]">{{ value.holder_name }}</p>
-               </div>
-             </div>
-
-         </div>
-         <div class="flex gap-4 justify-between  p-4">
-             <div class="flex items-start gap-1">
-               <img class="w-4 h-4 mt-1" src="~/assets/icon/bank-g.svg" alt="">
-               <div>
-                 <p>Bank</p>
-                 <p class="capitalize text-primary semi-bold  text-[14px]">{{ value.bank_name }}</p>
-               </div>
-             </div>
-       <div v-if="!value.is_default" >
-           <p class="text-primary  text-[14px]">SET AS DEFAULT</p>
-           <div class="text-center" >
-             <input type="checkbox"  @change="SetDefaultBanks(value.id,$event)" :checked="value.is_default">
-           </div>
-         </div>
-      </div>
-   <div class="flex justify-between gap-4  p-4">
-     <button  class="p-2 leading-3 px-6 rounded-lg bg-primary text-white hover:text-primary flex items-center gap-3"
-      @click="editing(value)" v-if="$can('update_financial')"><img class="w-4 h-4" src="~/assets/icon/edit.svg" alt=""> Edit</button>
-         <button v-if="!value.is_default" class="p-2 leading-3 rounded hover:border hover:border-smooth  hover:text-warning flex items-center gap-3 text-error border-0"
-         @click="deleting(value)" ><img class="w-4 h-4" src="~/assets/icon/trash.svg" alt=""> Delete</button>
-   </div>
-     <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-           <template v-slot:title>
-             <h4>{{ $t('vendor.deletemessage') }}</h4>
-           </template>
-           <template v-slot:buttons>
-             <div class="flex gap-4 justify-end">
-               <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-               <button @click.prevent="deleting(value)" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
-             </div>
-           </template>
-         </DeleteModal> -->
-<!--    </div>-->
-
-
-<!--    </div>-->
-<!--    </div>-->
-
-    <!-- ---------------------------------------------------------------------------------------------- -->
-    <!-- <div class="lg:grid lg:grid-cols-3    my-2 gap-4">
-              <div class="card p-4" v-for="(value, index) in bankList" :key="index">
-                <div class="flex gap-4 justify-between">
-                    <div class="flex gap-4">
-                        <h4 class="font-bold">{{ value.name }}</h4>
-                        <span v-if="value.is_default" class="bg-smooth p-1 h-[20px] rounded-lg leading-3 text-primary text-xs mt-1">Default</span>
-                    </div>
-                    <div class="flex gap-4">
-                            <button @click="deleteModal=true" class="p-2 leading-3 rounded bg-smooth  hover:text-warning">Remove</button>
-                        <button @click="editing(value)" v-if="$can('update_financial')" class="p-2 leading-3 rounded bg-primary text-white hover:text-primary">Edit</button>
-                    </div>
-                </div>
-                <div class="w-3/4">
-                    <table>
-                        <tr class="hover:bg-none">
-                            <td class="border-none">Bank Holders Name</td>
-                            <td class="border-none">{{ value.holder_name }}</td>
-                        </tr>
-                        <tr class="hover:bg-none">
-                            <td class="border-none">Bank Name</td>
-                            <td class="border-none">{{ value.bank_name }}</td>
-                        </tr>
-                        <tr class="hover:bg-none">
-                            <td class="border-none">IBAN</td>
-                            <td class="border-none">{{ value.iban_number }}</td>
-                        </tr>
-                        <tr class="hover:bg-none">
-                            <td class="border-none">Swift Code</td>
-                            <td class="border-none">{{ value.swift_code }}</td>
-                        </tr>
-                    </table>
-                </div>
-
-
-              </div>
-
-
-            </div> -->
-    <!-- -----------------modal------------ -->
+    </list-page>
     <template v-if="Cardmodal">
       <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
         <div class="absolute inset-0 bg-black opacity-50"></div>
@@ -366,8 +163,26 @@
         </div>
       </div>
     </template>
-    <!-- -----------------modal end------------ -->
-  </check-validity>
+    <DeleteModal v-if="deleteModal" @closeModal="closeModal">
+      <template v-slot:title>
+        <h4>{{ $t('vendor.deletemessage') }}xxxxxxxxxxxxxx</h4>
+      </template>
+      <!-- -----------default slot------- -->
+      <!-- -----------default slot------- -->
+      <template v-slot:buttons>
+        <div class="flex gap-4 justify-end">
+          <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
+            {{ $t('address.Quit') }}
+          </button>
+          <button @click.prevent="deleting(value)"
+                  class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
+            {{ $t('address.Agree') }}
+          </button>
+        </div>
+      </template>
+    </DeleteModal>
+  </div>
+
 </template>
 <style scoped>
 table td {
@@ -384,13 +199,15 @@ import {ValidationObserver, ValidationProvider} from "vee-validate";
 import bank from "@/mixin/bank";
 import GlobalPagination from "../../components/GlobalPagination.vue";
 import DeleteModal from "../../components/DeleteModal.vue";
+import ListPage from "../../components/partials/ListPage.vue";
 
 export default {
-  components: {DeleteModal, GlobalPagination, ValidationObserver, ValidationProvider},
+  components: {ListPage, DeleteModal, GlobalPagination, ValidationObserver, ValidationProvider},
   mixins: [bank],
   data() {
     return {
-      btnText:'name',
+
+      btnText: 'name',
       dropDown: false,
       Cardmodal: false,
       current_bank_id: '',
@@ -407,10 +224,9 @@ export default {
       },
       deleteModal: false,
       orderOptions: {
-        name: {title: this.$t('user.name')},
-        email: {title: this.$t('fSale.email')},
-        username: {title: this.$t('user.uName')},
-        created_at: {title: this.$t('category.date')},
+        name: {title: this.$t('filter.name')},
+        bank_name: {title: this.$t('filter.BankName')},
+        holder_name: {title: this.$t('filter.HolderName')},
       },
       search: '',
       orderBy: '',
@@ -435,14 +251,14 @@ export default {
       this.deleteModal = false
     },
 
-    async isDefault(id, event){
+    async isDefault(id, event) {
       await this.SetDefaultBanks(id, event.target.checked);
     },
-    async isDeleteSubmit(){
+    async isDeleteSubmit() {
       try {
-        if (this.current_bank_id){
-          const data = await this.deleteData({params: this.current_bank_id, api: 'DeleteVendorBank' })
-          if (data){
+        if (this.current_bank_id) {
+          const data = await this.deleteData({params: this.current_bank_id, api: 'DeleteVendorBank'})
+          if (data) {
             this.deleteModal = false;
             await this.getAllVendorBank();
           }
@@ -452,7 +268,7 @@ export default {
         console.log(e)
       }
     },
-    async isDelete(id){
+    async isDelete(id) {
       this.deleteModal = true;
       this.current_bank_id = id;
       // await this.vendorBankDelete(id, event.target.checked);
@@ -485,33 +301,12 @@ export default {
         }
       }
     },
-    async searchBank() {
-      let search = this.search
-      await this.getVendorBank({
-        params: {
-          "vendor_id": this.profile.vendor_id,
-          "search": search,
-          "orderby": this.orderBy,
-          "type": this.orderbyType,
-        },
-        api: "getVendorBank"
-      })
 
-    },
-
-    async getAllVendorBank() {
-      await this.getVendorBank({
-        params: {
-          "vendor_id": this.profile.vendor_id
-        },
-        api: "getVendorBank"
-      })
-    },
     shortDropdown() {
       this.dropDown = !this.dropDown
     },
 
-    deleting(){
+    deleting() {
 
     }
 
@@ -532,10 +327,11 @@ export default {
 </script>
 
 <style>
-.swal2-popup .swal2-styled.swal2-cancel{
+.swal2-popup .swal2-styled.swal2-cancel {
   line-height: 0px;
 }
-.swal2-popup .swal2-styled.swal2-confirm{
+
+.swal2-popup .swal2-styled.swal2-confirm {
   line-height: 0px;
   background: #01a781;
 }
