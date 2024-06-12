@@ -4,14 +4,18 @@ const state = () => ({
   allRfqRejectReason: null,
 
   activeRfqInquiries: null,
-  activeInquiryData: null
+  activeInquiryData: null,
+  activeInquiryIndex: null,
+  isNewInquiryOffer: false,
 });
 
 const getters = {
   allRfqRejectReason: ({allRfqRejectReason}) => allRfqRejectReason,
 
   activeRfqInquiries: state => state.activeRfqInquiries,
-  activeInquiryData: state => state.activeInquiryData
+  activeInquiryData: state => state.activeInquiryData,
+  isNewInquiryOffer: state => state.isNewInquiryOffer,
+  activeInquiryIndex: state => state.activeInquiryIndex
 };
 
 const mutations = {
@@ -37,6 +41,21 @@ const mutations = {
   CLEAR_ACTIVE_INQUIRIES_OFFER(state) {
     state.activeInquiryData = null;
   },
+
+  SET_ACTIVE_INQUIRIES_OFFER_INDEX(state, data) {
+    state.activeInquiryIndex = data;
+  },
+  CLEAR_ACTIVE_INQUIRIES_OFFER_INDEX(state) {
+    state.activeInquiryIndex = null;
+  },
+
+  SET_SEND_NEW_INQUIRIES_OFFER(state) {
+    state.isNewInquiryOffer = true;
+  },
+  CLEAR_SEND_NEW_INQUIRIES_OFFER(state) {
+    state.isNewInquiryOffer = false;
+  },
+
 };
 
 const actions = {
@@ -58,12 +77,12 @@ const actions = {
 
 
   setActiveRfqInquiries({ commit, state }, data) {
-    commit('SET_ACTIVE_RFQ_INQUIRIES'); // Clear previous data
+    // commit('SET_ACTIVE_RFQ_INQUIRIES'); // Clear previous data
     commit('SET_ACTIVE_RFQ_INQUIRIES', data); // Set active RFQ inquiries
   },
 
   setActiveInquiriesOffer({ commit, state }, data) {
-    commit('CLEAR_ACTIVE_INQUIRIES_OFFER'); // Set active inquiries offer
+    // commit('CLEAR_ACTIVE_INQUIRIES_OFFER'); // Set active inquiries offer
     commit('SET_ACTIVE_INQUIRIES_OFFER', data); // Set active inquiries offer
   },
 
@@ -73,6 +92,21 @@ const actions = {
 
   clearActiveRfqData({ commit }) {
     commit('SET_ACTIVE_RFQ_INQUIRIES');
+  },
+
+  setInquiriesOfferIndex({ commit, state }, data) {
+    commit('SET_ACTIVE_INQUIRIES_OFFER_INDEX', data); // Set active inquiries offer index
+  },
+
+  clearIsInquiriesOfferIndex({ commit }) {
+    commit('CLEAR_ACTIVE_INQUIRIES_OFFER_INDEX');
+  },
+
+  setIsInquiriesOffer({ commit }) {
+    commit('SET_SEND_NEW_INQUIRIES_OFFER', true); // Set active inquiries offer
+  },
+  clearIsNewOffer({ commit }) {
+    commit('CLEAR_SEND_NEW_INQUIRIES_OFFER');
   },
 };
 
