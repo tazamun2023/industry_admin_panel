@@ -4,8 +4,8 @@
             <h4 class="text-[20px] font-medium">Orders</h4>
           
         </div>
-        <div class="my-4 scroolbar rounded-[12px] border border-cardb">
-            <table>
+        <div class="my-4 scroolbar rounded-[12px] overflow-x-scroll lg:overflow-hidden border border-cardb">
+            <table class="w-[300px] lg:w-full">
                 <thead>
                     <tr>
                         <th class="text-[14px] capitalize border-b border-cardb">Order ID</th>
