@@ -7,6 +7,7 @@ import LazyImage from "@/components/LazyImage.vue";
 import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapActions} from "vuex";
+import SwitchToggle from '../SwitchToggle.vue';
 
 export default {
   name: 'AllBrand',
@@ -28,7 +29,8 @@ export default {
     LazyImage,
     ListPage,
     DeleteButtonIcon,
-    EditButtonIcon
+    EditButtonIcon,
+    SwitchToggle
   },
   data() {
     return {
@@ -134,7 +136,6 @@ export default {
           </th>
           <th>{{ $t('index.title') }}</th>
           <th>{{ $t('category.slug') }}</th>
-          <th>{{ $t('prod.vendor_name') }}</th>
           <th>{{ $t('category.featured') }}</th>
           <th>{{ $t('prod.show') }}</th>
           <th>{{ $t('prod.status') }}</th>
@@ -165,10 +166,7 @@ export default {
             {{ value.slug }}
           </td>
 
-          <td>
-            {{ value.vendor_name }}
-          </td>
-
+          
           <td
             class="status"
             :class="{active: value.featured == 1 }"
