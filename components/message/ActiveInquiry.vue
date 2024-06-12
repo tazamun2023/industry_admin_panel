@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData', 'activeInquiryIndex']),
   },
 
   watch: {
@@ -425,7 +425,7 @@ export default {
           // this.activeInquiries = data
           this.fetchingOfferData();
           // console.log(data)
-          if (data.id=== this.activeInquiryData.id){
+          if (data.id === this.activeInquiryData?.id){
             this.readMessage(this.activeInquiryData?.id)
             this.scrollToBottom();
           }
@@ -469,34 +469,28 @@ export default {
               <div class="lg:grid lg:grid-cols-2 gap-4">
                 <div class="flex gap-4 items-center">
                   <lazy-image
-                    v-if="activeTab==='rfq'"
                     class="h-10 w-10 object-cover rounded"
-                    :data-src="activeRfqInquiries.rfq_product?.image"
-                    :alt="activeRfqInquiries.rfq_product?.image"
+                    :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
+                    :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
                   />
-                  <lazy-image
-                    v-else
-                    class="h-10 w-10 object-cover rounded"
-                    :data-src="activeInquiryData?.inquirable?.image"
-                    :alt="activeInquiryData?.inquirable?.image"
-                  />
+<!--                  <img class="h-10 w-10 object-cover rounded" :src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image" :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.name">-->
 
                   <div>
-                    <a class="font-bold text-theem" href="">{{ activeRfqInquiries?.rfq_product?.name }}</a>
-                    <p v-if="activeRfqInquiries?.rfq_product?.quantity">{{ $t('products.Quantity') }}: <span class="text-primary">{{ activeRfqInquiries?.rfq_product.quantity }}</span>
-                      {{ activeRfqInquiries?.rfq_product.unit?.name }}
+                    <a class="font-bold text-theem" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.name }}</a>
+                    <p v-if="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity">{{ $t('products.Quantity') }}: <span class="text-primary">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity }}</span>
+                      {{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product.unit?.name }}
                       <br>
                       {{ $t('products.Initial unit target price') }} :
                       <price-format
-                        :price="activeRfqInquiries?.rfq_product.target_price"/>
+                        :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product.target_price"/>
                     </p>
                     <p v-if="activeRfqInquiries?.rfq?.expiry_date">{{ $t('products.Expires on') }} :
                       <span class="text-red">{{ activeRfqInquiries?.rfq?.expiry_date }}</span></p>
                   </div>
                 </div>
                 <div class="ltr:text-end rtl:text-left">
-                  <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries?.rfq_id }}</p>
-                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries?.rfq?.quote?.id }}</p>
+                  <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_id }}</p>
+                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries.rfq.quote.id }}</p>
                   <p>
                   </p>
                 </div>
@@ -511,32 +505,30 @@ export default {
                   <div class="card rounded-[16px] shadow m-2 mb-0">
                     <div class="bg-graylight rounded-t-[16px] p-4 font-bold flex justify-between">
                       <div>Q{{ activeRfqInquiries.rfq.quote.id }}</div>
-                      <div v-if="activeRfqInquiries?.rfq.expiry_date">{{ $t('prod.Offer valid until') }}
-                        {{ activeRfqInquiries?.rfq.expiry_date }}
-                      </div>
                     </div>
                     <div class="p-4">
-                      <a class="text-primary font-bold" href="">{{ activeRfqInquiries?.quotes_product?.product.title }}</a>
+                      <a class="text-primary font-bold" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.title }}</a>
                       <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                         <div class="flex items-center gap-4">
                           <lazy-image
                             class="h-10 w-10 object-cover rounded"
-                            :data-src="activeRfqInquiries?.quotes_product?.product.image"
-                            :alt="activeRfqInquiries?.quotes_product?.product.image"
+                            :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
+                            :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
                           />
+<!--                          <img class="h-10 w-10 object-cover rounded" :src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image" :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.title">-->
                           <price-format
-                            :price="Number(activeRfqInquiries?.quotes_product?.product?.product_prices[0].selling_price)"/>
+                            :price="Number(activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product?.product_prices[0].selling_price)"/>
                         </div>
                         <div>
                           <div class="flex justify-between p-1">
                             <span>{{ $t('prod.Quantity') }}</span>
                             <span><span class="text-primary">{{
-                                activeRfqInquiries?.quotes_product?.quantity
-                              }}</span> {{ activeRfqInquiries?.quotes_product?.unit?.name }}</span>
+                                activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.quantity
+                              }}</span> {{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.unit?.name }}</span>
                           </div>
                           <div class="flex justify-between p-1">
                             <span>{{ $t('prod.Unit target price') }}</span>
-                            <price-format :price="activeRfqInquiries?.quotes_product?.total_offer_price"/>
+                            <price-format :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.total_offer_price"/>
                           </div>
                         </div>
                       </div>
@@ -545,7 +537,7 @@ export default {
                         <div></div>
                         <div class="text-end flex justify-between">
                           <span>{{ $t('app.Total Price excl VAT') }}</span>
-                          <price-format :price="activeRfqInquiries?.quotes_product?.total"/>
+                          <price-format :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.total_offer_price"/>
                         </div>
                       </div>
                       <div class="w-full">

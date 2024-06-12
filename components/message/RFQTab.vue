@@ -72,6 +72,7 @@ export default {
       return userName;
     },
     async activeRelatedInquirie(data, index_sub) {
+      this.setInquiriesOfferIndex(index_sub)
       this.setActiveInquiriesOffer(data)
       this.activeRfqInquiry = data.id;
       this.ActiveInquiryData = data;
@@ -127,7 +128,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setActiveRfqInquiries']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setActiveRfqInquiries', 'setInquiriesOfferIndex', 'clearIsInquiriesOfferIndex']),
   }
 }
 </script>
