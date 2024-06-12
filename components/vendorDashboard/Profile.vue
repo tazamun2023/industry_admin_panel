@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="grid card grid-cols-4 p-4">
+        <div class="lg:grid card lg:grid-cols-4 p-4">
             
             <div class="text-center">
                 <p class="text-[20px] font-medium">Company Profile</p>
@@ -23,12 +23,12 @@
                 <p class="text-prograss"><span class="bg-warninglight rounded-[15px] px-2 font-medium"> complete company profile</span></p>
             </div>
             <div class="col-span-3">
-               <div class="flex flex-wrap gap-4 py-4">
-                <button class="flex gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/profile-1.svg" alt=""> profile and cntact info</button>
-                <button class="flex gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/map.svg" alt=""> Stores Addresses</button>
-                <button class="flex gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/hugeicons_certificate-01.svg" alt="">VAT Certificate</button>
-                <button class="flex gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/vat01.svg" alt=""> Shipping Options</button>
-                <button class="flex gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/bank-auction.svg" alt=""> Bank Accounts</button>
+               <div class="lg:flex lg:flex-wrap gap-4 py-4">
+                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/profile-1.svg" alt=""> profile and cntact info</button>
+                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/map.svg" alt=""> Stores Addresses</button>
+                <button class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/hugeicons_certificate-01.svg" alt="">VAT Certificate</button>
+                <button class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/vat01.svg" alt=""> Shipping Options</button>
+                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/bank-auction.svg" alt=""> Bank Accounts</button>
                </div>
             </div>
         </div>

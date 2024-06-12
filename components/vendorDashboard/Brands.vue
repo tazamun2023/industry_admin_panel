@@ -10,15 +10,15 @@
                     <p class="text-14px">All Brands</p>
                     <p class="text-semibold text-[24px] leading-4">518</p>
                 </div>
-                <div class="border  border-orange px-4 pb-3 pt-2 rounded-[12px]">
+                <div class="border  hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-orange">Waiting Acceptance</p>
                     <p class="text-semibold text-[24px] leading-4">50</p>
                 </div>
-                <div class="border  border-primary px-4 pb-3 pt-2 rounded-[12px]">
+                <div class="border  hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-primary">Accepted</p>
                     <p class="text-semibold text-[24px] leading-4">518</p>
                 </div>
-                <div class="border  border-prograss px-4 pb-3 pt-2 rounded-[12px]">
+                <div class="border  hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-prograss">Rejected</p>
                     <p class="text-semibold text-[24px] leading-4">518</p>
                 </div>

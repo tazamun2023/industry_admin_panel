@@ -2,27 +2,27 @@
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
       <Profile/>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
           <BestSeller/>
         </div>
-        <div>
+        <div class="my-2">
           <MyProducts/>
         </div>
       </div>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
           <LowStock/>
         </div>
-        <div>
+        <div class="my-2">
           <VendorShortDetails/>
         </div>
       </div>
-      <div class="grid my-4 grid-cols-2 gap-4">
-        <div>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
           <InqueryRfq/>
         </div>
-        <div>
+        <div class="my-2">
           <Brands/>
         </div>
       </div>
