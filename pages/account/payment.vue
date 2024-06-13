@@ -60,8 +60,8 @@
           <td>
             <div class="flex gap-4">
 
-              <img @click="isDelete(value.id)" class="action_img  cursor-pointer" src="~/assets/icon/delete.svg">
-              <img @click="editing(value)" v-if="$can('update_financial')" class="action_img cursor-pointer"
+              <img v-if="!value.is_default" @click="isDelete(value.id)" class="action_img cursor-pointer" alt="Delete" src="~/assets/icon/delete.svg">
+              <img @click="editing(value)" v-if="$can('update_financial')" alt="Edit" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
             </div>
           </td>

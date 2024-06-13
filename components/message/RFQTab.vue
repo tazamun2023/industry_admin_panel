@@ -195,7 +195,7 @@ export default {
 <!--                  class="p-1 rounded bg-theemlight text-theem uppercase text-[12px]">{{ related_inquirie.last_status }}</span>-->
 <!--              </div>-->
               <div class="flex justify-between">
-                <span class=" font-12px">INQ{{ related_inquirie.inquirable_id }}</span>
+                <span class=" font-12px">INQ{{ related_inquirie.id }}</span>
                 <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
                       v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
                 <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"

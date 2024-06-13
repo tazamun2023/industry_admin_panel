@@ -20,7 +20,7 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('global.sl') }}</th>
-        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
+        <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.title') }}</th>
         <th>{{ $t('global.organization') }}</th>
         <th>{{ $t('global.image') }}</th>
@@ -33,7 +33,7 @@
         </td>
 
         <td>{{ index+1 }}</td>
-        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
+        <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>{{ value.local_title }}</td>
         <td>{{ value.local_organization }}</td>
         <td>

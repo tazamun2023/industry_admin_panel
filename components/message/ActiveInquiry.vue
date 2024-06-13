@@ -464,17 +464,17 @@ export default {
                 </div>
               </div>
             </div>
+
             <div class="p-4 bg-graylight rounded" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
               <p class="font-bold text-[18px] py-2">{{ $t('products.RFQ Details') }}</p>
               <div class="lg:grid lg:grid-cols-2 gap-4">
                 <div class="flex gap-4 items-center">
                   <lazy-image
-                    class="h-10 w-10 object-cover rounded"
+                    class="w-10 h-10 rounded"
+                    :lazy-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
                     :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
                     :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
                   />
-<!--                  <img class="h-10 w-10 object-cover rounded" :src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image" :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.name">-->
-
                   <div>
                     <a class="font-bold text-theem" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.name }}</a>
                     <p v-if="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity">{{ $t('products.Quantity') }}: <span class="text-primary">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity }}</span>
@@ -496,6 +496,7 @@ export default {
                 </div>
               </div>
             </div>
+            <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
             <div class="lg:grid lg:grid-cols-8 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
               <div class="col-span-4 ltr:text-end rtl:text-start">
 
@@ -511,7 +512,8 @@ export default {
                       <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                         <div class="flex items-center gap-4">
                           <lazy-image
-                            class="h-10 w-10 object-cover rounded"
+                            class="w-10 h-10 rounded"
+                            :lazy-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
                             :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
                             :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
                           />
@@ -548,7 +550,7 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
+
               <!-- -------------------message card user--------------- -->
               <div v-for="(activeInquirie, index) in activeInquiryData.inquiryOffers">
                 <!--        vendor reply-->

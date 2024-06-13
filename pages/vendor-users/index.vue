@@ -36,7 +36,7 @@
 
         <td>
           <span v-if="value.verified">{{ $t('user.verified') }}</span>
-          <span v-else>{{ $t('user.verified') }}</span>
+          <span v-else>{{ $t('user.Unverified') }}</span>
         </td>
 
         <td>
