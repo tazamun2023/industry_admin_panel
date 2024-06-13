@@ -7,6 +7,8 @@ const state = () => ({
   activeInquiryData: null,
   activeInquiryIndex: null,
   isNewInquiryOffer: false,
+  isReadMessage: false,
+  isFetchingRfqOffer: false,
 });
 
 const getters = {
@@ -15,6 +17,8 @@ const getters = {
   activeRfqInquiries: state => state.activeRfqInquiries,
   activeInquiryData: state => state.activeInquiryData,
   isNewInquiryOffer: state => state.isNewInquiryOffer,
+  isReadMessage: state => state.isReadMessage,
+  isFetchingRfqOffer: state => state.isFetchingRfqOffer,
   activeInquiryIndex: state => state.activeInquiryIndex
 };
 
@@ -51,6 +55,18 @@ const mutations = {
 
   SET_SEND_NEW_INQUIRIES_OFFER(state) {
     state.isNewInquiryOffer = true;
+  },
+  SET_READ_MESSAGE(state) {
+    state.isReadMessage = true;
+  },
+  SET_IS_FETCHING_RFQ_MESSAGE(state) {
+    state.isFetchingRfqOffer = true;
+  },
+  CLEAR_IS_FETCHING_RFQ_MESSAGE_CLEAR(state) {
+    state.isFetchingRfqOffer = false;
+  },
+  CLEAR_READ_MESSAGE(state) {
+    state.isReadMessage = false;
   },
   CLEAR_SEND_NEW_INQUIRIES_OFFER(state) {
     state.isNewInquiryOffer = false;
@@ -91,7 +107,7 @@ const actions = {
   },
 
   clearActiveRfqData({ commit }) {
-    commit('SET_ACTIVE_RFQ_INQUIRIES');
+    commit('CLEAR_ACTIVE_RFQ_INQUIRIES');
   },
 
   setInquiriesOfferIndex({ commit, state }, data) {
@@ -105,8 +121,21 @@ const actions = {
   setIsInquiriesOffer({ commit }) {
     commit('SET_SEND_NEW_INQUIRIES_OFFER', true); // Set active inquiries offer
   },
+
+  setIsReadMessage({ commit }) {
+    commit('SET_READ_MESSAGE', true); // Set active inquiries offer
+  },
+  clearIsReadMessage({ commit }) {
+    commit('CLEAR_READ_MESSAGE', false); // Set active inquiries offer
+  },
   clearIsNewOffer({ commit }) {
     commit('CLEAR_SEND_NEW_INQUIRIES_OFFER');
+  },
+  setIsFetchingRfq({ commit }) {
+    commit('SET_IS_FETCHING_RFQ_MESSAGE', false); // Set active inquiries offer
+  },
+  clearIsFetchingRfq({ commit }) {
+    commit('CLEAR_IS_FETCHING_RFQ_MESSAGE_CLEAR');
   },
 };
 

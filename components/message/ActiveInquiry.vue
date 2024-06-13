@@ -207,6 +207,7 @@ export default {
           fileExtension: this.fileExtension,
         };
 
+        this.setIsFetchingRfq();
         // Await the request
         await this.setRequest({ params, api: 'inquiriesOfferStore' });
 
@@ -356,8 +357,9 @@ export default {
         });
 
         if (data) {
+          this.readMessage(this.activeInquiryData.id);
           await this.setActiveInquiriesOffer(data)
-          // this.scrollToBottom();
+          this.scrollToBottom();
         } else {
           this.errors = data?.data?.form
         }
@@ -375,30 +377,13 @@ export default {
         },
         api: 'readMessage'
       }).then(data => {
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
 
-        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-          cluster: process.env.PUSHER_APP_CLUSTER
-        });
-
-        const channel = pusher.subscribe('chat');
-        channel.bind('message', dataP => {
-          // try {
-          //   this.is_loading = true
-          //   this.fetchingData()
-          //   this.is_loading = false
-          //
-          // } catch (e) {
-          //   return this.$nuxt.error(e)
-          // }
-        });
       })
     },
 
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq']),
   },
 
   mounted() {
@@ -413,28 +398,12 @@ export default {
     });
     const vendorId = this.$store.$auth.user.user.vendor_id;
     const channel = pusher.subscribe(`chat${vendorId}`);
-    channel.bind('message', dataP => {
-      try {
-        this.is_loading = true
-        this.getRequest({
-          params: {
-            inquiry_id: dataP.message.inquiry_id,
-          },
-          api: 'activeInquiries'
-        }).then(data => {
-          // this.activeInquiries = data
-          this.fetchingOfferData();
-          // console.log(data)
-          if (data.id === this.activeInquiryData?.id){
-            this.readMessage(this.activeInquiryData?.id)
-            this.scrollToBottom();
-          }
-        })
-
-        this.is_loading = false
-
-      } catch (e) {
-        return this.$nuxt.error(e)
+    channel.bind('message', pusherResponse => {
+      if (pusherResponse.recipientUserId === vendorId &&
+        this.activeInquiryData &&
+        pusherResponse.message.inquiry_id === this.activeInquiryData.id) {
+        this.readMessage(this.activeInquiryData.id);
+        this.fetchingOfferData();
       }
     });
 

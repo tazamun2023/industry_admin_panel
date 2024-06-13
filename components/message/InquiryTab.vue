@@ -50,24 +50,7 @@ export default {
         },
         api: 'readMessage'
       }).then(data => {
-        // Enable pusher logging - don't include this in production
-        // Pusher.logToConsole = true;
-        //
-        // const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-        //   cluster: process.env.PUSHER_APP_CLUSTER
-        // });
-        //
-        // const channel = pusher.subscribe('chat');
-        // channel.bind('message', dataP => {
-        //   try {
-        //     this.is_loading = true
-        //     this.fetchingData()
-        //     this.is_loading = false
-        //
-        //   } catch (e) {
-        //     return this.$nuxt.error(e)
-        //   }
-        // });
+
       })
     },
 
@@ -146,15 +129,18 @@ export default {
 
     const vendorId = this.$store.$auth.user.user.vendor_id;
     const channel = pusher.subscribe(`chat${vendorId}`);
-    channel.bind('message', dataP => {
-      try {
-        this.is_loading = true
-        this.fetchingData()
-        this.is_loading = false
-
-      } catch (e) {
-        return this.$nuxt.error(e)
+    channel.bind('message', pusherResponse => {
+      if (pusherResponse.recipientUserId === vendorId){
+        this.fetchingData();
       }
+      // try {
+      //   this.is_loading = true
+      //   this.fetchingData()
+      //   this.is_loading = false
+      //
+      // } catch (e) {
+      //   return this.$nuxt.error(e)
+      // }
     });
   }
 }

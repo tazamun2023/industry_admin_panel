@@ -58,6 +58,7 @@ export default {
           this.$emit('is_send_new_offer', false);
           this.$emit('is_send_new_offer_vendor', false);
           this.is_after_send = false
+          this.setIsFetchingRfq();
         })
         this.formSubmitting = false
 
@@ -97,7 +98,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq']),
   }
 }
 </script>

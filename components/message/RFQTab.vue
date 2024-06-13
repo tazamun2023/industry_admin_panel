@@ -1,6 +1,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import LazyImage from "../LazyImage.vue";
+import Pusher from 'pusher-js'
 
 export default {
   name: "RFQTab",
@@ -31,31 +32,63 @@ export default {
     },
 
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData', 'isReadMessage', 'isFetchingRfqOffer']),
   },
 
   async mounted() {
-    this.is_loading=true
-    await this.getRequest({
-      params: {
-        // user_token: await this.getUserToken(),
-      },
-      api: 'getAllInquiriesRfqs',
-      lang: this.currentLanguage,
-    }).then(data => {
-      this.rfqInquiries = data
-      // this.$emit('currentInq', this.inquiries);
+    await this.fetchingData();
 
-      this.is_loading=false
-    })
+
+    Pusher.logToConsole = true;
+    const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+      cluster: process.env.PUSHER_APP_CLUSTER
+    });
+    const vendorId = this.$store.$auth.user.user.vendor_id;
+    const channel = pusher.subscribe(`chat${vendorId}`);
+    channel.bind('message', pusherResponse => {
+      if (pusherResponse.recipientUserId === vendorId) {
+        this.fetchingData();
+      }
+
+
+    });
   },
-
+  watch: {
+    isReadMessage(newVal) {
+      if (newVal) {
+        this.handleReadMessage();
+      }
+    },
+    isFetchingRfqOffer(newVal) {
+      if (newVal) {
+        this.handleReadMessage();
+      }
+    }
+  },
   methods: {
+    async handleReadMessage() {
+      await this.fetchingData();
+      this.clearIsReadMessage();
+      this.clearIsFetchingRfq();
+    },
+    readMessage(inquiry_id) {
+      this.setRequest({
+        params: {
+          inquiry_id: inquiry_id,
+        },
+        api: 'readMessage'
+      }).then(data => {
+        this.setIsReadMessage()
+      })
+    },
     activeParentInquiry(data) {
       if (this.activeRfqInquiry && !this.is_related_rfq) {
         this.activeRfqInquiry = false;
         this.ActiveInquiryData = false;
+        this.clearActiveRfqData()
+        this.clearActiveInquiriesOffers()
       } else {
+        this.is_related_rfq = false;
         this.activeRfqInquiry = data.id;
         this.ActiveInquiryData = data;
         this.setActiveRfqInquiries(data);
@@ -72,6 +105,10 @@ export default {
       return userName;
     },
     async activeRelatedInquirie(data, index_sub) {
+      if (data.unread_message>0){
+        this.readMessage(data.id)
+        this.setIsReadMessage()
+      }
       this.setInquiriesOfferIndex(index_sub)
       this.setActiveInquiriesOffer(data)
       this.activeRfqInquiry = data.id;
@@ -82,6 +119,7 @@ export default {
       // this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
       // this.$emit('is_active_inq', this.is_active_inq);
       await this.fetchingOfferData()
+
     },
 
     async fetchingOfferData() {
@@ -116,8 +154,7 @@ export default {
           api: 'getAllInquiriesRfqs',
           lang: this.currentLanguage,
         }).then((data => {
-          this.inquiries = data
-          this.$emit('currentInq', this.inquiries);
+          this.rfqInquiries = data
           this.is_loading = false
         }))
 
@@ -128,7 +165,9 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setActiveRfqInquiries', 'setInquiriesOfferIndex', 'clearIsInquiriesOfferIndex']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setActiveRfqInquiries', 'setInquiriesOfferIndex',
+      'clearIsInquiriesOfferIndex', 'clearActiveRfqData', 'clearActiveInquiriesOffers', 'setIsReadMessage', 'clearIsFetchingRfq', 'clearIsReadMessage'
+    ]),
   }
 }
 </script>
@@ -145,6 +184,7 @@ export default {
     </div>
     <!-- ------------------ -->
     <div v-if="rfqInquiries.length > 0">
+      <transition-group name="list" tag="div">
       <div
         class="w-full  cursor-pointer  items-top border-t border-smooth my-2"
         v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
@@ -161,13 +201,12 @@ export default {
             <p class="font-bold uppercase">RFQ{{ inquirie.rfq_id }}</p>
             <p>{{ inquirie?.inquirable?.title }}</p>
           </div>
-
-<!--          <span class="relative ml-2">{{ inquirie.last_time }}</span>-->
         </div>
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
              class="p-2 hidden border-l-2 border-l-primary border-t border-t-smooth">
-          <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)" :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
+          <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)"
+               :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
             <div class="flex gap-4 items-center">
               <img class="h-[10px] w-[38px]" src="~/assets/icon/rfqdirection.svg" alt="">
               <lazy-image
@@ -178,8 +217,19 @@ export default {
             </div>
             <div>
               <div class="flex justify-between">
-                <span class="font-bold  font-13px" :class="{ 'text-primary': activeRfqInquiry === index }">{{ related_inquirie.inquirable?.title }}</span>
-                <span class="text-smooth">{{ related_inquirie.created }}</span>
+                <span class="font-bold  font-13px" :class="{ 'text-primary': activeRfqInquiry === index }">{{
+                    related_inquirie.inquirable?.title
+                  }}</span>
+
+                <span class="relative ml-2">
+                  {{ related_inquirie.created }}
+                  <span
+                    class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
+                    v-if="related_inquirie.unread_message">
+                    {{ related_inquirie.unread_message > 9 ? 9 : related_inquirie.unread_message }}
+                    <sup v-if="related_inquirie.unread_message > 9">+</sup>
+                  </span>
+                </span>
               </div>
               <span class=" text-[12px]" v-if="$store.state.admin.isSuperAdmin">
           <!-- {{$t('prod.From')}} : -->
@@ -188,12 +238,6 @@ export default {
                 <!-- {{ $t('prod.From') }} : -->
                  {{ truncateUserName(inquirie.user.name) }}
               </span>
-<!--              <span class="text-smooth font-12px">From : {{ related_inquirie.user?.name }}</span>-->
-<!--              <div class="flex justify-between">-->
-<!--                <span class="font-12px">INQ{{ related_inquirie.inquirable?.id }}</span>-->
-<!--                <span-->
-<!--                  class="p-1 rounded bg-theemlight text-theem uppercase text-[12px]">{{ related_inquirie.last_status }}</span>-->
-<!--              </div>-->
               <div class="flex justify-between">
                 <span class=" font-12px">INQ{{ related_inquirie.id }}</span>
                 <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
@@ -215,6 +259,7 @@ export default {
           </div>
         </div>
       </div>
+      </transition-group>
     </div>
     <div v-else-if="is_loading" class="spinner-wrapper">
       <spinner
@@ -231,5 +276,17 @@ export default {
 </template>
 
 <style scoped>
-
+.list-enter-active, .list-leave-active, .list-move {
+  transition: all 0.3s ease;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.list-enter-to, .list-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>
+
+
