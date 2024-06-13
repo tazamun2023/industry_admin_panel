@@ -324,8 +324,7 @@
 
               <div>
                 <div class="col-md-4 pt-4">
-
-                  <button v-if="((result.product_variants.length==0 && id>0 ) || id=='add')"
+                  <button v-if="((result.product_variants.length==0 && id>0 ) || (id=='add' || id=='' ))"
                           :disabled="select_attr1==='' || select_attr2===''" type="button"
                           @click.prevent="addVariantValueRows()"
                           class="btn mb-10 w-25 btn-outline-secondary">
@@ -561,7 +560,7 @@
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
 
-        <div class="tab-sidebar p-3" v-if="!is_variant && isRfqProduct">
+        <div class="tab-sidebar p-3" v-if="!is_variant ">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Packaging') }}</h4>
           <div class="grid grid-cols-2 gap-4">
             <ValidationProvider name="Packaging Size" :rules="PackagingValidationRules" v-slot="{ errors }"
@@ -1157,7 +1156,7 @@
           </div>
         </div>
         <div>
-          <div v-if="!is_show" class="button-group border-t border-smooth mt-20">
+          <div v-if="!is_show &&!is_variant" class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
               <ajax-button
                 name="draft"
@@ -1612,7 +1611,7 @@ export default {
 
     BarcodeValidationRules() {
       let validationRules = {
-        required:  this.result.barcode_type != 4 &&  this.result.barcode_type!=""
+        required: this.result.barcode_type != 4 && this.result.barcode_type != ""
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
@@ -1890,8 +1889,8 @@ export default {
         this.result.is_quote = true
         vaildationsKeys = this.validationKeysIfNotVariant.filter(x => !this.validationIgnoreInRFQ.includes(x))
       }
-      if(this.is_draft)
-        vaildationsKeys=this.validationKeysIfIsDraft
+      if (this.is_draft)
+        vaildationsKeys = this.validationKeysIfIsDraft
       console.log(vaildationsKeys)
       if (vaildationsKeys.findIndex((i) => {
         return (!this.result[i])
@@ -1916,7 +1915,7 @@ export default {
         this.result.unit_id = null
       }
       this.result.is_variant = !this.fromSingle
-      this.is_submit_data=true
+      this.is_submit_data = true
       const data = await this.setById({
         id: this.id,
         params: {
@@ -1926,7 +1925,7 @@ export default {
         },
         api: this.setApi
       })
-      this.is_submit_data=false
+      this.is_submit_data = false
       if (data.status === 200) {
         if (this.isRfqProduct) {
           return this.$router.push({path: `/rfq/${this.$route.query?.quote}`})
@@ -1937,7 +1936,11 @@ export default {
             path = '/products/approved';
           return this.$router.push({path});
         } else {
+          let curent = this.$router.currentRoute.fullPath;
           this.result = data.data
+          curent = curent.replace('/add', '/variant/' + this.result.id);
+          window.history.replaceState({}, '', curent);
+
           this.$emit('productUpdate', this.result)
         }
 

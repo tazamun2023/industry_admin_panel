@@ -24,12 +24,13 @@
     </div>
     <div v-if="is_next">
       <Variant
-        :result="variant?.result"
+        :result="variant.result"
         :selectedLevel1="variant?.selectedLevel1"
         :selectedLevel2="variant?.selectedLevel2"
         :selectedLevel3="variant?.selectedLevel3"
         :select_attr1="variant?.select_attr1"
         :from-single="true"
+        :is_edit="false"
         :select_attr2="variant?.select_attr2"
         :variant_uu_id="variant?.variant_uu_id"
       ></Variant>
@@ -42,6 +43,7 @@
 
 import AddProduct from "../../components/variant/AddProduct.vue";
 import util from '~/mixin/util'
+import Variant from "../../components/variant/Variant.vue";
 
 export default {
   name: "AddProductPage",
@@ -56,6 +58,7 @@ export default {
   },
   mixins: [util],
   components: {
+    Variant,
     AddProduct,
   },
   computed: {
@@ -70,9 +73,10 @@ export default {
 
   methods: {
     GoNext(v) {
-      this.is_next = true;
+      console.log(v)
       this.variant = v;
       this.variant.result.product_variant={name:v.select_attr1,value:v.select_attr2}
+      this.is_next = true;
     },
     isRfqProduct() {
       return parseInt(this.$route.query?.rfq_product_id ?? 0) > 0;

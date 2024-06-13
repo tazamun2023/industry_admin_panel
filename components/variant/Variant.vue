@@ -1207,13 +1207,13 @@ export default {
   },
   watch: {},
   async mounted() {
-    this.variants = this.variantsData
+
     if (!this.fromSingle) {
       this.variants = this.variantsData
       this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     } else {
-
-      this.result.product_variants.forEach((variant) => {
+      this.variants =[]
+        this.result.product_variants.forEach((variant) => {
         // this.result.sku = ''
         this.variants.push(Object.assign({result: {...this.result, product_variant: variant}}));
       });
