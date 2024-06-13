@@ -17,12 +17,14 @@
     <template v-slot:table="{list}">
       <tr class="lite-bold">
         <th>{{ $t('global.sl') }}</th>
+        <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.url') }}</th>
         <th>{{ $t('global.action') }}</th>
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
         <td>{{ index+1 }}</td>
+        <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>{{ value.url }}</td>
         <td>
           <button

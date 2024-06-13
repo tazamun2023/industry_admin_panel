@@ -206,7 +206,7 @@ export default {
              {{ truncateUserName(inquirie.user.name) }}
           </span>
           <div class="flex justify-between">
-            <span class=" font-12px">INQ{{ inquirie.inquirable_id }}</span>
+            <span class=" font-12px">INQ{{ inquirie.id }}</span>
             <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
                   v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
             <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
