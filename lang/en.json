@@ -702,8 +702,8 @@
     "payment": "Payment",
     "status": "Status",
     "total": "Total",
-    "rejectOrder": "Reject Order",
-    "approveOrder": "Approve Order",
+    "rejectOrder": "Reject ",
+    "approveOrder": "Approve ",
     "available": "Available",
     "noAvailable": "No Available",
     "product": "product",
@@ -721,7 +721,7 @@
     "PriceLowest": "Price (Lowest)",
     "CartOrders": "Cart Orders",
     "NegotiatedOrders": "Negotiated Orders",
-    "ViewOrder": "View Order"
+    "ViewOrder": "View"
   },
   "orderDetails": {
     "document": "Documents",
