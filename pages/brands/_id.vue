@@ -97,7 +97,6 @@
           <span class="mr-15 w-[100px]">
             {{ $t('category.status') }}
           </span>
-
           <dropdown
             :selectedKey="`${result.status}`"
             :options="statusObj"

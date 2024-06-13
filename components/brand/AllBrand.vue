@@ -187,7 +187,16 @@ export default {
           </td>
           <td>{{ value.created }}</td>
           <td>
-            <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
+            <div class="flex gap-4"  v-if="$can('manage_brands') && $store.state.admin.isVendor">
+              <li class="cursor-pointer"  @click.prevent="$refs.listPage.editItem(value.id)">
+              <edit-button-icon  v-if="$can('manage_brands') && $store.state.admin.isVendor"/>
+              </li>
+               <li v-if="$can('manage_brands') && $store.state.admin.isVendor" class="cursor-pointer" @click.prevent="$refs.listPage.deleteItem(value.id)">
+                <delete-button-icon />
+                </li>
+             </div>
+           
+            <button  v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" id="dropdownDefaultButton" @click="toggleDropdown(index)"
                     class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                     type="button">{{ $t('prod.action') }}
               <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
