@@ -91,11 +91,12 @@ export default {
   },
   watch: {
     old_images: {
-      handler(newValue,oldValue) {
+      handler(newValue, oldValue) {
         console.log("watch watch")
-        this.$refs.uploadInput.value = null;
-        this.files=[]
-        if (this.updateWatch && oldValue!==newValue) {
+        if (this.$refs.uploadInput)
+          this.$refs.uploadInput.value = null;
+        this.files = []
+        if (this.updateWatch && oldValue !== newValue) {
           this.Imgs = [];
           for (var i = 0; i < this.old_images.length; i++) {
             if (this.returnDataJust)
@@ -203,7 +204,7 @@ export default {
       })
     },
     updateInputEvntData() {
-      console.log('iiiiiiiiiiiiii',this.Imgs)
+      console.log('iiiiiiiiiiiiii', this.Imgs)
       let dataJust = this.Imgs.map(item => item.url);
       if (this.returnDataJust)
         this.$emit('updateInput', this.Imgs.map(item => item.url));

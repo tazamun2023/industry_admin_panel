@@ -1,14 +1,11 @@
 <template>
-  <div v-if="IsReadOnly">
-    <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden " >
-      <div v-html="value"></div>
 
-    </div>
+  <div >
+    <froala  :tag="'textarea'"
 
+            @input="emitChange" :config="config" v-model="internalValue"></froala>
   </div>
-  <froala v-else :tag="'textarea'"
 
-          @input="emitChange" :config="config" v-model="internalValue"></froala>
 </template>
 
 

@@ -132,11 +132,7 @@
             </ValidationProvider>
           </div>
 
-          <lang-input :IsReadOnly="is_show" v-if="!is_variant" :hasError="false" type="textarea"
-                      :title="$t('prod.desc')"
-                      :isRequired="!is_draft"
-                      :valuesOfLang="result.description"
-                      @updateInput="updateInput"></lang-input>
+
 
         </div>
         <!-- --------------------------- -->
@@ -378,6 +374,14 @@
 
           <!-- ------------------------------------- -->
           <div class="my-10"></div>
+
+          <div class="tab-sidebar p-3">
+            <lang-input :IsReadOnly="is_show" v-if="!is_variant" :hasError="false" type="textarea"
+                        :title="$t('prod.desc')"
+                        :isRequired="!is_draft"
+                        :valuesOfLang="result.description"
+                        @updateInput="updateInput"></lang-input>
+          </div>
           <!-- ------------------------------------- -->
           <div class="tab-sidebar p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
@@ -435,12 +439,7 @@
             </div>
           </div>
           <!--          BasicInformationChild-->
-          <div class="tab-sidebar p-3">
-            <lang-input v-if="!fromSingle" :hasError="false" type="textarea" :title="$t('prod.desc')"
-                        :valuesOfLang="result.description"
-                        :IsReadOnly="is_show"
-                        @updateInput="updateInput"></lang-input>
-          </div>
+
 
           <!-- ------------------------------------- -->
           <div class="my-10"></div>
@@ -472,7 +471,7 @@
           <p class="text-sm">
             {{ $t('prod.Enter barcode type and number for improved search/visibility of your product') }}.</p>
           <div class="grid grid-cols-2 gap-4">
-            <ValidationProvider name="Barcode type" :rules="{required: true}" v-slot="{ errors }"
+            <ValidationProvider name="Barcode type" :rules="{required: !is_draft}" v-slot="{ errors }"
                                 :custom-messages="{required: $t('global.req', { type: $t('prod.Barcode type')}) }">
               <div class="input-wrapper mt-3 mt-sm-0">
                 <label class="w-full">{{ $t('prod.Barcode type') }}</label>
@@ -1162,14 +1161,14 @@
                 name="draft"
                 another_class="btn text-primary"
                 :text="$t('prod.Save Draft')"
-                @clicked="is_draft=true"
+                @clicked="is_submit=true,is_draft=true"
                 :fetching-data="is_submit_data && is_draft"
               />
               <ajax-button
                 name="save"
                 another_class="primary-btn"
                 :text="$t('prod.Send for review') "
-                @clicked="is_draft=false"
+                @clicked="is_submit=true,is_draft=false"
                 :fetching-data="is_submit_data && !is_draft"
               />
               <span class="font-semibold text-error" v-if="(invalid || hasLangError)&& is_submit ">{{
@@ -1391,7 +1390,7 @@ export default {
         country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
-        barcode_type: 4,
+        barcode_type: "",
         barcode: null,
         sku: null,
         /*Product Identifiers*/
@@ -1740,7 +1739,7 @@ export default {
         this.result.available_quantity = '';
         this.result.is_availability = 1;
       } else {
-        this.result.is_availability = 0;
+         this.compareMethods();
       }
     }
   },
@@ -1791,6 +1790,8 @@ export default {
       if (!isNaN(ava_qty) && !isNaN(product_prices_min_qty)) {
         this.result.is_availability = ava_qty >= product_prices_min_qty ? 1 : 0;
       }
+      else
+        this.result.is_availability=0;
     },
 
     availableQuantity() {

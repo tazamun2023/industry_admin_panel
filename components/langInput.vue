@@ -28,15 +28,24 @@
                 :class="{ invalid: !!!valuesOfLang[language] , 'cursor-not-allowed': isVariant }"
                 :readonly="IsReadOnly"
               >
+              <div v-else>
+                <div v-if="IsReadOnly">
+                  <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden ">
+                    <div v-html="valuesOfLang[language]"></div>
 
-              <froala-wysiwyg v-else
-                              :description="valuesOfLang[language]"
-                              :value="valuesOfLang[language]"
-                              @change="valuesOfLang[language]= $event"
-                              :IsReadOnly="IsReadOnly"
+                  </div>
 
-                              @input="updateInputValue(language, $event)"
-              ></froala-wysiwyg>
+                </div>
+                <froala-wysiwyg v-else
+                                :description="valuesOfLang[language]"
+                                :value="valuesOfLang[language]"
+                                @change="valuesOfLang[language]= $event"
+                                :IsReadOnly="IsReadOnly"
+
+                                @input="updateInputValue(language, $event)"
+                ></froala-wysiwyg>
+              </div>
+
               <!--          <WYSIWYGEditor v-else-->
               <!--                         :title="` ${title}  ( ${language} ) `"-->
               <!--                         @file="editorOverviewFile"-->

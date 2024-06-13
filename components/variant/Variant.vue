@@ -886,6 +886,21 @@ export default {
     productUpdate(data) {
       // console.log(index)
       this.variants[this.openTab].result = data;
+
+      for (var i = 0; i < this.variants.length; i++) {
+        var temp = this.variants[i].result;
+        if (temp.status == 'incomplete' || temp.status == '')
+          this.variants[i].result = {
+            ...data,
+            id: '',
+            product_images: [],
+            images: [],
+            sku: '',
+            status: 'incomplete',
+            is_variant: true
+          }
+
+      }
       this.openTab = 'parent';
     },
     doVariantSave() {
@@ -932,24 +947,23 @@ export default {
       this.is_draft = false;
       this.result.is_draft = false;
 
-      this.variants[0].result.brand_id = this.result.brand_id
-      this.variants[0].result.unit_id = this.result.unit_id
+      // this.variants[0].result.brand_id = this.result.brand_id
+      // this.variants[0].result.unit_id = this.result.unit_id
       // this.variants[0].result.status = 'pending'
       // this.variants[0].result.from_parent = true
-      if (this.variant_uuid_global) {
-        this.variants[0].result.variant_uu_id = this.variant_uuid_global
-      } else {
-        this.variants[0].result.variant_uu_id = null
-      }
+      // if (this.variant_uuid_global) {
+      //   this.variants[0].result.variant_uu_id = this.variant_uuid_global
+      // } else {
+      //   this.variants[0].result.variant_uu_id = null
+      // }
       // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
       // this.checkForm()
       this.is_submit_data = true
       try {
         const res = await this.setById({
-          id: this.variants[0]?.result.id,
+          id: this.result.id,
           params: {
-            from_parent: true, ...this.variants[0].result, is_variant: true,
-            product_variant: this.result.product_variants[0],
+            from_parent: true, ...this.result, is_variant: true,
             single_submit: true,
             tab: 0
           },
@@ -978,6 +992,7 @@ export default {
           this.setToastMessage(this.$t('app.Product Successfully Saved'))
         }
       } catch (error) {
+        console.log(error)
         this.setToastError('Error! at last complete one variant')
       }
     },
@@ -1212,8 +1227,8 @@ export default {
       this.variants = this.variantsData
       this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
     } else {
-      this.variants =[]
-        this.result.product_variants.forEach((variant) => {
+      this.variants = []
+      this.result.product_variants.forEach((variant) => {
         // this.result.sku = ''
         this.variants.push(Object.assign({result: {...this.result, product_variant: variant}}));
       });
