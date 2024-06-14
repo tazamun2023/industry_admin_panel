@@ -60,8 +60,11 @@ export default {
   },
   methods: {
     saveAttachmentLargeAr(files) {
+      console.log("files")
+      console.log(files)
       this.attachments=files
-      this.$emit('updateInput',this.attachments.map(obj => obj.url));
+      this.$emit('updateInput',this.attachments);
+      // this.$emit('updateInput',this.attachments.map(obj => obj.url));
     },
 
 

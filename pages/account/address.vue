@@ -21,8 +21,11 @@
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
               <input type="checkbox">
-              Name
+              {{  $t('address.address_name')  }}
             </div>
+          </th>
+          <th class="bg-lightdeep">
+            {{ $t('address.type') }}
           </th>
           <th class="bg-lightdeep">
             {{ $t('address.country') }}
@@ -47,8 +50,12 @@
             </div>
           </td>
           <td class="text-primary">
+            {{ value?.type }}
+          </td>
+          <td class="text-primary">
             {{ value?.country }}
           </td>
+
           <td class="text-primary">
             {{ value?.city }}
           </td>
@@ -189,7 +196,7 @@ export default {
 
     },
     async getAllAddress() {
-      await this.getVendorAddress({params: {'vendor_id': this.profile.id}, api: 'getVendorAddress'})
+      await this.getVendorAddress({params: {'vendor_id': this.profile.id, ...this.$route.query,}, api: 'getVendorAddress'})
     },
 
     closeAddressModel() {
@@ -252,11 +259,12 @@ export default {
       this.vendorCountryId = this.profile.country_id
       await this.getAllAddress();
       // if (this.phoneCode.length == 0)
-      await this.getPhoneCode()
-      await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-        .then(() => {
-          this.countrySelected()
-        })
+      // await this.getPhoneCode()
+      if (this.allCountries.l == 0)
+        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+          .then(() => {
+            this.countrySelected()
+          })
       this.loading = false
     } catch (e) {
       return this.$nuxt.error(e)

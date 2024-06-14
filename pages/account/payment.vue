@@ -13,6 +13,7 @@
       :title="$t('setting.rejection-reasons')"
       manage_gate="update_financial"
       @list="itemList = $event"
+      :order-options="orderOptions"
     >
       <template v-slot:table="{list}">
         <tr class="lite-bold">
@@ -165,7 +166,7 @@
     </template>
     <DeleteModal v-if="deleteModal" @closeModal="closeModal">
       <template v-slot:title>
-        <h4>{{ $t('vendor.deletemessage') }}xxxxxxxxxxxxxx</h4>
+        <h4>{{ $t('vendor.deletemessage') }}</h4>
       </template>
       <!-- -----------default slot------- -->
       <!-- -----------default slot------- -->
@@ -174,7 +175,7 @@
           <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
             {{ $t('address.Quit') }}
           </button>
-          <button @click.prevent="deleting(value)"
+          <button @click.prevent="isDeleteSubmit()"
                   class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
             {{ $t('address.Agree') }}
           </button>
@@ -315,6 +316,7 @@ export default {
     this.bankData.vendor_id = this.profile.vendor_id
 
     try {
+
       await this.getAllVendorBank()
 
     } catch (e) {

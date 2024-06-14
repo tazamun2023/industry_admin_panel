@@ -103,19 +103,9 @@
                   <div class="input-wrapper   mb-2">
                     <label for="">{{ $t('CompanyProfiles.Logo Upload') }}</label>
                     <div class="flex gap-4">
-                      <div class="file-wrapper w-1/4 h-[232px]   upload-block">
-                        <div class="border-dashed border border-smooth rounded h-[232px]">
-                          <lazy-image
-                            class="w-full h-[232px] !important rounded"
-                            :data-src="getLogo"
-                            alt="logo"
-                          />
-                          <!--                          <img v-if="!getLogo" class="w-full h-[232px] !important rounded"-->
-                          <!--                               src="http://127.0.0.1:8000/uploads/default-image.webp"/>-->
-                          <!--                          <img v-else class="w-full h-[232px] !important rounded" :src="getLogo"/>-->
-                        </div>
-                      </div>
-                      <upload-files class="w-full" accept="image/*" @updateInput="saveLogoAttachment"></upload-files>
+
+                      <upload-files :old_images="getLogo==null?[]:[getLogo]" class="w-full" accept="image/*"
+                                    @updateInput="saveLogoAttachment"></upload-files>
                     </div>
                   </div>
 
@@ -124,22 +114,7 @@
                     <!-- component -->
                     <label for="">{{ $t('CompanyProfiles.Licence Upload') }}</label>
                     <div class="flex gap-4">
-                      <div class="file-wrapper  w-1/4 h-[232px] upload-block">
-                        <div class="border-dashed border border-smooth rounded h-[232px]">
-
-                          <lazy-image
-                            class="w-full h-[232px] !important rounded"
-                            :data-src="getLicence"
-                            alt="logo"
-                          />
-                          <!--                          <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded"-->
-                          <!--                               src="http://127.0.0.1:8000/uploads/default-image.webp"/>-->
-                          <!--                          <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded"-->
-                          <!--                               src="@/assets/images/pdf.jpg"/>-->
-                          <!--                          <img v-else class="w-full h-[232px] !important" :src="getLicence"/>-->
-                        </div>
-                      </div>
-                      <upload-files class="w-full" accept=".pdf,image/*"
+                      <upload-files :old_images="getLicence==null?[]:[getLicence]" class="w-full" accept=".pdf,image/*"
                                     @updateInput="saveLicenceAttachment"></upload-files>
                     </div>
                   </div>
@@ -249,16 +224,16 @@
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
-                    <div class="input-wrapper  mb-2">
-                      <label for="">{{ $t('vendor.status') }}</label>
-                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
-                        <option value="1" :selected="fromData.status">Enable</option>
-                        <option value="0" :selected="fromData.status === 0">Disable</option>
-                      </select>
-                      <span class="error">{{ errors[0] }}</span>
-                    </div>
-                  </ValidationProvider>
+<!--                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">-->
+<!--                    <div class="input-wrapper  mb-2">-->
+<!--                      <label for="">{{ $t('vendor.status') }}</label>-->
+<!--                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">-->
+<!--                        <option value="1" :selected="fromData.status">Enable</option>-->
+<!--                        <option value="0" :selected="fromData.status === 0">Disable</option>-->
+<!--                      </select>-->
+<!--                      <span class="error">{{ errors[0] }}</span>-->
+<!--                    </div>-->
+<!--                  </ValidationProvider>-->
 
                   <div class="flex justify-between">
                     <button v-on:click="toggleTabs(1)"
@@ -294,11 +269,12 @@
                     <ValidationProvider class="w-full" name="Country" rules="required" v-slot="{ errors }">
                       <div class="input-wrapper  mb-2">
                         <label for="">{{ $t("vendor.country") }}</label>
-                        <select class="border border-smooth w-100 p-2 rounded cursor-not-allowed" v-model="fromData.country_id">
+                        <select class="border border-smooth w-100 p-2 rounded cursor-not-allowed"
+                                v-model="fromData.country_id">
                           <option value="194" disabled>{{ $t('app.Saudi Arabia') }}</option>
-<!--                          <option :value="countryList.id" v-for="countryList in allCountries"-->
-<!--                                  :selected="countryList.id === fromData.country_id">{{ countryList.name }}-->
-<!--                          </option>-->
+                          <!--                          <option :value="countryList.id" v-for="countryList in allCountries"-->
+                          <!--                                  :selected="countryList.id === fromData.country_id">{{ countryList.name }}-->
+                          <!--                          </option>-->
                         </select>
                         <span class="error">{{ errors[0] }}</span>
                       </div>
@@ -373,7 +349,9 @@
                 </div>
                 <div class="form-group">
                   <div class="input-wrapper  mb-2">
-                    <ValidationProvider class="w-full" name="whatsapp" v-slot="{ errors }">
+                    <ValidationProvider class="w-full" name="whatsapp"
+                                        :rules="{ regex:  /^https?:\/\/(wa\.)?me/ }"
+                                        v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.whatsapp') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
                       <span class="error">{{ errors[0] }}</span>
@@ -381,7 +359,7 @@
                   </div>
                   <div class="input-wrapper mb-2">
                     <ValidationProvider class="w-full" name="facebook"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex: /^https?:\/\/(www\.)?facebook\.com/}"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.facebook') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.facebook">
@@ -390,7 +368,7 @@
                   </div>
                   <div class="input-wrapper mb-2">
                     <ValidationProvider class="w-full" name="linkedin"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex:  /^https?:\/\/(www\.)?linkedin\.com/ }"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.linkedin') }} </label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.linkedin">
@@ -399,7 +377,7 @@
                   </div>
                   <div class="input-wrapper  mb-2">
                     <ValidationProvider class="w-full" name="youtube"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex:  /^https?:\/\/(www\.)?youtube\.com/ }"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.youtube') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.youtube">
@@ -414,7 +392,7 @@
                           $t('CompanyProfiles.Previous')
                         }}</span> </span>
                     </button>
-                    <button @click="submit = true" :disabled="!step4Check"
+                    <button @click="submit = true" :disabled="!step4Check || invalid"
                             class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary mt-20">
                       <span class="flex justify-center items-center gap-2"> <span>{{
                           $t('CompanyProfiles.Save')
@@ -584,7 +562,7 @@ export default {
       return this.$store.state.vendor.SuccessModal;
     },
 
-    step1Check(){
+    step1Check() {
       const company_name = this.fromData.company_name
       const details_t = this.fromData.details
       const subdomain = this.fromData.subdomain
@@ -605,7 +583,7 @@ export default {
       return !!isValid;
     },
 
-    step2Check(){
+    step2Check() {
       const email = this.fromData.contact_json.email;
       const mobile = this.fromData.contact_json.mobile
       const founded_date = this.fromData.founded_date
@@ -619,7 +597,7 @@ export default {
       return !!isValid;
     },
 
-    step3Check(){
+    step3Check() {
       const country_id = this.fromData.country_id
       const city_id = this.fromData.city_id
       const area = this.fromData.contact_json.area
@@ -629,14 +607,15 @@ export default {
       const isValid = country_id && city_id && area && street && building;
       return !!isValid;
     },
-    step4Check(){
-      const whatsapp = this.fromData.links_json.whatsapp
-      const facebook = this.fromData.links_json.facebook
-      const linkedin = this.fromData.links_json.linkedin
-      const youtube = this.fromData.links_json.youtube
-
-      const isValid = whatsapp && facebook && linkedin && youtube;
-      return !!isValid;
+    step4Check() {
+      return true
+      // const whatsapp = this.fromData.links_json.whatsapp
+      // const facebook = this.fromData.links_json.facebook
+      // const linkedin = this.fromData.links_json.linkedin
+      // const youtube = this.fromData.links_json.youtube
+      //
+      // const isValid = whatsapp && facebook && linkedin && youtube;
+      // return !!isValid;
     },
 
 
@@ -647,9 +626,12 @@ export default {
     ...mapActions('ui', ['setToastMessage']),
 
     saveLogoAttachment(logo) {
+      console.log('sssssss', logo)
+      this.getLogo = logo[0]
       this.fromData.newLogo = logo
     },
     saveLicenceAttachment(attachments) {
+      this.getLicence = attachments[0]
       this.fromData.newLicence = attachments
     },
 
@@ -696,7 +678,7 @@ export default {
         this.fromData.country_id = this.vendorList.data.country_id
         this.countrySelected()
       })
-     await this.countrySelected()
+      await this.countrySelected()
 
     } catch (e) {
       return this.$nuxt.error(e)

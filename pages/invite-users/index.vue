@@ -135,16 +135,16 @@
                       <label class="w-full" for="">{{ $t('user.role') }}</label>
                       <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
                         <option value="">Select role</option>
-                        <option value="vendor">Vendor</option>
+<!--                        <option value="vendor">Vendor</option>-->
                         <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
                       </select>
                       <span class="error">{{ errors[0] }}</span>
                     </ValidationProvider>
                   </div>
 
-                  <div class="input-wrapper">
-                    <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
-                  </div>
+<!--                  <div class="input-wrapper">-->
+<!--                    <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>-->
+<!--                  </div>-->
                   <div class="input-wrapper mb-0 text-end">
                     <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
                   </div>
