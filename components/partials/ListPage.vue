@@ -197,7 +197,14 @@ export default {
       return this.$router.push(`/${this.routeName}/${id}`)
     },
     async deleteItem(id) {
-      if (confirm(this.$t('admin.dltMsg'))) {
+
+      const res = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('vendor.deletemessage') ,
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      })
+      if (res) {
         try {
           this.deleting = true
           await this.deleteData({params: id, api: this.deleteApi})
