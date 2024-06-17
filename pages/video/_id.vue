@@ -16,9 +16,13 @@
       <div class="tab-sidebar">
         <ValidationObserver class="w-full card p-4" v-slot="{ invalid }">
         <form class="p-4" action="">
-          <ValidationProvider class="w-full" name="URL" rules="required|url" v-slot="{ errors }">
+          <ValidationProvider class="w-full" name="URL"
+                              :rules="{ required:true, regex:  /^https?:\/\/(www\.)?youtube\.com/ }"
+                               v-slot="{ errors }">
           <div class="my-2 input-wrapper">
-            <input class="form-control" name="e.g. Macbook Pro 2019" :placeholder="$t('global.url')" type="url"
+            <input class="form-control" name=""
+
+                   :placeholder="$t('global.url')" type="url"
                    v-model="result.url">
             <span class="error">{{ errors[0] }}</span>
           </div>
