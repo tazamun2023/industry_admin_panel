@@ -18,13 +18,8 @@
 
       <div class="input-wrapper">
 <!--        <label>{{ $t('prod.Image') }}</label>-->
-        <lazy-image
-          v-if="result.image"
-          class="mr-20 w-1/6 mb-2 rounded"
-          :data-src="result.image"
-          :alt="result.title"
-        />
-        <upload-files @updateInput="saveAttachment" :max-files="1"></upload-files>
+
+        <upload-files :old_images="result.image" @updateInput="saveAttachment" :max-files="1"></upload-files>
         <span
           class="error"
           v-if="!!!result.title && hasError"
@@ -156,6 +151,7 @@ export default {
       this.result.status = data.key
     },
     saveAttachment(image) {
+      this.result.image = image[0]
       this.result.file = image
     },
     resultData(event){

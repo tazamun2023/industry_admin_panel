@@ -20,28 +20,16 @@
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="font-bold">{{ $t('prod.Large screen') }}</label>
-          <div>
-            <lazy-image
-              v-if="result.large_image"
-              class="w-full h-[220px]"
-              :data-src="getThumbImageURL(result.large_image)"
-            />
-          </div>
+
           <div class="mt-2">
-            <upload-files @updateInput="saveAttachmentLargeEn"></upload-files>
+            <upload-files :old_images="result.large_image" @updateInput="saveAttachmentLargeEn"></upload-files>
           </div>
         </div>
         <div>
           <label class="font-bold">{{ $t('prod.Small screen') }}</label>
-          <div>
-            <lazy-image
-              v-if="result.small_image"
-              class="w-full h-[220px]"
-              :data-src="getThumbImageURL(result.small_image)"
-            />
-          </div>
+
           <div class="mt-2">
-            <upload-files @updateInput="saveAttachmentSmallEn"></upload-files>
+            <upload-files :old_images="result.small_image" @updateInput="saveAttachmentSmallEn"></upload-files>
           </div>
         </div>
       </div>
@@ -247,9 +235,11 @@
         this.result.file = images
       },
       saveAttachmentLargeEn(images) {
+        this.result.large_image = images[0]
         this.result.large_file = images
       },
       saveAttachmentSmallEn(images) {
+        this.result.small_image = images[0]
         this.result.small_file = images
       },
       dropdownStatusSelected(data) {

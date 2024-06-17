@@ -104,7 +104,7 @@
                     <label for="">{{ $t('CompanyProfiles.Logo Upload') }}</label>
                     <div class="flex gap-4">
 
-                      <upload-files :old_images="getLogo==null?[]:[getLogo]" class="w-full" accept="image/*"
+                      <upload-files :old_images="getLogo" class="w-full" accept="image/*"
                                     @updateInput="saveLogoAttachment"></upload-files>
                     </div>
                   </div>
@@ -114,7 +114,7 @@
                     <!-- component -->
                     <label for="">{{ $t('CompanyProfiles.Licence Upload') }}</label>
                     <div class="flex gap-4">
-                      <upload-files :old_images="getLicence==null?[]:[getLicence]" class="w-full" accept=".pdf,image/*"
+                      <upload-files :old_images="getLicence" class="w-full" accept=".pdf,image/*"
                                     @updateInput="saveLicenceAttachment"></upload-files>
                     </div>
                   </div>

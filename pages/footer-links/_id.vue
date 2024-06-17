@@ -16,8 +16,7 @@
     <template v-slot:form="{hasError}">
 
       <div class="input-wrapper">
-        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
-        <upload-files @updateInput="saveAttachment"></upload-files>
+        <upload-files :old_images="result.image" @updateInput="saveAttachment"></upload-files>
       </div>
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
@@ -102,6 +101,7 @@
         this.$set(input, language, value);
       },
       saveAttachment(image) {
+        this.result.image = image[0]
         this.result.file = image
       },
       dropdownSelected(data) {

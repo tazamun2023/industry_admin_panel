@@ -4,7 +4,7 @@
   <div>
     <div :style="hasError && attachments.length===0?'border: 1px solid red':''">
 
-      <vue-upload-images :accept="accept" :old_images="old_images" :max-files="maxFiles"
+      <vue-upload-images :accept="accept" :old_images="(old_images==null||old_images=='')?[]:[old_images]" :max-files="maxFiles"
                          @updateInput="saveAttachmentLargeAr">>
       </vue-upload-images>
 

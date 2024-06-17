@@ -15,13 +15,11 @@
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
         <label class="w-full" for="mainCategory">{{ $t("prod.Icon") }}</label>
-        <img v-if="result.icon_image" :src="result.icon_image" alt="" class="w-2/5">
-        <upload-files @updateInput="saveAttachmentIcon" :max-files="1"></upload-files>
+        <upload-files :old_images="result.icon" @updateInput="saveAttachmentIcon" :max-files="1"></upload-files>
       </div>
       <div class="input-wrapper">
         <label class="w-full" for="mainCategory">{{ $t("prod.Image") }}</label>
-        <img v-if="result.image" :src="result.image" alt="" class="w-2/5">
-        <upload-files @updateInput="saveAttachment"></upload-files>
+        <upload-files :old_images="result.image" @updateInput="saveAttachment"></upload-files>
       </div>
 
       <div class="input-wrapper">
@@ -169,7 +167,7 @@
           in_footer: 2,
           meta_title: {ar: '', en: ''},
           image: '',
-          icon_image: '',
+          icon: '',
           category_id: '',
           subcategory_id: '',
           file: '',
@@ -197,9 +195,11 @@
         this.$set(input, language, value);
       },
       saveAttachment(image) {
+        this.result.image = image[0]
         this.result.file = image
       },
       saveAttachmentIcon(image) {
+        this.result.icon = image[0]
         this.result.icon_file = image
       },
       resultData(evt){
