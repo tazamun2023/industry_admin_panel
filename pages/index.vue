@@ -55,6 +55,7 @@
         chartData: null,
         dashboard: null,
         profileData: null,
+        brands: null,
         chartMonth: null,
         bestSelling: null,
         lowStock: null,
