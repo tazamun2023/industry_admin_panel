@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
-      <Profile/>
+    <Profile :profileData="profileData" />
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
           <BestSeller :bestSelling="bestSelling"/>
@@ -54,6 +54,7 @@
       return {
         chartData: null,
         dashboard: null,
+        profileData: null,
         chartMonth: null,
         bestSelling: null,
         lowStock: null,
@@ -119,7 +120,9 @@
           if(data?.dashboard) {
             this.dashboard = data.dashboard
           }
-
+          if (data?.profile) {
+            this.profileData = data.profile
+          }
           this.chartData = data.chart_data
           this.bestSelling = data.best_selling
           this.lowStock = data.lowStock
