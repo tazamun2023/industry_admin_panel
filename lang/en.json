@@ -1647,6 +1647,16 @@
     "GENERAL INFO": "GENERAL INFO"
   },
 
+  "Dashboard": {
+    "Bestsellers" : "Bestsellers",
+    "More" : "More",
+    "Price" : "Price",
+    "Profit" : "Profit",
+    "Sold" : "Sold",
+    "Add New Product" : "Add New Product",
+    "Product" : "Product"
+  },
+
   "messageCenter": {
     "Inquiries" : "Inquiries",
     "RFQs" : "RFQs",
