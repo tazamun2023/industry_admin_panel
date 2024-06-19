@@ -416,13 +416,15 @@
     "allRoles": "role/all-roles",
 
     "allPermissions": "role/all-permissions",
+    "role_and_permissions": "get-available-permissions",
+
 
     "getAdmins": "admin-data/all",
     "getAdmin": "admin-data/find",
     "deleteAdmin": "admin-data/delete",
 
     "getVendorUsers": "vendor-users/all",
-    "getVendorInvitation": "vendor-users/all?type_is=invitation",
+    "getVendorInvitation": "vendor-users/invitations",
     "getUser": "vendor-users/find",
     "deleteVendors": "vendor-users/delete",
     "sentInvitation": "vendor-users/SentInvitation",

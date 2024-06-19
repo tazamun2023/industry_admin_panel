@@ -5,17 +5,23 @@ const state = () => ({
   addressList: null,
   vendorProfile: null,
   userInfo:null,
+  roles_and_permissions: [],
   AllRole: null,
   SuccessModal: false
+
 })
 const getters = {
   vendorList: ({ vendorList }) => vendorList,
   addressList: ({ addressList }) => addressList,
   userInfo: ({ userInfo }) => userInfo,
+  rolesAndPermissions: ({roles_and_permissions}) => roles_and_permissions,
+
   AllRole: ({ AllRole }) => AllRole,
 }
 const mutations = {
-
+  SetRolesAndPermissions(state, roles) {
+    state.roles_and_permissions = roles
+  },
   SET_VENDOR_DATA(state, data){
     state.vendorList = data
   },
@@ -38,6 +44,7 @@ const mutations = {
 }
 
 const actions = {
+
   async submitData ({rootState, commit , dispatch}, {id,params,api}) {
     const {data} = await Service.putById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
@@ -61,7 +68,14 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
+  async getRolesAndPermissions({rootState,commit}, {params, lang}) {
+    const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), 'role_and_permissions', rootState.language.langCode)
 
+    if (data?.status === 200) {
+      commit('SetRolesAndPermissions', data.data)
+    }
+    return data
+  },
   async getVendorData ({rootState, commit, dispatch}, {params,api}) {
     const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {

@@ -172,7 +172,7 @@
               <ValidationProvider class="w-full" name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
                 <label class="w-full" for="">{{ $t('user.role') }}</label>
                 <select class="w-full p-3 border border-smooth rounded-lg" v-model="userInfo.roles">
-                  <option value="">Select Role</option>
+                  <option value="">{{ $t('roles.Select role') }}</option>
                   <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
                 </select>
                 <span class="error">{{ errors[0] }}</span>

@@ -27,10 +27,8 @@
           @open-modal="openModal"
           @delete-bulk="deleteBulk"
         >
-          <slot
-            name="add-button"
-          >
-          </slot>
+          <slot name="title"></slot>
+          <slot name="add-button"></slot>
         </table-top>
       </slot>
     </div>
@@ -91,6 +89,7 @@ export default {
       type: Boolean,
       default: true
     },
+
     name: {
       type: String,
       default: ''
@@ -182,7 +181,6 @@ export default {
             ...this.param,
             ...this.$route.query,
             ...this.listParams,
-            osama:'osama',
             ...{time_zone: this.timeZone}
           },
           api: this.listApi

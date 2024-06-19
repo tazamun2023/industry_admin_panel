@@ -4,61 +4,64 @@
     :param="vendor_id"
     ref="listPage"
     :addButton="false"
-    :modalButton="false"
-    list-api="getVendorUsers"
+    :modalButton="true"
+    list-api="getVendorInvitation"
     delete-api="deleteVendors"
     route-name="vendor-users"
-    :name="$t('user.users')"
     :order-options="orderOptions"
     gate="invite"
     manage_gate="invite"
-    @open-modal="openModal" >
-    <template v-slot:table="{ list }">
+    @open-modal="openModal"
+    @list="listChange($event)"
+    @list-invite-user="listChange($event)"
+  >
 
-      <tr class="lite-bold" >
-        <th>{{ $t('user.name') }}</th>
+    <template v-slot:tab-access-managment>
+      <div>
+        <div class="flex  items-center  justify-between">
+          <h3 class="font-bold   text-[18px]  " for="card">{{ $t('vendor.invite_users') }}</h3>
+
+        </div>
+        <div class="my-2">
+          <div class="lg:flex   justify-between">
+            <label class="font-medium text-theem lg:text-[14px] text-[11px]" for="card">
+              {{$t('roles.LearnMoreMessage')}}
+            </label>
+            <div class="flex gap-2">
+              <nuxt-link class="text-lg font-bold bg-theemlight lg:text-[14px] text-[12px] uppercase rounded-[10px] px-2 text-theem"
+                         :to="('/account/access-management/roles')">{{ $t('roles.LearnMore') }}
+              </nuxt-link>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <template v-slot:table="{list}">
+      <tr class="lite-bold">
         <th>{{ $t('fSale.email') }}</th>
         <th>{{ $t('user.role') }}</th>
-<!--        <th>{{ $t('user.verified') }}</th>-->
-        <th>{{ $t('title.ac') }}</th>
+        <!--        <th>{{ $t('user.verified') }}</th>-->
         <th>{{ $t('category.created') }}</th>
         <th>{{ $t('title.act') }}</th>
       </tr>
-      <tr v-for="(value, index) in list" :key="index"  :class="{ 'new-data': !parseInt(value.viewed) }">
-        <td class="">
-<!--          <p>{{ value }}</p>-->
-          <nuxt-link class="link" :to="`/vendor-users/${value.id}`">
-            <h5 class="mx-w-300x">{{ value.name }}</h5>
-          </nuxt-link>
-        </td>
+
+      <tr v-for="(value, index) in Pagelist" :key="index" >
         <td>{{ value.email }}</td>
-        <td>{{ value.role[0] }}</td>
-
-<!--        <td>-->
-<!--          <span v-if="value.verified">{{ $t('user.verified') }}</span>-->
-<!--          <span v-else>{{ $t('user.Unverified') }}</span>-->
-<!--        </td>-->
-
-        <td>
-          <span v-if="value.active">{{ $t('util.active') }}</span>
-          <span v-else>{{ $t('util.deactive') }}</span>
-        </td>
+        <td>{{  $t('roles.'+ value.roles) }}</td>
 
         <td>{{ value.created }}</td>
         <td>
-          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
+          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItemInv(value.id,'deleteInvitations')" class="border-0">
             <DeleteButtonIcon />
           </button>
-          <button v-if="$can('invite')" @click.prevent="$refs.listPage.editItem(value.id)" class="border-0">
-            <EditButtonIcon />
-          </button>
-
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
-      <template v-slot:title>
+        <template v-slot:title>
           <div class="flex mb-2 justify-between">
-            <h3>Add {{ $t('user.users') }}</h3>
+            <h3> {{ $t('vendor.invite_user') }}</h3>
           </div>
           <div>
             <ValidationObserver  class="w-full"  v-slot="{ invalid }">
@@ -106,26 +109,28 @@
                   <ValidationProvider  class="w-full"  name="roles" rules="required" v-slot="{ errors }" :custom-messages="{required: $t('category.req', {type: $t('user.role')})}">
                     <label class="w-full" for="">{{ $t('user.role') }}</label>
                     <select class="w-full p-2 border border-smooth rounded" v-model="userInfo.roles">
-                      <option value="">Select role</option>
-                      <option value="vendor">Vendor</option>
-                      <option v-for="ro in AllRole" :value="ro.name">{{ ro.name }}</option>
+                      <option value="">{{ $t('roles.Select role') }}</option>
+                      <!--                        <option value="vendor">Vendor</option>-->
+                      <option v-for="ro in AllRole" :value="ro.name">
+
+                        {{ $t('roles.'+ ro.name )}}</option>
                     </select>
                     <span class="error">{{ errors[0] }}</span>
                   </ValidationProvider>
                 </div>
 
-                <div class="input-wrapper">
-                  <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>
-                </div>
+                <!--                  <div class="input-wrapper">-->
+                <!--                    <label for="verified"><input type="checkbox" v-model="userInfo.isVerified"> {{ $t('user.verified') }}</label>-->
+                <!--                  </div>-->
                 <div class="input-wrapper mb-0 text-end">
-                  <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">$t('user.Submit')</button>
+                  <button class="bg-primary leading-3 w-[100px] p-2 rounded text-white" :disabled="invalid">Submit</button>
                 </div>
               </form>
             </ValidationObserver>
           </div>
-      </template>
-      <!-- -----------default slot------- -->
-    </DeleteModal>
+        </template>
+        <!-- -----------default slot------- -->
+      </DeleteModal>
     </template>
   </list-page>
 </template>
@@ -133,10 +138,10 @@
 <script>
 import ListPage from "~/components/partials/ListPage";
 import util from '~/mixin/util'
-import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
-import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
-import { mapActions, mapGetters } from "vuex";
-import { ValidationObserver, ValidationProvider } from "vee-validate";
+import EditButtonIcon from "../../../components/partials/EditButtonIcon.vue";
+import DeleteButtonIcon from "../../../components/partials/DeleteButtonIcon.vue";
+import {mapActions, mapGetters} from "vuex";
+import {ValidationObserver, ValidationProvider} from "vee-validate";
 
 export default {
   name: "vendor-users",
@@ -152,18 +157,17 @@ export default {
       vendor_id: {
         vendor_id: 1
       },
-      deleteModal: false,
+      Pagelist:[],
+      deleteModal:false,
       userInfo: {
-        email: '',
+        email:'',
         roles: '',
-        isVerified: '',
+        isVerified:'',
         vendor_id: '',
-        type: 'vendor',
+        type:'vendor',
       },
-      errors: [],
-      loading: false,
-      allUsers: false,
-      inviteUsers: false,
+      errors:[],
+      loading:false
     }
   },
   components: {
@@ -176,71 +180,61 @@ export default {
   mixins: [util],
   computed: {
     ...mapGetters('admin', ['profile']),
-    ...mapGetters('vendor', ['AllRole']),
+    ...mapGetters('vendor', [ 'AllRole']),
     ...mapGetters('language', ['currentLanguage']),
   },
-  watch: {
-    profile() {
+  watch:{
+    profile(){
       this.userInfo.vendor_id = this.profile?.vendor_id
     }
   },
   methods: {
     ...mapActions('vendor', ['sentInvitation', 'getAllRoles']),
     ...mapActions('ui', ['setToastMessage', 'setToastError']),
-    allUserTab() {
-
-      this.$router.push({
-        query: {
-          // ...this.$route.query,
-          // page: 1,
-          // orderBy: 'created_at',
-          // orderByType: 'desc',
-          type_is: 'all_user'
-        }
-      })
-      this.allUsers = true,
-      this.inviteUsers = false;
+    ...mapActions('common', [ 'getRequest'] ),
+    listChange(v) {
+      console.log('value list',v)
+      this.Pagelist=v
     },
-    InvUserTab() {
-
-      this.$router.push({
-        query: {
-          // ...this.$route.query,
-          // page: 1,
-          // orderBy: 'created_at',
-          // orderByType: 'desc',
-          type_is: 'invitation'
-        }
-      })
-      this.allUsers = false
-      this.inviteUsers = true
+    async fetchingData() {
+      try {
+        this.loading = true
+        this.result = await this.getRequest({
+          params: null,
+          api: "getVendorInvitation"
+        })
+        this.loading = false
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
     },
-    async formSubmit() {
-      this.loading = true
+    async formSubmit(){
+      this.loading  = true
       const data = await this.sentInvitation({
-        params: {
+        params:{
           ...this.userInfo
         },
-        api: "sentInvitation"
+        api:"sentInvitation"
       })
-
-      if (data.status === 200) {
+      this.loading = false
+      if(data.status === 200){
+        console.log(data)
         this.deleteModal = false
         this.errors = []
+        this.Pagelist.unshift(data.data)
+        // this.$router.go('/invite-users')
         this.setToastMessage(data.message)
-        this.$router.go('/vendor-users')
-      } else {
+      }else{
         this.errors = data.data.form
         this.setToastError("Solve The Error")
       }
-      this.loading = false
     },
 
-    openModal() {
+    openModal(){
       this.deleteModal = true
     },
 
-    closeModal() {
+    closeModal(){
       this.userInfo.email = ''
       this.userInfo.roles = ''
       this.userInfo.isVerified = ''
@@ -250,16 +244,16 @@ export default {
     }
 
   },
-  async mounted() {
+  async  mounted() {
     this.userInfo.vendor_id = this.profile?.vendor_id
     try {
       await this.getAllRoles({
-        params: {
+        params:{
           "type": "vendor"
         },
-        api: "getRoleByType"
+        api:"getRoleByType"
       })
-    } catch (e) {
+    }catch (e) {
       return this.$nuxt.error(e)
     }
 
@@ -267,9 +261,6 @@ export default {
 }
 </script>
 
-<style >
-.border-color-ddd {
-  border-color: #0cc048;
-}
- {}
+<style scoped>
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3">
+    <div class="">
       <h3 class="uppercase text-[18px] font-semibold">{{ title }}</h3>
     </div>
 

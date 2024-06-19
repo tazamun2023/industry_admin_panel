@@ -1,4 +1,40 @@
 {
+  "roles": {
+    "roles_and_permissions": "Roles And Permissions",
+    "Permissions": "Permissions",
+    "Admin": "Admin",
+    "Supervisor": "Supervisor",
+    "User": "User",
+    "LearnMore": "Learn more about roles",
+    "LearnMoreMessage": "Please only add users to your account\n                that you trust with your business information.",
+
+    "message": "Use roles to set custom permissions for each person that has access to your business account. You\n                decide\n                who is permitted to do what. Roles are not permanent and can be changed by any Admin account.",
+
+    "user_management": "User Management",
+    "company_management": "Company Management",
+    "Content": "Content",
+    "Messages": "Messages",
+    "Orders": "Orders",
+    "RFQ": "RFQ",
+    "Products": "Products",
+    "Settings": "Settings",
+    "Other": "Other",
+    "flash_sales": "flash Sales",
+
+    "Select role": "Select role",
+    "customer_admin": "Admin",
+    "customer_supervisor": "Supervisor",
+    "customer_user": "User",
+    "shipping_admin": "Admin",
+    "shipping_supervisor": "Supervisor",
+    "shipping_user": "User",
+    "superadmin": "Super Admin",
+    "vendor": "Vendor",
+    "vendor_admin": "Admin",
+    "vendor_supervisor": "Supervisor",
+    "vendor_user": "User"
+  },
+
   "app": {
     "dir": "ltr",
     "lang": "lang",
@@ -778,7 +814,7 @@
     "shipping_cost": "Shipping Cost:",
     "timeline": "Timeline",
     "user": "User",
-    "invitation": "Invitation",
+
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
@@ -841,6 +877,8 @@
     "fSale": "flash sale"
   },
   "user": {
+    "invitation": "Invitation",
+    "invitations": "Users Invitations",
     "users": "users",
     "Submit": "Submit",
     "sEmail": "Send email",
@@ -998,6 +1036,8 @@
     "notValidUrl": "The Url Not Valid",
     "all_users": "all users",
     "invite_users": "User invitations",
+    "invite_user": "Invite Users",
+    "vendor_users": "Vendor Users",
     "Awesome": "Awesome",
     "Company Profile Saved Succesfully": "Company Profile Saved Successfully",
     "componyName": "compony Name",
@@ -1265,8 +1305,8 @@
     "feo": "Following error occurred",
     "message": "Message",
     "access": "Access Management",
-    "vendor_users": "Vendor Users",
-    "invite_users": "Invite Users",
+
+
     "error": "error"
   },
   "approveModal": {

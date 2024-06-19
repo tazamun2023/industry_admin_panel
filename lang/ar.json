@@ -1,4 +1,38 @@
 {
+  "roles": {
+    "roles_and_permissions": "الادوار والاصلاحيات",
+    "Permissions": "الصلاحيات",
+    "Admin": "مسؤول",
+    "Supervisor": "مشرف ",
+    "User": "مستخدم",
+    "LearnMore": "تعرف على المزيد حول الأدوار",
+    "LearnMoreMessage": " يرجى إضافة المستخدمين إلى حسابك فقط الذين تثق بهم في معلومات عملك.",
+    "message": "تستخدم الأدوار لتعيين الأذونات المخصصة لكل مستخدم  لديه حق الوصول إلى حسابك التجاري. أنت تقرر من المسموح له القيام بماذا. الأدوار ليست دائمة ويمكن تغييرها من قبل أي حساب مسؤول.",
+
+    "user_management": "إدارة المستخدمين",
+    "company_management": "إدارة الشركة",
+    "Content": "المحتوى",
+    "Messages": "الرسائل",
+    "Orders": "الطلبات",
+    "RFQ": "طلبات عرض الأسعار",
+    "Products": "المنتجات",
+    "Settings": "الإعدادات",
+    "Other": "أخرى",
+    "flash_sales": "التخفيضات (العروض) ",
+
+    "Select role": "اختر الدور",
+    "customer_admin": "مسؤول",
+    "customer_supervisor": "مشرف",
+    "customer_user": "مستخدم",
+    "shipping_admin": "مسؤول",
+    "shipping_supervisor": "مشرف",
+    "shipping_user": "مستخدم",
+    "superadmin": "مسؤول عام",
+    "vendor": "بائع",
+    "vendor_admin": "مشرف",
+    "vendor_supervisor": "مسؤول",
+    "vendor_user": "مستخدم"
+  },
   "app": {
     "dir": "rtl",
     "lang": "اللغة",
@@ -787,6 +821,7 @@
     "nameEmpty": " الاسم فارغ",
     "Shipment": "الشحنة",
     "invitation": "الدعوة",
+    "invitations": "دعوات المستخدمين ",
     "Search by orderId": "البحث بواسطة معرف الطلب",
     "reference_number": "الرقم المرجعي"
   },
@@ -1024,6 +1059,9 @@
     "verify": "التحقق",
     "all_users": "جميع المستخدمين",
     "invite_users": "دعوات المستخدمين",
+    "invite_user": "دعوة مستخدم",
+    "vendor_users": " المستخدمين",
+
     "componyName": "اسم الشركة",
     "notValidUrl": "الرابط غير صالح",
     "Awesome": "رائع",
@@ -1253,9 +1291,8 @@
     "feo": "حدث خطأ التالي",
     "message": "رسالة",
     "access": "إدارة الوصول",
-    "err": "خطأ",
-    "vendor_users": "مستخدمي البائع",
-    "invite_users": "دعوة المستخدمين"
+    "err": "خطأ"
+
   },
   "approveModal": {
     "approvedOrder": " الموافقة على الطلب",
