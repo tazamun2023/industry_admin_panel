@@ -4,7 +4,7 @@
       <Profile/>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
-          <BestSeller/>
+          <BestSeller :bestSelling="bestSelling"/>
         </div>
         <div class="my-2">
           <MyProducts/>
@@ -12,7 +12,7 @@
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
-          <LowStock/>
+          <LowStock :lowStock="lowStock"/>
         </div>
         <div class="my-2">
           <VendorShortDetails/>
@@ -20,10 +20,10 @@
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
-          <InqueryRfq/>
+          <InqueryRfq :inquiries_and_rfqs="inquiries_and_rfqs"/>
         </div>
         <div class="my-2">
-          <Brands/>
+          <Brands :brands="brands"/>
         </div>
       </div>
       <div class="my-4 gap-4">
@@ -55,6 +55,9 @@
         chartData: null,
         dashboard: null,
         chartMonth: null,
+        bestSelling: null,
+        lowStock: null,
+        inquiries_and_rfqs: null,
         fetching: false
       }
     },
@@ -118,6 +121,10 @@
           }
 
           this.chartData = data.chart_data
+          this.bestSelling = data.best_selling
+          this.lowStock = data.lowStock
+          this.inquiries_and_rfqs = data.inquiries_and_rfqs
+          this.brands = data.brands
 
           /*await this.getDashboard({
             ...this.chartMonth,
