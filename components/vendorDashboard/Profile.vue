@@ -1,85 +1,129 @@
 <template>
-    <div>
-        <div class="lg:grid card lg:grid-cols-4 p-4">
+  <div>
+    <div class="lg:grid card lg:grid-cols-4 p-4">
 
-            <div class="text-center">
-                <p class="text-[20px] font-medium">Company Profile</p>
-                <div>
-                <div class="frame">
-                <div>
-                        <div class="circle-big">
-                            <div class="text">
-                                <img class="profile-image mx-auto" src="~/assets/images/vendorprofile.svg" alt="">
-                            </div>
-                            <svg>
-                                <circle class="bg" cx="57" cy="57" r="52"></circle>
-                                <circle class="progress" cx="57" cy="57" r="52"></circle>
-                            </svg>
-                        </div>
+      <div v-if="profileData" class="text-center">
+        <p class="text-[20px] font-medium">Company Profile</p>
+        <div>
+          <div class="frame">
+            <div>
+              <div class="circle-big">
+                <div class="text">
+                  <img class="profile-image mx-auto" src="~/assets/images/vendorprofile.svg" alt="">
+                </div>
+                <svg>
+                  <circle class="bg" cx="57" cy="57" r="52"></circle>
+                  <circle class="progress" v-bind:style="{ 'stroke-dashoffset':profileData?.percent*3.3}" cx="57" cy="57"
+                          r="52"></circle>
+                </svg>
+              </div>
 
-                </div>
-                </div>
             </div>
-                <p class="text-prograss">48%</p>
-                <p class="text-prograss"><span class="bg-warninglight rounded-[15px] px-2 font-medium"> complete company profile</span></p>
-            </div>
-            <div class="col-span-3">
-               <div class="lg:flex lg:flex-wrap gap-4 py-4">
-                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/profile-1.svg" alt=""> profile and cntact info</button>
-                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/map.svg" alt=""> Stores Addresses</button>
-                <button class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/hugeicons_certificate-01.svg" alt="">VAT Certificate</button>
-                <button class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/vat01.svg" alt=""> Shipping Options</button>
-                <button class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]"><img class="h-[36px] w-[36px]" src="~/assets/icon/bank-auction.svg" alt=""> Bank Accounts</button>
-               </div>
-            </div>
+          </div>
         </div>
+
+        <p class=""  :class="{' text-primary':profileData?.percent>=50 ,'text-prograss':profileData?.percent<50}">{{ profileData?.percent }}%</p>
+        <p v-if="profileData?.percent<100" class="text-prograss"><span
+          @click="showModal=true"
+          :class="{'bg-sucesslight text-primary':profileData?.percent>50,'bg-warninglight':profileData?.percent<50}"
+          class=" rounded-[15px] px-2 font-medium"> {{ $t('CompanyProfiles.complete company profile') }}</span>
+        </p>
+
+        <CompleteProfileModal v-if="$can('edit_company')"
+                              :show-modal="showModal"
+                              :links="profileData?.links"
+                              @close="showModal=false"/>
+      </div>
+      <div class="col-span-3">
+        <div class="lg:flex lg:flex-wrap gap-4 py-4">
+          <button
+            class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
+            <img class="h-[36px] w-[36px]" src="~/assets/icon/profile-1.svg" alt=""> profile and cntact info
+          </button>
+          <button
+            class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
+            <img class="h-[36px] w-[36px]" src="~/assets/icon/map.svg" alt=""> Stores Addresses
+          </button>
+          <button
+            class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
+            <img class="h-[36px] w-[36px]" src="~/assets/icon/hugeicons_certificate-01.svg" alt="">VAT Certificate
+          </button>
+          <button
+            class="flex mx-auto my-2 min-w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
+            <img class="h-[36px] w-[36px]" src="~/assets/icon/vat01.svg" alt=""> Shipping Options
+          </button>
+          <button
+            class="flex mx-auto my-2 min-w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
+            <img class="h-[36px] w-[36px]" src="~/assets/icon/bank-auction.svg" alt=""> Bank Accounts
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
+<script>
+import CustomeModal from "../CustomeModal.vue";
+import OrderApprovedModal from "../OrderApprovedModal.vue";
+import CompleteProfileModal from "./CompleteProfileModal.vue";
+
+export default {
+  components: {CompleteProfileModal, OrderApprovedModal},
+
+  data() {
+    return {
+      showModal: false,
+    }
+  },
+
+  props: ['profileData']
+};
+</script>
+
 
 <style scoped>
 .progress-container {
-    width: 130px; /* Adjust the size of the container */
-    height: 130px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 130px; /* Adjust the size of the container */
+  height: 130px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .progress-bar {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    /* border: 8px solid;  */
-    /* Border thickness */
-    /* border-color: #d3d3d3;  */
-    /* Background color of the border */
-    position: absolute;
-    top: 0;
-    left: 0;
-    clip: rect(0, 130px, 130px, 65px); /* Adjust clip for the circle */
-    transform: rotate(-135deg); /* Start progress bar from the top */
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  /* border: 8px solid;  */
+  /* Border thickness */
+  /* border-color: #d3d3d3;  */
+  /* Background color of the border */
+  position: absolute;
+  top: 0;
+  left: 0;
+  clip: rect(0, 130px, 130px, 65px); /* Adjust clip for the circle */
+  transform: rotate(-135deg); /* Start progress bar from the top */
 }
 
 .progress-bar::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 8px solid #4caf50; /* Progress color */
-    position: absolute;
-    clip: rect(0, 65px, 130px, 0); /* Adjust clip for the circle */
-    transform: rotate(calc(3.6deg * var(--progress))); /* Rotate according to progress */
-    left:0
+  content: '';
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 8px solid #4caf50; /* Progress color */
+  position: absolute;
+  clip: rect(0, 65px, 130px, 0); /* Adjust clip for the circle */
+  transform: rotate(calc(3.6deg * var(--progress))); /* Rotate according to progress */
+  left: 0
 }
 
 .profile-image {
-    width: 80px;
-    height: 80px;
-    border: 2px solid #d3d3d3;
-    border-radius: 50%;
-    padding: 2px;
-    margin-top: 6px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #d3d3d3;
+  border-radius: 50%;
+  padding: 2px;
+  margin-top: 6px;
 }
 </style>
 <style scoped>
@@ -104,19 +148,20 @@
 .circle-big .bg {
   fill: none;
   stroke-width: 3px;
-  stroke: #343035;
+  stroke: #01A781;
+
 }
 
 .circle-big .progress {
   fill: none;
   stroke-width: 3px;
-  stroke: #01A781;
+  stroke: #343035;
   stroke-linecap: round;
-  stroke-dasharray: 326.56;
-  stroke-dashoffset: 60;
-          transform: rotate(-90deg);
-          transform-origin: 50% 50%;
-          animation: big 1.5s ease-in-out;
+  stroke-dasharray: 330;
+  stroke-dashoffset: 165;
+  transform: rotate(90deg);
+  transform-origin: 50% 50%;
+  animation: big 1.5s ease-in-out;
 }
 
 .circle-big .text {
@@ -127,7 +172,7 @@
   text-align: center;
   font-weight: 400;
   line-height: 22px;
-  margin:0 auto;
+  margin: 0 auto;
 }
 
 .circle-big .text .small {
@@ -167,18 +212,18 @@
   stroke: #9a0fe0;
   stroke-linecap: round;
   stroke-dasharray: 232.36;
-          transform: rotate(-90deg);
-          transform-origin: 50% 50%;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
 
 .circle-small .progress.one {
   stroke-dashoffset: 80;
-          animation: one 2.5s ease-in-out, appear 1s;
+  animation: one 2.5s ease-in-out, appear 1s;
 }
 
 .circle-small .progress.two {
   stroke-dashoffset: 140;
-          animation: two 3.5s ease-in-out, appear 2s;
+  animation: two 3.5s ease-in-out, appear 2s;
 }
 
 .circle-small .text {
@@ -224,11 +269,11 @@
 }
 
 @keyframes appear {
-	0%, 50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+  0%, 50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>

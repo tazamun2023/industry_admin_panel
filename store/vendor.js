@@ -13,6 +13,7 @@ const state = () => ({
 const getters = {
   vendorList: ({ vendorList }) => vendorList,
   addressList: ({ addressList }) => addressList,
+  vendorProfile: ({ vendorProfile }) => vendorProfile,
   userInfo: ({ userInfo }) => userInfo,
   rolesAndPermissions: ({roles_and_permissions}) => roles_and_permissions,
 
@@ -78,6 +79,7 @@ const actions = {
   },
   async getVendorData ({rootState, commit, dispatch}, {params,api}) {
     const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+    console.log('jhjjjjjjjjjjjj',data)
     if (data.status === 200) {
       commit('SET_VENDOR_DATA', data)
     } else {
@@ -87,6 +89,7 @@ const actions = {
 
   async getVendorProfile ({rootState, commit, dispatch}, {id, params,api}) {
     const {data} = await Service.getById(id, params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
+
     if (data.status === 200) {
       commit('SET_VENDOR_Profile', data)
     } else {

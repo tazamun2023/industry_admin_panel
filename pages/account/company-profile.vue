@@ -224,16 +224,16 @@
                     </div>
                   </ValidationProvider>
 
-<!--                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">-->
-<!--                    <div class="input-wrapper  mb-2">-->
-<!--                      <label for="">{{ $t('vendor.status') }}</label>-->
-<!--                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">-->
-<!--                        <option value="1" :selected="fromData.status">Enable</option>-->
-<!--                        <option value="0" :selected="fromData.status === 0">Disable</option>-->
-<!--                      </select>-->
-<!--                      <span class="error">{{ errors[0] }}</span>-->
-<!--                    </div>-->
-<!--                  </ValidationProvider>-->
+                  <!--                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">-->
+                  <!--                    <div class="input-wrapper  mb-2">-->
+                  <!--                      <label for="">{{ $t('vendor.status') }}</label>-->
+                  <!--                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">-->
+                  <!--                        <option value="1" :selected="fromData.status">Enable</option>-->
+                  <!--                        <option value="0" :selected="fromData.status === 0">Disable</option>-->
+                  <!--                      </select>-->
+                  <!--                      <span class="error">{{ errors[0] }}</span>-->
+                  <!--                    </div>-->
+                  <!--                  </ValidationProvider>-->
 
                   <div class="flex justify-between">
                     <button v-on:click="toggleTabs(1)"
@@ -548,7 +548,7 @@ export default {
   },
   computed: {
     ...mapGetters('admin', ['profile']),
-    ...mapGetters('vendor', ['vendorList']),
+    ...mapGetters('vendor', ['vendorList', 'vendorProfile']),
     ...mapGetters('common', ['allCountries', 'allCitiesById']),
     checkNameValue() {
       if (!this.fromData.company_name || !this.fromData.details.ar || !this.fromData.details.en) {
@@ -636,6 +636,13 @@ export default {
     },
 
     toggleTabs: function (tabNumber, invalid) {
+      // this.$router.push({
+      //   query: {
+      //     ...this.$route.query,
+      //
+      //     step: tabNumber
+      //   }
+      // })
       if (!this.fromData.company_name) {
         this.hasError = true
       } else {
@@ -672,13 +679,17 @@ export default {
       this.fromData.id = this.profile?.vendor_id
     }
     try {
-      await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
+      // if (!this.vendorList)
+        await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
+      this.openTab = parseInt(this.$route.query.step??1)
 
-      this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(() => {
-        this.fromData.country_id = this.vendorList.data.country_id
-        this.countrySelected()
-      })
-      await this.countrySelected()
+      if (this.allCountries.length == 0) {
+        this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(() => {
+          this.fromData.country_id = this.vendorList.data.country_id
+          this.countrySelected()
+        })
+        await this.countrySelected()
+      }
 
     } catch (e) {
       return this.$nuxt.error(e)
