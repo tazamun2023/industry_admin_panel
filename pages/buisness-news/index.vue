@@ -24,6 +24,7 @@
         <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.title') }}</th>
         <th>{{ $t('global.image') }}</th>
+        <th>{{ $t('category.created') }}</th>
         <th>{{ $t('global.action') }}</th>
       </tr>
 
@@ -35,6 +36,7 @@
         <td>{{ index + 1 }}</td>
         <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>{{ value._title }}</td>
+
         <td>
           <lazy-image
             class="mr-20"
@@ -42,6 +44,13 @@
             :alt="value._title"
           />
 <!--          <img :src="value.image" :alt="value._title">-->
+        </td>
+        <td>
+          <div class="flex flex-col">
+            <p class="text-nowrap"> {{ value.created }}</p>
+            <p class="text-nowrap"> {{ value.updated_at }}</p>
+          </div>
+
         </td>
         <td>
           <button

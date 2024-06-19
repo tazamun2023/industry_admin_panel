@@ -19,6 +19,8 @@
         <th>{{ $t('global.sl') }}</th>
         <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.url') }}</th>
+        <th>{{ $t('category.created') }}</th>
+
         <th>{{ $t('global.action') }}</th>
       </tr>
 
@@ -26,6 +28,13 @@
         <td>{{ index+1 }}</td>
         <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>{{ value.url }}</td>
+        <td>
+          <div class="flex flex-col">
+            <p class="text-nowrap"> {{ value.created }}</p>
+            <p class="text-nowrap"> {{ value.updated_at }}</p>
+          </div>
+
+        </td>
         <td>
           <button
             v-if="$can('manage_content')"

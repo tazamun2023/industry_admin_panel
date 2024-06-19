@@ -36,7 +36,13 @@
         <td>{{ value.local_questions }}</td>
         <td>{{ value.local_answers }}</td>
 
-        <td>{{ value.created }}</td>
+        <td>
+          <div class="flex flex-col">
+            <p class="text-nowrap"> {{ value.created }}</p>
+            <p class="text-nowrap"> {{ value.updated_at }}</p>
+          </div>
+
+        </td>
         <td>
           <button
             v-if="$can('manage_content')"

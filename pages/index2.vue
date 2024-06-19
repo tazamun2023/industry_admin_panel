@@ -155,5 +155,5 @@ export default {
 </script>
 
 <style lang="stylus">
-@import "~/assets/styles/dashboard.styl"
+@import "~/assets/styles/dashboard.styl";
 </style>

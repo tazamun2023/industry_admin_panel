@@ -127,7 +127,7 @@ export default {
       type: Object,
       default() {
         return {
-          created_at: {title: this.$t('category.date')},
+          updated_at: {title: this.$t('category.date')},
           title: {title: this.$t('index.title')},
           status: {title: this.$t('category.status')}
         }
@@ -182,6 +182,7 @@ export default {
             ...this.param,
             ...this.$route.query,
             ...this.listParams,
+            osama:'osama',
             ...{time_zone: this.timeZone}
           },
           api: this.listApi

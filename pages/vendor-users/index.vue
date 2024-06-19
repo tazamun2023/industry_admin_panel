@@ -19,7 +19,7 @@
         <th>{{ $t('user.name') }}</th>
         <th>{{ $t('fSale.email') }}</th>
         <th>{{ $t('user.role') }}</th>
-        <th>{{ $t('user.verified') }}</th>
+<!--        <th>{{ $t('user.verified') }}</th>-->
         <th>{{ $t('title.ac') }}</th>
         <th>{{ $t('category.created') }}</th>
         <th>{{ $t('title.act') }}</th>
@@ -34,10 +34,10 @@
         <td>{{ value.email }}</td>
         <td>{{ value.role[0] }}</td>
 
-        <td>
-          <span v-if="value.verified">{{ $t('user.verified') }}</span>
-          <span v-else>{{ $t('user.Unverified') }}</span>
-        </td>
+<!--        <td>-->
+<!--          <span v-if="value.verified">{{ $t('user.verified') }}</span>-->
+<!--          <span v-else>{{ $t('user.Unverified') }}</span>-->
+<!--        </td>-->
 
         <td>
           <span v-if="value.active">{{ $t('util.active') }}</span>

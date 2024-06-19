@@ -11,7 +11,7 @@ import SwitchToggle from '../SwitchToggle.vue';
 
 export default {
   name: 'AllBrand',
-  props:{
+  props: {
     api: {
       type: String,
       default: "getBrands"
@@ -37,10 +37,10 @@ export default {
       openTab: 1,
       visibleDropdown: false,
       orderOptions: {
-        title: { title: this.$t('index.title') },
-        featured: { title: this.$t('category.featured') },
-        created_at: { title: this.$t('category.date') },
-        status: { title: this.$t('category.status') }
+        title: {title: this.$t('index.title')},
+        featured: {title: this.$t('category.featured')},
+        created_at: {title: this.$t('category.date')},
+        approved_status: {title: this.$t('category.status')}
       }
     }
   },
@@ -55,7 +55,7 @@ export default {
     },
     async changeStatus(id, status) {
       try {
-        this.setById({ id: id, params: { status: status }, api: 'doApprovedBrand' })
+        this.setById({id: id, params: {status: status}, api: 'doApprovedBrand'})
           .then(() => {
             this.$refs.listPage.fetchingData();
           })
@@ -166,7 +166,7 @@ export default {
             {{ value.slug }}
           </td>
 
-          
+
           <td
             class="status"
             :class="{active: value.featured == 1 }"
@@ -185,18 +185,26 @@ export default {
           >
             <span>{{ value.approved_status.name }}</span>
           </td>
-          <td>{{ value.created }}</td>
           <td>
-            <div class="flex gap-4"  v-if="$can('manage_brands') && $store.state.admin.isVendor">
-              <li class="cursor-pointer"  @click.prevent="$refs.listPage.editItem(value.id)">
-              <edit-button-icon  v-if="$can('manage_brands') && $store.state.admin.isVendor"/>
+            <div class="flex flex-col">
+              <p class="text-nowrap"> {{ value.created }}</p>
+              <p class="text-nowrap"> {{ value.updated_at }}</p>
+            </div>
+
+          </td>
+          <td>
+            <div class="flex gap-4" v-if="$can('manage_brands') && $store.state.admin.isVendor">
+              <li class="cursor-pointer" @click.prevent="$refs.listPage.editItem(value.id)">
+                <edit-button-icon v-if="$can('manage_brands') && $store.state.admin.isVendor"/>
               </li>
-               <li v-if="$can('manage_brands') && $store.state.admin.isVendor" class="cursor-pointer" @click.prevent="$refs.listPage.deleteItem(value.id)">
-                <delete-button-icon />
-                </li>
-             </div>
-           
-            <button  v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" id="dropdownDefaultButton" @click="toggleDropdown(index)"
+              <li v-if="$can('manage_brands') && $store.state.admin.isVendor" class="cursor-pointer"
+                  @click.prevent="$refs.listPage.deleteItem(value.id)">
+                <delete-button-icon/>
+              </li>
+            </div>
+
+            <button v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" id="dropdownDefaultButton"
+                    @click="toggleDropdown(index)"
                     class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                     type="button">{{ $t('prod.action') }}
               <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -216,14 +224,14 @@ export default {
                   v-if="$can('manage_brands') && $store.state.admin.isVendor"
                   @click.prevent="$refs.listPage.editItem(value.id)"
                 >
-                  {{ $t('prod.Edit')}}
+                  {{ $t('prod.Edit') }}
                 </li>
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                   v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin"
                   @click.prevent="changeStatus(value.id, 'reject')"
                 >
-                  {{ $t('prod.Reject')}}
+                  {{ $t('prod.Reject') }}
                 </li>
 
                 <li
@@ -238,7 +246,7 @@ export default {
                   @click.prevent="$refs.listPage.deleteItem(value.id)"
                   v-if="$can('manage_brands') && $store.state.admin.isVendor"
                 >
-                  {{ $t('prod.Delete')}}
+                  {{ $t('prod.Delete') }}
                 </li>
               </ul>
             </div>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="lg:grid card lg:grid-cols-4 p-4">
-            
+
             <div class="text-center">
                 <p class="text-[20px] font-medium">Company Profile</p>
                 <div>
@@ -16,6 +16,7 @@
                                 <circle class="progress" cx="57" cy="57" r="52"></circle>
                             </svg>
                         </div>
+
                 </div>
                 </div>
             </div>

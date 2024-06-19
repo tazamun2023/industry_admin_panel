@@ -176,19 +176,19 @@ export default {
               is_image:true,
               gate: 'manage_categories'
             },
-            {
-              path: 'products',
-              title: this.$t('error.prod'),
-              icon: `<svg width="20" class="text-primary h-4 w-4" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.64172 6.19971L10 10.458L17.3084 6.22468" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10 18.008V10.4497" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M8.27501 2.0665L3.82502 4.54153C2.81668 5.09986 1.9917 6.49985 1.9917 7.64985V12.3582C1.9917 13.5082 2.81668 14.9082 3.82502 15.4665L8.27501 17.9415C9.22501 18.4665 10.7833 18.4665 11.7333 17.9415L16.1834 15.4665C17.1917 14.9082 18.0167 13.5082 18.0167 12.3582V7.64985C18.0167 6.49985 17.1917 5.09986 16.1834 4.54153L11.7333 2.0665C10.775 1.53317 9.22501 1.53317 8.27501 2.0665Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14.1666 11.0332V7.98321L6.2583 3.4165" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>`,
-              is_image:true,
-              form: ['product', 'ratingReviews'],
-              gate: 'view_products'
-            },
+            // {
+            //   path: 'products',
+            //   title: this.$t('error.prod'),
+            //   icon: `<svg width="20" class="text-primary h-4 w-4" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M2.64172 6.19971L10 10.458L17.3084 6.22468" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M10 18.008V10.4497" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M8.27501 2.0665L3.82502 4.54153C2.81668 5.09986 1.9917 6.49985 1.9917 7.64985V12.3582C1.9917 13.5082 2.81668 14.9082 3.82502 15.4665L8.27501 17.9415C9.22501 18.4665 10.7833 18.4665 11.7333 17.9415L16.1834 15.4665C17.1917 14.9082 18.0167 13.5082 18.0167 12.3582V7.64985C18.0167 6.49985 17.1917 5.09986 16.1834 4.54153L11.7333 2.0665C10.775 1.53317 9.22501 1.53317 8.27501 2.0665Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M14.1666 11.0332V7.98321L6.2583 3.4165" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>`,
+            //   is_image:true,
+            //   form: ['product', 'ratingReviews'],
+            //   gate: 'view_products'
+            // },
             {
               path: 'bulk-upload',
               title: this.$t('title.bu'),
@@ -384,17 +384,17 @@ export default {
             }
           ]
         },
-        {
-          path: 'rating-reviews',
-          title: this.$t('error.rr'),
-          icon: `<svg width="20" height="20" class="text-primary h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11.4417 2.92617L12.9084 5.85951C13.1084 6.26784 13.6417 6.65951 14.0917 6.73451L16.75 7.17617C18.45 7.4595 18.85 8.69284 17.625 9.90951L15.5584 11.9762C15.2084 12.3262 15.0167 13.0012 15.125 13.4845L15.7167 16.0428C16.1834 18.0678 15.1084 18.8512 13.3167 17.7928L10.825 16.3178C10.375 16.0512 9.63338 16.0512 9.17505 16.3178L6.68338 17.7928C4.90005 18.8512 3.81671 18.0595 4.28338 16.0428L4.87505 13.4845C4.98338 13.0012 4.79171 12.3262 4.44171 11.9762L2.37505 9.90951C1.15838 8.69284 1.55005 7.4595 3.25005 7.17617L5.90838 6.73451C6.35005 6.65951 6.88338 6.26784 7.08338 5.85951L8.55005 2.92617C9.35005 1.33451 10.65 1.33451 11.4417 2.92617Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          `,
-          is_image:true,
-          form: ['rating-reviews'],
-          gate: 'view_product_review'
-        },
+        // {
+        //   path: 'rating-reviews',
+        //   title: this.$t('error.rr'),
+        //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //   <path d="M11.4417 2.92617L12.9084 5.85951C13.1084 6.26784 13.6417 6.65951 14.0917 6.73451L16.75 7.17617C18.45 7.4595 18.85 8.69284 17.625 9.90951L15.5584 11.9762C15.2084 12.3262 15.0167 13.0012 15.125 13.4845L15.7167 16.0428C16.1834 18.0678 15.1084 18.8512 13.3167 17.7928L10.825 16.3178C10.375 16.0512 9.63338 16.0512 9.17505 16.3178L6.68338 17.7928C4.90005 18.8512 3.81671 18.0595 4.28338 16.0428L4.87505 13.4845C4.98338 13.0012 4.79171 12.3262 4.44171 11.9762L2.37505 9.90951C1.15838 8.69284 1.55005 7.4595 3.25005 7.17617L5.90838 6.73451C6.35005 6.65951 6.88338 6.26784 7.08338 5.85951L8.55005 2.92617C9.35005 1.33451 10.65 1.33451 11.4417 2.92617Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //   </svg>
+        //   `,
+        //   is_image:true,
+        //   form: ['rating-reviews'],
+        //   gate: 'view_product_review'
+        // },
         {
           path: 'subscription',
           title: this.$t('error.subs'),

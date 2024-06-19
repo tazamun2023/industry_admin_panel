@@ -24,6 +24,8 @@
         <th>{{ $t('global.title') }}</th>
         <th>{{ $t('global.organization') }}</th>
         <th>{{ $t('global.image') }}</th>
+        <th>{{ $t('category.created') }}</th>
+
         <th>{{ $t('global.action') }}</th>
       </tr>
 
@@ -38,6 +40,13 @@
         <td>{{ value.local_organization }}</td>
         <td>
           <img :src="value.file" :alt="value.local_title">
+        </td>
+        <td>
+          <div class="flex flex-col">
+            <p class="text-nowrap"> {{ value.created }}</p>
+            <p class="text-nowrap"> {{ value.updated_at }}</p>
+          </div>
+
         </td>
         <td>
           <button

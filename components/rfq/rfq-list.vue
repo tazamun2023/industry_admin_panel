@@ -94,7 +94,9 @@
                         <div class="col-span-7 p-3">
                           <div class="">
                             <h5 class="mb-4 ml-4 font-bold">
-                              <a v-for="p in value.products">{{ p.name }}</a>
+                              <a v-for="(p,index) in value.products">{{ p.name }}
+                              <span v-if="index+1<value.products.length">,</span>
+                              </a>
                             </h5>
                             <!-- <div class="p-2 ml-auto">
                               <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"

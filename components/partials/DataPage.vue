@@ -65,12 +65,12 @@
         <div
           class="dply-felx j-right single-btn my-2"
         >
-          <ajax-button
-            name="save-edit"
-            class="primary-btn"
-            :text="$t('list.svn')"
-            :fetching-data="formSubmitting  && !redirect"
-          />
+<!--          <ajax-button-->
+<!--            name="save-edit"-->
+<!--            class="primary-btn"-->
+<!--            :text="$t('list.svn')"-->
+<!--            :fetching-data="formSubmitting  && !redirect"-->
+<!--          />-->
           <ajax-button
             name="save"
             class="primary-btn"
