@@ -23,13 +23,13 @@
                         </div>
                     </td>
                     <td  class="text-[13px] capitalize">
-                        <price-format :price="data.total_price" />
+                        <price-format :price="Number(data.total_price)" />
                     </td>
                     <td  class="text-[13px] capitalize">
                       {{ data.total_sold }}
                     </td>
                     <td  class="text-[13px] capitalize">
-                        <price-format :price="data.company_interest_after_tax_amount" />
+                        <price-format :price="Number(data.company_interest_after_tax_amount)" />
                     </td>
                     </tr>
                 </tbody>
