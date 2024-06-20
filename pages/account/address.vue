@@ -14,7 +14,6 @@
       manage_gate="edit_addresses"
       @list="setVendorAddress( $event)"
     >
-
       <template v-slot:table="{list}">
         <tr class="lite-bold">
           <th class="bg-lightdeep">
@@ -44,36 +43,24 @@
         <tr v-for="(value, index) in addressList" :key="index">
           <td>
             <div class="flex font-bold capitalize gap-4 items-center">
-              <input type="checkbox">
-              {{ value.address_name }}
+              <input type="checkbox">{{ value.address_name }}
             </div>
           </td>
-          <td class="text-primary">
-            {{ value?.type }}
-          </td>
-          <td class="text-primary">
-            {{ value?.country }}
-          </td>
-
-          <td class="text-primary">
-            {{ value?.city }}
-          </td>
+          <td class="text-primary">{{ value?.type }}</td>
+          <td class="text-primary">{{ value?.country }}</td>
+          <td class="text-primary">{{ value?.city }}</td>
           <td class="font-bold capitalize">{{ value?.phone }}</td>
           <td>{{ value?.nearest_landmark }}</td>
-          <td class="text-center"><input @change="setDefault(value,$event)" :checked="value.default"
-                                         :value="value.default"
-                                         type="checkbox">
-            {{ value.default }}
+          <td class="text-center">
+            <input @change="setDefault(value,$event)" :checked="value.default" :value="value.default" type="checkbox">
           </td>
           <td>
             <div class="flex gap-4">
-
               <button
                 v-if="$can('edit_addresses') && value.default == 0 && list.length>1"
                 @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
                 <delete-button-icon/>
               </button>
-
               <img @click="editAddress(value)" v-if="$can('edit_addresses')" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
             </div>
@@ -81,10 +68,7 @@
         </tr>
       </template>
     </list-page>
-
-    <!-- -----------------modal------------ -->
     <AddAddress></AddAddress>
-    <!-- -----------------modal end------------ -->
   </div>
 </template>
 <script>
@@ -111,7 +95,7 @@ export default {
     ...mapGetters('address', ['addressList']),
   },
   methods: {
-    ...mapActions('common', ['swetAlertFire','setAddressDefault']),
+    ...mapActions('common', ['swetAlertFire', 'setAddressDefault']),
     ...mapActions('address', ['setVendorAddress', 'setDefaultAddress',]),
     async setDefault(v, e) {
       await this.setDefaultAddress({id: v.id, default: !e.target.checked})
@@ -122,18 +106,10 @@ export default {
         }
       })
       if (res) {
-        await this.setAddressDefault({
-          params: {
-            id: v.id,
-            is_default: e.target.checked,
-
-          }
-        })
+        await this.setAddressDefault({params: {id: v.id, is_default: e.target.checked,}})
         this.$refs.listPage.fetchingData()
       } else {
-       await this.setDefaultAddress(v)
-        // this.addressList.find(a => a.id === v.id).default = !(v.default)
-
+        await this.setDefaultAddress(v)
         return false
       }
     },
