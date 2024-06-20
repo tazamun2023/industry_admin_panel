@@ -21,7 +21,7 @@
           <BestSeller :bestSelling="bestSelling"/>
         </div>
         <div class="my-2">
-          <MyProducts/>
+          <MyProducts :my_products="my_products"/>
         </div>
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
@@ -74,6 +74,7 @@
         brands: null,
         chartMonth: null,
         bestSelling: null,
+        my_products: null,
         lowStock: null,
         inquiries_and_rfqs: null,
         orders: null,
@@ -151,6 +152,7 @@
           this.inquiries_and_rfqs = data.inquiries_and_rfqs
           this.orders = data.orders
           this.brands = data.brands
+          this.my_products = data.my_products
 
           /*await this.getDashboard({
             ...this.chartMonth,
