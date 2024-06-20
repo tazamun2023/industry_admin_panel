@@ -158,10 +158,18 @@ export default {
       return this.$t('list.loadn') + '...'
     },
     list() {
-      return this.result?.data
+      if (this.listApi==='dashboard'){
+        return this.result.orders.data
+      }else {
+        return this.result?.data
+      }
     },
     totalPage() {
-      return this.result?.last_page
+      if (this.listApi==='dashboard'){
+        return this.result?.orders?.last_page
+      }else {
+        return this.result?.last_page
+      }
     },
     ...mapGetters('language', ['currentLanguage']),
   },
@@ -185,8 +193,8 @@ export default {
           },
           api: this.listApi
         })
-        this.$emit('list', this.list)
 
+        this.$emit('list', this.list)
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)

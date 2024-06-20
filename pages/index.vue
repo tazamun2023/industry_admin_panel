@@ -2,6 +2,20 @@
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
     <Profile :profileData="profileData" />
+      <div class="my-4 gap-4">
+<!--        <order-chart-->
+<!--          v-if="chartMonth"-->
+<!--          :chart-month="chartMonth"-->
+<!--          :monthly-order="monthlyOrder"-->
+<!--          @month-changed="monthChanged"-->
+<!--        />-->
+        <SalesChart
+          v-if="chartMonth"
+          :chart-month="chartMonth"
+          :monthly-order="monthlyOrder"
+          @month-changed="monthChanged"
+          />
+      </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
           <BestSeller :bestSelling="bestSelling"/>
@@ -27,7 +41,7 @@
         </div>
       </div>
       <div class="my-4 gap-4">
-        <Orders/>
+        <Orders :orders="orders"/>
       </div>
   </div>
 </template>
@@ -45,6 +59,8 @@
   import Orders from '~/components/vendorDashboard/Orders'
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
+  import SalesChart from "../components/dashboard/SalesChart.vue";
+  // import SalesChart from "../components/dashboard/SalesChart.vue";
 
 
   export default {
@@ -60,10 +76,12 @@
         bestSelling: null,
         lowStock: null,
         inquiries_and_rfqs: null,
+        orders: null,
         fetching: false
       }
     },
     components: {
+      SalesChart,
       OrderChart,
       OrderStatistic,
       Profile,
@@ -85,6 +103,9 @@
       },
       monthlyOrder() {
         return this.chartData?.monthly_order || null
+      },
+      yearlyOrder() {
+        return this.chartData?.yearly_order || null
       },
       usersCount() {
         return this.dashboard?.users || 0
@@ -128,6 +149,7 @@
           this.bestSelling = data.best_selling
           this.lowStock = data.lowStock
           this.inquiries_and_rfqs = data.inquiries_and_rfqs
+          this.orders = data.orders
           this.brands = data.brands
 
           /*await this.getDashboard({

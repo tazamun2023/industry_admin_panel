@@ -18,7 +18,12 @@
         v-if="orderDataset"
         class="mn-w-600x h-100"
       >
-        <sell-chart
+<!--        <sell-chart-->
+<!--          class=" h-100"-->
+<!--          :chart-month="currentMonth"-->
+<!--          :chart-data="orderDataset"-->
+<!--        />-->
+        <SellChart2
           class=" h-100"
           :chart-month="currentMonth"
           :chart-data="orderDataset"
@@ -41,9 +46,10 @@
 import Spinner from '~/components/Spinner'
 import Dropdown from '~/components/Dropdown'
 import SellChart from '~/components/partials/SellChart'
+import SellChart2 from "./SellChart2.vue";
 
 export default {
-  name: 'OrderChart',
+  name: 'SalesChart',
   data() {
     return {
       months: null,
@@ -62,6 +68,7 @@ export default {
     }
   },
   components: {
+    SellChart2,
     Dropdown,
     SellChart,
     Spinner
@@ -113,12 +120,12 @@ export default {
           datasets: [
             {
               label: 'Sell',
-              backgroundColor: "rgba(255, 108, 110, 0.6)",
-              borderColor: "rgba(255, 108, 110, .7)",
-              pointBackgroundColor: "rgba(255, 108, 110, 0.5)",
-              pointBorderColor: "rgba(255, 108, 110, 1)",
+              backgroundColor: "#01A781",
+              borderColor: "#01A781",
+              pointBackgroundColor: "#01A781",
+              pointBorderColor: "#01A781",
               pointHoverBackgroundColor: '#aaa',
-              pointHoverBorderColor: "rgba(255, 108, 110, 0.5)",
+              pointHoverBorderColor: "#01A781",
               pointBorderWidth: 6,
               data: chartValue
             }

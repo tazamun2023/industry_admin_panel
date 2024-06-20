@@ -1,73 +1,151 @@
 <template>
-    <div class="p-4 card">
-        <div class="flex justify-between">
-            <h4 class="text-[20px] font-medium">Orders</h4>
-          
-        </div>
-        <div class="my-4 scroolbar rounded-[12px] overflow-x-scroll lg:overflow-hidden border border-cardb">
-            <table class="w-[300px] lg:w-full">
-                <thead>
-                    <tr>
-                        <th class="text-[14px] capitalize border-b border-cardb">Order ID</th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Product <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Qty  <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Date <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Revenue <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Net  Profit <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                        <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Status <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
-                       <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="n in 15">
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                        #546542{{ n }}
-                    </td>
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                        <span class="text-semibold">Product Name</span>
-                    </td>
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                       5
-                    </td>
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                        Jan 10, 2020
-                    </td>
-                    <td  class="text-[13px]  border-b border-cardb capitalize">
-                        200 <span class="text-primary">SAR</span>
-                    </td>
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                        200 <span class="text-primary">SAR</span>
-                    </td>
-                   
-                    <td  class="text-[13px] border-b border-cardb capitalize">
-                       <span class="text-primary"> Completed</span>
-                    </td>
-                    <td class="border-b border-cardb">
-                        <div class="flex gap-4 items-center">
-                            <delete-button-icon/>
-                            <edit-button-icon/>
-                        </div>
-                    </td>
-                    
-                    </tr>
+  <div class="p-4 card">
+    <div class="flex justify-between">
+      <h4 class="text-[20px] font-medium">Orders</h4>
 
-                </tbody>
-            </table>
-            <GlobalPagination/>
-        </div>
-        
     </div>
+    <div class="my-4 scroolbar rounded-[12px] overflow-x-scroll lg:overflow-hidden border border-cardb">
+      <list-page
+        ref="listPage"
+        :list-api="`dashboard`"
+        route-name="dashboard"
+        empty-store-variable="dashboard"
+        :name="$t('brand.dashboard')"
+        gate="view_brands"
+        manage_gate="manage_brands"
+        @list="itemList = $event"
+        :addButton="false"
+        :filter="false"
+      >
+        <template v-slot:table="{list}">
+          <tr>
+            <th class="text-[14px] capitalize border-b border-cardb">Order ID</th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Product <img
+              class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Qty  <img
+              class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Date <img
+              class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Revenue <img
+              class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span
+              class="flex gap-2 items-center">Net  Profit <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span>
+            </th>
+            <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Status <img
+              class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>
+            <!--          <th></th>-->
+          </tr>
+
+          <tr v-for="(order, index) in list" :key="index">
+            <td class="text-[13px] border-b border-cardb capitalize">
+              #{{ order.order_id }}
+            </td>
+            <td class="text-[13px] border-b border-cardb capitalize">
+              <span class="text-semibold">{{ order?.product?.name }}</span>
+            </td>
+            <td class="text-[13px] border-b border-cardb capitalize">
+              {{ order.total_qty }}
+            </td>
+            <td class="text-[13px] border-b border-cardb capitalize">
+              {{  order.order_date }}
+            </td>
+            <td class="text-[13px]  border-b border-cardb capitalize">
+              <price-format :price="Number(order.total_revenue)" />
+            </td>
+            <td class="text-[13px] border-b border-cardb capitalize">
+              <price-format :price="Number(order.total_net_profit)" />
+            </td>
+
+            <td class="text-[13px] border-b border-cardb capitalize">
+              <span class="text-primary"> {{ order.status }}</span>
+            </td>
+            <!--          <td class="border-b border-cardb">-->
+            <!--            <div class="flex gap-4 items-center">-->
+            <!--              <delete-button-icon/>-->
+            <!--              <edit-button-icon/>-->
+            <!--            </div>-->
+            <!--          </td>-->
+
+          </tr>
+        </template>
+      </list-page>
+<!--      <table class="w-[300px] lg:w-full">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb">Order ID</th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Product <img-->
+<!--            class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Qty  <img-->
+<!--            class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Date <img-->
+<!--            class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Revenue <img-->
+<!--            class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span-->
+<!--            class="flex gap-2 items-center">Net  Profit <img class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span>-->
+<!--          </th>-->
+<!--          <th class="text-[14px] capitalize border-b border-cardb"><span class="flex gap-2 items-center">Status <img-->
+<!--            class="w-2" src="~/assets/icon/dscdown.svg" alt=""></span></th>-->
+<!--&lt;!&ndash;          <th></th>&ndash;&gt;-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr v-for="(order, index) in orders?.data" :key="order.order_id">-->
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            #{{ order.order_id }}-->
+<!--          </td>-->
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            <span class="text-semibold">{{ order?.product?.name }}</span>-->
+<!--          </td>-->
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            {{ order.total_qty }}-->
+<!--          </td>-->
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            {{  order.order_date }}-->
+<!--          </td>-->
+<!--          <td class="text-[13px]  border-b border-cardb capitalize">-->
+<!--            <price-format :price="Number(order.total_revenue)" />-->
+<!--          </td>-->
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            <price-format :price="Number(order.total_net_profit)" />-->
+<!--          </td>-->
+
+<!--          <td class="text-[13px] border-b border-cardb capitalize">-->
+<!--            <span class="text-primary"> {{ order.status }}</span>-->
+<!--          </td>-->
+<!--&lt;!&ndash;          <td class="border-b border-cardb">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="flex gap-4 items-center">&ndash;&gt;-->
+<!--&lt;!&ndash;              <delete-button-icon/>&ndash;&gt;-->
+<!--&lt;!&ndash;              <edit-button-icon/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;          </td>&ndash;&gt;-->
+
+<!--        </tr>-->
+
+<!--        </tbody>-->
+<!--      </table>-->
+<!--      <GlobalPagination/>-->
+    </div>
+
+  </div>
 </template>
 
 <script>
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import GlobalPagination from "../../components/GlobalPagination.vue";
-export default{
-    components:{
-        DeleteButtonIcon,
-        EditButtonIcon,
-        GlobalPagination
-    }
+import PriceFormat from "../partials/PriceFormat.vue";
+import ListPage from "../partials/ListPage.vue";
+
+export default {
+  name: 'OrdersData',
+  props: ['orders'],
+  components: {
+    ListPage,
+    PriceFormat,
+    DeleteButtonIcon,
+    EditButtonIcon,
+    GlobalPagination
+  }
 }
 </script>
