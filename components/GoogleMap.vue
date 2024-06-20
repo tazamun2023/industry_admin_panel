@@ -206,28 +206,34 @@ export default {
       });
     },
     confirmAddress() {
-      let data = {
-        lat: this.markerPosition.lat,
-        lng: this.markerPosition.lng,
-        id: this.dataAddressUpdate?.id,
-        phone: this.dataAddressUpdate?.phone,
-        email: this.dataAddressUpdate?.email,
-        name: this.dataAddressUpdate?.name ?? "",
-        zip: this.setEmptyString(this.dataAddressUpdate?.zip, this.address.postal_code),
-        district: this.setEmptyString(this.dataAddressUpdate?.district, this.address.district),
-        street: this.setEmptyString(this.dataAddressUpdate.street, this.address.street),
-        country_id: this.dataAddressUpdate?.country_id,
-        country_code: this.address.country_code ?? '967',
-        postal_code: this.address.postal_code,
-        city_name: this.address.city,
-        address_name: this.dataAddressUpdate.address_name,
-        city_id: this.dataAddressUpdate?.city_id,
-        default: this.dataAddressUpdate?.default === 1 ? true : false,
-        building_number: this.dataAddressUpdate?.building_number,
-        type: this.dataAddressUpdate?.type,
-        nearest_landmark: this.dataAddressUpdate?.nearest_landmark ? this.dataAddressUpdate?.nearest_landmark : null,
+      if (this.address.country_code != "" || this.dataAddressUpdate?.id != "") {
+        if (this.address.country_code != "") {
+          let data = {
+            lat: this.markerPosition.lat,
+            lng: this.markerPosition.lng,
+            id: this.dataAddressUpdate?.id,
+            phone: this.dataAddressUpdate?.phone,
+            email: this.dataAddressUpdate?.email,
+            name: this.dataAddressUpdate?.name ?? "",
+            zip: this.setEmptyString(this.dataAddressUpdate?.zip, this.address.postal_code),
+            district: this.setEmptyString(this.dataAddressUpdate?.district, this.address.district),
+            street: this.setEmptyString(this.dataAddressUpdate.street, this.address.street),
+            country_id: this.dataAddressUpdate?.country_id,
+            country_code: this.address.country_code ?? '967',
+            postal_code: this.address.postal_code,
+            city_name: this.address.city,
+            address_name: this.dataAddressUpdate.address_name,
+            city_id: this.dataAddressUpdate?.city_id,
+            default: this.dataAddressUpdate?.default === 1 ? true : false,
+            building_number: this.dataAddressUpdate?.building_number,
+            type: this.dataAddressUpdate?.type,
+            nearest_landmark: this.dataAddressUpdate?.nearest_landmark ? this.dataAddressUpdate?.nearest_landmark : null,
+          }
+          this.$emit('confirm', data)
+
+        } else
+          this.$emit('confirm', this.dataAddressUpdate)
       }
-      this.$emit('confirm', data)
     },
     setEmptyString(old, new_data) {
       if (old == "" || old == null) {

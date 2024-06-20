@@ -80,7 +80,7 @@
                   <img class="h-3" src="~/assets/icon/arrow-down-green.svg" alt="">
                 </label>
               </div>
-              <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addressmodal=true"
+              <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addAddress"
                       class="bg-primary h-[44px] text-white flex gap-3 w-full justify-center my-2 lg:my-0 lg:w-[200px] items-center">
                 <img class="w-5" src="~/assets/icon/add-square.svg" alt="">
                 New Address
@@ -134,9 +134,9 @@
       </template>
     </list-edit-page>
 
-
-    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">
-    </AddAddressModel>
+<add-address></add-address>
+<!--    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">-->
+<!--    </AddAddressModel>-->
   </div>
 </template>
 
@@ -149,11 +149,14 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import ListEditPage from "../../components/partials/ListEditPage.vue";
 import {mapActions, mapGetters} from "vuex";
 import AddAddressModel from "../../components/AddAddressModel.vue";
+import AddAddress from "../../components/AddAddress.vue";
+import address from "@/mixin/address";
 
 
 export default {
   name: "categories",
   middleware: ['common-middleware', 'auth'],
+
   data() {
     return {
       addressmodal: false,
@@ -187,17 +190,19 @@ export default {
       return Object.keys(this.days).filter(day => this.days[day]);
     },
     ...mapGetters('address', ['addressList']),
+    ...mapGetters('admin', ['profile']),
+
 
   },
   components: {
+    AddAddress,
     AddAddressModel,
     ListEditPage,
     ListPage,
     DeleteButtonIcon,
     EditButtonIcon
   },
-  mixins: [util, bulkDelete],
-
+  mixins: [util, bulkDelete,address],
   methods: {
     closeModelAddAddress() {
       console.log("close address modal 222")

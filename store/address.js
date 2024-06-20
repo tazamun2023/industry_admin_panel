@@ -2,15 +2,25 @@
 import Service from '@/services/service.js'
 const state = () => ({
   addressList: null,
+  addressModal: false,
+  activeAddress: null,
 })
 const getters = {
   addressList: ({ addressList }) => addressList,
+  addressModal: ({addressModal}) => addressModal,
+  activeAddress: ({activeAddress}) => activeAddress,
+
 }
 const mutations = {
   SET_VENDOR_ADDRESS(state, data){
     state.addressList = data
   },
-
+  SET_ActiveAddress(state, data){
+    state.activeAddress = data
+  },
+  SET_ADDRESSES_MODAL(state, addresses) {
+    state.addressModal = addresses
+  },
   UPDATE_ADDRESS(state, address) {
     const index = state.addressList?.findIndex(obj => {
       return parseInt(obj.id) === parseInt(address.id)
@@ -24,7 +34,16 @@ const mutations = {
 }
 
 const actions = {
+  async setAddressModal({commit, dispatch}, data) {
 
+    commit('SET_ADDRESSES_MODAL', data)
+
+  },
+  async setActiveAddress({commit, dispatch}, data) {
+
+    commit('SET_ActiveAddress', data)
+
+  },
   // async getVendorAddress ({rootState, commit}, {params,api}) {
   //   const {data} = await Service.getRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
   //   if (data.status === 200) {

@@ -76,12 +76,8 @@
     </list-page>
 
     <!-- -----------------modal------------ -->
-
-    <AddAddressModel v-if="confirmAddAddress" :show-modal="confirmAddAddress" :address="addressData" @close="closeAddressModel"/>
-    <google-map :show-modal="addressmodal" @close="addressmodal =false" :dataAddressUpdate="addressData"
-                @confirm="confirmAddressAdd"/>
+  <AddAddress  ></AddAddress>
     <!-- -----------------modal end------------ -->
-
   </div>
 </template>
 
@@ -91,84 +87,35 @@ import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 import address from "@/mixin/address";
 import DeleteModal from "@/components/DeleteModal.vue";
-import AddAddressModel from "../../components/AddAddressModel.vue";
-import GoogleMap from "../../components/GoogleMap.vue";
+import AddAddress from "../../components/AddAddress.vue";
 
 export default {
   components: {
-    GoogleMap,
-    AddAddressModel,
+    AddAddress,
     ListPage, ValidationObserver, ValidationProvider,
     DeleteModal
   },
   mixins: [address],
   data() {
     return {
-      addressmodal: false,
-      AddAddress: false,
-      confirmAddAddress: false,
-      addressData: {
-        id: '',
-        vendor_id: '',
-        email: '',
-        phone: '',
-        country_id: '',
-        city_id: '',
-        zip: '',
-        address_name: '',
-        country_code: "",
-        city_name: "",
-        district: '',
-        street: '',
-        building_number: '',
-        nearest_landmark: '',
-        type: '',
-        is_default: false,
-
-        phone_code: '',
-        lat: '',
-        lng: ''
-      },
-      hasError: false,
-      vendorCountryId: '',
       deleteModal: false
     }
   },
   computed: {
     ...mapGetters('admin', ['profile']),
-    ...mapGetters('address', ['addressList']),
-    ...mapGetters('common', ['phoneCode', 'allCountries', 'allCitiesById']),
-    ...mapGetters('language', ['langCode'])
+
   },
   watch: {},
   methods: {
-    ...mapActions('address', ['userAddressAction', 'getVendorAddress', 'userAddressDelete', 'updateAddress']),
-    ...mapActions('ui', ["setToastMessage", "setToastError"]),
-    ...mapActions('common', ['getCitiesById', 'getAllCountries', 'getPhoneCode', 'swetAlertFire', 'setAddressDefault']),
+    ...mapActions('address', [ 'getVendorAddress',]),
+    ...mapActions('common', [ 'swetAlertFire', 'setAddressDefault']),
 
 
-    countrySelected() {
-      this.addressData.city_id = ""
-      try {
-        this.getCitiesById({
-          api: 'getAllCityById',
-          mutation: 'SET_ALL_Cities',
-          id: this.vendorCountryId
-        })
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
 
-    },
     async getAllAddress() {
       await this.getVendorAddress({params: {'vendor_id': this.profile.id, ...this.$route.query,}, api: 'getVendorAddress'})
     },
 
-    closeAddressModel() {
-      this.addressmodal = false
-      this.confirmAddAddress = false
-      this.addressData = {}
-    },
     async setDeaultAddress(v, e) {
       const res = await this.swetAlertFire({
         params: {
@@ -204,19 +151,6 @@ export default {
       }
     },
 
-    confirmAddressAdd(data) {
-      console.log("confirmAddressAdd",data)
-      this.addressData.lat = data.lat
-      this.addressData.lng = data.lng
-      this.addressData.address_name = data.address_name
-      this.addressData.street = data.street
-      this.addressData.country_code = data.country_code
-      this.addressData.city_name = data.city_name
-      this.addressData.district = data.district
-      this.addressData.zip = data.postal_code
-      this.confirmAddAddress = true
-      this.addressmodal = false
-    },
 
     closeModal() {
       this.deleteModal = false
@@ -226,16 +160,8 @@ export default {
   async mounted() {
     try {
       this.loading = true
-      this.vendorCountryId = this.profile.country_id
 
       await this.getAllAddress();
-      // if (this.phoneCode.length == 0)
-      // await this.getPhoneCode()
-      // if (this.allCountries.length== 0)
-      //   await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-      //     .then(() => {
-      //       this.countrySelected()
-      //     })
 
       this.loading = false
     } catch (e) {
