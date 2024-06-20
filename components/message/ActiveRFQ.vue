@@ -236,7 +236,7 @@ export default {
               </div>
             </div>
           </div>
-          <div class="h-[700px] overflow-y-scroll scrolly">
+          <div class="h-[700px] overflow-y-scroll scrolly ltr:border-l rtl:border-r border-smooth">
             <div v-for="(activeInquirie, index) in activeRfqInquiries.inquiryOffers">
               <!--        customer offer send-->
               <div class="lg:grid lg:grid-cols-2 w-full" v-if="activeInquirie.is_reply===0">

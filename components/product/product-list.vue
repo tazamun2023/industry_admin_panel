@@ -294,9 +294,20 @@
                         </div>
                       </Modal>
                     </td>
-                    <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
-                    <td v-else>{{ $t('prod.Offline')}}</td>
+                    <!-- <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
+                    <td v-else>{{ $t('prod.Offline')}}</td> -->
+                    <td><switch-toggle :value="value.is_buyable"/></td>
                     <td>
+                      <!-- <div class="flex gap-2">
+                        <div>
+                          <edit-button-icon class="cursor-pointer"/>
+                        </div>
+                        <div  @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
+                        v-if="$store.state.admin.isVendor && value.status !== 'pending'">
+                        <delete-button-icon  class="cursor-pointer"/>
+                        </div>
+
+                      </div> -->
 
                       <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
                               class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
@@ -390,6 +401,9 @@ import ProductFilter from "../../components/product/filter.vue";
 import moment from 'moment-timezone';
 import Modal from "~/components/Modal.vue";
 import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
+import SwitchToggle from '../SwitchToggle.vue'
+import EditButtonIcon from '../partials/EditButtonIcon.vue'
+import DeleteButtonIcon from '../partials/DeleteButtonIcon.vue'
 
 export default {
   name: "product-list",
@@ -434,7 +448,10 @@ export default {
     LazyImage,
     ListPage,
     ProductFilter,
-    Modal
+    Modal,
+    SwitchToggle,
+    EditButtonIcon,
+    DeleteButtonIcon
   },
   computed: {
     currencyIcon() {
@@ -628,7 +645,14 @@ export default {
   }
 }
 </script>
-
+<style>
+.swal2-popup .swal2-styled.swal2-cancel{
+  height: auto;
+}
+.swal2-popup .swal2-styled.swal2-confirm{
+  height: auto;
+}
+</style>
 <style scoped>
 /* Tooltip container */
 .tooltip {

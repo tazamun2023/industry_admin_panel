@@ -187,11 +187,13 @@
                   <div v-for="(price,index) in item.pricing ">
                     <div class="flex flex-row flex-nowrap "
                          :class="[{'text-primary':price.quantity>=item.product.quantity},{'text-error':price.quantity<item.product.quantity}]">
+                     <div class="min-w-[60px]">
                       <span>{{ price.quantity }}</span>
                       <span
                         v-if="item.pricing.length==(index+1) ||(item.pricing.length>(index+1)  && (item.pricing[index + 1]?.quantity-1 > price.quantity)) ">
                                {{ (item.pricing[index + 1]) ? (" - " + (item.pricing[index + 1]?.quantity - 1)) : "+" }}
-                          </span> :
+                          </span>
+                     </div>:
                       <span v-if="price.quantity>=item.product.quantity" class="mx-2">
                         (
                         <del class="mx-2"> {{ price.selling_price }}</del>

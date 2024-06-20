@@ -465,7 +465,7 @@ export default {
                 </div>
               </div>
             </div>
-            <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
+            <div class="h-[700px] overflow-y-scroll scrolly ltr:border-l rtl:border-r border-smooth" ref="messageContainer">
             <div class="lg:grid lg:grid-cols-8 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
               <div class="col-span-4 ltr:text-end rtl:text-start">
 

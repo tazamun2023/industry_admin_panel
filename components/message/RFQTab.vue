@@ -186,7 +186,7 @@ export default {
     <div v-if="rfqInquiries.length > 0">
       <transition-group name="list" tag="div">
       <div
-        class="w-full  cursor-pointer  items-top border-t border-smooth my-2"
+        class="w-full  cursor-pointer  items-top border-t border-smooth"
         v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
         @click="activeParentInquiry(inquirie)"
       >
@@ -204,7 +204,7 @@ export default {
         </div>
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
-             class="p-2 hidden border-l-2 border-l-primary border-t border-t-smooth">
+             class="hidden border-l-2 border-l-primary border-t border-t-smooth">
           <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)"
                :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
             <div class="flex gap-4 items-center">
@@ -215,7 +215,7 @@ export default {
                 :alt="related_inquirie?.inquirable?.image"
               />
             </div>
-            <div>
+            <div class="w-full">
               <div class="flex justify-between">
                 <span class="font-bold  font-13px" :class="{ 'text-primary': activeRfqInquiry === index }">{{
                     related_inquirie.inquirable?.title
