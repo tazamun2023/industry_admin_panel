@@ -271,11 +271,11 @@ export default {
   },
   setAddressDefault(params, bearer) {
     apiClient.defaults.headers.common['Authorization'] = bearer
-    return apiClient.post(`${json.api.userAddressAction}/${params.params.id}`, params.params)
+    return apiClient.post(`${json.api.SetAddressDefault}/${params.params.id}`, params.params)
   },
   // SetDefaultBank
   SetDefaultBank(params, bearer) {
     apiClient.defaults.headers.common['Authorization'] = bearer
-    return apiClient.post(`${json.api.SetDefaultBank}`, params)
+    return apiClient.post(`${json.api.SetDefaultBank}/${params.id}`, params)
   },
 }

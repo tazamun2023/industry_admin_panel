@@ -1,21 +1,24 @@
-
 import Service from '@/services/service.js'
+
 const state = () => ({
   addressList: null,
   addressModal: false,
   activeAddress: null,
 })
 const getters = {
-  addressList: ({ addressList }) => addressList,
+  addressList: ({addressList}) => addressList,
   addressModal: ({addressModal}) => addressModal,
   activeAddress: ({activeAddress}) => activeAddress,
 
 }
 const mutations = {
-  SET_VENDOR_ADDRESS(state, data){
+  SET_VENDOR_ADDRESS(state, data) {
     state.addressList = data
   },
-  SET_ActiveAddress(state, data){
+  SET_DefaultAddress(state, data) {
+    state.addressList.find(a => a.id === data.id).default = !(data.default)
+  },
+  SET_ActiveAddress(state, data) {
     state.activeAddress = data
   },
   SET_ADDRESSES_MODAL(state, addresses) {
@@ -53,7 +56,7 @@ const actions = {
   //   }
   //
   // },
-  async getVendorAddress ({rootState, commit}) {
+  async getVendorAddress({rootState, commit}) {
     const {data} = await Service.getVendorAddress(this.$auth.strategy.token.get(), rootState.language.langCode)
     if (data.status === 200) {
       commit('SET_VENDOR_ADDRESS', data.data.data)
@@ -62,9 +65,15 @@ const actions = {
     }
 
   },
+  async setVendorAddress({rootState, commit}, data) {
+    commit('SET_VENDOR_ADDRESS', data)
+  },
+  async setDefaultAddress({rootState, commit}, data) {
+    commit('SET_DefaultAddress', data)
+  },
 
 
-  async userAddressAction({commit,dispatch}, params) {
+  async userAddressAction({commit, dispatch}, params) {
     const {data} = await Service.userAddressAction(params, this.$auth.strategy.token.get())
     if (data?.status === 200) {
       // getVendorAddress
@@ -83,7 +92,6 @@ const actions = {
     const {data} = await Service.userAddressUpdate(id, this.$auth.strategy.token.get(), params)
     return data
   },
-
 
 
 }

@@ -1,11 +1,10 @@
 <template>
   <div>
-
     <list-page
       v-if="$can('view_addresses')"
       ref="listPage"
       list-api="getVendorAddress"
-      delete-api="rejectReasons"
+      delete-api="userAddressDelete"
       route-name="rejection-reasons"
       :modalButton="true"
       empty-store-variable="rejectReasons"
@@ -13,7 +12,7 @@
       @open-modal="addAddress"
       :title="$t('setting.rejection-reasons')"
       manage_gate="edit_addresses"
-      @list="itemList = $event"
+      @list="setVendorAddress( $event)"
     >
 
       <template v-slot:table="{list}">
@@ -21,7 +20,7 @@
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
               <input type="checkbox">
-              {{  $t('address.address_name')  }}
+              {{ $t('address.address_name') }}
             </div>
           </th>
           <th class="bg-lightdeep">
@@ -42,7 +41,7 @@
           <th class="bg-lightdeep"></th>
         </tr>
 
-        <tr v-for="(value, index) in list" :key="index">
+        <tr v-for="(value, index) in addressList" :key="index">
           <td>
             <div class="flex font-bold capitalize gap-4 items-center">
               <input type="checkbox">
@@ -61,12 +60,20 @@
           </td>
           <td class="font-bold capitalize">{{ value?.phone }}</td>
           <td>{{ value?.nearest_landmark }}</td>
-          <td class="text-center"><input @change="setDeaultAddress(value,$event)" :checked="value.default > 0"
-                                         type="checkbox"></td>
+          <td class="text-center"><input @change="setDefault(value,$event)" :checked="value.default"
+                                         :value="value.default"
+                                         type="checkbox">
+            {{ value.default }}
+          </td>
           <td>
             <div class="flex gap-4">
-              <img v-show="value.default == 0" @click="deleting(value)" class="action_img  cursor-pointer"
-                   src="~/assets/icon/delete.svg">
+
+              <button
+                v-if="$can('edit_addresses') && value.default == 0 && list.length>1"
+                @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
+                <delete-button-icon/>
+              </button>
+
               <img @click="editAddress(value)" v-if="$can('edit_addresses')" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
             </div>
@@ -76,24 +83,22 @@
     </list-page>
 
     <!-- -----------------modal------------ -->
-  <AddAddress  ></AddAddress>
+    <AddAddress></AddAddress>
     <!-- -----------------modal end------------ -->
   </div>
 </template>
-
 <script>
 import ListPage from "@/components/partials/ListPage.vue";
 import {mapActions, mapGetters} from "vuex";
-import {ValidationObserver, ValidationProvider} from "vee-validate";
 import address from "@/mixin/address";
-import DeleteModal from "@/components/DeleteModal.vue";
 import AddAddress from "../../components/AddAddress.vue";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
 export default {
   components: {
+    DeleteButtonIcon,
     AddAddress,
-    ListPage, ValidationObserver, ValidationProvider,
-    DeleteModal
+    ListPage,
   },
   mixins: [address],
   data() {
@@ -103,20 +108,13 @@ export default {
   },
   computed: {
     ...mapGetters('admin', ['profile']),
-
+    ...mapGetters('address', ['addressList']),
   },
-  watch: {},
   methods: {
-    ...mapActions('address', [ 'getVendorAddress',]),
-    ...mapActions('common', [ 'swetAlertFire', 'setAddressDefault']),
-
-
-
-    async getAllAddress() {
-      await this.getVendorAddress({params: {'vendor_id': this.profile.id, ...this.$route.query,}, api: 'getVendorAddress'})
-    },
-
-    async setDeaultAddress(v, e) {
+    ...mapActions('common', ['swetAlertFire','setAddressDefault']),
+    ...mapActions('address', ['setVendorAddress', 'setDefaultAddress',]),
+    async setDefault(v, e) {
+      await this.setDefaultAddress({id: v.id, default: !e.target.checked})
       const res = await this.swetAlertFire({
         params: {
           title: this.$i18n.t('approvedModal.sure'),
@@ -124,53 +122,23 @@ export default {
         }
       })
       if (res) {
-        this.setAddressDefault({
+        await this.setAddressDefault({
           params: {
             id: v.id,
-            name: v.name,
-            street: v?.street,
-            district: v?.district,
-            phone: v?.phone,
-            address_name: v?.address_name,
-            default: v?.default,
-            email: v?.email,
-            zip: v?.zip,
-            country_id: v?.country_id,
-            lat: v?.lat,
-            lng: v?.lng,
-            city_id: v?.city_id,
             is_default: e.target.checked,
-            building_number: v?.building_number,
-            type: v?.type,
-            nearest_landmark: v?.nearest_landmark,
-            phone_code: v?.phone_code,
+
           }
         })
+        this.$refs.listPage.fetchingData()
       } else {
+       await this.setDefaultAddress(v)
+        // this.addressList.find(a => a.id === v.id).default = !(v.default)
+
         return false
       }
     },
-
-
-    closeModal() {
-      this.deleteModal = false
-    }
-
   },
   async mounted() {
-    try {
-      this.loading = true
-
-      await this.getAllAddress();
-
-      this.loading = false
-    } catch (e) {
-      return this.$nuxt.error(e)
-    }
-
-
   }
-
-
 }
 </script>
