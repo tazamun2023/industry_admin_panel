@@ -1,6 +1,6 @@
 <template>
   <custome-modal
-    :title="` ${$t('address.Add Address') }  uu`"
+    :title="` ${$t('address.Add Address') }  `"
     :show-modal="showModal"
     @close="closeAddressModel"
     size="lg">
@@ -225,14 +225,37 @@ export default {
       this.isInvalid = invalid;
       return true; // Necessary to keep the template valid
     },
-    countrySelected() {
+    async countrySelected() {
       // this.addressData.city_id = ""
       try {
-        this.getCitiesById({
-          api: 'getAllCityById',
-          mutation: 'SET_ALL_Cities',
-          id: this.vendorCountryId
-        })
+        // if (this.allCitiesById.length == 0 || this.allCitiesById[0].country_code != this.address.country_code)
+        {
+          let country = this.allCountries.find(c =>
+            c.iso.toLowerCase().includes(this.address.country_code.toLowerCase())
+          );
+          if (country)
+            this.addressData.country_id = country.id
+          else
+            this.addressData.country_id = this.address.country_id;
+
+          await this.getCitiesById({
+            api: 'getAllCityById',
+            mutation: 'SET_ALL_Cities',
+            id: this.address.country_code ?? this.vendorCountryId ?? 'SA'
+          })
+          console.log('cit', this.address.city_name)
+
+          let city = this.allCitiesById.find(c =>
+            c.name_lang.en.toLowerCase().includes(this.address.city_name.toLowerCase()) ||
+            c.name_lang.ar.toLowerCase().includes(this.address.city_name.toLowerCase())
+          );
+
+          if (city)
+            this.addressData.city_id = city.id
+          else
+            this.addressData.city_id = this.address.city_id;
+        }
+
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -268,9 +291,11 @@ export default {
     },
   },
   async mounted() {
+    console.log("mmmmmmmmm")
     // this.clearForm();
     try {
       this.loading = true
+      this.vendorCountryId = this.profile.country_id
       // await this.getAllAddress();
       // await this.getPhoneCode();
       if (this.allCountries.length == 0)
@@ -278,6 +303,11 @@ export default {
           api: 'getAllCountries',
           mutation: 'SET_ALL_COUNTRIES',
         });
+      else {
+        await this.countrySelected()
+
+      }
+
 
       this.loading = false
     } catch (e) {
@@ -292,7 +322,6 @@ export default {
       this.addressData.street = this.address.street;
       this.addressData.phone_code = this.address.phone_code !== '' ? this.address.phone_code : '966'
       this.countrySelected(this.address.country_id);
-      this.addressData.city_id = this.address.city_id;
     } else {
       this.addressData.country_id = this.profile.country_id;
       this.addressData.is_default = 0;

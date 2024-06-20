@@ -36,7 +36,7 @@
           <th class="bg-lightdeep text-center">
             <div class="flex gap-2 justify-center items-center">
               <input type="checkbox">
-              Set as Default
+              {{ $t('address.set_default') }}
             </div>
           </th>
           <th class="bg-lightdeep"></th>
@@ -74,49 +74,12 @@
         </tr>
       </template>
     </list-page>
-    <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-      <template v-slot:title>
-        <h4>{{ $t('vendor.deletemessage') }}</h4>
-      </template>
-      <!-- -----------default slot------- -->
-      <!-- -----------default slot------- -->
-      <template v-slot:buttons>
-        <div class="flex gap-4 justify-end">
-          <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
-            {{ $t('address.Quit') }}
-          </button>
-          <button @click.prevent="deleting(value)"
-                  class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
-            {{ $t('address.Agree') }}
-          </button>
-        </div>
-      </template>
-    </DeleteModal>
 
     <!-- -----------------modal------------ -->
 
-    <template v-if="addressmodal || confirmAddAddress">
-      <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
-        <div class="absolute inset-0 bg-black opacity-50"></div>
-        <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-2/5">
-          <svg @click.prevent="closeAddressModel"
-               class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
-               aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-          </svg>
-          <div class="mb-4">
-            <h4>{{ $t('address.Add Address') }}</h4>
-            <div>
-              <google-map v-if="addressmodal" @cancel="addressmodal = !addressmodal" :dataAddressUpdate="addressData"
-                          @confirm="confirmAddressAdd"/>
-
-              <AddAddressModel :show-modal="confirmAddAddress" :address="addressData" @close="closeAddressModel"/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </template>
+    <AddAddressModel v-if="confirmAddAddress" :show-modal="confirmAddAddress" :address="addressData" @close="closeAddressModel"/>
+    <google-map :show-modal="addressmodal" @close="addressmodal =false" :dataAddressUpdate="addressData"
+                @confirm="confirmAddressAdd"/>
     <!-- -----------------modal end------------ -->
 
   </div>
@@ -153,6 +116,8 @@ export default {
         city_id: '',
         zip: '',
         address_name: '',
+        country_code: "",
+        city_name: "",
         district: '',
         street: '',
         building_number: '',
@@ -240,10 +205,15 @@ export default {
     },
 
     confirmAddressAdd(data) {
+      console.log("confirmAddressAdd",data)
       this.addressData.lat = data.lat
       this.addressData.lng = data.lng
       this.addressData.address_name = data.address_name
       this.addressData.street = data.street
+      this.addressData.country_code = data.country_code
+      this.addressData.city_name = data.city_name
+      this.addressData.district = data.district
+      this.addressData.zip = data.postal_code
       this.confirmAddAddress = true
       this.addressmodal = false
     },
@@ -257,14 +227,16 @@ export default {
     try {
       this.loading = true
       this.vendorCountryId = this.profile.country_id
+
       await this.getAllAddress();
       // if (this.phoneCode.length == 0)
       // await this.getPhoneCode()
-      if (this.allCountries.l == 0)
-        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-          .then(() => {
-            this.countrySelected()
-          })
+      // if (this.allCountries.length== 0)
+      //   await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
+      //     .then(() => {
+      //       this.countrySelected()
+      //     })
+
       this.loading = false
     } catch (e) {
       return this.$nuxt.error(e)
