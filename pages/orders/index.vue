@@ -96,8 +96,8 @@
                 <div>
                   <div class="card cursor-pointer my-2 p-4"
                        v-for="(order, index) in orders?.data" :key="index" v-if="!loading">
-                    <div class="flex gap-4 justify-between">
-                      <div class="flex-1   flex gap-4 max-w-[46rem] justify-between">
+                    <div class="lg:flex gap-4 justify-between">
+                      <div class="lg:flex-1   flex gap-4 max-w-[46rem] justify-between">
                         <div v-if="closeable" @click="productTableShow(index)" class="p-2 w-5">
                           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

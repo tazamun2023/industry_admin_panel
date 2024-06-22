@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-4 justify-between max-w-screen-md">
+  <div class="flex flex-wrap gap-4 justify-between max-w-screen-md">
     <div>
       <p>{{ $t('order.orderId') }}: </p>
       <p class="font-bold">{{ order?.order_id }}</p>
