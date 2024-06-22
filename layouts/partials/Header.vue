@@ -242,6 +242,7 @@ header{
   background: #fff;
   box-shadow: 0px 2px 20px 0px #0000001A;
   height: 84px;
+  z-index: 9999;
 }
 .bgnone{
   background: none !important;
