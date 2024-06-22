@@ -68,7 +68,10 @@ export default {
     isAdding(){
       return isNaN(this.$route?.params?.id)
     },
+    isRfqProduct() {
+      return parseInt(this.$route.query?.rfq_product_id ?? 0) > 0;
 
+    },
   },
 
   methods: {
@@ -78,9 +81,7 @@ export default {
       this.variant.result.product_variant={name:v.select_attr1,value:v.select_attr2}
       this.is_next = true;
     },
-    isRfqProduct() {
-      return parseInt(this.$route.query?.rfq_product_id ?? 0) > 0;
-    },
+
 
   }
 

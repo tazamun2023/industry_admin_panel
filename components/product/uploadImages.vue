@@ -2,11 +2,14 @@
 import VueDraggable from "vue-draggable";
 import UploadImageIcon from "../partials/uploadImageIcon.vue";
 import LazyImage from "../LazyImage.vue";
+import {validate, ValidationObserver, ValidationProvider} from 'vee-validate';
 
 export default {
   name: "VueUploadImages", // vue component name
   components: {
     LazyImage,
+    ValidationProvider,
+    ValidationObserver,
     UploadImageIcon,
     DraggableContainer: VueDraggable,
   },
@@ -18,6 +21,7 @@ export default {
         dropzoneSelector: 'ul',
         draggableSelector: 'li',
         handlerSelector: null,
+        invalidData: false,
         reactivityEnabled: true,
         multipleDropzonesItemsDraggingEnabled: true,
         showDropzoneAreas: true,
@@ -45,6 +49,10 @@ export default {
     IsReadOnly: {
       type: Boolean,
       default: false,
+    },
+    IsRequired: {
+      type: Boolean,
+      default: true,
     },
     accept: {
       type: String,
@@ -110,10 +118,22 @@ export default {
         }
       },
       deep: true
+    },
+    IsRequired: {
+      handler(newValue, oldValue) {
+
+        this.invalidWatcher()
+      }
     }
+
 
   },
   methods: {
+    invalidWatcher() {
+
+      this.$emit('checkLangError', this.IsRequired && this.Imgs.length === 0)
+    },
+
     dragOver() {
       this.dropped = 2;
     },
@@ -210,6 +230,9 @@ export default {
         this.$emit('updateInput', this.Imgs.map(item => item.url));
       else
         this.$emit('updateInput', this.Imgs);
+      this.invalidWatcher()
+
+
     },
     reordered(event, dropped) {
       this.dropped = 0;
@@ -227,6 +250,7 @@ export default {
       this.files = [];
       this.$emit("changed", this.files);
       this.updateInputEvntData();
+
     },
   },
 };
@@ -234,50 +258,53 @@ export default {
 
 <template>
   <div>
-    <div
-      class="container"
-      @dragover.prevent="dragOver"
-      @dragleave.prevent="dragLeave"
-    >
-      <div class="drop" v-show="dropped == 2"></div>
-      <!-- Error Message -->
 
-      <!-- To inform user how to upload image -->
-      <div v-if="!IsReadOnly" v-show="Imgs.length == 0" class="beforeUpload">
-        <input
-          type="file"
-          style="z-index: 1"
-          :accept="accept"
-          ref="uploadInput"
-          @change="previewImgs"
-          :multiple="maxFiles>1"
-        />
-        <div class="text-center"></div>
-        <upload-image-icon></upload-image-icon>
-        <p class="mainMessage">
-          {{ uploadMsg ? uploadMsg : $t("orderDetails.Click to upload or drop your images here") }}
-        </p>
-      </div>
-      <div class="imgsPreview" v-show="Imgs.length > 0">
-        <button v-if="maxFiles > 1 && !IsReadOnly" type="button" class="clearButton" @click="reset">
-          {{ clearAll ? clearAll : "clear All" }}
-        </button>
-        <div v-drag-and-drop:options="dragOptions">
-          <ul @reordered="reordered">
-            <li
-              class="imageHolder"
-              :class="{'singleImageHolder': maxFiles === 1}"
-              v-for="(img, i) in Imgs"
-              :data-id="i"
-              :key="i"
-            >
-              <template v-if="img.isPdf && !IsReadOnly">
-                <iframe :src="img.url" width="100%" height="200px"></iframe>
-              </template>
-              <template v-else>
-                <img :src="img.url"/>
-              </template>
-              <span v-if="!IsReadOnly" class="delete" style="color: white" @click="deleteImg(i)">
+
+    <div class="tab-sidebar p-3" :class="{ 'has-error': IsRequired && Imgs.length===0 }">
+      <div
+        class="container"
+        @dragover.prevent="dragOver"
+        @dragleave.prevent="dragLeave"
+      >
+        <div class="drop" v-show="dropped == 2"></div>
+        <!-- Error Message -->
+
+        <!-- To inform user how to upload image -->
+        <div v-if="!IsReadOnly" v-show="Imgs.length == 0" class="beforeUpload">
+          <input
+            type="file"
+            style="z-index: 1"
+            :accept="accept"
+            ref="uploadInput"
+            @change="previewImgs"
+            :multiple="maxFiles>1"
+          />
+          <div class="text-center"></div>
+          <upload-image-icon></upload-image-icon>
+          <p class="mainMessage">
+            {{ uploadMsg ? uploadMsg : $t("orderDetails.Click to upload or drop your images here") }}
+          </p>
+        </div>
+        <div class="imgsPreview" v-show="Imgs.length > 0">
+          <button v-if="maxFiles > 1 && !IsReadOnly" type="button" class="clearButton" @click="reset">
+            {{ clearAll ? clearAll : "clear All" }}
+          </button>
+          <div v-drag-and-drop:options="dragOptions">
+            <ul @reordered="reordered">
+              <li
+                class="imageHolder"
+                :class="{'singleImageHolder': maxFiles === 1}"
+                v-for="(img, i) in Imgs"
+                :data-id="i"
+                :key="i"
+              >
+                <template v-if="img.isPdf && !IsReadOnly">
+                  <iframe :src="img.url" width="100%" height="200px"></iframe>
+                </template>
+                <template v-else>
+                  <img :src="img.url"/>
+                </template>
+                <span v-if="!IsReadOnly" class="delete" style="color: white" @click="deleteImg(i)">
                 <svg
                   class="icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -293,19 +320,20 @@ export default {
                   />
                 </svg>
               </span>
-            </li>
-            <li v-if=" Imgs.length < maxFiles" :data-id="-1">
-              <div v-if="!IsReadOnly" class="plus" @click="append">
-                <upload-image-icon></upload-image-icon>
-              </div>
-            </li>
-          </ul>
+              </li>
+              <li v-if=" Imgs.length < maxFiles" :data-id="-1">
+                <div v-if="!IsReadOnly" class="plus" @click="append">
+                  <upload-image-icon></upload-image-icon>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+
     </div>
-    <div v-show="error" class="error">
-      {{ error }}
-    </div>
+    <span class="error" v-if="IsRequired && Imgs.length===0">{{ $t('global.req', {type: $t('prod.Image')}) }}</span>
+
   </div>
 </template>
 

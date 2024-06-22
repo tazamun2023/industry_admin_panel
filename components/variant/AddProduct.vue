@@ -133,7 +133,6 @@
           </div>
 
 
-
         </div>
         <!-- --------------------------- -->
         <div class="my-10"></div>
@@ -153,7 +152,7 @@
         </div>
         <div v-if="!isRfqProduct">
           <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}22 </h4>
 
             <hr>
             <table>
@@ -168,6 +167,7 @@
                     <div class="form-group">
                       <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3"
                               v-model="result.product_variant.name"
+                              @change="setVariantColorName($event)"
                               v-if="select_attr1 === 'color'">
                         <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                             item.name
@@ -202,14 +202,14 @@
           </div>
           <!-- ------------------------------------- -->
           <div class="tab-sidebar p-3" v-else>
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}00</h4>
             <div class="form-check">
-              <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                     v-model="is_variant" :disabled="is_show && is_variant_save"
-                     :style="is_variant_save?'cursor: not-allowed':''"/>
-              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else
+              <input type="checkbox" class="custom-control-input" id="clonecheck_true"
                      v-model="is_variant"
-                     @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>
+                     :style="is_variant_save?'cursor: not-allowed':''"/>
+<!--              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else-->
+<!--                     v-model="is_variant"-->
+<!--                     @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>-->
               <label class="form-check-label" for="flexCheckDefault">
                 {{ $t('prod.This product has options, like size or color') }}
               </label>
@@ -255,7 +255,7 @@
 
               <div class="col-md-4"></div>
               <div class="tab-sidebar p-3" v-if="is_variant_save">
-                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}11</h4>
                 <hr>
                 <table>
                   <tr>
@@ -446,21 +446,16 @@
         </div>
         <!--          BasicInformationChild-->
         <!-- ------------------------------------- -->
-        <ValidationProvider v-if="!is_variant" name="Image"
-                            :rules="{ required: !is_draft &&(result.product_images.length===0 && !is_variant )}"
-                            v-slot="{ errors }"
-                            :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }"
-                            class="w-full">
-          <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
-            <vue-upload-images :IsReadOnly="is_show" v-if="(isAdding || (!isAdding && result.images))"
-                               :return-data-just="0"
-                               :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
-            </vue-upload-images>
+        <vue-upload-images  :IsRequired=" !is_draft &&(result.product_images.length===0 && !is_variant)"
+                           :IsReadOnly="is_show"
+                            v-if="(!is_variant && (isAdding || (!isAdding && result.images)))"
+                           :return-data-just="0"
+                           @checkLangError="checkImagesError"
+                           :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
+        </vue-upload-images>
 
-          </div>
-          <span class="error" v-if="result.product_images.length===0">{{ errors[0] }}</span>
-        </ValidationProvider>
+
         <!-- ------------------------------------- -->
 
         <!-- ------------------------------------- -->
@@ -1168,12 +1163,14 @@
                 name="save"
                 another_class="primary-btn"
                 :text="$t('prod.Send for review') "
+
                 @clicked="is_submit=true,is_draft=false"
                 :fetching-data="is_submit_data && !is_draft"
               />
-              <span class="font-semibold text-error" v-if="(invalid || hasLangError)&& is_submit ">{{
+              <span class="font-semibold text-error" v-if="(invalid || hasLangError||ImagesError)&& is_submit ">{{
                   $t('prod.Check the errors')
-                }}</span>
+
+                }}   </span>
             </div>
           </div>
           <div v-if="$can('approve_products') && result.status==='pending'  ">
@@ -1263,6 +1260,7 @@ export default {
 
     return {
 
+      ImagesError: false,
       hasLangError: false,
       is_click_available: false,
       is_submit_data: false,
@@ -1739,7 +1737,7 @@ export default {
         this.result.available_quantity = '';
         this.result.is_availability = 1;
       } else {
-         this.compareMethods();
+        this.compareMethods();
       }
     }
   },
@@ -1772,6 +1770,11 @@ export default {
       this.hasLangError = haserror
     },
 
+    checkImagesError(haserror) {
+
+      this.ImagesError = haserror
+    },
+
     async changeSKU(sku, product_id) {
       this.debouncedInputHandler();
 
@@ -1784,14 +1787,18 @@ export default {
     }, 500),
 
     compareMethods() {
+      if (this.result.is_always_available) {
+        this.result.is_availability = 1;
+        return;
+      }
       let ava_qty = parseInt(this.result.available_quantity);
       let product_prices_min_qty = parseInt(this.result.product_prices[0]?.quantity);
 
+
       if (!isNaN(ava_qty) && !isNaN(product_prices_min_qty)) {
         this.result.is_availability = ava_qty >= product_prices_min_qty ? 1 : 0;
-      }
-      else
-        this.result.is_availability=0;
+      } else
+        this.result.is_availability = 0;
     },
 
     availableQuantity() {
@@ -1899,6 +1906,10 @@ export default {
         this.hasError = true
         return false
       }
+      if (!this.is_draft && !(this.result.product_images.length>0 ||  this.result.images>0  )    )
+      {
+        return false
+      }
       if (this.is_sku_exsist) {
         this.hasError = true
         return false
@@ -1972,6 +1983,10 @@ export default {
     },
     setColorName(index, event) {
       this.result.product_variants[index].color_name = this.allColors[event.target.value].name
+    },
+
+    setVariantColorName( event) {
+      this.result.product_variant.color_name = this.allColors[event.target.value].name
     },
     addAdditionalDetailsRows(index) {
       this.result.additional_details_row.push(Object.assign({}, this.additional_details))

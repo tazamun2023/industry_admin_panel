@@ -40,50 +40,28 @@
                 </a>
               </li>
               <li class="-mb-px w-100  mr-2 last:mr-0 cursor-pointer"
-                  v-for="(colorItem, index) in result.product_variants" :key="index">
-                <a class="text-xs flex justify-between w-100 font-bold uppercase px-5 py-3 leading-normal"
+                  v-for="(variant, index) in variants" :key="index">
+                <a class="text-xs flex justify-between w-100 font-bold  px-5 py-3 leading-normal"
                    @click="toggleTabs(index)"
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
-<!--                    <img class="w-10 h-10 rounded"-->
-                    <!--                         :src="variants[index]?.result?.product_images[0]?.url"-->
-                    <!--                         alt="">-->
                                         <lazy-image
-                                          v-if="variants[index]?.result.product_images"
+                                          v-if="variant?.result.product_images"
                                           class="w-10 h-10 rounded"
-                                          :lazy-src="variants[index]?.result?.product_images[0]?.url"
-                                          :data-src="variants[index]?.result?.product_images[0]?.url"
-                                          :alt="colorItem.color_name"
+                                          :lazy-src="variant?.result?.product_images[0]?.url"
+                                          :data-src="variant?.result?.product_images[0]?.url"
+                                          :alt="variant?.result?.product_variant.color_name"
                                         />
-                           <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
-                               colorItem.value
-                             }}
-                           </span>
-                    <span class="pt-2" v-else-if="colorItem.color_name">{{ colorItem.color_name }}</span>
-                    <span class="pt-2" v-else-if="colorItem.value">{{ colorItem.value }}</span>
-                    <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
+                    <span class="pt-2">
+                      {{ variant?.result?.product_variant?.color_name }}
+                      {{ variant?.result?.product_variant?.value }}</span>
                   </span>
-                  <p v-for="(variantStatus, index1) in variants" v-if="index1===index">
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'pending'">{{
-                        $t('prod.Pending')
-                      }}</span>
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'archived'">{{
-                        $t('prod.archived')
-                      }}</span>
-                    <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'approved'">{{
-                        $t('prod.approved')
-                      }}</span>
-                    <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'rejected'">{{
-                        $t('prod.rejected')
-                      }}</span>
-                    <span class="bg-smooth rounded-lg text-xs mt-2 p-1"
-                          v-if="!variantStatus.result.id">{{ $t('prod.Incomplete') }}</span>
+                  <p>
+                    <span class=" rounded-lg text-xs mt-2 p-1 text-white"
+                          :class="[getClassName(variant.result.status)]">
+                      {{ $t('prod.' + variant.result?.status ?? 'incomplete') }}
+                    </span>
                   </p>
-
                 </a>
               </li>
             </ul>
@@ -866,6 +844,21 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   methods: {
+    getClassName(status) {
+      switch (status) {
+        case 'pending':
+        case 'archived':
+          return 'bg-warning';
+        case 'approved':
+          return 'bg-primary ';
+        case 'rejected':
+          return 'bg-bg-error ';
+        default:
+          return 'bg-smooth';
+
+      }
+    },
+
     doNext() {
       this.is_next = true
     },
@@ -875,6 +868,7 @@ export default {
     },
     setColorName(index, event) {
       this.result.product_variants[index].color_name = this.allColors[event.target.value].name
+      // this.result.product_variant[index].color_name = this.allColors[event.target.value].name
     },
     removeVariantRows(index) {
       // console.log(index)
@@ -932,7 +926,8 @@ export default {
             };
             newVariant.result.product_variant = {
               name: this.result.product_variants[i].name,
-              value: this.result.product_variants[i].value
+              value: this.result.product_variants[i].value,
+              color_name: this.result.product_variants[i].color_name
             };
             newVariant.result.product_images = []
             newVariant.result.images = []
@@ -1031,7 +1026,7 @@ export default {
 
     closeVariantModal() {
       this.varientModal = false;
-      this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
+      // this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
       // if (this.variant_copy) {
       //   this.result.product_variants = this.variant_copy
       // }
