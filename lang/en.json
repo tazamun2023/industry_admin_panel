@@ -1,4 +1,40 @@
 {
+  "roles": {
+    "roles_and_permissions": "Roles And Permissions",
+    "Permissions": "Permissions",
+    "Admin": "Admin",
+    "Supervisor": "Supervisor",
+    "User": "User",
+    "LearnMore": "Learn more about roles",
+    "LearnMoreMessage": "Please only add users to your account\n                that you trust with your business information.",
+
+    "message": "Use roles to set custom permissions for each person that has access to your business account. You\n                decide\n                who is permitted to do what. Roles are not permanent and can be changed by any Admin account.",
+
+    "user_management": "User Management",
+    "company_management": "Company Management",
+    "Content": "Content",
+    "Messages": "Messages",
+    "Orders": "Orders",
+    "RFQ": "RFQ",
+    "Products": "Products",
+    "Settings": "Settings",
+    "Other": "Other",
+    "flash_sales": "flash Sales",
+
+    "Select role": "Select role",
+    "customer_admin": "Admin",
+    "customer_supervisor": "Supervisor",
+    "customer_user": "User",
+    "shipping_admin": "Admin",
+    "shipping_supervisor": "Supervisor",
+    "shipping_user": "User",
+    "superadmin": "Super Admin",
+    "vendor": "Vendor",
+    "vendor_admin": "Admin",
+    "vendor_supervisor": "Supervisor",
+    "vendor_user": "User"
+  },
+
   "app": {
     "dir": "ltr",
     "lang": "lang",
@@ -10,6 +46,7 @@
     "Add": "Add",
     "Done": "Done",
     "of": "of",
+    "Saudi Arabia": "Saudi Arabia",
     "SAR": "SAR",
     "Discard Draft": "Discard Draft",
     "Cancel": "Cancel",
@@ -26,6 +63,7 @@
     "All quotes": "All quotes",
     "Relevant to me": "Relevant to me",
     "to": "To",
+    "Total Price excl VAT": "Total Price excl VAT",
     "currency_local": "en-US",
     "local": "en",
     "Clear Filter": "Clear",
@@ -42,6 +80,20 @@
     "Un-Verified": "Un-Verified",
     "Product Successfully Saved": "Product Successfully Saved!",
     "Active": "Active"
+  },
+  "HelpAssistants": {
+    "AddHelpAssistantsGroup": "Add Help Assistants Group",
+    "HelpAssistants": "Help Assistants",
+    "AddHelpAssistants": "Add Help Assistants",
+    "order": "Order"
+  },
+  "polices": {
+    "edit": "Edit ",
+    "polices": "Polices ",
+    "privacy_polices": " Privacy Policy",
+    "return_polices": "Return & Refund Policy",
+    "vendors_terms_condition": "Terms & Conditions (Vendors)",
+    "customers_terms_condition": "Terms & Conditions (Customers)"
   },
   "rejectReasons": {
     "Reason": "Reason",
@@ -186,6 +238,7 @@
     "add": "Add New Product",
     "Or More": "Or More ",
     "Products": "Products",
+    "How many Piece": "How many Piece",
     "not existing product": "not existing product",
     "invalid Quantity": "invalid Quantity",
     "Accept Offer": "Accept Offer",
@@ -209,7 +262,7 @@
     "Message Sent": "Message Sent",
     "RFQ Details": "RFQ Details",
     "Expires on": "Expires on",
-    "Initial unit target price": "GR • Initial unit target price:",
+    "Initial unit target price": "Initial unit target price:",
     "Cancelled Well let Seller know": "Cancelled. We'll let Seller know.",
     "Send": "Send",
     "Offer sent message": "Offer Sent! Thank you. We’ll let Seller know.",
@@ -394,6 +447,9 @@
     "Docs": "Docs",
     "From": "From",
     "To": "To",
+    "Quantity": "Quantity",
+    "Unit target price": "Unit target price",
+    "Offer valid until": "Offer valid until",
     "Country of production": "Country of production",
     "Stock Location": "Stock Location",
     "Image and Video": "Image and Video",
@@ -629,7 +685,9 @@
     "available_quantity": "Available Quantity",
     "create_update": "Created / Updated",
     "sku": "SKU",
-    "parent_sku": "Parent SKU"
+    "parent_sku": "Parent SKU",
+    "These attributes provide information about the product's dimensions and weight": "These attributes provide information about the product's dimensions and weight",
+    "Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the product's shipping container": "Enter the dimensions and weight of the carton to help calculate shipping rate These measurements are for the product's shipping container"
   },
   "paymentStatus": {
     "check_payment": "check payment",
@@ -680,8 +738,8 @@
     "payment": "Payment",
     "status": "Status",
     "total": "Total",
-    "rejectOrder": "Reject Order",
-    "approveOrder": "Approve Order",
+    "rejectOrder": "Reject ",
+    "approveOrder": "Approve ",
     "available": "Available",
     "noAvailable": "No Available",
     "product": "product",
@@ -699,7 +757,7 @@
     "PriceLowest": "Price (Lowest)",
     "CartOrders": "Cart Orders",
     "NegotiatedOrders": "Negotiated Orders",
-    "ViewOrder": "View Order"
+    "ViewOrder": "View"
   },
   "orderDetails": {
     "document": "Documents",
@@ -756,7 +814,7 @@
     "shipping_cost": "Shipping Cost:",
     "timeline": "Timeline",
     "user": "User",
-    "invitation": "Invitation",
+
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
@@ -771,7 +829,8 @@
     "Accept": "Accept",
     "Reject": "Reject",
     "nameEmpty": " name is empty",
-    "Search by orderId": "Search by orderId"
+    "Search by orderId": "Search by orderId",
+    "reference_number": "reference Number"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -815,13 +874,11 @@
     "rating": "Rating",
     "product": "Product",
     "review": "Review",
-    "fSale": "flash sale",
-    "role": "Role",
-    "first_name": "First Name",
-    "last_name": "Last Name",
-    "name": "Name"
+    "fSale": "flash sale"
   },
   "user": {
+    "invitation": "Invitation",
+    "invitations": "Users Invitations",
     "users": "users",
     "Submit": "Submit",
     "sEmail": "Send email",
@@ -829,6 +886,7 @@
     "subs": "subscribers",
     "verified": "Verified",
     "uv": "Unverified",
+    "Unverified": "Unverified",
     "rPer": "roles permissions",
     "uName": "Username",
     "isValid": "{type} is invalid",
@@ -978,6 +1036,8 @@
     "notValidUrl": "The Url Not Valid",
     "all_users": "all users",
     "invite_users": "User invitations",
+    "invite_user": "Invite Users",
+    "vendor_users": "Vendor Users",
     "Awesome": "Awesome",
     "Company Profile Saved Succesfully": "Company Profile Saved Successfully",
     "componyName": "compony Name",
@@ -1085,9 +1145,7 @@
     "select_color": "Select Color"
   },
   "transportation_mode": {
-    "transportation_mode": "Transportation Mode",
-    "color_code": "Code",
-    "select_color": "Select Color"
+    "transportation_mode": "Transportation Mode"
   },
   "warehouse": {
     "warehouses": "Warehouses",
@@ -1099,9 +1157,7 @@
   },
   "unit": {
     "unit": "Unit",
-    "code": "Code",
-    "unit_code": "Unit Code",
-    "select_color": "Select Color"
+    "code": "Code"
   },
   "port": {
     "port": "Port",
@@ -1249,8 +1305,9 @@
     "feo": "Following error occurred",
     "message": "Message",
     "access": "Access Management",
-    "vendor_users": "Vendor Users",
-    "invite_users": "Invite Users"
+
+
+    "error": "error"
   },
   "approveModal": {
     "approvedOrder": "Approved Order",
@@ -1277,8 +1334,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "next": "Next",
-    "back": "Back",
-    "reference_number": "reference number"
+    "back": "Back"
   },
   "orderReject": {
     "title": "Reject Order",
@@ -1386,7 +1442,8 @@
     "video": "Video",
     "certificate": "Certificate",
     "faq": "FAQ",
-    "content": "Content"
+    "content": "Content",
+    "sef": "تنسيقات البريد الإلكتروني للاشتراك"
   },
   "dataPage": {
     "fImgs": "Footer images",
@@ -1573,6 +1630,7 @@
     "HolderName": "Holder Name"
   },
   "CompanyProfiles": {
+    "complete company profile": "Complete Company Profile",
     "Company Profiles": "Company Profiles",
     "PRIMARY INFO": "PRIMARY INFO",
     "Previous": "Previous",
@@ -1585,7 +1643,23 @@
     "Location Information": "Location Information",
     "Licence Upload": "Licence Upload",
     "LOCATION INFORMATION": "LOCATION INFORMATION",
+    "LOCATION INFO": "LOCATION INFO",
     "GENERAL INFO": "GENERAL INFO"
-  }
+  },
 
+  "Dashboard": {
+    "Bestsellers" : "Bestsellers",
+    "More" : "More",
+    "Price" : "Price",
+    "Profit" : "Profit",
+    "Sold" : "Sold",
+    "Add New Product" : "Add New Product",
+    "Product" : "Product"
+  },
+
+  "messageCenter": {
+    "Inquiries" : "Inquiries",
+    "RFQs" : "RFQs",
+    "Shipping" : "Shipping"
+  }
 }

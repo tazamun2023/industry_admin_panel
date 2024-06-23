@@ -103,19 +103,9 @@
                   <div class="input-wrapper   mb-2">
                     <label for="">{{ $t('CompanyProfiles.Logo Upload') }}</label>
                     <div class="flex gap-4">
-                      <div class="file-wrapper w-1/4 h-[232px]   upload-block">
-                        <div class="border-dashed border border-smooth rounded h-[232px]">
-                          <lazy-image
-                            class="w-full h-[232px] !important rounded"
-                            :data-src="getLogo"
-                            alt="logo"
-                          />
-                          <!--                          <img v-if="!getLogo" class="w-full h-[232px] !important rounded"-->
-                          <!--                               src="http://127.0.0.1:8000/uploads/default-image.webp"/>-->
-                          <!--                          <img v-else class="w-full h-[232px] !important rounded" :src="getLogo"/>-->
-                        </div>
-                      </div>
-                      <upload-files class="w-full" accept="image/*" @updateInput="saveLogoAttachment"></upload-files>
+
+                      <upload-files :old_images="getLogo" class="w-full" accept="image/*"
+                                    @updateInput="saveLogoAttachment"></upload-files>
                     </div>
                   </div>
 
@@ -124,22 +114,7 @@
                     <!-- component -->
                     <label for="">{{ $t('CompanyProfiles.Licence Upload') }}</label>
                     <div class="flex gap-4">
-                      <div class="file-wrapper  w-1/4 h-[232px] upload-block">
-                        <div class="border-dashed border border-smooth rounded h-[232px]">
-
-                          <lazy-image
-                            class="w-full h-[232px] !important rounded"
-                            :data-src="getLicence"
-                            alt="logo"
-                          />
-                          <!--                          <img v-if="getLicence?.length === 0" class="w-full h-[232px] !important rounded"-->
-                          <!--                               src="http://127.0.0.1:8000/uploads/default-image.webp"/>-->
-                          <!--                          <img v-else-if="fileExt === 'pdf'" class="w-fullh-[232px] !important rounded"-->
-                          <!--                               src="@/assets/images/pdf.jpg"/>-->
-                          <!--                          <img v-else class="w-full h-[232px] !important" :src="getLicence"/>-->
-                        </div>
-                      </div>
-                      <upload-files class="w-full" accept=".pdf,image/*"
+                      <upload-files :old_images="getLicence" class="w-full" accept=".pdf,image/*"
                                     @updateInput="saveLicenceAttachment"></upload-files>
                     </div>
                   </div>
@@ -156,7 +131,7 @@
 
 
                   <div class="ltr:text-right rtl:text-start">
-                    <button v-on:click="toggleTabs(2)" :disabled="checkNameValue"
+                    <button v-on:click="toggleTabs(2)" :disabled="!step1Check"
                             class="p-1 text-[14px] font-semibold px-4 text-[14px] font-semibold h-[36px] bg-primary rounded-[10px] leading-3  text-white ">
                       <span class="flex justify-between gap-2"><span>{{ $t('CompanyProfiles.Next') }}</span> <img
                         class="w-3 h-3 rtl:rotate-180"
@@ -195,7 +170,7 @@
                     <label for="">{{ $t("vendor.mobile") }}</label>
                     <div class="flex">
                       <div class="w-full">
-                        <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                        <ValidationProvider class="w-full" name="Mobile" rules="required" v-slot="{ errors }">
                           <input type="text" placeholder="Mobile" v-model="fromData.contact_json.mobile">
                           <span class="error">{{ errors[0] }}</span>
                         </ValidationProvider>
@@ -216,7 +191,8 @@
                   <div class="input-wrapper  mb-2">
                     <label for="">{{ $t("vendor.primary_email") }}</label>
                     <div class="w-full">
-                      <ValidationProvider name="email" class="w-full" rules="email|required" v-slot="{ errors }">
+                      <ValidationProvider name="primary email" class="w-full" rules="email|required"
+                                          v-slot="{ errors }">
                         <input type="text" placeholder="Email" v-model="fromData.primary_email">
                         <span v-if="errors.length" class="error">
                   {{ $t('global.req', {type: $t('vendor.primary_email')}) }}
@@ -228,7 +204,7 @@
                   <div class="input-wrapper  mb-2">
                     <label for="">{{ $t("vendor.primary_mobile") }}</label>
                     <div class="w-full">
-                      <ValidationProvider class="w-full" name="Mobile" rules="numeric|required" v-slot="{ errors }">
+                      <ValidationProvider class="w-full" name="Primary mobile" rules="required" v-slot="{ errors }">
                         <input type="text" placeholder="Mobile" v-model="fromData.primary_mobile">
                         <span v-if="errors.length" class="error">
                       {{ $t('global.req', {type: $t('vendor.primary_mobile')}) }}
@@ -248,27 +224,30 @@
                     </div>
                   </ValidationProvider>
 
-                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">
-                    <div class="input-wrapper  mb-2">
-                      <label for="">{{ $t('vendor.status') }}</label>
-                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">
-                        <option value="1" :selected="fromData.status">Enable</option>
-                        <option value="0" :selected="fromData.status === 0">Disable</option>
-                      </select>
-                      <span class="error">{{ errors[0] }}</span>
-                    </div>
-                  </ValidationProvider>
+                  <!--                  <ValidationProvider name="status" class="w-full" rules="numeric|required" v-slot="{ errors }">-->
+                  <!--                    <div class="input-wrapper  mb-2">-->
+                  <!--                      <label for="">{{ $t('vendor.status') }}</label>-->
+                  <!--                      <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.status">-->
+                  <!--                        <option value="1" :selected="fromData.status">Enable</option>-->
+                  <!--                        <option value="0" :selected="fromData.status === 0">Disable</option>-->
+                  <!--                      </select>-->
+                  <!--                      <span class="error">{{ errors[0] }}</span>-->
+                  <!--                    </div>-->
+                  <!--                  </ValidationProvider>-->
 
                   <div class="flex justify-between">
                     <button v-on:click="toggleTabs(1)"
                             class="p-1 px-2 bg-white border text-[14px] font-semibold border-primary rounded-[10px] leading-3 h-[36px]  text-primary ">
                       <span class="flex justify-between gap-2"><img class="w-3 h-3 rtl:rotate-180"
-                                                                    src="~/assets/icon/arowgreen.svg"><span>{{ $t('CompanyProfiles.Previous') }}</span> </span>
+                                                                    src="~/assets/icon/arowgreen.svg"><span>{{
+                          $t('CompanyProfiles.Previous')
+                        }}</span> </span>
                     </button>
-                    <button v-on:click="toggleTabs(3)" :disabled="invalid"
+                    <button v-on:click="toggleTabs(3)" :disabled="!step2Check"
                             class="p-1 px-4  text-[14px] font-semibold bg-primary rounded-[10px] leading-3 h-[36px]  text-white ">
-                      <span class="flex justify-between gap-2"><span>{{ $t('CompanyProfiles.Next') }}</span> <img class="w-3 h-3 rtl:rotate-180"
-                                                                                      src="~/assets/icon/arrow-white.svg"></span>
+                      <span class="flex justify-between gap-2"><span>{{ $t('CompanyProfiles.Next') }}</span> <img
+                        class="w-3 h-3 rtl:rotate-180"
+                        src="~/assets/icon/arrow-white.svg"></span>
                     </button>
                   </div>
                 </div>
@@ -279,7 +258,9 @@
             <div v-bind:class="{'hidden': openTab !== 3, 'block': openTab === 3}">
               <div class="p-4">
                 <div class="title pb-4">
-                  <h4 class="uppercase text-primary  text-[30px] font-bold">{{ $t('CompanyProfile.Location Information') }}</h4>
+                  <h4 class="uppercase text-primary  text-[30px] font-bold">{{
+                      $t('CompanyProfiles.Location Information')
+                    }}</h4>
                   <p class="text-normal">Please, provide country, city, area,
                     street, building information</p>
                 </div>
@@ -288,12 +269,12 @@
                     <ValidationProvider class="w-full" name="Country" rules="required" v-slot="{ errors }">
                       <div class="input-wrapper  mb-2">
                         <label for="">{{ $t("vendor.country") }}</label>
-                        <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.country_id"
-                                :disabled="true">
-                          <option value="">Choose Country</option>
-                          <option :value="countryList.id" v-for="countryList in allCountries"
-                                  :selected="countryList.id === fromData.country_id">{{ countryList.name }}
-                          </option>
+                        <select class="border border-smooth w-100 p-2 rounded cursor-not-allowed"
+                                v-model="fromData.country_id">
+                          <option value="194" disabled>{{ $t('app.Saudi Arabia') }}</option>
+                          <!--                          <option :value="countryList.id" v-for="countryList in allCountries"-->
+                          <!--                                  :selected="countryList.id === fromData.country_id">{{ countryList.name }}-->
+                          <!--                          </option>-->
                         </select>
                         <span class="error">{{ errors[0] }}</span>
                       </div>
@@ -304,7 +285,7 @@
                       <div class="input-wrapper  mb-2">
                         <label for="">{{ $t("vendor.city") }}</label>
                         <select class="border border-smooth w-100 p-2 rounded" v-model="fromData.city_id">
-                          <option value="">Choose City</option>
+                          <option value="" disabled>Choose City</option>
                           <option :value="cityList.id" v-for="cityList in allCitiesById"
                                   :selected="cityList.id === fromData.city_id">{{ cityList.name }}
                           </option>
@@ -341,12 +322,15 @@
                     <button v-on:click="toggleTabs(2)"
                             class="p-1 px-2 bg-white border border-primary  text-[14px] font-semibold rounded-[10px] leading-3 h-[36px] text-primary ">
                       <span class="flex justify-between gap-2"><img class="w-3 h-3 rtl:rotate-180"
-                                                                    src="~/assets/icon/arowgreen.svg"><span>{{ $t('CompanyProfiles.Previous') }}</span> </span>
+                                                                    src="~/assets/icon/arowgreen.svg"><span>{{
+                          $t('CompanyProfiles.Previous')
+                        }}</span> </span>
                     </button>
-                    <button v-on:click="toggleTabs(4)" :disabled="invalid"
+                    <button v-on:click="toggleTabs(4)" :disabled="!step3Check"
                             class="p-1 px-4 bg-primary text-[14px] font-semibold rounded-[10px] leading-3 h-[36px]  text-white ">
-                      <span class="flex justify-between gap-2"><span>{{ $t('CompanyProfiles.Next') }}</span> <img class="w-3 h-3 rtl:rotate-180"
-                                                                                      src="~/assets/icon/arrow-white.svg"></span>
+                      <span class="flex justify-between gap-2"><span>{{ $t('CompanyProfiles.Next') }}</span> <img
+                        class="w-3 h-3 rtl:rotate-180"
+                        src="~/assets/icon/arrow-white.svg"></span>
                     </button>
                   </div>
                 </div>
@@ -357,13 +341,17 @@
             <div v-bind:class="{'hidden': openTab !== 4, 'block': openTab === 4}">
               <div class="p-4">
                 <div class="title pb-4">
-                  <h4 class="uppercase text-primary text-[30px] font-bold">{{ $t('CompanyProfiles.Social Information') }}</h4>
+                  <h4 class="uppercase text-primary text-[30px] font-bold">{{
+                      $t('CompanyProfiles.Social Information')
+                    }}</h4>
                   <p class="text-normal">Please, provide whatsapp, facebook, linkedin,
                     and youtube</p>
                 </div>
                 <div class="form-group">
                   <div class="input-wrapper  mb-2">
-                    <ValidationProvider class="w-full" name="whatsapp" v-slot="{ errors }">
+                    <ValidationProvider class="w-full" name="whatsapp"
+                                        :rules="{ regex:  /^https?:\/\/(wa\.)?me/ }"
+                                        v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.whatsapp') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.whatsapp">
                       <span class="error">{{ errors[0] }}</span>
@@ -371,7 +359,7 @@
                   </div>
                   <div class="input-wrapper mb-2">
                     <ValidationProvider class="w-full" name="facebook"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex: /^https?:\/\/(www\.)?facebook\.com/}"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.facebook') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.facebook">
@@ -380,7 +368,7 @@
                   </div>
                   <div class="input-wrapper mb-2">
                     <ValidationProvider class="w-full" name="linkedin"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex:  /^https?:\/\/(www\.)?linkedin\.com/ }"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.linkedin') }} </label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.linkedin">
@@ -389,7 +377,7 @@
                   </div>
                   <div class="input-wrapper  mb-2">
                     <ValidationProvider class="w-full" name="youtube"
-                                        :rules="{ regex: /((ftp|https?):\/\/)?(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/ }"
+                                        :rules="{ regex:  /^https?:\/\/(www\.)?youtube\.com/ }"
                                         v-slot="{ errors }" :custom-messages="{regex: $t('vendor.notValidUrl')}">
                       <label for="">{{ $t('vendor.youtube') }}</label>
                       <input type="text" placeholder="http://" v-model="fromData.links_json.youtube">
@@ -400,13 +388,17 @@
                     <button v-on:click="toggleTabs(3)"
                             class="p-1 px-2 bg-white border border-primary rounded-[10px] text-[14px] font-semibold leading-3 h-[36px]  text-primary ">
                       <span class="flex justify-between gap-2"><img class="w-3 rtl:rotate-180 h-3"
-                                                                    src="~/assets/icon/arowgreen.svg"><span>{{ $t('CompanyProfiles.Previous') }}</span> </span>
+                                                                    src="~/assets/icon/arowgreen.svg"><span>{{
+                          $t('CompanyProfiles.Previous')
+                        }}</span> </span>
                     </button>
-                    <button @click="submit = true" :disabled="invalid || checkNameValue"
+                    <button @click="submit = true" :disabled="!step4Check || invalid"
                             class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary mt-20">
-                      <span class="flex justify-center items-center gap-2"> <span>{{ $t('CompanyProfiles.Save') }}</span> <img class="h-3 w-3"
-                                                                                                   src="~/assets/icon/archive-add.svg"
-                                                                                                   alt=""></span>
+                      <span class="flex justify-center items-center gap-2"> <span>{{
+                          $t('CompanyProfiles.Save')
+                        }}</span> <img class="h-3 w-3"
+                                       src="~/assets/icon/archive-add.svg"
+                                       alt=""></span>
                     </button>
                   </div>
                 </div>
@@ -452,6 +444,7 @@ import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import Modal from '~/components/Modal.vue';
 import LangInput from "~/components/langInput.vue";
+import UploadFiles from "../../components/UploadFiles.vue";
 
 
 export default {
@@ -459,6 +452,7 @@ export default {
   mixins: [vendor],
   name: "company-profile",
   components: {
+    UploadFiles,
     ValidationProvider,
     ValidationObserver,
     Modal,
@@ -482,7 +476,7 @@ export default {
         primary_email: '',
         primary_mobile: '',
         facility_type_id: '',
-        country_id: '',
+        country_id: 194,
         city_id: '',
         contact_json: {
           area: '',
@@ -499,7 +493,9 @@ export default {
           youtube: '',
         },
         logo: [],
-        licence: []
+        newLogo: '',
+        licence: [],
+        newLicence: '',
 
       },
       getLogo: [],
@@ -552,7 +548,7 @@ export default {
   },
   computed: {
     ...mapGetters('admin', ['profile']),
-    ...mapGetters('vendor', ['vendorList']),
+    ...mapGetters('vendor', ['vendorList', 'vendorProfile']),
     ...mapGetters('common', ['allCountries', 'allCitiesById']),
     checkNameValue() {
       if (!this.fromData.company_name || !this.fromData.details.ar || !this.fromData.details.en) {
@@ -564,21 +560,89 @@ export default {
     },
     successModal() {
       return this.$store.state.vendor.SuccessModal;
-    }
+    },
+
+    step1Check() {
+      const company_name = this.fromData.company_name
+      const details_t = this.fromData.details
+      const subdomain = this.fromData.subdomain
+      const getLogo = this.getLogo
+      const getNewLogo = this.fromData.logo
+      const getLicence = this.getLicence
+      const NewLicence = this.fromData.licence
+      const crNumber = this.fromData.crNumber
+
+
+      const details = details_t.en && details_t.ar;
+      const logoCheck = getLogo || getNewLogo;
+      const licenceCheck = getLicence || NewLicence;
+      // console.log('logoCheck', logoCheck)
+      // console.log('licenceCheck', licenceCheck)
+      const isValid = company_name && details && subdomain && logoCheck && licenceCheck && crNumber;
+
+      return !!isValid;
+    },
+
+    step2Check() {
+      const email = this.fromData.contact_json.email;
+      const mobile = this.fromData.contact_json.mobile
+      const founded_date = this.fromData.founded_date
+      const production_start_date = this.fromData.production_start_date
+      const primary_email = this.fromData.primary_email
+      const primary_mobile = this.fromData.primary_mobile
+      const facility_type_id = this.fromData.facility_type_id
+      const status = this.fromData.status
+
+      const isValid = email && mobile && founded_date && production_start_date && primary_email && primary_mobile && facility_type_id && status;
+      return !!isValid;
+    },
+
+    step3Check() {
+      const country_id = this.fromData.country_id
+      const city_id = this.fromData.city_id
+      const area = this.fromData.contact_json.area
+      const street = this.fromData.contact_json.street
+      const building = this.fromData.contact_json.building
+
+      const isValid = country_id && city_id && area && street && building;
+      return !!isValid;
+    },
+    step4Check() {
+      return true
+      // const whatsapp = this.fromData.links_json.whatsapp
+      // const facebook = this.fromData.links_json.facebook
+      // const linkedin = this.fromData.links_json.linkedin
+      // const youtube = this.fromData.links_json.youtube
+      //
+      // const isValid = whatsapp && facebook && linkedin && youtube;
+      // return !!isValid;
+    },
+
+
   },
   methods: {
     ...mapActions('vendor', ['submitData', 'getVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
-    ...mapActions('ui', ['setToastMessage', 'getCitiesById']),
+    ...mapActions('ui', ['setToastMessage']),
 
     saveLogoAttachment(logo) {
-      this.fromData.logo = logo
+      console.log('sssssss', logo)
+      this.getLogo = logo[0]
+      this.fromData.newLogo = logo
     },
     saveLicenceAttachment(attachments) {
-      this.fromData.licence = attachments
+      this.getLicence = attachments[0]
+      this.fromData.newLicence = attachments
     },
 
     toggleTabs: function (tabNumber, invalid) {
+      // this.$router.push({
+      //   query: {
+      //     ...this.$route.query,
+      //
+      //     step: tabNumber
+      //   }
+      // })
       if (!this.fromData.company_name) {
         this.hasError = true
       } else {
@@ -590,7 +654,7 @@ export default {
       let countryId = this.fromData.country_id;
       if (countryId) {
         try {
-          await this.getCitiesById({id: countryId, api: 'getAllCityById', mutation: 'SET_ALL_Cities'})
+          await this.getCitiesById({id: 194, api: 'getAllCityById', mutation: 'SET_ALL_Cities'})
         } catch (e) {
           return this.$nuxt.error(e)
         }
@@ -610,21 +674,26 @@ export default {
   },
 
   async mounted() {
+
     if (!this.fromData.id) {
       this.fromData.id = this.profile?.vendor_id
     }
     try {
-      await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
+      // if (!this.vendorList)
+        await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
+      this.openTab = parseInt(this.$route.query.step??1)
 
-      await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(() => {
-        this.fromData.country_id = this.vendorList.data.country_id
-        this.countrySelected()
-      })
+      if (this.allCountries.length == 0) {
+        this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(() => {
+          this.fromData.country_id = this.vendorList.data.country_id
+          this.countrySelected()
+        })
+        await this.countrySelected()
+      }
 
     } catch (e) {
       return this.$nuxt.error(e)
     }
-
   }
 
 }

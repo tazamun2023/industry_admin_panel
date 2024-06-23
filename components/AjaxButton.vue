@@ -1,11 +1,11 @@
 <template>
 
-<!--  <button
-    @click.passive="btnClicked"
-    class="ajax-btn"
-    :disabled="disable || disabled || !isActive"
-    :type="type"
-  >-->
+  <!--  <button
+      @click.passive="btnClicked"
+      class="ajax-btn"
+      :disabled="disable || disabled || !isActive"
+      :type="type"
+    >-->
 
   <button
     @click.passive="btnClicked"
@@ -37,94 +37,95 @@
 
 <script>
 
-  import Spinner from "~/components/Spinner"
-  import {mapGetters} from 'vuex'
+import Spinner from "~/components/Spinner"
+import {mapGetters} from 'vuex'
 
-  export default {
-    name: 'AjaxButton',
-    components: {
-      Spinner
+export default {
+  name: 'AjaxButton',
+  components: {
+    Spinner
+  },
+  props: {
+    color: {
+      type: String,
+      default: 'white',
     },
-    props: {
-      color: {
-        type: String,
-        default: 'white',
-      },
-      text: {
-        type: String,
-        default: function () {
-          return this.$t('profile.submit')
-        }
-      },
-      onlyIcon: {
-        type: String,
-        default: null,
-      },
-      another_class: {
-        type: String,
-        default: "null",
-      },
-      loadingText: {
-        type: String,
-        default: function () {
-          return this.$t('profile.gr')
-        }
-      },
-      fetchingData: {
-        type: Boolean,
-        default: false,
-      },
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-      activateBtn: {
-        type: Boolean,
-        default: false,
-      },
-      type: {
-        type: String,
-        default: 'Submit',
-      },
-    },
-    computed: {
-      disable() {
-        return this.fetchingData
-      },
-      isActive() {
-        if(this.activateBtn){
-          return true
-        }
-        return this.activated
-      },
-      ...mapGetters('admin', ['activated'])
-    },
-    methods:{
-      btnClicked(){
-        if(this.type !== 'Submit'){
-          this.$emit('clicked')
-        }
+    text: {
+      type: String,
+      default: function () {
+        return this.$t('profile.submit')
       }
+    },
+    onlyIcon: {
+      type: String,
+      default: null,
+    },
+    another_class: {
+      type: String,
+      default: "null",
+    },
+    loadingText: {
+      type: String,
+      default: function () {
+        return this.$t('profile.gr')
+      }
+    },
+    fetchingData: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    activateBtn: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: 'Submit',
+    },
+  },
+  computed: {
+    disable() {
+      return this.fetchingData
+    },
+    isActive() {
+      if (this.activateBtn) {
+        return true
+      }
+      return this.activated
+    },
+    ...mapGetters('admin', ['activated'])
+  },
+  methods: {
+    btnClicked() {
+      // if(this.type !== 'Submit'){
+      this.$emit('clicked')
+      // }
     }
   }
+}
 </script>
 
-<style lang="stylus">
-  .ajax-btn
-    gap 10px
-    display flex
-    justify-content center
-    align-items center
+<style scoped>
+.ajax-btn {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
 
-    span
-      white-space nowrap
-      overflow hidden
-      text-overflow ellipsis
+span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-
-  button:disabled,
-  button[disabled] {
-    opacity .6
-    cursor no-drop
-  }
+button:disabled,
+button[disabled] {
+  opacity: .6;
+  cursor: no-drop
+}
 </style>

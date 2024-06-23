@@ -235,7 +235,7 @@
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
-                      <p v-if="value.available_quantity===null && value.is_always_available===1" class="text-primary text-nowrap">
+                      <p v-if="value.is_always_available===1" class="text-primary text-nowrap">
                         {{ $t('prod.Always Available') }}</p>
                       <input v-else-if="$store.state.admin.isVendor && value.available_quantity!==null" type="qty" title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"
@@ -294,9 +294,20 @@
                         </div>
                       </Modal>
                     </td>
-                    <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
-                    <td v-else>{{ $t('prod.Offline')}}</td>
+                    <!-- <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
+                    <td v-else>{{ $t('prod.Offline')}}</td> -->
+                    <td><switch-toggle :value="value.is_buyable"/></td>
                     <td>
+                      <!-- <div class="flex gap-2">
+                        <div>
+                          <edit-button-icon class="cursor-pointer"/>
+                        </div>
+                        <div  @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
+                        v-if="$store.state.admin.isVendor && value.status !== 'pending'">
+                        <delete-button-icon  class="cursor-pointer"/>
+                        </div>
+
+                      </div> -->
 
                       <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
                               class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
@@ -310,6 +321,7 @@
                       <div id="dropdown"
                            class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
                            v-if="visibleDropdown === index"
+                           v-outside-click="toggleDropdown"
                       >
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                             aria-labelledby="dropdownDefaultButton">
@@ -329,7 +341,7 @@
                           <nuxt-link
                             v-if="$can('manage_products') && !value.is_variant && value.status === 'pending'"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
-                            :to="`/products/show/pending/${value.id}`">
+                            :to="`/products/show/${value.id}`">
                             {{ $t('prod.Show')}}
                           </nuxt-link>
                           <nuxt-link
@@ -389,6 +401,9 @@ import ProductFilter from "../../components/product/filter.vue";
 import moment from 'moment-timezone';
 import Modal from "~/components/Modal.vue";
 import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
+import SwitchToggle from '../SwitchToggle.vue'
+import EditButtonIcon from '../partials/EditButtonIcon.vue'
+import DeleteButtonIcon from '../partials/DeleteButtonIcon.vue'
 
 export default {
   name: "product-list",
@@ -433,7 +448,10 @@ export default {
     LazyImage,
     ListPage,
     ProductFilter,
-    Modal
+    Modal,
+    SwitchToggle,
+    EditButtonIcon,
+    DeleteButtonIcon
   },
   computed: {
     currencyIcon() {
@@ -451,7 +469,7 @@ export default {
       const baseUrl = this.$store.state.admin.isSuperAdmin ? `/products/show/` : `/products/`;
 
       if (value.status === 'pending' && this.$store.state.admin.isVendor) {
-        return `/products/show/pending/${value.id}`;
+        return `/products/show/${value.id}`;
       }
 
       return `${baseUrl}${value.id}`;
@@ -627,7 +645,14 @@ export default {
   }
 }
 </script>
-
+<style>
+.swal2-popup .swal2-styled.swal2-cancel{
+  height: auto;
+}
+.swal2-popup .swal2-styled.swal2-confirm{
+  height: auto;
+}
+</style>
 <style scoped>
 /* Tooltip container */
 .tooltip {

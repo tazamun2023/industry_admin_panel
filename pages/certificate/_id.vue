@@ -1,10 +1,12 @@
 <script>
 import DataPage from "@/components/partials/DataPage.vue";
 import LangInput from "@/components/langInput.vue";
+import UploadFiles from "../../components/UploadFiles.vue";
 
 export default {
   name: 'CreateCertificates',
   components: {
+    UploadFiles,
     DataPage,
     LangInput,
   },
@@ -25,6 +27,7 @@ export default {
 
   methods: {
     saveAttachment(images) {
+      this.result.file = images.length>0? images[0] : null
       this.result.images = images
     },
     updateInput(input, language, value) {
@@ -97,8 +100,7 @@ export default {
             </div>
             <div class="my-2 input-wrapper">
               <label for="">Upload Certificate</label>
-              <img v-show="result.file.length > 0" :src="result.file" style="width: 200px; height: 200px" alt="">
-              <upload-files @updateInput="saveAttachment"></upload-files>
+              <upload-files :old_images="result.file"  @updateInput="saveAttachment"></upload-files>
             </div>
           </form>
         </div>

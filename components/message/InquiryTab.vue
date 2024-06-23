@@ -1,9 +1,11 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import Pusher from "pusher-js";
+import LazyImage from "../LazyImage.vue";
 
 export default {
   name: "InquiryTab",
+  components: {LazyImage},
   data() {
     return {
       is_loading: false,
@@ -16,6 +18,15 @@ export default {
   },
 
   methods: {
+    setActiveInq(data){
+      this.setActiveInquiriesOffer(data)
+      console.log('set active - ',data)
+      if (data.unread_message > 0){
+        this.readMessage(data.id)
+        this.fetchingData();
+      }
+      this.fetchingOfferData()
+    },
     activeInquiryData(data) {
       this.activeInquiry = data.id
       this.ActiveInquiryData = data
@@ -39,24 +50,7 @@ export default {
         },
         api: 'readMessage'
       }).then(data => {
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
 
-        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-          cluster: process.env.PUSHER_APP_CLUSTER
-        });
-
-        const channel = pusher.subscribe('chat');
-        channel.bind('message', dataP => {
-          try {
-            this.is_loading = true
-            this.fetchingData()
-            this.is_loading = false
-
-          } catch (e) {
-            return this.$nuxt.error(e)
-          }
-        });
       })
     },
 
@@ -73,7 +67,28 @@ export default {
           this.$emit('currentInq', this.inquiries);
           this.is_loading = false
         }))
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
 
+    async fetchingOfferData() {
+      try {
+        this.formSubmitting = true
+        const data = await this.getRequest({
+          params: {
+            inquiry_id: this.activeInquiryData?.id,
+            tab: this.activeTab
+          },
+          api: 'activeInquiries',
+          requiredToken: true
+        });
+        if (data?.status === 200) {
+          await this.setActiveInquiriesOffer(data.data)
+        } else {
+          this.errors = data?.data?.form
+        }
+        this.formSubmitting = false
 
       } catch (e) {
         return this.$nuxt.error(e)
@@ -81,7 +96,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    // ...mapGetters('language', ['langCode', 'currentLanguage', 'languages']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer']),
   },
 
   computed: {
@@ -92,7 +107,10 @@ export default {
         inquiry.user?.name?.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+
+
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
 
 
@@ -109,16 +127,20 @@ export default {
       cluster: process.env.PUSHER_APP_CLUSTER
     });
 
-    const channel = pusher.subscribe('chat');
-    channel.bind('message', dataP => {
-      try {
-        this.is_loading = true
-        this.fetchingData()
-        this.is_loading = false
-
-      } catch (e) {
-        return this.$nuxt.error(e)
+    const vendorId = this.$store.$auth.user.user.vendor_id;
+    const channel = pusher.subscribe(`chat${vendorId}`);
+    channel.bind('message', pusherResponse => {
+      if (pusherResponse.recipientUserId === vendorId){
+        this.fetchingData();
       }
+      // try {
+      //   this.is_loading = true
+      //   this.fetchingData()
+      //   this.is_loading = false
+      //
+      // } catch (e) {
+      //   return this.$nuxt.error(e)
+      // }
     });
   }
 }
@@ -135,8 +157,8 @@ export default {
     </div>
     <div v-if="inquiries.length > 0">
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
-           @click="activeInquiryData(inquirie)"
-           :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'bg-primarylight':''"
+           @click="setActiveInq(inquirie)"
+           :class="inquirie?.id===activeInquiryData?.id ?'bg-primarylight':''"
            class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth  p-2">
         <!--        <img class="h-10 w-10"-->
         <!--             src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"-->
@@ -152,7 +174,7 @@ export default {
                   :class="inquirie?.inquirable_id===CurrentActiveInquiryData?.inquirable_id ?'text-primary':''">
                {{ truncateUserName(inquirie?.inquirable?.title, 60) }}
             </span>
-            <span class="relative">
+            <span class="relative ml-2">
               {{ inquirie.last_time }}
               <span
                 class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
@@ -170,7 +192,7 @@ export default {
              {{ truncateUserName(inquirie.user.name) }}
           </span>
           <div class="flex justify-between">
-            <span class=" font-12px">INQ{{ inquirie.inquirable_id }}</span>
+            <span class=" font-12px">INQ{{ inquirie.id }}</span>
             <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
                   v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
             <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"

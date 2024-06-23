@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       sortByType: this.$route.query.orderbyType || 'desc',
-      sortBy: this.$route.query.orderby || 'created_at',
+      sortBy: this.$route.query.orderby || 'updated_at',
       page: Number(this.$route.query.page) || 1,
       search: this.$route.query.search || null,
     }
@@ -23,11 +23,11 @@ export default {
     },
     clearQuery() {
       this.sortByType = 'desc'
-      this.sortBy = 'created_at'
+      this.sortBy = 'updated_at'
       this.page = 1
     },
     isDefaultPage() {
-      return (this.sortByType === 'desc' && this.sortBy === 'created_at' && this.page === 1)
+      return (this.sortByType === 'desc' && this.sortBy === 'updated_at' && this.page === 1)
     },
     settingRoute() {
       if (this.isDefaultPage() && !this.search && this.resetRoute) {

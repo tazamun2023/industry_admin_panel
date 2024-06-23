@@ -42,6 +42,10 @@ export default {
     };
   },
   props: {
+    IsReadOnly: {
+      type: Boolean,
+      default: false,
+    },
     accept: {
       type: String,
       default: "image/*"
@@ -87,9 +91,12 @@ export default {
   },
   watch: {
     old_images: {
-      handler(newValue) {
+      handler(newValue, oldValue) {
         console.log("watch watch")
-        if (this.updateWatch) {
+        if (this.$refs.uploadInput)
+          this.$refs.uploadInput.value = null;
+        this.files = []
+        if (this.updateWatch && oldValue !== newValue) {
           this.Imgs = [];
           for (var i = 0; i < this.old_images.length; i++) {
             if (this.returnDataJust)
@@ -197,6 +204,7 @@ export default {
       })
     },
     updateInputEvntData() {
+      console.log('iiiiiiiiiiiiii', this.Imgs)
       let dataJust = this.Imgs.map(item => item.url);
       if (this.returnDataJust)
         this.$emit('updateInput', this.Imgs.map(item => item.url));
@@ -235,7 +243,7 @@ export default {
       <!-- Error Message -->
 
       <!-- To inform user how to upload image -->
-      <div v-show="Imgs.length == 0" class="beforeUpload">
+      <div v-if="!IsReadOnly" v-show="Imgs.length == 0" class="beforeUpload">
         <input
           type="file"
           style="z-index: 1"
@@ -251,7 +259,7 @@ export default {
         </p>
       </div>
       <div class="imgsPreview" v-show="Imgs.length > 0">
-        <button v-if="maxFiles > 1" type="button" class="clearButton" @click="reset">
+        <button v-if="maxFiles > 1 && !IsReadOnly" type="button" class="clearButton" @click="reset">
           {{ clearAll ? clearAll : "clear All" }}
         </button>
         <div v-drag-and-drop:options="dragOptions">
@@ -263,13 +271,13 @@ export default {
               :data-id="i"
               :key="i"
             >
-              <template v-if="img.isPdf">
+              <template v-if="img.isPdf && !IsReadOnly">
                 <iframe :src="img.url" width="100%" height="200px"></iframe>
               </template>
               <template v-else>
                 <img :src="img.url"/>
               </template>
-              <span class="delete" style="color: white" @click="deleteImg(i)">
+              <span v-if="!IsReadOnly" class="delete" style="color: white" @click="deleteImg(i)">
                 <svg
                   class="icon"
                   xmlns="http://www.w3.org/2000/svg"
@@ -286,8 +294,8 @@ export default {
                 </svg>
               </span>
             </li>
-            <li v-if="Imgs.length < maxFiles" :data-id="-1">
-              <div class="plus" @click="append">
+            <li v-if=" Imgs.length < maxFiles" :data-id="-1">
+              <div v-if="!IsReadOnly" class="plus" @click="append">
                 <upload-image-icon></upload-image-icon>
               </div>
             </li>

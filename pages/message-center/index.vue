@@ -6,9 +6,9 @@
           <h3 class="test-theem uppercase font-bold">{{ $t('products.Message') }}</h3>
         </div>
         <div>
-          <div class="bg-theemlight p-1 rounded-lg">
+          <div class="bg-theemlight p-1 rounded-lg" v-if="activeInquiryData">
             <p class="font-bold"><span class="mx-1">{{ $t('products.Seller Message') }}</span> <span
-              class="bg-theem text-white p-2  rounded-lg">{{ ActiveInquiryData.count }}</span></p>
+              class="bg-theem text-white p-2  rounded-lg">{{ activeInquiryData?.count }}</span></p>
           </div>
         </div>
       </div>
@@ -23,24 +23,24 @@
                   <div
                     class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'inquiry', 'border-b border-primary text-primary': activeTab === 'inquiry'}"
-                    @click="activeTab = 'inquiry'"
-                  > Inquiries
+                    @click="tabActive('inquiry')"
+                  > {{ $t('messageCenter.Inquiries') }}
                   </div>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
                   <div
                     class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'rfq', 'border-b border-primary  text-primary': activeTab === 'rfq'}"
-                    @click="activeTab = 'rfq'"
-                  > RFQs
+                    @click="tabActive('rfq')"
+                  > {{ $t('messageCenter.RFQs') }}
                   </div>
                 </li>
                 <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
                   <div
                     class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
                     :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'shipping', 'border-b border-primary  text-primary': activeTab === 'shipping'}"
-                    @click="activeTab = 'shipping'"
-                  > Shipping
+                    @click="tabActive('shipping')"
+                  > {{ $t('messageCenter.Shipping') }}
                   </div>
                 </li>
               </ul>
@@ -52,8 +52,6 @@
                   <div class="tab-content tab-space ltr:border-r h-[700px] scrolly rtl:border-l border-smooth">
                     <InquiryTab
                       v-if="activeTab === 'inquiry'"
-                      @activeInquiry="activeInquiryEvent"
-                      @ActiveInquiryData="activeInquiryEventData"
                       @currentInq="currentInq"
                     />
 
@@ -123,21 +121,18 @@
               <div class="flex-auto">
                 <div class="tab-content tab-space">
                   <ActiveInquiry
-                    v-if="ActiveInquiryData && activeTab === 'inquiry'"
-                    :ActiveInquiryData="ActiveInquiryData"
-                    :offer_index="offer_index"
-                    @update-data="UpdateActiveInquiryData"
-                    @is_send_new_offer_index="isClickNewOfferIndex"
+                    v-if="activeInquiryData && activeTab === 'inquiry' ||activeTab === 'rfq'"
+                    :activeTab="activeTab"
                     />
 
-                  <ActiveRFQ
-                    v-if="ActiveRfqInquiryData && activeTab === 'rfq'"
-                    :activeRFQData="ActiveRfqInquiryData"
-                    :is_active_inq="is_active_inq"
-                    :offer_index="offer_index"
-                    @update-data="UpdateActiveInquiryData"
-                    @is_send_new_offer_index="isClickNewOfferIndex"
-                  />
+<!--                  <ActiveRFQ-->
+<!--                    v-if="ActiveRfqInquiryData && activeTab === 'rfq'"-->
+<!--                    :activeRFQData="ActiveRfqInquiryData"-->
+<!--                    :is_active_inq="is_active_inq"-->
+<!--                    :offer_index="offer_index"-->
+<!--                    @update-data="UpdateActiveInquiryData"-->
+<!--                    @is_send_new_offer_index="isClickNewOfferIndex"-->
+<!--                  />-->
                   <div v-if="activeTab === 'shipping'">
                     <!-- RFQ tab content goes here -->
                     <div class="relative  min-w-0 break-words w-full rounded">
@@ -504,6 +499,7 @@ import {mapActions, mapGetters} from "vuex";
 import ActiveInquiry from "@/components/message/ActiveInquiry.vue";
 import RFQTab from "@/components/message/RFQTab.vue";
 import ActiveRFQ from "@/components/message/ActiveRFQ.vue";
+import Pusher from "pusher-js";
 
 export default {
   name: 'MessageCenter',
@@ -524,7 +520,6 @@ export default {
 
 
       activeInquiry: '',
-      ActiveInquiryData: '',
       rfq_inquiries: '',
       activeRfq: '',
       is_active_inq: '',
@@ -538,6 +533,7 @@ export default {
 
   computed:{
 
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
   },
 
   async mounted() {
@@ -545,6 +541,12 @@ export default {
   },
 
   methods: {
+    tabActive(tab) {
+      this.activeTab = tab;
+      this.clearActiveInquiriesOffers();
+      this.clearActiveRfqData();
+      // this.$router.push({ path: this.$route.path });
+    },
     insertFileToggle(){
       this.inserFile = !this.inserFile
     },
@@ -554,7 +556,7 @@ export default {
     },
     ActiveRfqInquiryEventData(event){
       this.ActiveRfqInquiryData = event
-      this.ActiveInquiryData = event
+      // this.ActiveInquiryData = event
     },
     currentRfqInq(event){
       this.rfq_inquiries = event
@@ -567,7 +569,26 @@ export default {
       this.activeInquiry = event
     },
     activeInquiryEventData(event) {
-      this.ActiveInquiryData = event
+      // Pusher.logToConsole = true;
+      //
+      // const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+      //   cluster: process.env.PUSHER_APP_CLUSTER
+      // });
+      //
+      // const channel = pusher.subscribe('chat');
+      // channel.bind('message', dataP => {
+      //   try {
+      //     // this.is_loading = true
+      //     // this.fetchingData()
+      //     // this.is_loading = false
+      //     // this.ActiveInquiryData = event
+      //     // console.log(event)
+      //
+      //   } catch (e) {
+      //     return this.$nuxt.error(e)
+      //   }
+      // });
+      // this.ActiveInquiryData = event
     },
     currentInq(event) {
       this.inquiries = event
@@ -584,6 +605,7 @@ export default {
 
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
+    ...mapActions('rfq', ['clearActiveInquiriesOffers', 'clearActiveRfqData']),
   }
 };
 </script>

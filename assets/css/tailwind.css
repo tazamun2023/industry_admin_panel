@@ -61,3 +61,53 @@ cloudflare-app {
 .custom-select {
   min-width: auto !important;
 }
+
+
+
+
+/***********custom calander************/
+
+
+.min-width-180 {
+  width: 180px;
+}
+
+.mx-calendar-content .cell.disabled {
+  background-color: transparent !important;
+}
+
+.cell .not-current-month {
+  color: #000 !important;
+}
+
+.mx-table-date .cell.not-current-month {
+  color: #000 !important;
+}
+
+.mx-table-date > thead {
+  background-color: #ebe2e2 !important;
+}
+
+.mx-datepicker-main {
+  color: #000000 !important;
+
+}
+
+.mx-calendar-content .cell.disabled {
+  color: #525252 !important;
+}
+
+.mx-btn {
+  font-weight: 900 !important;
+  color: #000 !important;
+}
+
+.mx-icon-calendar, .mx-icon-clear {
+html:lang(ar) & {
+  right: auto !important;
+  left: 8px !important;
+}
+}
+.unitbox .vs__dropdown-toggle{
+  height: 44px !important;
+}

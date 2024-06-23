@@ -1,6 +1,6 @@
 <template>
   <custome-modal
-    :title="` ${$t('address.Add Address') } `"
+    :title="` ${$t('address.Add Address') }  `"
     :show-modal="showModal"
     @close="closeAddressModel"
     size="lg">
@@ -25,17 +25,17 @@
             <div class="flex start  gap-4">
 
               <div class="border border-smooth rounded  cursor-pointer border-smoth p-2" :class="{'bg-primary':
-                    addressData.type === 'shipping'}" @click="shipping">
+                    addressData.type === 'shipping'}" @click="addressData.type = 'shipping'">
                 <p>{{ $t('address.Shipping') }}</p>
               </div>
 
               <div class="border border-smooth rounded  cursor-pointer border-smoth p-2"
-                   :class="{'bg-primary': addressData.type === 'billing'}" @click="billing">
+                   :class="{'bg-primary': addressData.type === 'billing'}" @click="addressData.type ='billing'">
                 <p>{{ $t('address.Billing') }}</p>
               </div>
 
               <div class="border  rounded border-smooth cursor-pointer p-2"
-                   :class="{'bg-primary': addressData.type === 'both'}" @click="both">
+                   :class="{'bg-primary': addressData.type === 'both'}" @click="addressData.type ='both'">
                 <p>{{ $t('address.Both') }}</p>
               </div>
               <span
@@ -179,7 +179,7 @@ import CustomeModal from "./CustomeModal.vue";
 
 export default {
   components: {CustomeModal, ValidationObserver, ValidationProvider},
-  props: ['address', 'showModal'],
+  props: ['showModal'],
   mixins: [address],
 
   data() {
@@ -209,7 +209,7 @@ export default {
   },
   computed: {
     ...mapGetters('admin', ['profile']),
-    ...mapGetters('address', ['addressList']),
+    ...mapGetters('address', ['addressList', 'activeAddress']),
     ...mapGetters('common', ['phoneCode', 'allCountries', 'allCitiesById']),
   },
   watch: {},
@@ -225,14 +225,37 @@ export default {
       this.isInvalid = invalid;
       return true; // Necessary to keep the template valid
     },
-    countrySelected() {
+    async countrySelected() {
       // this.addressData.city_id = ""
       try {
-        this.getCitiesById({
-          api: 'getAllCityById',
-          mutation: 'SET_ALL_Cities',
-          id: this.vendorCountryId
-        })
+        // if (this.allCitiesById.length == 0 || this.allCitiesById[0].country_code != this.activeAddress.country_code)
+        {
+          let country = this.allCountries.find(c =>
+            c.iso.toLowerCase().includes(this.addressData.country_code.toLowerCase())
+          );
+          if (country && this.addressData.country_code != "")
+            this.addressData.country_id = country.id
+          else
+            this.addressData.country_id = this.activeAddress.country_id;
+
+          await this.getCitiesById({
+            api: 'getAllCityById',
+            mutation: 'SET_ALL_Cities',
+            id: this.addressData.country_id ?? this.vendorCountryId ?? 'SA'
+          })
+          console.log('cit', this.activeAddress.city_name)
+
+          let city = this.allCitiesById.find(c =>
+            c.name_lang.en.toLowerCase().includes(this.activeAddress.city_name.toLowerCase()) ||
+            c.name_lang.ar.toLowerCase().includes(this.activeAddress.city_name.toLowerCase())
+          );
+
+          if (city && this.addressData.city_name != "")
+            this.addressData.city_id = city.id
+          else
+            this.addressData.city_id = this.activeAddress.city_id;
+        }
+
       } catch (e) {
         return this.$nuxt.error(e)
       }
@@ -268,9 +291,11 @@ export default {
     },
   },
   async mounted() {
+    console.log("mmmmmmmmm")
     // this.clearForm();
     try {
       this.loading = true
+      this.vendorCountryId = this.profile.country_id
       // await this.getAllAddress();
       // await this.getPhoneCode();
       if (this.allCountries.length == 0)
@@ -278,26 +303,27 @@ export default {
           api: 'getAllCountries',
           mutation: 'SET_ALL_COUNTRIES',
         });
+      // else {
+      //   await this.countrySelected()
+      //
+      // }
+
 
       this.loading = false
     } catch (e) {
       return this.$nuxt.error(e)
     }
-    this.addressData.country_id = this.vendorCountryId = this.profile.country_id;
-    if (this.address) {
-      this.addressData = {...this.addressData, ...this.address}
-      // this.addressData.country_id = this.address.country_id;
-      this.addressData.building_number = this.address.building_number;
-      this.addressData.is_default = this.address.is_default == '1' ? true : false;
-      this.addressData.street = this.address.street;
-      this.addressData.phone_code = this.address.phone_code !== '' ? this.address.phone_code : '966'
-      this.countrySelected(this.address.country_id);
-      this.addressData.city_id = this.address.city_id;
-    } else {
-      this.addressData.country_id = this.profile.country_id;
-      this.addressData.is_default = 0;
-      this.countrySelected(this.addressData.country_id);
-    }
+    // this.addressData.country_id = this.vendorCountryId = this.activeAddress.country_id ?? this.profile.country_id;
+    // this.addressData = {...this.activeAddress}
+    this.addressData = JSON.parse(JSON.stringify(this.activeAddress));
+    console.log('activeAddress', this.activeAddress)
+    console.log('addressData', this.addressData)
+    // this.addressData.country_id = this.activeAddress.country_id;
+    this.addressData.building_number = this.activeAddress.building_number;
+    this.addressData.is_default = this.activeAddress.is_default == '1' ? true : false;
+    this.addressData.street = this.activeAddress.street;
+    this.addressData.phone_code = this.activeAddress.phone_code !== '' ? this.activeAddress.phone_code : '966'
+    this.countrySelected(this.addressData.country_id);
 
 
   }

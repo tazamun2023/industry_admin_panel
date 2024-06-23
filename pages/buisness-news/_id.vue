@@ -37,9 +37,8 @@
                           @updateInput="updateInput"></lang-input>
             </div>
             <div class="my-2 input-wrapper">
-              <img v-if="result.image.length > 0" :src="result.image" alt="" style="height: 200px; width: 200px">
               <label for="">Upload Image</label>
-              <upload-files @updateInput="saveAttachment"></upload-files>
+              <upload-files :old_images="result.image" @updateInput="saveAttachment"></upload-files>
               <!--          <input type="file" name="" id="">-->
             </div>
           </form>
@@ -93,6 +92,7 @@ export default {
     saveAttachment(images) {
       console.log(images)
       // this.result.rfq_attachments = rfq_attachments
+      this.result.image = images[0]
       this.result.file = images
       // this.result.file = images
     },

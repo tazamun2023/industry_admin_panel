@@ -10,8 +10,15 @@ export default {
   //  ...mapActions('common', ['swetAlertFire']),
     async  getAllVendorBank(){
       await this.getVendorBank({
+        // params: {
+        //   ...this.param,
+        //
+        //   ...this.listParams,
+        //   ...{time_zone: this.timeZone}
+        // },
         params:{
-          "vendor_id" : this.profile.vendor_id
+          "vendor_id" : this.profile.vendor_id,
+          ...this.$route.query,
         },
         api:"getVendorBank"
       })
@@ -67,7 +74,7 @@ export default {
           text: this.$i18n.t('approvedModal.revert'),
         }
         })
-        if(res) { 
+        if(res) {
           const data = await this.vendorBankDelete({
             params: value.id,
             api: "DeleteVendorBank",
@@ -79,7 +86,7 @@ export default {
             this.setToastError(data.data.form.join(', '))
           //  this.getAllVendorBank()
           }
-        } 
+        }
 
     },
 

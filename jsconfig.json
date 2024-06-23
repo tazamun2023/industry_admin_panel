@@ -146,10 +146,11 @@
     "getCustomerOrders" : "customer-info/customers/orders/get",
     "getCustomerAddress" : "customer-info/address/all",
     "updateCustomer" : "customer-info/customers",
-    "getVendorAddress": "vendor/address/get",
-    "userAddressAction": "user/address/action",
-    "userAddressFind": "user/address/find",
-    "userAddressDelete": "user/address/delete",
+    "getVendorAddress": "address/all",
+    "userAddressAction": "address/action",
+    "SetAddressDefault": "address/set-default",
+    "userAddressFind": "address/find",
+    "userAddressDelete": "address/delete",
     "adminDeleteAddress": "address/delete",
 
     "phoneCode": "user/phoneCode",
@@ -288,6 +289,7 @@
     "getVariantProducts": "product/find-variant-products",
     "getProductBySku": "product/sku",
     "setProduct": "product/action",
+    "saveParentVariantsProduct": "product/parentAction",
     "setRejectProduct": "product/reject",
     "setRejectRfq": "rfq/reject",
     "setApprovedRfq": "rfq/approved",
@@ -415,13 +417,15 @@
     "allRoles": "role/all-roles",
 
     "allPermissions": "role/all-permissions",
+    "role_and_permissions": "get-available-permissions",
+
 
     "getAdmins": "admin-data/all",
     "getAdmin": "admin-data/find",
     "deleteAdmin": "admin-data/delete",
 
     "getVendorUsers": "vendor-users/all",
-    "getVendorInvitation": "vendor-users/all?type_is=invitation",
+    "getVendorInvitation": "vendor-users/invitations",
     "getUser": "vendor-users/find",
     "deleteVendors": "vendor-users/delete",
     "sentInvitation": "vendor-users/SentInvitation",
@@ -466,7 +470,14 @@
     "addOrderFiles": "sub-order/uploadFiles",
     "mainOrderDetails": "sub-order/admin",
     "mainOrder": "main-order",
-    "changePaymentStatus":"main-order/change-payment-status"
+    "changePaymentStatus":"main-order/change-payment-status",
+    "getHelpAssistance": "help-assistants-groups/all",
+    "setHelpAssistanceGroup": "help-assistants-groups/action",
+    "deleteHelpAssistanceGroup": "help-assistants-groups/delete",
+    "setHelpAssistance": "help-assistants/action",
+    "deleteHelpAssistance": "help-assistants/delete",
+    "setPolice": "site-setting/setPolice",
+    "checkIfVaildSKU": "product/checkSKU"
 
   }
 }

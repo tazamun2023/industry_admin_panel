@@ -27,10 +27,8 @@
           @open-modal="openModal"
           @delete-bulk="deleteBulk"
         >
-          <slot
-            name="add-button"
-          >
-          </slot>
+          <slot name="title"></slot>
+          <slot name="add-button"></slot>
         </table-top>
       </slot>
     </div>
@@ -91,6 +89,7 @@ export default {
       type: Boolean,
       default: true
     },
+
     name: {
       type: String,
       default: ''
@@ -127,7 +126,7 @@ export default {
       type: Object,
       default() {
         return {
-          created_at: {title: this.$t('category.date')},
+          updated_at: {title: this.$t('category.date')},
           title: {title: this.$t('index.title')},
           status: {title: this.$t('category.status')}
         }
@@ -159,10 +158,18 @@ export default {
       return this.$t('list.loadn') + '...'
     },
     list() {
-      return this.result?.data
+      if (this.listApi==='dashboard'){
+        return this.result.orders.data
+      }else {
+        return this.result?.data
+      }
     },
     totalPage() {
-      return this.result?.last_page
+      if (this.listApi==='dashboard'){
+        return this.result?.orders?.last_page
+      }else {
+        return this.result?.last_page
+      }
     },
     ...mapGetters('language', ['currentLanguage']),
   },
@@ -186,8 +193,8 @@ export default {
           },
           api: this.listApi
         })
-        this.$emit('list', this.list)
 
+        this.$emit('list', this.list)
         this.loading = false
       } catch (e) {
         return this.$nuxt.error(e)
@@ -197,7 +204,14 @@ export default {
       return this.$router.push(`/${this.routeName}/${id}`)
     },
     async deleteItem(id) {
-      if (confirm(this.$t('admin.dltMsg'))) {
+
+      const res = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('vendor.deletemessage') ,
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      })
+      if (res) {
         try {
           this.deleting = true
           await this.deleteData({params: id, api: this.deleteApi})
@@ -254,7 +268,7 @@ export default {
 
     async deleteBankItem(id, params) {
 
-      alert("sdfdf")
+      // alert("sdfdf")
 
       try {
         this.deleting = true

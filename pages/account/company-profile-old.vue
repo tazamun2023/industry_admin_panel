@@ -100,8 +100,14 @@
               <div class="flex gap-4">
              <div class="file-wrapper logo-upload upload-block">
               <div class="file-input mt-20">
-              <img v-if="getLogo?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-              <img v-else class="w-full h-[181px] !important" :src="getLogo" />
+<!--              <img v-if="getLogo.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />-->
+<!--              <img v-else class="w-full h-[181px] !important" :src="getLogo" />-->
+
+                <lazy-image
+                  class="w-full h-[181px] !important"
+                  :data-src="getLogo"
+                  :alt="getLogo"
+                />
             </div>
              </div>
 
@@ -116,8 +122,13 @@
              <div class="flex gap-4">
               <div class="file-wrapper logo-upload upload-block">
               <div class="file-input mt-20">
-                <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />
-                <img v-else class="w-full h-[181px] !important" :src="getLicence" />
+                <lazy-image
+                  class="w-full h-[181px] !important"
+                  :data-src="getLicence"
+                  :alt="getLicence"
+                />
+<!--                <img v-if="getLicence?.length === 0" class="w-full h-[181px] !important" src="http://127.0.0.1:8000/uploads/default-image.webp" />-->
+<!--                <img v-else class="w-full h-[181px] !important" :src="getLicence" />-->
             </div>
              </div>
               <upload-files  @updateInput="saveLicenceAttachment"></upload-files>
@@ -274,6 +285,7 @@ import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import { extend } from 'vee-validate';
 import Modal from '~/components/Modal.vue';
 import LangInput from "../../components/langInput.vue";
+import LazyImage from "../../components/LazyImage.vue";
 
   extend('min', {
     validate(value, { length }) {
@@ -290,6 +302,7 @@ export default {
   mixins:[vendor],
   name:"company-profile",
   components:{
+    LazyImage,
     ValidationProvider,
     ValidationObserver,
     Modal,

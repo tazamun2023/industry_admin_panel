@@ -95,11 +95,12 @@
           <h4> {{ $t('approveModal.pickupAddress') }}</h4>
           <a v-if="$can('edit_addresses')"
              class="border border-smooth bg-primary text-white p-4 leading-3 rounded-lg"
-             @click="showModelAddAddress">
+             @click="addAddress">
             {{ $t('approveModal.pickupAddress') }}</a>
         </div>
         <div class="p-1">
-          <div v-for="(address,d) in  addressList.data" :key="d"
+
+          <div v-for="(address,d) in  addressList" :key="d"
                @click="focusAddress(address)"
                :class="{
     'card gap-4 my-4 p-2 flex border border-primary cursor-pointer':
@@ -134,7 +135,8 @@
                 <span>+{{ address?.phone_code }} {{ address.phone }}</span></p>
             </div>
             <div class="ml-auto">
-              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3" @click="addressmodal=true"
+              <button class="bg-smooth px-4 text-primary p-1 rounded leading-3"
+                      @click="editAddress(address)"
                       v-if="$can('edit_addresses')"
               >{{ $t('category.edit') }}
               </button>
@@ -238,10 +240,10 @@
     </template>
 
 
-    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">
-    </AddAddressModel>
+<!--    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">-->
+<!--    </AddAddressModel>-->
 
-
+    <AddAddress  ></AddAddress>
   </custome-modal>
 </template>
 
@@ -256,17 +258,22 @@ import CardTab from "../pages/orders/component/CardTab.vue";
 import OrderItems from "../pages/orders/component/OrderItems.vue";
 import CustomeModal from "./CustomeModal.vue";
 import AjaxButton from "./AjaxButton.vue";
+import AddAddress from "./AddAddress.vue";
+import address from "@/mixin/address";
 
 export default {
   components: {
+    AddAddress,
     AjaxButton,
     CustomeModal,
     OrderItems, CardTab, OrderSummary, PriceWithCurencyFormat, AddAddressModel, LazyImage, Pagination
   },
   computed: {
+    ...mapGetters('admin', ['profile']),
     ...mapGetters('order', ['selectedOrdersall']),
     ...mapGetters('address', ['addressList']),
   },
+  mixins: [address],
   data() {
     return {
       firstBox: true,
@@ -289,6 +296,7 @@ export default {
       addressSelected: ""
     }
   },
+
   methods: {
     ...mapActions('address', ['getVendorAddress']),
     ...mapActions('common', ['getRequest']),
@@ -309,7 +317,7 @@ export default {
           api: "getVendorAddress"
         })
         console.log('data', data);
-        this.$store.commit('address/SET_VENDOR_ADDRESS', data)
+        this.$store.commit('address/SET_VENDOR_ADDRESS', data.data)
       } catch (e) {
         return this.$nuxt.error(e)
       }

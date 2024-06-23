@@ -8,7 +8,7 @@ apiBase += configJson.api.url
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-/*  target: 'static',*/
+  /*  target: 'static',*/
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Index',
@@ -17,13 +17,13 @@ export default {
       dir: 'ltr',
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: ''},
+      {name: 'format-detection', content: 'telephone=no'}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'}
     ]
   },
   transition: {
@@ -46,30 +46,32 @@ export default {
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src:   '~/plugins/tippy.js'},
-    { src: '~/plugins/vue-modal.js', mode: 'client' },
-    { src: '~/plugins/vue-draggable', ssr: false },
-    { src: '~/plugins/vue-select.js', ssr: false },
-    { src: '~/plugins/vue-datepicker.js', ssr: false },
-    { src: '@/plugins/i18n.js' },
-    { src: '@/plugins/vue-html2pdf', mode: 'client' },
-    { src: '@/plugins/google-map.js', mode: 'client' } ,
-    { src: '@/plugins/ability.js' },
+    {src: '~/plugins/directives.js'},
+    {src: '~/plugins/tippy.js'},
+    {src: '~/plugins/lodash.js'},
+    // { src: '~/plugins/froala_editor.js', mode: 'client', ssr: false },
+    {src: '~/plugins/vue-modal.js', mode: 'client'},
+    {src: '~/plugins/vue-draggable', ssr: false},
+    {src: '~/plugins/vue-select.js', ssr: false},
+    {src: '~/plugins/vue-datepicker.js', ssr: false},
+    {src: '@/plugins/i18n.js'},
+    {src: '@/plugins/vue-html2pdf', mode: 'client'},
+    {src: '@/plugins/google-map.js', mode: 'client'},
+    {src: '@/plugins/ability.js'},
     {src: '~/plugins/cryptojs.js', mode: 'client'},
     // global-component
     {src: '~/plugins/global-component.js', ssr: false},
-    { src: '@/plugins/casl.js' },
+    {src: '@/plugins/casl.js'},
     {src: '~/plugins/dompurify.js'},
     {src: '~/plugins/nuxt-client-init.js', ssr: false},
-    {src: '~/plugins/vee-validate.js', ssr: false},
+    {src: '~/plugins/vee-validate.js', ssr: false}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'nuxt-sweetalert2',
@@ -77,7 +79,8 @@ export default {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '~/modules/froala'
   ],
   router: {
     base: process.env.ADMIN_FOLDER
@@ -89,7 +92,7 @@ export default {
       callback: false,
       home: false,
     },
-    cookie:{
+    cookie: {
       domain: domain,
       options: {
 
@@ -98,8 +101,8 @@ export default {
       },
 
       //options: {
-        //maxAge: 31622400
-     // },
+      //maxAge: 31622400
+      // },
       prefix: 'frontend_',
 
     },
@@ -115,13 +118,13 @@ export default {
         },
         user: {
           property: 'data',
-          // autoFetch: true
+          autoFetch: false
         },
         endpoints: {
           login: {url: apiBase + configJson.api.login, method: 'post'},
           logout: {url: apiBase + configJson.api.logout, method: 'get'},
           // user: false
-           user: {url: apiBase + configJson.api.profile, method: 'get'}
+          user: {url: apiBase + configJson.api.profile, method: 'get'}
         }
       }
     }
@@ -170,7 +173,7 @@ export default {
   build: {
     // Add exception
     transpile: [
-      "vee-validate/dist/rules",/^vue2-google-maps($|\/)/
+      "vee-validate/dist/rules", /^vue2-google-maps($|\/)/
     ],
     /*
       ** You can extend webpack config here
@@ -180,21 +183,21 @@ export default {
     }
   }
   // Build Configuration: https://go.nuxtjs.dev/config-build
-/*  build: {
-    extractCSS: false,
-    splitChunks: {
-      layouts: false,
-      pages: true,
-      commons: true
-    },
-    optimization: {
-      minimize: true,
+  /*  build: {
+      extractCSS: false,
       splitChunks: {
-        chunks: 'all',
-        automaticNameDelimiter: '.',
-        name: true,
-        cacheGroups: {}
+        layouts: false,
+        pages: true,
+        commons: true
+      },
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          automaticNameDelimiter: '.',
+          name: true,
+          cacheGroups: {}
+        }
       }
-    }
-  }*/
+    }*/
 }

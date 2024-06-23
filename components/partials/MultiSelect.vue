@@ -1,13 +1,13 @@
 <template id="MultiSelect">
   <div>
-    <div class="dropdown" @click="showDropdown">
+    <div id="dropdown"   class="dropdown" @click="showDropdown">
       <div class="overselect h-[44px] rounded-[10px]"></div>
-      <select class="custom-select h-[44px] rounded-[10px] w-full c-form-input p-2 border capitalize rounded border-smooth"
+      <select    class="custom-select h-[44px] rounded-[10px] w-full c-form-input p-2 border capitalize rounded border-smooth"
               :disabled="disabled">
         <option value="">{{ title }} <strong>{{ lengthSeleted }}</strong></option>
       </select>
     </div>
-    <div class="multiselect" v-if="show">
+    <div v-outside-click="showDropdown"  class="multiselect" v-if="show">
       <ul class="flex  flex-col ">
         <li class="flex justify-between  hover:bg-primarylight cursor-pointer px-2 py-1"
             v-for="(option, index) in options" :key="index" :checked="selected.value == option.value">

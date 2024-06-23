@@ -32,7 +32,7 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
           title: { title: this.$t('index.title') },
           featured: { title: this.$t('category.featured') },
           created_at: { title: this.$t('category.date') },
-          status: { title: this.$t('category.status') }
+          approved_status: { title: this.$t('category.status') }
         }
       }
     },

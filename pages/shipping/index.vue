@@ -4,9 +4,10 @@
 
     <list-edit-page
       card-class="p-4"
-      table-class="border border-cardb rounded-[8px]"
+      table-class="lg:border border-cardb rounded-[8px]"
       ref="listPage"
       list-api="getSaShipping"
+      btn-class="w-full lg:w-[100px]"
       delete-api="deleteShippingRule"
       set-api="storeSaFreeShipping"
       method="post"
@@ -57,7 +58,7 @@
         </tr>
       </template>
       <template v-slot:checkboxArea>
-        <div class="p-4 py-10">
+        <div class="lg:p-4 py-10">
           <div class="flex w-full  gap-2">
             <input id="nearest" :onchange="changeDefalutAddress()" v-model="settings.allow_find_nearest_pickup_address"
                    type="checkbox">
@@ -66,10 +67,10 @@
           </div>
           <div class="w-full py-4">
             <p>Shipping Default Address</p>
-            <div class="flex w-full gap-4 items-center">
+            <div class="lg:flex w-full gap-4 items-center">
               <div class="relative">
                 <select :disabled="settings.allow_find_nearest_pickup_address" v-model="settings.default_address_id"
-                        class="border border-cardb w-[602px] rounded-[10px] p-2 h-[44px]" name="" id="">
+                        class="border border-cardb lg:w-[602px] w-full rounded-[10px] p-2 h-[44px]" name="" id="">
                   <option :selected="settings.allow_find_nearest_pickup_address" disabled value=""><< Choose Address
                     >>
                   </option>
@@ -79,8 +80,8 @@
                   <img class="h-3" src="~/assets/icon/arrow-down-green.svg" alt="">
                 </label>
               </div>
-              <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addressmodal=true"
-                      class="bg-primary h-[44px] text-white flex gap-3 items-center">
+              <button :disabled="settings.allow_find_nearest_pickup_address" type="button" @click="addAddress"
+                      class="bg-primary h-[44px] text-white flex gap-3 w-full justify-center my-2 lg:my-0 lg:w-[200px] items-center">
                 <img class="w-5" src="~/assets/icon/add-square.svg" alt="">
                 New Address
               </button>
@@ -133,9 +134,9 @@
       </template>
     </list-edit-page>
 
-
-    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">
-    </AddAddressModel>
+<add-address></add-address>
+<!--    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">-->
+<!--    </AddAddressModel>-->
   </div>
 </template>
 
@@ -148,11 +149,14 @@ import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import ListEditPage from "../../components/partials/ListEditPage.vue";
 import {mapActions, mapGetters} from "vuex";
 import AddAddressModel from "../../components/AddAddressModel.vue";
+import AddAddress from "../../components/AddAddress.vue";
+import address from "@/mixin/address";
 
 
 export default {
   name: "categories",
   middleware: ['common-middleware', 'auth'],
+
   data() {
     return {
       addressmodal: false,
@@ -186,17 +190,19 @@ export default {
       return Object.keys(this.days).filter(day => this.days[day]);
     },
     ...mapGetters('address', ['addressList']),
+    ...mapGetters('admin', ['profile']),
+
 
   },
   components: {
+    AddAddress,
     AddAddressModel,
     ListEditPage,
     ListPage,
     DeleteButtonIcon,
     EditButtonIcon
   },
-  mixins: [util, bulkDelete],
-
+  mixins: [util, bulkDelete,address],
   methods: {
     closeModelAddAddress() {
       console.log("close address modal 222")

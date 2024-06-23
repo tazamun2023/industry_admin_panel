@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="py-3">
+    <div class="">
       <h3 class="uppercase text-[18px] font-semibold">{{ title }}</h3>
     </div>
 
@@ -8,7 +8,7 @@
       <slot
         name="add-button"
       >
-        <div v-if="modalButton">
+        <div class="hidden lg:block xl:block" v-if="modalButton">
           <button
             class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center"
             @click="openModal">
@@ -45,17 +45,30 @@
 
 
     </div>
-    <div class="w-full mt-4 lg:hidden xl:hidden">
+    <!-- ---------------------mobile button---------- -->
+    <slot
+        name="add-button"
+      >
+    <div class="lg:hidden xl:hidden my-2" v-if="modalButton">
+
+          <button
+            class="flex w-full hover:bg-primary gap-4 justify-center bg-primary text-white px-4 items-center"
+            @click="openModal">
+            <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
+            <span v-html="$t('app.Add')"></span>
+          </button>
+        </div>
+    <div v-else class="w-full mt-4 lg:hidden xl:hidden">
       <nuxt-link
         v-if=" (gate && $can(manage_gate))"
         :to="addRoute"
-
         class="flex justify-center h-[42px] w-full hover:bg-primary rounded-md gap-4 bg-primary text-white px-4 items-center"
       >
         <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
         <span v-html="$t('app.Add')"></span>
       </nuxt-link>
     </div>
+    </slot>
   </div>
 </template>
 

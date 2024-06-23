@@ -15,6 +15,7 @@ const state = () => ({
   allAttributeValues: null,
   allBrands: null,
   allSKus: null,
+  is_sku_exsist: false,
   allProductCollections: null,
   allBundleDeals: null,
   allShippingRules: null,
@@ -41,6 +42,7 @@ const state = () => ({
 const getters = {
   allUnits: ({allUnits}) => allUnits,
   allTaxRules: ({allTaxRules}) => allTaxRules,
+  is_sku_exsist: ({is_sku_exsist}) => is_sku_exsist,
   allAttributeValues: ({allAttributeValues}) => allAttributeValues,
   allAttributes: ({allAttributes}) => allAttributes,
   allBrands: ({allBrands}) => allBrands,
@@ -77,6 +79,9 @@ const getters = {
 const mutations = {
   SET_ALL_PERMISSIONS(state, allPermissions) {
     state.allPermissions = allPermissions;
+  },
+  SET_IS_VAILD_SKU(state, isVaildSKU) {
+    state.is_sku_exsist = isVaildSKU;
   },
   SET_Reject_Reasons_Types(state, reject_reasons_types) {
     state.reject_reasons_types = reject_reasons_types;
@@ -193,6 +198,9 @@ const mutations = {
   SET_ALL_Filters(state, filters) {
     state.filters = filters;
   },
+  SET_SKU(state, sku) {
+    state.allSKus.push(sku);
+  },
   SET_ALL_COUNTRIES(state, allCountries) {
     state.allCountries = allCountries;
     /*  allCountries.forEach((item) => {
@@ -300,8 +308,11 @@ const mutations = {
 };
 
 const actions = {
-  setAllFilters({ commit }, filters){
+  setAllFilters({commit}, filters) {
     commit('SET_ALL_Filters', filters)
+  },
+  setSku({commit}, sku) {
+    commit('SET_SKU', sku)
   },
 
   setAllSubscriptionEmailFormats({commit}, allSubscriptionEmailFormats) {
@@ -349,6 +360,22 @@ const actions = {
     );
     if (data.status === 200) {
       commit("SET_ALL_FLASH_SALE", data.data.data);
+      // return data
+      // commit(mutation, data.data)
+    } else {
+      return Promise.reject({statusCode: data.status, message: data.message});
+    }
+  },
+
+  async checkIfVaildSKU({rootState, commit}, params) {
+    const {data} = await Service.getRequest(
+      params,
+      this.$auth.strategy.token.get(),
+      "checkIfVaildSKU",
+      rootState.language.langCode
+    );
+    if (data.status === 200) {
+      commit("SET_IS_VAILD_SKU", data.data);
       // return data
       // commit(mutation, data.data)
     } else {
@@ -554,6 +581,7 @@ const actions = {
       dispatch("ui/setToastMessage", data.message, {root: true});
       return data.data;
     } else if (data.status === 201) {
+      dispatch('ui/setToastMessage', data.message, { root: true })
       dispatch("ui/setErrors", data.data, {root: true});
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
@@ -673,6 +701,7 @@ const actions = {
       return data.data;
     } else if (data.status === 201) {
       dispatch("ui/setErrors", data.data, {root: true});
+      dispatch("ui/setToastMessage", data.message, {root: true});
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
     }

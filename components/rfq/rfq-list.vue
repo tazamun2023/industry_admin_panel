@@ -86,15 +86,17 @@
                   <div v-for="(value, index) in list" :key="index">
 
                     <div class="card mt-20 p-1 m-2 bg-white">
-                      <div class="grid grid-cols-12 gap-4">
+                      <div class="lg:grid lg:grid-cols-12 gap-4">
                         <lazy-image
-                          class="w-48 h-full col-span-2 colo object-cover rounded"
+                          class="w-48 mx-auto h-full col-span-2 colo object-cover rounded"
                           :data-src="value.products[0].image"></lazy-image>
 
                         <div class="col-span-7 p-3">
                           <div class="">
                             <h5 class="mb-4 ml-4 font-bold">
-                              <a v-for="p in value.products">{{ p.name }}</a>
+                              <a class="block" v-for="(p,index) in value.products">{{ truncate(p.name) }}
+                              <span v-if="index+1<value.products.length">,</span>
+                              </a>
                             </h5>
                             <!-- <div class="p-2 ml-auto">
                               <svg class="w-6 h-6 text-gray-800 " aria-hidden="true"
@@ -105,7 +107,7 @@
                               </svg>
                             </div> -->
                           </div>
-                          <table class="w-full ">
+                          <table class="w-full">
                             <tr>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
@@ -237,8 +239,8 @@
                       <div class="w-100">
                         <div>
 
-                          <div v-if="collapsedId == value.id" class="mt-4 bg-gray-200 p-4 rounded">
-                            <RFQProducts class="p-4" :show_summary="false" :rfq="value"></RFQProducts>
+                          <div v-if="collapsedId == value.id" class="mt-4  p-4 rounded">
+                            <RFQProducts class="lg:p-4" :show_summary="false" :rfq="value"></RFQProducts>
                           </div>
                           <div class="text-center relative">
                             <img @click="toggleCollapse(value.id)"
@@ -317,7 +319,11 @@ export default {
   },
   mixins: [util, bulkDelete],
   methods: {
-
+    truncate(value, length = 90) {
+      if (!value) return '';
+      value = value.toString();
+      return value.length > length ? value.substring(0, length) + '...' : value;
+    },
     closeRejectModal() {
       this.is_reject_modal = false;
       this.rfqId = ''

@@ -34,7 +34,7 @@
         <td>
           <button
             v-if="$can('manage_content')"
-            @click="openDeleteModal(value.id)" class="border-0"><delete-button-icon/></button>
+            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">

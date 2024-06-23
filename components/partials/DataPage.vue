@@ -65,12 +65,12 @@
         <div
           class="dply-felx j-right single-btn my-2"
         >
-          <ajax-button
-            name="save-edit"
-            class="primary-btn"
-            :text="$t('list.svn')"
-            :fetching-data="formSubmitting  && !redirect"
-          />
+<!--          <ajax-button-->
+<!--            name="save-edit"-->
+<!--            class="primary-btn"-->
+<!--            :text="$t('list.svn')"-->
+<!--            :fetching-data="formSubmitting  && !redirect"-->
+<!--          />-->
           <ajax-button
             name="save"
             class="primary-btn"
@@ -249,7 +249,7 @@ export default {
       try {
         delete this.result.created_at
         delete this.result.updated_at
-
+// alert(1)
         const data = await this.setById({id: this.id, params: this.result, api: this.setApi,method:this.method})
         if (data) {
 
@@ -267,6 +267,13 @@ export default {
           if (this.routeName==='brands' && this.redirect){
             await this.$router.push({
               path: `/${this.routeName}`,
+              hash: this.hash
+            })
+          }
+
+          if (this.result?.id || this.$can(this.gate)){
+            await this.$router.push({
+              path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.id}`,
               hash: this.hash
             })
           }

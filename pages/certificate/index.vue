@@ -20,10 +20,12 @@
           <input type="checkbox" @change="checkAll">
         </th>
         <th>{{ $t('global.sl') }}</th>
-        <th v-if="!$store.state.admin.isVendor">{{ $t('global.vendor') }}</th>
+        <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('global.title') }}</th>
         <th>{{ $t('global.organization') }}</th>
         <th>{{ $t('global.image') }}</th>
+        <th>{{ $t('category.created') }}</th>
+
         <th>{{ $t('global.action') }}</th>
       </tr>
 
@@ -33,16 +35,23 @@
         </td>
 
         <td>{{ index+1 }}</td>
-        <td v-if="!$store.state.admin.isVendor">{{ value.vendor?.local_name }}</td>
+        <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>{{ value.local_title }}</td>
         <td>{{ value.local_organization }}</td>
         <td>
           <img :src="value.file" :alt="value.local_title">
         </td>
         <td>
+          <div class="flex flex-col">
+            <p class="text-nowrap"> {{ value.created }}</p>
+            <p class="text-nowrap"> {{ value.updated_at }}</p>
+          </div>
+
+        </td>
+        <td>
           <button
             v-if="$can('manage_content')"
-            @click="openDeleteModal(value.id)" class="border-0"><delete-button-icon/></button>
+            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
           <button
             v-if="$can('manage_content')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>

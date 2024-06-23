@@ -96,8 +96,8 @@
                 <div>
                   <div class="card cursor-pointer my-2 p-4"
                        v-for="(order, index) in orders?.data" :key="index" v-if="!loading">
-                    <div class="flex gap-4 justify-between">
-                      <div class="flex-1   flex gap-4 max-w-[46rem] justify-between">
+                    <div class="lg:flex gap-4 justify-between">
+                      <div class="lg:flex-1   flex gap-4 max-w-[46rem] justify-between">
                         <div v-if="closeable" @click="productTableShow(index)" class="p-2 w-5">
                           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@
                         </div>
                         <div v-if="order?.status=='pending'">
                           <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
-                                  class="border-2 mt-1 border-warning text-warning uppercase font-bold p-2 rounded leading-3">
+                                  class="border-2 mt-1 border-warning text-warning  font-bold p-2 rounded leading-3">
                             {{ $t('order.rejectOrder') }}
                           </button>
                           <button @click="approvedModalShow(order)" v-if="$can('fulfil_orders')"
@@ -134,7 +134,7 @@
                         <div
                           v-else-if="['approved','ready_to_ship','out_for_delivery'].includes(order?.status)">
                           <button @click="changeStatusModalShow(order)" v-if="$can('fulfil_orders')"
-                                  class="border-2 mt-1 border-info text-info uppercase font-bold p-2 rounded leading-3">
+                                  class="border-2 mt-1 border-info text-info  font-bold p-2 rounded leading-3">
                           <span>
                             {{ $t('changeStatus.from_status.' + order?.status) }}
                           </span>
@@ -143,7 +143,7 @@
                         </div>
                         <div>
                           <button @click="$router.push('orders/'+order.order_id)"
-                                  class="border-2 font-bold mt-1 border-primary p-2 uppercase  rounded text-primary hover:text-primary leading-3">
+                                  class="border-2 font-bold mt-1 border-primary p-2   rounded text-primary hover:text-primary leading-3">
                             {{ $t('order.ViewOrder') }}
                           </button>
                         </div>

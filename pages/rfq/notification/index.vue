@@ -253,9 +253,10 @@ export default {
   methods: {
     async submitApply(){
       try {
-        const data = await this.setById({id: this.$store.getters["admin/profile"].vendor_id??1, params: {result: this.fromData}, api: 'RfqNotificationData'})
+        const {data} = await this.setById({id: this.$store.getters["admin/profile"].vendor_id??1, params: {result: this.fromData}, api: 'RfqNotificationData'})
         // this.$router.push({path: `/${this.routeName}${this.redirect ? '' : '/rfq/notification'}`})
         if (data) {
+          console.log('data',data)
           this.fromData = Object.assign({}, data)
           this.fromData.category = data.categories
           this.$router.push({path: `/rfq/notification`})

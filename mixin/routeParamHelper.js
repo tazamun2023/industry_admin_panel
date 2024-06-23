@@ -15,7 +15,7 @@ export default {
         ...this.listParams,
         ...{
           type: this.$route.query.orderbyType || 'desc',
-          orderby: this.$route.query.orderby || 'created_at',
+          orderby: this.$route.query.orderby || 'updated_at',
           page: Number(this.$route.query.page) || 1,
           search: this.$route.query.search|| null
         }

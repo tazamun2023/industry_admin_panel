@@ -3,16 +3,14 @@ import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
 import ImagePopup from "@/components/message/ImagePopup.vue";
 import Pusher from 'pusher-js'
-import da from "vue2-datepicker/locale/es/da";
+import LazyImage from "../LazyImage.vue";
+import PriceFormat from "../partials/PriceFormat.vue";
 
 export default {
   name: 'ActiveInquiry',
-  components: {ReplyNewOffer,ImagePopup},
+  components: {PriceFormat, LazyImage, ReplyNewOffer,ImagePopup},
 
-  props: {
-    ActiveInquiryData: {},
-    offer_index: {},
-  },
+  props: ['activeTab'],
 
   data() {
     return {
@@ -43,6 +41,15 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData', 'activeInquiryIndex']),
+  },
+
+  watch: {
+    activeInquiryData() {
+      this.$nextTick(() => {
+        this.scrollToBottom();
+      });
+    },
   },
 
   methods: {
@@ -154,7 +161,9 @@ export default {
     scrollToBottom() {
       this.$nextTick(() => {
         const container = this.$refs.messageContainer;
-        container.scrollTop = container.scrollHeight;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
       });
     },
     async cancelOffer(offer_id) {
@@ -173,7 +182,7 @@ export default {
         if (data) {
           this.is_send_new_offer = false
           this.is_cancel_new_offer_customer = false
-          await this.fetchingData();
+          await this.fetchingOfferData();
         } else {
           this.errors = data?.data?.form
         }
@@ -184,44 +193,38 @@ export default {
       }
     },
     async sendMessage() {
-
-      // cancelOffer
       try {
-        this.is_loading = true
-        // const data = await this.postRequest({
-        //   params: {
-        //     user_token: await this.getUserToken(),
-        //     inquiry_id: this.ActiveInquiryData.id,
-        //     status: '',
-        //     type: 'message',
-        //     message: this.message
-        //   },
-        //   api: 'sendOffer',
-        //   requiredToken: true
-        // })
-        await this.setRequest({
-          params: {
-            inquiry_id: this.ActiveInquiryData.id,
-            status: '',
-            type: 'message',
-            message: this.message,
-            file: this.file,
-            image: this.image,
-            fileExtension: this.fileExtension,
-          },
-          api: 'inquiriesOfferStore'
-        }).then(data => {
-          console.log(data)
-          this.message = ''
-          this.fetchingData();
-          this.image = ''
-          this.file = ''
-          this.fileExtension = ''
-        })
-        this.is_loading = false
+        this.is_loading = true;
 
+        // Set request parameters
+        const params = {
+          inquiry_id: this.activeInquiryData.id,
+          status: '',
+          type: 'message',
+          message: this.message,
+          file: this.file,
+          image: this.image,
+          fileExtension: this.fileExtension,
+        };
+
+        this.setIsFetchingRfq();
+        // Await the request
+        await this.setRequest({ params, api: 'inquiriesOfferStore' });
+
+        // Clear input fields
+        this.message = '';
+        this.image = '';
+        this.file = '';
+        this.fileExtension = '';
+
+        // Fetch the offer data
+        await this.fetchingOfferData();
       } catch (e) {
-        return this.$nuxt.error(e)
+        // Handle error
+        this.$nuxt.error(e);
+      } finally {
+        // Ensure loading state is updated in both success and error cases
+        this.is_loading = false;
       }
     },
     acceptOfferModal(index) {
@@ -231,58 +234,41 @@ export default {
       this.setRequest({
         params: {
           offer_id: offer.id,
-          inquiry_id: this.ActiveInquiryData.id,
+          inquiry_id: this.activeInquiryData.id,
           status: 'rejected',
           is_reply: 1,
           type: 'offer'
         },
         api: 'inquiriesOfferStore'
       }).then(data => {
+        this.fetchingOfferData();
         // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
         this.$emit('is_send_new_offer', false);
         this.$emit('is_send_new_offer_vendor', false);
         this.is_after_send = false
       })
     },
-    async acceptOffer(index, activeInquirie) {
+    async acceptOffer(index, inq_data) {
       try {
         this.formSubmitting = true
+        console.log('inq_data', inq_data)
         await this.setRequest({
           params: {
-            product_id: this.ActiveInquiryData.inquirable?.id,
-            quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity,
-            visitor_id: this.ActiveInquiryData?.user?.id,
-            price: this.activeInquiries?.inquiryOffers[index]?.offer?.price,
-            type: 'inquires',
+            offer_id: inq_data.id,
+            inquiry_id: inq_data.inquiry_id,
+            product_id: this.activeInquiryData?.inquirable.id,
+            status: 'approved',
+            is_reply: 1,
+            type: 'offer',
+            expired_at: this.expired_at,
+            price: inq_data.offer?.price,
+            quantity: inq_data.offer?.quantity
           },
-          api: 'acceptInquiriesOffer'
+          api: 'inquiriesOfferStore'
         }).then(data => {
-          console.log(data)
-          // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
-          this.is_accept_offer = true
-          // this.is_after_send = true
-          this.is_accept_offer_index = index
-
-          this.setRequest({
-            params: {
-              offer_id: activeInquirie.id,
-              inquiry_id: this.ActiveInquiryData.id,
-              product_id: this.ActiveInquiryData.product?.id ?? this.ActiveInquiryData?.inquirable?.id,
-              status: 'approved',
-              is_reply: 1,
-              type: 'offer',
-              expired_at: this.expired_at,
-              price: this.activeInquiries?.inquiryOffers[index]?.offer?.price,
-              quantity: this.activeInquiries?.inquiryOffers[index]?.offer?.quantity
-            },
-            api: 'inquiriesOfferStore'
-          }).then(data => {
-            // this.setToastMessage(this.$t('products.success_inquires_send_msg'))
-            this.$emit('is_send_new_offer', false);
-            this.$emit('is_send_new_offer_vendor', false);
+          this.fetchingOfferData()
             this.is_after_send = false
             this.is_click_accept = false
-          })
         })
         this.formSubmitting = false
       } catch (e) {
@@ -291,13 +277,24 @@ export default {
 
       // acceptInquiriesOffer
     },
+    // isLastOffer(index) {
+    //   // return index === this.activeInquiries.inquiryOffers.length - 1;
+    //   const offer = this.activeInquiryData.inquiryOffers[index];
+    //   // console.log('zill', offer)
+    //   return index === this.activeInquiryData.inquiryOffers.length - 1 &&
+    //     (offer.status === 'canceled' || offer.status === 'rejected');
+    //
+    // },
     isLastOffer(index) {
-      // return index === this.activeInquiries.inquiryOffers.length - 1;
-      const offer = this.activeInquiries.inquiryOffers[index];
-      // console.log('zill', offer)
-      return index === this.activeInquiries.inquiryOffers.length - 1 &&
-        (offer.status === 'canceled' || offer.status === 'rejected');
+      const offers = this.activeInquiryData?.inquiryOffers || [];
+      const lastOfferIndex = offers
+        .map((offer, idx) => ({ type: offer.offer?.type, index: idx }))
+        .reverse()
+        .find(offer => {
+          return offer.type === 'offer';
+        })?.index;
 
+      return index === lastOfferIndex;
     },
     getTodayFormattedDate() {
       const today = new Date();
@@ -310,16 +307,18 @@ export default {
       this.is_send_new_offer = ev;
       this.is_send_new_offer_customer = ev;
       this.$emit('is_send_new_offer_index', ev);
-      this.fetchingData();
-      this.ActiveInquiryData = this.activeInquiries
+      this.is_send_new_offer_vendor = false;
+      this.fetchingOfferData()
+      // this.ActiveInquiryData = this.activeInquiries
     },
     isSendNewOfferVendor(ev, activeInquirie) {
       console.log('activeInquirie', activeInquirie)
       this.is_send_new_offer_vendor = ev;
       this.is_send_new_offer_customer = ev;
       this.$emit('is_send_new_offer_index', ev);
-      this.fetchingData();
-      this.ActiveInquiryData = this.activeInquiries
+      // this.fetchingData();
+      this.activeInquiryData = this.activeInquiries
+      // this.is_send_new_offer_vendor = false;
     },
     clickCancelOffer(ev) {
       this.is_cancel_new_offer_customer = false
@@ -332,7 +331,7 @@ export default {
         this.is_loading = true;
         const data = await this.getRequest({
           params: {
-            inquiry_id: this.ActiveInquiryData?.id,
+            inquiry_id: this.activeInquiryData?.id,
           },
           api: 'activeInquiries',
         });
@@ -345,6 +344,32 @@ export default {
       }
     },
 
+    async fetchingOfferData() {
+      try {
+        this.formSubmitting = true
+        const data = await this.getRequest({
+          params: {
+            inquiry_id: this.activeInquiryData?.id,
+            tab: this.activeTab
+          },
+          api: 'activeInquiries',
+          requiredToken: true
+        });
+
+        if (data) {
+          this.readMessage(this.activeInquiryData.id);
+          await this.setActiveInquiriesOffer(data)
+          this.scrollToBottom();
+        } else {
+          this.errors = data?.data?.form
+        }
+        this.formSubmitting = false
+
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    },
+
     readMessage(inquiry_id) {
       this.setRequest({
         params: {
@@ -352,39 +377,17 @@ export default {
         },
         api: 'readMessage'
       }).then(data => {
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
 
-        const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-          cluster: process.env.PUSHER_APP_CLUSTER
-        });
-
-        const channel = pusher.subscribe('chat');
-        channel.bind('message', dataP => {
-          // try {
-          //   this.is_loading = true
-          //   this.fetchingData()
-          //   this.is_loading = false
-          //
-          // } catch (e) {
-          //   return this.$nuxt.error(e)
-          // }
-        });
       })
     },
 
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq']),
   },
 
   mounted() {
-    this.fetchingData();
 
-    this.$watch('ActiveInquiryData', (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        this.fetchingData(); // Fetch data again when ActiveInquiryData changes
-      }
-    });
     this.scrollToBottom();
 
     // Enable pusher logging - don't include this in production
@@ -393,28 +396,14 @@ export default {
     const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
       cluster: process.env.PUSHER_APP_CLUSTER
     });
-
-    const channel = pusher.subscribe('chat');
-    channel.bind('message', dataP => {
-      try {
-        this.is_loading = true
-        this.getRequest({
-          params: {
-            inquiry_id: dataP.message.inquiry_id,
-          },
-          api: 'activeInquiries'
-        }).then(data => {
-          this.activeInquiries = data
-          // console.log(data)
-          if (data.id=== this.ActiveInquiryData.id){
-            this.readMessage(this.ActiveInquiryData?.id)
-          }
-        })
-
-        this.is_loading = false
-
-      } catch (e) {
-        return this.$nuxt.error(e)
+    const vendorId = this.$store.$auth.user.user.vendor_id;
+    const channel = pusher.subscribe(`chat${vendorId}`);
+    channel.bind('message', pusherResponse => {
+      if (pusherResponse.recipientUserId === vendorId &&
+        this.activeInquiryData &&
+        pusherResponse.message.inquiry_id === this.activeInquiryData.id) {
+        this.readMessage(this.activeInquiryData.id);
+        this.fetchingOfferData();
       }
     });
 
@@ -424,7 +413,7 @@ export default {
 
 <template>
   <div>
-    <div v-if="activeInquiries">
+    <div v-if="activeInquiryData">
       <div class="relative  min-w-0 break-words w-full rounded">
         <div class="flex-auto">
           <div class="tab-content tab-space">
@@ -433,20 +422,106 @@ export default {
                 <div class="flex gap-4 items-center">
                   <lazy-image
                     class="w-[38px] h-[38px] object-cover rounded"
-                    :data-src="activeInquiries?.vendor?.logo"
-                    :alt="activeInquiries?.vendor?.local_name"
+                    :data-src="activeInquiryData?.vendor?.logo"
+                    :alt="activeInquiryData?.vendor?.local_name"
                   />
-                  <span>{{ ActiveInquiryData?.user?.name }}</span>
+                  <span>{{ activeInquiryData?.user?.name }}</span>
                 </div>
                 <div>
-                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ ActiveInquiryData?.customer_last_seen }}</p>
-                  <p class="" v-if="$store.state.admin.isSuperAdmin">{{ ActiveInquiryData?.vendor?.name  }}</p>
+                  <p class="" v-if="$store.state.admin.isVendor">{{ $t('products.Last Seen') }}:  {{ activeInquiryData?.customer_last_seen }}</p>
+                  <p class="" v-if="$store.state.admin.isSuperAdmin">{{ activeInquiryData?.vendor?.name  }}</p>
                 </div>
               </div>
             </div>
-            <div class="h-[700px] overflow-y-scroll scrolly" ref="messageContainer">
+
+            <div class="p-4 bg-graylight rounded" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
+              <p class="font-bold text-[18px] py-2">{{ $t('products.RFQ Details') }}</p>
+              <div class="lg:grid lg:grid-cols-2 gap-4">
+                <div class="flex gap-4 items-center">
+                  <lazy-image
+                    class="w-10 h-10 rounded"
+                    :lazy-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
+                    :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
+                    :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.image"
+                  />
+                  <div>
+                    <a class="font-bold text-theem" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.name }}</a>
+                    <p v-if="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity">{{ $t('products.Quantity') }}: <span class="text-primary">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product?.quantity }}</span>
+                      {{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product.unit?.name }}
+                      <br>
+                      {{ $t('products.Initial unit target price') }} :
+                      <price-format
+                        :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_product.target_price"/>
+                    </p>
+                    <p v-if="activeRfqInquiries?.rfq?.expiry_date">{{ $t('products.Expires on') }} :
+                      <span class="text-red">{{ activeRfqInquiries?.rfq?.expiry_date }}</span></p>
+                  </div>
+                </div>
+                <div class="ltr:text-end rtl:text-left">
+                  <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_id }}</p>
+                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries.rfq.quote.id }}</p>
+                  <p>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="h-[700px] overflow-y-scroll scrolly ltr:border-l rtl:border-r border-smooth" ref="messageContainer">
+            <div class="lg:grid lg:grid-cols-8 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
+              <div class="col-span-4 ltr:text-end rtl:text-start">
+
+              </div>
+              <div class="col-span-4">
+                <div class="messenger  w-full">
+                  <div class="card rounded-[16px] shadow m-2 mb-0">
+                    <div class="bg-graylight rounded-t-[16px] p-4 font-bold flex justify-between">
+                      <div>Q{{ activeRfqInquiries.rfq.quote.id }}</div>
+                    </div>
+                    <div class="p-4">
+                      <a class="text-primary font-bold" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.title }}</a>
+                      <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
+                        <div class="flex items-center gap-4">
+                          <lazy-image
+                            class="w-10 h-10 rounded"
+                            :lazy-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
+                            :data-src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
+                            :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image"
+                          />
+<!--                          <img class="h-10 w-10 object-cover rounded" :src="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.image" :alt="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.title">-->
+                          <price-format
+                            :price="Number(activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product?.product_prices[0].selling_price)"/>
+                        </div>
+                        <div>
+                          <div class="flex justify-between p-1">
+                            <span>{{ $t('prod.Quantity') }}</span>
+                            <span><span class="text-primary">{{
+                                activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.quantity
+                              }}</span> {{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.unit?.name }}</span>
+                          </div>
+                          <div class="flex justify-between p-1">
+                            <span>{{ $t('prod.Unit target price') }}</span>
+                            <price-format :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.total_offer_price"/>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="grid grid-cols-2 p-2">
+                        <div></div>
+                        <div class="text-end flex justify-between">
+                          <span>{{ $t('app.Total Price excl VAT') }}</span>
+                          <price-format :price="activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.total_offer_price"/>
+                        </div>
+                      </div>
+                      <div class="w-full">
+                        <p class="p-2 bg-redlight text-reject rounded">{{ $t('prod.Reject') }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
               <!-- -------------------message card user--------------- -->
-              <div v-for="(activeInquirie, index) in activeInquiries.inquiryOffers">
+              <div v-for="(activeInquirie, index) in activeInquiryData.inquiryOffers">
                 <!--        vendor reply-->
                 <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeInquirie.is_reply===0">
                  <div class="col-span-2">
@@ -455,42 +530,37 @@ export default {
                       <div class="bg-graylight font-bold rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
 
-                        <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
+                        <a class="text-primary font-bold" href="">{{ activeInquiryData?.inquirable?.title }}</a>
                         <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                           <div class="flex items-center gap-4">
                             <lazy-image
                               class="h-10 w-10 object-cover rounded"
-                              :data-src="activeInquiries?.inquirable?.image"
-                              :alt="activeInquirie?.product?.title"
+                              :data-src="activeInquiryData?.inquirable?.image"
+                              :alt="activeInquiryData?.inquirable?.title"
                             />
-                            <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{
-                                activeInquiries?.inquirable?.product_prices[0]?.selling_price
-                              }} {{ $t('app.SAR') }}</span>
+                            <price-format :price="Number(activeInquiryData?.inquirable?.product_prices[0]?.selling_price)" />
+<!--                            <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{-->
+<!--                                activeInquiries?.inquirable?.product_prices[0]?.selling_price-->
+<!--                              }} {{ $t('app.SAR') }}</span>-->
                           </div>
                           <div>
                             <div class="flex justify-between p-1">
                               <span>{{ $t('products.Quantity') }}</span>
                               <span class="uppercase"><span class="text-primary">{{
                                   activeInquirie?.offer?.quantity
-                                }}</span>  {{ activeInquiries?.inquirable?.product_unit?.name }}</span>
+                                }}</span>  {{ activeInquiryData?.inquirable?.product_unit?.name }}</span>
                             </div>
                             <div class="flex justify-between p-1">
-                              <span>{{ $t('products.Unit target price') }}</span>
-                              <span><span class="font-bold">{{
-                                  activeInquirie.offer.price
-                                }}</span> <span
-                                class="text-primary">{{ $t('app.SAR') }}</span></span>
+                              <span class="text-nowrap">{{ $t('products.Unit target price') }}</span>
+                              <price-format :price="Number(activeInquirie.offer.price)" />
                             </div>
                           </div>
                         </div>
                         <div class="grid grid-cols-2 p-2">
                           <div></div>
                           <div class="text-end flex justify-between">
-                            <span>{{ $t('products.Total Price excl VAT') }}</span>
-                            <span><span class="font-bold">{{
-                                activeInquirie.offer.price * activeInquirie.offer.quantity
-                              }}</span> <span
-                              class="text-primary"> SAR</span></span>
+                            <span class="text-nowrap">{{ $t('products.Total Price excl VAT') }} </span>
+                            <price-format :price="Number(activeInquirie.offer.price * activeInquirie.offer.quantity)" />
                           </div>
                         </div>
 
@@ -527,6 +597,7 @@ export default {
 
                             <button @click="isSendNewOfferVendor(index, activeInquirie)"
                                     v-if="!is_click_accept && $store.state.admin.isVendor"
+                                    :disabled="!isLastOffer(index)"
                                     class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                               {{ $t('products.Send New Offer') }}
                             </button>
@@ -582,11 +653,8 @@ export default {
                         </div>
                         <ReplyNewOffer
                           v-if="is_send_new_offer_vendor===index"
-                          :ActiveInquiryData="activeInquirie"
+                          :InqOffer="activeInquirie"
                           @is_send_new_offer="sendNewOffer"
-                          :is_send_new_offer_vendor="is_send_new_offer_vendor"
-                          :offer_index="offer_index"
-                          @is_send_new_offer_vendor="isSendNewOfferVendor"
                           @is_cancel="clickCancelOffer"
                         />
 
@@ -658,17 +726,15 @@ export default {
                     <div class="card rounded-lg shadow m-2 mb-0">
                       <div class="bg-graylight rounded-t p-2">OFF{{ activeInquirie.id }}</div>
                       <div class="p-4">
-                        <a class="text-primary font-bold" href="">{{ activeInquiries?.inquirable?.title }}</a>
+                        <a class="text-primary font-bold" href="">{{ activeInquiryData?.inquirable?.title }}</a>
                         <div class="grid grid-cols-2 border-b p-2 border-smooth gap-2">
                           <div class="flex items-center gap-4">
                             <lazy-image
                               class="h-10 w-10 object-cover rounded"
-                              :data-src="activeInquiries?.inquirable?.image"
-                              :alt="activeInquirie?.inquirable?.title"
+                              :data-src="activeInquiryData?.inquirable?.image"
+                              :alt="activeInquiryData?.inquirable?.title"
                             />
-                            <span class="" v-if="activeInquiries?.inquirable?.product_prices">{{
-                                activeInquiries?.inquirable?.product_prices[0]?.selling_price
-                              }} {{ $t('app.SAR') }}</span>
+                            <price-format :price="Number(activeInquiryData?.inquirable?.product_prices[0]?.selling_price)" />
                           </div>
                           <div>
                             <div class="flex justify-between p-1">
@@ -676,25 +742,20 @@ export default {
                               <span class="uppercase">
                                 <span class="text-primary">{{
                                     activeInquirie?.offer?.quantity
-                                  }}</span>  {{ activeInquiries?.inquirable?.product_unit?.name }}
+                                  }}</span>  {{ activeInquiryData?.inquirable?.product_unit?.name }}
                               </span>
                             </div>
                             <div class="flex justify-between p-1">
-                              <span>{{ $t('products.Unit target price') }}</span>
-                              <span><span class="font-bold">{{
-                                  activeInquirie.offer.price
-                                }}</span> <span
-                                class="text-primary">{{ $t('app.SAR') }}</span></span>
+                              <span>{{ $t('products.Unit target price') }}: </span>
+                              <price-format :price="Number(activeInquirie.offer.price)" />
                             </div>
                           </div>
                         </div>
                         <div class="grid grid-cols-2 p-2">
                           <div></div>
                           <div class="text-end flex justify-between">
-                            <span>{{ $t('products.Total Price excl VAT') }}</span>
-                            <span><span
-                              class="font-bold">{{ activeInquirie.offer.price * activeInquirie.offer.quantity }}</span> <span
-                              class="text-primary"> SAR</span></span>
+                            <span>{{ $t('products.Total Price excl VAT') }}: </span>
+                            <price-format :price="Number(activeInquirie.offer.price * activeInquirie.offer.quantity)" />
                           </div>
                         </div>
                         <!-- --------------end-------- -->
@@ -718,6 +779,7 @@ export default {
 
                               <button @click="isSendNewOfferVendor(index)"
                                       v-if="$store.state.admin.isVendor"
+                                      :disabled="!isLastOffer(index)"
                                       class="border-2 border-primary px-2 h-[34px] leading-3 text-primary font-bold">
                                 {{ $t('products.Send New Offer') }}
                               </button>
@@ -757,11 +819,8 @@ export default {
 
                         <ReplyNewOffer
                           v-if="is_send_new_offer_vendor===index"
-                          :ActiveInquiryData="activeInquirie"
+                          :InqOffer="activeInquirie"
                           @is_send_new_offer="sendNewOffer"
-                          :is_send_new_offer_vendor="is_send_new_offer_vendor"
-                          :offer_index="offer_index"
-                          @is_send_new_offer_vendor="isSendNewOfferVendor"
                           @is_cancel="clickCancelOffer"
                         />
 
@@ -1041,6 +1100,7 @@ export default {
                   class="w-full rounded-lg px-4"
                   type="text"
                   v-model="message"
+                  @keyup.enter="sendMessage"
                 >
 
                 <!--              <button-->
@@ -1073,9 +1133,6 @@ export default {
         color="primary"
         class="mr-15 justify-center"
       />
-    </div>
-    <div v-else>
-      no data
     </div>
   </div>
 </template>

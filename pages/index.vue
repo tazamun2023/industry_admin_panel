@@ -1,67 +1,66 @@
 <template>
   <div class="dashboard">
-
-    <div class="lg:card-wrapper grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="dashboard-card">
-        <div class="card rounded-[12px] p-4">
-          <!-- <i
-            class="icon products"
-          /> -->
-          <p class="f-1-2">
-            {{ $t('index.tProduct') }}
-          </p>
-          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ productCount }}</b></h3>
+      <h3 class="uppercase py-3">Dashboard</h3>
+    <Profile :profileData="profileData" />
+      <div class="my-4 gap-4">
+<!--        <order-chart-->
+<!--          v-if="chartMonth"-->
+<!--          :chart-month="chartMonth"-->
+<!--          :monthly-order="monthlyOrder"-->
+<!--          @month-changed="monthChanged"-->
+<!--        />-->
+        <SalesChart
+          v-if="chartMonth"
+          :chart-month="chartMonth"
+          :monthly-order="monthlyOrder"
+          @month-changed="monthChanged"
+          />
+      </div>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
+          <BestSeller :bestSelling="bestSelling"/>
+        </div>
+        <div class="my-2">
+          <MyProducts :my_products="my_products"/>
         </div>
       </div>
-      <div v-if="$store.state.admin.isSuperAdmin" class="dashboard-card">
-        <div class="p-4 rounded-[12px] card">
-          <!-- <i
-            class="icon users"
-          /> -->
-          <p class="f-1-2">
-            {{ $t('index.tUsers') }}
-          </p>
-          <h3 class="text-[20px] lg:text-[24px]"><b>{{ usersCount }}</b></h3>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
+          <LowStock :lowStock="lowStock"/>
+        </div>
+        <div class="my-2">
+          <VendorShortDetails :enhance="enhance"/>
         </div>
       </div>
-      <div class="dashboard-card">
-        <div class="p-4 rounded-[12px] card">
-          <!-- <i
-            class="icon orders"
-          /> -->
-          <p class="f-1-2">
-            {{ $t('index.tOrders') }}
-          </p>
-          <h3 class="text-[20px]  lg:text-[24px]"><b>{{ orderCount }}</b></h3>
+      <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
+        <div class="my-2">
+          <InqueryRfq :inquiries_and_rfqs="inquiries_and_rfqs"/>
+        </div>
+        <div class="my-2">
+          <Brands :brands="brands"/>
         </div>
       </div>
-      <div class="dashboard-card">
-        <div class="p-4 rounded-[12px] card">
-          <!-- <i
-            class="icon withdrawal"
-          /> -->
-          <p class="f-1-2">
-            {{ $t('index.tSells') }}
-          </p>
-          <h3 class="text-[20px]  lg:text-[24px]"><b>{{priceFormatting(orderAmount)}}</b></h3>
-        </div>
+      <div class="my-4 gap-4">
+        <Orders :orders="orders"/>
       </div>
-    </div>
-    <order-chart
-      v-if="chartMonth"
-      :chart-month="chartMonth"
-      :monthly-order="monthlyOrder"
-      @month-changed="monthChanged"
-    />
-    <order-statistic/>
   </div>
 </template>
 
 <script>
   import OrderStatistic from '~/components/partials/OrderStatistic'
   import OrderChart from '~/components/partials/OrderChart'
+  import Profile from '~/components/vendorDashboard/Profile'
+  import BestSeller from '~/components/vendorDashboard/BestSeller'
+  import MyProducts from '~/components/vendorDashboard/MyProducts'
+  import LowStock from '~/components/vendorDashboard/LowStock'
+  import VendorShortDetails from '~/components/vendorDashboard/VendorShortDetails'
+  import InqueryRfq from '~/components/vendorDashboard/InqueryRfq'
+  import Brands from '~/components/vendorDashboard/Brands'
+  import Orders from '~/components/vendorDashboard/Orders'
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
+  import SalesChart from "../components/dashboard/SalesChart.vue";
+  // import SalesChart from "../components/dashboard/SalesChart.vue";
 
 
   export default {
@@ -71,13 +70,30 @@
       return {
         chartData: null,
         dashboard: null,
+        profileData: null,
+        brands: null,
+        enhance: null,
         chartMonth: null,
+        bestSelling: null,
+        my_products: null,
+        lowStock: null,
+        inquiries_and_rfqs: null,
+        orders: null,
         fetching: false
       }
     },
     components: {
+      SalesChart,
       OrderChart,
-      OrderStatistic
+      OrderStatistic,
+      Profile,
+      BestSeller,
+      MyProducts,
+      LowStock,
+      VendorShortDetails,
+      InqueryRfq,
+      Brands,
+      Orders
     },
     mixins: [util],
     computed: {
@@ -89,6 +105,9 @@
       },
       monthlyOrder() {
         return this.chartData?.monthly_order || null
+      },
+      yearlyOrder() {
+        return this.chartData?.yearly_order || null
       },
       usersCount() {
         return this.dashboard?.users || 0
@@ -125,8 +144,17 @@
           if(data?.dashboard) {
             this.dashboard = data.dashboard
           }
-
+          if (data?.profile) {
+            this.profileData = data.profile
+          }
           this.chartData = data.chart_data
+          this.bestSelling = data.best_selling
+          this.lowStock = data.lowStock
+          this.inquiries_and_rfqs = data.inquiries_and_rfqs
+          this.orders = data.orders
+          this.brands = data.brands
+          this.enhance = data.enhance
+          this.my_products = data.my_products
 
           /*await this.getDashboard({
             ...this.chartMonth,
