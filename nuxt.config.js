@@ -46,6 +46,7 @@ export default {
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    {src: '~/plugins/vue-ellipse-progress.js'},
     {src: '~/plugins/directives.js'},
     {src: '~/plugins/tippy.js'},
     {src: '~/plugins/lodash.js'},

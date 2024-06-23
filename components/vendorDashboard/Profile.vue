@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="lg:grid card lg:grid-cols-4 p-4">
 
       <div v-if="profileData" class="text-center">
@@ -7,16 +8,20 @@
         <div>
           <div class="frame">
             <div>
-              <div class="circle-big">
+              <vue-ellipse-progress
+                :progress="profileData?.percent"
+                :angle="-90"
+                :size="120"
+                color="#01A781"
+                emptyColor="#343035"
+              >
+
                 <div class="text">
                   <img class="profile-image mx-auto" src="~/assets/images/vendorprofile.svg" alt="">
                 </div>
-                <svg>
-                  <circle class="bg" cx="57" cy="57" r="52"></circle>
-                  <circle class="progress" v-bind:style="{ 'stroke-dashoffset':profileData?.percent*3.3}" cx="57" cy="57"
-                          r="52"></circle>
-                </svg>
-              </div>
+
+              </vue-ellipse-progress>
+
 
             </div>
           </div>
@@ -118,8 +123,8 @@ export default {
 }
 
 .profile-image {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border: 2px solid #d3d3d3;
   border-radius: 50%;
   padding: 2px;
