@@ -89,6 +89,8 @@
   },
   "polices": {
     "edit": "Edit ",
+    "minWords": "Must be more than or equal {count} words ",
+
     "polices": "Polices ",
     "privacy_polices": " Privacy Policy",
     "return_polices": "Return & Refund Policy",
@@ -1643,6 +1645,7 @@
     "Primary Information": "Primary Information",
     "Location Information": "Location Information",
     "Licence Upload": "Licence Upload",
+    "VatCertificate Upload": "VAT Certificate Upload",
     "LOCATION INFORMATION": "LOCATION INFORMATION",
     "LOCATION INFO": "LOCATION INFO",
     "GENERAL INFO": "GENERAL INFO"

@@ -13,11 +13,13 @@ const mutations = {
 }
 
 const actions = {
-  async setPolice({commit, dispatch}, params) {
-    dispatch('ui/setErrors', null, {root: true})
-    const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), 'setPolice')
+  async setPolice({commit, dispatch}, {result, type,api= 'setPolice'},) {
+    const {data} = await Service.setRequest(result, this.$auth.strategy.token.get(),api)
     if (data.status === 200) {
-      commit('SET_SITE_SETTING', data.data)
+      if (type === 'system')
+        commit('SET_SITE_SETTING', data.data)
+      else
+        dispatch('admin/setPolices', data.data, {root: true})
       dispatch('ui/setToastMessage', data.message, {root: true})
       return data
     } else if (data.status === 201) {

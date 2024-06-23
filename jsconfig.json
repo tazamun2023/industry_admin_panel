@@ -477,6 +477,7 @@
     "setHelpAssistance": "help-assistants/action",
     "deleteHelpAssistance": "help-assistants/delete",
     "setPolice": "site-setting/setPolice",
+    "setVendorPolice": "vendor/setPolice",
     "checkIfVaildSKU": "product/checkSKU"
 
   }

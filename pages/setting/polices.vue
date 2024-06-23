@@ -39,6 +39,8 @@
     </div>
     <EditPolices v-if="$can('manage_ui_settings')"
                  :type="openTab"
+                 policeType="system"
+                 api="setPolice"
                  :show-modal="showEditPolice"
                  @close="showEditPolice=false"
     ></EditPolices>

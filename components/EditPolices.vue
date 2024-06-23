@@ -71,6 +71,7 @@ export default {
     return {
       saveSata: false,
       hasError: false,
+
       isInvalid: false,
       result: {
         description: {ar: "", en: ""},
@@ -81,6 +82,7 @@ export default {
   },
   computed: {
     ...mapGetters('site-setting', ['siteSetting']),
+    ...mapGetters('admin', ['return_polices']),
   },
   methods: {
     ...mapActions('site-setting', ['setPolice']),
@@ -93,7 +95,7 @@ export default {
       if (!this.isInvalid) {
         this.saveSata = true
         // this.result.help_assistants_group_id = this.selectedGroup.id
-        const response = await this.setPolice(this.result)
+        const response = await this.setPolice({result:this.result,'type':this.policeType,api:this.api})
 
         this.saveSata = false
         this.$emit('close');
@@ -114,9 +116,10 @@ export default {
         console.log('mmiis5')
 
         this.result.type = newVal
-        if (this.siteSetting) {
+        if (this.policeType === 'vendor' && this.return_polices) {
+          this.result.description =JSON.parse(JSON.stringify( this.return_polices));
+        } else if (this.siteSetting) {
           var siteSetting = JSON.parse(JSON.stringify(this.siteSetting));
-
           this.result.description = siteSetting['edit_' + newVal];
         }
         // this.result.description = selectedHelp.edite_description
@@ -129,14 +132,16 @@ export default {
   },
   mounted() {
     console.log("mounted")
-    if (this.siteSetting) {
+    if (this.siteSetting && this.policeType === 'system') {
       var siteSetting = JSON.parse(JSON.stringify(this.siteSetting));
-
       this.result.description = siteSetting['edit_' + this.type];
+    }
+    if (this.policeType === 'vendor' && this.return_polices) {
+      this.result.description =JSON.parse(JSON.stringify( this.return_polices));
     }
 
   },
 
-  props: ['showModal', 'type']
+  props: ['showModal', 'type', 'policeType','api']
 };
 </script>

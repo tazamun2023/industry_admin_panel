@@ -77,6 +77,7 @@
   },
   "polices": {
     "edit": "تعديل",
+    "minWords": "يجب ان تكون عدد الكلمات اكثر من او يساوي {count} كلمة ",
     "polices": "السياسات",
     "privacy_polices": "سياسة الخصوسية",
     "return_polices": "سياسة الاسترجاع والاسترداد",
@@ -1629,6 +1630,7 @@
     "Primary Information": "المعلومات الأساسية",
     "Location Information": "معلومات الموقع",
     "Licence Upload": "تحميل الرخصة",
+    "VatCertificate Upload": "تحميل الشهادة الضريبية",
     "LOCATION INFORMATION": "معلومات الموقع",
     "GENERAL INFO": "معلومات عامة"
   }

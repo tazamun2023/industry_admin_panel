@@ -120,6 +120,15 @@
                     </div>
                   </div>
 
+                  <div class="input-wrapper mb-2">
+                    <!-- component -->
+                    <label for="">{{ $t('CompanyProfiles.VatCertificate Upload') }}</label>
+                    <div class="flex gap-4">
+                      <upload-files :old_images="getVatCertificate" class="w-full" accept="image/*"
+                                    @updateInput="saveVatCertificateAttachment"></upload-files>
+                    </div>
+                  </div>
+
 
                   <ValidationProvider name="CR Number" class="w-full" rules="numeric|required" v-slot="{ errors }">
                     <div class="input-wrapper  mb-2">
@@ -497,10 +506,12 @@ export default {
         newLogo: '',
         licence: [],
         newLicence: '',
+        newVatCertificate: '',
 
       },
       getLogo: [],
       getLicence: [],
+      getVatCertificate: [],
       errors: [],
       hasError: false,
       submit: false,
@@ -528,6 +539,7 @@ export default {
 
       this.getLogo = this.vendorList.data.logo
       this.getLicence = this.vendorList.data.licence
+      this.getVatCertificate = this.vendorList.data.vat_certificate
       // console.log('getLicence', this.getLicence)
       //getExtension name
       this.fileExt = this.getLicence?.split('.').pop();
@@ -634,6 +646,11 @@ export default {
     saveLicenceAttachment(attachments) {
       this.getLicence = attachments[0]
       this.fromData.newLicence = attachments
+    },
+
+    saveVatCertificateAttachment(attachments) {
+      this.getVatCertificate = attachments[0]
+      this.fromData.newVatCertificate = attachments
     },
 
     toggleTabs: function (tabNumber, invalid) {

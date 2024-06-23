@@ -4,7 +4,7 @@
     <div class="lg:grid card lg:grid-cols-4 p-4">
 
       <div v-if="profileData" class="text-center">
-        <p class="text-[20px] font-medium">Company Profile</p>
+        <p class="text-[20px] font-medium">{{profileData?.title}}</p>
         <div>
           <div class="frame">
             <div>
@@ -15,7 +15,6 @@
                 color="#01A781"
                 emptyColor="#343035"
               >
-
                 <div class="text">
                   <img class="profile-image mx-auto" src="~/assets/images/vendorprofile.svg" alt="">
                 </div>
@@ -27,12 +26,19 @@
           </div>
         </div>
 
-        <p class=""  :class="{' text-primary':profileData?.percent>=50 ,'text-prograss':profileData?.percent<50}">{{ profileData?.percent }}%</p>
-        <p v-if="profileData?.percent<100" class="text-prograss"><span
-          @click="showModal=true"
+        <p class="" :class="{' text-primary':profileData?.percent>=100 ,'text-prograss':profileData?.percent<100}">
+          {{ profileData?.percent }}%</p>
+<!--        <p v-if="profileData?.percent<100" class="text-prograss"><span-->
+<!--          @click="showModal=true"-->
+<!--          :class="{'bg-sucesslight text-primary':profileData?.percent>50,'bg-warninglight':profileData?.percent<50}"-->
+<!--          class=" rounded-[15px] px-2 font-medium"> {{ $t('CompanyProfiles.complete company profile') }}</span>-->
+<!--        </p>-->
+        <p  class="text-prograss"><span
+
           :class="{'bg-sucesslight text-primary':profileData?.percent>50,'bg-warninglight':profileData?.percent<50}"
-          class=" rounded-[15px] px-2 font-medium"> {{ $t('CompanyProfiles.complete company profile') }}</span>
+          class="bg-sucesslight  rounded-[15px] px-2 font-medium"> {{ profileData?.message }}</span>
         </p>
+
 
         <CompleteProfileModal v-if="$can('edit_company')"
                               :show-modal="showModal"
@@ -45,7 +51,7 @@
             v-for="(link,index) in profileData?.links"
             :to="link.link"
             class="flex mx-auto my-2 w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" :src="link.icon" alt=""> {{link.name}}
+            <img class="h-[36px] w-[36px]" :src="link.icon" alt=""> {{ link.name }}
           </nuxt-link>
 
         </div>

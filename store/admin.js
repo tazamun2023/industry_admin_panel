@@ -4,6 +4,7 @@ const state = () => ({
   permissions: null,
   activated: false,
   publicKey: null,
+  return_polices: null,
   sidebarPermissions: null,
   isVendor: null,
   isSuperAdmin: null,
@@ -14,12 +15,16 @@ const getters = {
   activated: ({activated}) => activated,
   publicKey: ({publicKey}) => publicKey,
   profile: ({profile}) => profile,
+  return_polices: ({return_polices}) => return_polices,
   sidebarPermissions: ({sidebarPermissions}) => sidebarPermissions,
   permissions: ({permissions}) => permissions
 }
 const mutations = {
   SET_IS_VENDOR(state, isVendor) {
     state.isVendor = isVendor
+  },
+  SET_Return_Polices(state, return_polices) {
+    state.return_polices = return_polices
   },
   SET_IS_SUPER_ADMIN(state, isSuperAdmin) {
     state.isSuperAdmin = isSuperAdmin
@@ -55,6 +60,11 @@ const actions = {
   },
 
 
+  setPolices({ commit },data){
+    commit('SET_Return_Polices', data)
+  },
+
+
 
   setProfile({ commit }, params) {
 
@@ -65,6 +75,7 @@ const actions = {
     commit('SET_THUMB_PREFIX', params?.thumb_prefix, { root: true })
     commit('SET_PERMISSIONS', params?.permissions)
     commit('SET_SIDEBAR_PERMISSIONS', params?.permissions)
+    commit('SET_Return_Polices', params?.return_polices)
     commit('SET_IS_VENDOR', params?.vendor)
     commit('SET_ACTIVATED', params?.activated)
     commit('SET_IS_SUPER_ADMIN', params?.super_admin)
