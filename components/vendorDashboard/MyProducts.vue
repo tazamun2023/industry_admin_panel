@@ -8,23 +8,23 @@
             <div class="grid grid-cols-2 my-4 gap-4">
                 <div class="border  border-cardb px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px">All Products</p>
-                    <p class="text-semibold text-[24px] leading-4">{{ my_products?.all_products }}</p>
+                    <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ my_products?.all_products }}</p>
                 </div>
                 <div class="border  hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-orange">Waiting Acceptance</p>
-                    <p class="text-semibold text-[24px] leading-4">{{ my_products?.waiting_acceptance }}</p>
+                    <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ my_products?.waiting_acceptance }}</p>
                 </div>
                 <div class="border  hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-primary">Accepted</p>
-                    <p class="text-semibold text-[24px] leading-4">{{ my_products?.accepted }}</p>
+                    <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ my_products?.accepted }}</p>
                 </div>
                 <div class="border  hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-prograss">Rejected</p>
-                    <p class="text-semibold text-[24px] leading-4">{{ my_products?.rejected }}</p>
+                    <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ my_products?.rejected }}</p>
                 </div>
                 <div class="border border-[#c4cdd5]  hover:border-reject px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-reject">Drafted</p>
-                    <p class="text-semibold text-[24px] leading-4">{{ my_products?.drafted }}</p>
+                    <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ my_products?.drafted }}</p>
                 </div>
             </div>
         </div>

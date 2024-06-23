@@ -36,8 +36,8 @@
             </table>
         </div>
         <div>
-            <NuxtLink :to="`/products`" class="flex gap-2 items-center justify-center text-white bg-theem h-[42px] text-[13px]"><img class="w-[11px] h-[11px]" src="~/assets/icon/reload.svg" alt="">
-              {{ $t('Dashboard.Add New Product') }}</NuxtLink>
+            <NuxtLink :to="`/products`"><button class="flex gap-2 items-center justify-center text-white bg-theem h-[42px] text-[13px]"><img class="w-[11px] h-[11px]" src="~/assets/icon/reload.svg" alt="">
+              {{ $t('Dashboard.Add New Product') }}</button></NuxtLink>
         </div>
     </div>
 </template>

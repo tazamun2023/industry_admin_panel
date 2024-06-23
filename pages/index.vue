@@ -40,6 +40,9 @@
           <Brands :brands="brands"/>
         </div>
       </div>
+      <div class="my-2">
+          <OrderOverview/>
+      </div>
       <div class="my-4 gap-4">
         <Orders :orders="orders"/>
       </div>
@@ -57,6 +60,7 @@
   import InqueryRfq from '~/components/vendorDashboard/InqueryRfq'
   import Brands from '~/components/vendorDashboard/Brands'
   import Orders from '~/components/vendorDashboard/Orders'
+  import OrderOverview from '~/components/vendorDashboard/OrderOverview'
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
   import SalesChart from "../components/dashboard/SalesChart.vue";
@@ -93,7 +97,8 @@
       VendorShortDetails,
       InqueryRfq,
       Brands,
-      Orders
+      Orders,
+      OrderOverview
     },
     mixins: [util],
     computed: {

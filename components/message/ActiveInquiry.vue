@@ -466,11 +466,11 @@ export default {
               </div>
             </div>
             <div class="h-[700px] overflow-y-scroll scrolly ltr:border-l rtl:border-r border-smooth" ref="messageContainer">
-            <div class="lg:grid lg:grid-cols-8 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
-              <div class="col-span-4 ltr:text-end rtl:text-start">
+            <div class="lg:grid lg:grid-cols-5 w-full" v-if="activeTab==='rfq' && activeInquiryData && activeRfqInquiries">
+              <div class="col-span-3 ltr:text-end rtl:text-start">
 
               </div>
-              <div class="col-span-4">
+              <div class="col-span-2">
                 <div class="messenger  w-full">
                   <div class="card rounded-[16px] shadow m-2 mb-0">
                     <div class="bg-graylight rounded-t-[16px] p-4 font-bold flex justify-between">
