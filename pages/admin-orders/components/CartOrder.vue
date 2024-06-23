@@ -1,7 +1,7 @@
 <template>
   <div class="my-4 card p-4">
-    <div class="flex gap-4 justify-between">
-      <div class="flex gap-4 w-3/4 justify-between">
+    <div class="lg:flex gap-4 justify-between">
+      <div class="lg:flex gap-4 w-3/4 justify-between">
         <div>
           <p class="text-smoothlight">{{ $t('address.order') }}</p>
           <p class="font-medium text-[14px]">{{ order?.order_id }}</p>

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex gap-4 my-4">
+  <div class="lg:flex gap-4 my-4">
     <div class="relative">
       <input type="text" v-model="search.order_id" :placeholder="$t('orderDetails.Search by orderId')"
-             class="ltr:pl-8 rtl:pr-8 py-2 border border-cardb rounded-lg w-full focus:outline-none focus:border-primary" />
+             class="ltr:pl-8 rtl:pr-8 py-2 border w-full border-cardb rounded-lg w-full focus:outline-none focus:border-primary" />
       <div class="absolute inset-y-0 ltr:left-1  rtl:right-1  flex items-center pointer-events-none">
         <!-- Search Icon -->
         <svg class="w-6 h-6 text-smooth" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -12,14 +12,14 @@
         </svg>
       </div>
     </div>
-    <div class="flex gap-4">
-      <div class="relative">
-        <multi-select  :old_selected="search.order_status" :disabled="tap !== 'all'" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
+    <div class="lg:flex gap-4 my-2 lg:my-0">
+      <div class="relative lg:min-w-[180px]">
+        <multi-select class="w-full" :old_selected="search.order_status" :disabled="tap !== 'all'" :options="$can('view_main_orders')  ? orderStatusAdmin : orderStatus" @checked="onCheck" selected-all="true" label="name"
                         :title="$t(`multiSelect.orderStatus`)" :disabled-data="isTap"></multi-select>
         <label class="absolute ltr:right-1 rtl:left-1 mt-[-28px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
       </div>
       <div class="relative">
-        <select class="p-2 px-4 w-[180px] border rounded-[10px] capitalize border-cardb" name="" id="status" v-model="search.invoice_status"
+        <select class="p-2 px-4 w-[180px] border w-full rounded-[10px] capitalize border-cardb" name="" id="status" v-model="search.invoice_status"
                 v-if="invoice_status">
           <option value="">{{ $t('order.paymentStatus') }}</option>
           <option :value="option.value" v-for="(option, i) in paymentStatuses" :key="i">
@@ -36,7 +36,7 @@
     <!--        }}</option>-->
     <!--    </select>-->
     <div class="relative">
-      <select class="p-2 border h-[44px] capitalize rounded-[10px] border-cardb" name="" id="" v-model="search.sort_by">
+      <select class="p-2 border h-[44px] w-full capitalize rounded-[10px] border-cardb" name="" id="" v-model="search.sort_by">
         <option value="">{{ $t('order.sortFilter') }}</option>
         <option v-for="(sortBy, index) in sortOptions" :key="index" :value="sortBy.api">{{
             $t(`order.${sortBy.label}`)
@@ -44,10 +44,10 @@
       </select>
       <label class="absolute ltr:right-1 rtl:left-1 mt-[15px]" for="status"><img class="w-4" src="~/assets/icon/arrow-down-green.svg" alt=""></label>
     </div>
-    <div class="flex col-span-2">
-      <a class="inline-block align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3 no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+    <div class="flex gap-2 my-2 lg:my-0 col-span-2">
+      <a class="inline-block w-full align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3 no-underline long mb-auto  lg:mx-4"
          @click.prevent="FilterOrder"> {{ $t("app.Apply Filters") }} </a>
-      <a class="inline-block align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3  no-underline bg-red-600 hover:bg-red-700 long mb-auto  ml-4 mr-4"
+      <a class="inline-block w-full align-middle cursor-pointer text-center select-none border leading-[25px] border-cardb h-[44px] font-normal whitespace-no-wrap rounded-[10px] py-2 px-3  no-underline long mb-auto  lg:mx-4"
          @click.prevent="clearFilterData"> {{ $t("prod.clear_filter") }} </a>
     </div>
   </div>
