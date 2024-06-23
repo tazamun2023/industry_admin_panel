@@ -41,26 +41,13 @@
       </div>
       <div class="col-span-2">
         <div class="lg:grid lg:w-[500px] lg:grid-cols-2 gap-4 py-4">
-          <button
+          <nuxt-link
+            v-for="(link,index) in profileData?.links"
+            :to="link.link"
             class="flex mx-auto my-2 w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" src="~/assets/icon/profile-1.svg" alt=""> profile and cntact info
-          </button>
-          <button
-            class="flex mx-auto my-2 w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" src="~/assets/icon/map.svg" alt=""> Stores Addresses
-          </button>
-          <button
-            class="flex mx-auto my-2 w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" src="~/assets/icon/hugeicons_certificate-01.svg" alt="">VAT Certificate
-          </button>
-          <button
-            class="flex mx-auto my-2 w-[247px]  lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" src="~/assets/icon/vat01.svg" alt=""> Shipping Options
-          </button>
-          <button
-            class="flex mx-auto my-2 w-[247px] lg:m-0 gap-3 p-[5px] items-center capitalize border border-cardb rounded-[16px]">
-            <img class="h-[36px] w-[36px]" src="~/assets/icon/bank-auction.svg" alt=""> Bank Accounts
-          </button>
+            <img class="h-[36px] w-[36px]" :src="link.icon" alt=""> {{link.name}}
+          </nuxt-link>
+
         </div>
       </div>
     </div>
