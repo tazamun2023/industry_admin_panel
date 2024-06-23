@@ -90,7 +90,7 @@
                     <input type="text" placeholder="Slug" v-model="fromData.company_name" readonly>
                   </div>
 
-                  <lang-input :hasError="hasError" type="textarea" :title="$t('vendor.details')"
+                  <lang-input :hasError="hasError" type="short_description" :title="$t('vendor.details')"
                               :valuesOfLang="fromData.details"
                               @updateInput="updateInput"></lang-input>
 

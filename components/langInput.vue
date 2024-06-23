@@ -28,6 +28,16 @@
                 :class="{ invalid: !!!valuesOfLang[language] , 'cursor-not-allowed': isVariant }"
                 :readonly="IsReadOnly"
               >
+              <textarea
+                v-else-if="type=='short_description'"
+                type="text"
+                :placeholder="title"
+                :value="valuesOfLang[language]"
+                @input="updateInputValue(language, $event.target.value)"
+                :class="{ invalid: !!!valuesOfLang[language] , 'cursor-not-allowed': isVariant }"
+                :readonly="IsReadOnly"
+              >
+              </textarea>
               <div v-else>
                 <div v-if="IsReadOnly">
                   <div class="border m-1 h-96 p-2 border-smooth max-h-96 w-full overscroll-y-auto overflow-hidden ">
