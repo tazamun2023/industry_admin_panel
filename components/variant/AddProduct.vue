@@ -206,6 +206,7 @@
             <div class="form-check">
               <input type="checkbox" class="custom-control-input" id="clonecheck_true"
                      v-model="is_variant"
+                     :disabled="is_show"
                      :style="is_variant_save?'cursor: not-allowed':''"/>
               <!--              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else-->
               <!--                     v-model="is_variant"-->
@@ -892,6 +893,7 @@
                 <label for="">{{ $t('prod.Unit of measure') }} ?</label>
                 <div class="input-group mb-3">
                   <select class="border p-3 w-full border-smooth rounded-lg uppercase"
+                          :disabled="is_show"
                           v-model="result.unit_id">
                     <option value="">{{ $t('prod.Unit') }}</option>
                     <option v-for="(item, index) in allPackagingUnits" :key="index" :value="index">{{
@@ -1125,11 +1127,12 @@
 
             <div class="flex append-input pt-1" v-for="(item, index) in result.additional_details_row" :key="index">
               <input style="width:200px" class="form-control mr-2 ml-2" placeholder="Label for Field" type="text"
+                     :disabled="is_show"
                      v-model="item.name">
               <input :disabled="is_show" class="form-control" placeholder="Text to display" type="text"
                      v-model="item.value">
               <button type="button" @click.prevent="removeAdditionalDetailsRows(index)"
-                      v-if="index!=0"
+                      v-if="index!=0 && !is_show"
                       class="btn ml-2 mr-2 btn-danger">
                 <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 2">
@@ -1138,7 +1141,7 @@
                 </svg>
               </button>
               <button type="button" class="btn ml-2 mr-2 btn-primary"
-                      v-if="index+1==result.additional_details_row.length"
+                      v-if="index+1==result.additional_details_row.length && !is_show"
                       @click.prevent="addAdditionalDetailsRows(index)">
                 <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 18 18">
