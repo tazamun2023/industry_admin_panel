@@ -2,20 +2,7 @@
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
     <Profile :profileData="profileData" />
-      <div class="my-4 gap-4">
-<!--        <order-chart-->
-<!--          v-if="chartMonth"-->
-<!--          :chart-month="chartMonth"-->
-<!--          :monthly-order="monthlyOrder"-->
-<!--          @month-changed="monthChanged"-->
-<!--        />-->
-        <SalesChart
-          v-if="chartMonth"
-          :chart-month="chartMonth"
-          :monthly-order="monthlyOrder"
-          @month-changed="monthChanged"
-          />
-      </div>
+
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
           <BestSeller :bestSelling="bestSelling"/>
@@ -31,6 +18,20 @@
         <div class="my-2">
           <VendorShortDetails :enhance="enhance"/>
         </div>
+      </div>
+      <div class="my-4 gap-4">
+<!--        <order-chart-->
+<!--          v-if="chartMonth"-->
+<!--          :chart-month="chartMonth"-->
+<!--          :monthly-order="monthlyOrder"-->
+<!--          @month-changed="monthChanged"-->
+<!--        />-->
+        <SalesChart
+          v-if="chartMonth"
+          :chart-month="chartMonth"
+          :monthly-order="monthlyOrder"
+          @month-changed="monthChanged"
+          />
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">

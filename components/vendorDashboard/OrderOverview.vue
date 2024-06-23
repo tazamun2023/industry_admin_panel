@@ -6,27 +6,27 @@
       </div>
       <div>
           <div class="lg:flex grid grid-cols-2 justify-between my-4 gap-4">
-              <div class="border w-full  border-cardb px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full  border-cardb px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px">Preparation</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">100</p>
               </div>
-              <div class="border w-full hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px text-orange">Waiting Acceptance</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">2000</p>
               </div>
-              <div class="border w-full  hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full  hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px text-primary">Delivered</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">4000</p>
               </div>
-              <div class="border w-full hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px text-prograss">Rejected</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">400</p>
               </div>
-              <div class="border w-full border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px ">Ready to Ship</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">600</p>
               </div>
-              <div class="border w-full hover:border-theem border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+              <div class="border h-[90px] w-full hover:border-theem border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                   <p class="text-14px text-theem">Out for delivery</p>
                   <p class="text-semibold text-[24px] leading-4 pt-[15px]">18</p>
               </div>
