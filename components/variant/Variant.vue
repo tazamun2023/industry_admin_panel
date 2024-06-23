@@ -40,50 +40,25 @@
                 </a>
               </li>
               <li class="-mb-px w-100  mr-2 last:mr-0 cursor-pointer"
-                  v-for="(colorItem, index) in result.product_variants" :key="index">
-                <a class="text-xs flex justify-between w-100 font-bold uppercase px-5 py-3 leading-normal"
+                  v-for="(variant, index) in variants" :key="index">
+                <a class="text-xs flex justify-between w-100 font-bold  px-5 py-3 leading-normal"
                    @click="toggleTabs(index)"
                    :class="{'bg-white border-white border-b-t': openTab !== index, 'border-b-2 bg-primary border-primary text-white': openTab === index}">
                   <span class="flex gap-3">
-<!--                    <img class="w-10 h-10 rounded"-->
-                    <!--                         :src="variants[index]?.result?.product_images[0]?.url"-->
-                    <!--                         alt="">-->
                                         <lazy-image
-                                          v-if="variants[index]?.result.product_images"
+                                          v-if="variant?.result.product_images"
                                           class="w-10 h-10 rounded"
-                                          :lazy-src="variants[index]?.result?.product_images[0]?.url"
-                                          :data-src="variants[index]?.result?.product_images[0]?.url"
-                                          :alt="colorItem.color_name"
+                                          :lazy-src="variant?.result?.product_images[0]?.url"
+                                          :data-src="variant?.result?.product_images[0]?.url"
+                                          :alt="variant?.result?.product_variant.color_name"
                                         />
-                           <span class="pt-2" v-if="colorItem.color_name && colorItem.value">{{ colorItem.color_name }}, {{
-                               colorItem.value
-                             }}
-                           </span>
-                    <span class="pt-2" v-else-if="colorItem.color_name">{{ colorItem.color_name }}</span>
-                    <span class="pt-2" v-else-if="colorItem.value">{{ colorItem.value }}</span>
-                    <span class="pt-2" v-else>{{ $t('prod.ERROR') }}</span>
+                    <span class="pt-2">
+                      {{ variant?.result?.product_variant?.color_name }}
+                      {{ variant?.result?.product_variant?.value }}</span>
                   </span>
-                  <p v-for="(variantStatus, index1) in variants" v-if="index1===index">
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'pending'">{{
-                        $t('prod.Pending')
-                      }}</span>
-                    <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'archived'">{{
-                        $t('prod.archived')
-                      }}</span>
-                    <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'approved'">{{
-                        $t('prod.approved')
-                      }}</span>
-                    <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white"
-                          v-if="variantStatus.result.id && variantStatus.result.status === 'rejected'">{{
-                        $t('prod.rejected')
-                      }}</span>
-                    <span class="bg-smooth rounded-lg text-xs mt-2 p-1"
-                          v-if="!variantStatus.result.id">{{ $t('prod.Incomplete') }}</span>
+                  <p>
+                    <product-status :status="variant?.result?.status"></product-status>
                   </p>
-
                 </a>
               </li>
             </ul>
@@ -272,17 +247,7 @@
                 {{ attrAndValue(variant.result?.product_variant, index) }}
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
-                <span class="bg-primary rounded-lg text-xs mt-2 p-1 text-white"
-                      v-if="variant.result.status==='approved'">{{ variant.result.status }}</span>
-                <span class="bg-warning rounded-lg text-xs mt-2 p-1 text-white"
-                      v-if="variant.result.status==='pending'">{{ variant.result.status }}</span>
-                <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white"
-                      v-if="variant.result.status==='cancel'">{{ variant.result.status }}</span>
-                <span class="bg-error rounded-lg text-xs mt-2 p-1 text-white" v-if="variant.result.status==='rejected'">{{
-                    variant.result.status
-                  }}</span>
-                <span class="bg-smoothlight rounded-lg text-xs mt-2 p-1 text-white"
-                      v-if="variant.result.status==='archived'">{{ variant.result.status }}</span>
+                <product-status :status="variant?.result?.status"></product-status>
               </td>
               <td class="px-6 font-semibold text-gray-900 border border-smooth">
                 <span v-if="variant.result.is_buy_now">{{ $t('prod.Online') }}</span>
@@ -361,6 +326,7 @@
       <add-product :from-single="false"
                    :p_select_attr1="select_attr1"
                    @productUpdate="productUpdate"
+                   :p_variant_uuid="variant_uuid_global"
                    :is_show="!($can('manage_products') && variants[openTab]?.result?.status !== 'pending')"
                    :id="variants[openTab]?.result?.id"
                    :p_select_attr2="select_attr2"
@@ -607,6 +573,7 @@ import util from "@/mixin/util";
 import AddProduct from "./AddProduct.vue";
 import NavIcon from "./NavIcon.vue";
 import AjaxButton from "../AjaxButton.vue";
+import ProductStatus from "./ProductSratus.vue";
 
 
 export default {
@@ -614,6 +581,7 @@ export default {
   mixins: [util],
   inject: [],
   components: {
+    ProductStatus,
     AjaxButton,
     NavIcon,
     AddProduct,
@@ -636,7 +604,7 @@ export default {
       type: Boolean,
       default: false
     },
-    variant_uu_id: {
+    variant_uuid: {
       type: Number,
       default: null
     },
@@ -702,7 +670,7 @@ export default {
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en'],
       validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory'],
-      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature'],
+      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature_id'],
       subCategories: [],
       childCategories: [],
       features: {"ar": "", "en": ""},
@@ -866,6 +834,7 @@ export default {
       'allBrands', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   methods: {
+
     doNext() {
       this.is_next = true
     },
@@ -875,6 +844,7 @@ export default {
     },
     setColorName(index, event) {
       this.result.product_variants[index].color_name = this.allColors[event.target.value].name
+      // this.result.product_variant[index].color_name = this.allColors[event.target.value].name
     },
     removeVariantRows(index) {
       // console.log(index)
@@ -884,12 +854,14 @@ export default {
       }
     },
     productUpdate(data) {
-      // console.log(index)
+      console.log("cooooooooom")
       this.variants[this.openTab].result = data;
+
 
       for (var i = 0; i < this.variants.length; i++) {
         var temp = this.variants[i].result;
-        if (temp.status == 'incomplete' || temp.status == '')
+        if (temp.status == 'incomplete' || temp.status == '') {
+          var old_v= this.variants[i].result.product_variant;
           this.variants[i].result = {
             ...data,
             id: '',
@@ -899,9 +871,13 @@ export default {
             status: 'incomplete',
             is_variant: true
           }
+          this.variants[i].result.product_variant=old_v
+        }
 
       }
       this.openTab = 'parent';
+      if (this.result.id == "")
+        this.result = data
     },
     doVariantSave() {
       if (this.result.product_variants.length === 0) {
@@ -932,7 +908,8 @@ export default {
             };
             newVariant.result.product_variant = {
               name: this.result.product_variants[i].name,
-              value: this.result.product_variants[i].value
+              value: this.result.product_variants[i].value,
+              color_name: this.result.product_variants[i].color_name
             };
             newVariant.result.product_images = []
             newVariant.result.images = []
@@ -952,11 +929,11 @@ export default {
       // this.variants[0].result.status = 'pending'
       // this.variants[0].result.from_parent = true
       // if (this.variant_uuid_global) {
-      //   this.variants[0].result.variant_uu_id = this.variant_uuid_global
+      //   this.variants[0].result.variant_uuid = this.variant_uuid_global
       // } else {
-      //   this.variants[0].result.variant_uu_id = null
+      //   this.variants[0].result.variant_uuid = null
       // }
-      // this.variants[this.openTab].result.variant_uu_id = this.variants[0]?.result.variant_uu_id
+      // this.variants[this.openTab].result.variant_uuid = this.variants[0]?.result.variant_uuid
       // this.checkForm()
       this.is_submit_data = true
       try {
@@ -971,21 +948,8 @@ export default {
         });
         this.is_submit_data = false
         if (res) {
-          // console.log('sfdsfa', res)
-          // Initialize this.variants[this.openTab] if it doesn't exist
-          if (!this.variants[0]) {
-            this.variants[0] = {};
-          }
 
-          // Initialize this.variants[this.openTab].result if it doesn't exist
-          if (!this.variants[0].result) {
-            this.variants[0].result = {};
-          }
           this.variant_uuid_global = res.data.variant_uuid
-
-          // Assign properties from res to this.variants[this.openTab].result
-          this.variants[0].result = res.data;
-
 
           this.fetchingData(res.data.id);
           this.openTab = 'parent'
@@ -993,6 +957,7 @@ export default {
         }
       } catch (error) {
         console.log(error)
+        this.is_submit_data = false
         this.setToastError('Error! at last complete one variant')
       }
     },
@@ -1001,12 +966,15 @@ export default {
       try {
         this.is_loading = true
         var variant_res = Object.assign({}, await this.getById({id: id, params: {}, api: 'getVariantProducts'}));
-        // console.log('this.variants[0].result', variant_res)
+        // onsole.log('this.variants[0].result', variant_res)
 
         for (let key in variant_res) {
           if (!isNaN(key)) {
             // console.log('variant_res', variant_res[key])
             this.result.unit_id = variant_res[key].unit_id;
+            this.variants[key].result.variant_uuid =this.variant_uuid_global,
+            // this.variants[key].result.product_variant =this.product_variant,
+            this.variants[key].result.product_variant = variant_res[key].product_variant,
             this.variants[key].result.title = variant_res[key].title,
               this.variants[key].result.status = variant_res[key].status,
               this.variants[key].result.brand_id = variant_res[key].brand_id,
@@ -1031,7 +999,7 @@ export default {
 
     closeVariantModal() {
       this.varientModal = false;
-      this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
+      // this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
       // if (this.variant_copy) {
       //   this.result.product_variants = this.variant_copy
       // }
@@ -1117,8 +1085,8 @@ export default {
     },
     async handleUnsavedChanges(tab) {
 
-      console.log(this.variants[this.openTab].result?.id)
-      console.log(this.openTapData?.id)
+      console.log(this.variants[this.openTab].result)
+      console.log(this.openTapData)
       const confirmation = await this.$swal({
         title: "Unsaved changes",
         icon: "question",
@@ -1225,13 +1193,34 @@ export default {
 
     if (!this.fromSingle) {
       this.variants = this.variantsData
-      this.variant_uuid_global = this.variants[0]?.result?.variant_uu_id
+      this.variant_uuid_global = this.variants[0]?.result?.variant_uuid
     } else {
       this.variants = []
+      var i = 0;
       this.result.product_variants.forEach((variant) => {
         // this.result.sku = ''
-        this.variants.push(Object.assign({result: {...this.result, product_variant: variant}}));
+        ++i;
+        var v = {};
+        if (i === 1)
+          v = {result: {...this.result, product_variant: variant}}
+        else
+          v = {
+            result: {
+              ...this.result,
+              id: '',
+              product_variant: variant,
+              product_images: [],
+              images: [],
+              sku: '',
+              status: 'incomplete',
+              is_variant: true
+            }
+          };
+
+        this.variants.push(JSON.parse(JSON.stringify(v)));
+
       });
+      this.doSubmit()
       console.log('mounted...')
     }
 

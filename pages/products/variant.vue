@@ -75,7 +75,7 @@ export default {
         var res = Object.assign({}, await this.getById({id: id, params: {}, api: 'getVariantProducts'}));
 
 
-        if (res[0].variant_uu_id == null && !res[0].is_variant) {
+        if (res[0].variant_uuid == null && !res[0].is_variant) {
           this.$router.push('/products/' + id)
           return;
         }

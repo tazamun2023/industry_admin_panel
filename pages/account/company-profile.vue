@@ -1,49 +1,50 @@
 <template>
-  <div class="p-3" v-if="$can('edit_company')">
-    <h3 class="py-2 text-[35px] text-black uppercase semi-bold">{{ $t('CompanyProfiles.Company Profiles') }}</h3>
-    <ValidationObserver class="w-full card p-4" v-slot="{ invalid }">
-      <form class="grid grid-cols-6 gap-6" @submit.prevent="fromSubmit">
-        <div class="">
-          <ul class="px-3 py-4 tab-bg xs:w-[251px] h-[726px] border  border-smooth rounded-3xl">
-            <li class="cursor-pointer block  flex-auto text-center">
-              <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal"
+  <div class="lg:p-3" v-if="$can('edit_company')">
+    <h3 class="py-2 px-3 lg:text-[35px] text-black text-[18px] uppercase semi-bold">{{ $t('CompanyProfiles.Company Profiles') }}</h3>
+    <ValidationObserver class="w-full lg:card lg:p-4" v-slot="{ invalid }">
+      <form class="lg:grid lg:grid-cols-6 gap-6" @submit.prevent="fromSubmit">
+        <div class="relative">
+          <div class="border-dashed absolute lg:opacity-0 top-[12px] w-[70%] flex items-center justify-content-center  border-t-2 border-smooth ltr:ml-[60px] rtl:mr-[60px]"></div>
+          <ul class="lg:px-3 lg:py-4 tab-bg xs:w-[251px] lg:h-[726px] lg:border  border-smooth rounded-3xl">
+            <li class="cursor-pointer lg:block z-20 flex-auto text-center">
+              <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(1, invalid)">
-                <div class="flex items-center gap-2">
-                  <span class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
-                  <div class="ltr:text-start rtl:text-end">
-                    <span class="block">STEP 1</span>
-                    <span class="font-10px" v-bind:class="{'text-primary': openTab !== 1, 'text-theem': openTab === 1}">{{
+                <div class="lg:flex items-center gap-2">
+                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
+                  <div class="lg:ltr:text-start lg:rtl:text-end text-center">
+                    <span class="lg:block hidden">STEP 1</span>
+                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 1, 'text-theem': openTab === 1}">{{
                         $t('CompanyProfiles.GENERAL INFO')
                       }}</span>
                   </div>
                 </div>
               </a>
             </li>
-            <li class="cursor-pointer  block flex-auto text-center">
-              <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal"
+            <li class="cursor-pointer z-20 lg:block flex-auto text-center">
+              <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(2, invalid)">
-                <div class="flex items-center gap-2">
-                  <span class="rounded-full p-[7px] text-[16px] w-[40px] h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
-                  <div class="ltr:text-start rtl:text-end">
-                    <span class="block">STEP 2</span>
-                    <span class="font-10px" v-bind:class="{'text-primary': openTab !== 2, 'text-theem': openTab === 2}">{{
+                <div class="lg:flex items-center gap-2">
+                  <span class="rounded-full lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
+                  <div class="lg:ltr:text-start lg:rtl:text-end text-center">
+                    <span class="lg:block hidden">STEP 2</span>
+                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 2, 'text-theem': openTab === 2}">{{
                         $t('CompanyProfiles.PRIMARY INFO')
                       }}</span>
                   </div>
                 </div>
               </a>
             </li>
-            <li class="cursor-pointer  block flex-auto text-center">
-              <a class="text-xs font-bold  uppercase px-5 py-4  block leading-normal"
+            <li class="cursor-pointer z-20  lg:block flex-auto text-center">
+              <a class="text-xs font-bold  uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(3, invalid)">
-                <div class="flex items-center gap-2">
-                  <span class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
-                  <div class="ltr:text-start rtl:text-end">
-                    <span class="block">STEP 3</span>
-                    <span class="font-10px" v-bind:class="{'text-primary': openTab !== 3, 'text-theem': openTab === 3}">{{
+                <div class="lg:flex items-center gap-2">
+                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
+                  <div class="lg:ltr:text-start lg:rtl:text-end text-center">
+                    <span class="lg:block hidden">STEP 3</span>
+                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 3, 'text-theem': openTab === 3}">{{
                         $t('CompanyProfiles.LOCATION INFO')
                       }}</span>
                   </div>
@@ -51,15 +52,15 @@
               </a>
             </li>
 
-            <li class="cursor-pointer  block flex-auto text-center">
-              <a class="text-xs font-bold uppercase px-5 py-4  block leading-normal"
+            <li class="cursor-pointer z-20 lg:block flex-auto text-center">
+              <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(4, invalid)">
-                <div class="flex items-center gap-2">
-                  <span class="rounded-full  p-[7px] text-[16px] w-[40px] h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
-                  <div class="ltr:text-start rtl:text-end">
-                    <span class="block">STEP 4</span>
-                    <span class="font-10px" v-bind:class="{'text-primary': openTab !== 4, 'text-theem': openTab === 4}">SOCIAL INFO</span>
+                <div class="lg:flex items-center gap-2">
+                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
+                  <div class="lg:ltr:text-start lg:rtl:text-end text-center">
+                    <span class="lg:block hidden">STEP 4</span>
+                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 4, 'text-theem': openTab === 4}">SOCIAL INFO</span>
                   </div>
                 </div>
               </a>
@@ -71,12 +72,12 @@
           <div class="tab-content input-wrapper tab-space">
 
             <div v-bind:class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-              <div class="p-4">
+              <div class="lg:p-4 py-2">
                 <div class="title pb-4">
-                  <h4 class="uppercase text-primary text-[30px] font-bold">{{
+                  <h4 class="uppercase text-primary lg:text-[30px] text-[16px] font-bold">{{
                       $t('CompanyProfiles.General Information')
                     }}</h4>
-                  <p class="text-normal">Please, provide company name, details, sub domain,
+                  <p class="lg:text-normal text-[10px]">Please, provide company name, details, sub domain,
                     email, mobile, and CR number </p>
                 </div>
 
@@ -393,7 +394,7 @@
                         }}</span> </span>
                     </button>
                     <button @click="submit = true" :disabled="!step4Check || invalid"
-                            class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary mt-20">
+                            class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary lg:mt-20 mt-0">
                       <span class="flex justify-center items-center gap-2"> <span>{{
                           $t('CompanyProfiles.Save')
                         }}</span> <img class="h-3 w-3"
@@ -739,4 +740,18 @@ export default {
 label {
   font-weight: 600;
 }
+@media only screen and (max-width: 992px) {
+  .tab-bg{
+    display: flex;
+    background: none;
+  }
+  .input-wrapper >>> label{
+    font-size: 14px;
+    font-weight: normal;
+  }
+  label{
+    font-weight: normal !important;
+  }
+}
+
 </style>

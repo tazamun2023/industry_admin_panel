@@ -133,7 +133,6 @@
           </div>
 
 
-
         </div>
         <!-- --------------------------- -->
         <div class="my-10"></div>
@@ -153,7 +152,7 @@
         </div>
         <div v-if="!isRfqProduct">
           <div class="tab-sidebar p-3" v-if="result.product_variant.length!==0">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }} </h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}22 </h4>
 
             <hr>
             <table>
@@ -168,6 +167,7 @@
                     <div class="form-group">
                       <select :disabled="is_show" class="w-full rounded border mb-10 border-smooth p-3"
                               v-model="result.product_variant.name"
+                              @change="setVariantColorName($event)"
                               v-if="select_attr1 === 'color'">
                         <option v-for="(item, index) in allColors" :key="index" :value="item.id">{{
                             item.name
@@ -202,14 +202,14 @@
           </div>
           <!-- ------------------------------------- -->
           <div class="tab-sidebar p-3" v-else>
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}00</h4>
             <div class="form-check">
-              <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_variant"
-                     v-model="is_variant" :disabled="is_show && is_variant_save"
-                     :style="is_variant_save?'cursor: not-allowed':''"/>
-              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else
+              <input type="checkbox" class="custom-control-input" id="clonecheck_true"
                      v-model="is_variant"
-                     @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>
+                     :style="is_variant_save?'cursor: not-allowed':''"/>
+              <!--              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else-->
+              <!--                     v-model="is_variant"-->
+              <!--                     @click.prevent="isVariant" :class="is_variant_save?'cursor-not-allowed':''"/>-->
               <label class="form-check-label" for="flexCheckDefault">
                 {{ $t('prod.This product has options, like size or color') }}
               </label>
@@ -255,7 +255,7 @@
 
               <div class="col-md-4"></div>
               <div class="tab-sidebar p-3" v-if="is_variant_save">
-                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}</h4>
+                <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Variant information') }}11</h4>
                 <hr>
                 <table>
                   <tr>
@@ -320,7 +320,7 @@
 
               <div>
                 <div class="col-md-4 pt-4">
-                  <button v-if="((result.product_variants.length==0 && id>0 ) || (id=='add' || id=='' ))"
+                  <button v-if="(( id>0 ) || (id=='add' || id=='' ))"
                           :disabled="select_attr1==='' || select_attr2===''" type="button"
                           @click.prevent="addVariantValueRows()"
                           class="btn mb-10 w-25 btn-outline-secondary">
@@ -446,21 +446,16 @@
         </div>
         <!--          BasicInformationChild-->
         <!-- ------------------------------------- -->
-        <ValidationProvider v-if="!is_variant" name="Image"
-                            :rules="{ required: !is_draft &&(result.product_images.length===0 && !is_variant )}"
-                            v-slot="{ errors }"
-                            :custom-messages="{required: $t('global.req', { type: $t('prod.Image')}) }"
-                            class="w-full">
-          <div class="tab-sidebar p-3" :class="{ 'has-error': errors[0] && result.product_images.length===0 }">
 
-            <vue-upload-images :IsReadOnly="is_show" v-if="(isAdding || (!isAdding && result.images))"
-                               :return-data-just="0"
-                               :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
-            </vue-upload-images>
+        <vue-upload-images :IsRequired=" !is_draft &&(result.product_images.length===0 && !is_variant)"
+                           :IsReadOnly="is_show"
+                           v-if="(!is_variant && (isAdding || (!isAdding && result.images)))"
+                           :return-data-just="0"
+                           @checkLangError="checkImagesError"
+                           :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
+        </vue-upload-images>
 
-          </div>
-          <span class="error" v-if="result.product_images.length===0">{{ errors[0] }}</span>
-        </ValidationProvider>
+
         <!-- ------------------------------------- -->
 
         <!-- ------------------------------------- -->
@@ -479,7 +474,7 @@
                   :disabled="is_show"
                   class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
                   :class="{ 'has-error': errors[0] }"
-                  v-model="result.barcode_type">
+                  v-model="result.barcode_id">
                   <option value="" disabled>{{ $t('prod.Select Barcode') }}</option>
                   <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
                 </select>
@@ -496,8 +491,8 @@
                   v-model="result.barcode"
                   :placeholder="$t('prod.Barcode')"
                   @keypress="onlyNumber" min="0" maxlength="15"
-                  :disabled="is_show ||result.barcode_type==4 || result.barcode_type===''"
-                  :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_type == 4 }"
+                  :disabled="is_show ||result.barcode_id==4 || result.barcode_id===''"
+                  :class="{ 'has-error': errors[0], 'cursor-not-allowed': result.barcode_id == 4 }"
                 >
               </div>
               <span class="error">{{ errors[0] }}</span>
@@ -918,7 +913,7 @@
                     class="form-control"
                     :placeholder="$t('prod.Selling price')"
                     @keypress="onlyNumber"
-                    v-model="result.product_prices[0].selling_price"
+                    v-model="result.product_prices[0].unit_price"
 
                   >
                 </div>
@@ -1058,7 +1053,7 @@
                     :disabled="is_show"
                     class="border p-3 w-full border-smooth rounded-lg"
                     :class="{ 'has-error': errors[0] }"
-                    v-model="result.storage_temperature">
+                    v-model="result.storage_temperature_id">
                     <option value="" disabled>{{ $t('prod.Select Option') }}</option>
                     <option v-for="(item, index) in allStorageTemperatures" :key="index" :value="index">{{
                         item.name
@@ -1159,21 +1154,35 @@
             <div class="flex justify-end gap-4 pt-3">
               <ajax-button
                 name="draft"
+                v-if="!isRfqProduct"
                 another_class="btn text-primary"
                 :text="$t('prod.Save Draft')"
                 @clicked="is_submit=true,is_draft=true"
                 :fetching-data="is_submit_data && is_draft"
               />
+              <button name="draft"
+                      v-else
+                      class="btn text-primary">
+                <nuxt-link
+
+                  :to="`/rfq/${$route.query?.quote }`"
+
+                >{{ $t('approveModal.cancel') }}
+                </nuxt-link>
+              </button>
+
               <ajax-button
                 name="save"
                 another_class="primary-btn"
-                :text="$t('prod.Send for review') "
+                :text="isRfqProduct ? $t('setting.sv'): $t('prod.Send for review') "
+
                 @clicked="is_submit=true,is_draft=false"
                 :fetching-data="is_submit_data && !is_draft"
               />
-              <span class="font-semibold text-error" v-if="(invalid || hasLangError)&& is_submit ">{{
+              <span class="font-semibold text-error" v-if="(invalid || hasLangError||ImagesError)&& is_submit ">{{
                   $t('prod.Check the errors')
-                }}</span>
+
+                }}   </span>
             </div>
           </div>
           <div v-if="$can('approve_products') && result.status==='pending'  ">
@@ -1238,7 +1247,7 @@ export default {
       type: Boolean,
       default: false
     },
-    variant_uu_id: {
+    p_variant_uuid: {
       type: Number,
       default: null
     },
@@ -1263,10 +1272,11 @@ export default {
 
     return {
 
+      ImagesError: false,
       hasLangError: false,
       is_click_available: false,
       is_submit_data: false,
-      variant_uu_id: '',
+      variant_uuid: '',
       is_variant_save: false,
       is_variant_edit: false,
       is_variant_save_after_edit: false,
@@ -1304,9 +1314,9 @@ export default {
       fileKeys: ['id', 'tax_rule_id', 'shipping_rule_id'],
       validationKeys: ['title.en'],
       validationKeysIfIsDraft: ['parentCategory', 'subCategory', 'childCategory'],
-      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_type', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature'],
+      validationKeysIfNotVariant: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'basicInfoEng', 'basic_keyword_en', 'barcode_id', 'sku', 'pk_size', 'pk_size_unit', 'pk_number_of_carton', 'pk_average_lead_time', 'pk_transportation_mode', 'pc_weight', 'pc_weight_unit_id', 'pc_length', 'pc_length_unit_id', 'pc_height', 'pc_height_unit_id', 'pc_width', 'pc_width_unit_id', 'pdime_weight', 'pdime_weight_unit_id', 'pdime_length', 'pdime_height', 'pdime_width', 'pdime_dimention_unit', 'unit_id', 'storage_temperature_id'],
       validationKeysIfVariantNext: ['parentCategory', 'subCategory', 'childCategory', 'brand_id', 'parent_sku'],
-      validationIgnoreInRFQ: ['basicInfoEng', 'basic_keyword_en', 'barcode_type', 'storage_temperature'],
+      validationIgnoreInRFQ: ['basicInfoEng', 'basic_keyword_en', 'barcode_id', 'storage_temperature_id'],
       subCategories: [],
       childCategories: [],
       features: {"ar": "", "en": ""},
@@ -1385,12 +1395,12 @@ export default {
         is_always_available: false,
         is_dangerous: 0,
         is_offer_private_label_option: 1,
-        storage_temperature: '',
+        storage_temperature_id: '',
         stock_location: 1,
         country_of_origin: 194,
         /*Shipping details*/
         /*Product Identifiers*/
-        barcode_type: "",
+        barcode_id: "",
         barcode: null,
         sku: null,
         /*Product Identifiers*/
@@ -1610,12 +1620,12 @@ export default {
 
     BarcodeValidationRules() {
       let validationRules = {
-        required: this.result.barcode_type != 4 && this.result.barcode_type != ""
+        required: this.result.barcode_id != 4 && this.result.barcode_id != ""
       };
 
       const barcodeLength = this.result.barcode?.length || 0;
 
-      switch (this.result.barcode_type) {
+      switch (this.result.barcode_id) {
         case '1':
           if (barcodeLength <= 8) {
             validationRules.min = 8;
@@ -1704,9 +1714,9 @@ export default {
       'allBrands', 'allSKus', 'allProductCollections', 'allBundleDeals', 'allShippingRules', 'allColors', 'allBarcodes', 'allPackagingUnits', 'allDimensionUnits', 'allWeightUnits', 'allCountries', 'allStorageTemperatures', 'allTransportationModes', 'allWarehouses', 'allCategoriesTree'])
   },
   watch: {
-    p_variant_uu_id(newValue, oldValue) {
-      if (this.p_variant_uu_id) {
-        this.variant_uu_id = this.p_variant_uu_id;
+    p_variant_uuid(newValue, oldValue) {
+      if (this.p_variant_uuid) {
+        this.variant_uuid = this.p_variant_uuid;
       }
     },
     p_select_attr1(newValue, oldValue) {
@@ -1739,7 +1749,7 @@ export default {
         this.result.available_quantity = '';
         this.result.is_availability = 1;
       } else {
-         this.compareMethods();
+        this.compareMethods();
       }
     }
   },
@@ -1772,6 +1782,11 @@ export default {
       this.hasLangError = haserror
     },
 
+    checkImagesError(haserror) {
+
+      this.ImagesError = haserror
+    },
+
     async changeSKU(sku, product_id) {
       this.debouncedInputHandler();
 
@@ -1784,14 +1799,18 @@ export default {
     }, 500),
 
     compareMethods() {
+      if (this.result.is_always_available) {
+        this.result.is_availability = 1;
+        return;
+      }
       let ava_qty = parseInt(this.result.available_quantity);
       let product_prices_min_qty = parseInt(this.result.product_prices[0]?.quantity);
 
+
       if (!isNaN(ava_qty) && !isNaN(product_prices_min_qty)) {
         this.result.is_availability = ava_qty >= product_prices_min_qty ? 1 : 0;
-      }
-      else
-        this.result.is_availability=0;
+      } else
+        this.result.is_availability = 0;
     },
 
     availableQuantity() {
@@ -1799,7 +1818,7 @@ export default {
     },
 
     doNext() {
-
+      this.variant_uuid = this.generateUUID();
       this.$emit('GoNext', {
         result: this.result,
         selectedLevel1: this.selectedLevel1,
@@ -1807,10 +1826,10 @@ export default {
         selectedLevel3: this.selectedLevel3,
         select_attr1: this.select_attr1,
         select_attr2: this.select_attr2,
-        variant_uu_id: this.variant_uu_id,
+        variant_uuid: this.variant_uuid,
 
       })
-      this.variant_uu_id = this.generateUUID();
+
       this.result.id = this.id;
 
     },
@@ -1899,23 +1918,27 @@ export default {
         this.hasError = true
         return false
       }
+      if (!this.is_draft && !(this.result.product_images.length > 0 || this.result.images > 0)) {
+        return false
+      }
       if (this.is_sku_exsist) {
         this.hasError = true
         return false
       }
-      if (this.result.storage_temperature === 0) {
-        this.result.storage_temperature = null
+      if (this.result.storage_temperature_id === 0) {
+        this.result.storage_temperature_id = null
       }
       if (this.result.brand_id === 0) {
         this.result.brand_id = null
       }
-      if (this.result.barcode_type === 0) {
-        this.result.barcode_type = null
+      if (this.result.barcode_id === 0) {
+        this.result.barcode_id = null
       }
       if (this.result.unit_id === 0) {
         this.result.unit_id = null
       }
       this.result.is_variant = !this.fromSingle
+      this.result.variant_uuid=this.p_variant_uuid
       this.is_submit_data = true
       const data = await this.setById({
         id: this.id,
@@ -1927,6 +1950,8 @@ export default {
         api: this.setApi
       })
       this.is_submit_data = false
+      console.log("cooooooooom1111")
+      console.log("cooooooooom1111", data)
       if (data.status === 200) {
         if (this.isRfqProduct) {
           return this.$router.push({path: `/rfq/${this.$route.query?.quote}`})
@@ -1937,11 +1962,12 @@ export default {
             path = '/products/approved';
           return this.$router.push({path});
         } else {
+          console.log("cooooooooom222")
+          console.log("cooooooooom222")
           let curent = this.$router.currentRoute.fullPath;
           this.result = data.data
           curent = curent.replace('/add', '/variant/' + this.result.id);
           window.history.replaceState({}, '', curent);
-
           this.$emit('productUpdate', this.result)
         }
 
@@ -1972,6 +1998,10 @@ export default {
     },
     setColorName(index, event) {
       this.result.product_variants[index].color_name = this.allColors[event.target.value].name
+    },
+
+    setVariantColorName(event) {
+      this.result.product_variant.color_name = this.allColors[event.target.value].name
     },
     addAdditionalDetailsRows(index) {
       this.result.additional_details_row.push(Object.assign({}, this.additional_details))
@@ -2064,7 +2094,7 @@ export default {
         this.result.product_variants = res.product_variant ?? [];
         if (this.result.is_variant && !this.is_clone) {
           this.result.is_variant = true
-          if (res.variant_uu_id && !this.is_show)
+          if (res.variant_uuid && !this.is_show)
             this.$router.push('/products/variant/' + res.id)
         }
         this.updateLevel2()

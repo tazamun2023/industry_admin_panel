@@ -2,7 +2,7 @@ const configJson = require('./jsconfig.json')
 
 const isDemo = process.env.IS_DEMO === 'true'
 const domain = process.env.domain
-let apiBase = !process.env.API_BASE.trim() ? '/' : process.env.API_BASE
+let apiBase = !process.env.API_BASE ? '/' : process.env.API_BASE
 apiBase += configJson.api.url
 
 export default {
