@@ -647,10 +647,10 @@ export default {
 </script>
 <style>
 .swal2-popup .swal2-styled.swal2-cancel{
-  height: auto;
+  min-height: 44px;
 }
 .swal2-popup .swal2-styled.swal2-confirm{
-  height: auto;
+  min-height: 44px;
 }
 </style>
 <style scoped>

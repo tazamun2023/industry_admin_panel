@@ -93,3 +93,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .card >>> .table-wrapper{
+    margin:0px !important;
+  }
+</style>

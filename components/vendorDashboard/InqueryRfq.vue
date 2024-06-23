@@ -35,7 +35,7 @@
             </table>
         </div>
         <div>
-            <NuxtLink :to="`/rfq`" class="flex gap-2 items-center justify-center text-white bg-theem h-[42px] text-[13px]"><img class="w-[11px] h-[11px]" src="~/assets/icon/reload.svg" alt=""> RFQs Market</NuxtLink>
+            <NuxtLink :to="`/rfq`" class=""><button class="flex gap-2 items-center justify-center text-white bg-theem h-[42px] text-[13px] hover:text-theem"><img class="w-[11px] h-[11px]" src="~/assets/icon/reload.svg" alt=""> RFQs Market</button></NuxtLink>
         </div>
     </div>
 </template>
