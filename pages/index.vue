@@ -29,7 +29,7 @@
           <LowStock :lowStock="lowStock"/>
         </div>
         <div class="my-2">
-          <VendorShortDetails/>
+          <VendorShortDetails :enhance="enhance"/>
         </div>
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
@@ -72,6 +72,7 @@
         dashboard: null,
         profileData: null,
         brands: null,
+        enhance: null,
         chartMonth: null,
         bestSelling: null,
         my_products: null,
@@ -152,6 +153,7 @@
           this.inquiries_and_rfqs = data.inquiries_and_rfqs
           this.orders = data.orders
           this.brands = data.brands
+          this.enhance = data.enhance
           this.my_products = data.my_products
 
           /*await this.getDashboard({
