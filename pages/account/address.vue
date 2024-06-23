@@ -18,7 +18,7 @@
         <tr class="lite-bold">
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
-              <input type="checkbox">
+              <!-- <input type="checkbox"> -->
               {{ $t('address.address_name') }}
             </div>
           </th>
@@ -33,7 +33,7 @@
           <th class="bg-lightdeep">{{ $t('address.near') }}</th>
           <th class="bg-lightdeep text-center">
             <div class="flex gap-2 justify-center items-center">
-              <input type="checkbox">
+              <!-- <input type="checkbox"> -->
               {{ $t('address.set_default') }}
             </div>
           </th>
@@ -43,7 +43,8 @@
         <tr v-for="(value, index) in addressList" :key="index">
           <td>
             <div class="flex font-bold capitalize gap-4 items-center">
-              <input type="checkbox">{{ value.address_name }}
+              <!-- <input type="checkbox"> -->
+              {{ value.address_name }}
             </div>
           </td>
           <td class="text-primary">{{ value?.type }}</td>
@@ -58,11 +59,13 @@
             <div class="flex gap-4">
               <button
                 v-if="$can('edit_addresses') && value.default == 0 && list.length>1"
-                @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
+                @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0 p-0">
                 <delete-button-icon/>
               </button>
-              <img @click="editAddress(value)" v-if="$can('edit_addresses')" class="action_img cursor-pointer"
+              <button class="border-0 p-0" @click="editAddress(value)" v-if="$can('edit_addresses')">
+                <img  class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
+              </button>
             </div>
           </td>
         </tr>
