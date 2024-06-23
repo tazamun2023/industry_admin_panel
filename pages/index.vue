@@ -2,20 +2,7 @@
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
     <Profile :profileData="profileData" />
-      <div class="my-4 gap-4">
-<!--        <order-chart-->
-<!--          v-if="chartMonth"-->
-<!--          :chart-month="chartMonth"-->
-<!--          :monthly-order="monthlyOrder"-->
-<!--          @month-changed="monthChanged"-->
-<!--        />-->
-        <SalesChart
-          v-if="chartMonth"
-          :chart-month="chartMonth"
-          :monthly-order="monthlyOrder"
-          @month-changed="monthChanged"
-          />
-      </div>
+
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
           <BestSeller :bestSelling="bestSelling"/>
@@ -32,6 +19,20 @@
           <VendorShortDetails :enhance="enhance"/>
         </div>
       </div>
+      <div class="my-4 gap-4">
+<!--        <order-chart-->
+<!--          v-if="chartMonth"-->
+<!--          :chart-month="chartMonth"-->
+<!--          :monthly-order="monthlyOrder"-->
+<!--          @month-changed="monthChanged"-->
+<!--        />-->
+        <SalesChart
+          v-if="chartMonth"
+          :chart-month="chartMonth"
+          :monthly-order="monthlyOrder"
+          @month-changed="monthChanged"
+          />
+      </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
           <InqueryRfq :inquiries_and_rfqs="inquiries_and_rfqs"/>
@@ -39,6 +40,9 @@
         <div class="my-2">
           <Brands :brands="brands"/>
         </div>
+      </div>
+      <div class="my-2">
+          <OrderOverview/>
       </div>
       <div class="my-4 gap-4">
         <Orders :orders="orders"/>
@@ -57,6 +61,7 @@
   import InqueryRfq from '~/components/vendorDashboard/InqueryRfq'
   import Brands from '~/components/vendorDashboard/Brands'
   import Orders from '~/components/vendorDashboard/Orders'
+  import OrderOverview from '~/components/vendorDashboard/OrderOverview'
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
   import SalesChart from "../components/dashboard/SalesChart.vue";
@@ -93,7 +98,8 @@
       VendorShortDetails,
       InqueryRfq,
       Brands,
-      Orders
+      Orders,
+      OrderOverview
     },
     mixins: [util],
     computed: {
