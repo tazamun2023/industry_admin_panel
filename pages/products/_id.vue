@@ -30,9 +30,9 @@
         :selectedLevel3="variant?.selectedLevel3"
         :select_attr1="variant?.select_attr1"
         :from-single="true"
-        :is_edit="false"
+        :is_edit="$can('manage_products')"
         :select_attr2="variant?.select_attr2"
-        :variant_uu_id="variant?.variant_uu_id"
+        :variant_uuid="variant?.variant_uuid"
       ></Variant>
     </div>
   </div>
