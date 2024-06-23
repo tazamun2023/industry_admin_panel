@@ -107,7 +107,54 @@
                               </svg>
                             </div> -->
                           </div>
-                          <table class="w-full">
+                          <div class="lg:grid lg:grid-cols-2 gap-4">
+                            <div>
+                              <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
+                                                               alt=""> <strong> {{ $t("rfq.Created on") }} :</strong>
+                                  {{ value.created }}</p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/timer.svg"
+                                                               alt=""> <strong>{{ $t("rfq.Expires on") }}:</strong>
+                                  {{ value.expiry_date }}
+                                </p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1"
+                                                               src="~/assets/icon/clipboard-text.svg" alt=""><strong>
+                                  {{ $t("rfq.RFQ ID") }}: </strong> RFQ{{ value.id }}</p>
+                                <p class="m-0 flex gap-2">
+                                  <svg v-if="value.status === 'canceled'"
+                                       style="height: 15px; width: 15px; color: red; margin-top: 5px"
+                                       viewBox="0 0 24 24"
+                                       focusable="false" id="popover-trigger-64" aria-haspopup="dialog"
+                                       aria-expanded="false" aria-controls="popover-content-64">
+                                    <path fill="currentColor"
+                                          d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z">
+                                    </path>
+                                  </svg>
+                                  <span v-if="value.status === 'canceled'">{{ $t('rfq.rfqCanceled') }}</span>
+                                </p>
+                            </div>
+                            <div>
+                              <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong> {{
+                                    $t("rfq.Shipping country")
+                                  }}:</strong>
+                                  {{ value.country.name }} {{ value.is_submit }}
+                                </p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>
+                                  {{ value.city.name }}
+                                </p>
+                                <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
+                                                               alt=""><strong> {{ $t("rfq.Shipping terms") }}:</strong>
+
+                                  <template v-for="(term, index) in value.shipmen_terms">
+                                    <span>{{ term.name }}</span>
+                                    <span class="mx-2" v-if="index + 1 < value.shipmen_terms.length">,</span>
+
+                                  </template>
+                                </p>
+                            </div>
+                          </div>
+                          <!-- <table class="w-full">
                             <tr>
                               <td class="rtl:text-end">
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/calendar-add.svg"
@@ -157,7 +204,7 @@
                                 </p>
                               </td>
                             </tr>
-                          </table>
+                          </table> -->
                         </div>
                         <div class="col-span-3">
                           <div class="qoute-card p-3">
@@ -239,7 +286,7 @@
                       <div class="w-100">
                         <div>
 
-                          <div v-if="collapsedId == value.id" class="mt-4  p-4 rounded">
+                          <div v-if="collapsedId == value.id" class="mt-4  lg:p-4 rounded">
                             <RFQProducts class="lg:p-4" :show_summary="false" :rfq="value"></RFQProducts>
                           </div>
                           <div class="text-center relative">
