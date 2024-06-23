@@ -8,7 +8,7 @@
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
       <!-- ---------------- -->
-      <div v-if="!is_next && !isRfqProduct" class="tab-sidebar">
+      <div v-if="!is_variant &&!is_next && !isRfqProduct" class="tab-sidebar">
         <div class="input-wrapper p-3" v-if="!id">
           <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
                  v-model="is_clone" @click.prevent="!is_clone"/>
@@ -19,7 +19,7 @@
 
       </div>
       <div v-if="!is_next ">
-        <AddProduct :is_clone="is_clone" :id="id" @GoNext="GoNext"></AddProduct>
+        <AddProduct @checkVariant="checkVariant" :is_clone="is_clone" :id="id" @GoNext="GoNext"></AddProduct>
       </div>
     </div>
     <div v-if="is_next">
@@ -50,6 +50,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
+      is_variant: false,
       is_next: false,
       is_clone: false,
       result: null,
@@ -75,6 +76,10 @@ export default {
   },
 
   methods: {
+    checkVariant(v) {
+      console.log("v",v)
+      this.is_variant=v
+    },
     GoNext(v) {
       console.log(v)
       this.variant = v;

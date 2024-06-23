@@ -2,7 +2,7 @@
   <div>
 
     <product-clone-section
-      v-if="is_clone"
+      v-if="is_clone && !is_variant"
       :cloneProduct="cloneProduct"
     />
 
@@ -206,6 +206,7 @@
             <div class="form-check">
               <input type="checkbox" class="custom-control-input" id="clonecheck_true"
                      v-model="is_variant"
+                     @change="$emit('checkVariant',is_variant)"
                      :disabled="is_show"
                      :style="is_variant_save?'cursor: not-allowed':''"/>
               <!--              <input type="checkbox" :disabled="is_show" class="custom-control-input" id="clonecheck_false" v-else-->
@@ -521,33 +522,36 @@
         <div class="my-10"></div>
         <!-- ------------------------------------- -->
         <div v-if="!is_variant && !isRfqProduct" class="p-3">
-          <div class="border-b border-smooth">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
-            <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
-          </div>
-          <div class="mt-10">
-            <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
-            <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
-          </div>
-          <div class="tab-sidebar flex items-center gap-4 p-3">
-            <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
-                                v-slot="{ errors }"
-                                :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
-                <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
-                       :disabled="is_show|| result.is_always_available==1"
-                       v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber" min="0"
-                       maxlength="8">
-                <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
+
+          <div class="tab-sidebar flex flex-col  gap-4 p-3">
+            <div class="border-b border-smooth">
+              <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Fulfillment') }}</h4>
+              <p>{{ $t('prod.Setup shipping and inventory details for this product') }}</p>
+            </div>
+            <div class="mt-10">
+              <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Product Inventory') }}</h4>
+              <p>{{ $t('prod.Enter the available quantity of your product') }}</p>
+            </div>
+            <div class="grid grid-cols-2 items-center">
+              <ValidationProvider name="Available quantity" :rules="availableQuantityValidationRules"
+                                  v-slot="{ errors }"
+                                  :custom-messages="{required: $t('global.req', { type: $t('prod.Available quantity')}) }">
+                <div class="input-wrapper">
+                  <label for="">{{ $t('prod.Available quantity') }} ? <strong class="text-error">*</strong></label>
+                  <input type="text" class="form-control" :class="{ 'has-error': errors[0] }"
+                         :disabled="is_show|| result.is_always_available==1"
+                         v-model="result.available_quantity" @input="availableQuantity" @keypress="onlyNumber" min="0"
+                         maxlength="8">
+                  <label>{{ $t('prod.Minimum order quantity') }}: {{ result.product_prices[0].quantity }}</label>
+                </div>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
+              <div class="form-check mx-5" v-if="!is_variant">
+                <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
+                <!--                    is_always_available-->
+                <input :disabled="is_show" type="checkbox" class="custom-control-input "
+                       v-model="result.is_always_available"/>
               </div>
-              <span class="error">{{ errors[0] }}</span>
-            </ValidationProvider>
-            <div class="form-check" v-if="!is_variant">
-              <label class="form-check-label">{{ $t('prod.Always Available') }}?</label>
-              <!--                    is_always_available-->
-              <input :disabled="is_show" type="checkbox" class="custom-control-input"
-                     v-model="result.is_always_available"/>
             </div>
           </div>
         </div>
@@ -1152,8 +1156,8 @@
             </div>
           </div>
         </div>
-        <div>
-          <div v-if="!is_show &&!is_variant" class="button-group border-t border-smooth mt-20">
+        <div >
+          <div v-if="!is_show &&!is_variant" class=" tab-sidebar p-3 button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
               <ajax-button
                 name="draft"
@@ -1251,7 +1255,7 @@ export default {
       default: false
     },
     p_variant_uuid: {
-      type: Number,
+      type: String,
       default: null
     },
     id: {
@@ -1941,7 +1945,7 @@ export default {
         this.result.unit_id = null
       }
       this.result.is_variant = !this.fromSingle
-      this.result.variant_uuid=this.p_variant_uuid
+      this.result.variant_uuid = this.p_variant_uuid
       this.is_submit_data = true
       const data = await this.setById({
         id: this.id,

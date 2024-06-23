@@ -861,7 +861,7 @@ export default {
       for (var i = 0; i < this.variants.length; i++) {
         var temp = this.variants[i].result;
         if (temp.status == 'incomplete' || temp.status == '') {
-          var old_v= this.variants[i].result.product_variant;
+          var old_v = this.variants[i].result.product_variant;
           this.variants[i].result = {
             ...data,
             id: '',
@@ -871,7 +871,7 @@ export default {
             status: 'incomplete',
             is_variant: true
           }
-          this.variants[i].result.product_variant=old_v
+          this.variants[i].result.product_variant = old_v
         }
 
       }
@@ -892,7 +892,8 @@ export default {
             continue;
           }
 
-          if (this.result.product_variants[i].product_id === "") {
+          if (this.result.product_variants[i].product_id === "" ) {
+            this.result.product_variants[i].product_id=0;
             this.is_variant_save = !this.is_variant_save;
             this.varientModal = false;
             const newVariant = {
@@ -972,10 +973,10 @@ export default {
           if (!isNaN(key)) {
             // console.log('variant_res', variant_res[key])
             this.result.unit_id = variant_res[key].unit_id;
-            this.variants[key].result.variant_uuid =this.variant_uuid_global,
-            // this.variants[key].result.product_variant =this.product_variant,
-            this.variants[key].result.product_variant = variant_res[key].product_variant,
-            this.variants[key].result.title = variant_res[key].title,
+            this.variants[key].result.variant_uuid = this.variant_uuid_global,
+              // this.variants[key].result.product_variant =this.product_variant,
+              this.variants[key].result.product_variant = variant_res[key].product_variant,
+              this.variants[key].result.title = variant_res[key].title,
               this.variants[key].result.status = variant_res[key].status,
               this.variants[key].result.brand_id = variant_res[key].brand_id,
               this.variants[key].result.unit_id = variant_res[key].unit_id,
@@ -988,12 +989,13 @@ export default {
       }
     },
     variantNameWithAttr(name) {
-      if (this.result.product_variants[this.openTab].color_name && this.result.product_variants[this.openTab].value) {
-        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name + ',' + this.result.product_variants[this.openTab].value;
-      } else if (this.result.product_variants[this.openTab].color_name) {
-        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].color_name;
+      let product_variant=  this.variants[this.openTab].result.product_variant;
+      if (product_variant.color_name && product_variant.value) {
+        return name[this.currentLanguage?.code] + ' - ' + product_variant.color_name + ',' + product_variant.value;
+      } else if (product_variant.color_name) {
+        return name[this.currentLanguage?.code] + ' - ' + product_variant.color_name;
       } else {
-        return name[this.currentLanguage?.code] + ' - ' + this.result.product_variants[this.openTab].value;
+        return name[this.currentLanguage?.code] + ' - ' + product_variant.value;
       }
     },
 
@@ -1220,7 +1222,8 @@ export default {
         this.variants.push(JSON.parse(JSON.stringify(v)));
 
       });
-      this.doSubmit()
+      if (this.id > 0)
+        this.doSubmit()
       console.log('mounted...')
     }
 
