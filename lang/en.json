@@ -7,9 +7,7 @@
     "User": "User",
     "LearnMore": "Learn more about roles",
     "LearnMoreMessage": "Please only add users to your account\n                that you trust with your business information.",
-
     "message": "Use roles to set custom permissions for each person that has access to your business account. You\n                decide\n                who is permitted to do what. Roles are not permanent and can be changed by any Admin account.",
-
     "user_management": "User Management",
     "company_management": "Company Management",
     "Content": "Content",
@@ -20,7 +18,6 @@
     "Settings": "Settings",
     "Other": "Other",
     "flash_sales": "flash Sales",
-
     "Select role": "Select role",
     "customer_admin": "Admin",
     "customer_supervisor": "Supervisor",
@@ -34,7 +31,6 @@
     "vendor_supervisor": "Supervisor",
     "vendor_user": "User"
   },
-
   "app": {
     "dir": "ltr",
     "lang": "lang",
@@ -90,7 +86,6 @@
   "polices": {
     "edit": "Edit ",
     "minWords": "Must be more than or equal {count} words ",
-
     "polices": "Polices ",
     "privacy_polices": " Privacy Policy",
     "return_polices": "Return & Refund Policy",
@@ -817,7 +812,6 @@
     "shipping_cost": "Shipping Cost:",
     "timeline": "Timeline",
     "user": "User",
-
     "action": "Action",
     "date": "Date",
     "messageOne": "Industry will update you on the delivery date once the",
@@ -1082,7 +1076,8 @@
     "iban": "IBAN",
     "account_number": "Bank account number",
     "holder_name": "Bank account holder's name",
-    "swift_code": "Swift/BIC code"
+    "swift_code": "Swift/BIC code",
+    "set_default": "Set as Default Account"
   },
   "address": {
     "country": "Country",
@@ -1308,8 +1303,6 @@
     "feo": "Following error occurred",
     "message": "Message",
     "access": "Access Management",
-
-
     "error": "error"
   },
   "approveModal": {
@@ -1650,20 +1643,18 @@
     "LOCATION INFO": "LOCATION INFO",
     "GENERAL INFO": "GENERAL INFO"
   },
-
   "Dashboard": {
-    "Bestsellers" : "Bestsellers",
-    "More" : "More",
-    "Price" : "Price",
-    "Profit" : "Profit",
-    "Sold" : "Sold",
-    "Add New Product" : "Add New Product",
-    "Product" : "Product"
+    "Bestsellers": "Bestsellers",
+    "More": "More",
+    "Price": "Price",
+    "Profit": "Profit",
+    "Sold": "Sold",
+    "Add New Product": "Add New Product",
+    "Product": "Product"
   },
-
   "messageCenter": {
-    "Inquiries" : "Inquiries",
-    "RFQs" : "RFQs",
-    "Shipping" : "Shipping"
+    "Inquiries": "Inquiries",
+    "RFQs": "RFQs",
+    "Shipping": "Shipping"
   }
 }

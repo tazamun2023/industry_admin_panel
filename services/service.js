@@ -276,6 +276,6 @@ export default {
   // SetDefaultBank
   SetDefaultBank(params, bearer) {
     apiClient.defaults.headers.common['Authorization'] = bearer
-    return apiClient.post(`${json.api.SetDefaultBank}/${params.id}`, params)
+    return apiClient.post(`${json.api.SetDefaultBank}`, params)
   },
 }

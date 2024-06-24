@@ -13,6 +13,7 @@
       :title="$t('setting.rejection-reasons')"
       manage_gate="edit_addresses"
       @list="setVendorAddress( $event)"
+
     >
       <template v-slot:table="{list}">
         <tr class="lite-bold">
@@ -53,7 +54,7 @@
           <td class="font-bold capitalize">{{ value?.phone }}</td>
           <td>{{ value?.nearest_landmark }}</td>
           <td class="text-center">
-            <input @change="setDefault(value,$event)" :checked="value.default" :value="value.default" type="checkbox">
+            <input @change="setDefault(value,$event)" :disabled="value.default"  :checked="value.default" :value="value.default" type="checkbox">
           </td>
           <td>
             <div class="flex gap-4">

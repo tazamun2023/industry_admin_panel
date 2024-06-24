@@ -1074,7 +1074,8 @@
     "iban": "IBAN",
     "account_number": "رقم الحساب البنكي",
     "holder_name": "اسم صاحب الحساب البنكي",
-    "swift_code": "رمز سويفت / BIC"
+    "swift_code": "رمز سويفت / BIC",
+    "set_default": "تعيين كحساب  افتراضي"
   },
   "address": {
     "country": "البلد",

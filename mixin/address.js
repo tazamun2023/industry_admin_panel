@@ -34,6 +34,7 @@ export default {
     async addressAction() {
      delete (this.addressData.country_code)
      delete (this.addressData.city_name)
+     delete (this.addressData.old_is_default)
       if (this.addressData.type) {
         const data = await this.userAddressAction({
           ...this.addressData,
@@ -75,6 +76,7 @@ export default {
       this.addressData.nearest_landmark = value.nearest_landmark
       this.addressData.type = value.type
       this.addressData.is_default = value.default
+      this.addressData.old_is_default = value.default
       this.addressData.default = value.default
       this.addressData.phone_code = value.phone_code
       this.addressData.lat = value.lat
@@ -103,6 +105,7 @@ export default {
       this.addressData.phone_code = ''
       this.addressData.lat = ''
       this.addressData.lng = ''
+      this.addressData.old_is_default =false
       await this.setActiveAddress(this.addressData)
       await this.setAddressModal(true)
 

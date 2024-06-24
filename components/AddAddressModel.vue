@@ -152,7 +152,7 @@
           <ValidationProvider name="type" class="w-full" rules="" v-slot="{ errors }">
             <div class="input-wrapper w-full">
               <div class="flex gap-1">
-                <input type="checkbox" v-model="addressData.is_default">
+                <input   :disabled="addressData.old_is_default&&addressData.id>0" type="checkbox" v-model="addressData.is_default">
                 <label for="">{{ $t('address.set_default') }}</label>
               </div>
               <span class="error">{{ errors[0] }}</span>
