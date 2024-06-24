@@ -1,6 +1,8 @@
 <template>
-  <div class="dashboard">
+  <div  class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
+      <!-- -------------------------------vendor panel--------------------------- -->
+      <div v-if="$store.state.admin.isVendor">
     <Profile :profileData="profileData" />
 
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
@@ -32,6 +34,8 @@
           :monthly-order="monthlyOrder"
           @month-changed="monthChanged"
           />
+
+
       </div>
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
@@ -47,6 +51,30 @@
       <div class="my-4 gap-4">
         <Orders :orders="orders"/>
       </div>
+      </div>
+      <!-- ----------------------------vendor panel end------------------------------- -->
+       <!-- ----------------------------Admin panel end------------------------------- -->
+       <div v-if="$store.state.admin.isSuperAdmin">
+        <div>
+          <shortStatics/>
+        </div>
+        <div class="my-2">
+        <OrderUpdate
+          v-if="chartMonth"
+          :chart-month="chartMonth"
+          :monthly-order="monthlyOrder"
+          @month-changed="monthChanged"
+          />
+        </div>
+        <div class="my-2 grid grid-cols-2 gap-4">
+          <div>
+            <User/>
+          </div>
+          <div>
+            <Traffic/>
+          </div>
+        </div>
+       </div>
   </div>
 </template>
 
@@ -65,6 +93,10 @@
   import {mapGetters, mapActions} from 'vuex'
   import util from '~/mixin/util'
   import SalesChart from "../components/dashboard/SalesChart.vue";
+  import OrderUpdate from "../components/dashboard/OrderUpdate.vue";
+  import shortStatics from "~/components/adminDashboard/shortStatics.vue";
+  import User from "~/components/adminDashboard/User.vue";
+  import Traffic from "~/components/adminDashboard/Traffic.vue";
   // import SalesChart from "../components/dashboard/SalesChart.vue";
 
 
@@ -99,7 +131,11 @@
       InqueryRfq,
       Brands,
       Orders,
-      OrderOverview
+      OrderOverview,
+      OrderUpdate,
+      shortStatics,
+      User,
+      Traffic
     },
     mixins: [util],
     computed: {
