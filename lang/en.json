@@ -1645,12 +1645,21 @@
   },
   "Dashboard": {
     "Bestsellers": "Bestsellers",
-    "More": "More",
-    "Price": "Price",
-    "Profit": "Profit",
-    "Sold": "Sold",
-    "Add New Product": "Add New Product",
-    "Product": "Product"
+    "Best selling" : "Best selling",
+    "More" : "More",
+    "Price" : "Price",
+    "Profit" : "Profit",
+    "Sold" : "Sold",
+    "Add New Product" : "Add New Product",
+    "My Products" : "My Products",
+    "All Products" : "All Products",
+    "Waiting Acceptance" : "Waiting Acceptance",
+    "Drafted" : "Drafted",
+    "Rejected" : "Rejected",
+    "Accepted" : "Accepted",
+    "Refresh Stock" : "Refresh Stock",
+    "Refresh Enhance" : "Refresh Enhance",
+    "Product" : "Product"
   },
   "messageCenter": {
     "Inquiries": "Inquiries",
