@@ -54,7 +54,7 @@ const actions = {
     commit('SET_LANGUAGES', payload)
   },
   async getLangData({ state, commit, dispatch }, {i18n, token}) {
-
+    return ;
     if(!state?.currentLanguage?.predefined) {
       try {
         const {data} = await Service.getRequest({

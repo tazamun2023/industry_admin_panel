@@ -28,13 +28,13 @@
         class="error"
         v-if="!!!email && hasError"
       >
-        {{ $t('category.req', { type: $t('fSale.email')}) }}
+        {{ $t('category.req', {type: $t('fSale.email')}) }}
       </span>
       <span
         class="error"
         v-else-if="isInvalidEmail && hasError"
       >
-        {{ $t('user.isValid', { type: $t('fSale.email') }) }}
+        {{ $t('user.isValid', {type: $t('fSale.email')}) }}
       </span>
     </div>
 
@@ -48,7 +48,7 @@
         class="error"
         v-if="!!!password && hasError"
       >
-        {{ $t('category.req', { type: $t('user.pass')}) }}
+        {{ $t('category.req', {type: $t('user.pass')}) }}
       </span>
       <span
         class="error"
@@ -107,153 +107,153 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import util from '~/mixin/util'
-  import validation from '~/mixin/validation'
-  import AjaxButton from '~/components/AjaxButton'
-  import PasswordField from '~/components/PasswordField'
-  import ErrorFormatter from '~/components/ErrorFormatter'
+import {mapGetters, mapActions} from 'vuex'
+import util from '~/mixin/util'
+import validation from '~/mixin/validation'
+import AjaxButton from '~/components/AjaxButton'
+import PasswordField from '~/components/PasswordField'
+import ErrorFormatter from '~/components/ErrorFormatter'
 
-  export default {
-    name: "login",
-    layout: "login-layout",
-    middleware: ['common-middleware', 'non-logged-in'],
-    data() {
-      return {
-        email: '',
-        password: '',
-        rememberToken: '',
-        hasError: false,
-        formSubmitting: false
+export default {
+  name: "login",
+  layout: "login-layout",
+  middleware: ['common-middleware', 'non-logged-in'],
+  data() {
+    return {
+      email: '',
+      password: '',
+      rememberToken: '',
+      hasError: false,
+      formSubmitting: false
+    }
+  },
+  mixins: [util, validation],
+  components: {
+    AjaxButton,
+    ErrorFormatter,
+    PasswordField
+  },
+  watch: {},
+  computed: {
+    isDemo() {
+      return process.env.isDemo
+    },
+    isInvalidEmail() {
+      return (this.email && !this.isValidEmail(this.email))
+    },
+    isLengthInvalid() {
+      return (this.password && !this.isValidLength(this.password))
+    },
+    ...mapGetters('language', ['defaultLanguage']),
+    ...mapGetters('ui', ['rememberMe'])
+  },
+  methods: {
+    setCredentials(data) {
+      if (data < 0) {
+        this.email = 'admin@mail.com'
+        this.password = '123456'
+      } else {
+        this.email = 'vendor@mail.com'
+        this.password = '123456'
       }
+      this.checkForm()
     },
-    mixins: [util, validation],
-    components: {
-      AjaxButton,
-      ErrorFormatter,
-      PasswordField
-    },
-    watch: {},
-    computed: {
-      isDemo() {
-        return process.env.isDemo
-      },
-      isInvalidEmail() {
-        return (this.email && !this.isValidEmail(this.email))
-      },
-      isLengthInvalid() {
-        return (this.password && !this.isValidLength(this.password))
-      },
-      ...mapGetters('language', ['defaultLanguage']),
-      ...mapGetters('ui', ['rememberMe'])
-    },
-    methods: {
-      setCredentials(data) {
-        if (data < 0) {
-          this.email = 'admin@mail.com'
-          this.password = '123456'
-        } else {
-          this.email = 'vendor@mail.com'
-          this.password = '123456'
+
+    async checkForm() {
+      this.hasError = false
+      if (!this.email || !this.password || this.isInvalidEmail || this.isLengthInvalid) {
+        this.hasError = true
+        return false
+      }
+      this.settingRemember(this.rememberToken)
+
+      this.formSubmitting = true
+      try {
+        if (!process.env.apiBase.trim()) {
+          this.$axios.defaults.baseURL = window.location.origin + '/'
         }
-        this.checkForm()
-      },
 
-      async checkForm() {
-        this.hasError = false
-        if (!this.email || !this.password || this.isInvalidEmail || this.isLengthInvalid) {
-          this.hasError = true
-          return false
-        }
-        this.settingRemember(this.rememberToken)
+        this.$auth.loginWith('local',
+          {
+            data: {
+              remember_token: this.rememberToken,
+              password: this.password,
+              email: this.email
+            }
+          })
+          .then(async res => {
 
-        this.formSubmitting = true
-        try {
-          if (!process.env.apiBase.trim()) {
-            this.$axios.defaults.baseURL = window.location.origin + '/'
-          }
+            if (this.rememberToken) {
+              this.$auth.$storage.setCookie('remember_expires', 7, {expires: 7});
+            } else {
+              this.$auth.$storage.removeCookie('remember_expires');
+            }
 
-          this.$auth.loginWith('local',
-            {
-              data: {
-                remember_token: this.rememberToken,
-                password: this.password,
-                email: this.email
-              }
-            })
-            .then(async res => {
+            const {data} = res
 
-              if(this.rememberToken) {
-                this.$auth.$storage.setCookie('remember_expires', 7, { expires: 7 });
-              }else {
-                this.$auth.$storage.removeCookie('remember_expires');
-              }
-
-              const {data} = res
-
-              if (data.status === 200) {
-                const data = await this.getRequest({
-                  params: {},
-                  api: 'profile'
-                });
-                this.formSubmitting = false
-
-                await this.settingSiteData(data)
-                this.setProfile(data)
-
-                if (data.languages.length) {
-                  await this.getLangData({
-                    i18n: this.$i18n,
-                    token: null
-                  })
-
-                  if (this.defaultLanguage?.code) {
-                    this.$i18n.locale = this.defaultLanguage?.code
-                  }
-                }
-
-                this.hasError = false
-                this.setErrors()
-
-                if (this.$auth.$state.redirect) {
-                  // If rediect to login page from page that is required authentication (auth midleware), go that page
-                  this.$router.push(this.$auth.$state.redirect)
-                } else {
-                  // Otherwise, go to home page
-                  this.$router.push('/')
-                }
-
-              } else {
-                this.formSubmitting = false
-                this.setErrors(data?.data)
-              }
-            })
-            .catch(e => {
+            if (data.status === 200) {
+              const data = await this.getRequest({
+                params: {},
+                api: 'profile'
+              });
               this.formSubmitting = false
 
-              this.setErrors({
-                'form': [e.message]
-              })
-              console.error(e)
+              await this.settingSiteData(data)
+              this.setProfile(data)
+
+              if (data.languages.length) {
+                await this.getLangData({
+                  i18n: this.$i18n,
+                  token: null
+                })
+
+                if (this.defaultLanguage?.code) {
+                  this.$i18n.locale = this.defaultLanguage?.code
+                }
+              }
+              console.log('lllllllllog')
+              this.hasError = false
+              this.setErrors()
+
+              if (this.$auth.$state.redirect) {
+                // If rediect to login page from page that is required authentication (auth midleware), go that page
+                this.$router.push(this.$auth.$state.redirect)
+              } else {
+                // Otherwise, go to home page
+                this.$router.push('/')
+              }
+
+            } else {
+              this.formSubmitting = false
+              this.setErrors(data?.data)
+            }
+          })
+          .catch(e => {
+            this.formSubmitting = false
+
+            this.setErrors({
+              'form': [e.message]
             })
+            console.error(e)
+          })
 
-        } catch (e) {
-          this.formSubmitting = false
-          return this.$nuxt.error(e)
-        }
-      },
-      ...mapActions(['settingSiteData']),
-      ...mapActions('admin', ['setProfile']),
-      ...mapActions('common', ['getRequest']),
-      ...mapActions('language', ['getLangData']),
-      ...mapActions('ui', ['setErrors', 'settingRemember'])
+      } catch (e) {
+        this.formSubmitting = false
+        return this.$nuxt.error(e)
+      }
     },
-    mounted() {
-      this.rememberToken = this.rememberMe === 'true' ? true : ''
-      this.setErrors()
+    ...mapActions(['settingSiteData']),
+    ...mapActions('admin', ['setProfile']),
+    ...mapActions('common', ['getRequest']),
+    ...mapActions('language', ['getLangData']),
+    ...mapActions('ui', ['setErrors', 'settingRemember'])
+  },
+  mounted() {
+    this.rememberToken = this.rememberMe === 'true' ? true : ''
+    this.setErrors()
 
-    }
   }
+}
 </script>
 
 <style scoped>
