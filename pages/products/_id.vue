@@ -10,9 +10,9 @@
       <!-- ---------------- -->
       <div v-if="!is_variant &&!is_next && !isRfqProduct" class="tab-sidebar">
         <div class="input-wrapper p-3" v-if="!id">
-          <input type="checkbox" class="custom-control-input" id="clonecheck_true" v-if="is_clone" v-show="is_clone"
-                 v-model="is_clone" @click.prevent="!is_clone"/>
-          <input type="checkbox" class="custom-control-input" id="clonecheck_false" v-else v-model="is_clone"/>
+          <input type="checkbox" class="custom-control-input" id="clonecheck_true"
+                 v-model="is_clone" />
+
           <label class="custom-control-label fw-bold" for="clonecheck"><strong
             style="line-height: 26px;">{{ $t('prod.Clone from existing product') }}</strong></label>
         </div>

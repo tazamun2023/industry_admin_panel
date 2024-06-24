@@ -4,7 +4,7 @@
       v-if="$can('view_financial')"
       ref="listPage"
       list-api="getVendorBank"
-      delete-api="rejectReasons"
+      delete-api="DeleteVendorBank"
       route-name="rejection-reasons"
       :modalButton="true"
       empty-store-variable="rejectReasons"
@@ -20,24 +20,24 @@
           <th class="bg-lightdeep">
             <div class="flex gap-4 items-center">
               <!-- <input type="checkbox"> -->
-              Name
+              {{ $t('global.name') }}
             </div>
           </th>
           <th class="bg-lightdeep">
-            IBAN
+            {{ $t('bank.iban') }}
           </th>
-          <th class="bg-lightdeep">Swift code</th>
-          <th class="bg-lightdeep">Bank Holder</th>
-          <th class="bg-lightdeep">Bank</th>
+          <th class="bg-lightdeep">{{ $t('bank.swift_code') }}</th>
+          <th class="bg-lightdeep">{{ $t('bank.holder_name') }}</th>
+          <th class="bg-lightdeep">{{ $t('bank.bank_name') }}</th>
           <th class="bg-lightdeep text-center">
             <div class="flex gap-2 justify-center items-center">
               <!-- <input type="checkbox"> -->
-              Set as Default
+              {{ $t('address.set_default') }}
             </div>
           </th>
           <th class="bg-lightdeep"></th>
         </tr>
-        <tr class="border-t border-pb" v-for="(value, index) in bankList" :key="index">
+        <tr class="border-t border-pb" v-for="(value, index) in list" :key="index">
           <td>
             <div class="flex font-bold capitalize gap-4 items-center">
               <!-- <input type="checkbox"> -->
@@ -60,8 +60,11 @@
           </td>
           <td>
             <div class="flex gap-4">
-
-              <img v-if="!value.is_default" @click="isDelete(value.id)" class="action_img cursor-pointer" alt="Delete" src="~/assets/icon/delete.svg">
+              <button
+                v-if="$can('update_financial') && value.is_default == 0 "
+                @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0 p-0">
+                <delete-button-icon/>
+              </button>
               <img @click="editing(value)" v-if="$can('update_financial')" alt="Edit" class="action_img cursor-pointer"
                    src="~/assets/icon/edit-g.svg">
             </div>
@@ -145,7 +148,7 @@
                 <div class="input-wrapper w-full">
                   <div class="flex gap-1">
                     <input type="checkbox" v-model="bankData.is_default" :disabled="disabled">
-                    <label for="">Set bank details as default</label>
+                    <label for=""> {{ $t('address.set_default') }}</label>
                   </div>
                 </div>
                 <div class="flex justify-end gap-4">
@@ -164,24 +167,6 @@
         </div>
       </div>
     </template>
-    <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-      <template v-slot:title>
-        <h4>{{ $t('vendor.deletemessage') }}</h4>
-      </template>
-      <!-- -----------default slot------- -->
-      <!-- -----------default slot------- -->
-      <template v-slot:buttons>
-        <div class="flex gap-4 justify-end">
-          <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">
-            {{ $t('address.Quit') }}
-          </button>
-          <button @click.prevent="isDeleteSubmit()"
-                  class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">
-            {{ $t('address.Agree') }}
-          </button>
-        </div>
-      </template>
-    </DeleteModal>
   </div>
 
 </template>
@@ -201,10 +186,10 @@ import bank from "@/mixin/bank";
 import GlobalPagination from "../../components/GlobalPagination.vue";
 import DeleteModal from "../../components/DeleteModal.vue";
 import ListPage from "../../components/partials/ListPage.vue";
+import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
 
 export default {
-  components: {ListPage, DeleteModal, GlobalPagination, ValidationObserver, ValidationProvider},
-  mixins: [bank],
+  components: {DeleteButtonIcon, ListPage, DeleteModal, GlobalPagination, ValidationObserver, ValidationProvider},
   data() {
     return {
 
@@ -247,32 +232,54 @@ export default {
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
     ...mapActions('bank', ['getVendorBank', 'storeVendorBank', 'vendorBankDelete', 'updateBank', 'putVendorBank', 'SetDefaultBank']),
     ...mapActions('common', ['swetAlertFire', 'deleteData']),
+    async BankAction() {
 
+      if(this.bankData.id){
+        const data = await this.putVendorBank({
+          id: this.bankData.id,
+          params:{
+            ...this.bankData,
+          },
+          api:"getVendorBank"
+        })
+        this.Cardmodal = false
+
+        if(data?.status === 200){
+          this.setToastMessage(data.message)
+          this.getAllVendorBank()
+        } else if(data?.status === 201) {
+          this.setToastError(data.data?.form?.join(', '))
+        }
+
+      }else{
+        const data = await this.storeVendorBank({
+          params:{
+            ...this.bankData,
+          },
+          api:"getVendorBank"
+        })
+
+
+        if(data?.status === 200){
+          //  this.$store.commit('bank/SET_VENDOR_BANK_DATA', {...this.bankData})
+          this.getAllVendorBank()
+          this.setToastMessage(data.message)
+          this.Cardmodal = false
+
+        } else if(data?.status >  200) {
+          this.getAllVendorBank()
+          this.setToastError(data.data?.form?.join(', '))
+
+        }
+
+      }
+    },
     closeModal() {
       this.deleteModal = false
     },
 
     async isDefault(id, event) {
       await this.SetDefaultBanks(id, event.target.checked);
-    },
-    async isDeleteSubmit() {
-      try {
-        if (this.current_bank_id) {
-          const data = await this.deleteData({params: this.current_bank_id, api: 'DeleteVendorBank'})
-          if (data) {
-            this.deleteModal = false;
-            await this.getAllVendorBank();
-          }
-        }
-
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async isDelete(id) {
-      this.deleteModal = true;
-      this.current_bank_id = id;
-      // await this.vendorBankDelete(id, event.target.checked);
     },
     selectOption(option) {
       this.btnText = option;
@@ -313,15 +320,7 @@ export default {
 
   },
   async mounted() {
-    this.bankData.vendor_id = this.profile.vendor_id
 
-    try {
-
-      await this.getAllVendorBank()
-
-    } catch (e) {
-      return this.$nuxt.error(e)
-    }
 
   }
 

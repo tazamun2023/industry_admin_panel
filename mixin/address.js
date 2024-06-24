@@ -101,7 +101,7 @@ export default {
       this.addressData.type = ''
       this.addressData.is_default = ''
       this.addressData.phone_code = ''
-      this.addressData.lan = ''
+      this.addressData.lat = ''
       this.addressData.lng = ''
       await this.setActiveAddress(this.addressData)
       await this.setAddressModal(true)

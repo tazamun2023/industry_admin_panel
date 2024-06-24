@@ -3,6 +3,7 @@
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
         <h4>{{ $t('prod.add_new_product') }} {{ openTab }}</h4>
+        <p>{{variant_uuid_global}}</p>
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
       <div>

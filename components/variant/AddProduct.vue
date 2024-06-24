@@ -1156,7 +1156,7 @@
             </div>
           </div>
         </div>
-        <div >
+        <div>
           <div v-if="!is_show &&!is_variant" class=" tab-sidebar p-3 button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
               <ajax-button
@@ -1803,7 +1803,7 @@ export default {
       console.log('User stopped typing, current value:', this.inputValue);
       this.checkIfVaildSKU({sku: this.result.sku, product_id: this.result.id})
       // Add any additional logic here
-    }, 500),
+    }, 300),
 
     compareMethods() {
       if (this.result.is_always_available) {
@@ -1945,7 +1945,8 @@ export default {
         this.result.unit_id = null
       }
       this.result.is_variant = !this.fromSingle
-      this.result.variant_uuid = this.p_variant_uuid
+      if (this.p_variant_uuid !== "" && this.result.variant_uuid ==="" )
+        this.result.variant_uuid = this.p_variant_uuid
       this.is_submit_data = true
       const data = await this.setById({
         id: this.id,
@@ -1970,7 +1971,7 @@ export default {
           return this.$router.push({path});
         } else {
           console.log("cooooooooom222")
-          console.log("cooooooooom222")
+          console.log("cooooooooom222", data.data)
           let curent = this.$router.currentRoute.fullPath;
           this.result = data.data
           curent = curent.replace('/add', '/variant/' + this.result.id);
