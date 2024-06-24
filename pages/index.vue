@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
       <h3 class="uppercase py-3">Dashboard</h3>
-    <Profile :profileData="profileData" />
+    <Profile :profileData="profileData" v-if="$store.state.admin.isVendor" />
 
       <div class="lg:grid my-4 lg:grid-cols-2 gap-4">
         <div class="my-2">
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="my-2">
-          <OrderOverview/>
+          <OrderOverview :orderStatuses="orderStatuses"/>
       </div>
       <div class="my-4 gap-4">
         <Orders :orders="orders"/>
@@ -80,6 +80,7 @@
         enhance: null,
         chartMonth: null,
         bestSelling: null,
+        orderStatuses: null,
         my_products: null,
         lowStock: null,
         inquiries_and_rfqs: null,
@@ -161,6 +162,7 @@
           this.brands = data.brands
           this.enhance = data.enhance
           this.my_products = data.my_products
+          this.orderStatuses = data.orderStatuses
 
           /*await this.getDashboard({
             ...this.chartMonth,
