@@ -134,7 +134,7 @@
 
           </div>
           <div class="flex gap-4">
-            <ValidationProvider name="post" class="w-full" rules="required|numeric" v-slot="{ errors }"
+            <ValidationProvider name="post" class="w-full" rules="" v-slot="{ errors }"
                                 :custom-messages="{required: `Enter Your ${$t('address.zipCode')}`, numeric: 'Enter Number'}">
               <div class="input-wrapper w-full">
                 <label for="">{{ $t('address.zipCode') }}*</label>

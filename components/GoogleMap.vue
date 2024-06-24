@@ -154,18 +154,30 @@ export default {
 
             }
           }
-          if (this.address.district == "")
-            this.address.district = (this.address.district2 !== "") ? this.address.district2 : this.address.street2
-          if (this.address.street == "")
-            this.address.street = (this.address.district2 !== "") ? this.address.district2 : this.address.street2
-          console.log(this.address)
-          // const inputFields = document.querySelectorAll('.pac-target-input');
-          // inputFields.forEach(input => {
-          //   input.value = results[0].formatted_address;
-          // });
-        } else {
-          console.log("no results found");
         }
+        if (results[1]) {
+          const addressComponents = results[1].address_components;
+          this.address.name = results[1].formatted_address;
+          for (const component of addressComponents) {
+            if (component.types.includes("sublocality")) {
+              this.address.district2 = component.long_name;
+            } else if (component.types.includes("route")) {
+              this.address.street = component.long_name;
+            } else if (component.types.includes("locality")) {
+              this.address.street2 = component.long_name;
+            }
+          }
+        }
+        if (this.address.district == "")
+          this.address.district = (this.address.district2 !== "") ? this.address.district2 : this.address.street2
+        if (this.address.street == "")
+          this.address.street = (this.address.district2 !== "") ? this.address.district2 : this.address.street2
+
+        if (this.address.district !== ''
+          && this.address.district !== this.address.district2
+          && this.address.district !== this.address.street)
+          this.address.district += ' - ' + this.address.district2;
+        console.log(this.address)
       } else {
         console.log("failed due to: " + status);
       }
