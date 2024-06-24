@@ -51,7 +51,11 @@ module.exports = {
       canceldeep:'#FB641E',
       transparent:"#000000f7",
       prograss:'#D83432',
-      orange:'#F9A533'
+      orange:'#F9A533',
+      orangeDeep:'#FF392B',
+      orangeLight:'#FF8901',
+      blue:'#2F80ED',
+      offwhite:'#CDD1DE'
     },
 
     screens: {
