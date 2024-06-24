@@ -2,7 +2,7 @@
 <template>
   <div class="order-chart card mtb-20 mtb-sm-15">
     <div class="flex justify-between">
-          <h4 class="text-[20px] font-medium">My Sales</h4>
+          <h4 class="text-[14px] font-medium flex gap-3 items-center"><img class="w-2 h-2" src="~/assets/icon/live.svg" alt="">Orders Update</h4>
           <NuxtLink :to="`/orders`" class="flex gap-4 items-center">View Details <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
       </div>
     <div class="dply-felx right mb-10 mb-xs-5">
@@ -27,7 +27,7 @@
 <!--          :chart-month="currentMonth"-->
 <!--          :chart-data="orderDataset"-->
 <!--        />-->
-        <SellChart2
+        <order-update-chart
           class=" h-100"
           :chart-month="currentMonth"
           :chart-data="orderDataset"
@@ -49,11 +49,10 @@
 <script>
 import Spinner from '~/components/Spinner'
 import Dropdown from '~/components/Dropdown'
-import SellChart from '~/components/partials/SellChart'
-import SellChart2 from "./SellChart2.vue";
+import OrderUpdateChart from './Chart/OrderUpdateChart.vue';
 
 export default {
-  name: 'SalesChart',
+  name: 'OrderUpdate',
   data() {
     return {
       months: null,
@@ -72,12 +71,12 @@ export default {
     }
   },
   components: {
-    SellChart2,
     Dropdown,
-    SellChart,
-    Spinner
+    Spinner,
+    OrderUpdateChart
   },
   computed: {
+
     currentMonth() {
       return {...this.chartMonth, ...{name: this.currentMonthName}}
     },
@@ -120,20 +119,14 @@ export default {
           }
         }
         return {
+
           labels: chartDate,
-          datasets: [
-            {
-              label: 'Sell',
-              backgroundColor: "#01A781",
-              borderColor: "#01A781",
-              pointBackgroundColor: "#01A781",
-              pointBorderColor: "#01A781",
-              pointHoverBackgroundColor: '#aaa',
-              pointHoverBorderColor: "#01A781",
-              pointBorderWidth: 6,
-              data: chartValue
-            }
-          ]
+          datasets: [{
+            label: 'Orders',
+            data: chartValue,
+            fill: false,
+            borderColor: '#01A781',
+          }]
         }
       }
       return null
