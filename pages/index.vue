@@ -75,6 +75,38 @@
             <Traffic/>
           </div>
         </div>
+        <div class="my-3 grid grid-cols-2 gap-4">
+          <div>
+            <admin-best-seller :bestSelling="bestSelling"/>
+          </div>
+          <div>
+            <admin-brand :brands="brands"/>
+          </div>
+        </div>
+        <div class="my-4 grid grid-cols-2 gap-4">
+          <div>
+            <rfqs/>
+           </div>
+          <div>
+            <customer/>
+          </div>
+        </div>
+        <div class="my-4 grid grid-cols-2 gap-4">
+          <div>
+            <vendor/>
+           </div>
+          <div>
+            <admin-order/>
+          </div>
+        </div>
+        <div class="my-4 grid grid-cols-2 gap-4">
+          <div>
+            <admin-product :my_products="my_products"/>
+           </div>
+          <div>
+           <withdrawn/>
+          </div>
+        </div>
        </div>
   </div>
 </template>
@@ -98,6 +130,13 @@
   import shortStatics from "~/components/adminDashboard/shortStatics.vue";
   import User from "~/components/adminDashboard/User.vue";
   import Traffic from "~/components/adminDashboard/Traffic.vue";
+import AdminBestSeller from '../components/adminDashboard/AdminBestSeller.vue'
+import AdminBrand from '../components/adminDashboard/AdminBrand.vue'
+import Rfqs from '../components/adminDashboard/Rfqs.vue'
+import Customer from '../components/adminDashboard/Customer.vue'
+import Vendor from '../components/adminDashboard/Vendor.vue'
+import AdminProduct from '../components/adminDashboard/AdminProduct.vue'
+import Withdrawn from '../components/adminDashboard/Withdrawn.vue'
   // import SalesChart from "../components/dashboard/SalesChart.vue";
 
 
@@ -137,7 +176,14 @@
       OrderUpdate,
       shortStatics,
       User,
-      Traffic
+      Traffic,
+      AdminBestSeller,
+        AdminBrand,
+        Rfqs,
+        Customer,
+        Vendor,
+        AdminProduct,
+        Withdrawn
     },
     mixins: [util],
     computed: {

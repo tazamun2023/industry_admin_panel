@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="p-4 card">
+    <div class="p-4 card lg:h-[530px]">
         <div class="flex justify-between">
             <h4 class="text-[20px] font-medium">Users</h4>
             <a href="" class="flex gap-4 items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
         </div>
         <div class="my-2">
-          <user-chart/>
+          <user-chart :chart-label="labelsItem" :chart-color="colors"/>
         </div>
         <div class="grid grid-cols-2 gap-4">
             <div class="border-r border-offwhite px-4">
@@ -40,5 +40,11 @@ export default {
   components: {
     UserChart,
   },
+  data(){
+    return{
+      labelsItem: ['Admin', 'Vendors', 'Customer'],
+      colors: ['#FF392B','#2F80ED','#FF8901'],
+    }
+  }
 };
 </script>
