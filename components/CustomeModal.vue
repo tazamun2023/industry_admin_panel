@@ -5,6 +5,7 @@
         v-model="showModal"
         @before-open="beforeOpen" @before-close="beforeClose"
         :title="title"
+        :sub_title="sub_title"
         :modal-class="`Body freeze  scrollable-modal modal modal-${size}`"
       >
 
@@ -34,7 +35,7 @@ import VueModal2 from "./ModalComponent/Modal2.vue";
 
 export default {
   components: {VueModal2},
-  props: ['showModal', 'size', 'title'],
+  props: ['showModal', 'size', 'title','sub_title'],
 
   data: function () {
     return {}
@@ -116,7 +117,7 @@ export default {
 
 .vm-titlebar {
   padding: 10px 10px 0px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 @media (min-width: 480px) {

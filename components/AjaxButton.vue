@@ -10,6 +10,7 @@
   <button
     @click.passive="btnClicked"
     class="ajax-btn"
+    :disabled="disable || disabled || !isActive"
     :class="[another_class]"
     :type="type"
   >

@@ -154,6 +154,7 @@
                         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                           <div class="overflow-hidden">
                             <order-items :show_taxes="false" :order="order"
+                                         :change_status="false"
                                          v-if="!(closeable && index !== indexTabel)"></order-items>
                             <!--                            <TablePending v-if="!(closeable && index !== indexTabel)">-->
                             <!--                              <tr-sub-items :subItems="order.sub_order_items"/>-->
@@ -175,13 +176,16 @@
             </div>
           </div>
         </div>
-        <OrderApprovedModal v-if="$can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders"
+        <OrderApprovedModal v-if="approvedModal && $can('fulfil_orders')" :saving="saveSata" :selectedOrders="selectedOrders"
                             :show-modal="approvedModal" @save="saveRejectProduct"
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
 
-        <OrderReject v-if="rejectModal && $can('order_cancellation')" @close="rejectModalClose"
-                     :reasonsRejection="reasonsRejection.data" :selectedOrders="selectedOrders" @save="saveReject"/>
+        <OrderReject v-if="rejectModal && $can('order_cancellation')"
+                     :showModal="rejectModal"
+                     :save-sata="saveSata"
+                     @close="rejectModalClose"
+                    :selectedOrders="selectedOrders" @save="saveReject"/>
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
                            :saveSata="saveSata" :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
@@ -253,7 +257,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   mixins: [util, routeParamHelper],
   methods: {
-    ...mapActions('order', ['getOrder', 'getReasonsRejection', 'subOrderReject', 'subOrderChangeStatus', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
+    ...mapActions('order', ['getOrder',  'subOrderReject', 'subOrderChangeStatus', 'changeStatus', 'approveOrder', 'getDataPending', 'getDataOrderApproved', 'getDataOrderRejected']),
     ...mapActions('common', ['deleteData', 'getRequest', 'emptyAllList']),
     async filterUpdate(result) {
       console.log('filter update')
@@ -298,6 +302,7 @@ export default {
       this.approvedModal = !this.approvedModal
     },
     rejectModalShow(order) {
+      this.selectedOrders=[order]
       if (this.selectedOrders.length > 0) {
         this.rejectModal = !this.rejectModal
       } else {
@@ -421,11 +426,9 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.openTab = this.$route.query.tap ?? 'all'
-    if (this.reasonsRejection.length == 0)
-      this.getReasonsRejection()
-    this.fetchingData()
+    await this.fetchingData()
   }
 
 }

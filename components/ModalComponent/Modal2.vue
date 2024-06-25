@@ -41,7 +41,9 @@
             <div class="vm-titlebar">
               <h3 :id="`${id}-title`" class="vm-title">
                 {{ title }}
+                <p class="text-xs mx-5"> {{ sub_title }}</p>
               </h3>
+
               <button
                 v-if="enableClose"
                 type="button"
@@ -81,6 +83,10 @@ export default {
   },
   props: {
     title: {
+      type: String,
+      default: ''
+    },
+    sub_title: {
       type: String,
       default: ''
     },
@@ -311,7 +317,7 @@ export default {
 
 .vm-titlebar {
   padding: 10px 15px 10px 15px;
-  overflow: auto;
+  overflow: hidden;
   border-bottom: 1px solid #e5e5e5;
 }
 

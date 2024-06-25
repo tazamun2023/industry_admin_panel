@@ -137,7 +137,7 @@ export default {
   },
   async mounted() {
     if (this.reject_reasons_types == null || this.reject_reasons_types[this.type].length === 0)
-      await this.getRejectReasons({type: this.type})
+      await this.getRejectReasons({type: this.type,groups:1})
     // try {
     //   await this.fetchingData()
     // } catch (e) {

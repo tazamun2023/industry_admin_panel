@@ -51,7 +51,7 @@
                 </td>
 
                 <td v-else class="whitespace-nowrap p-2">
-                  <select @change="handleSelectChange($event,item)"
+                  <select v-if="selectedOrdersall" @change="handleSelectChange($event,item)"
                           class="p-3 border border-smooth rounded">
                     <option
                       :selected="selectedOrdersall && selectedOrdersall?.sub_order_items[index]?.status == 'available' ? true : false"

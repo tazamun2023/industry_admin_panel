@@ -73,13 +73,14 @@
         <div class="flex flex-col">
           <div class="inline-block min-w-full py-2 px-2 ">
             <order-items :order="order"
+                         v-if="reject_reasons_types"
                          :show_taxes="false"
                          :change_status="true"
                          @save="saveProductUnAvaliable"
                          :selectedOrdersall="selectedOrdersall"
                          @selectChange="handleSelectChange"
                          :sub-item-selected="subItemSelected"
-                         :reasons-rejection="reasonsRejection">
+                         :reasons-rejection="reject_reasons_types['UnavailableOrderItems']">
 
             </order-items>
             <order-summary width="" :order="order"></order-summary>
@@ -234,6 +235,7 @@
         :text="$t('setting.sv')"
         @click="approveSave"
         @clicked="approveSave"
+        :disabled="saving"
         :fetching-data="saving"
       />
 
@@ -271,6 +273,8 @@ export default {
   computed: {
     ...mapGetters('admin', ['profile']),
     ...mapGetters('order', ['selectedOrdersall']),
+    ...mapGetters('reject-reasons', ['reject_reasons_types']),
+
     ...mapGetters('address', ['addressList']),
   },
   mixins: [address],
@@ -299,6 +303,7 @@ export default {
 
   methods: {
     ...mapActions('address', ['getVendorAddress']),
+    ...mapActions('reject-reasons', ['getRejectReasons',]),
     ...mapActions('common', ['getRequest']),
     updateAddreess() {
 
@@ -426,11 +431,12 @@ export default {
       this.$emit('approveOrder', data)
     }
   },
-  mounted() {
+  async mounted() {
     this.orders = this.selectedOrders;
+    await this.getRejectReasons({type: "UnavailableOrderItems", groups: 0})
     // this.selectedOrdersall.shipping_by_vendor =this.selectedOrdersall.shipping_by_vendor??false
     if (!this.addressList)
-      this.fetchingData();
+      await this.fetchingData();
     // this.$router.beforeEach((to, from, next) => {
     //   if (to.query.page !== undefined) {
     //     this.param.page = to.query.page;
