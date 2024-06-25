@@ -181,28 +181,31 @@
                             @approveOrder="approveOrderSave" :reasonsRejection="reasonsRejection.data"
                             @close="handleModalClose"/>
 
-        <OrderReject v-if="rejectModal && $can('order_cancellation')"
-                     :showModal="rejectModal"
-                     :save-sata="saveSata"
-                     @close="rejectModalClose"
-                    :selectedOrders="selectedOrders" @save="saveReject"/>
-<!--        <reject-reason-->
-<!--          v-if="rejectModal && $can('order_cancellation')"-->
-<!--          :show-modal="rejectModal"-->
-<!--          :get-api="'RejectReasonsProduct'"-->
-<!--          :has_others="false"-->
-<!--          :is-radio="false"-->
-<!--          :is-select="true"-->
-<!--          :groups="0"-->
-<!--          :params="acceptPaymentBank"-->
-<!--          :title="` ${$t('orderReject.title')} #${selectedOrders[0]?.order_id } `"-->
-<!--          :sub_title="$t('orderReject.confirmation')"-->
-<!--          :set-api="'subOrderReject'"-->
-<!--          :set-id="parseInt(selectedOrders[0].id)"-->
-<!--          type="CancelOrders"-->
-<!--          @update="updateReject"-->
-<!--          @close="rejectModalClose"-->
-<!--        ></reject-reason>-->
+<!--        <OrderReject v-if="rejectModal && $can('order_cancellation')"-->
+<!--                     :showModal="rejectModal"-->
+<!--                     :save-sata="saveSata"-->
+<!--                     @close="rejectModalClose"-->
+<!--                    :selectedOrders="selectedOrders" @save="saveReject"/>-->
+        <reject-reason
+          v-if="rejectModal && $can('order_cancellation')"
+          :show-modal="rejectModal"
+          :get-api="'RejectReasonsProduct'"
+          :has_others="false"
+          :is-radio="false"
+          :is-select="true"
+          :groups="0"
+          :params="{
+          status: 'rejected',
+          order_id: selectedOrders[0].order_id,
+        }"
+          :title="` ${$t('orderReject.title')} #${selectedOrders[0]?.order_id } `"
+          :sub_title="$t('orderReject.confirmation')"
+          :set-api="'subOrderReject'"
+          :set-id="parseInt(selectedOrders[0].id)"
+          type="RejectOrders"
+          @update="saveReject"
+          @close="rejectModalClose"
+        ></reject-reason>
 
 
 
@@ -338,15 +341,8 @@ export default {
       this.changeStatusModal = !this.changeStatusModal
 
     },
-    async saveReject(data) {
-      this.saveSata = true
-      const response = await this.subOrderReject({
-        payload: {
-          status: data.status,
-          order_id: data.order_id,
-          reject_reason_id: data.reject_reasons
-        }
-      })
+    async saveReject(response) {
+
       const index = this.orders.data.findIndex(order => order.order_id === response.order_id);
       if (index !== -1) {
         this.orders.data[index] = response;
