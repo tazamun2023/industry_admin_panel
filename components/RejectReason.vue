@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       setRejectApi: 'setRejectProduct',
-      loading: false,
+      saving: false,
       allRejectReasons: [],
       rejected: {
         status: 'rejected',
@@ -121,13 +121,13 @@ export default {
           });
 
           if (confirmation) {
-            this.loading=true
+            this.saving=true
             const data = await this.setRequest({
               params: { ...this.params,...this.rejected,},
               api: this.setApi,
             });
             // const {data} = await this.getRequest({params: {...this.param}, api: this.getApi });
-            this.loading=false
+            this.saving=false
             if (data) {
               this.$emit('update', data)
               this.$emit('close');
@@ -184,7 +184,7 @@ export default {
         <select class="p-4 w-full border border-smooth rounded" v-model="rejected.reject_reasons">
           <template v-if="reject_reasons_types">
             <option :value="item.id" v-for="(item, index) in  reject_reasons_types[this.type]" :key="index">
-              {{ item.description }} {{item.id}}
+              {{ item.description }}
             </option>
           </template>
         </select>
@@ -224,11 +224,9 @@ export default {
         :text="$t('setting.sv')"
         @click="doRejected"
         @clicked="doRejected"
-        :disabled="loading"
-        :fetching-data="loading"
+        :disabled="saving"
+        :fetching-data="saving"
       />
-
-
     </template>
   </custome-modal>
 </template>

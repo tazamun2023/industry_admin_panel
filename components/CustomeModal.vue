@@ -41,18 +41,18 @@ export default {
     return {}
   },
   mounted() {
-    bodyScroll.init()
+    // bodyScroll.init()
   },
   methods: {
     beforeOpen() {
-      bodyScroll.freeze()
+      // bodyScroll.freeze()
     },
     beforeClose() {
-      bodyScroll.unfreeze()
+      // bodyScroll.unfreeze()
       this.$emit('close');
     },
     closeModal() {
-      bodyScroll.unfreeze()
+      // bodyScroll.unfreeze()
       this.$emit('close');
     },
 
