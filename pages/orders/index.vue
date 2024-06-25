@@ -186,6 +186,25 @@
                      :save-sata="saveSata"
                      @close="rejectModalClose"
                     :selectedOrders="selectedOrders" @save="saveReject"/>
+<!--        <reject-reason-->
+<!--          v-if="rejectModal && $can('order_cancellation')"-->
+<!--          :show-modal="rejectModal"-->
+<!--          :get-api="'RejectReasonsProduct'"-->
+<!--          :has_others="false"-->
+<!--          :is-radio="false"-->
+<!--          :is-select="true"-->
+<!--          :groups="0"-->
+<!--          :params="acceptPaymentBank"-->
+<!--          :title="` ${$t('orderReject.title')} #${selectedOrders[0]?.order_id } `"-->
+<!--          :sub_title="$t('orderReject.confirmation')"-->
+<!--          :set-api="'subOrderReject'"-->
+<!--          :set-id="parseInt(selectedOrders[0].id)"-->
+<!--          type="CancelOrders"-->
+<!--          @update="updateReject"-->
+<!--          @close="rejectModalClose"-->
+<!--        ></reject-reason>-->
+
+
 
         <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
                            :saveSata="saveSata" :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
@@ -217,9 +236,11 @@ import OrderReject from "../../components/OrderReject.vue";
 import OrderApprovedModal from "../../components/OrderApprovedModal.vue";
 import OrderItems from "./component/OrderItems.vue";
 import CustomeModal from "../../components/CustomeModal.vue";
+import RejectReason from "../../components/RejectReason.vue";
 
 export default {
   components: {
+    RejectReason,
     CustomeModal,
     OrderItems,
     OrderApprovedModal,
