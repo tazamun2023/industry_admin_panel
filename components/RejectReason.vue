@@ -30,13 +30,31 @@ export default {
       type: String,
       required: true
     },
+    params: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
     title: {
+      type: String,
+      required: true
+    },
+    sub_title: {
       type: String,
       required: true
     },
     isRadio: {
       type: Boolean,
       default: true
+    },
+    isSelect: {
+      type: Boolean,
+      default: false
+    },
+    groups: {
+      type: Number,
+      default: 1
     },
     has_others: {
       type: Boolean,
@@ -77,10 +95,13 @@ export default {
       try {
 
         var atLeastOneSelected = this.rejected.reject_reasons.length > 0;
+        if (this.isSelect && this.rejected.reject_reasons != "")
+          atLeastOneSelected = 1;
 
 
         if ((this.isRadio === false && atLeastOneSelected) || (this.isRadio && atLeastOneSelected !== "")) {
-          if (this.rejected.others.length < 10 && ((this.isRadio && this.rejected.reject_reasons === 'other') || (!this.isRadio && this.rejected.reject_reasons.includes('other')))) {
+          console.log("dddddddddd")
+          if (this.rejected.others.length < 10 && ((this.isSelect && this.rejected.reject_reasons === 'other') || (this.isRadio && this.rejected.reject_reasons === 'other') || (!this.isRadio &&!this.isSelect && this.rejected.reject_reasons.includes('other')))) {
             this.$swal({
               title: "Error",
               text: "Please write at least 10 characters.",
@@ -100,12 +121,13 @@ export default {
           });
 
           if (confirmation) {
+            this.loading=true
             const data = await this.setRequest({
-              params: this.rejected,
+              params: { ...this.params,...this.rejected,},
               api: this.setApi,
             });
             // const {data} = await this.getRequest({params: {...this.param}, api: this.getApi });
-            console.log('data', data)
+            this.loading=false
             if (data) {
               this.$emit('update', data)
               this.$emit('close');
@@ -137,7 +159,7 @@ export default {
   },
   async mounted() {
     if (this.reject_reasons_types == null || this.reject_reasons_types[this.type].length === 0)
-      await this.getRejectReasons({type: this.type,groups:1})
+      await this.getRejectReasons({type: this.type, groups: this.groups})
     // try {
     //   await this.fetchingData()
     // } catch (e) {
@@ -151,11 +173,23 @@ export default {
 <template>
   <custome-modal
     :title="` ${title }  `"
+    :sub_title="sub_title"
     :show-modal="showModal"
     @close="closeModal"
     size="lg">
     <div class="mx-2 min-h-64" v-if="reject_reasons_types && reject_reasons_types!=undefined">
-      <div class="  w-full" v-for="(group, index) in reject_reasons_types[this.type]" :key="index">
+
+      <div v-if="isSelect" class="py-4">
+        <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
+        <select class="p-4 w-full border border-smooth rounded" v-model="rejected.reject_reasons">
+          <template v-if="reject_reasons_types">
+            <option :value="item.id" v-for="(item, index) in  reject_reasons_types[this.type]" :key="index">
+              {{ item.description }} {{item.id}}
+            </option>
+          </template>
+        </select>
+      </div>
+      <div v-else class="  w-full" v-for="(group, index) in reject_reasons_types[this.type]" :key="index">
         <div class="my-2">
           <span class="font-medium" v-if="group.group !== group.type">{{ group.group_name }}</span>
           <div class="mx-3">
@@ -183,9 +217,18 @@ export default {
       </div>
     </div>
     <template v-slot:buttons>
-      <button class="bg-primary leading-3 hover:text-primary text-white px-4 py-2 rounded-md mr-2"
-              @click.prevent="doRejected()">Submit
-      </button>
+      <ajax-button
+        name="save"
+        class="primary-btn"
+        type="button"
+        :text="$t('setting.sv')"
+        @click="doRejected"
+        @clicked="doRejected"
+        :disabled="loading"
+        :fetching-data="loading"
+      />
+
+
     </template>
   </custome-modal>
 </template>

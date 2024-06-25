@@ -438,41 +438,60 @@
         </ValidationObserver>
       </div>
     </div>
-    <div v-if="rejectModal" class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">
-      <div class="absolute inset-0 bg-black opacity-50"></div>
-      <div class="z-50 bg-white p-6 relative rounded-md shadow w-2/6">
-        <svg class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true"
-             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-        </svg>
-        <div class="p-2">
-          <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>
-        </div>
-        <div class="card p-4">
-          <div class="py-4">
-            <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>
-            <select class="p-4 w-full border border-smooth rounded" v-model="acceptPaymentBank.reject_reasons">
-              <option :value="item.id" v-for="(item, index) in reasonsRejection?.data" :key="index">
-                {{ item.description }}
-              </option>
-            </select>
-          </div>
-          <div class="w-full px-2 py-4 ">
-            <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">
-              <button @click="rejectMoalFun" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{
-                  $t('orderReject.cancel')
-                }}
-              </button>
-              <button @click="rejectPayment" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{
-                  $t('orderReject.save')
-                }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+    <reject-reason
+      v-if="rejectModal"
+      :show-modal="rejectModal"
+      :get-api="'RejectReasonsProduct'"
+      :has_others="false"
+      :is-radio="false"
+      :is-select="true"
+      :groups="0"
+      :params="acceptPaymentBank"
+      :title="$t('prod.Rejected')"
+      :sub_title="$t('orderReject.confirmation') "
+      :set-api="'changePaymentStatus'"
+      :set-id="parseInt(acceptPaymentBank.order_id)"
+      type="CancelOrders"
+      @update="updateReject"
+      @close="rejectMoalFun"
+    ></reject-reason>
+
+<!--    <div v-if="rejectModal" class="fixed bg-modal  inset-0 z-50 flex items-center justify-center">-->
+<!--      <div class="absolute inset-0 bg-black opacity-50"></div>-->
+<!--      <div class="z-50 bg-white p-6 relative rounded-md shadow w-2/6">-->
+<!--        <svg class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]" aria-hidden="true"-->
+<!--             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">-->
+<!--          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+<!--                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>-->
+<!--        </svg>-->
+<!--        <div class="p-2">-->
+<!--          <p class="text-xs">{{ $t('orderReject.confirmation') }}</p>-->
+<!--        </div>-->
+<!--        <div class="card p-4">-->
+<!--          <div class="py-4">-->
+<!--            <label class="block py-2" for="">{{ $t('orderReject.selectRejectionReason') }}</label>-->
+<!--            <select class="p-4 w-full border border-smooth rounded" v-model="acceptPaymentBank.reject_reasons">-->
+<!--              <option :value="item.id" v-for="(item, index) in reasonsRejection?.data" :key="index">-->
+<!--                {{ item.description }}-->
+<!--              </option>-->
+<!--            </select>-->
+<!--          </div>-->
+<!--          <div class="w-full px-2 py-4 ">-->
+<!--            <div class="items-end p-1 text-end  ltr:right-[40px] rtl:left-[40px]">-->
+<!--              <button @click="rejectMoalFun" class="bg-smooth px-4 w-[100px] text-error p-3 rounded leading-3">{{-->
+<!--                  $t('orderReject.cancel')-->
+<!--                }}-->
+<!--              </button>-->
+<!--              <button @click="rejectPayment" class="bg-primary px-4 w-[100px] text-white p-3 rounded leading-3">{{-->
+<!--                  $t('orderReject.save')-->
+<!--                }}-->
+<!--              </button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
   </check-validity>
 </template>
@@ -486,9 +505,11 @@ import {ValidationProvider, ValidationObserver} from "vee-validate";
 import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
 import PaymentMethod from "../../components/paymentMethod.vue";
 import ShowAddress from "../../components/showAddress.vue";
+import RejectReason from "../../components/RejectReason.vue";
 
 export default {
   components: {
+    RejectReason,
     ShowAddress,
     PaymentMethod,
     PriceWithCurencyFormat,
@@ -509,7 +530,7 @@ export default {
       acceptPaymentBank: {
         order_id: 0,
         amount: 0,
-        payment_status: '',
+        // payment_status: '',
         payment_id: '',
         reject_reasons: ''
       }
@@ -525,7 +546,6 @@ export default {
   },
   methods: {
     ...mapActions('common', ['deleteData', 'getRequestDtails', 'emptyAllList', 'setRequest']),
-    ...mapActions('order', ['getReasonsRejection']),
     getTotalSubOrderItemsPrice(subItem) {
       let totalPrice = 0;
       if (subItem && subItem.sub_order_items) {
@@ -539,7 +559,13 @@ export default {
       this.bankModal = !this.bankModal;
     },
     rejectMoalFun() {
+      this.acceptPaymentBank.payment_status = 'reject';
+      this.acceptPaymentBank.order_id = this.orderDetails.order_id;
       this.rejectModal = !this.rejectModal;
+    },
+    updateReject(data) {
+      this.orderDetails=data
+      this.payment = this.orderDetails.payment
     },
     async acceptPayment() {
       this.loading = true;
@@ -559,6 +585,7 @@ export default {
     },
     rejectPayment() {
       this.acceptPaymentBank.order_id = this.orderDetails.order_id;
+
       this.acceptPaymentBank.payment_status = 'reject';
       // this.acceptPaymentBank.payment_id = this.orderDetails.payment[0].id;
       this.setRequest({
@@ -567,6 +594,7 @@ export default {
       })
       this.rejectMoalFun();
     },
+
     async fetchingData() {
       try {
         this.loading = true
@@ -585,7 +613,7 @@ export default {
   },
   mounted() {
     this.fetchingData();
-    this.getReasonsRejection();
+    // this.getReasonsRejection();
     let n = this.getTotalSubOrderItemsPrice(this.orderDetails.sub_orders);
     // this.getOrderDetails({
     //   id: this.$route.params.id
