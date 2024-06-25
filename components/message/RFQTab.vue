@@ -105,7 +105,7 @@ export default {
       return userName;
     },
     async activeRelatedInquirie(data, index_sub) {
-      if (data.unread_message>0){
+      if (this.$store.state.admin.isVendor && data.unread_message>0){
         this.readMessage(data.id)
         this.setIsReadMessage()
       }
@@ -118,6 +118,7 @@ export default {
       // this.$emit('activeRfqInquiry', this.activeRfqInquiry);
       // this.$emit('ActiveRfqInquiryData', this.ActiveInquiryData);
       // this.$emit('is_active_inq', this.is_active_inq);
+      // console.log('activeInquiryData kk', this.activeRfqInquiries)
       await this.fetchingOfferData()
 
     },

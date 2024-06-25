@@ -6,22 +6,22 @@
         </div>
         <div>
             <div class="grid grid-cols-2 my-4 gap-4">
-                <div class="border h-[90px] border-cardb px-4 pb-3 pt-2 rounded-[12px]">
+                <NuxtLink :to="`/brands`" class="border h-[90px] border-cardb px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px">All Brands</p>
                     <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ brands?.all_brand }}</p>
-                </div>
-                <div class="border h-[90px] hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+                </NuxtLink>
+                <NuxtLink :to="`/brands/pending`" class="border h-[90px] hover:border-orange border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-orange">Waiting Acceptance</p>
                     <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ brands?.waiting_acceptance }}</p>
-                </div>
-                <div class="border h-[90px] hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+                </NuxtLink>
+                <NuxtLink :to="`/brands/approved`" class="border h-[90px] hover:border-primary border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-primary">Accepted</p>
                     <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ brands?.accepted_brand }}</p>
-                </div>
-                <div class="border h-[90px] hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
+                </NuxtLink>
+                <NuxtLink :to="`/brands/reject`" class="border h-[90px] hover:border-prograss border-[#c4cdd5] px-4 pb-3 pt-2 rounded-[12px]">
                     <p class="text-14px text-prograss">Rejected</p>
                     <p class="text-semibold text-[24px] leading-4 pt-[15px]">{{ brands?.rejected_brand }}</p>
-                </div>
+                </NuxtLink>
             </div>
         </div>
     </div>
