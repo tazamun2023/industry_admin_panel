@@ -537,7 +537,9 @@ export default {
   },
 
   async mounted() {
-
+    if (this.$route?.query?.tab==='rfq'){
+      this.activeTab = 'rfq'
+    }
   },
 
   methods: {

@@ -2,32 +2,34 @@
     <div class="p-4 card lg:h-[371px]">
         <div class="flex justify-between">
             <h4 class="text-[20px] font-medium">Inquiries and RFQs</h4>
-            <a href="" class="flex gap-4 items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
+            <NuxtLink :to="`/rfq`" class="flex gap-4 items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
         </div>
         <div class="overflow-x-auto h-[240px] my-4 scroolbar">
             <table>
                 <tbody>
-                    <tr>
-                     <td  class="text-[13px] capitalize">
-                        My suggested RFQs
+                    <tr @click="goToMySuggestedRFQs" class="cursor-pointer">
+                      <td  class="text-[13px] capitalize">
+                        {{ $t('Dashboard.My suggested RFQs') }}
                     </td>
-                     <td class="ltr:text-end rtl:text-start">{{ inquiries_and_rfqs?.my_suggested_rfq }}</td>
+                     <td class="ltr:text-end rtl:text-start">
+                       {{ inquiries_and_rfqs?.my_suggested_rfq }}
+                     </td>
                     </tr>
-                    <tr>
-                     <td  class="text-[13px] capitalize">
-                        Presented RFQs
+                    <tr @click="goToPresentedRFQs" class="cursor-pointer">
+                     <td  class="text-[13px] capitalize" >
+                       {{ $t('Dashboard.Presented RFQs') }}
                     </td>
                      <td class="ltr:text-end rtl:text-start">{{ inquiries_and_rfqs?.presented_rfq }}</td>
                     </tr>
-                    <tr>
-                     <td  class="text-[13px] capitalize">
-                        Rejected RFQs
+                    <tr @click="goToRejectedRFQs" class="cursor-pointer">
+                     <td class="text-[13px] capitalize">
+                       {{ $t('Dashboard.Rejected RFQs') }}
                     </td>
                      <td class="ltr:text-end rtl:text-start" >{{ inquiries_and_rfqs?.rejected_rfq }}</td>
                     </tr>
-                    <tr>
+                    <tr @click="goNewNegotiationsRFQs" class="cursor-pointer">
                      <td  class="text-[13px] capitalize">
-                        New negotiations
+                       {{ $t('Dashboard.New negotiations') }}
                     </td>
                      <td class="ltr:text-end rtl:text-start">{{ inquiries_and_rfqs?.new_negotiations }}</td>
                     </tr>
@@ -51,6 +53,20 @@ export default {
 
   data() {
     return {}
+  },
+  methods:{
+    goToMySuggestedRFQs() {
+      this.$router.push('/rfq/relevant');
+    },
+    goToPresentedRFQs() {
+      this.$router.push('/rfq/my-list');
+    },
+    goToRejectedRFQs() {
+      this.$router.push('/rfq/manage-quotes');
+    },
+    goNewNegotiationsRFQs() {
+      this.$router.push('/message-center?tab=rfq');
+    }
   }
 }
 </script>

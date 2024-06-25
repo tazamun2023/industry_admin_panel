@@ -459,7 +459,7 @@ export default {
                 </div>
                 <div class="ltr:text-end rtl:text-left">
                   <p>{{ $t("products.RFQ ID") }}: RFQ{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.rfq_id }}</p>
-                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries.rfq.quote.id }}</p>
+                  <p>{{ $t('products.Quote ID') }}: Q{{ activeRfqInquiries?.rfq.quote?.id }}</p>
                   <p>
                   </p>
                 </div>
@@ -474,7 +474,7 @@ export default {
                 <div class="messenger  w-full">
                   <div class="card rounded-[16px] shadow m-2 mb-0">
                     <div class="bg-graylight rounded-t-[16px] p-4 font-bold flex justify-between">
-                      <div>Q{{ activeRfqInquiries.rfq.quote.id }}</div>
+                      <div>Q{{ activeRfqInquiries?.rfq.quote?.id }}</div>
                     </div>
                     <div class="p-4">
                       <a class="text-primary font-bold" href="">{{ activeRfqInquiries.related_inquiries[activeInquiryIndex]?.quotes_product?.product.title }}</a>

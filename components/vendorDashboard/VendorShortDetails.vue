@@ -9,27 +9,27 @@
         <tbody>
         <tr>
           <td class="text-[13px] capitalize">
-            Last News
+            {{ $t('Dashboard.Last News')}}
           </td>
-          <td class="ltr:text-end rtl:text-start">{{ enhance?.last_news }}</td>
+          <td class="ltr:text-end rtl:text-start">{{ $t('Dashboard.Since')}} {{ enhance?.last_news }}</td>
         </tr>
         <tr>
           <td class="text-[13px] capitalize">
-            Videos
+            {{ $t('Dashboard.Videos')}}
           </td>
-          <td class="ltr:text-end rtl:text-start">{{ enhance?.last_videos }}</td>
+          <td class="ltr:text-end rtl:text-start">{{ $t('Dashboard.Since')}} {{ enhance?.last_videos }}</td>
         </tr>
         <tr>
           <td class="text-[13px] capitalize">
-            Certificates
+            {{ $t('Dashboard.Certificates')}}
           </td>
-          <td class="ltr:text-end rtl:text-start">{{ enhance?.last_certificate }}</td>
+          <td class="ltr:text-end rtl:text-start">{{ $t('Dashboard.Since')}} {{ enhance?.last_certificate }}</td>
         </tr>
         <tr>
           <td class="text-[13px] capitalize">
-            FAQs
+            {{ $t('Dashboard.FAQs')}}
           </td>
-          <td class="ltr:text-end rtl:text-start">{{ enhance?.last_faq }}</td>
+          <td class="ltr:text-end rtl:text-start">{{ $t('Dashboard.Since')}} {{ enhance?.last_faq }}</td>
         </tr>
         </tbody>
       </table>
