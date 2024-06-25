@@ -40,6 +40,7 @@
 
       <table-sort
         class="mt-0"
+        :filterType="filterType"
         :order-by-options="orderByOptions"
       />
 
@@ -84,6 +85,12 @@ export default {
     return {}
   },
   props: {
+    filterType: {
+      type: String,
+      default() {
+        return null
+      }
+    },
     addButton: {
       type: Boolean,
       default: true

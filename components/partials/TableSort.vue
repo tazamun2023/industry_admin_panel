@@ -26,7 +26,7 @@
         <div class="py-1 px-2" role="none">
           <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
           <span v-for="(option ,index) in orderByOptions"
-                @click="()=>{sortBy=index;dropdownSelected(false, {key:index})}"
+                @click="()=>{sortBy=index;dropdownSelected(false, {key:option?.id??index},filterType)}"
                 :class="{'bg-primarylight text-primary': sortBy === index}"
                 class="hover:bg-primarylight block rounded-[7px] cursor-pointer my-1 px-4 py-2 text-sm "
                 role="menuitem"
@@ -60,6 +60,12 @@ export default {
       default() {
         return null
       }
+    },
+    filterType: {
+      type: String,
+      default() {
+        return null
+      }
     }
   },
   mixins: [tableHelper],
@@ -75,7 +81,11 @@ export default {
   },
   // btnText this.$route.query.order_status
   mounted() {
+
     this.btnText = this.orderByOptions[this.$route.query.orderby]?.title ?? ''
+    if (this.orderByOptions && this.orderByOptions.length > 0)
+      this.btnText =   this.orderByOptions.find(i => i.id == this.$route.query.orderby)?.title ?? ''
+
   },
   beforeCreate() {
   },

@@ -8,8 +8,9 @@
     empty-store-variable="rejectReasons"
     gate="manage_initial_setting"
     :title="$t('setting.rejection-reasons')"
+    filterType="type"
     manage_gate="manage_initial_setting"
-    :order-options="rejectReasonsTypes"
+    :order-options="filters.reject_reasons_types.map($item=>{return {id:$item.id,title:$item.name}})"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
 
@@ -25,7 +26,7 @@
         <th>{{ $t('rejectReasons.type') }}</th>
         <th>{{ $t('rejectReasons.group') }}</th>
         <th>{{ $t('app.Active') }}</th>
-<!--        <th>{{ $t('category.created') }}</th>-->
+        <!--        <th>{{ $t('category.created') }}</th>-->
         <th> {{ $t('app.Actions') }}</th>
       </tr>
 
@@ -36,15 +37,16 @@
         </td>
         <td>{{ value.description }}</td>
         <td>{{ value.type_data.name }}</td>
-        <td>{{ value.name }}</td>
+        <td>{{ value.group_name }}</td>
 
 
         <td
           class="status"
           :class="{active: value.status == 1 }"
-        >            <SwitchToggle v-model="value.status"/>
+        >
+          <SwitchToggle v-model="value.status"/>
         </td>
-<!--        <td>{{ value.created }}</td>-->
+        <!--        <td>{{ value.created }}</td>-->
         <td>
           <button
             v-if="$can('manage_shipment_setting')"
@@ -78,9 +80,7 @@ export default {
   name: "brands",
   middleware: ['common-middleware', 'auth'],
   data() {
-    return {
-
-    }
+    return {}
   },
   components: {
     LazyImage,
@@ -90,7 +90,7 @@ export default {
   },
   mixins: [util, bulkDelete],
   computed: {
-    ...mapGetters('common', ['reject_reasons_types']),
+    ...mapGetters('common', ['filters']),
 
   },
   methods: {},

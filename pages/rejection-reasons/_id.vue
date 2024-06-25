@@ -21,15 +21,17 @@
       <div class="grid grid-cols-1  md:grid-cols-2  gap-1 md:gap-2 ">
         <div class="py-2 ">
           <custom-select v-model="result.type"
-                         :options="rejectReasonsTypes"
+                         :value_text="'name'"
+                         :options="filters.reject_reasons_types"
                          label="Rejection Type"
                          non_select_option="Select Type">
 
           </custom-select>
         </div>
         <div class="py-2">
-          <custom-select v-model="result.type"
-                         :options="[]"
+          <custom-select v-model="result.group"
+                         :value_text="'name'"
+                         :options="filters.reject_reasons_types.find(t=>t.id==result.type)?.groups??[]"
                          non_select_option="Select Rejection Groups"
                          label="Rejection Groups"></custom-select>
         </div>
@@ -86,6 +88,7 @@ export default {
   },
   computed: {
     ...mapGetters('language', ['currentLanguage']),
+    ...mapGetters('common', ['filters']),
   },
   methods: {
     resultData(evt) {

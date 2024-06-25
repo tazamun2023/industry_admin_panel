@@ -20,6 +20,7 @@
         <table-top
           :title="name"
           :gate="gate"
+          :filterType="filterType"
           :manage_gate="manage_gate"
           :add-button="addButton"
           :modal-button="modalButton"
@@ -88,6 +89,13 @@ export default {
     filter: {
       type: Boolean,
       default: true
+    },
+    filterType: {
+      // this is the name of params if i want to chnage sort by col to another function like filter type in reajection reasons
+      type: String,
+      default() {
+        return null
+      }
     },
 
     name: {

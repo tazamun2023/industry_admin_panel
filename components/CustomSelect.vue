@@ -6,7 +6,7 @@
               :id="selectId"
               class="w-full border border-smooth focus:outline-none focus:border-primary ring-primary p-2 rounded-[10px]">
         <option v-if="non_select_option!=''" disabled value="">{{ non_select_option }}</option>
-        <option v-for="option in options" :key="option[value_key]" :value="option[value_key]">
+        <option v-for="option in options" :selected="option[value_key]==value" :key="option[value_key]" :value="option[value_key]">
           {{ option[value_text] }}
         </option>
       </select>
@@ -61,6 +61,11 @@ export default {
     };
   },
   watch: {
+    value(newValue, oldValue) {
+      if (this.value) {
+        this.selectedGroup = this.value;
+      }
+    },
     selectedGroup(newValue) {
       this.$emit('input', newValue);
     }
