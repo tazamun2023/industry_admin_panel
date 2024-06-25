@@ -72,6 +72,8 @@
     "doApprovedBrand": "brand/change-status",
 
     "rejectReasons": "reject-reasons",
+    "changeRejectReasonStatus": "reject-reasons/change-status",
+    "RejectReasons": "reject-reasons/all",
 
     "getAllCountries": "city/all-countries",
     "getCitys": "city/all",
@@ -292,6 +294,7 @@
     "saveParentVariantsProduct": "product/parentAction",
     "setRejectProduct": "product/reject",
     "setRejectRfq": "rfq/reject",
+    "setRejectBrand": "brand/reject",
     "setApprovedRfq": "rfq/approved",
     "setApprovedProduct": "product/approved",
     "updateVisibility": "product/visibility",
@@ -327,7 +330,6 @@
     "RfqNotificationDataGet": "rfq/notification/get",
     "findRfqKeyword": "rfq/notification/find-keyword",
     "allRfqRejectReason": "rfq/reject-reason/all",
-    "RejectReasons": "reject-reason/all",
     "RejectReasonsProduct": "/rfq/reject-reason/all",
     "RfqNotificationData": "rfq/notification/acton",
     "getOrder": "order/find",
@@ -464,7 +466,7 @@
     "subOrderRejected": "sub-order/rejected",
     "subOrderReject":"sub-order/reject",
     "subOrderChangeStatus":"sub-order/change-status",
-    "reasonsRejection": "reject-reason/all",
+    "reasonsRejection": "reject-reasons/all",
     "changeStatusOrder": "main-order/change-status",
     "SubOrderApprove": "sub-order/approve",
     "addOrderFiles": "sub-order/uploadFiles",

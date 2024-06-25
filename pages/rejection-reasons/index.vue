@@ -36,7 +36,7 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
         <td>{{ value.description }}</td>
-        <td>{{ value.type_data.name }}</td>
+        <td>{{ value.type_name }}</td>
         <td>{{ value.group_name }}</td>
 
 
@@ -44,7 +44,7 @@
           class="status"
           :class="{active: value.status == 1 }"
         >
-          <SwitchToggle v-model="value.status"/>
+          <SwitchToggle @input="changeStatus(value)" v-model="value.status"/>
         </td>
         <!--        <td>{{ value.created }}</td>-->
         <td>
@@ -74,7 +74,7 @@ import LazyImage from "~/components/LazyImage";
 import bulkDelete from "~/mixin/bulkDelete";
 import EditButtonIcon from "../../components/partials/EditButtonIcon.vue";
 import DeleteButtonIcon from "../../components/partials/DeleteButtonIcon.vue";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "brands",
@@ -93,7 +93,24 @@ export default {
     ...mapGetters('common', ['filters']),
 
   },
-  methods: {},
+  methods: {
+    ...mapActions('common', [ 'swetAlertFire', 'setById']),
+
+    async changeStatus(v) {
+      const res = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('approvedModal.sure'),
+          text: this.$i18n.t('approvedModal.revert'),
+        }
+      })
+      if (res) {
+        await this.setById({api:'changeRejectReasonStatus',id: v.id,params: { status:v.status}})
+      } else {
+        v.status = !v.status
+        return false
+      }
+    },
+  },
   mounted() {
   }
 }

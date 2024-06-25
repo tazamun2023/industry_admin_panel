@@ -244,12 +244,12 @@
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                       @click.prevent="isRejected(value.id)"
                                       class="border border-red leading-3 text-center text-error uppercase  px-4 w-full p-3 mt-2">
-                                Rejected
+                                {{ $t('prod.Rejected') }}
                               </button>
                               <button v-if="$can('approve_RFQ') && value.status === 'pending'" type="button"
                                       @click.prevent="isApproved(value.id)"
                                       class="rounded-lg uppercase leading-3 text-primary px-4 mt-2 w-full p-3 border-primary border-2">
-                                Approved
+                                {{ $t('prod.Approved') }}
                               </button>
                             </div>
 
@@ -308,7 +308,13 @@
     </div>
     <!-- ==================tab============== -->
 
-    <reject-reason v-if="is_reject_modal" get-api="RejectReasons" set-api="setRejectRfq" :set-id="rfqId" :param="param"
+    <reject-reason v-if="is_reject_modal" :show-modal="is_reject_modal"
+                   :has_others="false"
+                   :is-radio="false"
+                   :title="$t('prod.Rejected')"
+                   get-api="RejectReasons"
+                   set-api="setRejectRfq"
+                   :set-id="rfqId" type="RFQs"
                    @update="updateReject" @close="closeRejectModal"></reject-reason>
   </div>
 
@@ -442,14 +448,14 @@ export default {
       }
     },
 
-    updateReject(status) {
+    updateReject(data) {
       const index = this.itemList.findIndex(item => item.id === this.rfqId)
       if (index !== -1) {
 
         if (this.openTab === 'pending')
           this.itemList.splice(index, 1)
         else
-          this.itemList[index].status = status
+          this.itemList[index].status = data.status
 
       }
       // return this.$router.push(`/rfq`)

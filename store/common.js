@@ -756,6 +756,18 @@ const actions = {
     }
     return data.data
   },
+  async changeRejectReasonStatus({commit, dispatch}, params) {
+    const {data} = await Service.setAddressDefault(params, this.$auth.strategy.token.get())
+    if (data?.status === 200) {
+      commit('common/SET_TOAST_MESSAGE', data?.message, {root: true})
+      dispatch('userAddressAll')
+    } else if (data?.status == 201) {
+      commit('common/SET_TOAST_ERROR', data?.message, {root: true})
+    } else {
+      // alert('error')
+    }
+    return data.data
+  },
 };
 
 export {state, getters, mutations, actions};

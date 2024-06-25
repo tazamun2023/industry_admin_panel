@@ -29,7 +29,7 @@
             :to="`/pages/${value.id}`"
             class="link"
           >
-            <h5 class="mx-w-300x">{{ value.title }}</h5>
+            <h5 class="mx-w-300x">{{ value.title_name }}</h5>
           </nuxt-link>
         </td>
         <td>{{ value.slug }}</td>

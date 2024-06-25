@@ -7,7 +7,7 @@
       </div>
       <AddProduct :is_show="true" :id="id">
 
-        <template   v-slot:actions>
+        <template v-slot:actions>
           <div class="button-group border-t border-smooth mt-20">
             <div class="flex justify-end gap-4 pt-3">
               <button type="button" @click.prevent="doApproved()"
@@ -16,7 +16,7 @@
               </button>
               <button type="button" @click.prevent="isRejected()"
                       class="btn mb-10 w-25 bg-error">
-                {{ $t('prod.Rejected')}}
+                {{ $t('prod.Rejected') }}
               </button>
             </div>
           </div>
@@ -27,10 +27,14 @@
     </div>
     <reject-reason
       v-if="is_reject_modal"
+      :show-modal="is_reject_modal"
       :get-api="'RejectReasonsProduct'"
+      :has_others="false"
+      :is-radio="false"
+      :title="$t('prod.Rejected')"
       :set-api="'setRejectProduct'"
       :set-id="parseInt(id)"
-      :param="param"
+      type="Products"
       @close="closeRejectModal"
     ></reject-reason>
   </div>
@@ -41,13 +45,14 @@
 import AddProduct from "../../../components/variant/AddProduct.vue";
 import util from '~/mixin/util'
 import {mapActions} from "vuex";
+
 export default {
   name: "ShowProductPage",
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
       param: {
-        "type": 'product'
+        "type": 'Products'
       },
       modalVisible: false,
       setRejectApi: 'setRejectProduct',
@@ -65,7 +70,7 @@ export default {
   },
   computed: {
     id() {
-      return  this.$route?.params?.id
+      return this.$route?.params?.id
     },
   },
   methods: {
@@ -150,7 +155,7 @@ export default {
         }
       }
     },
-    ...mapActions('common', [ 'setRequest'])
+    ...mapActions('common', ['setRequest'])
 
   }
 

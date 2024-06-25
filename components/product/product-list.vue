@@ -282,7 +282,7 @@
                           <slot>
                             <div v-for="(reject_reason_item, index) in value.reject_reasons">
                               <p class="capitalize">
-                                <strong>{{ translateRejectReason(reject_reason_item.name) }}</strong></p>
+                                <strong>{{ (reject_reason_item.group) }}</strong></p>
                               <ul>
                                 <li class="block py-2 mx-3">{{
                                     translateRejectReason(reject_reason_item.description)

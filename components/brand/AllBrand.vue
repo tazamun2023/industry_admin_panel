@@ -36,6 +36,8 @@ export default {
     return {
       openTab: 1,
       visibleDropdown: false,
+      is_reject_modal: false,
+      brand_id: "",
       orderOptions: {
         title: {title: this.$t('index.title')},
         featured: {title: this.$t('category.featured')},
@@ -47,9 +49,14 @@ export default {
   mixins: [util, bulkDelete],
   computed: {},
   methods: {
+    isRejected(id) {
+      this.is_reject_modal = !this.is_reject_modal;
+      this.brand_id = id
+    },
     toggleDropdown(index) {
       this.visibleDropdown = this.visibleDropdown === index ? null : index;
     },
+
     toggleTabs: function (tabNumber) {
       this.openTab = tabNumber
     },
@@ -67,7 +74,18 @@ export default {
         console.error("Error:", error);
       }
     },
+    updateReject(data) {
+      const index = this.itemList.findIndex(item => item.id === this.brand_id)
+      if (index !== -1) {
 
+        if (this.openTab === 3)
+          this.itemList.splice(index, 1)
+        else
+          this.itemList[index].approved_status = data.approved_status
+
+      }
+      // return this.$router.push(`/rfq`)
+    },
 
     ...mapActions('common', ['setById']),
     ...mapActions('ui', ["setToastMessage", "setToastError"]),
@@ -214,6 +232,7 @@ export default {
               </svg>
             </button>
             <div id="dropdown"
+                 v-outside-click="toggleDropdown"
                  class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
                  v-if="visibleDropdown === index"
             >
@@ -229,14 +248,15 @@ export default {
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                   v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin"
-                  @click.prevent="changeStatus(value.id, 'reject')"
+                  @click.prevent="isRejected(value.id)"
+
                 >
                   {{ $t('prod.Reject') }}
                 </li>
 
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                  v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin"
+                  v-if="$can('approve_products') && $store.state.admin.isSuperAdmin"
                   @click.prevent="changeStatus(value.id, 'approved')"
                 >
                   {{ $t('prod.Approved') }}
@@ -244,7 +264,7 @@ export default {
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                   @click.prevent="$refs.listPage.deleteItem(value.id)"
-                  v-if="$can('manage_brands') && $store.state.admin.isVendor"
+                  v-if="$can('approve_products') && $store.state.admin.isVendor"
                 >
                   {{ $t('prod.Delete') }}
                 </li>
@@ -254,6 +274,18 @@ export default {
         </tr>
       </template>
     </list-page>
+
+    <reject-reason v-if="is_reject_modal"
+                   :show-modal="is_reject_modal"
+                   :has_others="false"
+                   :is-radio="false"
+                   :title="brand_id"
+                   get-api="RejectReasons"
+                   set-api="setRejectBrand"
+                   :set-id="brand_id"
+                   type="Brands"
+                   @update="updateReject"
+                   @close="is_reject_modal=false"></reject-reason>
   </div>
 
 </template>
