@@ -185,7 +185,9 @@ export default {
     deleteImg(index) {
       this.Imgs.splice(index, 1);
       this.files.splice(index, 1);
-      this.$emit("changed", this.files);
+      this.$emit("changed", this.files)
+      this.$emit('updateInput', this.Imgs);
+      this.invalidWatcher()
       this.$refs.uploadInput.value = null;
     },
     previewImgs(event) {
