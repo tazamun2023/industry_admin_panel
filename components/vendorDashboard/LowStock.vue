@@ -1,8 +1,13 @@
 <template>
   <div class="p-4 card lg:h-[371px]">
     <div class="flex justify-between">
-      <h4 class="text-[20px] font-semibold">Low Stock</h4>
+<<<<<<< Updated upstream
+      <h4 class="text-[20px] font-medium">Low Stock</h4>
 <!--      <a href="" class="flex gap-4 items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>-->
+=======
+      <h4 class="text-[20px] font-semibold">Low Stock</h4>
+<!--      <a href="" class="flex gap-4 items-center">More <img class="w-5 h-5  rtl:rotate-180" src="~/assets/icon/next-g.svg" alt=""></a>-->
+>>>>>>> Stashed changes
     </div>
     <div class="overflow-x-auto h-[240px] my-4 scroolbar">
       <table>

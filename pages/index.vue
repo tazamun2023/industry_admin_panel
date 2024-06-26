@@ -298,4 +298,10 @@ import Withdrawn from '../components/adminDashboard/Withdrawn.vue'
 .dashboard >>> table p {
   color: #555F7E;
 }
+.dashboard >>> h4{
+  color:#1C2A53;
+}
+.dashboard >>> .text-semibold{
+  font-weight: 600;
+}
 </style>
