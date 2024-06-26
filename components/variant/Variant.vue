@@ -88,7 +88,7 @@
                 <div>
                   <nav class="text-primary" aria-label="Breadcrumb">
                     <ol class="list-none p-0 inline-flex">
-                     
+
                       <li class="flex items-center">
                         <a href="/category" class="text-gray-500 hover:text-gray-700">{{ selectedLevel1?.title }}</a>
                         <NavIcon></NavIcon>
