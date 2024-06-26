@@ -1,7 +1,7 @@
 <template>
     <div class="p-4 card lg:h-[371px]">
         <div class="flex justify-between">
-            <h4 class="text-[20px] font-medium">{{ $t('Dashboard.My Products') }}</h4>
+            <h4 class="text-[20px] font-semibold">{{ $t('Dashboard.My Products') }}</h4>
             <NuxtLink :to="`/products`" class="flex gap-4 items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
         </div>
         <div>

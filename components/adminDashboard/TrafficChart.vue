@@ -6,7 +6,7 @@
         <path d="M8.75 13.75L12.5 10L8.75 6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
     </p>
-    <canvas ref="lineChart"></canvas>
+    <canvas class="lg:h-[291px]" ref="lineChart"></canvas>
   </div>
 </template>
 

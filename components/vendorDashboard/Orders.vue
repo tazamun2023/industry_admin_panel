@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 card">
     <div class="flex justify-between">
-      <h4 class="text-[20px] font-medium">Orders</h4>
+      <h4 class="text-[20px] font-semibold">Orders</h4>
 
     </div>
     <div class="my-4 scroolbar rounded-[12px] overflow-x-scroll lg:overflow-hidden border border-cardb">

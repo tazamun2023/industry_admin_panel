@@ -2,11 +2,11 @@
   <div>
     <div class="p-4">
         <div class="flex justify-between">
-            <h4 class="text-[20px] font-medium">Customer</h4>
+            <h4 class="text-[20px] font-semibold">Customer</h4>
             <a href="" class="flex gap-4 text-[14px] font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
         </div>
         <div class="my-2 chart">
-          <user-chart :chart-label="{labelsItem}" :chart-color="{colors}"/>
+          <user-chart total-value="580" title-legend="Customers" :chart-label="{labelsItem}" :chart-color="{colors}"/>
         </div>
         <div class="lg:grid w-[250px] lg:w-full  mx-auto lg:grid-cols-2 py-3  gap-4">
             <div class="lg:border-r border-offwhite lg:px-4">
