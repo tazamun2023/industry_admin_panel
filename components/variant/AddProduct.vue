@@ -475,10 +475,11 @@
                 <select
                   :disabled="is_show"
                   class="form-control w-full p-3 border border-smooth rounded-lg uppercase"
+                  @change="updateBarcodeType()"
                   :class="{ 'has-error': errors[0] }"
                   v-model="result.barcode_id">
                   <option value="" disabled>{{ $t('prod.Select Barcode') }}</option>
-                  <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }}</option>
+                  <option :value="index" v-for="(item, index) in allBarcodes" :key="index">{{ item.name }} </option>
                 </select>
               </div>
               <span class="error">{{ errors[0] }}</span>
@@ -1768,7 +1769,7 @@ export default {
       // this.id=product.id
       this.fetchingData(product.id, 'cloneProduct').then(() => {
         // this.is_clone = false
-        this.$emit('changeClone',false )
+        this.$emit('changeClone', false)
         this.result.id = ""
         this.result.status = ""
         this.result.sku = ""
@@ -1910,6 +1911,12 @@ export default {
       }
     },
 
+    updateBarcodeType() {
+      if (this.result.barcode_id == 4) {
+        this.result.barcode = ""
+      }
+    },
+
     async doSubmit() {
       this.result.is_draft = this.is_draft;
       this.is_submit = true
@@ -1948,7 +1955,7 @@ export default {
         this.result.unit_id = null
       }
       this.result.is_variant = !this.fromSingle
-      if (this.p_variant_uuid !== "" && this.result.variant_uuid ==="" )
+      if (this.p_variant_uuid !== "" && this.result.variant_uuid === "")
         this.result.variant_uuid = this.p_variant_uuid
       this.is_submit_data = true
       const data = await this.setById({
