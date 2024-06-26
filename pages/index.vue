@@ -67,43 +67,43 @@
           @month-changed="monthChanged"
           />
         </div>
-        <div class="my-2 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div  class="card my-2">
             <User/>
           </div>
-          <div>
+          <div  class="card my-2">
             <Traffic/>
           </div>
         </div>
-        <div class="my-3 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="my-2">
             <admin-best-seller :bestSelling="bestSelling"/>
           </div>
-          <div>
+          <div class="my-2">
             <admin-brand :brands="brands"/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="card my-2">
             <rfqs/>
            </div>
-          <div>
+          <div  class="card my-2">
             <customer/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div  class="card my-2">
             <vendor/>
            </div>
-          <div>
+          <div  class="card my-2">
             <admin-order/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="my-2">
             <admin-product :my_products="my_products"/>
            </div>
-          <div>
+          <div class="my-2">
            <withdrawn/>
           </div>
         </div>
@@ -280,5 +280,14 @@ import Withdrawn from '../components/adminDashboard/Withdrawn.vue'
   @import "~/assets/styles/dashboard.styl";
   .rounded-\[12px\] {
     border-radius: 12px !important;
+}
+
+</style>
+<style scoped>
+.dashboard >>> table td {
+  color: #555F7E;
+}
+.dashboard >>> table p {
+  color: #555F7E;
 }
 </style>

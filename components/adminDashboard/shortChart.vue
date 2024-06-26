@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-2">
     <canvas ref="lineChart"></canvas>
   </div>
 </template>
@@ -80,8 +80,8 @@ export default {
 
 <style scoped>
 canvas {
-  width: 100%;
-  height: 80px;
+  width: 100% !important;
   overflow: hidden;
+  height: 100% !important;
 }
 </style>

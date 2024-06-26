@@ -10,12 +10,12 @@ import Chart from "chart.js"
 export default {
   name: 'paiChart',
   props:{
-    label:{
-      type:String,
+    chartLabel:{
+      type:Array,
       default:'Label'
     },
-    color:{
-       type:String,
+    chartColor:{
+       type:Array,
       default:'#01A781'
     }
   },
@@ -28,15 +28,11 @@ export default {
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Admin', 'Vendors', 'Customer'],
+          labels: this.chartLabel.labelsItem,
           datasets: [{
           label: 'My First Dataset',
           data: [30, 550, 1050],
-          backgroundColor: [
-            '#FF392B',
-            '#2F80ED',
-            '#FF8901'
-          ],
+          backgroundColor: this.chartColor.colors,
           hoverOffset: 4
           }]
         },
@@ -49,8 +45,8 @@ export default {
 
 <style scoped>
 /* canvas {
-  width: 100%;
-  height: 80px;
+  width: 100% !important;
+  height: auto !important;
   overflow: hidden;
 } */
 </style>
