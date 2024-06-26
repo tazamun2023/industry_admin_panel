@@ -1,13 +1,8 @@
 <template>
     <div class="p-4 card lg:h-[371px]">
         <div class="flex justify-between">
-<<<<<<< Updated upstream
-            <h4 class="text-[20px] font-medium">Brands</h4>
-            <NuxtLink :to="`/brands`" class="flex gap-4 items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
-=======
             <h4 class="text-[20px] font-semibold">Brands</h4>
             <NuxtLink :to="`/brands`" class="flex gap-4 items-center">More <img class="w-5 h-5  rtl:rotate-180" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
->>>>>>> Stashed changes
         </div>
         <div>
             <div class="grid grid-cols-2 my-4 gap-4">
