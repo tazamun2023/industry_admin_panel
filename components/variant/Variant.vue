@@ -2,7 +2,7 @@
   <div>
     <div class="tab-sidebar">
       <div class="col-md-12 p-4 title">
-        <h4>{{ $t('prod.add_new_product') }} {{ openTab }}</h4>
+        <h4>{{ $t('prod.add_new_product') }} </h4>
         <p>{{ $t('prod.Fill out the form below to add a new product to your product list') }}</p>
       </div>
       <div>
@@ -10,7 +10,7 @@
           <div class="p-4">
             <div class="flex gap-4 p-2 justify-between">
               <p class="font-bold pt-2">{{ $t('prod.Variants List') }}</p>
-              <button @click="openVariantModal"
+              <button v-if="openTab=='parent'" @click="openVariantModal"
                       class="border border-smooth p-2 gap-4 w-[200px] leading-3 flex ">
                 <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24">
@@ -63,149 +63,188 @@
               </li>
             </ul>
           </div>
-          <div class="col-span-3">
-            <div class="p-4">
-              <div class="flex justify-between">
-                <h4>{{ $t('prod.Basic information') }}</h4>
-                <p
-                  v-if="!is_edit"
-                  class="cursor-pointer underline font-bold text-disabled"
-                  style="cursor: not-allowed"
-                >
-                  {{ $t('prod.Edit Category') }}
-                </p>
-                <p
-                  v-else
-                  class="cursor-pointer underline font-bold"
-                  @click="CategorySection = !CategorySection"
-                >
-                  {{ $t('prod.Edit Category') }}
-                </p>
-              </div>
-
-
-              <div>
-                <nav class="text-primary" aria-label="Breadcrumb">
-                  <ol class="list-none p-0 inline-flex">
-                    <li class="flex items-center">
-                      <a href="/" class="text-gray-500 hover:text-gray-700">{{ $t('prod.Home') }}</a>
-                      <NavIcon></NavIcon>
-                    </li>
-                    <li class="flex items-center">
-                      <a href="/category" class="text-gray-500 hover:text-gray-700">{{ selectedLevel1?.title }}</a>
-                      <NavIcon></NavIcon>
-                    </li>
-                    <li class="flex items-center">
-                      <span class="text-gray-700">{{ selectedLevel2?.title }}</span>
-                      <NavIcon></NavIcon>
-                    </li>
-                    <li class="flex items-center">
-                      <span class="text-gray-700">{{ selectedLevel3?.title }}</span>
-                    </li>
-                  </ol>
-                </nav>
-
-              </div>
-              <div v-if="CategorySection" class="grid grid-cols-3 gap-4">
-                <!-- Main Category Dropdown -->
-                <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
-                  <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
-                  <v-select
-                    :dir="$t('app.dir')"
-                    v-model="result.parentCategory"
-                    :options="allCategoriesTree"
-                    label="title"
-                    :disabled="!is_edit"
-                    :reduce="cat => cat.id"
-                    :placeholder="$t('rfq.Search by Category')"
-                    class="custom-select"
-                    :class="{invalid: result.parentCategory === '' && hasError}"
-                  ></v-select>
+          <ValidationObserver class="col-span-3 w-full" v-slot="{ invalid }">
+            <div class="">
+              <div class="p-4">
+                <div class="flex justify-between">
+                  <h4>{{ $t('prod.Basic information') }}</h4>
+                  <p
+                    v-if="openTab !== 'parent'"
+                    class="cursor-pointer underline font-bold text-disabled"
+                    style="cursor: not-allowed"
+                  >
+                    {{ $t('prod.Edit Category') }}
+                  </p>
+                  <p
+                    v-else
+                    class="cursor-pointer underline font-bold"
+                    @click="CategorySection = !CategorySection"
+                  >
+                    {{ $t('prod.Edit Category') }}
+                  </p>
                 </div>
 
-                <!-- Sub Category Dropdown -->
-                <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
-                  <v-select
-                    :dir="$t('app.dir')"
-                    v-model="result.subCategory"
-                    :options="selectedLevel1?.child"
-                    label="title"
-                    :disabled="!is_edit"
-                    :reduce="cat => cat.id"
-                    class="custom-select"
-                    :placeholder="$t('rfq.Select Sub Category')"
-                    @input="updateLevel3"
-                    :class="{invalid:  result.subCategory === '' && hasError}"
-                  ></v-select>
+
+                <div>
+                  <nav class="text-primary" aria-label="Breadcrumb">
+                    <ol class="list-none p-0 inline-flex">
+                     
+                      <li class="flex items-center">
+                        <a href="/category" class="text-gray-500 hover:text-gray-700">{{ selectedLevel1?.title }}</a>
+                        <NavIcon></NavIcon>
+                      </li>
+                      <li class="flex items-center">
+                        <span class="text-gray-700">{{ selectedLevel2?.title }}</span>
+                        <NavIcon></NavIcon>
+                      </li>
+                      <li class="flex items-center">
+                        <span class="text-gray-700">{{ selectedLevel3?.title }}</span>
+                      </li>
+                    </ol>
+                  </nav>
+
+                </div>
+                <div v-if="CategorySection" class="grid grid-cols-3 gap-4">
+                  <!-- Main Category Dropdown -->
+                  <ValidationProvider name="parentCategory" :rules="{required: true}" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('rfq.Search by Category')}) }">
+                    <div class="form-group input-wrapper for-lang ar-lang">
+                      <label class="w-full" for="mainCategory">{{ $t("rfq.Search by Category") }}</label>
+                      <!--              :class="{invalid: !is_draft && !result.selectedMainCategory && hasError}"-->
+                      <v-select
+                        :dir="$t('app.dir')"
+                        v-model="result.parentCategory"
+                        :options="allCategoriesTree"
+                        label="title"
+                        :disabled="!is_edit"
+                        @input="updateLevel2"
+                        :reduce="cat => cat.id"
+                        :placeholder="$t('rfq.Search by Category')"
+                        class="custom-select"
+                        :class="{invalid: result.parentCategory === '' && hasError}"
+                      ></v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <!-- Sub Category Dropdown -->
+                  <ValidationProvider name="subCategory" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('rfq.Select Sub Category')}) }">
+                    <div class="form-group input-wrapper for-lang ar-lang">
+                      <label class="w-full" for="subCategory">{{ $t("rfq.Select Sub Category") }}</label>
+                      <v-select
+                        :dir="$t('app.dir')"
+                        v-model="result.subCategory"
+                        :options="selectedLevel1?.child"
+                        @input="updateLevel3"
+                        label="title"
+                        :disabled="!is_edit"
+                        :reduce="cat => cat.id"
+                        class="custom-select"
+                        :placeholder="$t('rfq.Select Sub Category')"
+
+                        :class="{invalid:  result.subCategory === '' && hasError}"
+                      ></v-select>
+                    </div>
+                  </ValidationProvider>
+
+                  <!-- Child Category Dropdown -->
+                  <ValidationProvider name="childCategory" rules="required" v-slot="{ errors }"
+                                      :custom-messages="{required: $t('global.req', { type: $t('rfq.Select Child Category')}) }">
+                    <div class="form-group input-wrapper for-lang ar-lang">
+                      <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }}</label>
+                      <v-select
+                        :dir="$t('app.dir')"
+                        v-model="result.childCategory"
+                        :options="selectedLevel2?.child"
+                        :disabled="!is_edit"
+                        :reduce="cat => cat.id"
+                        @input="updateLevel4"
+
+                        :class="{invalid: result.childCategory === '' && hasError}"
+                        label="title"
+                        class="custom-select"
+                        :placeholder="$t('rfq.Select Child Category')"
+                      ></v-select>
+                    </div>
+                  </ValidationProvider>
                 </div>
 
-                <!-- Child Category Dropdown -->
-                <div class="form-group input-wrapper for-lang ar-lang">
-                  <label class="w-full" for="childCategory">{{ $t("rfq.Select Child Category") }}</label>
-                  <v-select
-                    :dir="$t('app.dir')"
-                    v-model="result.childCategory"
-                    :options="selectedLevel2?.child"
-                    :disabled="!is_edit"
-                    :reduce="cat => cat.id"
-                    :class="{invalid: result.childCategory === '' && hasError}"
-                    label="title"
-                    class="custom-select"
-                    :placeholder="$t('rfq.Select Child Category')"
-                  ></v-select>
-                </div>
               </div>
-            </div>
-            <div class="tab-content mt-10 p-4 input-wrapper tab-space">
-              <div>
-                <form action="">
-                  <div class="input-wrapper mb-4">
-                    <label for="">{{ $t('prod.parent_sku') }}</label>
-                    <input type="text" v-model="result.parent_sku" :placeholder="$t('prod.sku')"
-                           class="cursor-not-allowed" disabled>
-                  </div>
-                  <lang-input v-if="openTab === 'parent'" :hasError="hasError" type="text" :title="$t('prod.name')"
-                              :valuesOfLang="result.title" :isVariant="openTab !== 'parent'"
-                              :is-read-only="!is_edit"
-                              @updateInput="updateInput"></lang-input>
-                  <div class="input-wrapper mb-4" v-else>
-                    <label for="">{{ $t('prod.name') }}</label>
-                    <input type="text" :placeholder="variantNameWithAttr(variants[openTab].result.title)"
-                           class="cursor-not-allowed" disabled>
-                  </div>
-                  <div class="grid grid-cols-2 gap-4">
-                    <div class="input-wrapper   mt-sm-0">
-                      <label class="w-full">{{ $t('prod.Brand') }} <strong class="text-error">*</strong></label>
-                      <select class="form-control w-full rounded border border-smooth p-3"
-                              :disabled="!is_edit || openTab !== 'parent'"
-                              :readonly="!is_edit || openTab !== 'parent'"
-                              :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
-                              v-model="result.brand_id">
-                        <option value="0">{{ $t('prod.Brand') }}</option>
-                        <option v-for="(item, index) in allBrands" :key="index" :value="index">{{ item.title }}</option>
-                      </select>
+              <div class="tab-content mt-10 p-4 input-wrapper tab-space">
+                <div>
+
+                  <form action="">
+                    <div class="input-wrapper mb-4">
+                      <label for="">{{ $t('prod.parent_sku') }}</label>
+                      <input type="text" v-model="result.parent_sku" :placeholder="$t('prod.sku')"
+                             class="cursor-not-allowed" disabled>
+                    </div>
+                    <lang-input v-if="openTab === 'parent'" :hasError="hasError" type="text" :title="$t('prod.name')"
+                                :min="5"
+                                @checkLangError="checkLangError"
+                                :valuesOfLang="result.title" :isVariant="openTab !== 'parent'"
+                                :is-read-only="!is_edit"
+                                @updateInput="updateInput"></lang-input>
+                    <div class="input-wrapper mb-4" v-else>
+                      <label for="">{{ $t('prod.name') }}</label>
+                      <input type="text" :placeholder="variantNameWithAttr(variants[openTab].result.title)"
+                             class="cursor-not-allowed" disabled>
                     </div>
 
-                    <div class="input-wrapper  ">
-                      <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
-                      <select :disabled="!is_edit || openTab !== 'parent'"
-                              :readonly="!is_edit || openTab !== 'parent'"
-                              class="w-full rounded border mb-10 border-smooth p-3 uppercase" v-model="result.unit_id">
-                        <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
-                            item.name
-                          }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
+                    <div class="grid grid-cols-2 gap-4">
+                      <ValidationProvider name="Brand" :rules="{ required:true}" v-slot="{ errors }"
+                                          :custom-messages="{required: $t('global.req', { type: $t('prod.Select Brand')}) }">
 
-                </form>
+                        <div class="input-wrapper   mt-sm-0">
+                          <label class="w-full">{{ $t('prod.Brand') }} <strong class="text-error">*</strong></label>
+                          <select class="form-control w-full rounded border border-smooth p-3"
+                                  :disabled="!is_edit || openTab !== 'parent'"
+                                  :readonly="!is_edit || openTab !== 'parent'"
+                                  :class="{invalid: !is_draft && (result.brand_id == 0 || result.brand_id===null) && hasError}"
+                                  v-model="result.brand_id">
+                            <option v-for="(item, index) in allBrands" :key="index" :value="index">{{
+                                item.title
+                              }}
+                            </option>
+                          </select>
+                        </div>
+                      </ValidationProvider>
+
+                      <div class="input-wrapper  ">
+                        <label class="w-full" for="name">{{ $t('prod.Unit of measure') }}</label>
+                        <select :disabled="!is_edit || openTab !== 'parent'"
+                                :readonly="!is_edit || openTab !== 'parent'"
+                                class="w-full rounded border mb-10 border-smooth p-3 uppercase"
+                                v-model="result.unit_id">
+                          <option :value="index" v-for="(item, index) in allPackagingUnits" :key="index">{{
+                              item.name
+                            }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div v-if="openTab === 'parent'" class="flex justify-end gap-4 py-3">
+                      <ajax-button
+                        name="save"
+                        another_class="primary-btn"
+                        type="button"
+                        :disabled="(result.childCategory==='' ||invalid || hasLangError)"
+                        :text="$t('prod.Send for review') "
+                        @clicked="doSubmit"
+                        :fetching-data="is_submit_data"
+                      />
+
+
+                    </div>
+
+                  </form>
+
+                </div>
+
               </div>
 
             </div>
-          </div>
+          </ValidationObserver>
         </div>
       </div>
     </div>
@@ -307,19 +346,7 @@
       <div class="my-10"></div>
       <!-- ------------------------------------- -->
     </div>
-    <div class="tab-sidebar p-3" v-if="is_edit && openTab === 'parent'">
-      <div class="flex justify-end gap-4 pt-3">
-        <ajax-button
-          name="save"
-          another_class="primary-btn"
-          type="button"
-          :text="$t('prod.Send for review') "
-          @clicked="doSubmit"
-          :fetching-data="is_submit_data"
-        />
 
-      </div>
-    </div>
     <!-- ------------------------ -->
     <div :class="openTab !== 'parent' ? 'block':'hidden'">
       <!--      <div v-if="openTab !== 'parent'">-->
@@ -574,6 +601,7 @@ import AddProduct from "./AddProduct.vue";
 import NavIcon from "./NavIcon.vue";
 import AjaxButton from "../AjaxButton.vue";
 import ProductStatus from "./ProductSratus.vue";
+import LangInput from "../langInput.vue";
 
 
 export default {
@@ -581,6 +609,7 @@ export default {
   mixins: [util],
   inject: [],
   components: {
+    LangInput,
     ProductStatus,
     AjaxButton,
     NavIcon,
@@ -613,6 +642,7 @@ export default {
     return {
       openTapData: {},
 
+      hasLangError: false,
       is_submit_data: false,
       variant_copy: [],
       is_submit: [],
@@ -639,6 +669,7 @@ export default {
       isThumb: null,
       isFirstThumb: null,
       is_clone: false,
+      delete_variant_items: [],
       is_variant: false,
       is_draft: false,
       pv_type: false,
@@ -838,6 +869,27 @@ export default {
     doNext() {
       this.is_next = true
     },
+    updateLevel2() {
+      this.result.subCategory = "";  // Reset Level 2 selection
+      this.result.childCategory = "";  // Reset Level 2 selection
+      this.result.category_id = "";  // Reset Level 2 selection
+      this.selectedLevel1 = this.allCategoriesTree.find(c => c.id == (this.result.parentCategory));
+      this.selectedLevel2 = null;  // Reset Level 2 selection
+      this.selectedLevel3 = null
+      // this.result.mainCategorySlug = this.selectedLevel1.slug
+    },
+    updateLevel3() {
+      this.result.category_id = "";
+      this.result.childCategory = "";
+      this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
+      // this.result.subCategorySlug = this.selectedLevel2.slug
+    },
+
+    updateLevel4() {
+      this.selectedLevel3 = this.selectedLevel2.child.find(c => c.id === parseInt(this.result.childCategory));
+      // this.result.subCategorySlug = this.selectedLevel2.slug
+    },
+
     addVariantValueRows() {
       this.variant_copy = [...this.result.product_variants];
       this.result.product_variants.push(Object.assign({}, this.product_variant))
@@ -849,7 +901,11 @@ export default {
     removeVariantRows(index) {
       // console.log(index)
       if (index != 0) {
-        this.result.product_variants.splice(index, 1);
+        {
+          this.result.product_variants.splice(index, 1);
+          this.delete_variant_items.push(this.variants[index])
+          this.variants.splice(index, 1);
+        }
 
       }
     },
@@ -857,11 +913,13 @@ export default {
       console.log("cooooooooom")
       this.variants[this.openTab].result = data;
 
+      this.variant_copy = [];
 
       for (var i = 0; i < this.variants.length; i++) {
         var temp = this.variants[i].result;
         if (temp.status == 'incomplete' || temp.status == '') {
           var old_v = this.variants[i].result.product_variant;
+          old_v.product_id = 0;
           this.variants[i].result = {
             ...data,
             id: '',
@@ -873,11 +931,12 @@ export default {
           }
           this.variants[i].result.product_variant = old_v
         }
-
+        this.variant_copy.push(this.variants[i].result.product_variant)
       }
       this.openTab = 'parent';
       if (this.result.id == "")
         this.result = data
+      this.result.product_variants = this.variant_copy
     },
     doVariantSave() {
       if (this.result.product_variants.length === 0) {
@@ -892,8 +951,8 @@ export default {
             continue;
           }
 
-          if (this.result.product_variants[i].product_id === "" ) {
-            this.result.product_variants[i].product_id=0;
+          if (this.result.product_variants[i].product_id === "") {
+            this.result.product_variants[i].product_id = 0;
             this.is_variant_save = !this.is_variant_save;
             this.varientModal = false;
             const newVariant = {
@@ -918,6 +977,9 @@ export default {
             this.variants.splice(this.variants.length, 0, newVariant);
           }
         }
+        if (this.delete_variant_items.length > 0)
+          this.varientModal = false;
+        this.delete_variant_items = [];
       }
     },
 
@@ -962,6 +1024,11 @@ export default {
         this.setToastError('Error! at last complete one variant')
       }
     },
+    checkLangError(haserror) {
+
+      this.hasLangError = haserror
+    },
+
 
     async fetchingData(id) {
       try {
@@ -989,7 +1056,7 @@ export default {
       }
     },
     variantNameWithAttr(name) {
-      let product_variant=  this.variants[this.openTab].result.product_variant;
+      let product_variant = this.variants[this.openTab].result.product_variant;
       if (product_variant.color_name && product_variant.value) {
         return name[this.currentLanguage?.code] + ' - ' + product_variant.color_name + ',' + product_variant.value;
       } else if (product_variant.color_name) {
@@ -1001,6 +1068,11 @@ export default {
 
     closeVariantModal() {
       this.varientModal = false;
+      this.delete_variant_items.forEach((variant) => {
+        this.variants.push(variant)
+        this.result.product_variants.push(variant.product_variant)
+      });
+      this.delete_variant_items = [];
       // this.result.product_variants = this.result.product_variants.filter(v => v.product_id > 0)
       // if (this.variant_copy) {
       //   this.result.product_variants = this.variant_copy

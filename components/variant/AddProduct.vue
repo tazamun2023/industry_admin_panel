@@ -1338,7 +1338,7 @@ export default {
         "name": "",
         "color_name": "",
         "value": "",
-        "product_id": ""
+        "product_id": 0
       },
       product_variant_type: {
         "color": "color",
@@ -1388,6 +1388,7 @@ export default {
         /*Additional details*/
         additional_details_row: [
           {
+
             "name": "",
             "value": ""
           }
@@ -1766,8 +1767,10 @@ export default {
 
       // this.id=product.id
       this.fetchingData(product.id, 'cloneProduct').then(() => {
-        this.is_clone = false
+        // this.is_clone = false
+        this.$emit('changeClone',false )
         this.result.id = ""
+        this.result.status = ""
         this.result.sku = ""
         this.result.is_variant = false
         this.result.is_variant_save = false
