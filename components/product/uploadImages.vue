@@ -260,9 +260,9 @@ export default {
   <div>
 
 
-    <div class="tab-sidebar p-3" :class="{ 'has-error': IsRequired && Imgs.length===0 }">
+    <div class="" :class="{ 'has-error': IsRequired && Imgs.length===0 }">
       <div
-        class="container"
+        class="border-dashed border-2 border-[#C4CDD5]  rounded-[10px] min-h-[215px]"
         @dragover.prevent="dragOver"
         @dragleave.prevent="dragLeave"
       >
@@ -270,7 +270,7 @@ export default {
         <!-- Error Message -->
 
         <!-- To inform user how to upload image -->
-        <div v-if="!IsReadOnly" v-show="Imgs.length == 0" class="beforeUpload">
+        <div v-if="!IsReadOnly" v-show="Imgs.length == 0" class="beforeUpload min-h-[215px]">
           <input
             type="file"
             style="z-index: 1"
@@ -278,12 +278,17 @@ export default {
             ref="uploadInput"
             @change="previewImgs"
             :multiple="maxFiles>1"
+            class="min-h-[215px]"
           />
-          <div class="text-center"></div>
-          <upload-image-icon></upload-image-icon>
+          <div class="flex items-center justify-center min-h-[215px]">
+            <div class="text-center">
+            <upload-image-icon></upload-image-icon>
           <p class="mainMessage">
             {{ uploadMsg ? uploadMsg : $t("orderDetails.Click to upload or drop your images here") }}
           </p>
+          </div>
+          </div>
+
         </div>
         <div class="imgsPreview" v-show="Imgs.length > 0">
           <button v-if="maxFiles > 1 && !IsReadOnly" type="button" class="clearButton" @click="reset">
@@ -421,7 +426,7 @@ export default {
   object-fit: cover;
   width: auto;
   height: auto;
-  max-height: 150px;
+  max-height: 200px;
 }
 
 .imgsPreview .imageHolder .delete {

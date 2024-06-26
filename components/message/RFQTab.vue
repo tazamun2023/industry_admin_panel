@@ -206,7 +206,7 @@ export default {
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
              class="hidden border-l-2 border-l-primary border-t border-t-smooth">
-          <div class="flex gap-4" @click="activeRelatedInquirie(related_inquirie, index_sub)"
+          <div class="flex gap-4 p-2" @click="activeRelatedInquirie(related_inquirie, index_sub)"
                :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
             <div class="flex gap-4 items-center">
               <img class="h-[10px] w-[38px]" src="~/assets/icon/rfqdirection.svg" alt="">
@@ -218,14 +218,14 @@ export default {
             </div>
             <div class="w-full">
               <div class="flex justify-between">
-                <span class="font-bold  font-13px" :class="{ 'text-primary': activeRfqInquiry === index }">{{
+                <span class="font-bold  text-[13px]" :class="{ 'text-primary': activeRfqInquiry === index }">{{
                     related_inquirie.inquirable?.title
                   }}</span>
 
                 <span class="relative ml-2">
                   {{ related_inquirie.created }}
                   <span
-                    class="absolute bg-error text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
+                    class="absolute bg-error text-[12px] text-white h-5 w-5 rounded-full text-[10px] text-center p-[3px] mt-[20px] ltr:right-[10px] rtl:left-[10px]"
                     v-if="related_inquirie.unread_message">
                     {{ related_inquirie.unread_message > 9 ? 9 : related_inquirie.unread_message }}
                     <sup v-if="related_inquirie.unread_message > 9">+</sup>
@@ -239,11 +239,11 @@ export default {
                 <!-- {{ $t('prod.From') }} : -->
                  {{ truncateUserName(inquirie.user.name) }}
               </span>
-              <div class="flex justify-between">
+              <div class="flex justify-between text-[12px]">
                 <span class=" font-12px">INQ{{ related_inquirie.id }}</span>
-                <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
+                <span class="p-1 rounded  bg-theemlight text-theem uppercase text-[12px]"
                       v-if="(inquirie.last_status==='pending_response')">{{ $t('products.PENDING RESPONSE') }}</span>
-                <span class="p-1 rounded  bg-theemlight text-theem uppercase font-12px"
+                <span class="p-1 rounded  bg-theemlight text-theem uppercase text-[12px]"
                       v-if="(inquirie.last_status==='pending_agreement')">{{ $t('products.PENDING AGREEMENT') }}</span>
                 <span class="p-1 rounded bg-redlight text-red uppercase text-[12px]"
                       v-if="(inquirie.last_status==='expired')">{{ $t('products.expired') }}</span>
