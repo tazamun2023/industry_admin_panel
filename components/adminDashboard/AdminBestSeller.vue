@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 card lg:h-[371px]">
+  <div class="p-4">
       <div class="flex justify-between">
           <h4 class="text-[20px] font-medium">{{ $t('Dashboard.Bestsellers') }}</h4>
           <a href="" class="flex gap-4 text-[14px] font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
@@ -35,10 +35,10 @@
               </tbody>
           </table>
       </div>
-      <div>
+      <!-- <div>
           <NuxtLink :to="`/products`"><button class="flex gap-2 items-center justify-center text-white bg-theem h-[42px] text-[13px]"><img class="w-[11px] h-[11px]" src="~/assets/icon/reload.svg" alt="">
             {{ $t('Dashboard.Add New Product') }}</button></NuxtLink>
-      </div>
+      </div> -->
   </div>
 </template>
 <script>

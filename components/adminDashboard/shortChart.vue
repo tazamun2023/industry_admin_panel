@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div>
     <canvas ref="lineChart"></canvas>
   </div>
 </template>
@@ -79,9 +79,15 @@ export default {
 </script>
 
 <style scoped>
-canvas {
-  width: 100% !important;
-  overflow: hidden;
-  height: 100% !important;
+  canvas {
+  width: 100%;
 }
+@media screen and (min-width: 992px) {
+  canvas {
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+}
+}
+
 </style>

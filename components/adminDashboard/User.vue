@@ -8,22 +8,22 @@
         <div class="my-2">
           <user-chart :chart-label="{labelsItem}" :chart-color="{colors}"/>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="lg:border-r lg:border-offwhite px-4">
-                <p class="flex  justify-between pb-2 gap-4 items-center hover:text-orangeDeep cursor-pointer">
-                  <span class="text-[14px] flex gap-4 items-center text-orangeDeep"><img class="w-[8px] h-[8px]" src="~/assets/icon/adminelips.svg" alt=""> Admins</span>
+        <div class="lg:grid lg:grid-cols-2 mx-auto lg:w-full w-[250px] gap-4">
+            <div class="lg:border-r lg:border-offwhite lg:px-4">
+                <p class="flex  justify-between lg:pb-2 gap-4 items-center hover:text-orangeDeep cursor-pointer">
+                  <span class="text-[14px] w-[115px] flex gap-4 items-center text-orangeDeep"><img class="w-[8px] h-[8px]" src="~/assets/icon/adminelips.svg" alt=""> Admins</span>
                 <span class="text-[14px] font-bold text-orangeDeep">30</span>
                 <span class="text-[14px]">15.3%</span>
                 </p>
-                <p class="flex pt-2 justify-between gap-4 items-center hover:text-blue  cursor-pointer">
-                  <span class="flex gap-4 items-center text-blue"><img class="w-[8px] h-[8px]" src="~/assets/icon/blueelips.svg" alt=""> Vendors</span>
+                <p class="flex lg:pt-2 justify-between gap-4 items-center hover:text-blue  cursor-pointer">
+                  <span class="flex gap-4 w-[115px] items-center text-blue"><img class="w-[8px] h-[8px]" src="~/assets/icon/blueelips.svg" alt=""> Vendors</span>
                   <span class="text-[14px] font-bold text-blue">100</span>
                   <span class="text-[14px]">30.7%</span>
                 </p>
             </div>
-            <div class="px-2">
+            <div class="lg:px-2">
               <p class="flex  justify-between pb-2 gap-4 items-center hover:text-orangeLight cursor-pointer">
-                  <span class="text-[14px] flex gap-4 items-center text-orangeLight"><img class="w-[8px] h-[8px]" src="~/assets/icon/orangeelips.svg" alt=""> Customers</span>
+                  <span class="text-[14px]  w-[115px]   flex gap-4 items-center text-orangeLight"><img class="w-[8px] h-[8px]" src="~/assets/icon/orangeelips.svg" alt=""> Customers</span>
                 <span class="text-[14px] font-bold text-orangeLight">450</span>
                 <span class="text-[14px]">54%</span>
                 </p>

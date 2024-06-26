@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 card lg:h-[371px]">
+  <div class="p-4">
       <div class="flex justify-between">
           <h4 class="text-[20px] font-medium">Brands</h4>
           <NuxtLink :to="`/brands`" class="flex gap-4 text-[14px] font-semibold items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>

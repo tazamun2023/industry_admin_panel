@@ -76,10 +76,10 @@
           </div>
         </div>
         <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
-          <div class="my-2">
+          <div class="my-2 card">
             <admin-best-seller :bestSelling="bestSelling"/>
           </div>
-          <div class="my-2">
+          <div class="my-2  card">
             <admin-brand :brands="brands"/>
           </div>
         </div>
@@ -106,6 +106,9 @@
           <div class="my-2">
            <withdrawn/>
           </div>
+        </div>
+        <div class="text-center p-4">
+          <p class="text-primary text-[13px] font-bold">© 2024 Industry Export Directory. All rights reserved.</p>
         </div>
        </div>
   </div>
