@@ -80,7 +80,7 @@ export default {
 
 <style scoped>
   canvas {
-  width: 100%;
+  width: 100% !important;
 }
 @media screen and (min-width: 992px) {
   canvas {
