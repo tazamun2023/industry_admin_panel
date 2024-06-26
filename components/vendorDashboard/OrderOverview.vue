@@ -1,8 +1,8 @@
 <template>
   <div class="p-4 card">
       <div class="flex justify-between">
-          <h4 class="text-[20px] font-medium">Orders</h4>
-          <NuxtLink :to="`/orders`" class="flex gap-4 items-center">More <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
+          <h4 class="text-[20px] font-semibold">Orders</h4>
+          <NuxtLink :to="`/orders`" class="flex gap-4 items-center">More <img class="w-5 h-5  rtl:rotate-180" src="~/assets/icon/next-g.svg" alt=""></NuxtLink>
       </div>
       <div>
           <div class="lg:flex grid grid-cols-2 justify-between my-4 gap-4">

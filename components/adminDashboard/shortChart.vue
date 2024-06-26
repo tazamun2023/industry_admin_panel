@@ -79,9 +79,15 @@ export default {
 </script>
 
 <style scoped>
-canvas {
+  canvas {
+  width: 100% !important;
+}
+@media screen and (min-width: 992px) {
+  canvas {
   width: 100%;
   height: 80px;
   overflow: hidden;
 }
+}
+
 </style>

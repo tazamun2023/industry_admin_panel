@@ -4,7 +4,7 @@
     <div class="lg:grid card lg:grid-cols-4 p-4">
 
       <div v-if="profileData" class="text-center">
-        <p class="text-[20px] font-medium">{{profileData?.title}}</p>
+        <p class="text-[20px] font-semibold">{{profileData?.title}}</p>
         <div>
           <div class="frame">
             <div>

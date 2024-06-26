@@ -1,6 +1,11 @@
 <template>
   <div  class="dashboard">
-      <h3 class="uppercase py-3">Dashboard</h3>
+      <div class="flex justify-between items-center gap-4">
+        <h3 class="uppercase text-[35px] font-semibold py-3">Dashboard</h3>
+        <div>
+          <p class="flex gap-4 items-center">Jan 01 -  Jan 28 <img class="w-[16px]" src="~/assets/icon/arrow-down-green.svg" alt=""></p>
+        </div>
+      </div>
       <!-- -------------------------------vendor panel--------------------------- -->
       <div v-if="$store.state.admin.isVendor">
     <Profile :profileData="profileData" />
@@ -67,45 +72,48 @@
           @month-changed="monthChanged"
           />
         </div>
-        <div class="my-2 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div  class="card my-2">
             <User/>
           </div>
-          <div>
+          <div  class="card my-2">
             <Traffic/>
           </div>
         </div>
-        <div class="my-3 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="my-2 card">
             <admin-best-seller :bestSelling="bestSelling"/>
           </div>
-          <div>
+          <div class="my-2  card">
             <admin-brand :brands="brands"/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="card my-2">
             <rfqs/>
            </div>
-          <div>
+          <div  class="card my-2">
             <customer/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div  class="card my-2">
             <vendor/>
            </div>
-          <div>
+          <div  class="card my-2">
             <admin-order/>
           </div>
         </div>
-        <div class="my-4 grid grid-cols-2 gap-4">
-          <div>
+        <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
+          <div class="my-2">
             <admin-product :my_products="my_products"/>
            </div>
-          <div>
+          <div class="my-2">
            <withdrawn/>
           </div>
+        </div>
+        <div class="text-center p-4">
+          <p class="text-primary text-[13px] font-bold">© 2024 Industry Export Directory. All rights reserved.</p>
         </div>
        </div>
   </div>
@@ -280,5 +288,20 @@ import Withdrawn from '../components/adminDashboard/Withdrawn.vue'
   @import "~/assets/styles/dashboard.styl";
   .rounded-\[12px\] {
     border-radius: 12px !important;
+}
+
+</style>
+<style scoped>
+.dashboard >>> table td {
+  color: #555F7E;
+}
+.dashboard >>> table p {
+  color: #555F7E;
+}
+.dashboard >>> h4{
+  color:#1C2A53;
+}
+.dashboard >>> .text-semibold{
+  font-weight: 600;
 }
 </style>
