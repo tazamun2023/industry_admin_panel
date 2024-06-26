@@ -1,8 +1,13 @@
 <template>
   <div class="p-4">
     <div class="flex justify-between">
+<<<<<<< Updated upstream
           <h4 class="text-[20px] font-medium">Order</h4>
           <a href="" class="flex gap-4 text-[14px] font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
+=======
+          <h4 class="text-[20px] font-semibold">Order</h4>
+          <a href="" class="flex gap-4 text-[14px] font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5  rtl:rotate-180" src="~/assets/icon/next-g.svg" alt=""></a>
+>>>>>>> Stashed changes
       </div>
     <div class="overflow-x-auto min-h-[214px] my-4 scroolbar">
       <table>
