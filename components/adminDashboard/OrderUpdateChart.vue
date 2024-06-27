@@ -15,7 +15,7 @@ export default {
       const ctx = this.$refs.orderLineChart.getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
       gradient.addColorStop(0, '#F5F2FF');
-      gradient.addColorStop(1, '#27436F10');
+      gradient.addColorStop(1, '#01A78105');
       new Chart(ctx, {
         type: 'line',
         data: {
