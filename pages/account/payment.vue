@@ -311,7 +311,6 @@ export default {
           text: this.$i18n.t('approvedModal.revert'),
         }
       });
-
       if (res) {
         try {
           await this.SetDefaultBank({params: {bank_id: v.id, is_default: e.target.checked},})

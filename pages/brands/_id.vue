@@ -8,8 +8,8 @@
     route-name="brands"
     :name="$t('prod.brand')"
     gate="view_brands"
-    manage_gate="manage_brands"
-    :validation-keys="['title', 'slug']"
+    :manage_gate="is_show?'not_update':'manage_brands'"
+    :validation-keys="['title.ar','title.en', 'image']"
     :result="result"
     @result="resultData"
   >
@@ -17,9 +17,10 @@
     <template v-slot:form="{hasError}">
 
       <div class="input-wrapper">
-<!--        <label>{{ $t('prod.Image') }}</label>-->
+        <!--        <label>{{ $t('prod.Image') }}</label>-->
 
-        <upload-files :old_images="result.image" @updateInput="saveAttachment" :max-files="1"></upload-files>
+        <upload-files :is-read-only="is_show" :old_images="result.image" @updateInput="saveAttachment"
+                      :max-files="1"></upload-files>
         <span
           class="error"
           v-if="!!!result.title && hasError"
@@ -31,17 +32,18 @@
 
       <div class="input-wrapper">
         <label>{{ $t('index.title') }}</label>
-<!--        <input-->
-<!--          type="text"-->
-<!--          :placeholder="$t('index.title')"-->
-<!--          name="title"-->
-<!--          v-model="result.title"-->
-<!--          ref="title"-->
-<!--          @change="slugChange"-->
-<!--          :class="{invalid: !!!result.title && hasError}"-->
-<!--        >-->
+        <!--        <input-->
+        <!--          type="text"-->
+        <!--          :placeholder="$t('index.title')"-->
+        <!--          name="title"-->
+        <!--          v-model="result.title"-->
+        <!--          ref="title"-->
+        <!--          @change="slugChange"-->
+        <!--          :class="{invalid: !!!result.title && hasError}"-->
+        <!--        >-->
 
-        <lang-input :hasError="hasError" type="text" :title="$t('index.title')" :valuesOfLang="result.title"
+        <lang-input :is-read-only="is_show" :hasError="hasError" type="text" :title="$t('index.title')"
+                    :valuesOfLang="result.title"
                     @updateInput="updateInput"></lang-input>
 
 
@@ -54,51 +56,54 @@
       </div>
 
 
-      <div class="input-wrapper">
-        <label>{{ $t('category.slug') }}</label>
-        <input
-          type="text"
-          :placeholder="$t('category.slug')"
-          name="slug"
-          v-model="result.slug"
-          ref="slug"
-          :class="{invalid: !!!result.slug && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.slug && hasError"
-        >
-          {{ $t('category.req', {type: $t('category.slug')}) }}
-        </span>
-      </div>
+      <!--      <div class="input-wrapper">-->
+      <!--        <label>{{ $t('category.slug') }}</label>-->
+      <!--        <input-->
+      <!--          type="text"-->
+      <!--          :placeholder="$t('category.slug')"-->
+      <!--          name="slug"-->
+      <!--          :disabled="is_show"-->
+      <!--          v-model="result.slug"-->
+      <!--          ref="slug"-->
+      <!--          :class="{invalid: !!!result.slug && hasError}"-->
+      <!--        >-->
+      <!--        <span-->
+      <!--          class="error"-->
+      <!--          v-if="!!!result.slug && hasError"-->
+      <!--        >-->
+      <!--          {{ $t('category.req', {type: $t('category.slug')}) }}-->
+      <!--        </span>-->
+      <!--      </div>-->
 
-      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15 w-[100px]">
-            {{ $t('category.featured') }}
-          </span>
+      <!--      <div class="input-wrapper">-->
+      <!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
+      <!--          <span class="mr-15 w-[100px]">-->
+      <!--            {{ $t('category.featured') }}-->
+      <!--          </span>-->
 
-          <dropdown
-            :selectedKey="`${result.featured}`"
-            :options="featuredObj"
-            @clicked="featuredSelected"
-          />
-        </div>
-      </div>
+      <!--          <dropdown-->
+      <!--            :selectedKey="`${result.featured}`"-->
+      <!--            :options="featuredObj"-->
+      <!--            :disabled="is_show"-->
+      <!--            @clicked="featuredSelected"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </div>-->
 
 
-      <div class="input-wrapper">
-        <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15 w-[100px]">
-            {{ $t('category.status') }}
-          </span>
-          <dropdown
-            :selectedKey="`${result.status}`"
-            :options="statusObj"
-            @clicked="dropdownSelected"
-          />
-        </div>
-      </div>
+      <!--      <div class="input-wrapper">-->
+      <!--        <div class="dply-felx j-left mb-20 mb-sm-15">-->
+      <!--          <span class="mr-15 w-[100px]">-->
+      <!--            {{ $t('category.status') }}-->
+      <!--          </span>-->
+      <!--          <dropdown-->
+      <!--            :selectedKey="`${result.status}`"-->
+      <!--            :options="statusObj"-->
+      <!--            :disabled="is_show"-->
+      <!--            @clicked="dropdownSelected"-->
+      <!--          />-->
+      <!--        </div>-->
+      <!--      </div>-->
 
     </template>
   </data-page>
@@ -121,7 +126,7 @@ export default {
       result: {
         id: '',
         title: {'ar': '', 'en': ''},
-        slug: '',
+        // slug: '',
         featured: 2,
         status: 2,
         image: '',
@@ -137,7 +142,11 @@ export default {
     Dropdown
   },
   computed: {
+    is_show() {
+      return !(this.result?.approved_status !== 'pending' && this.$can('manage_brands'));
+    },
     ...mapGetters('language', ['currentLanguage']),
+
   },
   methods: {
     updateInput(input, language, value) {
@@ -154,10 +163,10 @@ export default {
       this.result.image = image[0]
       this.result.file = image
     },
-    resultData(event){
+    resultData(event) {
       this.result = {...event}
-      if (event.data){
-        this.result= {
+      if (event.data) {
+        this.result = {
           id: event.data.id,
           title: event.data.title,
           slug: event.data.slug,

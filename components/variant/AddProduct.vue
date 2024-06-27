@@ -1020,17 +1020,17 @@
         <div class="tab-sidebar p-3" v-if="!is_variant">
           <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Shipping details') }}</h4>
           <div class="grid grid-cols-2 gap-4">
-            <div class="col-md-6">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Is Ready To Ship') }} ?</label>
-                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase"
-                        v-model="result.is_ready_to_ship"
-                >
-                  <option value="1">{{ $t('prod.Yes') }}</option>
-                  <option value="0">{{ $t('prod.No') }}</option>
-                </select>
-              </div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--              <div class="input-wrapper">-->
+<!--                <label for="">{{ $t('prod.Is Ready To Ship') }} ?</label>-->
+<!--                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg uppercase"-->
+<!--                        v-model="result.is_ready_to_ship"-->
+<!--                >-->
+<!--                  <option value="1">{{ $t('prod.Yes') }}</option>-->
+<!--                  <option value="0">{{ $t('prod.No') }}</option>-->
+<!--                </select>-->
+<!--              </div>-->
+<!--            </div>-->
             <div class="col-md-6">
               <div class="input-wrapper">
                 <label for="">{{ $t('prod.Is Buy Now') }} ?</label>
@@ -1072,32 +1072,32 @@
               </div>
             </ValidationProvider>
 
-            <div class="col-md-6">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Ware House') }} <strong class="text-error">*</strong></label>
-                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"
-                        v-model="result.stock_location">
-                  <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{
-                      item.name
-                    }}
-                  </option>
-                </select>
-              </div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--              <div class="input-wrapper">-->
+<!--                <label for="">{{ $t('prod.Ware House') }} <strong class="text-error">*</strong></label>-->
+<!--                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"-->
+<!--                        v-model="result.stock_location">-->
+<!--                  <option v-for="(item, index) in allWarehouses" :key="index" :value="index">{{-->
+<!--                      item.name-->
+<!--                    }}-->
+<!--                  </option>-->
+<!--                </select>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="col-md-6">
-              <div class="input-wrapper">
-                <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>
-                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"
-                        v-model="result.country_of_origin">
-                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" :disabled="is_show"
-                          v-if="item.iso.toLowerCase()==='sa'">{{
-                      item.name
-                    }}
-                  </option>
-                </select>
-              </div>
-            </div>
+<!--            <div class="col-md-6">-->
+<!--              <div class="input-wrapper">-->
+<!--                <label for="">{{ $t('prod.Country of origin') }} <strong class="text-error">*</strong></label>-->
+<!--                <select :disabled="is_show" class="border p-3 w-full border-smooth rounded-lg"-->
+<!--                        v-model="result.country_of_origin">-->
+<!--                  <option v-for="(item, index) in allCountries" :key="index" :value="item.id" :disabled="is_show"-->
+<!--                          v-if="item.iso.toLowerCase()==='sa'">{{-->
+<!--                      item.name-->
+<!--                    }}-->
+<!--                  </option>-->
+<!--                </select>-->
+<!--              </div>-->
+<!--            </div>-->
 
             <div class="col-md-6">
               <div class="input-wrapper">

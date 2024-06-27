@@ -26,7 +26,7 @@
         <div class="flex items-center gap-2">
           <img class="w-6 h-6 mt-5" src="~/assets/icon/user.svg" alt="">
           <div v-if="$store.state.admin.profile">
-            <p class="font-bold">{{ $store.state.admin.profile.name[currentLanguage?.code] }}</p>
+            <p class="font-bold">{{ $store.state.admin.profile.name[$t('app.local')] }}</p>
             <p class="text-xs">@{{ $store.state.admin.profile.username }}</p>
           </div>
         </div>

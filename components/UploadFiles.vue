@@ -4,7 +4,9 @@
   <div>
     <div :style="hasError && attachments.length===0?'border: 1px solid red':''">
 
-      <vue-upload-images :is-required="IsRequired" :accept="accept"
+      <vue-upload-images
+        :is-read-only="IsReadOnly"
+        :is-required="IsRequired" :accept="accept"
                          :old_images="(old_images==null||old_images=='')?[]:[old_images]"
                          :max-files="maxFiles"
                          @change="saveAttachmentLargeAr"
@@ -28,6 +30,10 @@ import VueUploadImages from "./product/uploadImages.vue";
 export default {
   components: {VueUploadImages, Dropzone},
   props: {
+    IsReadOnly: {
+      type: Boolean,
+      default: false,
+    },
     IsRequired: {
       type: Boolean,
       default: true,

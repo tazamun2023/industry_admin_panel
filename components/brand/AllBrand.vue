@@ -8,6 +8,7 @@ import util from "@/mixin/util";
 import bulkDelete from "@/mixin/bulkDelete";
 import {mapActions} from "vuex";
 import SwitchToggle from '../SwitchToggle.vue';
+import ShowRejectReasons from "../product/RejectReasons.vue";
 
 export default {
   name: 'AllBrand',
@@ -26,6 +27,7 @@ export default {
     }
   },
   components: {
+    ShowRejectReasons,
     LazyImage,
     ListPage,
     DeleteButtonIcon,
@@ -153,8 +155,9 @@ export default {
             <input type="checkbox" @change="checkAll">
           </th>
           <th>{{ $t('index.title') }}</th>
-          <th>{{ $t('category.slug') }}</th>
-          <th>{{ $t('category.featured') }}</th>
+          <!--          <th>{{ $t('category.slug') }}</th>-->
+          <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
+          <th v-if="$store.state.admin.isSuperAdmin">{{ $t('category.featured') }}</th>
           <th>{{ $t('prod.show') }}</th>
           <th>{{ $t('prod.status') }}</th>
           <th>{{ $t('category.created') }}</th>
@@ -179,29 +182,50 @@ export default {
             </nuxt-link>
 
           </td>
+          <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor_name }}</td>
 
+
+          <!--          <td>-->
+          <!--            {{ value.slug }}-->
+          <!--          </td>-->
+
+
+          <!--          <td-->
+          <!--            class="status"-->
+          <!--            :class="{active: value.featured == 1 }"-->
+          <!--          >-->
+          <!--            <span>{{ getFeatured(value.featured) }}</span>-->
+          <!--          </td>-->
+          <td v-if="$store.state.admin.isSuperAdmin">
+            <switch-toggle :id="value.id"
+                           :is-read-only="!($can('approve_products'))"
+                           col="featured"
+                           set-api="toggleBrand"
+                           :change-in-server="true"
+                           :value="value.featured==1?true:false"/>
+          </td>
           <td>
-            {{ value.slug }}
+            <switch-toggle :id="value.id"
+                           :is-read-only="!($can('manage_brands') && value.approved_status?.id!='pending')"
+                           col="status"
+                           set-api="toggleBrand"
+                           :change-in-server="true"
+                           :value="value.status==1?true:false"/>
           </td>
+          <!--          <td-->
+          <!--            class="status"-->
+          <!--            :class="{active: value.status == 1 }"-->
+          <!--          >-->
+          <!--       -->
 
-
-          <td
-            class="status"
-            :class="{active: value.featured == 1 }"
-          >
-            <span>{{ getFeatured(value.featured) }}</span>
-          </td>
-          <td
-            class="status"
-            :class="{active: value.status == 1 }"
-          >
-            <span>{{ getStatus(value.status) }}</span>
-          </td>
-          <td
-            class="status"
-            :class="{active: value.approved_status.name === 'Approved' }"
-          >
-            <span>{{ value.approved_status.name }}</span>
+          <!--            <span>{{ getStatus(value.status) }}</span>-->
+          <!--          </td>-->
+          <td>
+            <div class="flex flex-col">
+              <span> {{ value.approved_status.name }}</span>
+              <show-reject-reasons v-if="value.approved_status.id==='reject'" :value="value"
+                                   :index="index"></show-reject-reasons>
+            </div>
           </td>
           <td>
             <div class="flex flex-col">
@@ -211,7 +235,8 @@ export default {
 
           </td>
           <td>
-            <div class="flex gap-4" v-if="$can('manage_brands') && $store.state.admin.isVendor">
+            <div class="flex gap-4"
+                 v-if="$can('manage_brands') && value.approved_status?.id!='pending' && $store.state.admin.isVendor">
               <li class="cursor-pointer" @click.prevent="$refs.listPage.editItem(value.id)">
                 <edit-button-icon v-if="$can('manage_brands') && $store.state.admin.isVendor"/>
               </li>
@@ -221,10 +246,12 @@ export default {
               </li>
             </div>
 
-            <button v-if="$can('manage_brands') && $store.state.admin.isSuperAdmin" id="dropdownDefaultButton"
-                    @click="toggleDropdown(index)"
-                    class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
-                    type="button">{{ $t('prod.action') }}
+            <button
+              v-if="$can('approve_products') && value.approved_status?.id=='pending'&& $store.state.admin.isSuperAdmin"
+              id="dropdownDefaultButton"
+              @click="toggleDropdown(index)"
+              class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
+              type="button">{{ $t('prod.action') }}
               <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                    viewBox="0 0 10 6">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -238,13 +265,7 @@ export default {
             >
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                   aria-labelledby="dropdownDefaultButton">
-                <li
-                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                  v-if="$can('manage_brands') && $store.state.admin.isVendor"
-                  @click.prevent="$refs.listPage.editItem(value.id)"
-                >
-                  {{ $t('prod.Edit') }}
-                </li>
+
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                   v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin"
@@ -261,13 +282,7 @@ export default {
                 >
                   {{ $t('prod.Approved') }}
                 </li>
-                <li
-                  class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                  @click.prevent="$refs.listPage.deleteItem(value.id)"
-                  v-if="$can('approve_products') && $store.state.admin.isVendor"
-                >
-                  {{ $t('prod.Delete') }}
-                </li>
+
               </ul>
             </div>
           </td>
@@ -279,7 +294,7 @@ export default {
                    :show-modal="is_reject_modal"
                    :has_others="false"
                    :is-radio="false"
-                   :title="brand_id"
+                   :title="$t('prod.Reject')"
                    get-api="RejectReasons"
                    set-api="setRejectBrand"
                    :set-id="brand_id"

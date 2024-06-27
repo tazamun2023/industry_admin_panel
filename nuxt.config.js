@@ -87,7 +87,7 @@ export default {
     base: process.env.ADMIN_FOLDER
   },
   auth: {
-    namespace: 'admin_panel',
+    // namespace: 'admin_panel',
     redirect: {
       logout: '/login',
       callback: false,

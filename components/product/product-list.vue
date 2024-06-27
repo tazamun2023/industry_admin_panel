@@ -14,24 +14,24 @@
         </div>
       </div>
 
-<!--      <div class="flex gap-4 col-span-2 justify-center">-->
-<!--        <button class="flex gap-1  hover:text-primary">-->
-<!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
-<!--               viewBox="0 0 20 19">-->
-<!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
-<!--          </svg>-->
-<!--          {{ $t('prod.download_rejection_reasons') }}-->
-<!--        </button>-->
-<!--        <button class="flex gap-1 hover:text-primary">-->
-<!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
-<!--               viewBox="0 0 20 19">-->
-<!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-<!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
-<!--          </svg>-->
-<!--          {{ $t('prod.download_rejection_products') }}-->
-<!--        </button>-->
-<!--      </div>-->
+      <!--      <div class="flex gap-4 col-span-2 justify-center">-->
+      <!--        <button class="flex gap-1  hover:text-primary">-->
+      <!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
+      <!--               viewBox="0 0 20 19">-->
+      <!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+      <!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
+      <!--          </svg>-->
+      <!--          {{ $t('prod.download_rejection_reasons') }}-->
+      <!--        </button>-->
+      <!--        <button class="flex gap-1 hover:text-primary">-->
+      <!--          <svg class="w-4 h-4 mt-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"-->
+      <!--               viewBox="0 0 20 19">-->
+      <!--            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+      <!--                  d="M15 15h.01M4 12H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-3M9.5 1v10.93m4-3.93-4 4-4-4"/>-->
+      <!--          </svg>-->
+      <!--          {{ $t('prod.download_rejection_products') }}-->
+      <!--        </button>-->
+      <!--      </div>-->
 
     </div>
     <!-- -------------------------- -->
@@ -107,7 +107,7 @@
               <template
                 v-slot:table-top="{orderOptions}"
               >
-                  <product-filter @filter="filterChanged"></product-filter>
+                <product-filter @filter="filterChanged"></product-filter>
               </template>
               <template v-slot:table="{list}">
                 <table id="basic-datatable" class="table mt-20  dt-responsive nowrap">
@@ -167,7 +167,7 @@
                   <tr v-for="(value, index) in list" :key="index">
                     <td><input type="checkbox" :value="value.id" v-model="cbList"></td>
                     <td>
-<!--                      /products/variant/${value.id}-->
+                      <!--                      /products/variant/${value.id}-->
                       <nuxt-link
                         v-if="$can('manage_products') && value.is_variant && $store.state.admin.isVendor"
                         class="dply-felx j-left link"
@@ -210,34 +210,39 @@
                     </td>
                     <td v-if="$store.state.admin.isSuperAdmin"> {{ value.vendor?.local_name }}</td>
                     <td>
-                      <span v-if="value.is_variant" class="flex items-center rounded-md bg-primary-light px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 w-[55px] text-primary">Variant</span>
+                      <span v-if="value.is_variant"
+                            class="flex items-center rounded-md bg-primary-light px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10 w-[55px] text-primary">Variant</span>
                       {{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}
                     </td>
                     <td>{{ value.sku }}</td>
                     <td v-if="value.category">{{ value.category.name }}</td>
                     <td v-else>No Category</td>
                     <td v-if="value.product_prices[0]?.selling_price">
-                      <p >
+                      <p>
                         <del>
-                          <price-with-curency-format :price="value.product_prices[0]?.unit_price"></price-with-curency-format>
+                          <price-with-curency-format
+                            :price="value.product_prices[0]?.unit_price"></price-with-curency-format>
 
-                         </del>
+                        </del>
                       </p>
                       <p>
-                        <price-with-curency-format :price="value.product_prices[0]?.selling_price"></price-with-curency-format>
+                        <price-with-curency-format
+                          :price="value.product_prices[0]?.selling_price"></price-with-curency-format>
 
 
                       </p>
                     </td>
                     <td v-else>
-                      <price-with-curency-format :price="value.product_prices[0]?.unit_price "></price-with-curency-format>
+                      <price-with-curency-format
+                        :price="value.product_prices[0]?.unit_price "></price-with-curency-format>
 
                     </td>
                     <td>
                       <p v-if="showTitleQtyMessage === index" class="text-primary">Enter to update quantity!</p>
                       <p v-if="value.is_always_available===1" class="text-primary text-nowrap">
                         {{ $t('prod.Always Available') }}</p>
-                      <input v-else-if="$store.state.admin.isVendor && value.available_quantity!==null" type="qty" title="Enter to update"
+                      <input v-else-if="$store.state.admin.isVendor && value.available_quantity!==null" type="qty"
+                             title="Enter to update"
                              :value="value.available_quantity" @keypress="onlyNumber"
                              min="0"
                              maxlength="8"
@@ -252,51 +257,23 @@
                       {{ value.updated }}
                     </td>
                     <td>
-                      <div class="flex">
-                        {{ value.status }}
-                        <div class="tooltip">
-                          <svg v-if="value.status==='rejected'"
-                               style="height: 15px; width: 15px; color: red; margin-top: 5px" viewBox="0 0 24 24"
-                               focusable="false" id="popover-trigger-64" aria-haspopup="dialog" aria-expanded="false"
-                               aria-controls="popover-content-64">
-                            <path fill="currentColor"
-                                  d="M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"></path>
-                          </svg>
-                          <span class="tooltiptext" style="width: 260px; margin-left: -100px">
-                            Click on this product to view why your product has been rejected and make edits accordingly.
-                          </span>
-                        </div>
+                      <div class="flex flex-col">
+                        <span> {{ value.status }}</span>
+                        <show-reject-reasons v-if="value.status==='rejected'" :value="value"
+                                             :index="index"></show-reject-reasons>
                       </div>
-                      <br>
-                      <span class="text-error cursor-pointer underline" @click="openModal(index)"
-                            v-if="value.status==='rejected'">
-                        {{ $t('prod.show') }}
-                      </span>
-                      <Modal :showModal="modalVisible" :is_reject_modal="is_reject_modal" :providedId="index"
-                             @closeModal="closeModal" v-if="value.reject_reasons">
-                        <div class="flex justify-between relative">
-                          <h4><strong>Rejection reasons</strong></h4>
 
-                        </div>
-                        <div class="mb-4 mt-10">
-                          <slot>
-                            <div v-for="(reject_reason_item, index) in value.reject_reasons">
-                              <p class="capitalize">
-                                <strong>{{ (reject_reason_item.group) }}</strong></p>
-                              <ul>
-                                <li class="block py-2 mx-3">{{
-                                    translateRejectReason(reject_reason_item.description)
-                                  }}
-                                </li>
-                              </ul>
-                            </div>
-                          </slot>
-                        </div>
-                      </Modal>
                     </td>
                     <!-- <td v-if="value.is_buyable===1">{{ $t('prod.Online') }}</td>
                     <td v-else>{{ $t('prod.Offline')}}</td> -->
-                    <td><switch-toggle :value="value.is_buyable"/></td>
+                    <td>
+                      <switch-toggle :id="value.id"
+                                     :is-read-only="!($can('manage_products') && value.status !== 'pending')"
+                                     :col="value.is_buyable"
+                                     set-api="toggleProduct"
+                                     :change-in-server="true"
+                                     :value="value.is_buyable"/>
+                    </td>
                     <td>
                       <!-- <div class="flex gap-2">
                         <div>
@@ -329,33 +306,33 @@
                             v-if="$can('approve_products')"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/show/${value.id}`">
-                            {{ $t('prod.Show')}}
+                            {{ $t('prod.Show') }}
                           </nuxt-link>
                           <!--                          v-if="openTab === 'is_draft' || openTab === 'is_rejected' || openTab === 'is_pending_approval' || openTab === 'is_approved' || openTab === 'is_archived'"-->
                           <nuxt-link
                             v-if="$can('manage_products') && !value.is_variant && value.status !== 'pending'"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/${value.id}`">
-                            {{ $t('prod.Edit')}}
+                            {{ $t('prod.Edit') }}
                           </nuxt-link>
                           <nuxt-link
                             v-if="$can('manage_products') && !value.is_variant && value.status === 'pending'"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/show/${value.id}`">
-                            {{ $t('prod.Show')}}
+                            {{ $t('prod.Show') }}
                           </nuxt-link>
                           <nuxt-link
                             v-if="$can('manage_products') && value.is_variant"
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
                             :to="`/products/variant/${value.id}`">
-                            {{ $t('prod.Edit')}}
+                            {{ $t('prod.Edit') }}
                           </nuxt-link>
                           <li
                             class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                             @click="statusUpdate(value.id, 'archived')"
                             v-if="openTab === 'is_approved' && $store.state.admin.isVendor"
                           >
-                            {{ $t('prod.Archive')}}
+                            {{ $t('prod.Archive') }}
                           </li>
 
                           <li
@@ -370,7 +347,7 @@
                             @click.prevent="$refs.listPage.deleteItem(value.id), visibleDropdown=null"
                             v-if="$store.state.admin.isVendor && value.status !== 'pending'"
                           >
-                            {{ $t('prod.Delete')}}
+                            {{ $t('prod.Delete') }}
                           </li>
                         </ul>
                       </div>
@@ -399,11 +376,11 @@ import LazyImage from "~/components/LazyImage"
 import bulkDelete from "~/mixin/bulkDelete";
 import ProductFilter from "../../components/product/filter.vue";
 import moment from 'moment-timezone';
-import Modal from "~/components/Modal.vue";
 import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 import SwitchToggle from '../SwitchToggle.vue'
 import EditButtonIcon from '../partials/EditButtonIcon.vue'
 import DeleteButtonIcon from '../partials/DeleteButtonIcon.vue'
+import ShowRejectReasons from "./RejectReasons.vue";
 
 export default {
   name: "product-list",
@@ -424,9 +401,7 @@ export default {
   middleware: ['common-middleware', 'auth'],
   data() {
     return {
-      modalVisible: false,
       isMultiDropdownVisible: false,
-      is_reject_modal: '',
       visibleDropdown: null,
       showTitleQtyMessage: null,
       // openTab: 'is_all_products',
@@ -444,11 +419,11 @@ export default {
   },
   mixins: [util, bulkDelete],
   components: {
+    ShowRejectReasons,
     PriceWithCurencyFormat,
     LazyImage,
     ListPage,
     ProductFilter,
-    Modal,
     SwitchToggle,
     EditButtonIcon,
     DeleteButtonIcon
@@ -461,10 +436,7 @@ export default {
     ...mapGetters('language', ['currentLanguage']),
   },
   methods: {
-    translateRejectReason(text) {
-      var lang = this.currentLanguage ? this.currentLanguage.code : 'en';
-      return text[lang] || text['en'] || text;
-    },
+
     computedUrl(value) {
       const baseUrl = this.$store.state.admin.isSuperAdmin ? `/products/show/` : `/products/`;
 
@@ -474,13 +446,7 @@ export default {
 
       return `${baseUrl}${value.id}`;
     },
-    openModal(index) {
-      this.modalVisible = true;
-      this.is_reject_modal = index;
-    },
-    closeModal() {
-      this.modalVisible = false;
-    },
+
     async stockUpdate(id, is_available = null) {
       await this.setById({
         id: id,
@@ -561,11 +527,11 @@ export default {
       if (/^\d+$/.test(available_quantity) && available_quantity >= 0 && available_quantity <= 99999999) {
         await this.setById({
           id: id,
-          params: { available_quantity: available_quantity },
+          params: {available_quantity: available_quantity},
           api: 'setAvailableQty'
         }).then(data => {
           console.log(data);
-          if (data.status===200){
+          if (data.status === 200) {
             this.setToastMessage(this.$t('prod.Quantity Updated successfully'));
           }
         });
@@ -646,38 +612,12 @@ export default {
 }
 </script>
 <style>
-.swal2-popup .swal2-styled.swal2-cancel{
+.swal2-popup .swal2-styled.swal2-cancel {
   min-height: 44px;
 }
-.swal2-popup .swal2-styled.swal2-confirm{
+
+.swal2-popup .swal2-styled.swal2-confirm {
   min-height: 44px;
 }
 </style>
-<style scoped>
-/* Tooltip container */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
 
-/* Tooltip text */
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-</style>

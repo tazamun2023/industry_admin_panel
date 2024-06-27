@@ -135,8 +135,8 @@ export default {
   computed: {
     addRoute() {
       // Removing the trailing slash
-      // return this.$route.path.replace(/^\/brands(\/.*)?$/, "/brands/add");
-      return `${this.$route.path.replace(/\/$/, "")}/add`
+     var r=  this.$route.path.replace(/^\/brands(\/.*)?$/, "/brands");
+      return `${r.replace(/\/$/, "")}/add`
     }
   },
   methods: {

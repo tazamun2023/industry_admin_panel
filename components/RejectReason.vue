@@ -110,17 +110,7 @@ export default {
             return;
           }
 
-          const confirmation = await this.$swal({
-            title: "Are you sure?",
-            icon: "question",
-            iconHtml: "؟",
-            confirmButtonText: "Yes",
-            cancelButtonText: "Noا",
-            showCancelButton: true,
-            showCloseButton: true,
-          });
-
-          if (confirmation) {
+       {
             this.saving=true
             const data = await this.setRequest({
               params: { ...this.params,...this.rejected,},
