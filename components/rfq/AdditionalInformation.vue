@@ -2,9 +2,11 @@
 
 import util from "~/mixin/util"
 import {mapGetters, mapActions} from 'vuex'
+import LazyImage from "../LazyImage.vue";
 
 export default {
   name: "AdditionalInformation",
+  components: {LazyImage},
   middleware: ['common-middleware', 'auth'],
   props: {
     rfq: Object,
@@ -18,7 +20,11 @@ export default {
   computed: {
     ...mapGetters('language', ['currentLanguage']),
   },
-  methods: {},
+  methods: {
+    isFiles(file) {
+      return ['doc', 'docx', 'csv', 'pdf', 'xlsx', 'lsx'].includes(file.extension)
+    }
+  },
   async mounted() {
   }
 }
@@ -30,20 +36,30 @@ export default {
     <p class="py-1">{{ $t('rfq.Additional Details') }}: <strong class="text-sm">{{ rfq?.additional_details }}</strong>
     </p>
     <p class="py-1">{{ $t('rfq.Attachments') }}: </p>
-    <div class="lg:flex">
+    <div class="flex flex-col">
+      <div class="lg:flex">
 
-      <template v-for="file in rfq?.attachment">
-        <p class="w-full  col-span-full"
-           v-if="['doc','docx','csv','pdf','xlsx','lsx'].includes(file.extension)">
-          <a class="underline" :href="file.original_url">{{ file.file_name }}</a>
+        <template v-for="file in rfq?.attachment">
 
-        </p>
+          <lazy-image v-if="!isFiles(file)" class="border border-smooth m-2"
+                      style="width:40px; height:40px; object-fit: cover;"
+                      :lazySrc="file.original_url"
+                      :alt="file.name"/>
+        </template>
 
-        <img v-else class="border border-smooth m-2" style="width:40px; height:40px; object-fit: cover;"
-             :src="file.original_url"
-             :alt="file.name">
-      </template>
 
+      </div>
+      <div class="flex flex-col">
+        <template v-for="file in rfq?.attachment">
+          <p class="w-full  col-span-full"
+             v-if="isFiles(file)">
+            <a class="underline" :href="file.original_url">{{ file.file_name }}</a>
+
+          </p>
+
+        </template>
+
+      </div>
     </div>
   </div>
 </template>

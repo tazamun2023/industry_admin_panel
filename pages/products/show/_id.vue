@@ -34,7 +34,7 @@
       :title="$t('prod.Rejected')"
       :set-api="'setRejectProduct'"
       :set-id="parseInt(id)"
-      type="BankPayment"
+      type="Products"
       @close="closeRejectModal"
     ></reject-reason>
   </div>

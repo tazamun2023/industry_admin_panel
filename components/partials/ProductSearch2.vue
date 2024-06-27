@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="md:w-full pr-4 pl-4">
-            <div class="block w-full overflow-auto scrolling-touch overflow-y-auto h-64">
+            <div class="block search w-full overflow-auto scrolling-touch overflow-y-auto h-64">
               <table id="conditionTable" class="hoverable whitespace-no-wrap">
                 <thead>
                 <tr>

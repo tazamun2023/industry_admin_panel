@@ -3,24 +3,7 @@
   <div v-if="$can('view_RFQ')">
 
     <h3>Rfq Details</h3>
-    <div class="card pb-4">
-      <div class="flex justify-between items-center px-4 py-3 bg-primary rounded-t">
-        <div class="flex gap-4">
-          <span class="font-bold text-white">RFQ{{rfq.id}} </span>
-          <span class="bg-white p-2 rounded-lg leading-3 capitalize">{{ rfq.status_data?.name }}</span>
-        </div>
-        <div class="flex gap-4">
-          <p class="text-white">{{ $t("rfq.Received quotes")}}<span class="font-bold">{{ rfq.received_quotes }}</span></p>
-          <p class="text-white">{{ $t("rfq.Created on") }}<span class="font-bold"> {{rfq.expiry_date}}</span></p>
-          <p class="text-white">{{ $t("rfq.Expires on") }}<span class="font-bold">{{rfq.created}}</span></p>
-        </div>
-      </div>
-      <RFQProducts class="p-4" :show_summary="true" :rfq="rfq"></RFQProducts>
-      <div class="grid grid-cols-2 px-4 gap-4">
-        <ShippingDetails :rfq="rfq"></ShippingDetails>
-        <AdditionalInformation :rfq="rfq"></AdditionalInformation>
-      </div>
-    </div>
+    <rfq-details :rfq="rfq"></rfq-details>
     <!-- ========================== -->
 
     <!-- ========================== -->
@@ -57,17 +40,19 @@ import AdditionalInformation from "@/components/rfq/AdditionalInformation.vue";
 import Quotation from "@/components/rfq/Quotation.vue";
 import ImageSlider from "@/components/rfq/ImageSlider.vue";
 import '@glidejs/glide/dist/css/glide.core.min.css';
+import RfqDetails from "../../../components/rfq/RfqDetails.vue";
+
 export default {
   name: "RFQDetails",
-  components: {ImageSlider, Quotation, AdditionalInformation, ShippingDetails, RFQProducts},
+  components: {RfqDetails, ImageSlider, Quotation, AdditionalInformation, ShippingDetails, RFQProducts},
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
 
   data() {
     return {
       loading: true,
-      quoteModal:false,
-      quoteRejectModal:false,
+      quoteModal: false,
+      quoteRejectModal: false,
       hasFormError: false,
       formSubmitting: false,
       quoteId: '',
@@ -93,7 +78,6 @@ export default {
         return this.$nuxt.error(e)
       }
     },
-
 
 
     ...mapActions('common', ['setRequest', 'getById', 'setById']),
@@ -130,7 +114,6 @@ export default {
   border-top: 5px solid #27436f;
   border-left: 5px solid #27436f;
 }
-
 
 
 .glide .glide-nav button {

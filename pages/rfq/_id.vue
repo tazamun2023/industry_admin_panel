@@ -20,52 +20,7 @@
                 </nuxt-link>
               </h4>
             </div>
-            <div class="flex-auto p-6">
-              <div class="flex flex-wrap ">
-                <div class="md:w-1/4 pr-4 pl-4 mb-10">
-                  <label class="font-14 bold black">{{ $t("rfq.RFQ ID") }}:</label><br>
-                  <label><a href=""> RFQ{{ rfq.id }}</a></label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black">{{ $t("Submitted on") }} </label><br>
-                  <label>{{ rfq.created }}</label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black">{{ $t("rfq.Expires on") }}</label><br>
-                  <label> {{ rfq.expiry_date }}</label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black"> {{ $t("rfq.Received quotes") }}</label><br>
-                  <label> {{ rfq.received_quotes }} </label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black">{{ $t("rfq.Shipping country") }}:</label><br>
-                  <label><a href=""><img style="width:20px;"
-                                         src="httlabels://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ae.svg"
-                                         alt=""> {{
-                      rfq.country.name
-                    }}</a></label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black">{{ $t("rfq.Shipping city") }}</label><br>
-                  <label>{{ rfq.city.name }}</label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black">{{ $t("rfq.Shipping terms") }}</label><br>
-                  <label>
-                    <template v-for="(term, index) in rfq.shipmen_terms">
-                      <span>{{ term.name }}</span>
-                      <span class="mx-2" v-if="index + 1 < rfq.shipmen_terms.length">,</span>
-
-                    </template>
-                  </label>
-                </div>
-                <div class="md:w-1/4 pr-4 pl-4  mb-10">
-                  <label class="font-14 bold black"> {{ $t("rfq.Created on") }} </label><br>
-                  <label>{{ rfq.created }}</label>
-                </div>
-              </div>
-            </div>
+            <rfq-details :rfq="rfq"></rfq-details>
           </div>
         </div>
       </div>
@@ -414,6 +369,7 @@ import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 import Datepicker from 'vue2-datepicker';
 import {ValidationObserver, ValidationProvider} from "vee-validate";
 import PriceWithCurencyFormat from "../../components/priceWithCurencyFormat.vue";
+import RfqDetails from "../../components/rfq/RfqDetails.vue";
 
 export default {
 
@@ -458,6 +414,7 @@ export default {
   directives: {outsideClick},
   mixins: [util],
   components: {
+    RfqDetails,
     PriceWithCurencyFormat,
     Datepicker,
     ProductSearch2,

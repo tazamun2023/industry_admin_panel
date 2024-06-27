@@ -137,7 +137,7 @@
                                                                alt=""><strong> {{
                                     $t("rfq.Shipping country")
                                   }}:</strong>
-                                  {{ value.country.name }} {{ value.is_submit }}
+                                  {{ value.country.name }}
                                 </p>
                                 <p class="m-0 flex gap-2"><img class="w-5 h-5 mt-1" src="~/assets/icon/routing.svg"
                                                                alt=""><strong>{{ $t("rfq.Shipping city") }}:</strong>

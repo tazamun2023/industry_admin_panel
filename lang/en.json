@@ -106,6 +106,7 @@
     "est_hours": "hours"
   },
   "rfq": {
+    "Attachments": "Attachments",
     "expired": " Expired ",
     "Deadline": "Deadline",
     "left": "left",

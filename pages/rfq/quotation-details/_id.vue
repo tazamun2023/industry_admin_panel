@@ -2,10 +2,11 @@
 import util from "@/mixin/util";
 import {mapActions} from "vuex";
 import RFQProducts from "../../../components/rfq/RFQProducts.vue";
+import RfqDetails from "../../../components/rfq/RfqDetails.vue";
 
 export default {
   name: "QuotationDetails",
-  components: {RFQProducts},
+  components: {RfqDetails, RFQProducts},
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
   data() {
@@ -49,13 +50,18 @@ export default {
 <template>
   <div>
     <div v-if="quotation && $can('view_quotation')">
+
+      <div class="card my-4 p-4">
+        <h4 class="font-bold pb-2">{{ $t('rfq.RFQ Details') }}</h4>
+        <rfq-details :rfq="quotation.rfq"></rfq-details>
+      </div>
       <div class="card my-4 p-4">
         <h4 class="font-bold pb-2">{{ $t('rfq.Quote Details') }}</h4>
         <div class="flex justify-between">
           <div>
             <p class="font-bold">{{ $t('rfq.Quote Id') }}</p>
             <p>Q{{ quotation.id }}</p>
-<!--            <p>{{ $store.state.admin.profile.username }}</p>-->
+            <!--            <p>{{ $store.state.admin.profile.username }}</p>-->
           </div>
           <div>
             <p class="font-bold">{{ $t('rfq.Status') }}</p>
@@ -70,30 +76,6 @@ export default {
             <p>{{ quotation?.created }}</p>
           </div>
         </div>
-      </div>
-      <div class="card my-4 p-4">
-        <h4 class="font-bold pb-2">{{ $t('rfq.RFQ Details') }}</h4>
-        <div class="flex justify-between">
-          <div>
-            <p class="font-bold">{{ $t('rfq.RFQ Id') }}</p>
-            <p>RFQ{{quotation?.rfq?.id}}</p>
-          </div>
-          <div>
-            <p class="font-bold">{{ $t('rfq.Shipping Country') }}</p>
-            <p class="flex gap-2 items-center"><img class="w-4 h-4" :src="`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/` + quotation.rfq?.country?.iso + `.svg`" :alt="quotation.rfq?.country?.name">
-              {{  quotation.rfq?.country?.name }}</p>
-          </div>
-          <div>
-            <p class="font-bold">{{ $t('rfq.Shipping City') }}</p>
-            <p>{{ quotation.rfq?.city?.name }}</p>
-          </div>
-          <div>
-            <p class="font-bold">{{ $t('rfq.Shipping Terms') }}</p>
-            <p v-for="(shipmen_term, index) in quotation?.rfq?.shipmen_terms" :key="index">{{ shipmen_term?.name }} <span v-if="index!=0">,</span></p>
-          </div>
-        </div>
-        <RFQProducts class="p-4" :show_summary="true" :rfq="quotation.rfq"></RFQProducts>
-
       </div>
       <div class="card my-4 p-4">
         <h4 class="font-bold pb-2">{{ $t('rfq.Products in your quote') }}</h4>
