@@ -7,13 +7,13 @@
     route-name="flash-sales"
     :name="$t('profile.fSale')"
     :result="result"
-    :validationKeys="[]"
+    :validationKeys="['title.ar','title.en','start_time','end_time','products|1']"
     gate="view_flash_sales"
     manage_gate="manage_flash_sales"
     @result="settingResult"
   >
     <template v-slot:form="{hasError}">
-      <ValidationObserver class="w-full" v-slot="{ invalid }">
+      <ValidationObserver class="w-full" v-slot="{ invalid,handleSubmit }">
         <ValidationProvider name="flash_sale_id" rules="required" v-slot="{ errors }"
                             :custom-messages="{required: $t('global.req', { type: $t('prod.title')}) }">
           <div class="input-group mb-3">
@@ -56,6 +56,7 @@
                 :min="getTodayFormattedDate()"
               >
             </div>
+            <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
 
           <ValidationProvider name="end_time" rules="required" v-slot="{ errors }"
@@ -78,6 +79,7 @@
               >
               <span class="error">{{ errors[0] }}</span>
             </div>
+            <span class="error">{{ errors[0] }}</span>
           </ValidationProvider>
 
           <div
@@ -134,15 +136,15 @@
                 <!--                    @change="valueChangedQty(index)"-->
                 <!--                  />-->
                 <div class="input-group mb-3">
-                <select @change="valueChangedQty(index)" v-model="item.product.quantity">
-                  <template v-for="price in item.pricing ">
-                    <option :value="price.quantity">{{ price.quantity }} {{$t('products.Or More')}}</option>
+                  <select @change="valueChangedQty(index)" v-model="item.product.quantity">
+                    <template v-for="price in item.pricing ">
+                      <option :value="price.quantity">{{ price.quantity }} {{ $t('products.Or More') }}</option>
 
-                  </template>
-                  <option v-if="!item.quantity_in_range" :value="item.product.min_quantity">
-                    ({{ item.product.min_quantity }})   {{$t('products.invalid Quantity')}}
-                  </option>
-                </select>
+                    </template>
+                    <option v-if="!item.quantity_in_range" :value="item.product.min_quantity">
+                      ({{ item.product.min_quantity }}) {{ $t('products.invalid Quantity') }}
+                    </option>
+                  </select>
                 </div>
                 <!--                  <span class="error">{{ errors[0] }}</span>-->
                 <!--                </ValidationProvider>-->
@@ -187,18 +189,21 @@
                   <div v-for="(price,index) in item.pricing ">
                     <div class="flex flex-row flex-nowrap "
                          :class="[{'text-primary':price.quantity>=item.product.quantity},{'text-error':price.quantity<item.product.quantity}]">
-                     <div class="min-w-[60px]">
-                      <span>{{ price.quantity }}</span>
-                      <span
-                        v-if="item.pricing.length==(index+1) ||(item.pricing.length>(index+1)  && (item.pricing[index + 1]?.quantity-1 > price.quantity)) ">
+                      <div class="min-w-[60px]">
+                        <span>{{ price.quantity }}</span>
+                        <span
+                          v-if="item.pricing.length==(index+1) ||(item.pricing.length>(index+1)  && (item.pricing[index + 1]?.quantity-1 > price.quantity)) ">
                                {{ (item.pricing[index + 1]) ? (" - " + (item.pricing[index + 1]?.quantity - 1)) : "+" }}
                           </span>
-                     </div>:
+                      </div>
+                      :
                       <span v-if="price.quantity>=item.product.quantity" class="mx-2">
                         (
                         <del class="mx-2"> {{ price.selling_price }}</del>
 
-                        {{ Number(price.selling_price-(price.selling_price*item.product.offered/100) ).toFixed(2)}}
+                        {{
+                          Number(price.selling_price - (price.selling_price * item.product.offered / 100)).toFixed(2)
+                        }}
                         )
                       </span>
                       <span v-else class="mx-2">({{ price.selling_price }})</span>
@@ -244,34 +249,54 @@
         <!--        v-if="is_productSearch"-->
         <!--        @close="closeProductSearch"-->
         <!--      ></SearchFlashProduct>-->
-        <div class="fixed bg-modal  inset-0 z-50 flex items-center justify-center" v-if="is_productSearch">
-          <div class="absolute inset-0 bg-black opacity-50"></div>
-          <div class="z-50 bg-white p-6 relative rounded-md shadow w-full md:w-1/2 lg:w-2/3 xl:w-2/5">
-            <svg @click="closeProductSearch"
-                 class="w-4 h-4 text-gray-800 absolute ltr:right-3  rtl:left-3 cursor-pointer mt-[-10px]"
-                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-            <h4>{{ $t('prod.Select products') }}</h4>
-            <!-- Modal Content -->
-            <div class="mb-4">
-              <p>{{ $t('prod.Search or select the product eligible for the promotion from the list below') }}</p>
-              <product-search2
-                ref="productSearch"
-                :type="'flash_sale'"
-                @product-clicked="addFlashProduct"
-              />
-            </div>
-            <!-- Close Button -->
-            <div class="flex gap-4 justify-end">
-              <button @click="closeProductSearch" class="p-2 justify-end leading-3 rounded bg-primary text-white">
-                {{ $t('prod.Submit') }}
-              </button>
-            </div>
-
+        <custome-modal :show-modal="is_productSearch" v-if="is_productSearch"
+                       size="lg"
+                       :title=" $t('prod.Select products')"
+                       :sub_title=" $t('prod.Search or select the product eligible for the promotion from the list below') "
+                       @close="closeProductSearch">
+          <!-- Modal Content -->
+          <div class="mb-4">
+            <product-search2
+              ref="productSearch"
+              :type="'flash_sale'"
+              @product-clicked="addFlashProduct"
+            />
           </div>
-        </div>
+          <div class="">
+            <table class="mn-w-600x">
+              <tr class="lite-bold">
+                <th>{{ $t('products.name') }}</th>
+              </tr>
+              <tr
+                v-for="(item, index) in temp_products"
+                :key="index"
+                class="deletable"
+                :class="{deleted: item.deleted}"
+              >
+                <td>
+                  <div class="flex gap-4 items-center">
+                    <lazy-image
+                      class="mr-20"
+                      :data-src="(item.image)"
+                      :alt="item.title"
+                    />
+                    <h5 class="mx-w-400x">{{ item.title }}</h5>
+                  </div>
+
+                </td>
+              </tr>
+            </table>
+          </div>
+          <template v-slot:buttons>
+            <!-- Close Button -->
+
+            <button @click="saveProductSearch" class="p-2 justify-end leading-3 rounded bg-primary text-white">
+              {{ $t('prod.Submit') }}
+            </button>
+          </template>
+        </custome-modal>
+
+
       </ValidationObserver>
     </template>
   </data-page>
@@ -295,6 +320,7 @@ import ProductSearch2 from "../../components/partials/ProductSearch2.vue";
 import SearchFlashProduct from "@/pages/flash-sales/SearchFlashProduct.vue";
 import {extend} from "vee-validate";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
+import CustomeModal from "../../components/CustomeModal.vue";
 
 extend('min', {
   validate(value, {length}) {
@@ -310,6 +336,7 @@ export default {
   data() {
     return {
       is_productSearch: false,
+      temp_products: [],
       result: {
         id: '',
         title: {"ar": "", "en": ""},
@@ -324,6 +351,7 @@ export default {
   },
   mixins: [util],
   components: {
+    CustomeModal,
     SearchFlashProduct,
     ProductSearch2,
     PriceFormat,
@@ -397,26 +425,39 @@ export default {
       }
     },
     addFlashProduct(product) {
-
-      if (this.result.products.findIndex((o) => {
-        return o.product.id === product.id
+      if (this.temp_products.findIndex((o) => {
+        return o.id === product.id
       }) === -1) {
-        this.result.products.push({
-          price: 0,
-          product: {
-            id: product.id,
-            title: product.title,
-            image: product.image ?? '',
-            offered: product.offered??1,
-
-            quantity: product.minOrderQuantity?.min_quantity ?? 0,
-            selling: product.minSellingPrice?.min_selling_price ?? 0
-          },
-          pricing: product.pricing,
-          quantity_in_range: true,
-        })
+        this.temp_products.push(product)
       }
       this.$refs.productSearch.autoSuggestionClose()
+    },
+    saveProductSearch() {
+
+      this.temp_products.forEach(product => {
+        console.log('loop product')
+        if (this.result.products.findIndex((o) => {
+          return o.product.id === product.id
+        }) === -1) {
+          console.log('save product', product)
+          this.result.products.push({
+            price: 0,
+            product: {
+              id: product.id,
+              title: product.title,
+              image: product.image ?? '',
+              offered: product.offered ?? 1,
+
+              quantity: product.minOrderQuantity?.min_quantity ?? 0,
+              selling: product.minSellingPrice?.min_selling_price ?? 0
+            },
+            pricing: product.pricing,
+            quantity_in_range: true,
+          })
+          console.log('save product', this.result.products)
+        }
+      });
+      this.closeProductSearch()
     },
     updateInput(input, language, value) {
       this.$set(input, language, value);
@@ -428,13 +469,15 @@ export default {
       this.is_productSearch = true
     },
     closeProductSearch() {
+      this.temp_products = []
       this.is_productSearch = false
     },
     deleteProduct(index) {
-      this.result.products[index] = {
-        ...this.result.products[index],
-        ...{deleted: true}
-      }
+      this.result.products.splice(index, 1);
+      // this.result.products[index] = {
+      //   ...this.result.products[index],
+      //   ...{deleted: true}
+      // }
       this.result = {...this.result, ...{products: this.result.products}}
     },
     undoDelete(index) {

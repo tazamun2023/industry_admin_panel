@@ -62,15 +62,15 @@
           v-bind:hasError="hasError"
         />
 
-        <div  v-if="!manage_gate || $can(manage_gate) || $can(manage_gate)"
-          class="dply-felx j-right single-btn my-2"
+        <div v-if="!manage_gate || $can(manage_gate) || $can(manage_gate)"
+             class="dply-felx j-right single-btn my-2"
         >
-<!--          <ajax-button-->
-<!--            name="save-edit"-->
-<!--            class="primary-btn"-->
-<!--            :text="$t('list.svn')"-->
-<!--            :fetching-data="formSubmitting  && !redirect"-->
-<!--          />-->
+          <!--          <ajax-button-->
+          <!--            name="save-edit"-->
+          <!--            class="primary-btn"-->
+          <!--            :text="$t('list.svn')"-->
+          <!--            :fetching-data="formSubmitting  && !redirect"-->
+          <!--          />-->
           <ajax-button
             name="save"
             class="primary-btn"
@@ -234,10 +234,13 @@ export default {
     },
     async checkForm() {
       if (this.validationKeys.findIndex((i) => {
-        const parts = i.split(".");
+        var parts = i.split(".");
         if (i.includes("."))
           return (!this.result[parts[0]][parts[1]])
-        else
+        else if (i.includes("|")) {
+          parts = i.split("|");
+          return (this.result[parts[0]].length<[parts[1]])
+        } else
           return (!this.result[i])
       }) > -1) {
         this.hasError = true
@@ -250,28 +253,28 @@ export default {
         delete this.result.created_at
         delete this.result.updated_at
 // alert(1)
-        const data = await this.setById({id: this.id, params: this.result, api: this.setApi,method:this.method})
+        const data = await this.setById({id: this.id, params: this.result, api: this.setApi, method: this.method})
         if (data) {
 
           this.emptyAllList(this.emptyStoreVariable)
 
           await this.$emit('result', Object.assign({}, data))
 
-          if (this.routeName==='flash-sales'){
+          if (this.routeName === 'flash-sales') {
             await this.$router.push({
               path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.flash_sale_id}`,
               hash: this.hash
             })
           }
           // console.log('check',this.redirect)
-          if (this.routeName==='brands' && this.redirect){
+          if (this.routeName === 'brands' && this.redirect) {
             await this.$router.push({
               path: `/${this.routeName}`,
               hash: this.hash
             })
           }
 
-          if (this.result?.id || this.$can(this.gate)){
+          if (this.result?.id || this.$can(this.gate)) {
             await this.$router.push({
               path: `/${this.routeName}${this.redirect ? '' : '/' + this.result?.id}`,
               hash: this.hash

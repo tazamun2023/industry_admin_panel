@@ -268,7 +268,7 @@ export default {
 
                 <li
                   class="block px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                  v-if="$can('manage_brands')  && $store.state.admin.isSuperAdmin"
+                  v-if="$can('approve_products')  && $store.state.admin.isSuperAdmin"
                   @click.prevent="isRejected(value.id)"
 
                 >

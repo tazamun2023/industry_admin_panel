@@ -320,6 +320,7 @@
     "setTags": "tag/action",
 
     "deleteFlashSale": "flash-sale/delete",
+    "toggleFlashSales": "flash-sale/toggle",
     "getFlashSales": "flash-sale/all",
     "getFlashSale": "flash-sale/find",
     "setFlashSale": "flash-sale/action",

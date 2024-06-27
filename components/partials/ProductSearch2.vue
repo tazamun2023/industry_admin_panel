@@ -3,7 +3,7 @@
     class="dropdown-wrapper input-wrapper product-search"
     v-outside-click="autoSuggestionClose"
   >
-    <label>{{ $t('list.sp') }}</label>
+<!--    <label>{{ $t('list.sp') }}</label>-->
 
     <div class="pos-rel">
 
@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="md:w-full pr-4 pl-4">
-            <div class="block w-full overflow-auto scrolling-touch overflow-y-auto h-96">
+            <div class="block w-full overflow-auto scrolling-touch overflow-y-auto h-64">
               <table id="conditionTable" class="hoverable whitespace-no-wrap">
                 <thead>
                 <tr>
@@ -39,7 +39,7 @@
                   <th style="width:30%">Product name</th>
                   <th style="width:5%">SKU</th>
                   <th style="width:5%">Unit Price</th>
-                  <th style="width:5%">Status</th>
+<!--                  <th style="width:5%">Status</th>-->
                   <th style="width:10%">Availability</th>
                 </tr>
                 </thead>
@@ -63,16 +63,16 @@
                   <td>
                     <lazy-image
                       v-if="product.image"
-                      class="w-32 h-24 object-cover rounded"
+                      class="w-8 h-8 object-cover rounded"
                       :data-src="product.image"
                       :alt=" product.name"
                     />
 
                   </td>
-                  <td><button style="overflow: hidden;text-overflow: ellipsis;    width: 100%; border: unset;">{{ product.title }}</button></td>
+                  <td>{{ product.title }}</td>
                   <td><span>{{ product.sku }}</span></td>
-                  <td><span>{{ product.minSellingPrice?.min_selling_price }} SAR</span></td>
-                  <td><span>{{ product.status }}</span></td>
+                  <td><price-with-curency-format :price="product.minSellingPrice?.min_selling_price "></price-with-curency-format></td>
+<!--                  <td><span>{{ product.status }}</span></td>-->
                   <td><span>-</span></td>
                 </tr>
                 </tbody>
@@ -81,7 +81,7 @@
           </div>
 
           <div
-            class="ptb-10 plr-15 dply-felx suggestion-footer"
+            class=" dply-felx suggestion-footer"
             :class="{'ignore-click disabled': fetchingProductList || !productList.length}"
           >
             <p class="mx-w-50">{{ resultText }}</p>
@@ -126,6 +126,7 @@ import Spinner from "~/components/Spinner";
 import outsideClick from '~/directives/outside-click'
 import {debounce} from 'debounce'
 import LazyImage from "../LazyImage";
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 
 export default {
   name: 'ProductSearch2',
@@ -159,7 +160,7 @@ export default {
     }
   },
   mixins: [util],
-  components: {LazyImage, Spinner},
+  components: {PriceWithCurencyFormat, LazyImage, Spinner},
   computed: {
     productList() {
       return this.productData?.data || []
@@ -234,6 +235,6 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '~/assets/styles/product-search.styl'
 </style>
