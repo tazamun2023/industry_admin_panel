@@ -1,15 +1,8 @@
 <template>
-  <div class="px-1 pt-[40px]">
-    <p class="text-[#8E95A9] text-[14px] flex justify-between">
-      Jan 16 - Jan 30 store visits chart
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-primary rtl:rotate-180">
-        <path d="M8.75 13.75L12.5 10L8.75 6.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </p>
-    <canvas class="lg:h-[291px]" ref="lineChart"></canvas>
+  <div>
+    <canvas class="lg:h-[510px]" ref="orderLineChart"></canvas>
   </div>
 </template>
-
 <script>
 import Chart from 'chart.js';
 
@@ -19,10 +12,10 @@ export default {
   },
   methods: {
     renderChart() {
-      const ctx = this.$refs.lineChart.getContext('2d');
+      const ctx = this.$refs.orderLineChart.getContext('2d');
       const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
       gradient.addColorStop(0, '#F5F2FF');
-      gradient.addColorStop(1, '#ffffff88');
+      gradient.addColorStop(1, '#27436F10');
       new Chart(ctx, {
         type: 'line',
         data: {
@@ -30,12 +23,13 @@ export default {
           datasets: [{
             label: 'Store Visits',
             data: [12, 19, 3, 5, 2, 3, 9, 6, 5, 8, 3, 7, 4, 6, 10],
-            borderColor: '#27436F',
-            backgroundColor: gradient,
+            borderColor: '#01A781',
+            backgroundColor:gradient,
             borderWidth: 3
           }]
         },
         options: {
+          responsive:true,
           scales: {
             yAxes: [{
               display: true,
@@ -61,5 +55,7 @@ export default {
 </script>
 
 <style scoped>
-/* Add any additional styles here */
+canvas{
+  max-height: 600px;
+}
 </style>
