@@ -65,12 +65,7 @@
         <shortStatics/>
       </div>
       <div class="my-2">
-        <OrderUpdate
-          v-if="chartMonth"
-          :chart-month="chartMonth"
-          :monthly-order="monthlyOrder"
-          @month-changed="monthChanged"
-        />
+        <OrderUpdate/>
       </div>
       <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
         <div class="card my-2">
@@ -134,7 +129,7 @@ import OrderOverview from '~/components/vendorDashboard/OrderOverview'
 import {mapGetters, mapActions} from 'vuex'
 import util from '~/mixin/util'
 import SalesChart from "../components/dashboard/SalesChart.vue";
-import OrderUpdate from "../components/dashboard/OrderUpdate.vue";
+import OrderUpdate from "~/components/adminDashboard/OrderUpdate.vue"
 import shortStatics from "~/components/adminDashboard/shortStatics.vue";
 import User from "~/components/adminDashboard/User.vue";
 import Traffic from "~/components/adminDashboard/Traffic.vue";
@@ -146,6 +141,7 @@ import Vendor from '../components/adminDashboard/Vendor.vue'
 import AdminProduct from '../components/adminDashboard/AdminProduct.vue'
 import Withdrawn from '../components/adminDashboard/Withdrawn.vue'
 import ProfileStatistics from "../components/vendorDashboard/ProfileStatistics.vue";
+
 // import SalesChart from "../components/dashboard/SalesChart.vue";
 
 
