@@ -40,6 +40,7 @@ export default {
   env: {
     apiBase: process.env.API_BASE,
     frontBase: process.env.Front_BASE,
+    domain : process.env.domain,
     isDemo: isDemo,
     PUSHER_APP_KEY: process.env.PUSHER_APP_KEY,
     PUSHER_APP_CLUSTER: process.env.PUSHER_APP_CLUSTER
@@ -94,9 +95,9 @@ export default {
       home: false,
     },
     cookie: {
-      domain: domain,
+      domain: process.env.domain,
       options: {
-
+        domain: process.env.domain,
         expires: new Date(new Date().getTime() + 20000000000).getTime(), //thats today + a year
         maxAge: 31622400
       },
