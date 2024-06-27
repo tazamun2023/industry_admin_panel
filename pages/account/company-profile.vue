@@ -1,20 +1,24 @@
 <template>
   <div class="lg:p-3" v-if="$can('edit_company')">
-    <h3 class="py-2 px-3 lg:text-[35px] text-black text-[18px] uppercase semi-bold">{{ $t('CompanyProfiles.Company Profiles') }}</h3>
+    <h3 class="py-2 px-3 lg:text-[35px] text-black text-[18px] uppercase semi-bold">
+      {{ $t('CompanyProfiles.Company Profiles') }}</h3>
     <ValidationObserver class="w-full lg:card lg:p-4" v-slot="{ invalid }">
       <form class="lg:grid lg:grid-cols-6 gap-6" @submit.prevent="fromSubmit">
         <div class="relative">
-          <div class="border-dashed absolute lg:opacity-0 top-[12px] w-[70%] flex items-center justify-content-center  border-t-2 border-smooth ltr:ml-[60px] rtl:mr-[60px]"></div>
+          <div
+            class="border-dashed absolute lg:opacity-0 top-[12px] w-[70%] flex items-center justify-content-center  border-t-2 border-smooth ltr:ml-[60px] rtl:mr-[60px]"></div>
           <ul class="lg:px-3 lg:py-4 tab-bg xs:w-[251px] lg:h-[726px] lg:border  border-smooth rounded-3xl">
             <li class="cursor-pointer lg:block z-20 flex-auto text-center">
               <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(1, invalid)">
                 <div class="lg:flex items-center gap-2">
-                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
+                  <span
+                    class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                    v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 1, 'border-2 border-theem bg-theem text-white': openTab === 1}">1</span>
                   <div class="lg:ltr:text-start lg:rtl:text-end text-center">
                     <span class="lg:block hidden">STEP 1</span>
-                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 1, 'text-theem': openTab === 1}">{{
+                    <span class="lg:font-10px text-[8px]"
+                          v-bind:class="{'text-primary': openTab !== 1, 'text-theem': openTab === 1}">{{
                         $t('CompanyProfiles.GENERAL INFO')
                       }}</span>
                   </div>
@@ -25,11 +29,13 @@
               <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(2, invalid)">
                 <div class="lg:flex items-center gap-2">
-                  <span class="rounded-full lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
+                  <span
+                    class="rounded-full lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                    v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 2, 'border-2 border-theem bg-theem text-white': openTab === 2}">2</span>
                   <div class="lg:ltr:text-start lg:rtl:text-end text-center">
                     <span class="lg:block hidden">STEP 2</span>
-                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 2, 'text-theem': openTab === 2}">{{
+                    <span class="lg:font-10px text-[8px]"
+                          v-bind:class="{'text-primary': openTab !== 2, 'text-theem': openTab === 2}">{{
                         $t('CompanyProfiles.PRIMARY INFO')
                       }}</span>
                   </div>
@@ -40,11 +46,13 @@
               <a class="text-xs font-bold  uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(3, invalid)">
                 <div class="lg:flex items-center gap-2">
-                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
+                  <span
+                    class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                    v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 3, 'border-2 border-theem bg-theem text-white': openTab === 3}">3</span>
                   <div class="lg:ltr:text-start lg:rtl:text-end text-center">
                     <span class="lg:block hidden">STEP 3</span>
-                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 3, 'text-theem': openTab === 3}">{{
+                    <span class="lg:font-10px text-[8px]"
+                          v-bind:class="{'text-primary': openTab !== 3, 'text-theem': openTab === 3}">{{
                         $t('CompanyProfiles.LOCATION INFO')
                       }}</span>
                   </div>
@@ -56,11 +64,13 @@
               <a class="text-xs font-bold uppercase lg:px-5 lg:py-4  block leading-normal"
                  v-on:click="toggleTabs(4, invalid)">
                 <div class="lg:flex items-center gap-2">
-                  <span class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
-                        v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
+                  <span
+                    class="rounded-full  lg:p-[7px] p-[2px] lg:text-[16px] text-[10px] lg:w-[40px] w-[24px] h-[24px] lg:h-[40px]"
+                    v-bind:class="{' border-primary border-2 text-primary bg-white': openTab !== 4, 'border-2 border-theem bg-theem text-white': openTab === 4}">4</span>
                   <div class="lg:ltr:text-start lg:rtl:text-end text-center">
                     <span class="lg:block hidden">STEP 4</span>
-                    <span class="lg:font-10px text-[8px]" v-bind:class="{'text-primary': openTab !== 4, 'text-theem': openTab === 4}">SOCIAL INFO</span>
+                    <span class="lg:font-10px text-[8px]"
+                          v-bind:class="{'text-primary': openTab !== 4, 'text-theem': openTab === 4}">SOCIAL INFO</span>
                   </div>
                 </div>
               </a>
@@ -105,7 +115,8 @@
                     <label for="">{{ $t('CompanyProfiles.Logo Upload') }}</label>
                     <div class="flex gap-4">
 
-                      <upload-files :old_images="getLogo" class="w-full" accept="image/*"
+                      <upload-files :is-required="true" @checkLangError="checkImagesError('logo',$event)"
+                                    :old_images="getLogo" class="w-full" accept="image/*"
                                     @updateInput="saveLogoAttachment"></upload-files>
                     </div>
                   </div>
@@ -115,16 +126,18 @@
                     <!-- component -->
                     <label for="">{{ $t('CompanyProfiles.Licence Upload') }}</label>
                     <div class="flex gap-4">
-                      <upload-files :old_images="getLicence" class="w-full" accept=".pdf,image/*"
+                      <upload-files :is-required="true" @checkLangError="checkImagesError('Licence',$event)"
+                                    :old_images="getLicence" class="w-full" accept=".pdf,image/*"
                                     @updateInput="saveLicenceAttachment"></upload-files>
                     </div>
                   </div>
 
                   <div class="input-wrapper mb-2">
                     <!-- component -->
-                    <label for="">{{ $t('CompanyProfiles.VatCertificate Upload') }}</label>
+                    <label for="">{{ $t('CompanyProfiles.VatCertificate Upload') }} {{ ImagesError }}</label>
                     <div class="flex gap-4">
-                      <upload-files :old_images="getVatCertificate" class="w-full" accept="image/*"
+                      <upload-files :is-required="true" @checkLangError="checkImagesError('VatCertificate',$event)"
+                                    :old_images="getVatCertificate" class="w-full" accept="image/*"
                                     @updateInput="saveVatCertificateAttachment"></upload-files>
                     </div>
                   </div>
@@ -402,7 +415,7 @@
                           $t('CompanyProfiles.Previous')
                         }}</span> </span>
                     </button>
-                    <button @click="submit = true" :disabled="!step4Check || invalid"
+                    <button @click="submit = true" :disabled="!step4Check || invalid || ImagesError "
                             class="btn bg-primary hover:text-primary text-[14px] font-semibold leading-3  h-[36px] text-white border-secondary lg:mt-20 mt-0">
                       <span class="flex justify-center items-center gap-2"> <span>{{
                           $t('CompanyProfiles.Save')
@@ -471,6 +484,7 @@ export default {
   data() {
     return {
       openTab: 1,
+      ImagesError: false,
       phoneModal: false,
       emailModal: false,
       fromData: {
@@ -591,10 +605,11 @@ export default {
       const licenceCheck = getLicence || NewLicence;
       // console.log('logoCheck', logoCheck)
       // console.log('licenceCheck', licenceCheck)
-      const isValid = company_name && details && subdomain && logoCheck && licenceCheck && crNumber;
+      const isValid = !this.ImagesError && company_name && details && subdomain && logoCheck && licenceCheck && crNumber;
 
       return !!isValid;
     },
+
 
     step2Check() {
       const email = this.fromData.contact_json.email;
@@ -637,10 +652,17 @@ export default {
     ...mapActions('vendor', ['submitData', 'getVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
     ...mapActions('ui', ['setToastMessage']),
-
+    checkImagesError(type, haserror) {
+      this.ImagesError = true
+      if (this.getLogo?.length > 0 && this.getLicence?.length > 0 && this.getVatCertificate?.length > 0) {
+        this.ImagesError = false
+      }
+    },
     saveLogoAttachment(logo) {
       console.log('sssssss', logo)
       this.getLogo = logo[0]
+      // if()
+
       this.fromData.newLogo = logo
     },
     saveLicenceAttachment(attachments) {
@@ -689,7 +711,8 @@ export default {
     updateInput(input, language, value) {
       this.$set(input, language, value);
     },
-  },
+  }
+  ,
 
   async mounted() {
 
@@ -698,8 +721,8 @@ export default {
     }
     try {
       // if (!this.vendorList)
-        await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
-      this.openTab = parseInt(this.$route.query.step??1)
+      await this.getVendorData({id: this.fromData.id, params: '', api: 'getVendorProfile'})
+      this.openTab = parseInt(this.$route.query.step ?? 1)
 
       if (this.allCountries.length == 0) {
         this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'}).then(() => {
@@ -757,16 +780,19 @@ export default {
 label {
   font-weight: 600;
 }
+
 @media only screen and (max-width: 992px) {
-  .tab-bg{
+  .tab-bg {
     display: flex;
     background: none;
   }
-  .input-wrapper >>> label{
+
+  .input-wrapper >>> label {
     font-size: 14px;
     font-weight: normal;
   }
-  label{
+
+  label {
     font-weight: normal !important;
   }
 }

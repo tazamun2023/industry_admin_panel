@@ -4,7 +4,11 @@
   <div>
     <div :style="hasError && attachments.length===0?'border: 1px solid red':''">
 
-      <vue-upload-images :accept="accept" :old_images="(old_images==null||old_images=='')?[]:[old_images]" :max-files="maxFiles"
+      <vue-upload-images :is-required="IsRequired" :accept="accept"
+                         :old_images="(old_images==null||old_images=='')?[]:[old_images]"
+                         :max-files="maxFiles"
+                         @change="saveAttachmentLargeAr"
+                         @checkLangError="checkLangError"
                          @updateInput="saveAttachmentLargeAr">>
       </vue-upload-images>
 
@@ -24,15 +28,18 @@ import VueUploadImages from "./product/uploadImages.vue";
 export default {
   components: {VueUploadImages, Dropzone},
   props: {
-
+    IsRequired: {
+      type: Boolean,
+      default: true,
+    },
     hasError: {
       type: Boolean,
       required: false,
     },
 
     old_images: {
-      type: Array,
-      default: []
+      type: String,
+      default: ""
     },
     accept: {
       type: String,
@@ -59,11 +66,15 @@ export default {
     };
   },
   methods: {
+    checkLangError(invaild) {
+      this.$emit('checkLangError', invaild)
+
+    },
     saveAttachmentLargeAr(files) {
       console.log("files")
       console.log(files)
-      this.attachments=files
-      this.$emit('updateInput',this.attachments);
+      this.attachments = files
+      this.$emit('updateInput', this.attachments);
       // this.$emit('updateInput',this.attachments.map(obj => obj.url));
     },
 

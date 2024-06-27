@@ -74,7 +74,7 @@
                   <option :selected="settings.allow_find_nearest_pickup_address" disabled value=""><< Choose Address
                     >>
                   </option>
-                  <option v-for="address in addressList" :value="address.id">{{ address.address_name }}</option>
+                  <option v-for="address in addressList?.filter(a=>a.type!='billing')" :value="address.id">{{ address.address_name }}</option>
                 </select>
                 <label class="absolute top-[16px] ltr:right-1 rtl:left-1" for="">
                   <img class="h-3" src="~/assets/icon/arrow-down-green.svg" alt="">
@@ -134,9 +134,9 @@
       </template>
     </list-edit-page>
 
-<add-address></add-address>
-<!--    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">-->
-<!--    </AddAddressModel>-->
+    <add-address></add-address>
+    <!--    <AddAddressModel :show-modal="addressmodal" @close="closeModelAddAddress" :address="addressSelected">-->
+    <!--    </AddAddressModel>-->
   </div>
 </template>
 
@@ -202,7 +202,7 @@ export default {
     DeleteButtonIcon,
     EditButtonIcon
   },
-  mixins: [util, bulkDelete,address],
+  mixins: [util, bulkDelete, address],
   methods: {
     closeModelAddAddress() {
       console.log("close address modal 222")
@@ -231,6 +231,8 @@ export default {
 
     getSettings(res) {
       this.settings = res?.settings
+      if (!this.settings.allow_find_nearest_pickup_address)
+        this.settings.allow_find_nearest_pickup_address = false
       this.setDays(this.settings.working_days)
     },
     ...mapActions('address', ['getVendorAddress']),

@@ -76,6 +76,7 @@
     "Product Successfully Saved": "تم حفظ المنتج بنجاح!"
   },
   "polices": {
+    "LastUpdate": "اخر تعديل ",
     "edit": "تعديل",
     "minWords": "يجب ان تكون عدد الكلمات اكثر من او يساوي {count} كلمة ",
     "polices": "السياسات",

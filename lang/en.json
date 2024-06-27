@@ -85,6 +85,7 @@
   },
   "polices": {
     "edit": "Edit ",
+    "LastUpdate": "Last Update ",
     "minWords": "Must be more than or equal {count} words ",
     "polices": "Polices ",
     "privacy_polices": " Privacy Policy",

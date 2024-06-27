@@ -19,7 +19,7 @@
 
       </div>
       <div v-if="!is_next ">
-        <AddProduct @checkVariant="checkVariant" :is_clone="is_clone" :id="id" @GoNext="GoNext"></AddProduct>
+        <AddProduct @checkVariant="checkVariant" :is_clone="is_clone" :id="id" @changeClone="changeClone" @GoNext="GoNext"></AddProduct>
       </div>
     </div>
     <div v-if="is_next">
@@ -76,6 +76,10 @@ export default {
   },
 
   methods: {
+    changeClone(v) {
+      console.log("v",v)
+      this.is_clone=v
+    },
     checkVariant(v) {
       console.log("v",v)
       this.is_variant=v

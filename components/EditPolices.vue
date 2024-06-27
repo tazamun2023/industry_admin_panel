@@ -117,7 +117,7 @@ export default {
 
         this.result.type = newVal
         if (this.policeType === 'vendor' && this.return_polices) {
-          this.result.description =JSON.parse(JSON.stringify( this.return_polices));
+          this.result.description =JSON.parse(JSON.stringify( this.return_polices.police));
         } else if (this.siteSetting) {
           var siteSetting = JSON.parse(JSON.stringify(this.siteSetting));
           this.result.description = siteSetting['edit_' + newVal];
@@ -137,7 +137,7 @@ export default {
       this.result.description = siteSetting['edit_' + this.type];
     }
     if (this.policeType === 'vendor' && this.return_polices) {
-      this.result.description =JSON.parse(JSON.stringify( this.return_polices));
+      this.result.description =JSON.parse(JSON.stringify( this.return_polices.police));
     }
 
   },
