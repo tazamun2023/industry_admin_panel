@@ -159,7 +159,7 @@ export default {
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
            @click="setActiveInq(inquirie)"
            :class="inquirie?.id===activeInquiryData?.id ?'bg-primarylight':''"
-           class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth  p-2">
+           class="w-full flex cursor-pointer gap-4 items-top  border-t border-smooth  p-2 ltr:pr-4 rtl:pl-4 ">
         <!--        <img class="h-10 w-10"-->
         <!--             src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"-->
         <!--             alt="">-->

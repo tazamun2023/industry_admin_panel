@@ -107,10 +107,11 @@
           <withdrawn/>
         </div>
       </div>
-      <div class="text-center p-4">
+
+    </div>
+    <div class="text-center p-4">
         <p class="text-primary text-[13px] font-bold">© 2024 Industry Export Directory. All rights reserved.</p>
       </div>
-    </div>
   </div>
 </template>
 
