@@ -3,7 +3,7 @@ import json from './../jsconfig.json'
 export default {
   data() {
     return {
-
+      frontEndLink: process.env.frontBase,
       rejectReasonsTypes: {
         Products: {
           "id": "Products",
@@ -270,6 +270,7 @@ export default {
     getVideoURL(video) {
       return this.$store.state.imgSrcUrl + video
     },
+
     convertToSlug(text) {
       return text?.toLowerCase()
         .replace(/ /g, '-')
