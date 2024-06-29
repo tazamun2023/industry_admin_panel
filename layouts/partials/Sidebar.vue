@@ -20,12 +20,12 @@
           :src="getImageURL(siteLogo)"
           alt=""
         > -->
-        <div class="flex gap-4 px-[15px] justify-between items-center">
-          <div class="flex items-center gap-2">
-          <img class="w-[51px] h-[51px] mt-5" src="~/assets/icon/user.svg" alt="">
-          <div v-if="$store.state.admin.profile">
-            <p class="font-bold">{{ $store.state.admin.profile.name[currentLanguage?.code] }}</p>
-            <p class="text-[16px] font-bold capitalize">{{ $store.state.admin.profile.username }}</p>
+        <div  class="flex gap-4 px-[15px] justify-between items-center">
+          <div v-if="$store.state.admin.profile" class="flex items-center gap-2">
+          <img class="small-profile-image mt-5" :src="$store.state.admin.profile.image" alt="">
+          <div >
+            <p class="font-bold">{{ $store.state.admin.profile.name}}</p>
+            <p class="text-[16px] font-bold capitalize">{{ $store.state.admin.profile.vendor_name??$store.state.admin.profile.username }}</p>
             <p class="text-xs text-primary">{{ $store.state.admin.profile.email }}</p>
           </div>
         </div>

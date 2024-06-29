@@ -24,7 +24,7 @@
                 class="w-6 h-6" src="~/assets/icon/SVG.svg" alt=""></h3>
 <!--              <span class="p-1 bg-smooth text-theem rounded-lg">{{ vendor?.subdomain }}</span>-->
               <p class="font-16px pb-3" v-html="vendor?.local_details"></p>
-              <span class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] "><img
+              <span v-if="show_licence" class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] "><img
                 class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> Show Licence</span>
             </div>
           </div>
@@ -83,6 +83,10 @@ export default {
     vendor: {
       type: Object,
       required: true
+    },
+    show_licence: {
+      type: Boolean,
+      default: true
     }
   },
 
