@@ -9,6 +9,8 @@
     :result="result"
     :emit-before-submit="true"
     gate="subscription_email_format"
+    manage_gate="subscription_email_format"
+
     empty-store-variable="allSubscriptionEmailFormats"
     @result="result = $event"
     @before-submit="submitForm"

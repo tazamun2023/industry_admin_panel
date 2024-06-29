@@ -7,6 +7,7 @@
     route-name="barcodes"
     :name="$t('barcode.barcode')"
     gate="manage_initial_setting"
+    manage_gate="manage_initial_setting"
     :validation-keys="['name']"
     :result="result"
     @result="resultData"

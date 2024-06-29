@@ -5,7 +5,8 @@
     delete-api="deleteSubscriber"
     route-name="subscribers"
     :name="$t('user.subs')"
-    gate="subscriber"
+    gate="manage_subscriber"
+    manage_gate="manage_subscriber"
     :add-button="false"
     :order-options="userObj"
     @list="itemList = $event"
@@ -50,7 +51,7 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('subscriber', 'delete')"
+            v-if="$can('manage_subscriber')"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
         </td>
       </tr>

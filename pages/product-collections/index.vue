@@ -7,7 +7,8 @@
     route-name="product-collections"
     :name="$t('brand.prodCol')"
     :order-options="orderOptions"
-    gate="manage_initial_setting"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
   >
@@ -45,13 +46,13 @@
           <td>{{ value.created }}</td>
           <td>
             <button
-              v-if="$can('manage_initial_setting')"
+              v-if="$can('manage_ui_settings')"
               @click.prevent="$refs.listPage.deleteItem(value.id)"
               class="border-0"
             >
               <delete-button-icon/></button>
             <button
-              v-if="$can('manage_initial_setting')"
+              v-if="$can('manage_ui_settings')"
               @click.prevent="$refs.listPage.editItem(value.id)"
               class="border-0"
             >

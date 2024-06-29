@@ -1,10 +1,11 @@
 <template>
   <data-page
-    v-if="allSubscriptionEmailFormats && $can('subscriber', 'view')"
+    v-if="allSubscriptionEmailFormats && $can('manage_subscriber')"
     ref="dataPage"
     route-name="subscribers"
     :name="$t('dataPage.eFor')"
-    gate="subscriber"
+    gate="manage_subscriber"
+    manage_gate="manage_subscriber"
     :validation-keys="['subject']"
     :result="result"
     @result="result = $event"

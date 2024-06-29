@@ -8,6 +8,7 @@
     empty-store-variable="allBrands"
     :name="$t('unit.unit')"
     gate="manage_initial_setting"
+    manage_gate="manage_initial_setting"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
     @list="itemList = $event"
