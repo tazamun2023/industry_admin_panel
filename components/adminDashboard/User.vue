@@ -3,7 +3,7 @@
     <div class="p-4">
         <div class="flex justify-between">
             <h4 class="text-[20px] font-medium">Users</h4>
-            <a href="" class="flex gap-4 text-[14px] text-[14px] font-semibold font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5" src="~/assets/icon/next-g.svg" alt=""></a>
+            <a href="" class="flex gap-4 text-[14px] text-[14px] font-semibold font-semibold items-center">{{ $t('Dashboard.More') }} <img class="w-5 h-5 rtl:rotate-180" src="~/assets/icon/next-g.svg" alt=""></a>
         </div>
         <div class="my-2">
           <!-- <div class="absolute w-full h-[106%] text-center flex justify-center items-center">
