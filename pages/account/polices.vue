@@ -11,7 +11,7 @@
         <div class="flex justify-between">
 
 
-          <img class="action_img cursor-pointer"
+          <img v-if="$can('edit_company')" class="action_img cursor-pointer"
                @click="showEditPolice=true"
                src="~/assets/icon/edit-g.svg">
         </div>
