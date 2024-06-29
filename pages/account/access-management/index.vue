@@ -45,8 +45,8 @@
         </td>
 
         <td>{{ value.created }}</td>
-        <td>
-          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
+        <td v-if="$can('invite')"  >
+          <button v-if="!value.is_owner " @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
             <DeleteButtonIcon />
           </button>
           <button v-if="$can('invite')" @click.prevent="$refs.listPage.editItem(value.id)" class="border-0">
