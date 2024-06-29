@@ -75,7 +75,7 @@
                         </form>
                       </div>
                       <div @click="activeShipping = 1"
-                           class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth my-2 p-2">
+                           class="w-full flex cursor-pointer gap-4 items-top  border-t border-smooth my-2 p-2 ltr:pr-4 rtl:pl-4">
                         <img class="h-10 w-10"
                              src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"
                              alt="">
@@ -92,7 +92,7 @@
                         </div>
                       </div>
                       <div @click="activeShipping = 2"
-                           class="w-full flex cursor-pointer gap-4 items-top p-1 border-t border-smooth my-2 p-2">
+                           class="w-full flex cursor-pointer gap-4 items-top  border-t border-smooth my-2 p-2 ltr:pr-4 rtl:pl-4">
                         <img class="h-10 w-10"
                              src="https://cfn-catalog-prod.tradeling.com/up/6329c4504efabf903adf35b1/90dffbf4ddc650b83efb80e40b39c7c3.jpg"
                              alt="">
@@ -617,6 +617,7 @@ export default {
 }
 .scrolly {
   overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 /* For WebKit browsers like Chrome */
@@ -630,8 +631,11 @@ export default {
 
 .scrolly::-webkit-scrollbar-thumb {
   background: #888; /* Set color of the scrollbar thumb */
+  width: 1px;
 }
-
+.scrolly::-webkit-scrollbar-thumb:hover {
+  width: 1px;
+}
 .px-8 {
   padding-left: 2rem !important;
   padding-right: 2rem !important;
