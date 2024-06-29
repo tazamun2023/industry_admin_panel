@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard">
     <div class="flex justify-between items-center gap-4">
-      <h3 class="uppercase text-[35px] font-semibold py-3">Dashboard</h3>
-      <div>
-        <p class="flex gap-4 items-center">Jan 01 - Jan 28 <img class="w-[16px]"
-                                                                src="~/assets/icon/arrow-down-green.svg" alt=""></p>
-      </div>
+      <h3 class="uppercase text-[35px] font-semibold py-3">{{ $t('error.das') }}</h3>
+<!--      <div>-->
+<!--        <p class="flex gap-4 items-center">Jan 01 - Jan 28 <img class="w-[16px]"-->
+<!--                                                                src="~/assets/icon/arrow-down-green.svg" alt=""></p>-->
+<!--      </div>-->
     </div>
     <!-- -------------------------------vendor panel--------------------------- -->
     <div v-if="$store.state.admin.isVendor">
