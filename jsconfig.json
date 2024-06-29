@@ -437,6 +437,7 @@
     "deleteInvitations":"vendor-users/delete/invitations",
 
     "setAdmin": "admin-data/action",
+    "toggleAdmin": "admin-data/toggle",
     "getUserInfo": "user-register/getUserByEmail",
     "userRegistration": "user-register/userRegistration",
 

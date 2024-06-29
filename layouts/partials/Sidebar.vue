@@ -762,7 +762,7 @@ export default {
             },
             {
               path: 'admins-vendors',
-              title: this.$t('error.av'),
+              title: this.$t('error.admins'),
               icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.1334 9.06012C10.05 9.05179 9.95005 9.05179 9.85838 9.06012C7.87505 8.99346 6.30005 7.36846 6.30005 5.36846C6.30005 3.32679 7.95005 1.66846 10 1.66846C12.0417 1.66846 13.7 3.32679 13.7 5.36846C13.6917 7.36846 12.1167 8.99346 10.1334 9.06012Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.96672 12.1354C3.95006 13.4854 3.95006 15.6854 5.96672 17.0271C8.25839 18.5604 12.0167 18.5604 14.3084 17.0271C16.3251 15.6771 16.3251 13.4771 14.3084 12.1354C12.0251 10.6104 8.26672 10.6104 5.96672 12.1354Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>

@@ -10,8 +10,8 @@
       route-name="admins-vendors"
       :name="$t('user.users')"
       :order-options="orderOptions"
-      gate="view_brands"
-      manage_gate="manage_brands"
+      gate="view_users"
+      manage_gate="manage_users"
       @open-modal="openModalItem"
     >
       <template v-slot:table="{list}">
@@ -36,7 +36,7 @@
               class="link"
               :to="`/admins-vendors/${value.id}`"
             >
-              <h5 class="mx-w-300x">{{ value.name}}</h5>
+              <h5 class="mx-w-300x">{{ value.name }}</h5>
 
             </nuxt-link>
 
@@ -53,24 +53,28 @@
             <span v-else>{{ $t('user.verified') }}</span>
           </td>
           <td>
-            <span v-if="value.active">{{ $t('util.active') }}</span>
-            <span v-else>{{ $t('util.deactive') }}</span>
+            <switch-toggle :id="value.id"
+                           :is-read-only="!($can('manage_users'))"
+                           col="active"
+                           set-api="toggleAdmin"
+                           :change-in-server="true"
+                           :value="value.active"/>
+
+            <!--            <span v-if="value.active">{{ $t('util.active') }}</span>-->
+            <!--            <span v-else>{{ $t('util.deactive') }}</span>-->
           </td>
 
           <td>{{ value.created }}</td>
-          <td>
-            <button
-              v-if="$can('view_users')"
-              v-show="value.role[0] !== 'superadmin'"
-              @click.prevent="$refs.listPage.deleteItem(value.id)"
-              class="border-0"
+          <td v-if="$can('manage_users') ">
+            <button v-if=" value.id!=profile.id"
+
+                    @click.prevent="$refs.listPage.deleteItem(value.id)"
+                    class="border-0"
             >
               <DeleteButtonIcon/>
             </button>
             <button
-              v-if="$can('view_users')"
-              v-show="value.role[0] !== 'superadmin'"
-              @click.prevent="$refs.listPage.editItem(value.id)"
+              @click.prevent="openEditModalItem(value)"
               class="border-0"
             >
               <EditButtonIcon/>
@@ -134,7 +138,8 @@
 
             <div class="input-wrapper">
               <div class="relative">
-                <ValidationProvider class="w-full" name="password" rules="required|min:8|confirmed:confirmation"
+                <ValidationProvider class="w-full" name="password"
+                                    :rules="userInfo.id>0?'':'required|min:8|confirmed:confirmation'"
                                     v-slot="{ errors }"
                                     :custom-messages="{required:  `${$t('user.new_password')} is required` }">
                   <label class="w-full" for="">{{ $t('user.new_password') }}*</label>
@@ -163,7 +168,8 @@
 
 
             <div class="relative">
-              <ValidationProvider class="w-full" name="Confirm_password" rules="required" v-slot="{ errors }"
+              <ValidationProvider class="w-full" name="Confirm_password" :rules="{ required: userInfo.id=='' }"
+                                  v-slot="{ errors }"
                                   vid="confirmation"
                                   :custom-messages="{required: `${$t('user.confirm_password')} is Required` }">
                 <label class="w-full" for="">{{ $t('user.confirm_password') }}*</label>
@@ -251,6 +257,7 @@ export default {
         name: {'ar': '', 'en': ''},
         email: '',
         password: '',
+        id: '',
         roles: '',
         active: 1,
         verified: 1,
@@ -302,10 +309,21 @@ export default {
     updateInput(input, language, value) {
       this.$set(input, language, value);
     },
+    openEditModalItem(value) {
+      this.userInfo.name.ar = value.name
+      this.userInfo.name.en = value.name
+      this.userInfo.email = value.email
+      this.userInfo.roles = value.role[0]
+      this.userInfo.active = value.active ? 1 : 0
+      this.userInfo.id = value.id
+      this.userInfo.password = ''
+      this.openModal = true
+    },
     openModalItem() {
       this.openModal = true
     },
     closeModal() {
+      this.userInfo.id = ''
       this.userInfo.name.ar = ''
       this.userInfo.name.en = ''
       this.userInfo.email = ''
@@ -368,12 +386,13 @@ export default {
   },
   async mounted() {
     try {
-      await this.getAllRoles({
-        params: {
-          "type": "admin"
-        },
-        api: "getRoleByType"
-      })
+      if (!this.AllRole)
+        await this.getAllRoles({
+          params: {
+            "type": "admin"
+          },
+          api: "getRoleByType"
+        })
     } catch (e) {
       return this.$nuxt.error(e)
     }
@@ -386,4 +405,5 @@ export default {
 </style>
 <script setup>
 import CustomeModal from "../../components/CustomeModal.vue";
+import SwitchToggle from "../../components/SwitchToggle.vue";
 </script>
