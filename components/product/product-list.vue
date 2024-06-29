@@ -269,7 +269,7 @@
                     <td>
                       <switch-toggle :id="value.id"
                                      :is-read-only="!($can('manage_products') && value.status !== 'pending')"
-                                     :col="value.is_buyable"
+                                     col="is_buyable"
                                      set-api="toggleProduct"
                                      :change-in-server="true"
                                      :value="value.is_buyable"/>
