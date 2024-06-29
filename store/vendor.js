@@ -113,6 +113,7 @@ const actions = {
     const {data} = await Service.setRequest(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {
       dispatch('ui/setToastMessage', data.message, {root: true})
+      commit('SET_VENDOR_DATA', data.data)
       return data
     } else if (data.status === 201) {
       dispatch('ui/setToastError', data.message, {root: true})

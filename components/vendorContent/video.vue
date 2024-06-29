@@ -19,19 +19,19 @@
       <tr class="lite-bold">
         <th>{{ $t('global.sl') }}</th>
         <th>{{ $t('global.url') }}</th>
-        <th>{{ $t('global.action') }}</th>
+<!--        <th>{{ $t('global.action') }}</th>-->
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
         <td>{{ index+1 }}</td>
         <td>{{ value.url }}</td>
-        <td>
-          <button
-            v-if="$can('manage_content')"
-            @click="$refs.listPage.deleteItem(value.id)"
-            class="border-0"><delete-button-icon/>
-          </button>
-        </td>
+<!--        <td>-->
+<!--          <button-->
+<!--            v-if="$can('manage_content')"-->
+<!--            @click="$refs.listPage.deleteItem(value.id)"-->
+<!--            class="border-0"><delete-button-icon/>-->
+<!--          </button>-->
+<!--        </td>-->
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
         <template v-slot:title>

@@ -18,10 +18,10 @@
           <th>{{ $t("vendor.name") }}</th>
           <th>{{ $t("vendor.email") }}</th>
           <th>{{ $t("vendor.mobile") }}</th>
-          <th>{{ $t("vendor.street") }}</th>
           <th>{{ $t("vendor.country") }}</th>
           <th>{{ $t("vendor.city") }}</th>
-          <th>{{ $t("vendor.action") }}</th>
+          <th>{{ $t("vendor.street") }}</th>
+          <!--          <th>{{ $t("vendor.action") }}</th>-->
         </tr>
         </thead>
         <tbody>
@@ -29,16 +29,16 @@
           <td>{{ value.address_name }}</td>
           <td>{{ value.email }}</td>
           <td>{{ value.phone }}</td>
-          <td>{{ value.street }}</td>
           <td>{{ value.country }}</td>
           <td>{{ value.city }}</td>
-          <td><div class="flex gap-4">
-            <button @click="deleteModal=true">
-            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-            </svg>
-            </button>
-          </div></td>
+          <td>{{ value.street }}</td>
+          <!--          <td><div class="flex gap-4">-->
+<!--            <button @click="deleteModal=true">-->
+<!--            <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">-->
+<!--              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>-->
+<!--            </svg>-->
+<!--            </button>-->
+<!--          </div></td>-->
           <DeleteModal v-if="deleteModal" @closeModal="closeModal">
             <template v-slot:title>
               <h4>{{ $t('vendor.deletemessage') }}</h4>

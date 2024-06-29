@@ -1001,7 +1001,9 @@
     "answer": "الإجابة",
     "vendor": "اسم البائع",
     "video_type": "نوع الفيديو",
-    "organization": "الشركة"
+    "organization": "الشركة",
+    "verify": "التحقق",
+    "verify_message": "هل تريد فعلا التحقق من هذا المصنع ؟"
   },
   "vendor": {
     "name": "الاسم",
@@ -1034,7 +1036,7 @@
     "youtube": "يوتيوب",
     "deletemessage": "هل أنت متأكد أنك تريد حذف هذه البيانات؟",
     "location": "الموقع",
-    "number_product": "عدد المنتجات",
+    "number_product": " المنتجات",
     "approve": "تمت الموافقة",
     "action": "الإجراء",
     "all": "الكل",
