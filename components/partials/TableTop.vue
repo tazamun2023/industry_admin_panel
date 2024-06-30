@@ -10,7 +10,7 @@
       >
         <div class="hidden lg:block xl:block" v-if="modalButton">
           <button
-            v-if=" (gate && $can(manage_gate)) && addButton"
+            v-if=" (gate && $can(manage_gate))"
             class="flex w-[156px] hover:bg-primary gap-4 bg-primary text-white px-4 items-center"
             @click="openModal">
             <img class="w-7 h-7" src="~/assets/icon/add-square.svg" alt="">
