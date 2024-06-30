@@ -191,7 +191,7 @@ export default {
         v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
         @click="activeParentInquiry(inquirie)"
       >
-        <div class="flex gap-4 p-2 items-center" :class="inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
+        <div class="flex gap-4 p-2 items-center ltr:pr-4 rtl:pl-4" :class="inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
           <lazy-image
             class="h-10 w-10 object-cover rounded"
             :data-src="inquirie?.inquirable?.image"
@@ -206,7 +206,7 @@ export default {
         <div :class="{ 'block': activeRfqInquiry === inquirie.id || is_related_rfq }"
              v-for="(related_inquirie, index_sub) in inquirie.related_inquiries"
              class="hidden border-l-2 border-l-primary border-t border-t-smooth">
-          <div class="flex gap-4 p-2" @click="activeRelatedInquirie(related_inquirie, index_sub)"
+          <div class="flex gap-4 py-2 ltr:pr-4 rtl:pl-4" @click="activeRelatedInquirie(related_inquirie, index_sub)"
                :class="related_inquirie?.id===activeInquiryData?.id && inquirie?.id===activeRfqInquiries?.id ?'bg-primarylight':''">
             <div class="flex gap-4 items-center">
               <img class="h-[10px] w-[38px]" src="~/assets/icon/rfqdirection.svg" alt="">
