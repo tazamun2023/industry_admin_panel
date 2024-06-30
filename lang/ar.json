@@ -534,6 +534,7 @@
     "action": "العملية",
     "download_rejection_reasons": "تنزيل أسباب الرفض",
     "download_rejection_products": "تنزيل المنتجات المرفوضة",
+    "download": "تنزيل ",
     "add_new_product": "إضافة منتج جديد",
     "edit_product": "تحرير المنتج",
     "clone_product": "استنساخ المنتج",
@@ -753,6 +754,7 @@
     "full_payment": "دفع كامل",
     "pending": "قيد الانتظار"
   },
+
   "orderDetails": {
     "document": "المستند",
     "select_document_type": "اختر نوع المستند ",
@@ -1002,9 +1004,9 @@
     "vendor": "اسم البائع",
     "video_type": "نوع الفيديو",
     "organization": "الشركة",
-    "verify": "التحقق",
-    "verify_message": "هل تريد فعلا التحقق من هذا المصنع ؟"
+    "verify": "التحقق"
   },
+
   "vendor": {
     "name": "الاسم",
     "status": "الحالة",
@@ -1061,6 +1063,9 @@
     "organization": "المؤسسة",
     "image": "الصورة",
     "verify": "التحقق",
+    "un_verify": "الغاء التحقق",
+    "verify_message": "هل تريد فعلا التحقق من هذا المصنع ؟",
+    "un_verify_message": "هل تريد فعلا   الغاء التحقق من هذا المصنع ؟",
     "all_users": "جميع المستخدمين",
     "invite_users": "دعوات المستخدمين",
     "invite_user": "دعوة مستخدم",
@@ -1636,8 +1641,10 @@
     "Save": "حفظ",
     "Primary Information": "المعلومات الأساسية",
     "Location Information": "معلومات الموقع",
+    "Licence": "تحميل الرخصة",
     "Licence Upload": "تحميل الرخصة",
     "VatCertificate Upload": "تحميل الشهادة الضريبية",
+    "VatCertificate": " الشهادة الضريبية",
     "LOCATION INFORMATION": "معلومات الموقع",
     "GENERAL INFO": "معلومات عامة"
   }

@@ -6,7 +6,7 @@
           <h4>{{ $t('prod.product_list') }}</h4>
           <p class="text-xs">{{ $t('prod.Find and manage your uploaded products here') }}</p>
         </div>
-        <div class="text-end" v-if="$store.state.admin.isVendor">
+        <div class="text-end" v-if="$store.state.admin.isVendor && $can('manage_products')">
           <Nuxt-link :to="`/products/add`"
                      class="border border-primary bg-primary hover:text-white text-white p-2 rounded px-3  leading-3">
             {{ $t('prod.add_new_product') }}

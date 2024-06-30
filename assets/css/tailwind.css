@@ -179,3 +179,12 @@ html:lang(ar)
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+
+.pdf {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

@@ -7,22 +7,28 @@
             <div class="col-span-2">
                 <ul class="mb-0 list-none">
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('profile')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'profile', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'profile'}">
-                    Profile
+                      {{ $t('account.company-profile') }}
                     </a>
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('users')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'users', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'users'}">
-                        Users
+                      {{ $t('vendor.vendor_users') }}
                     </a>
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('products')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'products', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'products'}">
-                        Products
+                      {{ $t('fSale.product') }}
                     </a>
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('address')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'address', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'address'}">
-                        Address
+                      {{ $t('account.address') }}
                     </a>
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('banks')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'banks', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'banks'}">
-                        Bank
+                      {{ $t('account.payment') }}
                     </a>
                     <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('content')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'content', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'content'}">
-                        Content
+                      {{ $t('profile.content') }}
+                    </a>
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('polices')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'polices', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'polices'}">
+                      {{ $t('polices.polices') }}
+                    </a>
+                    <a class="font-bold  px-2 py-3   block cursor-pointer leading-normal" v-on:click="toggleTabs('documents')" v-bind:class="{'text-pink-600 bg-white border-white ltr:border-l-2 rtl:border-r-2': openTab !== 'documents', 'ltr:border-l-2 rtl:border-r-2 border-primary text-primary': openTab === 'documents'}">
+                      {{ $t('orderDetails.files_and_documents') }}
                     </a>
                 </ul>
             </div>
@@ -60,6 +66,16 @@
                        <Content />
                   </template>
                 </div>
+                <div  v-if="openTab === 'polices'" v-bind:class="{'hidden': openTab !== 'polices', 'block': openTab === 'polices'}">
+                  <template>
+                     <vendor-polices type="return_polices" :vendor_id="$route.params.id"></vendor-polices>
+                  </template>
+                </div>
+                <div  v-if="openTab === 'documents'" v-bind:class="{'hidden': openTab !== 'documents', 'block': openTab === 'documents'}">
+                  <template>
+                     <vendor-polices type="documents" :vendor_id="$route.params.id"></vendor-polices>
+                  </template>
+                </div>
             </div>
         </div>
     </div>
@@ -73,8 +89,9 @@ import Address from "@/components/vendorDetails/address.vue";
 import Content from "@/components/vendorDetails/content.vue";
 import Bank from "@/components/vendorDetails/bank.vue";
 import ProductList from "../../components/product/product-list.vue";
+import VendorPolices from "../../components/vendorDetails/polices.vue";
 export default{
-  components:{ProductList, Bank, Content, Address, Products, Users, profile},
+  components:{VendorPolices, ProductList, Bank, Content, Address, Products, Users, profile},
     data(){
         return{
             openTab:'profile',

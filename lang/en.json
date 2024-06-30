@@ -631,6 +631,7 @@
     "status": "Status",
     "visibility": "Visibility",
     "action": "Action",
+    "download": "Download",
     "download_rejection_reasons": "Download Rejection Reasons",
     "download_rejection_products": "Download Rejection Products",
     "add_new_product": "Add New Product",
@@ -1032,7 +1033,9 @@
     "organization": "Organization",
     "image": "Image",
     "verify": "Verification",
+    "un_verify": "Un Verification",
     "verify_message": "Are you want to Verified?",
+    "un_verify_message": "Are you want to Un  Verified?",
     "notValidUrl": "The Url Not Valid",
     "all_users": "all users",
     "invite_users": "User invitations",
@@ -1629,6 +1632,7 @@
     "BankName": "Bank Name",
     "HolderName": "Holder Name"
   },
+
   "CompanyProfiles": {
     "complete company profile": "Complete Company Profile",
     "Company Profiles": "Company Profiles",
@@ -1641,8 +1645,10 @@
     "Save": "Save",
     "Primary Information": "Primary Information",
     "Location Information": "Location Information",
+    "Licence": "Licence",
     "Licence Upload": "Licence Upload",
     "VatCertificate Upload": "VAT Certificate Upload",
+    "VatCertificate": "VAT Certificate",
     "LOCATION INFORMATION": "LOCATION INFORMATION",
     "LOCATION INFO": "LOCATION INFO",
     "GENERAL INFO": "GENERAL INFO"

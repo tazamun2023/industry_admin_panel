@@ -305,11 +305,11 @@ export default {
                 :data-id="i"
                 :key="i"
               >
-                <template v-if="img.isPdf && !IsReadOnly">
+                <template v-if="img.isPdf || img.url.includes('application/pdf')">
                   <iframe :src="img.url" width="100%" height="200px"></iframe>
                 </template>
                 <template v-else>
-                  <img :src="img.url"/>
+                  <lazy-image height="200px" :lazy-src="img.url"/>
                 </template>
                 <span v-if="!IsReadOnly" class="delete" style="color: white" @click="deleteImg(i)">
                 <svg

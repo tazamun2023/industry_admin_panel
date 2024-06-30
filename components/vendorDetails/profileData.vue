@@ -26,6 +26,8 @@
               <p class="font-16px pb-3" v-html="vendor?.local_details"></p>
               <span @click="approval(vendor.id,1)"  v-if="vendor.complete_percent==100 && vendor.verified==0 && $can('manage_users')" class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] ">
                 <img class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> {{ $t('vendor.verify')  }} </span>
+              <span @click="approval(vendor.id,0)"  v-if=" vendor.verified==1 && $can('manage_users')" class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] ">
+                <img class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> {{ $t('vendor.un_verify')  }} </span>
             </div>
           </div>
           <div  class=" col-span-5 md:col-span-2">
@@ -104,8 +106,8 @@ export default {
       // this.approvedModal = false
       const app = await this.swetAlertFire({
         params: {
-          title: this.$i18n.t('vendor.verify') ,
-          text: this.$i18n.t('vendor.verify_message'),
+          title: this.$i18n.t(status===1? 'vendor.verify':'vendor.un_verify') ,
+          text: this.$i18n.t(status===1? 'vendor.verify_message':'vendor.un_verify_message') ,
         }
       });
 

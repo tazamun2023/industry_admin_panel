@@ -1,22 +1,37 @@
 <template>
-  <img
-    :data-src="lazySrc"
-    :style="style"
-    :alt="alt"
-    :title="title"
-    @error="onError"
-    class="lazy-img"
-    height="50"
-    width="50"
+
+  <pdf-viewer custom-class="w-full h-60" v-if="lazySrc?.includes('.pdf')" :pdf-url="lazySrc"></pdf-viewer>
+<!--  <pdf-viewer custom-class="w-full h-60" v-if="lazySrc?.includes('.pdf')" pdf-url="https://back.industry.com.sa/storage/756/bf242260-5baf-48d1-a5de-0f11552c8062.pdf"></pdf-viewer>-->
+<!--  <iframe v-if="lazySrc?.includes('.pdf')"-->
+<!--          :data-src="lazySrc"-->
+<!--          :style="style"-->
+<!--          :title="title"-->
+<!--          @error="onError"-->
+<!--          class="pdf"-->
+<!--          height="50"-->
+<!--          width="50"-->
+<!--  />-->
+  <img v-else
+       :data-src="lazySrc"
+       :style="style"
+       :alt="alt"
+       :title="title"
+       @error="onError"
+       class="lazy-img"
+       height="50"
+       width="50"
   >
+
 </template>
 
 <script>
 import lozad from 'lozad'
 import util from '~/mixin/util'
+import PdfViewer from "./PdfViewer.vue";
 
 export default {
   name: 'LazyImage',
+  components: {PdfViewer},
   props: {
     alt: {
       type: String,
@@ -99,10 +114,6 @@ export default {
 
       const observer = lozad(this.$el, {
         load: function (el) {
-          console.log('0000 data src')
-          console.log(el.getAttribute('data-src'))
-          console.log("new_url")
-          console.log(new_url)
 
           // Custom implementation to load an element
           if (new_url !== "")
