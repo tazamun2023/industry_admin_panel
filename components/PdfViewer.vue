@@ -1,13 +1,13 @@
 <template>
   <div :class="customClass">
-    <div v-if="maxRetries>=3">
+    <div>
       <a class="underline flex flex-row gap-4" target="_blank" :href="pdfUrl">  <span>{{$t('prod.download')}}</span> <img src="~/assets/icon/pdf.svg" class="w-5 h-5"> </a>
     </div>
-    <iframe v-else
+
+    <iframe
             ref="iframe"
             @load="onIframeLoad"
             @error="onIframeError"
-            v-if="pdfUrl"
             :src="pdfUrlWithViewer"
             width="100%"
             height="100%"
@@ -37,12 +37,14 @@ export default {
     };
   },
   methods: {
-    onIframeLoad() {
+    onIframeLoad(l) {
       this.iframeLoaded = true;
       this.retryCount = 0; // Reset retry count on successful load
+
     },
     onIframeError() {
       this.retryCount++;
+      console.log('Failed to load iframe after multiple attempts.',this.retryCount);
       if (this.retryCount <= this.maxRetries) {
         this.reloadIframe();
       } else {
@@ -51,7 +53,7 @@ export default {
     },
     reloadIframe() {
       this.iframeLoaded = false;
-      console.error('Failed to load ' + this.retryCount);
+      console.log('Failed to load ' + this.retryCount);
       // Force a reload by changing the src attribute slightly
       const iframe = this.$refs.iframe;
       iframe.src = '';
@@ -64,7 +66,7 @@ export default {
     pdfUrlWithViewer() {
       // Use a viewer like Google Docs to embed PDFs if direct embedding doesn't work
       // return this.pdfUrl;
-      if (this.pdfUrl.includes('localhost') || this.pdfUrl.includes('.test')) {
+      if (this.pdfUrl.includes('127.0.0.1') ||this.pdfUrl.includes('localhost') || this.pdfUrl.includes('.test')) {
         return this.pdfUrl;
       } else
         return `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(this.pdfUrl)}`;
