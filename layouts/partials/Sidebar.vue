@@ -430,50 +430,50 @@ export default {
             },
           ]
         },
-        {
-          path: 'withdrawal',
-          title: this.$t('error.wth'),
-          icon: `<svg width="20" height="20" class="text-primary h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.7929 5.87676C14.5929 5.84343 14.3845 5.83511 14.1679 5.83511H5.83455C5.60121 5.83511 5.37621 5.85177 5.15955 5.88511C5.27621 5.65177 5.44288 5.43513 5.64288 5.23513L8.35121 2.51846C9.49288 1.38512 11.3429 1.38512 12.4845 2.51846L13.9429 3.99342C14.4762 4.51842 14.7595 5.1851 14.7929 5.87676Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M7.50004 15.8353C7.50004 16.4603 7.32504 17.052 7.01671 17.552C6.44171 18.5186 5.38337 19.1686 4.16671 19.1686C2.95004 19.1686 1.89171 18.5186 1.31671 17.552C1.00837 17.052 0.833374 16.4603 0.833374 15.8353C0.833374 13.9936 2.32504 12.502 4.16671 12.502C6.00837 12.502 7.50004 13.9936 7.50004 15.8353Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.40985 15.8184H2.92651" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4.16675 14.6016V17.0932" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.3333 10.0021V14.1688C18.3333 16.6688 16.6666 18.3354 14.1666 18.3354H6.35829C6.61663 18.1188 6.84163 17.8521 7.01663 17.5521C7.32496 17.0521 7.49996 16.4604 7.49996 15.8354C7.49996 13.9938 6.00829 12.5021 4.16663 12.5021C3.16663 12.5021 2.27496 12.9438 1.66663 13.6354V10.0021C1.66663 7.73545 3.03329 6.15211 5.15829 5.88545C5.37496 5.85211 5.59996 5.83545 5.83329 5.83545H14.1666C14.3833 5.83545 14.5916 5.84377 14.7916 5.87711C16.9416 6.12711 18.3333 7.71878 18.3333 10.0021Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M18.3333 10.4185H15.8333C14.9166 10.4185 14.1666 11.1685 14.1666 12.0851C14.1666 13.0018 14.9166 13.7518 15.8333 13.7518H18.3333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            `,
-          is_image: true,
-          open: false,
-          children: [
-            {
-              path: 'withdrawal-requests',
-              title: this.$t('error.req'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1.66699 7.08317C1.66699 4.1665 3.33366 2.9165 5.83366 2.9165H14.167C16.667 2.9165 18.3337 4.1665 18.3337 7.08317V12.9165C18.3337 15.8332 16.667 17.0832 14.167 17.0832H5.83366" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14.1663 7.5L11.558 9.58333C10.6997 10.2667 9.29134 10.2667 8.433 9.58333L5.83301 7.5" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M1.66699 13.75H6.66699" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M1.66699 10.4165H4.16699" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              `,
-              is_image: true,
-              gate: 'withdrawal_request'
-            },
-            {
-              path: 'withdrawal-accounts',
-              title: this.$t('error.acc'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M14.167 17.5H5.83366C2.50033 17.5 1.66699 16.6667 1.66699 13.3333V6.66667C1.66699 3.33333 2.50033 2.5 5.83366 2.5H14.167C17.5003 2.5 18.3337 3.33333 18.3337 6.66667V13.3333C18.3337 16.6667 17.5003 17.5 14.167 17.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M11.667 6.6665H15.8337" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12.5 10H15.8333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14.167 13.3335H15.8337" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M7.08353 9.40827C7.91656 9.40827 8.59186 8.73296 8.59186 7.89993C8.59186 7.0669 7.91656 6.3916 7.08353 6.3916C6.2505 6.3916 5.5752 7.0669 5.5752 7.89993C5.5752 8.73296 6.2505 9.40827 7.08353 9.40827Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10.0003 13.6085C9.88366 12.4001 8.92533 11.4501 7.71699 11.3418C7.30033 11.3001 6.87533 11.3001 6.45033 11.3418C5.24199 11.4585 4.28366 12.4001 4.16699 13.6085" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>`,
-              is_image: true,
-              gate: 'withdrawal_account'
-            }
-          ]
-        },
+        // {
+        //   path: 'withdrawal',
+        //   title: this.$t('error.wth'),
+        //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //     <path d="M14.7929 5.87676C14.5929 5.84343 14.3845 5.83511 14.1679 5.83511H5.83455C5.60121 5.83511 5.37621 5.85177 5.15955 5.88511C5.27621 5.65177 5.44288 5.43513 5.64288 5.23513L8.35121 2.51846C9.49288 1.38512 11.3429 1.38512 12.4845 2.51846L13.9429 3.99342C14.4762 4.51842 14.7595 5.1851 14.7929 5.87676Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //     <path d="M7.50004 15.8353C7.50004 16.4603 7.32504 17.052 7.01671 17.552C6.44171 18.5186 5.38337 19.1686 4.16671 19.1686C2.95004 19.1686 1.89171 18.5186 1.31671 17.552C1.00837 17.052 0.833374 16.4603 0.833374 15.8353C0.833374 13.9936 2.32504 12.502 4.16671 12.502C6.00837 12.502 7.50004 13.9936 7.50004 15.8353Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //     <path d="M5.40985 15.8184H2.92651" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //     <path d="M4.16675 14.6016V17.0932" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //     <path d="M18.3333 10.0021V14.1688C18.3333 16.6688 16.6666 18.3354 14.1666 18.3354H6.35829C6.61663 18.1188 6.84163 17.8521 7.01663 17.5521C7.32496 17.0521 7.49996 16.4604 7.49996 15.8354C7.49996 13.9938 6.00829 12.5021 4.16663 12.5021C3.16663 12.5021 2.27496 12.9438 1.66663 13.6354V10.0021C1.66663 7.73545 3.03329 6.15211 5.15829 5.88545C5.37496 5.85211 5.59996 5.83545 5.83329 5.83545H14.1666C14.3833 5.83545 14.5916 5.84377 14.7916 5.87711C16.9416 6.12711 18.3333 7.71878 18.3333 10.0021Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //     <path d="M18.3333 10.4185H15.8333C14.9166 10.4185 14.1666 11.1685 14.1666 12.0851C14.1666 13.0018 14.9166 13.7518 15.8333 13.7518H18.3333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //     </svg>
+        //     `,
+        //   is_image: true,
+        //   open: false,
+        //   children: [
+        //     {
+        //       path: 'withdrawal-requests',
+        //       title: this.$t('error.req'),
+        //       icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //       <path d="M1.66699 7.08317C1.66699 4.1665 3.33366 2.9165 5.83366 2.9165H14.167C16.667 2.9165 18.3337 4.1665 18.3337 7.08317V12.9165C18.3337 15.8332 16.667 17.0832 14.167 17.0832H5.83366" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M14.1663 7.5L11.558 9.58333C10.6997 10.2667 9.29134 10.2667 8.433 9.58333L5.83301 7.5" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M1.66699 13.75H6.66699" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M1.66699 10.4165H4.16699" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        //       </svg>
+        //       `,
+        //       is_image: true,
+        //       gate: 'withdrawal_request'
+        //     },
+        //     {
+        //       path: 'withdrawal-accounts',
+        //       title: this.$t('error.acc'),
+        //       icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //       <path d="M14.167 17.5H5.83366C2.50033 17.5 1.66699 16.6667 1.66699 13.3333V6.66667C1.66699 3.33333 2.50033 2.5 5.83366 2.5H14.167C17.5003 2.5 18.3337 3.33333 18.3337 6.66667V13.3333C18.3337 16.6667 17.5003 17.5 14.167 17.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M11.667 6.6665H15.8337" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M12.5 10H15.8333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M14.167 13.3335H15.8337" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M7.08353 9.40827C7.91656 9.40827 8.59186 8.73296 8.59186 7.89993C8.59186 7.0669 7.91656 6.3916 7.08353 6.3916C6.2505 6.3916 5.5752 7.0669 5.5752 7.89993C5.5752 8.73296 6.2505 9.40827 7.08353 9.40827Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       <path d="M10.0003 13.6085C9.88366 12.4001 8.92533 11.4501 7.71699 11.3418C7.30033 11.3001 6.87533 11.3001 6.45033 11.3418C5.24199 11.4585 4.28366 12.4001 4.16699 13.6085" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        //       </svg>`,
+        //       is_image: true,
+        //       gate: 'withdrawal_account'
+        //     }
+        //   ]
+        // },
         {
           path: 'ui',
           title: 'UI',

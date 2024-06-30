@@ -24,14 +24,14 @@
 
     <span
     class="mx-2"
-      v-if="$can('category', 'delete')"
+      v-if="$can('manage_categories')"
       @click.prevent="deleteNode(node)"
     >
 
       <img  class="w-4 h-4 mt-[11px]" src="~/assets/icon/trash-01.svg" alt="">
     </span>
     <span
-      v-if="$can('category', 'edit')"
+      v-if="$can('manage_categories')"
       class="text-white mx-2"
       @click.prevent="editNode(node)"
     >
