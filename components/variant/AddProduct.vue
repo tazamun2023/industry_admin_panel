@@ -385,7 +385,8 @@
                         @updateInput="updateInput"></lang-input>
           </div>
           <!-- ------------------------------------- -->
-          <div class="tab-sidebar p-3" v-if="!is_variant">
+         <div class="my-2">
+          <div class="tab-sidebar  p-3" v-if="!is_variant">
             <h4 class="header-title mt-0 text-capitalize mb-1 ">{{ $t('prod.Basic Information') }} </h4>
             <div class="card-body">
               <div class="input-wrapper mb-10">
@@ -440,6 +441,7 @@
               </ValidationProvider>
             </div>
           </div>
+         </div>
           <!--          BasicInformationChild-->
 
 
@@ -449,7 +451,8 @@
         <!--          BasicInformationChild-->
         <!-- ------------------------------------- -->
 
-        <vue-upload-images :IsRequired=" !is_draft &&(result.product_images.length===0 && !is_variant)"
+        <div class="tab-sidebar p-3">
+          <vue-upload-images :IsRequired=" !is_draft &&(result.product_images.length===0 && !is_variant)"
                            :IsReadOnly="is_show"
                            v-if="(!is_variant && (isAdding || (!isAdding && result.images)))"
                            :return-data-just="0"
@@ -457,6 +460,7 @@
                            :old_images="result.images" :max-files="8" @updateInput="saveAttachment">>
         </vue-upload-images>
 
+        </div>
 
         <!-- ------------------------------------- -->
 
