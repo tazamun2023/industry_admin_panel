@@ -47,6 +47,7 @@
 
           <CompleteProfileModal v-if="$can('edit_company')"
                                 :show-modal="showModal"
+
                                 :links="profileData?.statistics?.links"
                                 @close="showModal=false"/>
         </div>
@@ -64,7 +65,7 @@
       </div>
 
 
-      <vendor-profile-data  class="my-2" v-if="profileData?.verified  || showProfile" :vendor="profileData"></vendor-profile-data>
+      <vendor-profile-data :show_licence="false"   class="my-2" v-if="profileData?.verified  || showProfile" :vendor="profileData"></vendor-profile-data>
 
     </div>
   </div>

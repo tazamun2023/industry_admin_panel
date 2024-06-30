@@ -23,11 +23,12 @@
           :src="getImageURL(siteLogo)"
           alt=""
         > -->
-        <div class="flex items-center gap-2">
-          <img class="w-6 h-6 mt-5" src="~/assets/icon/user.svg" alt="">
-          <div v-if="$store.state.admin.profile">
-            <p class="font-bold">{{ $store.state.admin.profile.name[$t('app.local')] }}</p>
-            <p class="text-xs">@{{ $store.state.admin.profile.username }}</p>
+
+        <div v-if="$store.state.admin.profile" class="flex items-center gap-2">
+          <img class=" small-profile-image" :src="$store.state.admin.profile.image" alt="">
+          <div >
+            <p class="font-bold">{{ $store.state.admin.profile.name}}</p>
+            <p class="text-xs">{{ $store.state.admin.profile.vendor_name??$store.state.admin.profile.username  }}</p>
           </div>
         </div>
       </nuxt-link>
@@ -35,7 +36,7 @@
 
     <div class="flex items-center grow right-wrap">
 
-      <div class="flex items-center gap-4  m-2">
+      <div v-if="$can('manage_ui_settings')" class="flex items-center gap-4  m-2">
         <clear-cache-btn
         color="primary"
         class="outline-btn hidden lg:block mt-2"
@@ -63,14 +64,16 @@
       <user-messages
           v-if="$can('view_messages')"
         />
-        <img class="w-[40px] h-[40px] mt-5" src="~/assets/icon/user.svg" alt="">
+        <img  v-if="$store.state.admin.profile"  class="w-[40px] h-[40px] mt-5" :src="$store.state.admin.profile.image" alt="">
         </div>
 
       </div>
       <div class="hidden  w-full lg:block xl:block">
 
       <div class="flex justify-between items-center gap-4 w-full">
-        <img class="lg:w-[228px] lg:h-[57px] w-[170px] h-[42px]" src="~/assets/images/ar_logo_admin1.svg" alt="">
+        <a  class="lg:w-[228px] lg:h-[57px] w-[170px] h-[42px]"   target="_blank" :href="frontEndLink">
+          <img class="object-cover" src="~/assets/images/ar_logo_admin1.svg" alt="">
+        </a>
         <div class="w-full relative">
           <img class="w-4 h-4 absolute ltr:ml-[14px] rtl:mr-[14px] top-[14px]" src="~/assets/icon/search-normal.svg" alt="">
         <input class="w-full px-34px" type="text" placeholder="Search">
@@ -87,7 +90,7 @@
       </dropdown>
 
         <user-messages
-          v-if="$can('view_messages')"
+          v-if="$can('manage_contact_us')"
         />
         <button
           data-ignore="right-menu"

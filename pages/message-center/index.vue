@@ -35,14 +35,14 @@
                   > {{ $t('messageCenter.RFQs') }}
                   </div>
                 </li>
-                <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">
-                  <div
-                    class="text-xs font-bold uppercase px-2 py-3  block leading-normal"
-                    :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'shipping', 'border-b border-primary  text-primary': activeTab === 'shipping'}"
-                    @click="tabActive('shipping')"
-                  > {{ $t('messageCenter.Shipping') }}
-                  </div>
-                </li>
+<!--                <li class="-mb-px mr-2 last:mr-0 cursor-pointer flex-auto text-center">-->
+<!--                  <div-->
+<!--                    class="text-xs font-bold uppercase px-2 py-3  block leading-normal"-->
+<!--                    :class="{'text-pink-600 bg-white border-smooth border-b': activeTab !== 'shipping', 'border-b border-primary  text-primary': activeTab === 'shipping'}"-->
+<!--                    @click="tabActive('shipping')"-->
+<!--                  > {{ $t('messageCenter.Shipping') }}-->
+<!--                  </div>-->
+<!--                </li>-->
               </ul>
             </div>
             <div>

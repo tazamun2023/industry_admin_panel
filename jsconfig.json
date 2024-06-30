@@ -113,6 +113,7 @@
     "getUnit": "unit/find",
     "setUnit": "unit/action",
     "updateVendor": "vendor",
+    "updateVendorProfile": "vendor/updateProfile",
     "getVendor" : "vendor",
     "getVendorProfile" : "vendorProfile",
     "getApprovalVendor" : "vendor/verified/get",
@@ -437,6 +438,7 @@
     "deleteInvitations":"vendor-users/delete/invitations",
 
     "setAdmin": "admin-data/action",
+    "toggleAdmin": "admin-data/toggle",
     "getUserInfo": "user-register/getUserByEmail",
     "userRegistration": "user-register/userRegistration",
 

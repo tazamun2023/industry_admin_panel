@@ -21,7 +21,7 @@
         <th>{{ $t('global.title') }}</th>
         <th>{{ $t('global.organization') }}</th>
         <th>{{ $t('global.image') }}</th>
-        <th>{{ $t('global.action') }}</th>
+<!--        <th>{{ $t('global.action') }}</th>-->
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
@@ -31,11 +31,11 @@
         <td>
           <img :src="value.file" :alt="value.local_title">
         </td>
-        <td>
-          <button
-            v-if="$can('manage_content')"
-            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
-        </td>
+<!--        <td>-->
+<!--          <button-->
+<!--            v-if="$can('manage_content')"-->
+<!--            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>-->
+<!--        </td>-->
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
         <template v-slot:title>

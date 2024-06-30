@@ -29,19 +29,7 @@ const mutations = {
 }
 
 const actions = {
-  async nuxtServerInit({commit, dispatch, state}, {error, req, app}) {
 
-
-    try {
-      const cookies = req.headers.cookie;
-      var token = cookies && cookies.includes('frontend__token.local=Bearer%20')
-        ? cookies.split('frontend__token.local=Bearer%20')[1].split(';')[0] : null
-
-      console.log("cooooooooooooooooookiesnuxtServerInit", token)
-
-    } catch (e) {
-    }
-  },
   async settingSiteData({state, dispatch}, data) {
     const cookies = document.cookie
     const currentLanguage = cookies && cookies.includes('currentLanguage=')
@@ -51,7 +39,6 @@ const actions = {
     var token = cookies && cookies.includes('frontend__token.local=Bearer%20')
       ? cookies.split('frontend__token.local=Bearer%20')[1].split(';')[0] : null
 
-    console.log("cooooooooooooooooookiesSettingSiteData", token)
 
     dispatch('admin/setActivated', data)
     dispatch('common/setAllFilters', data?.filters)
@@ -81,7 +68,6 @@ const actions = {
       ? cookies.split('frontend__token.local=Bearer%20')[1].split(';')[0] : null
     const currentLanguage = cookies && cookies.includes('currentLanguage=')
       ? cookies.split('currentLanguage=')[1].split(';')[0] : '';
-    console.log("cooooooooooooooooookiesClient", token)
     if (token) {
       try {
         const {data} = await Service.getRequest({}, 'Bearer ' + token, 'profile', currentLanguage)

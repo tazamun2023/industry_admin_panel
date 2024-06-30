@@ -6,6 +6,7 @@
     route-name="subscription-email-formats"
     :name="$t('dataPage.sef')"
     gate="subscription_email_format"
+    manage_gate="subscription_email_format"
     empty-store-variable="allSubscriptionEmailFormats"
     :order-options="orderOptions"
   >
@@ -23,13 +24,13 @@
         <td>{{ value.created }}</td>
         <td>
           <button
-            v-if="$can('subscription_email_format', 'delete')"
+            v-if="$can('subscription_email_format', )"
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"
           >
            <DeleteButtonIcon/>
           </button>
           <button
-            v-if="$can('subscription_email_format', 'edit')"
+            v-if="$can('subscription_email_format')"
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><EditButtonIcon/></button>
 
 

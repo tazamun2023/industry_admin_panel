@@ -13,48 +13,52 @@
     @result="result = $event"
   >
     <template v-slot:form="{hasError}">
-        <div class="input-wrapper">
+      <div class="input-wrapper">
 
-          <label>{{ $t('user.name') }}</label>
-          <input
-            type="text"
-            :placeholder="$t('user.name')"
-            name="title"
-            v-model="result.name"
-            ref="title"
-            :class="{invalid: !!!result.name && hasError}"
-          >
-          <span
-            class="error"
-            v-if="!!!result.name && hasError"
-          >
-            {{ $t('category.req', { type: $t('user.name')}) }}
+        <label>{{ $t('user.name') }}</label>
+        <input
+          type="text"
+          :placeholder="$t('user.name')"
+          name="title"
+         :disabled="typeSimple!='a' || result.name=='superadmin'"
+          v-model="result.name"
+          ref="title"
+          :class="{invalid: !!!result.name && hasError}"
+        >
+        <span
+          class="error"
+          v-if="!!!result.name && hasError"
+        >
+            {{ $t('category.req', {type: $t('user.name')}) }}
           </span>
+      </div>
+
+      <div class="input-wrapper">
+        <label>{{ $t('user.per') }}</label>
+        <div class="b-b mb-10 mb-md-15 pb-10">
+          <input
+            class="styled-checkbox"
+            :id="`styled-checkbox-all`"
+            type="checkbox"
+            v-model="allSelected"
+            @change="selectAll"
+          >
+          <label
+            :for="`styled-checkbox-all`"
+            class="mtb-5"
+          >
+            {{ $t('index.all') }}
+          </label>
         </div>
 
-        <div class="input-wrapper">
-          <label>{{ $t('user.per') }}</label>
-          <div class="b-b mb-10 mb-md-15 pb-10">
-            <input
-              class="styled-checkbox"
-              :id="`styled-checkbox-all`"
-              type="checkbox"
-              v-model="allSelected"
-              @change="selectAll"
-            >
-            <label
-              :for="`styled-checkbox-all`"
-              class="mtb-5"
-            >
-              {{ $t('index.all') }}
-            </label>
-          </div>
+        <template v-for="(value, key, index) in groupBy(permissions, 'group_name')">
+
 
           <div
-            v-for="(value, key, index) in groupBy(allPermissions, 'group_name')"
             :key="index"
             class="permission-group mt-5"
           >
+
             <div>
               <input
                 v-model="groupPermissions"
@@ -68,14 +72,17 @@
                 :for="`styled-checkbox-${key}`"
                 class="mtb-5 mt-md-15"
               >
-                {{ formatGroupName(key) }}
+                {{ $t('roles.' + key) }}
+                <!--                {{ formatGroupName(key) }}-->
               </label>
             </div>
             <div
               class="permission-item "
             >
+              <!--              .filter(item => item.for_type.includes(typeSimple))-->
               <span
                 v-for="(i, ind) in value"
+
                 :key="`${index}-${ind}`"
                 class="mr-15"
               >
@@ -91,124 +98,148 @@
                   :for="`checkbox-${index}-${ind}`"
                   class="mtb-7-5"
                 >
-                  {{i.description!=null?(i?.description[$t('app.local')]): formatPermissionName(i.name) }}
+                  {{ i.description != null ? (i?.description[$t('app.local')]) : formatPermissionName(i.name) }}
 
                 </label>
               </span>
             </div>
           </div>
-        </div>
+        </template>
+      </div>
     </template>
   </data-page>
 </template>
 <script>
 
-  import DataPage from '~/components/partials/DataPage'
-  import util from '~/mixin/util'
-  import Dropdown from '~/components/Dropdown'
-  import {mapGetters, mapActions} from 'vuex'
+import DataPage from '~/components/partials/DataPage'
+import util from '~/mixin/util'
+import Dropdown from '~/components/Dropdown'
+import {mapGetters, mapActions} from 'vuex'
 
 
-  export default {
-    name: "roles-permissions",
-    middleware: ['common-middleware', 'auth'],
-    data() {
-      return {
-        allSelected: false,
-        groupPermissions: [],
-        selectedPermissions: [],
-        result: {
-          id: '',
-          name: '',
-          updated_permissions: [],
-          permissions: []
-        }
+export default {
+  name: "roles-permissions",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      allSelected: false,
+      groupPermissions: [],
+      selectedPermissions: [],
+      result: {
+        id: '',
+        name: '',
+        type: 'admin',
+        updated_permissions: [],
+        permissions: []
+      }
+    }
+  },
+  mixins: [util],
+  components: {
+    DataPage,
+    Dropdown
+  },
+  watch: {
+    resultPermissions(value) {
+      this.selectedPermissions = value?.map(i => {
+        return i.id
+      })
+    }
+  },
+  computed: {
+    resultPermissions() {
+      return this.result?.permissions
+    },
+    typeSimple() {
+      switch (this.result.type) {
+        case "shipping":
+          return 's'
+
+        case "vendor":
+          return 'v'
+
+        case "customer":
+          return 'c'
+
+        default:
+          return 'a'
+
+
       }
     },
-    mixins: [util],
-    components: {
-      DataPage,
-      Dropdown
+    permissions() {
+      return this.allPermissions.filter(item => item.for_type.includes(this.typeSimple));
     },
-    watch:{
-      resultPermissions(value) {
-        this.selectedPermissions = value?.map(i => { return i.id })
-      }
-    },
-    computed: {
-      resultPermissions() {
-        return this.result?.permissions
-      },
-      ...mapGetters('common', ['allPermissions'])
-    },
-    methods: {
-      groupBy(arr, group){
-        return arr.reduce((acc, obj) => {
-          const key = obj[group];
-          if (!acc[key]) {
-            acc[key] = [];
-          }
-          // Add object to list for given key's value
-          acc[key].push(obj);
-          return acc;
-        }, {});
-      },
-      formatPermissionName(name){
-        return this.capitalizeFirstLetter(name?.replace('_', ' ' ).split('.')[1])
-      },
-      formatGroupName(name){
-        return this.capitalizeFirstLetter(name?.replace(/\.|_/g, ' ' ))
-      },
-      capitalizeFirstLetter(string) {
-        return string?.charAt(0).toUpperCase() + string?.slice(1);
-      },
-      selectAll() {
-        this.groupPermissions = []
-        this.selectedPermissions = []
-        if (this.allSelected) {
-          for (let i in this.allPermissions) {
-
-            this.selectedPermissions.push(this.allPermissions[i].id)
-
-            this.groupPermissions.push(this.allPermissions[i].group_name)
-          }
+    ...mapGetters('common', ['allPermissions'])
+  },
+  methods: {
+    groupBy(arr, group) {
+      return arr.reduce((acc, obj) => {
+        const key = obj[group];
+        if (!acc[key]) {
+          acc[key] = [];
         }
-        this.groupPermissions = [...new Set(this.groupPermissions)]
-        this.result.updated_permissions = this.selectedPermissions
-      },
-      selectGroup(data, event){
-        const current = this.allPermissions.filter(i => {
-          return i.group_name === data
-        }).map(i => {
-          return i.id
+        // Add object to list for given key's value
+        acc[key].push(obj);
+        return acc;
+      }, {});
+    },
+    formatPermissionName(name) {
+      return this.capitalizeFirstLetter(name?.replace('_', ' ').split('.')[1])
+    },
+    formatGroupName(name) {
+      return this.capitalizeFirstLetter(name?.replace(/\.|_/g, ' '))
+    },
+    capitalizeFirstLetter(string) {
+      return string?.charAt(0).toUpperCase() + string?.slice(1);
+    },
+    selectAll() {
+      this.groupPermissions = []
+      this.selectedPermissions = []
+      if (this.allSelected) {
+        for (let i in this.permissions) {
+
+          this.selectedPermissions.push(this.permissions[i].id)
+
+          this.groupPermissions.push(this.permissions[i].group_name)
+        }
+      }
+      this.groupPermissions = [...new Set(this.groupPermissions)]
+      this.result.updated_permissions = this.selectedPermissions
+    },
+    selectGroup(data, event) {
+      const current = this.permissions.filter(i => {
+        return i.group_name === data
+      }).map(i => {
+        return i.id
+      })
+
+      if (event.target.checked) {
+        this.selectedPermissions = [...new Set([...this.selectedPermissions, ...current])]
+      } else {
+        this.selectedPermissions = this.selectedPermissions.filter(i => {
+          return current.indexOf(i) === -1
         })
-
-        if (event.target.checked) {
-          this.selectedPermissions = [...new Set([...this.selectedPermissions, ...current])]
-        } else {
-          this.selectedPermissions = this.selectedPermissions.filter(i => {
-            return current.indexOf(i) === -1
-          })
-        }
-        this.result.updated_permissions = this.selectedPermissions
-      },
-      permissionChanged() {
-        this.groupPermissions = []
-        this.allSelected = false
-        this.result.updated_permissions = this.selectedPermissions
-      },
-      ...mapActions('common', ['getAllList'])
+      }
+      this.result.updated_permissions = this.selectedPermissions
     },
-    async mounted() {
-      if(!this.allPermissions){
-        try {
-          await this.getAllList({api: 'allPermissions', mutation: 'SET_ALL_PERMISSIONS'})
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
+    permissionChanged() {
+      this.groupPermissions = []
+      this.allSelected = false
+      this.result.updated_permissions = this.selectedPermissions
+    },
+    ...mapActions('common', ['getAllList'])
+  },
+  async mounted() {
+    if (!this.allPermissions) {
+      try {
+        await this.getAllList({api: 'allPermissions', mutation: 'SET_ALL_PERMISSIONS'})
+      } catch (e) {
+        return this.$nuxt.error(e)
       }
     }
   }
+}
 </script>
 
 <style scoped>

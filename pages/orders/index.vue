@@ -122,7 +122,7 @@
 
                         </div>
                         <div v-if="order?.status=='pending'">
-                          <button @click="rejectModalShow(order)" v-if="$can('fulfil_orders')"
+                          <button @click="rejectModalShow(order)" v-if="$can('order_cancellation')"
                                   class="border-2 mt-1 border-warning text-warning  font-bold p-2 rounded leading-3">
                             {{ $t('order.rejectOrder') }}
                           </button>
@@ -209,7 +209,7 @@
 
 
 
-        <OrderChangeStatus v-if="changeStatusModal && $can('order_cancellation')" @close="changeStatusModalClose"
+        <OrderChangeStatus v-if="changeStatusModal && $can('fulfil_orders')" @close="changeStatusModalClose"
                            :saveSata="saveSata" :selectedOrders="selectedOrders" @save="saveChangeStatusModal"/>
 
 

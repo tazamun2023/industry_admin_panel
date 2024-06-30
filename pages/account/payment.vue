@@ -53,7 +53,8 @@
           <td class="font-bold capitalize">{{ value.holder_name }}</td>
           <td>{{ value.bank_name }}</td>
           <td class="text-center">
-            <input @change="SetDefaultBanks(value,$event)" :disabled="value.is_default" :checked="value.is_default"
+            <input @change="SetDefaultBanks(value,$event)" :disabled="value.is_default || !$can('update_financial') "
+                   :checked="value.is_default"
                    :value="value.is_default"
                    type="checkbox">
           </td>

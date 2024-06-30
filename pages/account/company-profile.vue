@@ -462,7 +462,6 @@
 
 </template>
 <script>
-import vendor from "@/mixin/vendor";
 import {mapActions, mapGetters} from "vuex";
 import {ValidationObserver, ValidationProvider} from 'vee-validate';
 import Modal from '~/components/Modal.vue';
@@ -472,7 +471,6 @@ import UploadFiles from "../../components/UploadFiles.vue";
 
 export default {
   middleware: ['common-middleware', 'auth'],
-  mixins: [vendor],
   name: "company-profile",
   components: {
     UploadFiles,
@@ -652,6 +650,18 @@ export default {
     ...mapActions('vendor', ['submitData', 'getVendorData']),
     ...mapActions('common', ['getAllCountries', 'getCitiesById']),
     ...mapActions('ui', ['setToastMessage']),
+    async fromSubmit(){
+      if(this.submit){
+        let {data, status} = await this.submitData({id: this.fromData.id, params: this.fromData, api:'updateVendorProfile'})
+        if(status === 200){
+          this.submit = false
+          this.errors = null
+        }else if(status > 200){
+          this.errors = data.form
+          this.submit = false
+        }
+      }
+    },
     checkImagesError(type, haserror) {
       this.ImagesError = true
       if (this.getLogo?.length > 0 && this.getLicence?.length > 0 && this.getVatCertificate?.length > 0) {

@@ -8,7 +8,8 @@
     :name="$t('dataPage.prodCol')"
     :validation-keys="['title', 'slug']"
     :result="result"
-    gate="manage_initial_setting"
+    gate="view_ui_settings"
+    manage_gate="manage_ui_settings"
     @result="result = $event"
   >
 

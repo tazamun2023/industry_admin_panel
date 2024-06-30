@@ -53,24 +53,6 @@
             @click.prevent="$refs.listPage.editItem(value.id)" class="border-0"><edit-button-icon/></button>
         </td>
       </tr>
-      <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
-        <template v-slot:title>
-          <h4>{{ $t('vendor.deletemessage') }}</h4>
-        </template>
-        <!-- -----------default slot------- -->
-        <!-- -----------default slot------- -->
-        <template v-slot:buttons>
-          <div class="flex gap-4 pt-4 justify-end">
-            <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 ">
-              {{ $t('address.cancel') }}
-            </button>
-            <button @click="$refs.listPage.deleteItemWithModal(deleteId), deleteModal=false"
-                    class="p-2 border border-smooth bg-primary text-white  rounded leading-3 hover:text-primary">
-              {{ $t('category.delete') }}
-            </button>
-          </div>
-        </template>
-      </DeleteModal>
     </template>
   </list-page>
 </template>
@@ -122,15 +104,7 @@ export default {
       return vendor
     }
   },
-  methods: {
-    openDeleteModal(id){
-      this.deleteId = id,
-        this.deleteModal = true
-    },
-    closeModal(){
-      this.deleteModal = false
-    }
-  },
+
   mounted() {
   }
 }

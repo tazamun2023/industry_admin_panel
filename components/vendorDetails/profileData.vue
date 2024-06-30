@@ -20,12 +20,12 @@
             </div>
             <div>
 
-              <h3 class="font-bold py-2 flex gap-4"><span>{{ vendor?.company_name }}</span> <img
-                class="w-6 h-6" src="~/assets/icon/SVG.svg" alt=""></h3>
+              <h3 class="font-bold py-2 flex gap-4"><span>{{ vendor?.company_name }}</span>
+                <img v-if="vendor.verified" class="w-6 h-6" src="~/assets/icon/SVG.svg" alt=""></h3>
 <!--              <span class="p-1 bg-smooth text-theem rounded-lg">{{ vendor?.subdomain }}</span>-->
               <p class="font-16px pb-3" v-html="vendor?.local_details"></p>
-              <span class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] "><img
-                class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> Show Licence</span>
+              <span @click="approval(vendor.id,1)"  v-if="vendor.complete_percent==100 && vendor.verified==0 && $can('manage_users')" class="flex items-center gap-2 bg-theem text-white px-3 py-1 rounded-lg w-[150px] ">
+                <img class="w-4 h-4" src="~/assets/icon/paperclip-2.svg" alt=""> {{ $t('vendor.verify')  }} </span>
             </div>
           </div>
           <div  class=" col-span-5 md:col-span-2">
@@ -71,20 +71,53 @@
       </div>
     </section>
   </div>
+
+
 </template>
 <script>
 import LazyImage from "../LazyImage.vue";
+import {mapActions} from "vuex";
 
 export default {
   name: 'VendorProfileData',
   components: {LazyImage},
+  data() {
+    return {
+    }
+  },
 
   props: {
     vendor: {
       type: Object,
       required: true
+    },
+    show_licence: {
+      type: Boolean,
+      default: true
     }
   },
+  methods:{
+    ...mapActions('vendor', ['changeVendorStatus']),
+    ...mapActions('common', ['swetAlertFire']),
+    async approval(val, status) {
+      // alert(val)
+      // this.approvedModal = false
+      const app = await this.swetAlertFire({
+        params: {
+          title: this.$i18n.t('vendor.verify') ,
+          text: this.$i18n.t('vendor.verify_message'),
+        }
+      });
+
+      if (app) {
+        const data = await this.changeVendorStatus({
+          params: {'vendor_id': this.vendor.id, 'verified': status},
+          api: "ChangeVendorApproved"
+        })
+
+      }
+    },
+  }
 
 
 }

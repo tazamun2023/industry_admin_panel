@@ -27,9 +27,9 @@
           </nuxt-link>
         </td>
         <td>{{ value.created }}</td>
-        <td>
+        <td  v-if="$can('manage_roles') ">
           <button
-            v-if="$can('manage_roles')"
+            v-if="value.type=='admin' && value.name!='superadmin'  "
             @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0"><DeleteButtonIcon/></button>
           <button
             v-if="$can('manage_roles')"

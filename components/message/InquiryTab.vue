@@ -156,6 +156,7 @@ export default {
       </form>
     </div>
     <div v-if="inquiries.length > 0">
+      <transition-group name="list" tag="div">
       <div v-for="(inquirie, index) in filteredInquiries" :key="inquirie.id"
            @click="setActiveInq(inquirie)"
            :class="inquirie?.id===activeInquiryData?.id ?'bg-primarylight':''"
@@ -210,6 +211,7 @@ export default {
           </div>
         </div>
       </div>
+      </transition-group>
     </div>
     <div v-else-if="is_loading" class="spinner-wrapper">
       <spinner
@@ -225,5 +227,15 @@ export default {
 </template>
 
 <style scoped>
-
+.list-enter-active, .list-leave-active, .list-move {
+  transition: all 0.3s ease;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+.list-enter-to, .list-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
 </style>

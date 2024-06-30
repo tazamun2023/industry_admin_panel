@@ -20,12 +20,12 @@
           :src="getImageURL(siteLogo)"
           alt=""
         > -->
-        <div class="flex gap-4 px-[15px] justify-between items-center">
-          <div class="flex items-center gap-2">
-          <img class="w-[51px] h-[51px] mt-5" src="~/assets/icon/user.svg" alt="">
-          <div v-if="$store.state.admin.profile">
-            <p class="font-bold">{{ $store.state.admin.profile.name[currentLanguage?.code] }}</p>
-            <p class="text-[16px] font-bold capitalize">{{ $store.state.admin.profile.username }}</p>
+        <div  class="flex gap-4 px-[15px] justify-between items-center">
+          <div v-if="$store.state.admin.profile" class="flex items-center gap-2">
+          <img class="small-profile-image mt-5" :src="$store.state.admin.profile.image" alt="">
+          <div >
+            <p class="font-bold">{{ $store.state.admin.profile.name}}</p>
+            <p class="text-[16px] font-bold capitalize">{{ $store.state.admin.profile.vendor_name??$store.state.admin.profile.username }}</p>
             <p class="text-xs text-primary">{{ $store.state.admin.profile.email }}</p>
           </div>
         </div>
@@ -486,19 +486,19 @@ export default {
           is_image:true,
           open: false,
           children: [
-            {
-              path: 'pages',
-              title: this.$t('error.pages'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.0505 8.69992L17.2338 12.1833C16.5338 15.1916 15.1505 16.4083 12.5505 16.1583C12.1338 16.1249 11.6838 16.0499 11.2005 15.9333L9.80048 15.5999C6.32548 14.7749 5.25048 13.0583 6.06714 9.57493L6.88381 6.08326C7.05048 5.37493 7.25048 4.75826 7.50048 4.24993C8.47548 2.23326 10.1338 1.69159 12.9171 2.34993L14.3088 2.67493C17.8005 3.49159 18.8671 5.21659 18.0505 8.69992Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12.5503 16.1583C12.0336 16.5083 11.3836 16.8 10.592 17.0583L9.27528 17.4917C5.96695 18.5583 4.22528 17.6667 3.15028 14.3583L2.08362 11.0667C1.01695 7.75833 1.90028 6.00833 5.20862 4.94167L6.52528 4.50833C6.86695 4.4 7.19195 4.30833 7.50028 4.25C7.25028 4.75833 7.05028 5.375 6.88362 6.08333L6.06695 9.575C5.25028 13.0583 6.32528 14.775 9.80029 15.6L11.2003 15.9333C11.6836 16.05 12.1336 16.125 12.5503 16.1583Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10.5332 7.1084L14.5749 8.1334" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M9.7168 10.3335L12.1335 10.9502" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>`,
-              is_image:true,
-              form: ['customPage'],
-              gate: 'view_ui_settings'
-            },
+            // {
+            //   path: 'pages',
+            //   title: this.$t('error.pages'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M18.0505 8.69992L17.2338 12.1833C16.5338 15.1916 15.1505 16.4083 12.5505 16.1583C12.1338 16.1249 11.6838 16.0499 11.2005 15.9333L9.80048 15.5999C6.32548 14.7749 5.25048 13.0583 6.06714 9.57493L6.88381 6.08326C7.05048 5.37493 7.25048 4.75826 7.50048 4.24993C8.47548 2.23326 10.1338 1.69159 12.9171 2.34993L14.3088 2.67493C17.8005 3.49159 18.8671 5.21659 18.0505 8.69992Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M12.5503 16.1583C12.0336 16.5083 11.3836 16.8 10.592 17.0583L9.27528 17.4917C5.96695 18.5583 4.22528 17.6667 3.15028 14.3583L2.08362 11.0667C1.01695 7.75833 1.90028 6.00833 5.20862 4.94167L6.52528 4.50833C6.86695 4.4 7.19195 4.30833 7.50028 4.25C7.25028 4.75833 7.05028 5.375 6.88362 6.08333L6.06695 9.575C5.25028 13.0583 6.32528 14.775 9.80029 15.6L11.2003 15.9333C11.6836 16.05 12.1336 16.125 12.5503 16.1583Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M10.5332 7.1084L14.5749 8.1334" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M9.7168 10.3335L12.1335 10.9502" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>`,
+            //   is_image:true,
+            //   form: ['customPage'],
+            //   gate: 'view_ui_settings'
+            // },
             {
               path: 'home-slider',
               title: this.$t('admin.hSlid'),
@@ -531,40 +531,40 @@ export default {
               is_image:true,
               gate: 'view_ui_settings'
             },
-            {
-              path: 'footer-links',
-              title: this.$t('error.fl'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.72532 10C2.06699 9.20833 1.66699 8.19167 1.66699 7.08333C1.66699 4.56667 3.72533 2.5 6.25033 2.5H10.417C12.9337 2.5 15.0003 4.56667 15.0003 7.08333C15.0003 9.6 12.942 11.6667 10.417 11.6667H8.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M17.275 10.0002C17.9333 10.7918 18.3333 11.8085 18.3333 12.9168C18.3333 15.4335 16.275 17.5002 13.75 17.5002H9.58333C7.06667 17.5002 5 15.4335 5 12.9168C5 10.4002 7.05833 8.3335 9.58333 8.3335H11.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              `,
-              is_image:true,
-              gate: 'view_ui_settings'
-            },
-            {
-              path: 'header-links',
-              title: this.$t('dataPage.hl'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.72532 10C2.06699 9.20833 1.66699 8.19167 1.66699 7.08333C1.66699 4.56667 3.72533 2.5 6.25033 2.5H10.417C12.9337 2.5 15.0003 4.56667 15.0003 7.08333C15.0003 9.6 12.942 11.6667 10.417 11.6667H8.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M17.275 10.0002C17.9333 10.7918 18.3333 11.8085 18.3333 12.9168C18.3333 15.4335 16.275 17.5002 13.75 17.5002H9.58333C7.06667 17.5002 5 15.4335 5 12.9168C5 10.4002 7.05833 8.3335 9.58333 8.3335H11.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              `,
-              is_image:true,
-              gate: 'view_ui_settings'
-            },
-            {
-              path: 'site-features',
-              title: this.$t('title.sf'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.8255 4.3415L14.0004 6.6915C14.1588 7.0165 14.5838 7.32483 14.9421 7.39149L17.0671 7.74149C18.4255 7.96649 18.7421 8.94983 17.7671 9.93316L16.1088 11.5915C15.8338 11.8665 15.6755 12.4082 15.7671 12.7998L16.2421 14.8498C16.6171 16.4665 15.7504 17.0998 14.3254 16.2498L12.3338 15.0665C11.9754 14.8498 11.3754 14.8498 11.0171 15.0665L9.02544 16.2498C7.60044 17.0915 6.73378 16.4665 7.10878 14.8498L7.58379 12.7998C7.67545 12.4165 7.51712 11.8748 7.24212 11.5915L5.58379 9.93316C4.60879 8.95816 4.92545 7.97483 6.28379 7.74149L8.40878 7.39149C8.76711 7.33316 9.19211 7.0165 9.35045 6.6915L10.5255 4.3415C11.1505 3.0665 12.1838 3.0665 12.8255 4.3415Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6.66699 4.1665H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M4.16699 15.8335H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2.50033 10H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>`,
-              is_image:true,
-              gate: 'view_ui_settings'
-            },
+            // {
+            //   path: 'footer-links',
+            //   title: this.$t('error.fl'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M2.72532 10C2.06699 9.20833 1.66699 8.19167 1.66699 7.08333C1.66699 4.56667 3.72533 2.5 6.25033 2.5H10.417C12.9337 2.5 15.0003 4.56667 15.0003 7.08333C15.0003 9.6 12.942 11.6667 10.417 11.6667H8.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M17.275 10.0002C17.9333 10.7918 18.3333 11.8085 18.3333 12.9168C18.3333 15.4335 16.275 17.5002 13.75 17.5002H9.58333C7.06667 17.5002 5 15.4335 5 12.9168C5 10.4002 7.05833 8.3335 9.58333 8.3335H11.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>
+            //   `,
+            //   is_image:true,
+            //   gate: 'view_ui_settings'
+            // },
+            // {
+            //   path: 'header-links',
+            //   title: this.$t('dataPage.hl'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M2.72532 10C2.06699 9.20833 1.66699 8.19167 1.66699 7.08333C1.66699 4.56667 3.72533 2.5 6.25033 2.5H10.417C12.9337 2.5 15.0003 4.56667 15.0003 7.08333C15.0003 9.6 12.942 11.6667 10.417 11.6667H8.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M17.275 10.0002C17.9333 10.7918 18.3333 11.8085 18.3333 12.9168C18.3333 15.4335 16.275 17.5002 13.75 17.5002H9.58333C7.06667 17.5002 5 15.4335 5 12.9168C5 10.4002 7.05833 8.3335 9.58333 8.3335H11.6667" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>
+            //   `,
+            //   is_image:true,
+            //   gate: 'view_ui_settings'
+            // },
+            // {
+            //   path: 'site-features',
+            //   title: this.$t('title.sf'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M12.8255 4.3415L14.0004 6.6915C14.1588 7.0165 14.5838 7.32483 14.9421 7.39149L17.0671 7.74149C18.4255 7.96649 18.7421 8.94983 17.7671 9.93316L16.1088 11.5915C15.8338 11.8665 15.6755 12.4082 15.7671 12.7998L16.2421 14.8498C16.6171 16.4665 15.7504 17.0998 14.3254 16.2498L12.3338 15.0665C11.9754 14.8498 11.3754 14.8498 11.0171 15.0665L9.02544 16.2498C7.60044 17.0915 6.73378 16.4665 7.10878 14.8498L7.58379 12.7998C7.67545 12.4165 7.51712 11.8748 7.24212 11.5915L5.58379 9.93316C4.60879 8.95816 4.92545 7.97483 6.28379 7.74149L8.40878 7.39149C8.76711 7.33316 9.19211 7.0165 9.35045 6.6915L10.5255 4.3415C11.1505 3.0665 12.1838 3.0665 12.8255 4.3415Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M6.66699 4.1665H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M4.16699 15.8335H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M2.50033 10H1.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>`,
+            //   is_image:true,
+            //   gate: 'view_ui_settings'
+            // },
             {
               path: 'site-setting',
               title: this.$t('admin.site'),
@@ -595,15 +595,28 @@ export default {
               is_image:true,
               gate: 'view_ui_settings'
             },
+            // {
+            //   path: 'custom-scripts',
+            //   title: this.$t('title.cs'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //     <path d="M6.66667 8.3335L5 10.0002L6.66667 11.6668" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M13.333 8.3335L14.9997 10.0002L13.333 11.6668" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M10.0003 18.3332C14.6027 18.3332 18.3337 14.6022 18.3337 9.99984C18.3337 5.39746 14.6027 1.6665 10.0003 1.6665C5.39795 1.6665 1.66699 5.39746 1.66699 9.99984C1.66699 14.6022 5.39795 18.3332 10.0003 18.3332Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M10.8337 8.05811L9.16699 11.9415" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     </svg>`,
+            //   is_image:true,
+            //   gate: 'view_ui_settings'
+            // },
+
             {
-              path: 'custom-scripts',
-              title: this.$t('title.cs'),
+              path: 'product-collections',
+              title: this.$t('error.col'),
               icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.66667 8.3335L5 10.0002L6.66667 11.6668" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M13.333 8.3335L14.9997 10.0002L13.333 11.6668" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.0003 18.3332C14.6027 18.3332 18.3337 14.6022 18.3337 9.99984C18.3337 5.39746 14.6027 1.6665 10.0003 1.6665C5.39795 1.6665 1.66699 5.39746 1.66699 9.99984C1.66699 14.6022 5.39795 18.3332 10.0003 18.3332Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.8337 8.05811L9.16699 11.9415" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>`,
+              <path d="M11.667 13.3333C11.667 14.8083 11.0253 16.1416 10.0003 17.05C9.11699 17.85 7.95033 18.3333 6.66699 18.3333C3.90866 18.3333 1.66699 16.0916 1.66699 13.3333C1.66699 11.0333 3.23366 9.0833 5.35033 8.5083C5.92533 9.9583 7.15866 11.075 8.68366 11.4916C9.10033 11.6083 9.54199 11.6666 10.0003 11.6666C10.4587 11.6666 10.9003 11.6083 11.317 11.4916C11.542 12.0583 11.667 12.6833 11.667 13.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 6.6665C15 7.3165 14.875 7.9415 14.65 8.50817C14.075 9.95817 12.8417 11.0748 11.3167 11.4915C10.9 11.6082 10.4583 11.6665 10 11.6665C9.54167 11.6665 9.1 11.6082 8.68333 11.4915C7.15833 11.0748 5.925 9.95817 5.35 8.50817C5.125 7.9415 5 7.3165 5 6.6665C5 3.90817 7.24167 1.6665 10 1.6665C12.7583 1.6665 15 3.90817 15 6.6665Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M18.3333 13.3333C18.3333 16.0916 16.0917 18.3333 13.3333 18.3333C12.05 18.3333 10.8833 17.85 10 17.05C11.025 16.1416 11.6667 14.8083 11.6667 13.3333C11.6667 12.6833 11.5417 12.0583 11.3167 11.4916C12.8417 11.075 14.075 9.9583 14.65 8.5083C16.7667 9.0833 18.3333 11.0333 18.3333 13.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              `,
               is_image:true,
               gate: 'view_ui_settings'
             },
@@ -762,7 +775,7 @@ export default {
             },
             {
               path: 'admins-vendors',
-              title: this.$t('error.av'),
+              title: this.$t('error.admins'),
               icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.1334 9.06012C10.05 9.05179 9.95005 9.05179 9.85838 9.06012C7.87505 8.99346 6.30005 7.36846 6.30005 5.36846C6.30005 3.32679 7.95005 1.66846 10 1.66846C12.0417 1.66846 13.7 3.32679 13.7 5.36846C13.6917 7.36846 12.1167 8.99346 10.1334 9.06012Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M5.96672 12.1354C3.95006 13.4854 3.95006 15.6854 5.96672 17.0271C8.25839 18.5604 12.0167 18.5604 14.3084 17.0271C16.3251 15.6771 16.3251 13.4771 14.3084 12.1354C12.0251 10.6104 8.26672 10.6104 5.96672 12.1354Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -832,21 +845,21 @@ export default {
               is_image:true,
               gate: 'manage_shipment_setting',
             },
-            {
-              path: 'ports',
-              title: this.$t('setting.ports'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.6667 11.6668C17.5871 11.6668 18.3333 10.9206 18.3333 10.0002C18.3333 9.07969 17.5871 8.3335 16.6667 8.3335C15.7462 8.3335 15 9.07969 15 10.0002C15 10.9206 15.7462 11.6668 16.6667 11.6668Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16.6667 4.99984C17.5871 4.99984 18.3333 4.25365 18.3333 3.33317C18.3333 2.4127 17.5871 1.6665 16.6667 1.6665C15.7462 1.6665 15 2.4127 15 3.33317C15 4.25365 15.7462 4.99984 16.6667 4.99984Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M16.6667 18.3333C17.5871 18.3333 18.3333 17.5871 18.3333 16.6667C18.3333 15.7462 17.5871 15 16.6667 15C15.7462 15 15 15.7462 15 16.6667C15 17.5871 15.7462 18.3333 16.6667 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3.33366 11.6668C4.25413 11.6668 5.00033 10.9206 5.00033 10.0002C5.00033 9.07969 4.25413 8.3335 3.33366 8.3335C2.41318 8.3335 1.66699 9.07969 1.66699 10.0002C1.66699 10.9206 2.41318 11.6668 3.33366 11.6668Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M5 10H15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M15.0003 3.3335H11.667C10.0003 3.3335 9.16699 4.16683 9.16699 5.8335V14.1668C9.16699 15.8335 10.0003 16.6668 11.667 16.6668H15.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>`,
-              is_image:true,
-              gate: 'manage_shipment_setting',
-
-            },
+            // {
+            //   path: 'ports',
+            //   title: this.$t('setting.ports'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //     <path d="M16.6667 11.6668C17.5871 11.6668 18.3333 10.9206 18.3333 10.0002C18.3333 9.07969 17.5871 8.3335 16.6667 8.3335C15.7462 8.3335 15 9.07969 15 10.0002C15 10.9206 15.7462 11.6668 16.6667 11.6668Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M16.6667 4.99984C17.5871 4.99984 18.3333 4.25365 18.3333 3.33317C18.3333 2.4127 17.5871 1.6665 16.6667 1.6665C15.7462 1.6665 15 2.4127 15 3.33317C15 4.25365 15.7462 4.99984 16.6667 4.99984Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M16.6667 18.3333C17.5871 18.3333 18.3333 17.5871 18.3333 16.6667C18.3333 15.7462 17.5871 15 16.6667 15C15.7462 15 15 15.7462 15 16.6667C15 17.5871 15.7462 18.3333 16.6667 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M3.33366 11.6668C4.25413 11.6668 5.00033 10.9206 5.00033 10.0002C5.00033 9.07969 4.25413 8.3335 3.33366 8.3335C2.41318 8.3335 1.66699 9.07969 1.66699 10.0002C1.66699 10.9206 2.41318 11.6668 3.33366 11.6668Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M5 10H15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M15.0003 3.3335H11.667C10.0003 3.3335 9.16699 4.16683 9.16699 5.8335V14.1668C9.16699 15.8335 10.0003 16.6668 11.667 16.6668H15.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     </svg>`,
+            //   is_image:true,
+            //   gate: 'manage_shipment_setting',
+            //
+            // },
             {
               path: 'colors',
               title: this.$t('setting.colors'),
@@ -868,23 +881,23 @@ export default {
 
             },
 
-            {
-              path: 'shipping-rules',
-              title: this.$t('brand.shipRules'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.0001 11.6665H10.8335C11.7501 11.6665 12.5001 10.9165 12.5001 9.99984V1.6665H5.00012C3.75012 1.6665 2.65846 2.35816 2.0918 3.37483" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M1.66699 14.1665C1.66699 15.5498 2.78366 16.6665 4.16699 16.6665H5.00033C5.00033 15.7498 5.75033 14.9998 6.66699 14.9998C7.58366 14.9998 8.33366 15.7498 8.33366 16.6665H11.667C11.667 15.7498 12.417 14.9998 13.3337 14.9998C14.2503 14.9998 15.0003 15.7498 15.0003 16.6665H15.8337C17.217 16.6665 18.3337 15.5498 18.3337 14.1665V11.6665H15.8337C15.3753 11.6665 15.0003 11.2915 15.0003 10.8332V8.33317C15.0003 7.87484 15.3753 7.49984 15.8337 7.49984H16.9086L15.4837 5.00818C15.1837 4.49151 14.6337 4.1665 14.0337 4.1665H12.5003V9.99984C12.5003 10.9165 11.7503 11.6665 10.8337 11.6665H10.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M6.66667 18.3333C7.58714 18.3333 8.33333 17.5871 8.33333 16.6667C8.33333 15.7462 7.58714 15 6.66667 15C5.74619 15 5 15.7462 5 16.6667C5 17.5871 5.74619 18.3333 6.66667 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M13.3337 18.3333C14.2541 18.3333 15.0003 17.5871 15.0003 16.6667C15.0003 15.7462 14.2541 15 13.3337 15C12.4132 15 11.667 15.7462 11.667 16.6667C11.667 17.5871 12.4132 18.3333 13.3337 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M18.3333 10V11.6667H15.8333C15.375 11.6667 15 11.2917 15 10.8333V8.33333C15 7.875 15.375 7.5 15.8333 7.5H16.9083L18.3333 10Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M1.66699 6.6665H6.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M1.66699 9.1665H5.00033" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M1.66699 11.6665H3.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  `,
-              is_image:true,
-              gate: 'manage_shipment_setting'
-            },
+            // {
+            //   path: 'shipping-rules',
+            //   title: this.$t('brand.shipRules'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //       <path d="M10.0001 11.6665H10.8335C11.7501 11.6665 12.5001 10.9165 12.5001 9.99984V1.6665H5.00012C3.75012 1.6665 2.65846 2.35816 2.0918 3.37483" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M1.66699 14.1665C1.66699 15.5498 2.78366 16.6665 4.16699 16.6665H5.00033C5.00033 15.7498 5.75033 14.9998 6.66699 14.9998C7.58366 14.9998 8.33366 15.7498 8.33366 16.6665H11.667C11.667 15.7498 12.417 14.9998 13.3337 14.9998C14.2503 14.9998 15.0003 15.7498 15.0003 16.6665H15.8337C17.217 16.6665 18.3337 15.5498 18.3337 14.1665V11.6665H15.8337C15.3753 11.6665 15.0003 11.2915 15.0003 10.8332V8.33317C15.0003 7.87484 15.3753 7.49984 15.8337 7.49984H16.9086L15.4837 5.00818C15.1837 4.49151 14.6337 4.1665 14.0337 4.1665H12.5003V9.99984C12.5003 10.9165 11.7503 11.6665 10.8337 11.6665H10.0003" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M6.66667 18.3333C7.58714 18.3333 8.33333 17.5871 8.33333 16.6667C8.33333 15.7462 7.58714 15 6.66667 15C5.74619 15 5 15.7462 5 16.6667C5 17.5871 5.74619 18.3333 6.66667 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M13.3337 18.3333C14.2541 18.3333 15.0003 17.5871 15.0003 16.6667C15.0003 15.7462 14.2541 15 13.3337 15C12.4132 15 11.667 15.7462 11.667 16.6667C11.667 17.5871 12.4132 18.3333 13.3337 18.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M18.3333 10V11.6667H15.8333C15.375 11.6667 15 11.2917 15 10.8333V8.33333C15 7.875 15.375 7.5 15.8333 7.5H16.9083L18.3333 10Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M1.66699 6.6665H6.66699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M1.66699 9.1665H5.00033" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       <path d="M1.66699 11.6665H3.33366" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //       </svg>
+            //       `,
+            //   is_image:true,
+            //   gate: 'manage_shipment_setting'
+            // },
             {
               path: 'transportation-modes',
               title: this.$t('setting.transportation'),
@@ -962,71 +975,60 @@ export default {
               is_image:true,
               gate: 'manage_initial_setting',
             },
-            {
-              path: 'tax-rules',
-              title: this.$t('error.tr'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.60866 16.4165C6.29199 15.6832 7.33366 15.7415 7.93366 16.5415L8.77533 17.6665C9.45033 18.5582 10.542 18.5582 11.217 17.6665L12.0587 16.5415C12.6587 15.7415 13.7003 15.6832 14.3837 16.4165C15.867 17.9998 17.0753 17.4748 17.0753 15.2582V5.8665C17.0837 2.50817 16.3003 1.6665 13.1503 1.6665H6.85033C3.70033 1.6665 2.91699 2.50817 2.91699 5.8665V15.2498C2.91699 17.4748 4.13366 17.9915 5.60866 16.4165Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M6.74705 9.16667H6.75454" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.08203 9.1665H13.6654" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M6.74705 5.83317H6.75454" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.08203 5.8335H13.6654" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>`,
-              is_image:true,
-              gate: 'manage_shipment_setting'
+            // {
+            //   path: 'tax-rules',
+            //   title: this.$t('error.tr'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //     <path d="M5.60866 16.4165C6.29199 15.6832 7.33366 15.7415 7.93366 16.5415L8.77533 17.6665C9.45033 18.5582 10.542 18.5582 11.217 17.6665L12.0587 16.5415C12.6587 15.7415 13.7003 15.6832 14.3837 16.4165C15.867 17.9998 17.0753 17.4748 17.0753 15.2582V5.8665C17.0837 2.50817 16.3003 1.6665 13.1503 1.6665H6.85033C3.70033 1.6665 2.91699 2.50817 2.91699 5.8665V15.2498C2.91699 17.4748 4.13366 17.9915 5.60866 16.4165Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M6.74705 9.16667H6.75454" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M9.08203 9.1665H13.6654" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M6.74705 5.83317H6.75454" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M9.08203 5.8335H13.6654" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     </svg>`,
+            //   is_image:true,
+            //   gate: 'manage_shipment_setting'
+            //
+            // },
 
-            },
-            {
-              path: 'product-collections',
-              title: this.$t('error.col'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.667 13.3333C11.667 14.8083 11.0253 16.1416 10.0003 17.05C9.11699 17.85 7.95033 18.3333 6.66699 18.3333C3.90866 18.3333 1.66699 16.0916 1.66699 13.3333C1.66699 11.0333 3.23366 9.0833 5.35033 8.5083C5.92533 9.9583 7.15866 11.075 8.68366 11.4916C9.10033 11.6083 9.54199 11.6666 10.0003 11.6666C10.4587 11.6666 10.9003 11.6083 11.317 11.4916C11.542 12.0583 11.667 12.6833 11.667 13.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M15 6.6665C15 7.3165 14.875 7.9415 14.65 8.50817C14.075 9.95817 12.8417 11.0748 11.3167 11.4915C10.9 11.6082 10.4583 11.6665 10 11.6665C9.54167 11.6665 9.1 11.6082 8.68333 11.4915C7.15833 11.0748 5.925 9.95817 5.35 8.50817C5.125 7.9415 5 7.3165 5 6.6665C5 3.90817 7.24167 1.6665 10 1.6665C12.7583 1.6665 15 3.90817 15 6.6665Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M18.3333 13.3333C18.3333 16.0916 16.0917 18.3333 13.3333 18.3333C12.05 18.3333 10.8833 17.85 10 17.05C11.025 16.1416 11.6667 14.8083 11.6667 13.3333C11.6667 12.6833 11.5417 12.0583 11.3167 11.4916C12.8417 11.075 14.075 9.9583 14.65 8.5083C16.7667 9.0833 18.3333 11.0333 18.3333 13.3333Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              `,
-              is_image:true,
-              gate: 'manage_initial_setting'
-            },
-            {
-              path: 'bundle-deals',
-              title: this.$t('error.bd'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5.58398 7.7168L10.0006 10.2751L14.384 7.73346" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.001 14.8083V10.2666" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.96688 5.24187L6.3002 6.72521C5.7002 7.05854 5.2002 7.9002 5.2002 8.59187V11.4169C5.2002 12.1085 5.69187 12.9502 6.3002 13.2835L8.96688 14.7669C9.53355 15.0835 10.4669 15.0835 11.0419 14.7669L13.7085 13.2835C14.3085 12.9502 14.8085 12.1085 14.8085 11.4169V8.58354C14.8085 7.89187 14.3169 7.0502 13.7085 6.71687L11.0419 5.23354C10.4669 4.91687 9.53355 4.91687 8.96688 5.24187Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M18.3333 12.5C18.3333 15.725 15.725 18.3333 12.5 18.3333L13.375 16.875" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M1.66699 7.49984C1.66699 4.27484 4.27533 1.6665 7.50033 1.6665L6.62534 3.12484" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>`,
-              is_image:true,
-              gate: 'manage_initial_setting'
-            },
-            {
-              path: 'attributes',
-              title: this.$t('list.attr'),
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.50033 18.3332H12.5003C16.667 18.3332 18.3337 16.6665 18.3337 12.4998V7.49984C18.3337 3.33317 16.667 1.6665 12.5003 1.6665H7.50033C3.33366 1.6665 1.66699 3.33317 1.66699 7.49984V12.4998C1.66699 16.6665 3.33366 18.3332 7.50033 18.3332Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12.9746 15.4165V12.1665" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12.9746 6.2085V4.5835" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12.9753 10.5418C14.1719 10.5418 15.1419 9.57178 15.1419 8.37516C15.1419 7.17855 14.1719 6.2085 12.9753 6.2085C11.7786 6.2085 10.8086 7.17855 10.8086 8.37516C10.8086 9.57178 11.7786 10.5418 12.9753 10.5418Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.02539 15.4165V13.7915" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.02539 7.8335V4.5835" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.02507 13.7918C8.22168 13.7918 9.19173 12.8218 9.19173 11.6252C9.19173 10.4285 8.22168 9.4585 7.02507 9.4585C5.82845 9.4585 4.8584 10.4285 4.8584 11.6252C4.8584 12.8218 5.82845 13.7918 7.02507 13.7918Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>`,
-              is_image:true,
-              gate: 'manage_initial_setting'
-            },
+            // {
+            //   path: 'bundle-deals',
+            //   title: this.$t('error.bd'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //     <path d="M5.58398 7.7168L10.0006 10.2751L14.384 7.73346" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M10.001 14.8083V10.2666" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M8.96688 5.24187L6.3002 6.72521C5.7002 7.05854 5.2002 7.9002 5.2002 8.59187V11.4169C5.2002 12.1085 5.69187 12.9502 6.3002 13.2835L8.96688 14.7669C9.53355 15.0835 10.4669 15.0835 11.0419 14.7669L13.7085 13.2835C14.3085 12.9502 14.8085 12.1085 14.8085 11.4169V8.58354C14.8085 7.89187 14.3169 7.0502 13.7085 6.71687L11.0419 5.23354C10.4669 4.91687 9.53355 4.91687 8.96688 5.24187Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M18.3333 12.5C18.3333 15.725 15.725 18.3333 12.5 18.3333L13.375 16.875" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M1.66699 7.49984C1.66699 4.27484 4.27533 1.6665 7.50033 1.6665L6.62534 3.12484" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     </svg>`,
+            //   is_image:true,
+            //   gate: 'manage_initial_setting'
+            // },
+            // {
+            //   path: 'attributes',
+            //   title: this.$t('list.attr'),
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //     <path d="M7.50033 18.3332H12.5003C16.667 18.3332 18.3337 16.6665 18.3337 12.4998V7.49984C18.3337 3.33317 16.667 1.6665 12.5003 1.6665H7.50033C3.33366 1.6665 1.66699 3.33317 1.66699 7.49984V12.4998C1.66699 16.6665 3.33366 18.3332 7.50033 18.3332Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M12.9746 15.4165V12.1665" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M12.9746 6.2085V4.5835" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M12.9753 10.5418C14.1719 10.5418 15.1419 9.57178 15.1419 8.37516C15.1419 7.17855 14.1719 6.2085 12.9753 6.2085C11.7786 6.2085 10.8086 7.17855 10.8086 8.37516C10.8086 9.57178 11.7786 10.5418 12.9753 10.5418Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M7.02539 15.4165V13.7915" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M7.02539 7.8335V4.5835" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     <path d="M7.02507 13.7918C8.22168 13.7918 9.19173 12.8218 9.19173 11.6252C9.19173 10.4285 8.22168 9.4585 7.02507 9.4585C5.82845 9.4585 4.8584 10.4285 4.8584 11.6252C4.8584 12.8218 5.82845 13.7918 7.02507 13.7918Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //     </svg>`,
+            //   is_image:true,
+            //   gate: 'manage_initial_setting'
+            // },
 
-            {
-              path: 'setting/currency',
-              title: 'More Setting',
-              icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M1.66663 10.7334V9.2667C1.66663 8.40003 2.37496 7.68336 3.24996 7.68336C4.75829 7.68336 5.37496 6.6167 4.61663 5.30836C4.18329 4.55836 4.44163 3.58336 5.19996 3.15003L6.64163 2.32503C7.29996 1.93336 8.14996 2.1667 8.54163 2.82503L8.63329 2.98336C9.38329 4.2917 10.6166 4.2917 11.375 2.98336L11.4666 2.82503C11.8583 2.1667 12.7083 1.93336 13.3666 2.32503L14.8083 3.15003C15.5666 3.58336 15.825 4.55836 15.3916 5.30836C14.6333 6.6167 15.25 7.68336 16.7583 7.68336C17.625 7.68336 18.3416 8.3917 18.3416 9.2667V10.7334C18.3416 11.6 17.6333 12.3167 16.7583 12.3167C15.25 12.3167 14.6333 13.3834 15.3916 14.6917C15.825 15.45 15.5666 16.4167 14.8083 16.85L13.3666 17.675C12.7083 18.0667 11.8583 17.8334 11.4666 17.175L11.375 17.0167C10.625 15.7084 9.39163 15.7084 8.63329 17.0167L8.54163 17.175C8.14996 17.8334 7.29996 18.0667 6.64163 17.675L5.19996 16.85C4.44163 16.4167 4.18329 15.4417 4.61663 14.6917C5.37496 13.3834 4.75829 12.3167 3.24996 12.3167C2.37496 12.3167 1.66663 11.6 1.66663 10.7334Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>`,
-              is_image:true,
-              gate: 'manage_initial_setting',
-            },
+            // {
+            //   path: 'setting/currency',
+            //   title: 'More Setting',
+            //   icon: `<svg width="20" height="20" class="text-primary h-4 w-4"  viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            //   <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //   <path d="M1.66663 10.7334V9.2667C1.66663 8.40003 2.37496 7.68336 3.24996 7.68336C4.75829 7.68336 5.37496 6.6167 4.61663 5.30836C4.18329 4.55836 4.44163 3.58336 5.19996 3.15003L6.64163 2.32503C7.29996 1.93336 8.14996 2.1667 8.54163 2.82503L8.63329 2.98336C9.38329 4.2917 10.6166 4.2917 11.375 2.98336L11.4666 2.82503C11.8583 2.1667 12.7083 1.93336 13.3666 2.32503L14.8083 3.15003C15.5666 3.58336 15.825 4.55836 15.3916 5.30836C14.6333 6.6167 15.25 7.68336 16.7583 7.68336C17.625 7.68336 18.3416 8.3917 18.3416 9.2667V10.7334C18.3416 11.6 17.6333 12.3167 16.7583 12.3167C15.25 12.3167 14.6333 13.3834 15.3916 14.6917C15.825 15.45 15.5666 16.4167 14.8083 16.85L13.3666 17.675C12.7083 18.0667 11.8583 17.8334 11.4666 17.175L11.375 17.0167C10.625 15.7084 9.39163 15.7084 8.63329 17.0167L8.54163 17.175C8.14996 17.8334 7.29996 18.0667 6.64163 17.675L5.19996 16.85C4.44163 16.4167 4.18329 15.4417 4.61663 14.6917C5.37496 13.3834 4.75829 12.3167 3.24996 12.3167C2.37496 12.3167 1.66663 11.6 1.66663 10.7334Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            //   </svg>`,
+            //   is_image:true,
+            //   gate: 'manage_initial_setting',
+            // },
 
           ]
         },

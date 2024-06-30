@@ -7,7 +7,7 @@
     :modalButton="false"
     list-api="getVendorUsers"
     delete-api="deleteVendors"
-    route-name="vendor-users"
+    route-name="account/access-management"
     :name="$t('user.users')"
     :order-options="orderOptions"
     gate="invite"
@@ -27,7 +27,7 @@
       <tr v-for="(value, index) in list" :key="index"  :class="{ 'new-data': !parseInt(value.viewed) }">
         <td class="">
 <!--          <p>{{ value }}</p>-->
-          <nuxt-link class="link" :to="`/vendor-users/${value.id}`">
+          <nuxt-link class="link" :to="`/account/access-management/${value.id}`">
             <h5 class="mx-w-300x">{{ value.name }}</h5>
           </nuxt-link>
         </td>
@@ -45,8 +45,8 @@
         </td>
 
         <td>{{ value.created }}</td>
-        <td>
-          <button v-if="$can('invite')" @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
+        <td v-if="$can('invite')"  >
+          <button v-if="!value.is_owner " @click.prevent="$refs.listPage.deleteItem(value.id)" class="border-0">
             <DeleteButtonIcon />
           </button>
           <button v-if="$can('invite')" @click.prevent="$refs.listPage.editItem(value.id)" class="border-0">

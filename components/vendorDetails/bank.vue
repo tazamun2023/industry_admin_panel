@@ -14,37 +14,52 @@
       <template v-slot:table="{list}">
     <table>
       <thead>
-      <tr>
-        <th>{{ $t('vendor.bank_name') }}</th>
-        <th>{{ $t("vendor.ac_number") }}</th>
-        <th>{{ $t("vendor.action") }}</th>
+      <tr class="lite-bold">
+        <th class="bg-lightdeep">
+          <div class="flex gap-4 items-center">
+            <!-- <input type="checkbox"> -->
+            {{ $t('global.name') }}
+          </div>
+        </th>
+        <th class="bg-lightdeep">
+          {{ $t('bank.iban') }}
+        </th>
+        <th class="bg-lightdeep">{{ $t('bank.swift_code') }}</th>
+        <th class="bg-lightdeep">{{ $t('bank.holder_name') }}</th>
+        <th class="bg-lightdeep">{{ $t('bank.bank_name') }}</th>
+        <th class="bg-lightdeep text-center">
+          <div class="flex gap-2 justify-center items-center">
+            <!-- <input type="checkbox"> -->
+            {{ $t('bank.set_default') }}
+          </div>
+        </th>
+        <th class="bg-lightdeep"></th>
       </tr>
+
       </thead>
       <tbody>
-      <tr v-for="(value, index) in list"  :key="index">
+      <tr class="border-t border-pb" v-for="(value, index) in list" :key="index">
+        <td>
+          <div class="flex font-bold capitalize gap-4 items-center">
+            <!-- <input type="checkbox"> -->
+            {{ value.name }}
+          </div>
+        </td>
+        <td class="text-primary">
+          {{ value.iban_number }}
+        </td>
+        <td class="text-primary">
+          {{ value.swift_code }}
+        </td>
+        <td class="font-bold capitalize">{{ value.holder_name }}</td>
         <td>{{ value.bank_name }}</td>
-        <td>{{ value.iban_number }}</td>
-        <td><div class="flex gap-4">
-           <button @click="deleteModal=true">
-          <svg class="w-4 h-4 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-          </svg>
-           </button>
+        <td class="text-center">
+          <input :disabled="true"
+                 :checked="value.is_default"
+                 :value="value.is_default"
+                 type="checkbox">
+        </td>
 
-        </div></td>
-        <DeleteModal v-if="deleteModal" @closeModal="closeModal">
-          <template v-slot:title>
-            <h4>{{ $t('vendor.deletemessage') }}</h4>
-          </template>
-          <!-- -----------default slot------- -->
-          <!-- -----------default slot------- -->
-          <template v-slot:buttons>
-            <div class="flex gap-4 justify-end">
-              <button @click="deleteModal=false" class="p-2 border border-smooth rounded leading-3 w-[60px]">Quit</button>
-              <button @click="$refs.listPage.deleteBankItem(value.id, param), deleteModal=false" class="p-2 border border-smooth bg-primary text-white  rounded leading-3 w-[60px] hover:text-primary">Agree</button>
-            </div>
-          </template>
-        </DeleteModal>
       </tr>
 
       </tbody>
@@ -55,10 +70,11 @@
 </template>
 <script >
 import ListPage from "@/components/partials/ListPage.vue";
+import DeleteButtonIcon from "../partials/DeleteButtonIcon.vue";
 
 export default {
   name:"bank",
-  components: {ListPage},
+  components: {DeleteButtonIcon, ListPage},
   props:{
     vendorId:{
       type:String,

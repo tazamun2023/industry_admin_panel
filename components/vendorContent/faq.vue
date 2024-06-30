@@ -21,7 +21,7 @@
         <th>{{ $t('global.question') }}</th>
         <th>{{ $t('global.answer') }}</th>
         <th>{{ $t('global.created') }}</th>
-        <th>{{ $t('global.action') }}</th>
+<!--        <th>{{ $t('global.action') }}</th>-->
       </tr>
 
       <tr v-for="(value, index) in list" :key="index">
@@ -29,11 +29,11 @@
         <td>{{ value.local_questions }}</td>
         <td v-html="value.local_answers"></td>
         <td>{{ value.created }}</td>
-        <td>
-          <button
-            v-if="$can('manage_content')"
-            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>
-        </td>
+<!--        <td>-->
+<!--          <button-->
+<!--            v-if="$can('manage_content')"-->
+<!--            @click="$refs.listPage.deleteItem(value.id)" class="border-0"><delete-button-icon/></button>-->
+<!--        </td>-->
       </tr>
       <DeleteModal  v-if="deleteModal" @closeModal="closeModal">
         <template v-slot:title>
