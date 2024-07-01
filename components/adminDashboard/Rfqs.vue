@@ -11,43 +11,43 @@
           <td class="text-[13px] px-4 capitalize">
             All RFQs
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">53</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.all_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Pending
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">55</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.pending_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Approve
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">6</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.approved_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Quote Received
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">43</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.quote_received_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Quote Accepted
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">33</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.quote_accepted_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Cancelled
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">4</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.cancelled_rfqs }}</td>
         </tr>
         <tr>
           <td class="text-[13px] px-4 capitalize">
             Rejected
           </td>
-          <td class="ltr:text-end px-4 rtl:text-start">40</td>
+          <td class="ltr:text-end px-4 rtl:text-start">{{ rfqs?.rejected_rfqs }}</td>
         </tr>
         </tbody>
       </table>
@@ -60,3 +60,17 @@
   </div>
 </template>
 
+<script>
+
+import LazyImage from "../LazyImage.vue";
+
+export default {
+  name: "AdminRfqs",
+  components: {LazyImage},
+  props: ['rfqs'],
+
+  data() {
+    return {}
+  }
+}
+</script>

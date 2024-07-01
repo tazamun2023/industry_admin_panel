@@ -17,9 +17,36 @@ export default {
     color:{
        type:String,
       default:'#01A781'
+    },
+    productLabelsAndData:{},
+    customerLabelsAndData:{},
+    rfqLabelsAndData:{},
+    orderLabelsAndData:{}
+  },
+  data(){
+    return{
+      labelsMonth: [],
+      productCountPerMonth: []
     }
+
   },
   mounted() {
+    if (this.productLabelsAndData){
+      this.labelsMonth = this.productLabelsAndData?.labels
+      this.productCountPerMonth = this.productLabelsAndData?.productCountPerMonth
+    }
+    if (this.orderLabelsAndData){
+      this.labelsMonth = this.orderLabelsAndData?.labels
+      this.productCountPerMonth = this.orderLabelsAndData?.orderCountPerMonth
+    }
+    if (this.customerLabelsAndData){
+      this.labelsMonth = this.customerLabelsAndData?.labels
+      this.productCountPerMonth = this.customerLabelsAndData?.customerCountPerMonth
+    }
+    if (this.rfqLabelsAndData){
+      this.labelsMonth = this.rfqLabelsAndData?.labels
+      this.productCountPerMonth = this.rfqLabelsAndData?.rfqCountPerMonth
+    }
     this.renderChart();
   },
   methods: {
@@ -28,13 +55,13 @@ export default {
       new Line(ctx, {
         type: 'line',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: this.labelsMonth,
           datasets: [
             {
               label: this.label,
               // backgroundColor: 'rgba(75,192,192,0.4)',
               borderColor: this.color,
-              data: [65, 59, 80, 81, 56, 55, 40],
+              data: this.productCountPerMonth,
               fill: false,
             },
           ],

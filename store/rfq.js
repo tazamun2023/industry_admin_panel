@@ -9,10 +9,12 @@ const state = () => ({
   isNewInquiryOffer: false,
   isReadMessage: false,
   isFetchingRfqOffer: false,
+  inquiries: [],
 });
 
 const getters = {
   allRfqRejectReason: ({allRfqRejectReason}) => allRfqRejectReason,
+  inquiries: ({inquiries}) => inquiries,
 
   activeRfqInquiries: state => state.activeRfqInquiries,
   activeInquiryData: state => state.activeInquiryData,
@@ -31,7 +33,9 @@ const mutations = {
     //   description: item.description,
     // }));
   },
-
+  SET_ALL_INQUIRIES(state, inquiries) {
+    state.inquiries = inquiries;
+  },
 
   SET_ACTIVE_RFQ_INQUIRIES(state, data) {
     state.activeRfqInquiries = data;
@@ -72,6 +76,32 @@ const mutations = {
     state.isNewInquiryOffer = false;
   },
 
+  SET_ACTIVE_INQUIRIES_ONE_OFFER(state, data) {
+    var index = state.activeInquiryData.inquiryOffers.findIndex(offer => offer.id == data.id);
+    if (index > -1) {
+      state.activeInquiryData.inquiryOffers.splice(index, 1);
+    }
+
+    state.activeInquiryData.inquiryOffers.push(data);
+    var old_index = state.inquiries.findIndex(i => i.id == data.inquiry_id)
+
+    // Remove the item from the specified index
+    const item = state.inquiries.splice(old_index, 1)[0];
+    state.inquiries.unshift(item);
+    // Insert the item at the 0th index
+    if (data.status != null) {
+      state.inquiries[0].last_status = data.status
+      state.activeInquiryData.inquiryOffers.forEach((item) => {
+        if (data.inquiry_id != item.inquiry_id) {
+          if (['pending_response',].includes(item.status))
+            item.status = 'canceled'
+        }
+      })
+    }
+
+
+  },
+
 };
 
 const actions = {
@@ -88,6 +118,23 @@ const actions = {
     } catch (error) {
       console.error(error);
       return Promise.reject(error);
+    }
+  },
+
+  async getInquiries({ rootState, commit }) {
+    try {
+      const { data } = await Service.getRequest(null, this.$auth.strategy.token.get(), 'getAllInquiries', rootState.language.langCode);
+
+      // const {data} = await Service.getInquiries(
+      //   {},
+      //   this.$auth.strategy.token.get(), // Ensure this.$auth.strategy.token.get() is accessible
+      //
+      // );
+      commit('SET_ALL_INQUIRIES', data.data);
+      return data;
+    } catch (error) {
+      console.error('Error fetching inquiries:', error);
+      throw error; // Re-throw the error if you want to handle it later
     }
   },
 
@@ -136,6 +183,12 @@ const actions = {
   },
   clearIsFetchingRfq({ commit }) {
     commit('CLEAR_IS_FETCHING_RFQ_MESSAGE_CLEAR');
+  },
+
+
+  setActiveInquiriesOneOffer({commit, state}, data) {
+    // commit('CLEAR_ACTIVE_INQUIRIES_OFFER'); // Set active inquiries offer
+    commit('SET_ACTIVE_INQUIRIES_ONE_OFFER', data); // Set active inquiries offer
   },
 };
 

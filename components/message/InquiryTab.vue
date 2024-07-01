@@ -9,7 +9,7 @@ export default {
   data() {
     return {
       is_loading: false,
-      inquiries: [],
+      // inquiries: [],
       activeInquiry: '',
       CurrentActiveInquiryData: '',
       searchQuery: '',
@@ -20,7 +20,7 @@ export default {
   methods: {
     setActiveInq(data){
       this.setActiveInquiriesOffer(data)
-      console.log('set active - ',data)
+      // console.log('set active - ',data)
       if (data.unread_message > 0){
         this.readMessage(data.id)
         this.fetchingData();
@@ -96,7 +96,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'getInquiries']),
   },
 
   computed: {
@@ -110,15 +110,17 @@ export default {
 
 
     ...mapGetters('language', ['currentLanguage']),
-    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData']),
+    ...mapGetters('rfq', ['activeRfqInquiries', 'activeInquiryData', 'inquiries']),
   },
 
 
   async mounted() {
 
-    this.is_loading = true
-    await this.fetchingData()
-    this.is_loading = false
+    // this.is_loading = true
+    // await this.fetchingData()
+    // this.is_loading = false
+    await this.getInquiries();
+
 
     // Enable pusher logging - don't include this in production
     Pusher.logToConsole = true;

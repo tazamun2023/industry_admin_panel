@@ -62,7 +62,7 @@
     <!-- ----------------------------Admin panel end------------------------------- -->
     <div v-if="$store.state.admin.isSuperAdmin">
       <div>
-        <shortStatics/>
+        <shortStatics :productLabelsAndData="productLabelsAndData" :orderLabelsAndData="orderLabelsAndData" :customerLabelsAndData="customerLabelsAndData" :rfqLabelsAndData="rfqLabelsAndData"/>
       </div>
       <div class="my-2">
         <OrderUpdate/>
@@ -80,12 +80,12 @@
           <admin-best-seller :bestSelling="bestSelling"/>
         </div>
         <div class="my-2  card">
-          <admin-brand :brands="brands"/>
+          <admin-brand :brands="brands" />
         </div>
       </div>
       <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
         <div class="card my-2">
-          <rfqs/>
+          <rfqs :rfqs="rfqs"/>
         </div>
         <div class="card my-2">
           <customer/>
@@ -93,7 +93,7 @@
       </div>
       <div class="my-3 lg:grid lg:grid-cols-2 gap-4">
         <div class="card my-2">
-          <vendor/>
+          <vendor :vendorChart="vendorChart"/>
         </div>
         <div class="card my-2">
           <admin-order/>
@@ -163,6 +163,12 @@ export default {
       lowStock: null,
       inquiries_and_rfqs: null,
       orders: null,
+      vendorChart: null,
+      rfqs: null,
+      productLabelsAndData: null,
+      orderLabelsAndData: null,
+      customerLabelsAndData: null,
+      rfqLabelsAndData: null,
       fetching: false
     }
   },
@@ -253,6 +259,12 @@ export default {
         this.enhance = data.enhance
         this.my_products = data.my_products
         this.orderStatuses = data.orderStatuses
+        this.rfqs = data.rfqs
+        this.productLabelsAndData = data.productLabelsAndData
+        this.orderLabelsAndData = data.orderLabelsAndData
+        this.customerLabelsAndData = data.customerLabelsAndData
+        this.rfqLabelsAndData = data.rfqLabelsAndData
+        this.vendorChart = data.vendorChart
 
         /*await this.getDashboard({
           ...this.chartMonth,
