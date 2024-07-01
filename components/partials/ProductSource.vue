@@ -60,7 +60,9 @@
         },
         allData: {
           type: Object,
-          default: null
+          default: function _default() {
+            return {};
+          }
         },
         items: {
           type: Array,

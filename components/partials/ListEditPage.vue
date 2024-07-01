@@ -128,7 +128,9 @@ export default {
     },
     param: {
       type: Object,
-      default: null
+      default: function _default() {
+        return {};
+      }
     },
     gate: {
       type: String,
@@ -145,7 +147,9 @@ export default {
 
     anotherData: {
       type: Object,
-      default: {}
+      default: function _default() {
+        return {};
+      }
     },
 
     deleteApi: {

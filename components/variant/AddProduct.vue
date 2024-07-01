@@ -1247,7 +1247,9 @@ export default {
   props: {
     product: {
       type: Object,
-      default: null
+      default: function _default() {
+        return {};
+      }
     },
     p_select_attr1: String,
     p_select_attr2: String,

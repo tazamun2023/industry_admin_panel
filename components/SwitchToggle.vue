@@ -51,10 +51,12 @@ export default {
     },
     params: {
       type: Object,
-      default: {}
+      default: function _default() {
+        return {};
+      }
     },
     value: {
-      type: Boolean,
+      type: Boolean|Number,
       default: false
     },
   },

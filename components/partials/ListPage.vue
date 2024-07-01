@@ -104,7 +104,9 @@ export default {
     },
     param: {
       type: Object,
-      default: null
+      default: function _default() {
+        return {};
+      }
     },
     gate: {
       type: String,

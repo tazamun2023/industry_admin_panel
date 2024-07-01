@@ -80,7 +80,9 @@ export default {
   props: {
     order: {
       type: Object,
-      default: {}
+      default: function _default() {
+        return {};
+      }
     },
     width: {
       type: String,

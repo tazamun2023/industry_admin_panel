@@ -697,15 +697,15 @@ const actions = {
         api,
         rootState.language.langCode
       ));
-      return data
-    }
 
+    }
     if (data.status === 200 && data.message != "") {
       dispatch("ui/setToastMessage", data.message, {root: true});
-      return data.data;
+      return data;
     } else if (data.status === 201) {
       dispatch("ui/setErrors", data.data, {root: true});
       dispatch("ui/setToastMessage", data.message, {root: true});
+      return data;
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
     }

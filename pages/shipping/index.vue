@@ -21,7 +21,7 @@
       @res="getSettings"
     >
       <template v-slot:table-top>
-        <p class="button primary-btn">{{ $t('shipping.est') }}</p>
+<!--        <p class="button primary-btn">{{ $t('shipping.est') }}</p>-->
         <h3 class="text-[35px] uppercase font-medium py-4">Shipping faivorate</h3>
       </template>
 
@@ -42,7 +42,7 @@
 
         <tr v-for="(value, index) in list" :key="index">
           <td>
-            <SwitchToggle v-model="value.status"/>
+            <SwitchToggle  v-model="value.status"/>
 
             <!--          // <input type="checkbox" :value="1" v-model="value.status">-->
           </td>
@@ -205,7 +205,6 @@ export default {
   mixins: [util, bulkDelete, address],
   methods: {
     closeModelAddAddress() {
-      console.log("close address modal 222")
       this.addressmodal = false
     },
     changeDefalutAddress() {
