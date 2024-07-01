@@ -42,6 +42,7 @@
     "setPassword": "update-password",
 
     "getCategoriesTree": "category/select",
+    "toggleCategory": "category/toggle",
     "getAllCategories": "category/all-categories",
     "getCategories": "category/all",
     "deleteCategory": "category/delete",

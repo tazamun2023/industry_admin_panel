@@ -12,7 +12,7 @@
     :order-options="orderOptions"
     class="tree-wrapper"
     @delete-bulk="deleteBulk"
-    @list="itemList = $event"
+    @list="setCategories"
   >
     <template
       v-slot:table="{list}"
@@ -47,52 +47,55 @@
 
 <script>
 
-  import ListPage from "~/components/partials/ListPage"
-  import util from '~/mixin/util'
-  import LazyImage from "~/components/LazyImage"
-  import TreeNode from "~/components/TreeNode"
+import ListPage from "~/components/partials/ListPage"
+import util from '~/mixin/util'
+import LazyImage from "~/components/LazyImage"
+import TreeNode from "~/components/TreeNode"
+import {mapActions} from "vuex";
 
-  export default {
-    name: "categories",
-    middleware: ['common-middleware', 'auth'],
-    data() {
-      return {
-        itemList: [],
-        cbList: [],
-        orderOptions: {
-          created_at: { title: this.$t('category.date') },
-          title: { title: this.$t('index.title') },
-          status: { title: this.$t('category.status') }
-        }
+export default {
+  name: "categories",
+  middleware: ['common-middleware', 'auth'],
+  data() {
+    return {
+      cbList: [],
+      orderOptions: {
+        created_at: {title: this.$t('category.date')},
+        title: {title: this.$t('index.title')},
+        status: {title: this.$t('category.status')}
       }
-    },
-    components: {
-      TreeNode,
-      LazyImage,
-      ListPage
-    },
-    mixins: [util],
-    computed: {
-    },
-    methods: {
-      deleteBulk(){
-
-
-        if(this.cbList?.length){
-          this.$refs.listPage.deleteItem(this.cbList.join(','))
-        }
-      },
-
-      editNode(node){
-        this.$refs.listPage.editItem(node.id)
-      },
-      deleteNode(node){
-        this.$refs.listPage.deleteItem(node.id)
-      }
-    },
-    mounted() {
     }
+  },
+  components: {
+    TreeNode,
+    LazyImage,
+    ListPage
+  },
+  mixins: [util],
+  computed: {},
+  methods: {
+    ...mapActions('common', ['setCategoriesTree']),
+    setCategories(result) {
+      this.setCategoriesTree(result);
+    },
+    deleteBulk() {
+
+
+      if (this.cbList?.length) {
+        this.$refs.listPage.deleteItem(this.cbList.join(','))
+      }
+    },
+
+    editNode(node) {
+      this.$refs.listPage.editItem(node.id)
+    },
+    deleteNode(node) {
+      this.$refs.listPage.deleteItem(node.id)
+    }
+  },
+  mounted() {
   }
+}
 </script>
 
 <style scoped>

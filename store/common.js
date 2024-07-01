@@ -461,6 +461,10 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message});
     }
   },
+
+  async setCategoriesTree({rootState, commit}, result) {
+    commit("SET_ALL_CATEGORIES_Tree", result);
+  },
   async getCategoriesTree({rootState, commit}) {
     const {data} = await Service.getRequest(
       null,
@@ -581,7 +585,7 @@ const actions = {
       dispatch("ui/setToastMessage", data.message, {root: true});
       return data.data;
     } else if (data.status === 201) {
-      dispatch('ui/setToastMessage', data.message, { root: true })
+      dispatch('ui/setToastMessage', data.message, {root: true})
       dispatch("ui/setErrors", data.data, {root: true});
     } else {
       return Promise.reject({statusCode: data.status, message: data.message});
