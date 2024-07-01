@@ -21,7 +21,7 @@
       @res="getSettings"
     >
       <template v-slot:table-top>
-<!--        <p class="button primary-btn">{{ $t('shipping.est') }}</p>-->
+        <!--        <p class="button primary-btn">{{ $t('shipping.est') }}</p>-->
         <h3 class="text-[35px] uppercase font-medium py-4">Shipping faivorate</h3>
       </template>
 
@@ -42,7 +42,7 @@
 
         <tr v-for="(value, index) in list" :key="index">
           <td>
-            <SwitchToggle  v-model="value.status"/>
+            <SwitchToggle v-model="value.status"/>
 
             <!--          // <input type="checkbox" :value="1" v-model="value.status">-->
           </td>
@@ -74,7 +74,9 @@
                   <option :selected="settings.allow_find_nearest_pickup_address" disabled value=""><< Choose Address
                     >>
                   </option>
-                  <option v-for="address in addressList?.filter(a=>a.type!='billing')" :value="address.id">{{ address.address_name }}</option>
+                  <option v-for="address in addressList?.filter(a=>a.type!='billing')" :value="address.id">
+                    {{ address.address_name }}
+                  </option>
                 </select>
                 <label class="absolute top-[16px] ltr:right-1 rtl:left-1" for="">
                   <img class="h-3" src="~/assets/icon/arrow-down-green.svg" alt="">

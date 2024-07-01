@@ -10,6 +10,7 @@
         class="mr-15"
       />
     </div>
+    <slot v-if="!gate || $can(gate)" name="aboveTable"/>
     <div v-if="filter">
       <slot
         name="table-top"
@@ -46,8 +47,9 @@
               >
 
                 <ajax-button
-                :class="btnClass"
+                  :class="btnClass"
                   name="save"
+                  :disabled="invalid"
                   class="primary-btn w-full"
                   :text="$t('setting.sv')"
                   :fetching-data="formSubmitting "
@@ -89,7 +91,7 @@ export default {
       type: String,
       default: ''
     },
-    btnClass:{
+    btnClass: {
       type: String,
       default: ''
     },
@@ -117,6 +119,10 @@ export default {
     filter: {
       type: Boolean,
       default: true
+    },
+    invalid: {
+      type: Boolean,
+      default: false
     },
     name: {
       type: String,
@@ -222,6 +228,8 @@ export default {
       }
     },
     async checkForm() {
+      if (this.invalid)
+        return
       // if (this.validationKeys.findIndex((i) => {
       //   const parts = i.split(".");
       //   if (i.includes("."))
@@ -239,11 +247,11 @@ export default {
 
         const data = await this.setById({
           id: this.id,
-          params: {data: this.result.data,...this.anotherData},
+          params: {data: this.result.data, ...this.anotherData},
           api: this.setApi,
           method: this.method
         })
-        if (data.status=200) {
+        if (data.status = 200) {
 
           this.emptyAllList(this.emptyStoreVariable)
 
@@ -289,6 +297,8 @@ export default {
       console.log(res)
       if (this.listApi === 'getSaShipping')
         this.result = res.cities
+      else if (this.listApi === 'getCommissions')
+        this.result = res.categories
       else
         this.result = res
       this.$emit('list', this.list)

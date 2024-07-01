@@ -120,7 +120,8 @@ export default {
           this.result.description =JSON.parse(JSON.stringify( this.return_polices.police));
         } else if (this.siteSetting) {
           var siteSetting = JSON.parse(JSON.stringify(this.siteSetting));
-          this.result.description = siteSetting['edit_' + newVal];
+          this.result.description.ar = siteSetting['edit_' + this.type]?.ar;
+          this.result.description.en = siteSetting['edit_' + this.type]?.en;
         }
         // this.result.description = selectedHelp.edite_description
         // this.result.order = selectedHelp.order
@@ -134,7 +135,8 @@ export default {
     console.log("mounted")
     if (this.siteSetting && this.policeType === 'system') {
       var siteSetting = JSON.parse(JSON.stringify(this.siteSetting));
-      this.result.description = siteSetting['edit_' + this.type];
+      this.result.description.ar = siteSetting['edit_' + this.type]?.ar;
+      this.result.description.en = siteSetting['edit_' + this.type]?.en;
     }
     if (this.policeType === 'vendor' && this.return_polices) {
       this.result.description =JSON.parse(JSON.stringify( this.return_polices.police));

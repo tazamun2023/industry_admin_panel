@@ -1,4 +1,10 @@
 {
+  "commissions":
+  {
+    "commissions": "Commissions",
+    "commission": "Commission"
+  },
+
   "roles": {
     "roles_and_permissions": "Roles And Permissions",
     "Permissions": "Permissions",
@@ -88,6 +94,7 @@
     "LastUpdate": "Last Update ",
     "minWords": "Must be more than or equal {count} words ",
     "polices": "Polices ",
+    "commissions": "Additional description for commissions page ",
     "privacy_polices": " Privacy Policy",
     "return_polices": "Return & Refund Policy",
     "vendors_terms_condition": "Terms & Conditions (Vendors)",

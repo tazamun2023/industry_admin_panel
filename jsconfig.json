@@ -52,6 +52,7 @@
     "setCategoryImage": "category/upload",
 
 
+
     "getAllColors": "color/all-colors",
     "getAllUnits": "unit/select",
 
@@ -253,8 +254,10 @@
     "getCustomScript": "custom-script/find",
     "setCustomScript": "custom-script/action",
 
-
+    "getCommissions": "commissions/all",
+    "setCommissions": "commissions/store",
     "getSaShipping": "shipping/getSaudiCites",
+
     "storeSaFreeShipping": "shipping/storeSaFreeShipping",
 
     "getAllShippingRules": "shipping-rule/all-shipping-rules",
