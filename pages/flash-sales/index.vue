@@ -19,6 +19,7 @@
         <th>
           <input type="checkbox" @change="checkAll">
         </th>
+        <th v-if="$store.state.admin.isSuperAdmin">{{ $t('global.vendor') }}</th>
         <th>{{ $t('index.title') }}</th>
         <th>{{ $t('category.status') }}</th>
         <th>{{ $t('prod.sTime') }}</th>
@@ -31,6 +32,7 @@
         <td>
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
+        <td v-if="$store.state.admin.isSuperAdmin">{{ value.vendor?.name }}</td>
         <td>
           <nuxt-link
             class="link"
@@ -55,7 +57,10 @@
 <!--        </td>-->
         <td>{{ value.start_time }}</td>
         <td>{{ value.end_time }}</td>
-        <td>{{ value.created }}</td>
+        <td>  <div class="flex flex-col">
+          <p class="text-nowrap"> {{ value.created }}</p>
+          <p class="text-nowrap"> {{ value.updated_at }}</p>
+        </div></td>
         <td>
           <button
             class="border-0"
