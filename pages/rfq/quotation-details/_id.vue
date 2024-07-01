@@ -3,10 +3,11 @@ import util from "@/mixin/util";
 import {mapActions} from "vuex";
 import RFQProducts from "../../../components/rfq/RFQProducts.vue";
 import RfqDetails from "../../../components/rfq/RfqDetails.vue";
+import PriceWithCurencyFormat from "../../../components/priceWithCurencyFormat.vue";
 
 export default {
   name: "QuotationDetails",
-  components: {RfqDetails, RFQProducts},
+  components: {PriceWithCurencyFormat, RfqDetails, RFQProducts},
   middleware: ['common-middleware', 'auth'],
   mixins: [util],
   data() {
@@ -102,13 +103,19 @@ export default {
                     <td class="whitespace-nowrap px-3 py-1">
                       <div class="flex gap-4 items-center" v-if="product.product.image">
                         <img class="w-20 h-20" :src="product.product.image" :alt="product.product.title">
-                        <a class="underline text-primary" href="">{{ product?.product?.title }}</a>
+                        <nuxt-link :title="product.product.title" :to="'/products/show/'+(product.product.id)"
+                                   class="underline text-primary">{{ product.product.title }}
+                        </nuxt-link>
                       </div>
                     </td>
 <!--                    <td class="whitespace-nowrap px-3 py-1">{{ product.name }}</td>-->
                     <td class="whitespace-nowrap px-3 py-1">{{ product.quantity }} {{ product.unit?.name }}</td>
-                    <td class="whitespace-nowrap px-3 py-1">SAR {{ product.total_offer_price }}</td>
-                    <td class="whitespace-nowrap px-3 py-1">SAR {{  product?.total }}</td>
+                    <td class="whitespace-nowrap px-3 py-1">
+                      <price-with-curency-format :price="product?.total_offer_price "></price-with-curency-format>
+                      </td>
+                    <td class="whitespace-nowrap px-3 py-1">
+                      <price-with-curency-format :price="product?.total "></price-with-curency-format>
+                     </td>
                   </tr>
                   </tbody>
                 </table>

@@ -88,7 +88,7 @@ export default {
     },
     updateLevel3() {
       this.result.category_id = "";
-      this.selectedLevel2 = this.selectedLevel1.child.find(c => c.id === parseInt(this.result.subCategory));
+      this.selectedLevel2 = this.selectedLevel1?.child.find(c => c.id === parseInt(this.result.subCategory));
 
     },
     filterStatus(status) {
@@ -125,6 +125,15 @@ export default {
   async mounted() {
 
 
+
+
+    if (this.allCategoriesTree.length == 0) {
+      try {
+        await this.getCategoriesTree()
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
     if (this.$route?.query.search) {
       this.result.search = this.$route?.query.search
     }
@@ -158,21 +167,6 @@ export default {
     }
     if (this.$route?.query.status) {
       this.result.status = this.$route?.query.status
-    }
-
-    if (this.allCountries.length == 0) {
-      try {
-        await this.getAllCountries({api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES'})
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
-    }
-    if (this.allCategoriesTree.length == 0) {
-      try {
-        await this.getCategoriesTree()
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
     }
   }
 }
@@ -264,7 +258,7 @@ select option {
           </button>
 
           <!-- filter by status menu -->
-          <div v-if="isDropdownVisible"
+          <div v-if="isDropdownVisible"  v-outside-click="toggleDropdown"
                class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"
@@ -298,7 +292,7 @@ select option {
           </button>
 
           <!-- filter by status menu -->
-          <div v-if="isShortDropdownVisible"
+          <div v-if="isShortDropdownVisible"  v-outside-click="toggleDropdownByShort"
                class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <a class="block cursor-pointer px-4 py-2 hover:bg-primary dark:hover:bg-gray-600 dark:hover:text-white"

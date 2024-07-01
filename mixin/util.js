@@ -82,8 +82,8 @@ export default {
         7: this.$t('title.bt'),
       },
       messageReply: {
-        1: { title: this.$t('util.replied')},
-        2: { title: this.$t('util.nyr')}
+        1: {title: this.$t('util.replied')},
+        2: {title: this.$t('util.nyr')}
       },
       mediaStorages: {
         'LOCAL': {title: this.$t('dataPage.localProject')},
@@ -99,8 +99,8 @@ export default {
         PRIVATE: 2,
       },
       paymentStatus: {
-        1: { title: this.$t('fSale.paid')},
-        '0': { title: this.$t('fSale.unpaid')}
+        1: {title: this.$t('fSale.paid')},
+        '0': {title: this.$t('fSale.unpaid')}
       },
       orderMethodsIn: {
         CASH_ON_DELIVERY: 2,
@@ -222,17 +222,17 @@ export default {
   },
   methods: {
     phpDecryption(encrypted) {
-      if(!encrypted){
+      if (!encrypted) {
         return ''
       }
       const CryptoJS = this.CryptoJS;
       var DataKey = CryptoJS.enc.Utf8.parse("70123456891245689013234568090717");
       var DataVector = CryptoJS.enc.Utf8.parse("1124678390523412");
-      var decrypted = CryptoJS.AES.decrypt(encrypted, DataKey, { iv: DataVector });
+      var decrypted = CryptoJS.AES.decrypt(encrypted, DataKey, {iv: DataVector});
       return CryptoJS.enc.Utf8.stringify(decrypted)
     },
-    slugChange(evt, title = 'title'){
-      if(this.currentLanguage.code === 'en') {
+    slugChange(evt, title = 'title') {
+      if (this.currentLanguage.code === 'en') {
         this.result.slug = this.convertToSlug(this.result[title.en])
       }
     },
@@ -244,7 +244,7 @@ export default {
     },
     decimalSeparator(price, decimalSeparator = 'en-US') {
 
-      if(!decimalSeparator){
+      if (!decimalSeparator) {
         decimalSeparator = 'en-US'
       }
 
@@ -288,18 +288,20 @@ export default {
     //   // return image.url
     // },
     getImageURL(image = this.defaultImage) {
-      if (image !== 'default-image.webp'){
+      if (image !== 'default-image.webp') {
         return image;
-      }else {
-        let new_path= this.$store.state.imgSrcUrl + image
-        return image.includes("http")? image: new_path
+      } else {
+        let new_path = this.$store.state.imgSrcUrl + image
+        return image.includes("http") ? image : new_path
       }
 
     },
     productLink(item) {
-      if (item) {
-        return `/${item?.slug}/product/${item?.id}`
+      if (item && item?.id > 0) {
+
+        return process.env.frontBase + `${item?.slug}/product/${item?.id}`
       }
+
     },
 
     getThumbImageURL(image) {

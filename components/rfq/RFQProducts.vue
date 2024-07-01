@@ -56,13 +56,13 @@ export default {
                 </div>
                 <div>
                   <!--                          <p class="font-semibold text-black">احزمة الاوزان و المقاومة للتمارين</p>-->
-                  <nuxt-link v-if="product.product_id>0"
-                             :title="product.title"
-
-                             :to="productLink(product.product)"
-                             class="font-semibold text-primary"
+                  <a v-if="product.product_id>0"
+                     :title="product.name"
+                     target="_blank"
+                     :href="productLink(product.product)"
+                     class="font-semibold text-primary"
                   >{{ product.name }}
-                  </nuxt-link>
+                  </a>
                   <a v-else
                      class="font-semibold text-primary"
                   >{{ product.name }}

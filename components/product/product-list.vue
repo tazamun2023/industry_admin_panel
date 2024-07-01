@@ -215,7 +215,11 @@
                       {{ value.title?.length > 30 ? value.title.substring(0, 30) + '...' : value.title }}
                     </td>
                     <td>{{ value.sku }}</td>
-                    <td v-if="value.category">{{ value.category.name }}</td>
+                    <td v-if="value.category" class="flex flex-col">
+                      <span class="text-nowrap">{{ value.category.name }}</span>
+                      <span class="text-nowrap">{{ value.sub_category.name }}</span>
+                      <span class="text-nowrap">{{ value.child_category?.name }}</span>
+                    </td>
                     <td v-else>No Category</td>
                     <td v-if="value.product_prices[0]?.selling_price">
                       <p>
@@ -286,7 +290,7 @@
 
                       </div> -->
 
-                      <button id="dropdownDefaultButton" @click="toggleDropdown(index)"
+                      <button id="dropdownDefaultButton" @click="toggleDropdown(index)" v-outside-click="visibleDropdown=null"
                               class="bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 relative"
                               type="button">{{ $t('prod.action') }}
                         <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -298,7 +302,7 @@
                       <div id="dropdown"
                            class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 absolute ml-[-50px]"
                            v-if="visibleDropdown === index"
-                           v-outside-click="toggleDropdown"
+
                       >
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                             aria-labelledby="dropdownDefaultButton">

@@ -2,9 +2,10 @@
 import {mapActions, mapGetters} from "vuex";
 import ReplyNewOffer from "@/components/message/ReplyNewOffer.vue";
 import Pusher from 'pusher-js'
+import PriceWithCurencyFormat from "../priceWithCurencyFormat.vue";
 export default {
   name: "ActiveRFQ",
-  components: {ReplyNewOffer},
+  components: {PriceWithCurencyFormat, ReplyNewOffer},
   props: {
     activeRFQData: {},
     is_active_inq: {},
@@ -224,8 +225,8 @@ export default {
                   <a class="font-bold text-theem" href="">{{ activeRFQData?.inquirable?.title }}</a>
                   <p>Quantity: <span class="text-primary">{{ activeRfqInquiries.rfq?.products[is_active_inq]?.quantity }}</span>
                     {{ $t('products.Initial unit target price') }}
-                    {{ activeRfqInquiries.rfq?.products[is_active_inq]?.target_price }}
-                    <span class="text-primary">{{ $t('app.SAR') }}</span></p>
+                    <price-with-curency-format :price="activeRfqInquiries.rfq?.products[is_active_inq]?.target_price "></price-with-curency-format>
+                </p>
                   <p>{{ $t('products.Expires on') }} : <span class="text-red">{{ activeRfqInquiries.rfq?.expiry_date }}</span></p>
                 </div>
               </div>

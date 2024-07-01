@@ -107,6 +107,23 @@ export default {
   },
   async mounted() {
 
+
+
+    if (this.allCountries.length === 0) {
+      try {
+        await this.getAllCountries({ api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES' })
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
+    if (this.allCategoriesTree.length === 0) {
+      try {
+        await this.getCategoriesTree()
+      } catch (e) {
+        return this.$nuxt.error(e)
+      }
+    }
+
     if (this.$route?.query.type_filter) {
       this.result.type_filter = this.$route?.query.type_filter
     }
@@ -145,21 +162,6 @@ export default {
     }
     if (this.$route?.query.multi_products) {
       this.result.multi_products = this.$route?.query.multi_products
-    }
-
-    if (this.allCountries.length === 0) {
-      try {
-        await this.getAllCountries({ api: 'getAllCountries', mutation: 'SET_ALL_COUNTRIES' })
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
-    }
-    if (this.allCategoriesTree.length === 0) {
-      try {
-        await this.getCategoriesTree()
-      } catch (e) {
-        return this.$nuxt.error(e)
-      }
     }
 
   }

@@ -91,7 +91,7 @@ export default {
           </ValidationProvider>
           <td class="p-2">
             <div class="relative flex">
-              <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
+              <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
               <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                      :placeholder="$t('prod.Unit price')"
                      @keypress="onlyNumber"

@@ -970,7 +970,7 @@
                     <ValidationProvider name="unit price" :rules="UnitPriceValidationRules" v-slot="{ errors }"
                                         :custom-messages="{required: $t('global.req', { type: $t('prod.Unit price')}) }">
                       <div class="relative flex">
-                        <label class="pricename absolute left-0 top-0 p-3" for="">SAR</label>
+                        <label class="pricename absolute left-0 top-0 p-3" for="">{{ $t('prod.SAR') }}</label>
                         <input type="text" style="padding: 1px 56px;" class="form-control px-20"
                                :placeholder="$t('prod.Unit price')"
                                :disabled="is_show"

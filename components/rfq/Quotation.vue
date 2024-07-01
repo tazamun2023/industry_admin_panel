@@ -92,29 +92,15 @@ export default {
                 <div class="ltr:border-r rtl:border-l border-smooth p-4">
                   <p><span class="font-bold">{{ $t('rfq.TotalPrice') }}</span> <span class="text-primary">{{ $t('rfq.Exclshipping') }}</span>
                   </p>
-                  <p>{{
-                      quote.total_target_price.toLocaleString($t('app.currency_local'), {
-                        style: 'currency',
-                        maximumFractionDigits: 0,
-                        currency: 'SAR'
-                      })
-                    }}
-                    <!-- <span class="text-primary">SAR</span> -->
-                  </p>
+                  <price-with-curency-format :price="quote.total_target_price"></price-with-curency-format>
+
                 </div>
                 <div class="p-4">
                   <p><span class="font-bold">{{ $t('rfq.TotalCost') }}</span> <span class="text-primary">{{
                     $t('rfq.Exclshipping') }}</span>
                   </p>
-                  <p>{{
-                      quote.total_target_price.toLocaleString($t('app.currency_local'), {
-                        style: 'currency',
-                        maximumFractionDigits: 0,
-                        currency: 'SAR'
-                      })
-                    }}
-                    <!-- <span class="text-primary">SAR</span> -->
-                  </p>
+                  <price-with-curency-format :price="quote.total_target_price "></price-with-curency-format>
+
                 </div>
               </div>
             </div>
@@ -134,9 +120,10 @@ export default {
                     <!--                      :alt=" product.name"-->
                     <!--                    />-->
                     <div class="w-full">
-                      <nuxt-link :title="product.product.title" :to="productLink(product.product)"
+                      <nuxt-link :title="product.product.title" :to="'/products/show/'+(product.product.id)"
                                  class="text-primary underline w-full">{{ product.product.title }}
                       </nuxt-link>
+
                       <div class="flex justify-between gap-4">
                         <p>{{ $t('rfq.Quentity') }}:</p>
                         <p>{{ product?.quantity ?? 0 }} <span class="text-primary"> {{
@@ -145,31 +132,18 @@ export default {
                       </div>
                       <div class="flex justify-between gap-4">
                         <p class="flex justify-between"><strong>{{ $t('rfq.Unitprice') }}: </strong>
-                          <span>
-                            {{
-                              product.target_price.toLocaleString($t('app.currency_local'), {
-                                style: 'currency',
-                                maximumFractionDigits: 0,
-                                currency: 'SAR'
-                              })
-                            }}
-                          </span></p>
+                          <price-with-curency-format :price="product.target_price "></price-with-curency-format>
+
+                         </p>
                       </div>
-                      <p class="flex justify-between"><strong>{{ $t('rfq.ShipingCost') }}:</strong> <span>{{
-                          quote.total_target_price.toLocaleString($t('app.currency_local'), {
-                            style: 'currency',
-                            maximumFractionDigits: 0,
-                            currency: 'SAR'
-                          })
-                        }}</span></p>
+                      <p class="flex justify-between"><strong>{{ $t('rfq.ShipingCost') }}:</strong>
+                        <price-with-curency-format :price="quote.total_target_price "></price-with-curency-format>
+
+                       </p>
                       <div class="flex justify-between gap-4">
-                        <p class="flex justify-between"><strong>{{ $t('rfq.Total') }}:</strong> <span>{{
-                            quote.total_target_price.toLocaleString($t('app.currency_local'), {
-                              style: 'currency',
-                              maximumFractionDigits: 0,
-                              currency: 'SAR'
-                            })
-                          }}</span></p>
+                        <p class="flex justify-between"><strong>{{ $t('rfq.Total') }}:</strong>
+                          <price-with-curency-format :price="quote.total_target_price "></price-with-curency-format>
+                         </p>
                       </div>
                     </div>
                   </div>
