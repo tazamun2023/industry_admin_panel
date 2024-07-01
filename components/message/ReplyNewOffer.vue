@@ -58,7 +58,9 @@ export default {
           this.$emit('is_send_new_offer', false);
           this.$emit('is_send_new_offer_vendor', false);
           this.is_after_send = false
-          this.setIsFetchingRfq();
+          // console.log('mess fdsafas', data)
+          this.setActiveInquiriesOneOffer(data)
+          // this.setIsFetchingRfq();
         })
         this.formSubmitting = false
 
@@ -84,7 +86,13 @@ export default {
       return isNaN(total) ? 0 : total;
     },
     getTodayFormattedDate() {
+      // const today = new Date();
+      // const year = today.getFullYear();
+      // const month = String(today.getMonth() + 1).padStart(2, '0');
+      // const day = String(today.getDate()).padStart(2, '0');
+      // return `${year}-${month}-${day}`;
       const today = new Date();
+      today.setDate(today.getDate() + 3); // Add 3 days
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
@@ -98,7 +106,7 @@ export default {
     },
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq', 'setActiveInquiriesOneOffer']),
   }
 }
 </script>

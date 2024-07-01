@@ -209,7 +209,7 @@ export default {
 
         this.setIsFetchingRfq();
         // Await the request
-        await this.setRequest({ params, api: 'inquiriesOfferStore' });
+        const data = await this.setRequest({ params, api: 'inquiriesOfferStore' });
 
         // Clear input fields
         this.message = '';
@@ -218,7 +218,9 @@ export default {
         this.fileExtension = '';
 
         // Fetch the offer data
-        await this.fetchingOfferData();
+        // await this.fetchingOfferData();
+
+        this.setActiveInquiriesOneOffer(data)
       } catch (e) {
         // Handle error
         this.$nuxt.error(e);
@@ -308,7 +310,7 @@ export default {
       this.is_send_new_offer_customer = ev;
       this.$emit('is_send_new_offer_index', ev);
       this.is_send_new_offer_vendor = false;
-      this.fetchingOfferData()
+      // this.fetchingOfferData()
       // this.ActiveInquiryData = this.activeInquiries
     },
     isSendNewOfferVendor(ev, activeInquirie) {
@@ -383,7 +385,7 @@ export default {
 
 
     ...mapActions('common', ['getById', 'setById', 'setRequest', 'getRequest']),
-    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq']),
+    ...mapActions('rfq', ['setActiveInquiriesOffer', 'setIsFetchingRfq', 'setActiveInquiriesOneOffer']),
   },
 
   mounted() {
